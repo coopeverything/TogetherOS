@@ -1,0 +1,1 @@
+# DDP — Direct Democracy PlatformThis repository contains the code and docs for the Coopeverything DDP.## Getting Started- Add your app code under `apps/frontend/` (Next.js).- Add docs under `docs/`.
