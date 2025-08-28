@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: Detect package manager
         id: pm
@@ -26,13 +26,13 @@ jobs:
           if [ -f yarn.lock ]; then echo "pm=yarn" >> $GITHUB_OUTPUT; fi
           if ! grep -q pm= $GITHUB_OUTPUT; then echo "pm=npm" >> $GITHUB_OUTPUT; fi
 
-      - name: Setup pnpm (if used)
-        if: steps.pm.outputs.pm == 'pnpm'
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+      - name: Detect package.json
+        id: rootpkg
+        run: |
+          if [ -f package.json ]; then echo "present=true" >> $GITHUB_OUTPUT; else echo "present=false" >> $GITHUB_OUTPUT; fi
 
-      - name: Install deps
+      - name: Install deps (only if package.json exists)
+        if: steps.rootpkg.outputs.present == 'true'
         run: |
           if [ "${{ steps.pm.outputs.pm }}" = "pnpm" ]; then pnpm install --frozen-lockfile || pnpm install; fi
           if [ "${{ steps.pm.outputs.pm }}" = "npm" ]; then npm ci || npm i; fi
