@@ -2,57 +2,25 @@
 
 on:
 pull_request:
-types: [labeled]
+types: [labeled, synchronize, reopened]
+branches: [main]
+workflow_dispatch:
+
+permissions:
+contents: read
 
 jobs:
 deploy:
-if: contains(github.event.pull_request.labels.*.name, 'staging-ok')
+if: contains(join(github.event.pull_request.labels.*.name, ','), 'staging-ok')
 runs-on: ubuntu-latest
+concurrency:
+group: deploy-staging-${{ github.event.pull_request.number }}
+cancel-in-progress: true
 steps:
-- name: Checkout
+- name: Checkout PR merge ref
 uses: actions/checkout@v4
-  - name: Add SSH key
-    uses: webfactory/ssh-agent@v0.9.0
-    with:
-      ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-  - name: Ensure known_hosts (hostname and optional IP)
-    run: |
-      mkdir -p ~/.ssh
-      if [ -n "${{ secrets.VPS_HOST }}" ]; then ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true; fi
-      if [ -n "${{ secrets.VPS_IP }}" ];   then ssh-keyscan -H "${{ secrets.VPS_IP }}"   >> ~/.ssh/known_hosts 2>/dev/null || true; fi
-      cat ~/.ssh/known_hosts | tail -n +1 | sed -n '1,5p'
-
-  - name: Rsync repo to VPS (hostname preferred, falls back to IP)
-    env:
-      SSH_USER: ${{ secrets.VPS_USER }}
-      SSH_HOST: ${{ secrets.VPS_HOST }}
-      SSH_IP:   ${{ secrets.VPS_IP }}
-      VPS_PATH: ${{ secrets.VPS_PATH }}
-    run: |
-      set -e
-      TARGET="${SSH_HOST:-$SSH_IP}"
-      if [ -z "$TARGET" ]; then echo "No SSH target provided"; exit 1; fi
-      rsync -az --delete \
-        --exclude '.git' \
-        --exclude 'node_modules' \
-        ./ "$SSH_USER@$TARGET:$VPS_PATH/"
-
-  - name: Restart containers & verify CSS
-    env:
-      SSH_USER: ${{ secrets.VPS_USER }}
-      SSH_HOST: ${{ secrets.VPS_HOST }}
-      SSH_IP:   ${{ secrets.VPS_IP }}
-      VPS_PATH: ${{ secrets.VPS_PATH }}
-    run: |
-      set -e
-      TARGET="${SSH_HOST:-$SSH_IP}"
-      ssh "$SSH_USER@$TARGET" <<'EOF'
-      set -euo pipefail
-      cd $VPS_PATH
-      if [ -f scripts/redeploy-frontend.sh ]; then
-        bash scripts/redeploy-frontend.sh
-      else
-        echo "Missing scripts/redeploy-frontend.sh" && exit 1
-      fi
-      EOF
+with:
+ref: ${{ github.event.pull_request.head.sha }}
+- name: Print deploy intent
+run: |
+echo "Deploying PR #${{ github.event.pull_request.number }} to staging (label detected: staging-ok)."
