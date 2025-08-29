@@ -23,21 +23,42 @@ with:
 ref: ${{ github.event.pull_request.head.sha || github.sha }}
 fetch-depth: 0
   - name: Prepare SSH key
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_IP: ${{ secrets.VPS_IP }}
     run: |
+      set -euo pipefail
       mkdir -p ~/.ssh
-      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+      printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
       chmod 600 ~/.ssh/id_ed25519
-      ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+      # Minimal SSH config to trust first connect automatically
+      { echo "Host *"; echo "  StrictHostKeyChecking accept-new"; } >> ~/.ssh/config
+      chmod 600 ~/.ssh/config
+      # Preload host keys (hostname + optional IP)
+      if [ -n "${VPS_HOST:-}" ]; then ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts || true; fi
+      if [ -n "${VPS_IP:-}" ]; then ssh-keyscan -H "$VPS_IP"   >> ~/.ssh/known_hosts || true; fi
+      # Show key fingerprint (not the key)
+      ssh-keygen -lf ~/.ssh/id_ed25519 | sed 's/.*/[ssh] key loaded: &/'
 
   - name: Rsync repo to VPS path
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PATH: ${{ secrets.VPS_PATH }}
     run: |
-      rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" . "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/"
+      set -euo pipefail
+      rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" . "${VPS_USER}@${VPS_HOST}:${VPS_PATH}/"
 
   - name: Remote rebuild & up (Docker/Compose)
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PATH: ${{ secrets.VPS_PATH }}
     run: |
-      ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '
+      ssh -i ~/.ssh/id_ed25519 "${VPS_USER}@${VPS_HOST}" '
         set -euo pipefail
-        cd "${{ secrets.VPS_PATH }}"
+        cd "'"${VPS_PATH}"'"
         if command -v docker compose >/dev/null 2>&1; then
           docker compose build --no-cache
           docker compose up -d
@@ -49,11 +70,15 @@ fetch-depth: 0
       '
 
   - name: Remote verify /signup serves CSS link
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PATH: ${{ secrets.VPS_PATH }}
     run: |
-      ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '
+      ssh -i ~/.ssh/id_ed25519 "${VPS_USER}@${VPS_HOST}" '
         set -e
         url="http://127.0.0.1:3010/signup?nocache=$(date +%s)"
+        echo "[verify] GET $url"
         html=$(curl -fsS "$url")
-        echo "Fetched: $url"
-        echo "$html" | grep -q "<link rel=\"stylesheet\"" && echo "CSS link found"
+        echo "$html" | grep -q "<link rel=\"stylesheet\"" && echo "[OK] CSS link found" || (echo "[WARN] CSS link missing"; exit 1)
       '
