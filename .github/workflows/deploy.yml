@@ -21,7 +21,8 @@ steps:
 uses: actions/checkout@v4
 with:
 ref: ${{ github.event.pull_request.head.sha || github.sha }}
-- name: Prepare SSH key
+fetch-depth: 0
+  - name: Prepare SSH key
     run: |
       mkdir -p ~/.ssh
       echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
@@ -32,7 +33,7 @@ ref: ${{ github.event.pull_request.head.sha || github.sha }}
     run: |
       rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" . "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/"
 
-  - name: Remote rebuild & up
+  - name: Remote rebuild & up (Docker/Compose)
     run: |
       ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '
         set -euo pipefail
@@ -44,12 +45,15 @@ ref: ${{ github.event.pull_request.head.sha || github.sha }}
           docker-compose build --no-cache
           docker-compose up -d
         fi
-        echo "==== Compose services ===="
         (docker compose ps || docker-compose ps) || true
       '
 
-  - name: Verify /signup serves CSS link
+  - name: Remote verify /signup serves CSS link
     run: |
-      set -e
-      curl -s "http://127.0.0.1:3010/signup?nocache=$(date +%s)" | grep -q '<link rel="stylesheet"' && echo "CSS link found"
-    shell: bash
+      ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '
+        set -e
+        url="http://127.0.0.1:3010/signup?nocache=$(date +%s)"
+        html=$(curl -fsS "$url")
+        echo "Fetched: $url"
+        echo "$html" | grep -q "<link rel=\"stylesheet\"" && echo "CSS link found"
+      '
