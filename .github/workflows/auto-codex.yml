@@ -1,0 +1,118 @@
+﻿name: Auto-Codex Codegen
+on:
+push:
+paths:
+- "specs/**"
+issues:
+types: [labeled]
+workflow_dispatch:
+permissions:
+contents: write
+pull-requests: write
+jobs:
+codegen:
+if: github.event_name == 'push' || (github.event_name == 'issues' && contains(github.event.label.name, 'codex:generate')) || github.event_name == 'workflow_dispatch'
+runs-on: ubuntu-latest
+env:
+FORCE_COLOR: "1"
+steps:
+- name: Checkout
+uses: actions/checkout@v4
+with: { fetch-depth: 0 }
+- name: Setup Node
+uses: actions/setup-node@v4
+with:
+node-version: "20"
+cache: "npm"
+cache-dependency-path: apps/frontend/package-lock.json
+- name: Install Node deps (apps/frontend)
+working-directory: apps/frontend
+run: |
+if [ -f package.json ]; then npm ci || npm i; else echo "No package.json in apps/frontend; skipping."; fi
+- name: Setup Python
+uses: actions/setup-python@v5
+with: { python-version: "3.11" }
+- name: Install Python deps
+run: |
+python -m pip install --upgrade pip
+pip install openai==1.* pydantic==2.* toml==0.10.* ruamel.yaml==0.18.* ruff==0.* black==24.*
+- name: Determine trigger and spec
+id: spec
+env: { GITHUB_EVENT_NAME: ${{ github.event_name }} }
+run: |
+echo "trigger=${GITHUB_EVENT_NAME}" >> $GITHUB_OUTPUT
+if [ "${GITHUB_EVENT_NAME}" = "push" ]; then
+echo "spec_source=files" >> $GITHUB_OUTPUT; echo "spec_hint=specs/" >> $GITHUB_OUTPUT
+elif [ "${GITHUB_EVENT_NAME}" = "issues" ]; then
+echo "spec_source=issue" >> $GITHUB_OUTPUT; echo "spec_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+else
+echo "spec_source=manual" >> $GITHUB_OUTPUT; echo "spec_hint=specs/" >> $GITHUB_OUTPUT
+fi
+- name: Generate with Codex
+id: gen
+env:
+OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+SPEC_SOURCE: ${{ steps.spec.outputs.spec_source }}
+SPEC_HINT: ${{ steps.spec.outputs.spec_hint }}
+SPEC_NUMBER: ${{ steps.spec.outputs.spec_number }}
+run: |
+python scripts/generate_with_codex.py
+--spec-source "${SPEC_SOURCE}"
+--spec-hint "${SPEC_HINT}"
+--spec-issue-number "${SPEC_NUMBER}"
+--staging "./.codex-staging"
+- name: Apply staged changes
+run: |
+if [ -d .codex-staging ]; then rsync -a --delete .codex-staging/ ./; else echo "No staged changes."; fi
+- name: Format & Lint (apps/frontend)
+run: |
+if [ -f apps/frontend/package.json ]; then
+(cd apps/frontend && npm run format:fix || true)
+(cd apps/frontend && npm run lint || true)
+fi
+black --quiet . || true
+ruff check --output-format=github . || true
+- name: Typecheck (apps/frontend)
+if: hashFiles('apps/frontend/tsconfig.json') != ''
+working-directory: apps/frontend
+run: npm run typecheck || true
+- name: Tests (apps/frontend)
+if: hashFiles('apps/frontend/package.json') != ''
+working-directory: apps/frontend
+run: npm run test -- --run || true
+- name: Optional Next build (apps/frontend)
+working-directory: apps/frontend
+run: |
+if [ -f package.json ] && [ -f next.config.js -o -f next.config.mjs ]; then npm run build || true; else echo "No Next config; skipping build."; fi
+- name: Create and push branch
+id: branch
+env: { TZ: UTC }
+run: |
+slug="$(date -u +%Y%m%d-%H%M)"; [ -n "${{ steps.gen.outputs.branch_suffix }}" ] && slug="$slug-${{ steps.gen.outputs.branch_suffix }}"
+br="codex/$slug"
+git switch -c "$br"; git add -A
+if git diff --cached --quiet; then echo "branch=" >> $GITHUB_OUTPUT; exit 0; fi
+git -c user.name="codex-bot" -c user.email="bot@users.noreply.github.com
+" commit -m "codex: automated generation $slug"
+git push origin "$br"; echo "branch=$br" >> $GITHUB_OUTPUT
+- name: Install gh
+if: steps.branch.outputs.branch != ''
+uses: cli/cli-action@v2
+with: { version: 'latest' }
+- name: Open PR
+if: steps.branch.outputs.branch != ''
+env:
+GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+SOURCE_BRANCH: ${{ steps.branch.outputs.branch }}
+run: |
+mkdir -p docs
+[ -f docs/PR_SUMMARY.md ] || printf "## Codex PR Summary\n\nThis PR was generated automatically.\n" > docs/PR_SUMMARY.md
+bash scripts/open_pr.sh "${SOURCE_BRANCH}" "main" "codex: ${SOURCE_BRANCH}" "docs/PR_SUMMARY.md" ||
+gh pr create --base main --head "${SOURCE_BRANCH}" --title "codex: ${SOURCE_BRANCH}" --body "Automated Codex PR"
+gh pr edit --add-label "automation:codex" || true
+- name: Post summary
+run: |
+echo "### Codex run completed" >> $GITHUB_STEP_SUMMARY
+echo "* Branch: `${{ steps.branch.outputs.branch }}`" >> $GITHUB_STEP_SUMMARY
+echo "* Trigger: `${{ steps.spec.outputs.trigger }}`" >> $GITHUB_STEP_SUMMARY
+
