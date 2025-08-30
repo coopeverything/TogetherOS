@@ -1,0 +1,65 @@
+﻿name: PR Preview on VPS
+on:
+pull_request:
+types: [opened, synchronize, reopened, closed]
+permissions:
+contents: read
+pull-requests: write
+jobs:
+preview:
+runs-on: ubuntu-latest
+steps:
+- name: Determine event
+id: ev
+run: |
+echo "pr=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+echo "state=${{ github.event.action }}" >> $GITHUB_OUTPUT
+  - name: Checkout PR head (for rsync)
+    if: steps.ev.outputs.state != 'closed'
+    uses: actions/checkout@v4
+    with:
+      fetch-depth: 0
+      ref: ${{ github.event.pull_request.head.sha }}
+
+  - name: Setup SSH
+    run: |
+      mkdir -p ~/.ssh
+      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+      chmod 600 ~/.ssh/id_ed25519
+      ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+  - name: Compute preview port
+    id: port
+    run: |
+      PR=${{ steps.ev.outputs.pr }}
+      BASE=${{ secrets.PREVIEW_BASE_PORT || 32000 }}
+      # Simple deterministic port: base + (PR % 8000)
+      echo "port=$((BASE + (PR % 8000)))" >> $GITHUB_OUTPUT
+
+  - name: Rsync apps/frontend to preview dir
+    if: steps.ev.outputs.state != 'closed'
+    run: |
+      rsync -az --delete --exclude '.next/cache' apps/frontend/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/platform/htdocs/platform.local/previews/pr-${{ steps.ev.outputs.pr }}/
+
+  - name: Start/Update preview on VPS
+    if: steps.ev.outputs.state != 'closed'
+    run: |
+      ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "bash -lc 'cd /home/platform/htdocs/platform.local && ./scripts/preview.sh start ${{ steps.ev.outputs.pr }} ${{ steps.port.outputs.port }}'"
+
+  - name: Comment preview URL
+    if: steps.ev.outputs.state != 'closed'
+    uses: cli/cli-action@v2
+    with: { version: 'latest' }
+  - name: Post link
+    if: steps.ev.outputs.state != 'closed'
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    run: |
+      URL_HOST="${{ secrets.VPS_IP || secrets.VPS_HOST }}"
+      echo "Preview: http://$URL_HOST:${{ steps.port.outputs.port }}/" > preview.md
+      gh pr comment ${{ steps.ev.outputs.pr }} --body-file preview.md
+
+  - name: Stop and cleanup preview
+    if: steps.ev.outputs.state == 'closed'
+    run: |
+      ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "bash -lc 'cd /home/platform/htdocs/platform.local && ./scripts/preview.sh stop ${{ steps.ev.outputs.pr }}'"
