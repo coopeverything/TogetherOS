@@ -1,84 +1,30 @@
-﻿name: Deploy Staging
-
+﻿name: Deploy Staging to VPS
 on:
 pull_request:
-types: [labeled, synchronize, reopened]
-branches: [main]
-workflow_dispatch:
-
+types: [labeled]
 permissions:
 contents: read
-
 jobs:
 deploy:
-if: contains(join(github.event.pull_request.labels.*.name, ','), 'staging-ok') || github.event_name == 'workflow_dispatch'
+if: github.event.label.name == 'staging-ok'
 runs-on: ubuntu-latest
-concurrency:
-group: deploy-staging-${{ github.event.pull_request.number || 'manual' }}
-cancel-in-progress: true
 steps:
-- name: Checkout PR HEAD (or repo for manual)
+- name: Checkout merged PR head
 uses: actions/checkout@v4
 with:
-ref: ${{ github.event.pull_request.head.sha || github.sha }}
 fetch-depth: 0
-  - name: Prepare SSH key
-    env:
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      VPS_HOST: ${{ secrets.VPS_HOST }}
-      VPS_IP: ${{ secrets.VPS_IP }}
+ref: ${{ github.event.pull_request.head.sha }}
+  - name: Setup SSH
     run: |
-      set -euo pipefail
       mkdir -p ~/.ssh
-      printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
       chmod 600 ~/.ssh/id_ed25519
-      # Minimal SSH config to trust first connect automatically
-      { echo "Host *"; echo "  StrictHostKeyChecking accept-new"; } >> ~/.ssh/config
-      chmod 600 ~/.ssh/config
-      # Preload host keys (hostname + optional IP)
-      if [ -n "${VPS_HOST:-}" ]; then ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts || true; fi
-      if [ -n "${VPS_IP:-}" ]; then ssh-keyscan -H "$VPS_IP"   >> ~/.ssh/known_hosts || true; fi
-      # Show key fingerprint (not the key)
-      ssh-keygen -lf ~/.ssh/id_ed25519 | sed 's/.*/[ssh] key loaded: &/'
+      ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
 
-  - name: Rsync repo to VPS path
-    env:
-      VPS_HOST: ${{ secrets.VPS_HOST }}
-      VPS_USER: ${{ secrets.VPS_USER }}
-      VPS_PATH: ${{ secrets.VPS_PATH }}
+  - name: Rsync apps/frontend → VPS
     run: |
-      set -euo pipefail
-      rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" . "${VPS_USER}@${VPS_HOST}:${VPS_PATH}/"
+      rsync -az --delete --exclude '.next/cache' apps/frontend/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/
 
-  - name: Remote rebuild & up (Docker/Compose)
-    env:
-      VPS_HOST: ${{ secrets.VPS_HOST }}
-      VPS_USER: ${{ secrets.VPS_USER }}
-      VPS_PATH: ${{ secrets.VPS_PATH }}
+  - name: Remote redeploy
     run: |
-      ssh -i ~/.ssh/id_ed25519 "${VPS_USER}@${VPS_HOST}" '
-        set -euo pipefail
-        cd "'"${VPS_PATH}"'"
-        if command -v docker compose >/dev/null 2>&1; then
-          docker compose build --no-cache
-          docker compose up -d
-        else
-          docker-compose build --no-cache
-          docker-compose up -d
-        fi
-        (docker compose ps || docker-compose ps) || true
-      '
-
-  - name: Remote verify /signup serves CSS link
-    env:
-      VPS_HOST: ${{ secrets.VPS_HOST }}
-      VPS_USER: ${{ secrets.VPS_USER }}
-      VPS_PATH: ${{ secrets.VPS_PATH }}
-    run: |
-      ssh -i ~/.ssh/id_ed25519 "${VPS_USER}@${VPS_HOST}" '
-        set -e
-        url="http://127.0.0.1:3010/signup?nocache=$(date +%s)"
-        echo "[verify] GET $url"
-        html=$(curl -fsS "$url")
-        echo "$html" | grep -q "<link rel=\"stylesheet\"" && echo "[OK] CSS link found" || (echo "[WARN] CSS link missing"; exit 1)
-      '
+      ssh -o StrictHostKeyChecking=yes ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd ${{ secrets.VPS_PATH }} && bash -lc './scripts/redeploy-frontend.sh || (echo redeploy script missing; exit 1)'"
