@@ -1,55 +1,25 @@
-﻿name: Deploy Staging
+﻿name: Deploy frontend to VPS
 
 on:
-pull_request:
-types: [labeled, synchronize, reopened]
-branches: [main]
-workflow_dispatch:
-
-permissions:
-contents: read
+ workflow_dispatch:
 
 jobs:
-deploy:
-if: contains(join(github.event.pull_request.labels.*.name, ','), 'staging-ok') || github.event_name == 'workflow_dispatch'
-runs-on: ubuntu-latest
-concurrency:
-group: deploy-staging-${{ github.event.pull_request.number || 'manual' }}
-cancel-in-progress: true
-steps:
-- name: Checkout PR HEAD (or repo for manual)
-uses: actions/checkout@v4
-with:
-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-- name: Prepare SSH key
-    run: |
-      mkdir -p ~/.ssh
-      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-      chmod 600 ~/.ssh/id_ed25519
-      ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
-
-  - name: Rsync repo to VPS path
-    run: |
-      rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" . "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/"
-
-  - name: Remote rebuild & up
-    run: |
-      ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '
-        set -euo pipefail
-        cd "${{ secrets.VPS_PATH }}"
-        if command -v docker compose >/dev/null 2>&1; then
-          docker compose build --no-cache
-          docker compose up -d
-        else
-          docker-compose build --no-cache
-          docker-compose up -d
-        fi
-        echo "==== Compose services ===="
-        (docker compose ps || docker-compose ps) || true
-      '
-
-  - name: Verify /signup serves CSS link
-    run: |
-      set -e
-      curl -s "http://127.0.0.1:3010/signup?nocache=$(date +%s)" | grep -q '<link rel="stylesheet"' && echo "CSS link found"
-    shell: bash
+ deploy:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+ - name: Setup SSH
+ run: |
+ mkdir -p ~/.ssh
+ echo '${{ secrets.SSH_PRIVATE_KEY }}' > ~/.ssh/id_ed25519
+ chmod 600 ~/.ssh/id_ed25519
+ ssh-keyscan -H '${{ secrets.VPS_HOST }}' >> ~/.ssh/known_hosts
+ - name: Rsync frontend to VPS
+ run: |
+ sudo apt-get update && sudo apt-get install -y rsync openssh-client
+ RSYNC_RSH="ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes"
+ rsync -az --delete --exclude '.git' -e "$RSYNC_RSH" ./apps/frontend/ '${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}'/
+ - name: Redeploy on VPS
+ run: |
+ ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes '${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}' "cd '${{ secrets.VPS_PATH }}' && ./redeploy-frontend.sh"
