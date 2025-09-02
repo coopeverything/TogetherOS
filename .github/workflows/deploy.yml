@@ -1,7 +1,12 @@
-﻿name: Deploy frontend to VPS
+name: Deploy frontend to VPS
 
 on:
  workflow_dispatch:
+ push:
+ branches: [ "main" ]
+ paths:
+ - "apps/frontend/**"
+ - ".github/workflows/deploy.yml"
 
 jobs:
  deploy:
