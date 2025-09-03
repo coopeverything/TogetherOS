@@ -1,1 +1,1 @@
-name: CI Basicnon:n workflow_dispatch:njobs:n check:n runs-on: ubuntu-latestn steps:n - name: Checkoutn uses: actions/checkout@v4n - name: Echon run: echo "basic ok"
+name: CI Basicnon:n wokflow_dispa ch:njobs:n check:n uns-on: ubun u-la es n s eps:n - name: Checkou n uses: ac ions/checkou @v4n - name: Echon un: echo "basic ok"
