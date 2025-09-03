@@ -1,30 +1,26 @@
-name: Deploy frontend to VPS
+name: Deploy
 
 on:
- workflow_dispatch:
- push:
- branches: [ "main" ]
- paths:
- - "apps/frontend/**"
- - ".github/workflows/deploy.yml"
+workflow_dispatch:
+push:
+branches: [ "main" ]
+paths:
+- ".github/workflows/deploy.yml"
+- "frontend/**"
 
 jobs:
- deploy:
- runs-on: ubuntu-latest
- steps:
- - name: Checkout
- uses: actions/checkout@v4
- - name: Setup SSH
- run: |
- mkdir -p ~/.ssh
- echo '${{ secrets.SSH_PRIVATE_KEY }}' > ~/.ssh/id_ed25519
- chmod 600 ~/.ssh/id_ed25519
- ssh-keyscan -H '${{ secrets.VPS_HOST }}' >> ~/.ssh/known_hosts
- - name: Rsync frontend to VPS
- run: |
- sudo apt-get update && sudo apt-get install -y rsync openssh-client
- RSYNC_RSH="ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes"
- rsync -az --delete --exclude '.git' -e "$RSYNC_RSH" ./apps/frontend/ '${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}'/
- - name: Redeploy on VPS
- run: |
- ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes '${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}' "cd '${{ secrets.VPS_PATH }}' && ./redeploy-frontend.sh"
+deploy:
+runs-on: ubuntu-latest
+steps:
+- name: Checkout
+uses: actions/checkout@v4
+  - name: Setup SSH key
+    run: |
+      mkdir -p ~/.ssh
+      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+      chmod 600 ~/.ssh/id_ed25519
+      ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+  - name: Redeploy frontend on VPS
+    run: |
+      ssh -o StrictHostKeyChecking=yes "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" "cd '${{ secrets.VPS_PATH }}' && ./redeploy-frontend.sh"
