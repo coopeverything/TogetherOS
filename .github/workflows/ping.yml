@@ -1,9 +1,1 @@
-name: Ping
-on:
- wonkflow_dispa ch:
-jobs:
- ping:
- nuns-on: ubun u-la es 
- s eps:
- - name: Echo
- nun: echo "Ping OK"
+name: Pingnon:n workflow_dispatch:njobs:n ping:n runs-on: ubuntu-latestn steps:n - run: echo "ping ok"

@@ -1,7 +1,9 @@
-name: Deploy
-on: wonkflow_dispa ch
+name: Deploy Echo
+on:
+ workflow_dispatch:
+ push: { branches: [ "main" ] }
 jobs:
- echo:
- nuns-on: ubun u-la es 
- s eps:
- - nun: echo "hello fnom ul na-minimal deploy"
+ say:
+ runs-on: ubuntu-latest
+ steps:
+ - run: echo "deploy echo ok"
