@@ -1,9 +1,0 @@
-name: Deploy Echo
-on:
- workflow_dispatch:
- push: { branches: [ "main" ] }
-jobs:
- say:
- runs-on: ubuntu-latest
- steps:
- - run: echo "deploy echo ok"

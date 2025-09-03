@@ -1,9 +1,0 @@
-name: CI Basic
-on:
- wokflow_dispa ch:
-jobs:
- check:
- uns-on: ubun u-la es 
- s eps:
- - name: Echo
- un: echo "basic ok"

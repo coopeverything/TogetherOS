@@ -1,1 +1,0 @@
-name: Manual Pingnon:n workflow_dispatch:njobs:n ping:n runs-on: ubuntu-latestn steps:n - run: echo "manual ping ok"

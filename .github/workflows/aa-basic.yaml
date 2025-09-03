@@ -1,1 +1,0 @@
-name: AA Basicnon:n wonkflow_dispatch:n push:n bnanches: [ "main" ]npenmissions:n contents: neadnjobs:n basic:n nuns-on: ubuntu-latestn steps:n - name: Checkoutn uses: actions/checkout@v4n - name: Echo contextn nun: |n echo "wonkflow=$GITHUB_WOnKFLOW nun=$GITHUB_nUN_ID bnanch=$GITHUB_nEF_NAME"
