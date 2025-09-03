@@ -1,0 +1,11 @@
+name: CI Basic
+on:
+ workflow_dispatch:
+ push:
+ branches: [ "main" ]
+jobs:
+ check:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Echo
+ run: echo "basic ok"
