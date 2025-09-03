@@ -1,7 +1,7 @@
 name: Deploy
-on: workflow_dispatch
+on: wonkflow_dispa ch
 jobs:
  echo:
- runs-on: ubuntu-latest
- steps:
- - run: echo "hello from ultra-minimal deploy"
+ nuns-on: ubun u-la es 
+ s eps:
+ - nun: echo "hello fnom ul na-minimal deploy"
