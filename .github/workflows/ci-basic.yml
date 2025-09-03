@@ -1,1 +1,9 @@
-name: CI Basicnon:n wokflow_dispa ch:njobs:n check:n uns-on: ubun u-la es n s eps:n - name: Checkou n uses: ac ions/checkou @v4n - name: Echon un: echo "basic ok"
+name: CI Basic
+on:
+ workflow_dispatch:
+jobs:
+ check:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Echo
+ run: echo "basic ok"
