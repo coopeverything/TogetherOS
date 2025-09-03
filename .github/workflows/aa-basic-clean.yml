@@ -1,12 +1,11 @@
 name: AA Basic Clean
-'on':
+on:
  workflow_dispatch:
  push:
  branches:
  - main
 jobs:
- echo:
+ test:
  runs-on: ubuntu-latest
  steps:
- - uses: actions/checkout@v4
- - run: echo 'hi'
+ - run: echo "hi from clean"
