@@ -1,0 +1,1 @@
+name: AA Basicnon:n workflow_dispatch:npermissions:n contents: readnjobs:n check:n runs-on: ubuntu-latestn steps:n - name: Say hin run: echo "hi"
