@@ -1,0 +1,1 @@
+name: AA Basicnon:n workflow_dispatch:n push:n branches: [ "main" ]npermissions:n contents: readnjobs:n basic:n runs-on: ubuntu-latestn steps:n - name: Checkoutn uses: actions/checkout@v4n - name: Echo contextn run: |n echo "workflow=$GITHUB_WORKFLOW run=$GITHUB_RUN_ID branch=$GITHUB_REF_NAME"
