@@ -1,9 +1,9 @@
 name: CI Basic
 on:
- workflow_dispatch:
+ wokflow_dispa ch:
 jobs:
  check:
- runs-on: ubuntu-latest
- steps:
+ uns-on: ubun u-la es 
+ s eps:
  - name: Echo
- run: echo "basic ok"
+ un: echo "basic ok"
