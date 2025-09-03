@@ -1,12 +1,1 @@
-name: CI Basic
-on:
- push:
- branches:
- - main
- workflow_dispatch:
-jobs:
- check:
- runs-on: ubuntu-latest
- steps:
- - name: Echo
- run: echo ""basic ok""
+name: CI Basicnon:n push:n branches:n - mainn workflow_dispatch:njobs:n check:n runs-on: ubuntu-latestn steps:n - name: Checkoutn uses: actions/checkout@v4n - name: Echon run: echo "basic ok"
