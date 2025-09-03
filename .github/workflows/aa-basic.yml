@@ -1,1 +1,13 @@
-name: AA Basicnon:n workflow_dispatch:njobs:n check:n runs-on: ubuntu-latestn steps:n - run: echo ok
+name: AA Basic
+on:
+ workflow_dispatch:
+ push:
+ branches: [ main ]
+jobs:
+ echo:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout
+ uses: actions/checkout@v4
+ - name: Say hi
+ run: echo "hi"
