@@ -1,7 +1,1 @@
-name: Ping
-on: workflow_dispatch
-jobs:
- ping:
- runs-on: ubuntu-latest
- steps:
- - run: echo "Ping OK"
+name: Pingnon: workflow_dispatchnjobs:n ping:n runs-on: ubuntu-latestn steps:n - run: echo "Ping OK"n
