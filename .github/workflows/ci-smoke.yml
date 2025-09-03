@@ -1,0 +1,8 @@
+name: CI Smoke
+on:
+ push: { branches: [ "main" ] }
+jobs:
+ check:
+ runs-on: ubuntu-latest
+ steps:
+ - run: echo "smoke ok"
