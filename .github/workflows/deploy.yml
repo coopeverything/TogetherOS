@@ -1,7 +1,4 @@
-on:
- workflow_dispatch:
-
-name: Deploy frontend to VPS
+﻿name: Deploy frontend to VPS
 
 on:
  workflow_dispatch:
