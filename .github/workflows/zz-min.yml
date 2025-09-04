@@ -1,6 +1,9 @@
 name: ZZ Minimal
 on:
  workflow_dispatch:
+ push:
+ branches:
+ - main
 jobs:
  j:
  runs-on: ubuntu-latest
