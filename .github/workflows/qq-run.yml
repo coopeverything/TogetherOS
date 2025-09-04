@@ -1,17 +1,12 @@
-name: Parse Runner
+name: Web Proof
 on:
  workflow_dispatch: {}
  push:
+ branches: [ main ]
  paths:
  - ".github/workflows/qq-run.yml"
-defaults:
- run:
- shell: bash
 jobs:
- build:
+ t:
  runs-on: ubuntu-latest
  steps:
- - name: Echo
- run: |
- set -euxo pipefail
- echo ok
+ - run: echo OK
