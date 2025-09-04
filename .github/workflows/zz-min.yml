@@ -1,1 +1,8 @@
-name: ZZ Minimalnon:n workflow_dispatch:njobs:n j:n runs-on: ubuntu-latestn steps:n - run: echo okn
+name: ZZ Minimal
+on:
+ workflow_dispatch:
+jobs:
+ j:
+ runs-on: ubuntu-latest
+ steps:
+ - run: echo ok
