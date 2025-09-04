@@ -1,7 +1,10 @@
 name: ZZ Web Proof
-on: workflow_dispatch
+on:
+ workflow_dispatch:
 jobs:
- j:
+ build:
  runs-on: ubuntu-latest
  steps:
- - run: echo OK
+ - uses: actions/checkout@v4
+ - name: Sanity
+ run: echo OK
