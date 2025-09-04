@@ -1,8 +1,11 @@
 name: Parse Proof
 on:
- workflow_dispatch:
+  workflow_dispatch:
 jobs:
- j:
- runs-on: ubuntu-latest
- steps:
- - run: echo proof
+  j:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo proof
+
+
+	  
