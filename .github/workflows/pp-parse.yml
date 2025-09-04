@@ -1,0 +1,9 @@
+name: Parse New
+'on':
+ workflow_dispatch:
+jobs:
+ j:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Proof
+ run: echo ok
