@@ -1,0 +1,17 @@
+name: Parse Runner
+on:
+ workflow_dispatch: {}
+ push:
+ paths:
+ - ".github/workflows/qq-run.yml"
+defaults:
+ run:
+ shell: bash
+jobs:
+ build:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Echo
+ run: |
+ set -euxo pipefail
+ echo ok
