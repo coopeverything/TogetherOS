@@ -1,0 +1,8 @@
+name: ZZ Minimal
+on:
+ workflow_dispatch:
+jobs:
+ one:
+ runs-on: ubuntu-latest
+ steps:
+ - run: echo "ok"
