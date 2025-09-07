@@ -24,53 +24,63 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq gh
 
-      - name: Build deletion plan (by workflow file path)
+      - name: Build deletion plan (dynamic: keep only deploy + package-knowledge)
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           KEEP_ACTIVE: ${{ inputs.keep_active }}
         run: |
           set -euo pipefail
+
+          # Define the ONLY workflows whose runs we keep (newest N)
           ACTIVE='[
             ".github/workflows/deploy.yml",
             ".github/workflows/package-knowledge.yml"
           ]'
-          DEPRECATED='[
-            ".github/workflows/auto-codex.yml",
-            ".github/workflows/pr-auto-summary.yml",
-            ".github/workflows/pr-preview.yml",
-            ".github/workflows/pp-parse.yml",
-            ".github/workflows/qq-run.yml",
-            ".github/workflows/zz-web-proof.yml",
-            ".github/workflows/ping.yml",
-            ".github/workflows/minimal.yml"
-          ]'
 
-          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' \
+          # Get ALL workflow file paths currently known by GitHub
+          gh api --paginate /repos/$REPO/actions/workflows -q '.workflows[].path' | jq -s '.' > wf_paths.json
+
+          # Get ALL runs across all workflows (includes historical paths)
+          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path, workflow_id}' \
             | jq -s '.' > runs.json
 
-          jq --argjson active "$ACTIVE" --argjson deprecated "$DEPRECATED" --argjson keep "$KEEP_ACTIVE" '
+          # Compute plan:
+          # - deprecated_paths = all_paths - ACTIVE (also includes this admin file; safe)
+          # - delete ALL runs for deprecated_paths
+          # - for ACTIVE paths, keep newest N, delete the rest
+          jq --slurpfile all wf_paths.json --argjson active "$ACTIVE" --argjson keep "$KEEP_ACTIVE" '
             def member($x;$arr): any($arr[]; . == $x);
             def sortdesc: sort_by(.created_at) | reverse;
 
             . as $runs
+            | ($all[0] // []) as $all_paths
+            | ($all_paths | map(select( ( . as $p | $active | index($p) | not ) ))) as $deprecated_paths
+
             | {
-                dep_del: [ $runs[] | select(member(.path; $deprecated)) ],
-                act_keep: (
-                  [ $runs[] | select(member(.path; $active)) ]
-                  | group_by(.path) | map( (sortdesc)[:$keep] ) | add
+                deprecated: [ $runs[] | select( member(.path; $deprecated_paths) ) ],
+                active_keep: (
+                  [ $runs[] | select( member(.path; $active) ) ]
+                  | group_by(.path)
+                  | map( (sortdesc)[:$keep] )
+                  | add
                 ),
-                act_del: (
-                  [ $runs[] | select(member(.path; $active)) ]
-                  | group_by(.path) | map( (sortdesc)[$keep:] ) | add
+                active_delete: (
+                  [ $runs[] | select( member(.path; $active) ) ]
+                  | group_by(.path)
+                  | map( (sortdesc)[$keep:] )
+                  | add
                 )
               }
-            | .act_keep = (.act_keep // [])
-            | .act_del  = (.act_del  // [])
-            | .to_delete = (.dep_del + .act_del)
-            | { summary: { deprecated_total: (.dep_del|length),
-                           active_delete:    (.act_del|length),
-                           total_delete:     (.to_delete|length) },
+            | .active_keep   = (.active_keep   // [])
+            | .active_delete = (.active_delete // [])
+            | .to_delete = (.deprecated + .active_delete)
+            | { summary: {
+                  active_keep:     (.active_keep|length),
+                  deprecated_total: (.deprecated|length),
+                  active_delete:    (.active_delete|length),
+                  total_delete:     (.to_delete|length)
+                },
                 delete_ids: (.to_delete | map(.id))
               }' runs.json > plan.json
 
