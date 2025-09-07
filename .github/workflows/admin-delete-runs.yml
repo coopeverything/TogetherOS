@@ -1,14 +1,16 @@
-name: "Admin - bulk delete runs"
+name: admin-clean-runs
 on:
   workflow_dispatch:
     inputs:
-      dry_run:
+      preview:
         description: "Preview only (no deletions)"
         type: boolean
+        required: true
         default: true
       keep_active:
         description: "Keep newest N runs for active workflows"
         type: number
+        required: true
         default: 30
 
 permissions:
@@ -19,124 +21,52 @@ jobs:
   clean:
     runs-on: ubuntu-latest
     steps:
-      - name: Install jq & gh
+      - name: Install jq and gh
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq gh
+          sudo apt-get install -y jq gh || true
+          gh --version || true
 
- chore/admin-delete-runs2
-     - name: "Build deletion plan (dynamic: keep only deploy + package-knowledge)"
-
-      - name: Build deletion plan (by workflow file path)
- main
+      - name: Plan deletions
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           KEEP_ACTIVE: ${{ inputs.keep_active }}
         run: |
           set -euo pipefail
- chore/admin-delete-runs2
-
-          # Define the ONLY workflows whose runs we keep (newest N)
-
- main
-          ACTIVE='[
-            ".github/workflows/deploy.yml",
-            ".github/workflows/package-knowledge.yml"
-          ]'
- chore/admin-delete-runs2
-
-          # Get ALL workflow file paths currently known by GitHub
+          ACTIVE='[".github/workflows/deploy.yml",".github/workflows/package-knowledge.yml"]'
           gh api --paginate /repos/$REPO/actions/workflows -q '.workflows[].path' | jq -s '.' > wf_paths.json
-
-          # Get ALL runs across all workflows (includes historical paths)
-          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path, workflow_id}' \
-            | jq -s '.' > runs.json
-
-          # Compute plan:
-          # - deprecated_paths = all_paths - ACTIVE (also includes this admin file; safe)
-          # - delete ALL runs for deprecated_paths
-          # - for ACTIVE paths, keep newest N, delete the rest
+          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' | jq -s '.' > runs.json
           jq --slurpfile all wf_paths.json --argjson active "$ACTIVE" --argjson keep "$KEEP_ACTIVE" '
-
-          DEPRECATED='[
-            ".github/workflows/auto-codex.yml",
-            ".github/workflows/pr-auto-summary.yml",
-            ".github/workflows/pr-preview.yml",
-            ".github/workflows/pp-parse.yml",
-            ".github/workflows/qq-run.yml",
-            ".github/workflows/zz-web-proof.yml",
-            ".github/workflows/ping.yml",
-            ".github/workflows/minimal.yml"
-          ]'
-
-          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' \
-            | jq -s '.' > runs.json
-
-          jq --argjson active "$ACTIVE" --argjson deprecated "$DEPRECATED" --argjson keep "$KEEP_ACTIVE" '
- main
             def member($x;$arr): any($arr[]; . == $x);
             def sortdesc: sort_by(.created_at) | reverse;
-
             . as $runs
- chore/admin-delete-runs2
             | ($all[0] // []) as $all_paths
-            | ($all_paths | map(select( ( . as $p | $active | index($p) | not ) ))) as $deprecated_paths
-
+            | ($all_paths | map(select((. as $p | $active | index($p) | not)))) as $deprecated_paths
             | {
-                deprecated: [ $runs[] | select( member(.path; $deprecated_paths) ) ],
-                active_keep: (
-                  [ $runs[] | select( member(.path; $active) ) ]
-                  | group_by(.path)
-                  | map( (sortdesc)[:$keep] )
-                  | add
-                ),
-                active_delete: (
-                  [ $runs[] | select( member(.path; $active) ) ]
-                  | group_by(.path)
-                  | map( (sortdesc)[$keep:] )
-                  | add
-                )
+                deprecated:    [ $runs[] | select(member(.path; $deprecated_paths)) ],
+                active_keep:   ( [ $runs[] | select(member(.path; $active)) ] | group_by(.path) | map((sortdesc)[:$keep]) | add ),
+                active_delete: ( [ $runs[] | select(member(.path; $active)) ] | group_by(.path) | map((sortdesc)[$keep:]) | add )
               }
             | .active_keep   = (.active_keep   // [])
             | .active_delete = (.active_delete // [])
             | .to_delete = (.deprecated + .active_delete)
             | { summary: {
-                  active_keep:     (.active_keep|length),
+                  active_keep: (.active_keep|length),
                   deprecated_total: (.deprecated|length),
-                  active_delete:    (.active_delete|length),
-                  total_delete:     (.to_delete|length)
+                  active_delete: (.active_delete|length),
+                  total_delete: (.to_delete|length)
                 },
-
-            | {
-                dep_del: [ $runs[] | select(member(.path; $deprecated)) ],
-                act_keep: (
-                  [ $runs[] | select(member(.path; $active)) ]
-                  | group_by(.path) | map( (sortdesc)[:$keep] ) | add
-                ),
-                act_del: (
-                  [ $runs[] | select(member(.path; $active)) ]
-                  | group_by(.path) | map( (sortdesc)[$keep:] ) | add
-                )
-              }
-            | .act_keep = (.act_keep // [])
-            | .act_del  = (.act_del  // [])
-            | .to_delete = (.dep_del + .act_del)
-            | { summary: { deprecated_total: (.dep_del|length),
-                           active_delete:    (.act_del|length),
-                           total_delete:     (.to_delete|length) },
- main
                 delete_ids: (.to_delete | map(.id))
               }' runs.json > plan.json
-
           echo "PLAN SUMMARY:"; jq '.summary' plan.json
 
-      - name: DRY RUN — show first 30 run IDs
-        if: ${{ inputs.dry_run }}
+      - name: Show preview
+        if: ${{ inputs.preview }}
         run: jq -r '.delete_ids[:30][]' plan.json
 
       - name: Delete runs
-        if: ${{ !inputs.dry_run }}
+        if: ${{ !inputs.preview }}
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -151,5 +81,3 @@ jobs:
             fi
           done
           echo "DELETED=$del_ok ERRORS=$del_err"
-
-
