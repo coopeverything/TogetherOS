@@ -24,19 +24,27 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq gh
 
+ chore/admin-delete-runs2
       - name: Build deletion plan (dynamic: keep only deploy + package-knowledge)
+
+      - name: Build deletion plan (by workflow file path)
+ main
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           KEEP_ACTIVE: ${{ inputs.keep_active }}
         run: |
           set -euo pipefail
+ chore/admin-delete-runs2
 
           # Define the ONLY workflows whose runs we keep (newest N)
+
+ main
           ACTIVE='[
             ".github/workflows/deploy.yml",
             ".github/workflows/package-knowledge.yml"
           ]'
+ chore/admin-delete-runs2
 
           # Get ALL workflow file paths currently known by GitHub
           gh api --paginate /repos/$REPO/actions/workflows -q '.workflows[].path' | jq -s '.' > wf_paths.json
@@ -50,10 +58,28 @@ jobs:
           # - delete ALL runs for deprecated_paths
           # - for ACTIVE paths, keep newest N, delete the rest
           jq --slurpfile all wf_paths.json --argjson active "$ACTIVE" --argjson keep "$KEEP_ACTIVE" '
+
+          DEPRECATED='[
+            ".github/workflows/auto-codex.yml",
+            ".github/workflows/pr-auto-summary.yml",
+            ".github/workflows/pr-preview.yml",
+            ".github/workflows/pp-parse.yml",
+            ".github/workflows/qq-run.yml",
+            ".github/workflows/zz-web-proof.yml",
+            ".github/workflows/ping.yml",
+            ".github/workflows/minimal.yml"
+          ]'
+
+          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' \
+            | jq -s '.' > runs.json
+
+          jq --argjson active "$ACTIVE" --argjson deprecated "$DEPRECATED" --argjson keep "$KEEP_ACTIVE" '
+ main
             def member($x;$arr): any($arr[]; . == $x);
             def sortdesc: sort_by(.created_at) | reverse;
 
             . as $runs
+ chore/admin-delete-runs2
             | ($all[0] // []) as $all_paths
             | ($all_paths | map(select( ( . as $p | $active | index($p) | not ) ))) as $deprecated_paths
 
@@ -81,6 +107,25 @@ jobs:
                   active_delete:    (.active_delete|length),
                   total_delete:     (.to_delete|length)
                 },
+
+            | {
+                dep_del: [ $runs[] | select(member(.path; $deprecated)) ],
+                act_keep: (
+                  [ $runs[] | select(member(.path; $active)) ]
+                  | group_by(.path) | map( (sortdesc)[:$keep] ) | add
+                ),
+                act_del: (
+                  [ $runs[] | select(member(.path; $active)) ]
+                  | group_by(.path) | map( (sortdesc)[$keep:] ) | add
+                )
+              }
+            | .act_keep = (.act_keep // [])
+            | .act_del  = (.act_del  // [])
+            | .to_delete = (.dep_del + .act_del)
+            | { summary: { deprecated_total: (.dep_del|length),
+                           active_delete:    (.act_del|length),
+                           total_delete:     (.to_delete|length) },
+ main
                 delete_ids: (.to_delete | map(.id))
               }' runs.json > plan.json
 
