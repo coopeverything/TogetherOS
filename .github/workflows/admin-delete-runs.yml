@@ -1,4 +1,4 @@
-name: Admin — bulk delete runs
+name: "Admin - bulk delete runs"
 on:
   workflow_dispatch:
     inputs:
@@ -25,7 +25,7 @@ jobs:
           sudo apt-get install -y jq gh
 
  chore/admin-delete-runs2
-      - name: Build deletion plan (dynamic: keep only deploy + package-knowledge)
+     - name: "Build deletion plan (dynamic: keep only deploy + package-knowledge)"
 
       - name: Build deletion plan (by workflow file path)
  main
@@ -151,3 +151,4 @@ jobs:
             fi
           done
           echo "DELETED=$del_ok ERRORS=$del_err"
+
