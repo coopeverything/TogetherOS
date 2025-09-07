@@ -39,42 +39,38 @@ jobs:
           # Workflows whose runs we keep (newest N)
           ACTIVE='[".github/workflows/deploy.yml",".github/workflows/package-knowledge.yml"]'
 
-          # Fetch all workflow file paths GitHub knows about
-          gh api --paginate /repos/$REPO/actions/workflows -q '.workflows[].path' \
+          # Fetch all workflow paths
+          gh api --paginate "/repos/$REPO/actions/workflows" -q '.workflows[].path' \
             | jq -s '.' > wf_paths.json
 
-          # Fetch all runs (include path so we can match to ACTIVE)
-          gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' \
+          # Fetch all runs (include path so we can match ACTIVE)
+          gh api --paginate "/repos/$REPO/actions/runs" -q '.workflow_runs[] | {id, created_at, path}' \
             | jq -s '.' > runs.json
 
-          # Coerce keep_active (input is a string)
-          KEEP_NUM="$(echo "$KEEP_ACTIVE" | jq 'tonumber')"
-
           # Build plan:
-          # - delete ALL runs whose workflow path is NOT in ACTIVE
-          # - for ACTIVE paths, keep newest KEEP_NUM, delete the rest
+          #  - delete ALL runs whose workflow path is NOT in ACTIVE
+          #  - for ACTIVE paths, keep newest N (= KEEP_ACTIVE), delete the rest
           jq --slurpfile all wf_paths.json \
              --argjson active "$ACTIVE" \
-             --argjson keep "$KEEP_NUM" '
-            def ismember($x;$arr): any($arr[]; . == $x);
+             --arg keep "$KEEP_ACTIVE" '
+            def member($x;$arr): any($arr[]; . == $x);
             def sortdesc: sort_by(.created_at) | reverse;
 
             . as $runs
             | ($all[0] // []) as $all_paths
-            | ($all_paths | map(select( ( . as $p | $active | index($p) | not ) ))) as $deprecated_paths
-
+            | ($all_paths | map(select((. as $p | $active | index($p) | not)))) as $deprecated_paths
             | {
-                dep_del:   [ $runs[] | select( ismember(.path; $deprecated_paths) ) ],
-                act_keep:  (
-                  [ $runs[] | select( ismember(.path; $active) ) ]
+                dep_del: [ $runs[] | select(member(.path; $deprecated_paths)) ],
+                act_keep: (
+                  [ $runs[] | select(member(.path; $active)) ]
                   | group_by(.path)
-                  | map( (sortdesc)[:$keep] )
+                  | map( (sortdesc)[:($keep|tonumber)] )
                   | add // []
                 ),
-                act_del:   (
-                  [ $runs[] | select( ismember(.path; $active) ) ]
+                act_del: (
+                  [ $runs[] | select(member(.path; $active)) ]
                   | group_by(.path)
-                  | map( (sortdesc)[$keep:] )
+                  | map( (sortdesc)[($keep|tonumber):] )
                   | add // []
                 )
               }
@@ -106,7 +102,7 @@ jobs:
           del_ok=0
           del_err=0
           for id in $(jq -r '.delete_ids[]' plan.json); do
-            if gh api --method DELETE /repos/$REPO/actions/runs/$id >/dev/null 2>&1; then
+            if gh api --method DELETE "/repos/$REPO/actions/runs/$id" >/dev/null 2>&1; then
               del_ok=$((del_ok+1))
             else
               del_err=$((del_err+1))
