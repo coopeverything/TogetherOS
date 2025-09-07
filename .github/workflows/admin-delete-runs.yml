@@ -12,7 +12,7 @@ on:
         type: number
         required: true
         default: 30
-
+echo "$KEEP_ACTIVE" | jq 'tonumber'
 permissions:
   actions: write
   contents: read
@@ -37,7 +37,7 @@ jobs:
           ACTIVE='[".github/workflows/deploy.yml",".github/workflows/package-knowledge.yml"]'
           gh api --paginate /repos/$REPO/actions/workflows -q '.workflows[].path' | jq -s '.' > wf_paths.json
           gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' | jq -s '.' > runs.json
-          jq --slurpfile all wf_paths.json --argjson active "$ACTIVE" --argjson keep "$KEEP_ACTIVE" '
+          jq --slurpfile all wf_paths.json --argjson active "$ACTIVE" --argjson keep "$(echo "$KEEP_ACTIVE" | jq 'tonumber')" '
             def member($x;$arr): any($arr[]; . == $x);
             def sortdesc: sort_by(.created_at) | reverse;
             . as $runs
@@ -81,3 +81,4 @@ jobs:
             fi
           done
           echo "DELETED=$del_ok ERRORS=$del_err"
+
