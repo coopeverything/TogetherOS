@@ -1,4 +1,4 @@
-name: admin-clean-runs
+name: "admin-clean-runs"
 on:
   workflow_dispatch:
     inputs:
@@ -21,14 +21,14 @@ jobs:
   clean:
     runs-on: ubuntu-latest
     steps:
-      - name: Install jq and gh
+      - name: "Install jq and gh"
         run: |
           sudo apt-get update
           sudo apt-get install -y jq gh || true
           gh --version || true
           jq --version || true
 
-      - name: Plan deletions
+      - name: "Plan deletions"
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -47,17 +47,15 @@ jobs:
           gh api --paginate /repos/$REPO/actions/runs -q '.workflow_runs[] | {id, created_at, path}' \
             | jq -s '.' > runs.json
 
-          # Coerce keep_active (input is a string)
-          KEEP_NUM="$(echo "$KEEP_ACTIVE" | jq 'tonumber')"
-
           # Build plan:
           # - delete ALL runs whose workflow path is NOT in ACTIVE
-          # - for ACTIVE paths, keep newest KEEP_NUM, delete the rest
+          # - for ACTIVE paths, keep newest KEEP_ACTIVE, delete the rest
           jq --slurpfile all wf_paths.json \
              --argjson active "$ACTIVE" \
-             --argjson keep "$KEEP_NUM" '
+             --arg keep "$KEEP_ACTIVE" '
             def ismember($x;$arr): any($arr[]; . == $x);
             def sortdesc: sort_by(.created_at) | reverse;
+            ($keep|tonumber) as $keepn;
 
             . as $runs
             | ($all[0] // []) as $all_paths
@@ -68,13 +66,13 @@ jobs:
                 act_keep:  (
                   [ $runs[] | select( ismember(.path; $active) ) ]
                   | group_by(.path)
-                  | map( (sortdesc)[:$keep] )
+                  | map( (sortdesc)[:$keepn] )
                   | add // []
                 ),
                 act_del:   (
                   [ $runs[] | select( ismember(.path; $active) ) ]
                   | group_by(.path)
-                  | map( (sortdesc)[$keep:] )
+                  | map( (sortdesc)[$keepn:] )
                   | add // []
                 )
               }
@@ -92,11 +90,11 @@ jobs:
           echo "PLAN SUMMARY:"
           jq '.summary' plan.json
 
-      - name: Show preview
+      - name: "Show preview"
         if: ${{ inputs.preview }}
         run: jq -r '.delete_ids[:50][]' plan.json
 
-      - name: Delete runs
+      - name: "Delete runs"
         if: ${{ !inputs.preview }}
         env:
           GH_TOKEN: ${{ github.token }}
