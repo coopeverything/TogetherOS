@@ -3,35 +3,36 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: write   # allow built-in GITHUB_TOKEN to commit/push
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (with token)
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # ensures push uses GITHUB_TOKEN
 
-      - name: Make a commit with GITHUB_TOKEN
+      - name: Create a commit using GITHUB_TOKEN
         run: |
-          echo "Hello from GITHUB_TOKEN at $(date)" > SMOKE_TEST.txt
+          echo "Hello from GITHUB_TOKEN at $(date -u '+%a %b %d %T UTC %Y')" > SMOKE_TEST.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add SMOKE_TEST.txt
           git commit -m "ci: smoke test commit from GITHUB_TOKEN"
-          git push origin HEAD:${GITHUB_REF#refs/heads/}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push
 
-      - name: Install jq
+      - name: Install jq (for JSON parsing)
         run: |
           sudo apt-get update -y
           sudo apt-get install -y jq
 
       - name: Who am I?
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
-          curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+          set -e
+          curl -fSs -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Accept: application/vnd.github+json" \
                https://api.github.com/user | jq -r '.login,.type'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
