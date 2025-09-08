@@ -4,6 +4,7 @@ on:
 permissions:
   contents: read
   actions: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,6 +16,12 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY_PEM }}
           installation-id: ${{ secrets.APP_INSTALLATION_ID }}
+
+      - name: Install jq (ensure present)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq
+
       - name: Show who we are (safe)
         env:
           TOKEN: ${{ steps.mint.outputs.token }}
