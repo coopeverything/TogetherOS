@@ -1,22 +1,20 @@
 name: app-token-smoke
 on:
   workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
 jobs:
   test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
-      workflows: write
     steps:
-      - name: Mint GitHub App token
+      - name: Mint GitHub App token (official)
         id: mint
-        uses: tibdex/github-app-token@v2
+        uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY_PEM }}
-          installation_retrieval_mode: id
-          installation_retrieval_payload: ${{ secrets.APP_INSTALLATION_ID }}
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY_PEM }}
+          installation-id: ${{ secrets.APP_INSTALLATION_ID }}
       - name: Show who we are (safe)
         env:
           TOKEN: ${{ steps.mint.outputs.token }}
