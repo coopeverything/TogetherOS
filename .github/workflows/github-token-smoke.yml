@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # give write access to GITHUB_TOKEN
+  contents: write
 
 jobs:
   test:
@@ -22,6 +22,11 @@ jobs:
           git push origin HEAD:${GITHUB_REF#refs/heads/}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install jq
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq
 
       - name: Who am I?
         run: |
