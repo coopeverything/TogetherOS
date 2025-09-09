@@ -18,7 +18,6 @@ jobs:
       GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for contents & PRs
 
     steps:
-      # ── ADDED: ensure jq is available ──────────────────────────────────────────
       - name: Install jq
         shell: bash
         run: |
@@ -27,7 +26,6 @@ jobs:
             sudo apt-get update -y
             sudo apt-get install -y jq
           fi
-      # ──────────────────────────────────────────────────────────────────────────
 
       - name: Parse request JSON from issue body
         id: parse
@@ -41,6 +39,21 @@ jobs:
           echo "title=$(jq -r '.title' /tmp/req.json)"           >> "$GITHUB_OUTPUT"
           echo "content_mode=$(jq -r '.content_mode // \"text\"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
+
+      # NEW: strict schema guard (required keys + content_mode enum)
+      - name: Validate required fields
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -e '
+            type=="object"
+            and has("path")
+            and has("message")
+            and has("title")
+            and has("content_mode")
+            and has("content")
+            and (.content_mode=="text" or .content_mode=="base64")
+          ' /tmp/req.json >/dev/null
 
       - name: Validate path allowlist
         shell: bash
