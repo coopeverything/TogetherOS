@@ -20,7 +20,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # Read raw issue body directly from the event payload, then require valid JSON
           body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
           echo "$body" | jq -e . > /tmp/req.json
           echo "path=$(jq -r '.path' /tmp/req.json)"             >> "$GITHUB_OUTPUT"
@@ -28,6 +27,15 @@ jobs:
           echo "title=$(jq -r '.title' /tmp/req.json)"           >> "$GITHUB_OUTPUT"
           echo "content_mode=$(jq -r '.content_mode // \"text\"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
+
+      - name: Validate path allowlist
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ steps.parse.outputs.path }}" in
+            codex/*) echo "Path allowed";;
+            *) echo "ERROR: Path must start with 'codex/'"; exit 1;;
+          esac
 
       - name: Derive values
         id: derive
