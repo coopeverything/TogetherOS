@@ -1,1 +1,1 @@
-hello from codex gateway
+hello from codex-gateway
