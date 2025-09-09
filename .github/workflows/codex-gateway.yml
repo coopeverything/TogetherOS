@@ -115,10 +115,7 @@ jobs:
           if [ -n "$sha" ]; then
             gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
               -f message="$msg" -f content="$b64" -f branch="$branch" -f sha="$sha" >/dev/null
-          else
-            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
-              -f message="$msg" -f content="$b64" -f branch="$branch" >/dev/null
-          fi
+       
           echo "changed_path=$path" >> "$GITHUB_OUTPUT"
 
       - name: Open PR
