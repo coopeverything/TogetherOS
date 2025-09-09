@@ -8,10 +8,16 @@ permissions:
 
 jobs:
   add-label:
-    if: startsWith(github.event.issue.title, 'Codex:')
     runs-on: ubuntu-latest
     steps:
-      - name: Add codex-task label
+      - name: Show issue title
+        run: |
+          set -euo pipefail
+          title=$(jq -r '.issue.title' "$GITHUB_EVENT_PATH")
+          echo "TITLE=$title"
+
+      - name: Add codex-task label when title starts with Codex:
+        if: startsWith(github.event.issue.title, 'Codex:')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
