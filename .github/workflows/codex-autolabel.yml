@@ -1,0 +1,20 @@
+name: codex-autolabel
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  add-label:
+    if: startsWith(github.event.issue.title, 'Codex:')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add codex-task label
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/issues/${{ github.event.issue.number }}/labels" -X POST \
+            -f labels='["codex-task"]'
