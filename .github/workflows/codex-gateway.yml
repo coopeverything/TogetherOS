@@ -13,13 +13,12 @@ jobs:
   gateway:
     runs-on: ubuntu-latest
 
-    # Force bash everywhere
     defaults:
       run:
         shell: bash
 
     env:
-      GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used by gh api for contents & PRs
+      GH_TOKEN: ${{ secrets.CODEX_PAT }}
 
     steps:
       - name: Show shell
@@ -35,7 +34,7 @@ jobs:
             sudo apt-get install -y jq
           fi
 
-      # ───────── Gate: require codex-task label ─────────
+      # Gate: require codex-task label
       - name: Gate on codex-task label
         id: gate
         run: |
@@ -58,7 +57,6 @@ jobs:
         run: |
           set -euo pipefail
           body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
-          # Strict JSON only (no code fences/markdown)
           echo "$body" | jq -e . > /tmp/req.json
           echo "path=$(jq -r '.path' /tmp/req.json)"               >> "$GITHUB_OUTPUT"
           echo "message=$(jq -r '.message' /tmp/req.json)"         >> "$GITHUB_OUTPUT"
@@ -132,7 +130,7 @@ jobs:
           echo "Stopping run due to schema validation failure."
           exit 1
 
-      # Size guard (text mode only)
+      # Size guard (text mode)
       - name: Validate content size (text mode)
         id: sizeguard
         if: steps.gate.outputs.run == 'yes'
@@ -142,7 +140,7 @@ jobs:
           mode="$(jq -r '.content_mode // "text"' /tmp/req.json)"
           if [ "$mode" = "text" ]; then
             bytes=$(jq -r '.content' /tmp/req.json | wc -c | awk '{print $1}')
-            limit=$((150*1024)) # 150 KB
+            limit=$((150*1024))
             echo "content_bytes=$bytes limit=$limit"
             if [ "$bytes" -gt "$limit" ]; then
               echo "too_big=true" >> "$GITHUB_OUTPUT"
@@ -193,14 +191,6 @@ jobs:
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
           echo "base=$base" >> "$GITHUB_OUTPUT"
 
-      - name: Create branch
-        if: steps.gate.outputs.run == 'yes'
-        run: |
-          set -euo pipefail
-          gh api "repos/$GITHUB_REPOSITORY/git/refs" -X POST \
-            -f ref="refs/heads/${{ steps.derive.outputs.branch }}" \
-            -f sha="${{ steps.derive.outputs.sha }}"
-
       - name: Prepare file content
         id: content
         if: steps.gate.outputs.run == 'yes'
@@ -213,9 +203,47 @@ jobs:
             jq -r '.content' /tmp/req.json | base64 -w0 > /tmp/content.b64
           fi
 
+      # NEW: idempotency preflight (skip if no change on base)
+      - name: Preflight: skip if no content change on base
+        id: preflight
+        if: steps.gate.outputs.run == 'yes'
+        env:
+          BASE: ${{ steps.derive.outputs.base }}
+        run: |
+          set -euo pipefail
+          path="${{ steps.parse.outputs.path }}"
+          b64_new=$(cat /tmp/content.b64)
+          b64_old=$(gh api -X GET "repos/$GITHUB_REPOSITORY/contents/$path?ref=${BASE}" --jq .content 2>/dev/null | tr -d '\n' || true)
+          if [ -n "$b64_old" ] && [ "$b64_old" = "$b64_new" ]; then
+            echo "noop=yes" >> "$GITHUB_OUTPUT"
+            echo "No-op: existing content on ${BASE} is identical."
+          else
+            echo "noop=no" >> "$GITHUB_OUTPUT"
+            echo "Change detected or file missing; proceeding."
+          fi
+
+      - name: Comment no-op and stop
+        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/issues/${ISSUE_NUMBER}/comments" -X POST \
+            -f body="No changes detected for ${{ steps.parse.outputs.path }} on ${{ steps.derive.outputs.base }}; skipping PR."
+          exit 0
+
+      - name: Create branch
+        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/git/refs" -X POST \
+            -f ref="refs/heads/${{ steps.derive.outputs.branch }}" \
+            -f sha="${{ steps.derive.outputs.sha }}"
+
       - name: Create or update file via Contents API
         id: put
-        if: steps.gate.outputs.run == 'yes'
+        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
         run: |
           set -euo pipefail
           path="${{ steps.parse.outputs.path }}"
@@ -234,7 +262,7 @@ jobs:
 
       - name: Open PR
         id: pr
-        if: steps.gate.outputs.run == 'yes'
+        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
         run: |
           set -euo pipefail
           title="${{ steps.parse.outputs.title }}"
@@ -246,7 +274,7 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment back on issue (success path)
-        if: steps.gate.outputs.run == 'yes'
+        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
