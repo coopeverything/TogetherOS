@@ -16,4 +16,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh issue edit ${{ github.event.issue.number }} --add-label codex-task
+          gh issue edit ${{ github.event.issue.number }} --add-label codex-task -R "$GITHUB_REPOSITORY"
