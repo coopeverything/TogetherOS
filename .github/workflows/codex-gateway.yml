@@ -19,7 +19,7 @@ jobs:
         shell: bash
 
     env:
-      GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for gh api calls (contents & PRs)
+      GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used by gh api for contents & PRs
 
     steps:
       - name: Show shell
@@ -35,9 +35,7 @@ jobs:
             sudo apt-get install -y jq
           fi
 
-      # ───────────────────────────
-      # Gate: require codex-task label
-      # ───────────────────────────
+      # ───────── Gate: require codex-task label ─────────
       - name: Gate on codex-task label
         id: gate
         run: |
@@ -60,7 +58,7 @@ jobs:
         run: |
           set -euo pipefail
           body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
-          # Body must be strict JSON (no code fences). Parse strictly:
+          # Strict JSON only (no code fences/markdown)
           echo "$body" | jq -e . > /tmp/req.json
           echo "path=$(jq -r '.path' /tmp/req.json)"               >> "$GITHUB_OUTPUT"
           echo "message=$(jq -r '.message' /tmp/req.json)"         >> "$GITHUB_OUTPUT"
@@ -68,7 +66,7 @@ jobs:
           echo "content_mode=$(jq -r '.content_mode // "text"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
 
-      # Strict schema guard (required keys + content_mode enum)
+      # Schema guard
       - name: Validate required fields
         id: validate
         if: steps.gate.outputs.run == 'yes'
@@ -247,7 +245,7 @@ jobs:
               -f body="Gateway PR opened by codex-gateway." --jq .html_url)
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
-      - name: Comment back on issue (success path; uses GITHUB_TOKEN)
+      - name: Comment back on issue (success path)
         if: steps.gate.outputs.run == 'yes'
         env:
           GH_TOKEN: ${{ github.token }}
