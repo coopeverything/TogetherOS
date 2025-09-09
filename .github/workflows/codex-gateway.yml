@@ -10,7 +10,8 @@ permissions:
 
 jobs:
   gateway:
-    if: contains(github.event.issue.labels.*.name, 'codex-task')
+    # Run if the issue already has the label OR if this event is the act of labeling it
+    if: contains(github.event.issue.labels.*.name, 'codex-task') || (github.event.action == 'labeled' && github.event.label.name == 'codex-task')
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for contents & PRs
