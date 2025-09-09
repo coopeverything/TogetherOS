@@ -14,12 +14,23 @@ jobs:
     # Run if the issue already has the label OR if this event is the act of labeling it
     if: contains(github.event.issue.labels.*.name, 'codex-task') || (github.event.action == 'labeled' && github.event.label.name == 'codex-task')
     runs-on: ubuntu-latest
+
+    # FORCE bash for every run: step in this job
+    defaults:
+      run:
+        shell: bash
+
     env:
       GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for contents & PRs
 
     steps:
+      # quick proof of shell so we never guess again
+      - name: Show shell
+        run: |
+          echo "SHELL=$SHELL"
+          bash --version | head -n 1 || true
+
       - name: Install jq
-        shell: bash
         run: |
           set -euo pipefail
           if ! command -v jq >/dev/null 2>&1; then
@@ -29,7 +40,6 @@ jobs:
 
       - name: Parse request JSON from issue body
         id: parse
-        shell: bash
         run: |
           set -euo pipefail
           body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
@@ -45,7 +55,6 @@ jobs:
       - name: Validate required fields
         id: validate
         continue-on-error: true
-        shell: bash
         run: |
           set -euo pipefail
           jq -e '
@@ -62,7 +71,6 @@ jobs:
       - name: Compose schema error
         if: steps.validate.outcome == 'failure'
         id: schemaerr
-        shell: bash
         run: |
           set -euo pipefail
           missing=""
@@ -82,7 +90,8 @@ jobs:
             cm_msg=" Invalid content_mode: \"$got\". Allowed: \"text\" or \"base64\"."
           fi
 
-          msg="Schema validation failed.${missing}${cm_msg} Provide a JSON body like:
+          msg="Schema validation failed. ${missing}${cm_msg}
+          Provide a JSON body like:
           {
             \"path\": \"codex/your-file.txt\",
             \"message\": \"commit message\",
@@ -102,7 +111,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        shell: bash
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/issues/${ISSUE_NUMBER}/comments" -X POST \
@@ -111,7 +119,6 @@ jobs:
       # Abort run cleanly if schema invalid
       - name: Stop on schema failure
         if: steps.validate.outcome == 'failure'
-        shell: bash
         run: |
           echo "Stopping run due to schema validation failure."
           exit 1
@@ -119,7 +126,6 @@ jobs:
       # If schema is valid, continue with normal flow
       - name: Validate path allowlist
         if: steps.validate.outcome == 'success'
-        shell: bash
         run: |
           set -euo pipefail
           case "${{ steps.parse.outputs.path }}" in
@@ -130,7 +136,6 @@ jobs:
       - name: Derive values (use default branch dynamically)
         if: steps.validate.outcome == 'success'
         id: derive
-        shell: bash
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
@@ -148,7 +153,6 @@ jobs:
 
       - name: Create branch
         if: steps.validate.outcome == 'success'
-        shell: bash
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/git/refs" -X POST \
@@ -158,7 +162,6 @@ jobs:
       - name: Prepare file content
         if: steps.validate.outcome == 'success'
         id: content
-        shell: bash
         run: |
           set -euo pipefail
           mode="${{ steps.parse.outputs.content_mode }}"
@@ -171,7 +174,6 @@ jobs:
       - name: Create or update file via Contents API
         if: steps.validate.outcome == 'success'
         id: put
-        shell: bash
         run: |
           set -euo pipefail
           path="${{ steps.parse.outputs.path }}"
@@ -191,7 +193,6 @@ jobs:
       - name: Open PR
         if: steps.validate.outcome == 'success'
         id: pr
-        shell: bash
         run: |
           set -euo pipefail
           title="${{ steps.parse.outputs.title }}"
@@ -206,7 +207,6 @@ jobs:
         if: steps.validate.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
-        shell: bash
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/issues/${{ github.event.issue.number }}/comments" -X POST \
