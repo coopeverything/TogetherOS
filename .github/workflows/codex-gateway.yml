@@ -1,4 +1,5 @@
 name: codex-gateway
+
 on:
   issues:
     types: [opened, edited, labeled]
@@ -15,7 +16,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for contents & PRs
+
     steps:
+      # ── ADDED: ensure jq is available ──────────────────────────────────────────
+      - name: Install jq
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update -y
+            sudo apt-get install -y jq
+          fi
+      # ──────────────────────────────────────────────────────────────────────────
+
       - name: Parse request JSON from issue body
         id: parse
         shell: bash
@@ -38,12 +51,15 @@ jobs:
             *) echo "ERROR: Path must start with 'codex/'"; exit 1;;
           esac
 
-      - name: Derive values
+      - name: Derive values (use default branch dynamically)
         id: derive
         shell: bash
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
-          sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')
+          base="${DEFAULT_BRANCH:-main}"
+          sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$base" --jq '.object.sha')
           short=${sha:0:8}
           when=$(date +%s)
           prefix="${{ steps.parse.outputs.branch_prefix }}"
@@ -51,6 +67,7 @@ jobs:
           branch="$prefix-$short-$when"
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: Create branch
         shell: bash
@@ -98,8 +115,9 @@ jobs:
           set -euo pipefail
           title="${{ steps.parse.outputs.title }}"
           branch="${{ steps.derive.outputs.branch }}"
+          base="${{ steps.derive.outputs.base }}"
           url=$(gh api "repos/$GITHUB_REPOSITORY/pulls" -X POST \
-              -f title="$title" -f head="$branch" -f base="main" \
+              -f title="$title" -f head="$branch" -f base="$base" \
               -f body="Gateway PR opened by codex-gateway." --jq .html_url)
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
