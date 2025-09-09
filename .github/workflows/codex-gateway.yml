@@ -37,10 +37,10 @@ jobs:
           echo "path=$(jq -r '.path' /tmp/req.json)"             >> "$GITHUB_OUTPUT"
           echo "message=$(jq -r '.message' /tmp/req.json)"       >> "$GITHUB_OUTPUT"
           echo "title=$(jq -r '.title' /tmp/req.json)"           >> "$GITHUB_OUTPUT"
+          # BUG: the \"text\" quoting causes jq to choke
           echo "content_mode=$(jq -r '.content_mode // \"text\"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
 
-      # NEW: strict schema guard (required keys + content_mode enum)
       - name: Validate required fields
         shell: bash
         run: |
@@ -115,7 +115,10 @@ jobs:
           if [ -n "$sha" ]; then
             gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
               -f message="$msg" -f content="$b64" -f branch="$branch" -f sha="$sha" >/dev/null
-       
+          else
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+              -f message="$msg" -f content="$b64" -f branch="$branch" >/dev/null
+          fi
           echo "changed_path=$path" >> "$GITHUB_OUTPUT"
 
       - name: Open PR
