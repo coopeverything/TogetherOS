@@ -16,5 +16,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh api "repos/$GITHUB_REPOSITORY/issues/${{ github.event.issue.number }}/labels" -X POST \
-            -f labels='["codex-task"]'
+          gh issue edit ${{ github.event.issue.number }} --add-label codex-task
