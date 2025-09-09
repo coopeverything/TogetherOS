@@ -37,11 +37,14 @@ jobs:
           echo "path=$(jq -r '.path' /tmp/req.json)"             >> "$GITHUB_OUTPUT"
           echo "message=$(jq -r '.message' /tmp/req.json)"       >> "$GITHUB_OUTPUT"
           echo "title=$(jq -r '.title' /tmp/req.json)"           >> "$GITHUB_OUTPUT"
-          # FIXED: plain "text" works inside single quotes
+          # default content_mode to "text" without over-escaping
           echo "content_mode=$(jq -r '.content_mode // "text"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
 
+      # Strict schema guard (required keys + content_mode enum)
       - name: Validate required fields
+        id: validate
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -55,7 +58,67 @@ jobs:
             and (.content_mode=="text" or .content_mode=="base64")
           ' /tmp/req.json >/dev/null
 
+      # On validation failure, compute a helpful message
+      - name: Compose schema error
+        if: steps.validate.outcome == 'failure'
+        id: schemaerr
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=""
+          for k in path message title content_mode content; do
+            if [ "$(jq -r --arg k "$k" 'has($k)' /tmp/req.json)" != "true" ]; then
+              missing="${missing}${k}, "
+            fi
+          done
+          if [ -n "$missing" ]; then
+            missing="Missing required key(s): ${missing%, }."
+          fi
+
+          cm_ok="$(jq -r 'if has("content_mode") then (.content_mode=="text" or .content_mode=="base64") else "n/a" end' /tmp/req.json)"
+          cm_msg=""
+          if [ "$cm_ok" = "false" ]; then
+            got="$(jq -r '.content_mode' /tmp/req.json)"
+            cm_msg=" Invalid content_mode: \"$got\". Allowed: \"text\" or \"base64\"."
+          fi
+
+          msg="Schema validation failed.${missing}${cm_msg} Provide a JSON body like:
+          {
+            \"path\": \"codex/your-file.txt\",
+            \"message\": \"commit message\",
+            \"title\": \"Codex: your PR title\",
+            \"content_mode\": \"text\",
+            \"content\": \"file contents\",
+            \"branch_prefix\": \"codex\"
+          }"
+          printf '%s\n' "$msg" > /tmp/schema_error.txt
+          echo "msg<<EOF" >> "$GITHUB_OUTPUT"
+          cat /tmp/schema_error.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      # Comment error back on the issue using the default GITHUB_TOKEN
+      - name: Comment schema error
+        if: steps.validate.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/issues/${ISSUE_NUMBER}/comments" -X POST \
+            -f body="${{ steps.schemaerr.outputs.msg }}"
+
+      # Abort run cleanly if schema invalid
+      - name: Stop on schema failure
+        if: steps.validate.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "Stopping run due to schema validation failure."
+          exit 1
+
+      # If schema is valid, continue with normal flow
       - name: Validate path allowlist
+        if: steps.validate.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -65,6 +128,7 @@ jobs:
           esac
 
       - name: Derive values (use default branch dynamically)
+        if: steps.validate.outcome == 'success'
         id: derive
         shell: bash
         env:
@@ -83,6 +147,7 @@ jobs:
           echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: Create branch
+        if: steps.validate.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -91,6 +156,7 @@ jobs:
             -f sha="${{ steps.derive.outputs.sha }}"
 
       - name: Prepare file content
+        if: steps.validate.outcome == 'success'
         id: content
         shell: bash
         run: |
@@ -103,6 +169,7 @@ jobs:
           fi
 
       - name: Create or update file via Contents API
+        if: steps.validate.outcome == 'success'
         id: put
         shell: bash
         run: |
@@ -122,6 +189,7 @@ jobs:
           echo "changed_path=$path" >> "$GITHUB_OUTPUT"
 
       - name: Open PR
+        if: steps.validate.outcome == 'success'
         id: pr
         shell: bash
         run: |
@@ -134,7 +202,8 @@ jobs:
               -f body="Gateway PR opened by codex-gateway." --jq .html_url)
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
-      - name: Comment back on issue (uses GITHUB_TOKEN)
+      - name: Comment back on issue (success path; uses GITHUB_TOKEN)
+        if: steps.validate.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
