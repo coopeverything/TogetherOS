@@ -11,17 +11,15 @@ permissions:
 
 jobs:
   gateway:
-    # Run if the issue already has the label OR if this event is the act of labeling it
-    if: contains(github.event.issue.labels.*.name, 'codex-task') || (github.event.action == 'labeled' && github.event.label.name == 'codex-task')
     runs-on: ubuntu-latest
 
-    # FORCE bash for every step in this job
+    # Force bash everywhere
     defaults:
       run:
         shell: bash
 
     env:
-      GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for contents & PRs
+      GH_TOKEN: ${{ secrets.CODEX_PAT }}   # used for gh api calls (contents & PRs)
 
     steps:
       - name: Show shell
@@ -37,23 +35,43 @@ jobs:
             sudo apt-get install -y jq
           fi
 
-      - name: Parse request JSON from issue body
-        id: parse
+      # ───────────────────────────
+      # Gate: require codex-task label
+      # ───────────────────────────
+      - name: Gate on codex-task label
+        id: gate
         run: |
           set -euo pipefail
+          HAS_LABEL="$(jq -r '(.issue.labels // []) | any(.name == "codex-task")' "$GITHUB_EVENT_PATH")"
+          LABELED_THIS="$(jq -r '(.action == "labeled") and (.label.name == "codex-task")' "$GITHUB_EVENT_PATH")"
           echo "EVENT=$(jq -r '.action' "$GITHUB_EVENT_PATH")"
           echo "TITLE=$(jq -r '.issue.title' "$GITHUB_EVENT_PATH")"
+          if [ "$HAS_LABEL" = "true" ] || [ "$LABELED_THIS" = "true" ]; then
+            echo "run=yes" >> "$GITHUB_OUTPUT"
+            echo "Proceeding (label present or just added)."
+          else
+            echo "run=no" >> "$GITHUB_OUTPUT"
+            echo "No codex-task label yet; exiting cleanly."
+          fi
+
+      - name: Parse request JSON from issue body
+        id: parse
+        if: steps.gate.outputs.run == 'yes'
+        run: |
+          set -euo pipefail
           body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
+          # Body must be strict JSON (no code fences). Parse strictly:
           echo "$body" | jq -e . > /tmp/req.json
-          echo "path=$(jq -r '.path' /tmp/req.json)"             >> "$GITHUB_OUTPUT"
-          echo "message=$(jq -r '.message' /tmp/req.json)"       >> "$GITHUB_OUTPUT"
-          echo "title=$(jq -r '.title' /tmp/req.json)"           >> "$GITHUB_OUTPUT"
+          echo "path=$(jq -r '.path' /tmp/req.json)"               >> "$GITHUB_OUTPUT"
+          echo "message=$(jq -r '.message' /tmp/req.json)"         >> "$GITHUB_OUTPUT"
+          echo "title=$(jq -r '.title' /tmp/req.json)"             >> "$GITHUB_OUTPUT"
           echo "content_mode=$(jq -r '.content_mode // "text"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
 
       # Strict schema guard (required keys + content_mode enum)
       - name: Validate required fields
         id: validate
+        if: steps.gate.outputs.run == 'yes'
         continue-on-error: true
         run: |
           set -euo pipefail
@@ -67,10 +85,9 @@ jobs:
             and (.content_mode=="text" or .content_mode=="base64")
           ' /tmp/req.json >/dev/null
 
-      # On validation failure, compute a helpful message and comment
       - name: Compose schema error
-        if: steps.validate.outcome == 'failure'
         id: schemaerr
+        if: steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure'
         run: |
           set -euo pipefail
           missing=""
@@ -79,9 +96,7 @@ jobs:
               missing="${missing}${k}, "
             fi
           done
-          if [ -n "$missing" ]; then
-            missing="Missing required key(s): ${missing%, }."
-          fi
+          [ -n "$missing" ] && missing="Missing required key(s): ${missing%, }."
           cm_ok="$(jq -r 'if has("content_mode") then (.content_mode=="text" or .content_mode=="base64") else "n/a" end' /tmp/req.json)"
           cm_msg=""
           if [ "$cm_ok" = "false" ]; then
@@ -104,7 +119,7 @@ jobs:
           echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Comment schema error
-        if: steps.validate.outcome == 'failure'
+        if: steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -114,20 +129,20 @@ jobs:
             -f body="${{ steps.schemaerr.outputs.msg }}"
 
       - name: Stop on schema failure
-        if: steps.validate.outcome == 'failure'
+        if: steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure'
         run: |
           echo "Stopping run due to schema validation failure."
           exit 1
 
-      # ===== NEW: Size guard for text mode to prevent huge payloads =====
+      # Size guard (text mode only)
       - name: Validate content size (text mode)
         id: sizeguard
+        if: steps.gate.outputs.run == 'yes'
         continue-on-error: true
         run: |
           set -euo pipefail
           mode="$(jq -r '.content_mode // "text"' /tmp/req.json)"
           if [ "$mode" = "text" ]; then
-            # measure raw text length (bytes) before base64
             bytes=$(jq -r '.content' /tmp/req.json | wc -c | awk '{print $1}')
             limit=$((150*1024)) # 150 KB
             echo "content_bytes=$bytes limit=$limit"
@@ -138,7 +153,7 @@ jobs:
           fi
 
       - name: Comment size error
-        if: steps.sizeguard.outcome == 'failure'
+        if: steps.gate.outputs.run == 'yes' && steps.sizeguard.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -148,13 +163,13 @@ jobs:
             -f body="Content too large for \"text\" mode. Use \"content_mode\": \"base64\" and put base64-encoded content in \"content\" (suggest splitting files >150 KB)."
 
       - name: Stop on size failure
-        if: steps.sizeguard.outcome == 'failure'
+        if: steps.gate.outputs.run == 'yes' && steps.sizeguard.outcome == 'failure'
         run: |
           echo "Stopping run due to content size guard."
           exit 1
-      # ===== END NEW =====
 
       - name: Validate path allowlist
+        if: steps.gate.outputs.run == 'yes'
         run: |
           set -euo pipefail
           case "${{ steps.parse.outputs.path }}" in
@@ -164,6 +179,7 @@ jobs:
 
       - name: Derive values (use default branch dynamically)
         id: derive
+        if: steps.gate.outputs.run == 'yes'
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
@@ -173,13 +189,14 @@ jobs:
           short=${sha:0:8}
           when=$(date +%s)
           prefix="${{ steps.parse.outputs.branch_prefix }}"
-          if [ -z "$prefix" ]; then prefix="codex"; fi
+          [ -z "$prefix" ] && prefix="codex"
           branch="$prefix-$short-$when"
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
           echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: Create branch
+        if: steps.gate.outputs.run == 'yes'
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/git/refs" -X POST \
@@ -188,6 +205,7 @@ jobs:
 
       - name: Prepare file content
         id: content
+        if: steps.gate.outputs.run == 'yes'
         run: |
           set -euo pipefail
           mode="${{ steps.parse.outputs.content_mode }}"
@@ -199,6 +217,7 @@ jobs:
 
       - name: Create or update file via Contents API
         id: put
+        if: steps.gate.outputs.run == 'yes'
         run: |
           set -euo pipefail
           path="${{ steps.parse.outputs.path }}"
@@ -217,6 +236,7 @@ jobs:
 
       - name: Open PR
         id: pr
+        if: steps.gate.outputs.run == 'yes'
         run: |
           set -euo pipefail
           title="${{ steps.parse.outputs.title }}"
@@ -228,6 +248,7 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment back on issue (success path; uses GITHUB_TOKEN)
+        if: steps.gate.outputs.run == 'yes'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
