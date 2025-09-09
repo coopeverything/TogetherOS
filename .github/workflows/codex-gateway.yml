@@ -1,0 +1,100 @@
+name: codex-gateway
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  gateway:
+    if: contains(github.event.issue.labels.*.name, 'codex-task')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.CODEX_PAT }}
+    steps:
+      - name: Parse request JSON from issue body
+        id: parse
+        shell: bash
+        run: |
+          set -euo pipefail
+          body=${{ toJson(github.event.issue.body) }}
+          jq -e . >/tmp/req.json <<<"$body"
+          echo "path=$(jq -r .path /tmp/req.json)"       >> "$GITHUB_OUTPUT"
+          echo "message=$(jq -r .message /tmp/req.json)" >> "$GITHUB_OUTPUT"
+          echo "title=$(jq -r .title /tmp/req.json)"     >> "$GITHUB_OUTPUT"
+          echo "content_mode=$(jq -r .content_mode /tmp/req.json)" >> "$GITHUB_OUTPUT"
+          echo "branch_prefix=$(jq -r .branch_prefix /tmp/req.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Derive values
+        id: derive
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha=$(gh api repos/$GITHUB_REPOSITORY/git/ref/heads/main --jq '.object.sha')
+          short=${sha:0:8}
+          when=$(date +%s)
+          branch="${{ steps.parse.outputs.branch_prefix || 'codex' }}-$short-$when"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Create branch
+        shell: bash
+        run: |
+          gh api repos/$GITHUB_REPOSITORY/git/refs -X POST \
+            -f ref="refs/heads/${{ steps.derive.outputs.branch }}" \
+            -f sha="${{ steps.derive.outputs.sha }}"
+
+      - name: Prepare file content
+        id: content
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.parse.outputs.content_mode }}" = "base64" ]; then
+            # Expect issue body had .content as base64
+            jq -r .content /tmp/req.json > /tmp/content.b64
+          else
+            # Treat .content as plain text and base64-encode it
+            jq -r .content /tmp/req.json | base64 -w0 > /tmp/content.b64
+          fi
+
+      - name: Create or update file via Contents API
+        id: put
+        shell: bash
+        run: |
+          set -euo pipefail
+          path="${{ steps.parse.outputs.path }}"
+          msg="${{ steps.parse.outputs.message }}"
+          branch="${{ steps.derive.outputs.branch }}"
+          b64=$(cat /tmp/content.b64)
+          # Try GET to see if file exists, capture sha if so
+          sha=$(gh api -X GET "repos/$GITHUB_REPOSITORY/contents/$path?ref=$branch" --jq .sha 2>/dev/null || true)
+          if [ -n "$sha" ]; then
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+              -f message="$msg" -f content="$b64" -f branch="$branch" -f sha="$sha" >/dev/null
+          else
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+              -f message="$msg" -f content="$b64" -f branch="$branch" >/dev/null
+          fi
+          echo "changed_path=$path" >> "$GITHUB_OUTPUT"
+
+      - name: Open PR
+        id: pr
+        shell: bash
+        run: |
+          set -euo pipefail
+          title="${{ steps.parse.outputs.title }}"
+          branch="${{ steps.derive.outputs.branch }}"
+          url=$(gh api repos/$GITHUB_REPOSITORY/pulls -X POST \
+              -f title="$title" -f head="$branch" -f base="main" \
+              -f body="Gateway PR for ${GITHUB_EVENT_PATH}" --jq .html_url)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment back on issue
+        if: always()
+        shell: bash
+        run: |
+          gh api repos/$GITHUB_REPOSITORY/issues/${{ github.event.issue.number }}/comments -X POST \
+            -f body="Opened PR: ${{ steps.pr.outputs.url }} (changed: ${{ steps.put.outputs.changed_path }})"
