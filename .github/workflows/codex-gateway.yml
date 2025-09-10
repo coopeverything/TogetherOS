@@ -34,7 +34,7 @@ jobs:
             sudo apt-get install -y jq
           fi
 
-      # Gate: require codex-task label
+      # ───────── Gate: require codex-task label ─────────
       - name: Gate on codex-task label
         id: gate
         run: |
@@ -53,7 +53,7 @@ jobs:
 
       - name: Parse request JSON from issue body
         id: parse
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         run: |
           set -euo pipefail
           body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
@@ -64,10 +64,9 @@ jobs:
           echo "content_mode=$(jq -r '.content_mode // "text"' /tmp/req.json)" >> "$GITHUB_OUTPUT"
           echo "branch_prefix=$(jq -r '.branch_prefix // empty' /tmp/req.json)"  >> "$GITHUB_OUTPUT"
 
-      # Schema guard
       - name: Validate required fields
         id: validate
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         continue-on-error: true
         run: |
           set -euo pipefail
@@ -83,7 +82,7 @@ jobs:
 
       - name: Compose schema error
         id: schemaerr
-        if: steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure' }}
         run: |
           set -euo pipefail
           missing=""
@@ -115,7 +114,7 @@ jobs:
           echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Comment schema error
-        if: steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure' }}
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -125,22 +124,21 @@ jobs:
             -f body="${{ steps.schemaerr.outputs.msg }}"
 
       - name: Stop on schema failure
-        if: steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.validate.outcome == 'failure' }}
         run: |
           echo "Stopping run due to schema validation failure."
           exit 1
 
-      # Size guard (text mode)
       - name: Validate content size (text mode)
         id: sizeguard
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         continue-on-error: true
         run: |
           set -euo pipefail
           mode="$(jq -r '.content_mode // "text"' /tmp/req.json)"
           if [ "$mode" = "text" ]; then
             bytes=$(jq -r '.content' /tmp/req.json | wc -c | awk '{print $1}')
-            limit=$((150*1024))
+            limit=$((150*1024)) # 150 KB
             echo "content_bytes=$bytes limit=$limit"
             if [ "$bytes" -gt "$limit" ]; then
               echo "too_big=true" >> "$GITHUB_OUTPUT"
@@ -149,7 +147,7 @@ jobs:
           fi
 
       - name: Comment size error
-        if: steps.gate.outputs.run == 'yes' && steps.sizeguard.outcome == 'failure'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.sizeguard.outcome == 'failure' }}
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -159,13 +157,13 @@ jobs:
             -f body="Content too large for \"text\" mode. Use \"content_mode\": \"base64\" and put base64-encoded content in \"content\" (suggest splitting files >150 KB)."
 
       - name: Stop on size failure
-        if: steps.gate.outputs.run == 'yes' && steps.sizeguard.outcome == 'failure'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.sizeguard.outcome == 'failure' }}
         run: |
           echo "Stopping run due to content size guard."
           exit 1
 
       - name: Validate path allowlist
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         run: |
           set -euo pipefail
           case "${{ steps.parse.outputs.path }}" in
@@ -175,7 +173,7 @@ jobs:
 
       - name: Derive values (use default branch dynamically)
         id: derive
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
@@ -193,7 +191,7 @@ jobs:
 
       - name: Prepare file content
         id: content
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         run: |
           set -euo pipefail
           mode="${{ steps.parse.outputs.content_mode }}"
@@ -206,7 +204,7 @@ jobs:
       # NEW: idempotency preflight (skip if no change on base)
       - name: Preflight: skip if no content change on base
         id: preflight
-        if: steps.gate.outputs.run == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' }}
         env:
           BASE: ${{ steps.derive.outputs.base }}
         run: |
@@ -223,7 +221,7 @@ jobs:
           fi
 
       - name: Comment no-op and stop
-        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop == 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop == 'yes' }}
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -234,7 +232,7 @@ jobs:
           exit 0
 
       - name: Create branch
-        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes' }}
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/git/refs" -X POST \
@@ -243,7 +241,7 @@ jobs:
 
       - name: Create or update file via Contents API
         id: put
-        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes' }}
         run: |
           set -euo pipefail
           path="${{ steps.parse.outputs.path }}"
@@ -262,7 +260,7 @@ jobs:
 
       - name: Open PR
         id: pr
-        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes' }}
         run: |
           set -euo pipefail
           title="${{ steps.parse.outputs.title }}"
@@ -274,7 +272,7 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment back on issue (success path)
-        if: steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes'
+        if: ${{ steps.gate.outputs.run == 'yes' && steps.preflight.outputs.noop != 'yes' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
