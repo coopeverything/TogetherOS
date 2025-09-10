@@ -1,0 +1,79 @@
+name: codex-preflight
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  preflight:
+    if: ${{ github.event.issue.pull_request == null }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show event summary
+        run: |
+          echo "EVENT=${{ github.event.action }}"
+          echo "TITLE=${{ github.event.issue.title }}"
+          echo "ISSUE_NUMBER=${{ github.event.issue.number }}"
+
+      - name: Write raw body (as-is)
+        id: raw
+        run: |
+          printf "%s" "${{ github.event.issue.body }}" > body.raw
+          wc -c body.raw
+
+      - name: Strip markdown fences and CRs
+        run: |
+          awk 'NR==1 && $0 ~ /^```/ {next} NR>1 && $0 ~ /^```$/ {next} {print}' body.raw | sed 's/\r$//' > body.clean
+          wc -c body.clean || true
+          head -c 200 body.clean || true; echo
+
+      - name: Trailing-comma scrub (tolerant)
+        run: |
+          perl -0777 -pe 's/,\s*([}\]])/\1/g' body.clean > body.nocomma || cp body.clean body.nocomma
+
+      - name: Validate JSON with jq
+        id: validate
+        run: |
+          if jq -e . body.nocomma > /dev/null 2>&1; then
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Minimal schema checks
+        if: steps.validate.outputs.valid == 'true'
+        id: schema
+        run: |
+          # Require: path (string starting with codex/), message, title, content_mode, content
+          test "$(jq -r '.path|type' body.nocomma)" = "string" || exit 1
+          jq -e 'select(.path|startswith("codex/"))' body.nocomma > /dev/null || exit 1
+          for k in message title content_mode content; do
+            test "$(jq -r ".${k}|type" body.nocomma)" = "string" || exit 1
+          done
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+
+      - name: Post failure comment (invalid JSON or schema)
+        if: steps.validate.outputs.valid != 'true' || steps.schema.outputs.ok != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments -f body=$'Preflight could not validate your JSON (or schema).\n\nRequirements:\n- Pure JSON body (no backticks)\n- Keys: path (must start with codex/), message, title, content_mode, content\n\nPlease fix and edit the Issue.'
+
+      - name: Patch Issue body to strict JSON (minified)
+        if: steps.schema.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          fixed=$(jq -c . body.nocomma)
+          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }} -X PATCH -f body="$fixed"
+          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments -f body=$'Preflight: JSON validated and normalized. Proceeding…'
+
+      - name: Add codex-ready label (triggers gateway)
+        if: steps.schema.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue edit ${{ github.event.issue.number }} -R "${{ github.repository }}" --add-label codex-ready
