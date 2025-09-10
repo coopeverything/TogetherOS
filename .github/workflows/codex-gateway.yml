@@ -1,8 +1,12 @@
 name: codex-gateway
 
 on:
+  workflow_dispatch:
   issues:
-    types: [opened, edited, labeled]
+    types:
+      - opened
+      - edited
+      - labeled
 
 jobs:
   gateway:
@@ -20,6 +24,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [ "${GITHUB_EVENT_NAME}" != "issues" ]; then
+            echo "Manual run — no issue context." >> "$GITHUB_STEP_SUMMARY"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           LABEL="codex-task"
           EVENT_ACTION="$(jq -r '.action' "$GITHUB_EVENT_PATH")"
           ISSUE_NUMBER="$(jq -r '.issue.number' "$GITHUB_EVENT_PATH")"
@@ -106,7 +115,7 @@ jobs:
             bytes="$(wc -c < /tmp/req.content.text | tr -d ' ')"
             echo "content_bytes=$bytes limit=153600"
             if [ "$bytes" -gt 153600 ]; then
-              comment "⚠️ Content too large for \"text\" mode (${bytes} bytes > 150 KB). Please resend using \"content_mode\":\"base64\" with one-line base64 (e.g., \`base64 -w0 yourfile > out.b64\`)."
+              comment "⚠️ Content too large for \"text\" mode (${bytes} bytes > 150 KB). Please resend using \"content_mode\":\"base64\" with one-line base64 (e.g., `base64 -w0 yourfile > out.b64`)."
               echo "ok=false" >> "$GITHUB_OUTPUT"
               exit 0
             fi
@@ -114,7 +123,7 @@ jobs:
 
           # Allowlist: path must start with codex/
           if [[ "$path" != codex/* ]]; then
-            comment "❌ Allowlist violation: path must start with \`codex/\`. Provided: \`$path\`."
+            comment "❌ Allowlist violation: path must start with `codex/`. Provided: `$path`."
             echo "ok=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
