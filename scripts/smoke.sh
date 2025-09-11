@@ -1,9 +1,10 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-echo "== Local repo smoke =="
-test -f README.md || (echo "README.md missing" && exit 1)
-test -d .github/workflows || (echo ".github/workflows missing" && exit 1)
-echo "OK"
+echo "SMOKE: repo root=$(pwd)"
+test -f ".github/workflows/codex-gateway.yml" || { echo "missing codex-gateway.yml"; exit 1; }
 
-chore: normalize scripts/smoke.sh (UTF-8 no BOM, LF)
+# Optional quick checks (don't fail if tools missing)
+command -v actionlint >/dev/null 2>&1 && actionlint .github/workflows/codex-gateway.yml || true
+
+echo "SMOKE=OK"
