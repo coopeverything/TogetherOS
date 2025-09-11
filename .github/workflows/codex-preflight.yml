@@ -1,42 +1,73 @@
-Actionlint-style findings
+name: codex-preflight
+on:
+  issues:
+    types: [opened, edited]
 
-Workflow triggers only on issues events and excludes pull requests via the job-level if condition—appropriate for issue-based automation.
+permissions:
+  contents: read
+  issues: write
 
-Permissions are least-privilege (contents: read, issues: write), matching required API calls.
+jobs:
+  preflight:
+    if: ${{ github.event.issue.pull_request == null }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Capture body
+        id: cap
+        run: |
+          set -euo pipefail
+          printf "%s" "${{ github.event.issue.body }}" > body.json
+          echo "RAW_BYTES=$(wc -c < body.json)"
+          head -c 120 body.json || true; echo
 
-No schema issues in on or if; all step IDs referenced correctly.
+      - name: Validate JSON
+        id: jq
+        run: |
+          set -euo pipefail
+          if jq -e . body.json >/dev/null 2>err.txt; then
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+            echo "jq_error:"
+            cat err.txt || true
+          fi
 
-jq/bash portability issues
+      - name: Schema check
+        if: steps.jq.outputs.valid == 'true'
+        id: schema
+        run: |
+          set -euo pipefail
+          need='["path","message","title","content_mode","content"]'
+          # types
+          jq -e '
+            .path|type=="string" and
+            .message|type=="string" and
+            .title|type=="string" and
+            .content_mode|type=="string" and
+            .content|type=="string"
+          ' body.json >/dev/null
+          # path allowlist
+          jq -e 'select(.path|startswith("codex/"))' body.json >/dev/null
+          echo "ok=true" >> "$GITHUB_OUTPUT"
 
-tr -d '\'` would remove both backticks and backslashes; revised line deletes only backticks.
+      - name: Patch body (minify) and add label
+        if: steps.schema.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          min=$(jq -c . body.json)
+          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }} -X PATCH -f body="$min"
+          gh issue edit ${{ github.event.issue.number }} -R "${{ github.repository }}" --add-label codex-ready
 
-Unused jq_ok variables and req assignment were removed to avoid confusion and potential shell warnings.
-
-missing calculation now uses array subtraction, avoiding the prior has(.) misuse that always yielded an empty list.
-
-Patch plan reasoning
-
-Remove extra backslash so only backticks are stripped.
-
-Drop unused variables (jq_ok, req) for cleaner logs and fewer shell subshells.
-
-Fix missing-key detection to reliably report absent schema fields.
-
-Simulated run paths
-
-Body A (path outside codex/): steps through validation and schema check → PATH_OK=false → failure comment runs; patch/label steps skip.
-
-Body B (path within codex/): schema passes → issue body patched to minified JSON and codex-ready label applied.
-
-Post-run actions
-
-On PASS: PATCH issue body to minified JSON and add codex-ready label.
-
-On FAIL: Comment diagnostics including BYTES_RAW, PREVIEW, jq_error, schema_missing, path_startswith_codex.
-
-Self-Critique
-The review focuses on shell safety and schema validation, but no actionlint run was performed; running actionlint could catch additional YAML pitfalls.
-
-scripts/smoke.sh failed due to a BOM or incompatible shebang; resolving that script would strengthen CI confidence.
-
-Further hardening (e.g., limiting gh API outputs, verifying label existence) could reduce runtime surprises.
+      - name: Comment diagnostics on failure
+        if: steps.jq.outputs.valid != 'true' || steps.schema.outputs.ok != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          bytes=$(wc -c < body.json)
+          preview=$(head -c 200 body.json | sed -e 's/[^[:print:]\t]/?/g')
+          jqerr=$(sed -e ':a;N;$!ba;s/\n/\\n/g' err.txt 2>/dev/null || true)
+          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+            -f body=$'Preflight could not validate your JSON (or schema).\n\nDiagnostics:\n- BYTES_RAW='"$bytes"$'\n- PREVIEW='"$preview"$'\n- jq_error='"${jqerr:-ok}"$'\n'
