@@ -1,276 +1,244 @@
+---
 name: codex-gateway
 
 on:
   workflow_dispatch:
   issues:
-    types:
-      - opened
-      - edited
-      - labeled
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
-  gateway:
+  lint:
+    name: actionlint
     runs-on: ubuntu-latest
-
-    # Minimal, explicit permissions for this job
-    permissions:
-      contents: write        # write file on a branch
-      pull-requests: write   # open PR
-      issues: write          # comment on the triggering issue
-
     steps:
-      - name: Gate — require label "codex-task" or the act of adding it
-        id: gate
-        shell: bash
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run actionlint
+        uses: reviewdog/action-actionlint@v1
+        with:
+          reporter: github-check
+          fail_on_error: true
+
+  gateway:
+    name: codex-gateway
+    needs: lint
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issues' && (
+         contains(join(github.event.issue.labels.*.name, ','), 'codex-task')
+      ))
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      OWNER: ${{ github.repository_owner }}
+      ISSUE_NUMBER: ${{ github.event.issue.number || '' }}
+      EVENT_NAME: ${{ github.event_name }}
+      DEFAULT_BASE: ${{ github.event.repository.default_branch || 'main' }}
+    steps:
+      - name: Setup shell
         run: |
           set -euo pipefail
-          if [ "${GITHUB_EVENT_NAME}" != "issues" ]; then
-            echo "Manual run — no issue context." >> "$GITHUB_STEP_SUMMARY"
-            echo "go=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          LABEL="codex-task"
-          EVENT_ACTION="$(jq -r '.action' "$GITHUB_EVENT_PATH")"
-          ISSUE_NUMBER="$(jq -r '.issue.number' "$GITHUB_EVENT_PATH")"
-          echo "ISSUE_NUMBER=$ISSUE_NUMBER" >> "$GITHUB_ENV"
 
-          has_label=false
-          jq -r '.issue.labels[].name' "$GITHUB_EVENT_PATH" 2>/dev/null | while read -r n; do
-            if [ "$n" = "$LABEL" ]; then has_label=true; fi
-          done
-
-          is_label_add=false
-          if [ "$EVENT_ACTION" = "labeled" ]; then
-            added="$(jq -r '.label.name' "$GITHUB_EVENT_PATH" 2>/dev/null || true)"
-            if [ "$added" = "$LABEL" ]; then is_label_add=true; fi
-          fi
-
-          if $has_label || $is_label_add; then
-            echo "go=true" >> "$GITHUB_OUTPUT"
-            echo "Gate: proceeding (label present or just added)."
+      - name: Extract and persist Issue body as-is
+        id: save_body
+        run: |
+          set -euo pipefail
+          if [ "${EVENT_NAME}" = "issues" ]; then
+            printf '%s' "${{ github.event.issue.body }}" > body.json
           else
-            echo "go=false" >> "$GITHUB_OUTPUT"
-            echo "No 'codex-task' label; exiting cleanly." >> "$GITHUB_STEP_SUMMARY"
+            echo '{}' > body.json
           fi
+          echo "len=$(wc -c < body.json | tr -d ' ')" >> "$GITHUB_OUTPUT"
 
-      - name: Extract body → /tmp/body.json (strict) + basic schema check
-        id: validate
-        if: steps.gate.outputs.go == 'true'
-        shell: bash
+      - name: Validate strict JSON (parse only)
+        id: parse
         run: |
           set -euo pipefail
-
-          # Helper for comments back to the issue
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          issue="$ISSUE_NUMBER"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
-          comment() {
-            local msg="$1"
-            curl -sS -X POST \
-              -H "Authorization: Bearer ${token}" \
-              -H "Accept: application/vnd.github+json" \
-              "${api}/repos/${owner}/${repo}/issues/${issue}/comments" \
-              -d "$(jq -Rn --arg b "$msg" '{body:$b}')"
-          }
-
-          # Pull raw body text and persist
-          jq -r '.issue.body' "$GITHUB_EVENT_PATH" > /tmp/body.raw
-
-          # STRICT JSON parse (no code fences/smart quotes stripping here by design)
-          if ! jq -e . /tmp/body.raw >/dev/null 2>&1; then
-            comment "❌ Parse error: Issue body is not strict JSON. Remove code fences, smart quotes, trailing commas, or stray text. Provide only the JSON object on a single body."
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          cp /tmp/body.raw /tmp/req.json
-
-          # Required keys + content_mode ∈ {text, base64}
-          if ! jq -e '
-            .path and .message and .title and .content_mode and .content
-            and (.content_mode=="text" or .content_mode=="base64")
-          ' /tmp/req.json >/dev/null 2>&1; then
-            comment "❌ Schema error: required keys are {path, message, title, content_mode, content} with content_mode ∈ {text, base64}."
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-            exit 0
+          # This must be STRICT JSON: no fences, no markdown, no trailing chars.
+          # If not strict JSON, jq will fail here.
+          if ! jq -e . body.json >/dev/null 2>jq_parse_err.txt; then
+            ERR=$(cat jq_parse_err.txt | sed 's/"/\\"/g')
+            echo "parse_error=${ERR}" >> "$GITHUB_OUTPUT"
+            echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
+            exit 1
           fi
 
-          # Export for later steps
-          path="$(jq -r '.path' /tmp/req.json)"
-          mode="$(jq -r '.content_mode' /tmp/req.json)"
-          msg="$(jq -r '.message' /tmp/req.json)"
-          title="$(jq -r '.title' /tmp/req.json)"
-          branch_prefix="$(jq -r '.branch_prefix // empty' /tmp/req.json)"
-          echo "REQ_PATH=$path" >> "$GITHUB_ENV"
-          echo "REQ_MODE=$mode" >> "$GITHUB_ENV"
-          echo "REQ_MSG=$msg" >> "$GITHUB_ENV"
-          echo "REQ_TITLE=$title" >> "$GITHUB_ENV"
-          echo "REQ_BRANCH_PREFIX=$branch_prefix" >> "$GITHUB_ENV"
-
-          # Size guard for text mode (>150 KB)
-          if [ "$mode" = "text" ]; then
-            # exact bytes of raw string
-            jq -r '.content' /tmp/req.json > /tmp/req.content.text
-            bytes="$(wc -c < /tmp/req.content.text | tr -d ' ')"
-            echo "content_bytes=$bytes limit=153600"
-            if [ "$bytes" -gt 153600 ]; then
-              comment "⚠️ Content too large for \"text\" mode (${bytes} bytes > 150 KB). Please resend using \"content_mode\":\"base64\" with one-line base64 (e.g., `base64 -w0 yourfile > out.b64`)."
-              echo "ok=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-          fi
-
-          # Allowlist: path must start with codex/
-          if [[ "$path" != codex/* ]]; then
-            comment "❌ Allowlist violation: path must start with `codex/`. Provided: `$path`."
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          echo "ok=true" >> "$GITHUB_OUTPUT"
-
-      - name: Derive base + temp branch
-        id: derive
-        if: steps.validate.outputs.ok == 'true'
-        shell: bash
+      - name: Schema guard with jq
+        id: schema
         run: |
           set -euo pipefail
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
-
-          # Repo default branch & its SHA
-          repo_json="$(curl -sS -H "Authorization: Bearer ${token}" -H "Accept: application/vnd.github+json" "${api}/repos/${owner}/${repo}")"
-          base_branch="$(jq -r '.default_branch' <<<"$repo_json")"
-          base_sha="$(jq -r '.pushed_at as $x | .default_branch as $b | . | .default_branch' <<<"$repo_json" >/dev/null 2>&1; curl -sS -H "Authorization: Bearer ${token}" -H "Accept: application/vnd.github+json" "${api}/repos/${owner}/${repo}/git/refs/heads/${base_branch}" | jq -r '.object.sha')"
-
-          # Compose branch name
-          short="$(echo "$base_sha" | cut -c1-7)"
-          epoch="$(date +%s)"
-          if [ -n "${REQ_BRANCH_PREFIX:-}" ]; then
-            new_branch="${REQ_BRANCH_PREFIX}-${short}-${epoch}"
-          else
-            new_branch="codex-${short}-${epoch}"
+          # Enforce required fields and constraints:
+          # - path: string, starts with "codex/"
+          # - message: string
+          # - title: string
+          # - content_mode: "text" | "base64"
+          # - content: non-empty string
+          # Produce a clear single-line error message on failure.
+          if ! jq -r -e '
+            (type=="object") or (error("Root must be an object"));
+            has("path") or (error("missing key: path"));
+            has("message") or (error("missing key: message"));
+            has("title") or (error("missing key: title"));
+            has("content_mode") or (error("missing key: content_mode"));
+            has("content") or (error("missing key: content"));
+            (.path|type=="string") or (error("path must be string"));
+            (.path|startswith("codex/")) or (error("path must start with \"codex/\""));
+            (.message|type=="string") or (error("message must be string"));
+            (.title|type=="string") or (error("title must be string"));
+            (.content_mode|type=="string") or (error("content_mode must be string"));
+            (.content_mode=="text" or .content_mode=="base64")
+              or (error("content_mode must be \"text\" or \"base64\""));
+            (.content|type=="string" and (.content|length>0))
+              or (error("content must be a non-empty string"));
+            1
+          ' body.json 2>jq_schema_err.txt; then
+            ERR=$(tr -d '\n' < jq_schema_err.txt | sed 's/"/\\"/g')
+            echo "schema_error=${ERR}" >> "$GITHUB_OUTPUT"
+            echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
+            exit 1
           fi
+          echo "HTTP_STATUS=200" >> "$GITHUB_ENV"
 
-          echo "BASE_BRANCH=$base_branch" >> "$GITHUB_ENV"
-          echo "BASE_SHA=$base_sha" >> "$GITHUB_ENV"
-          echo "NEW_BRANCH=$new_branch" >> "$GITHUB_ENV"
-          echo "Derived base=${base_branch} sha=${base_sha} new_branch=${new_branch}"
-
-      - name: Idempotency preflight — compare proposed content vs base
-        id: preflight
-        if: steps.validate.outputs.ok == 'true'
-        shell: bash
+      - name: On failure → comment jq error and exit (HTTP 422)
+        if: failure()
         run: |
           set -euo pipefail
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
-
-          # Build proposed content as BASE64
-          if [ "$REQ_MODE" = "text" ]; then
-            jq -r '.content' /tmp/req.json | base64 -w0 > /tmp/proposed.b64
-          else
-            # use provided base64 as-is, but strip whitespace/newlines just in case
-            jq -r '.content' /tmp/req.json | tr -d '\n\r\t ' > /tmp/provided.b64
-            cp /tmp/provided.b64 /tmp/proposed.b64
+          if [ "${EVENT_NAME}" != "issues" ]; then
+            echo "Non-issues event failed validation."
+            exit 1
           fi
-
-          # Fetch existing file on base (if it exists)
-          status_code=$(curl -sS -w "%{http_code}" -o /tmp/get.json \
-            -H "Authorization: Bearer ${token}" -H "Accept: application/vnd.github+json" \
-            "${api}/repos/${owner}/${repo}/contents/${REQ_PATH}?ref=${BASE_BRANCH}")
-          if [ "$status_code" = "200" ]; then
-            jq -r '.content' /tmp/get.json | tr -d '\n\r\t ' > /tmp/existing.b64
-            if cmp -s /tmp/proposed.b64 /tmp/existing.b64; then
-              # Content identical — comment and stop
-              curl -sS -X POST -H "Authorization: Bearer ${token}" -H "Accept: application/vnd.github+json" \
-                "${api}/repos/${owner}/${repo}/issues/${ISSUE_NUMBER}/comments" \
-                -d "$(jq -Rn --arg b "ℹ️ No changes for ${REQ_PATH} on ${BASE_BRANCH} — skipping PR." '{body:$b}')"
-              echo "go=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-          fi
-
-          echo "go=true" >> "$GITHUB_OUTPUT"
-
-      - name: Create branch from base
-        if: steps.preflight.outputs.go == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
-
-          curl -sS -X POST \
-            -H "Authorization: Bearer ${token}" \
+          # Prefer schema error, else parse error
+          ERR="${{ steps.schema.outputs.schema_error || steps.parse.outputs.parse_error || 'validation failed' }}"
+          PAYLOAD=$(jq -cn --arg body "Schema check failed (HTTP 422): $ERR" '{body:$body}')
+          gh api \
+            -X POST \
+            "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
             -H "Accept: application/vnd.github+json" \
-            "${api}/repos/${owner}/${repo}/git/refs" \
-            -d "$(jq -Rn --arg ref "refs/heads/${NEW_BRANCH}" --arg sha "$BASE_SHA" '{ref:$ref, sha:$sha}')"
+            -f body="$(jq -r '.body' <<<"$PAYLOAD")"
+          # Exit code 1 (runner shows 1). We also set HTTP_STATUS=422 above.
+          exit 1
 
-      - name: Write content via Contents API
-        id: putfile
-        if: steps.preflight.outputs.go == 'true'
-        shell: bash
+      - name: Extract fields (trusted after schema)
+        id: fields
+        if: success()
         run: |
           set -euo pipefail
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
+          PATH_FIELD=$(jq -r '.path' body.json)
+          MSG_FIELD=$(jq -r '.message' body.json)
+          TITLE_FIELD=$(jq -r '.title' body.json)
+          MODE_FIELD=$(jq -r '.content_mode' body.json)
+          CONTENT_FIELD=$(jq -r '.content' body.json)
 
-          content="$(cat /tmp/proposed.b64)"
-          payload="$(jq -Rn --arg msg "$REQ_MSG" --arg c "$content" --arg br "$NEW_BRANCH" '{message:$msg, content:$c, branch:$br}')"
+          echo "path=$PATH_FIELD" >> "$GITHUB_OUTPUT"
+          echo "message=$MSG_FIELD" >> "$GITHUB_OUTPUT"
+          echo "title=$TITLE_FIELD" >> "$GITHUB_OUTPUT"
+          echo "mode=$MODE_FIELD" >> "$GITHUB_OUTPUT"
+          # Content may be large; store to a file for later steps
+          printf '%s' "$CONTENT_FIELD" > content.input
 
-          # Attempt create/update (on new branch this will be a create)
-          curl -sS -X PUT \
-            -H "Authorization: Bearer ${token}" \
-            -H "Accept: application/vnd.github+json" \
-            "${api}/repos/${owner}/${repo}/contents/${REQ_PATH}" \
-            -d "$payload" > /tmp/put.json
+      - name: Enforce allowlist (codex/* only)
+        if: success()
+        run: |
+          set -euo pipefail
+          case "${{ steps.fields.outputs.path }}" in
+            codex/*) echo "Allowlisted path OK." ;;
+            *) echo "::error::Path not allowlisted"; exit 1 ;;
+          esac
 
-      - name: Open pull request
+      - name: Compute branch name
+        id: branch
+        if: success()
+        run: |
+          set -euo pipefail
+          if [ -n "${ISSUE_NUMBER}" ]; then
+            BRANCH="codex/${ISSUE_NUMBER}-${GITHUB_RUN_ID}"
+          else
+            TS=$(date +%s)
+            BRANCH="codex/dispatch-${TS}-${GITHUB_RUN_ID}"
+          fi
+          echo "name=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Get base SHA
+        id: base
+        if: success()
+        run: |
+          set -euo pipefail
+          SHA=$(gh api "repos/${REPO}/git/ref/heads/${DEFAULT_BASE}" --jq .object.sha)
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Create branch
+        if: success()
+        run: |
+          set -euo pipefail
+          gh api -X POST "repos/${REPO}/git/refs" \
+            -f ref="refs/heads/${{ steps.branch.outputs.name }}" \
+            -f sha="${{ steps.base.outputs.sha }}"
+
+      - name: Prepare base64 content
+        id: b64
+        if: success()
+        run: |
+          set -euo pipefail
+          MODE="${{ steps.fields.outputs.mode }}"
+          if [ "$MODE" = "text" ]; then
+            base64 -w0 content.input > content.b64
+          else
+            # MODE == base64 (already)
+            # Validate it decodes
+            if ! base64 -d content.input >/dev/null 2>/dev/null; then
+              echo "::error::Provided base64 content failed to decode"
+              exit 1
+            fi
+            tr -d '\n' < content.input > content.b64
+          fi
+          echo "ok=1" >> "$GITHUB_OUTPUT"
+
+      - name: PUT file contents
+        id: put
+        if: success()
+        run: |
+          set -euo pipefail
+          PATH_FIELD="${{ steps.fields.outputs.path }}"
+          MSG_FIELD="${{ steps.fields.outputs.message }}"
+          B64=$(cat content.b64)
+
+          gh api -X PUT "repos/${REPO}/contents/${PATH_FIELD}" \
+            -f message="${MSG_FIELD}" \
+            -f content="${B64}" \
+            -f branch="${{ steps.branch.outputs.name }}" \
+            --silent --jq '.content.sha' | tee new_sha.txt >/dev/null
+
+      - name: Open PR
         id: pr
-        if: steps.preflight.outputs.go == 'true'
-        shell: bash
+        if: success()
         run: |
           set -euo pipefail
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
+          TITLE="${{ steps.fields.outputs.title }}"
+          HEAD="${{ steps.branch.outputs.name }}"
+          PR_JSON=$(gh api -X POST "repos/${REPO}/pulls" \
+            -f title="${TITLE}" \
+            -f head="${HEAD}" \
+            -f base="${DEFAULT_BASE}" \
+            -H "Accept: application/vnd.github+json")
+          PR_URL=$(jq -r '.html_url' <<<"$PR_JSON")
+          echo "url=$PR_URL" >> "$GITHUB_OUTPUT"
+          echo "PR_URL=${PR_URL}" >> "$GITHUB_ENV"
 
-          pr_json="$(curl -sS -X POST \
-            -H "Authorization: Bearer ${token}" \
-            -H "Accept: application/vnd.github+json" \
-            "${api}/repos/${owner}/${repo}/pulls" \
-            -d "$(jq -Rn --arg t "$REQ_TITLE" --arg h "$NEW_BRANCH" --arg b "$BASE_BRANCH" '{title:$t, head:$h, base:$b}')")"
-
-          pr_number="$(jq -r '.number' <<<"$pr_json")"
-          pr_url="$(jq -r '.html_url' <<<"$pr_json")"
-          echo "PR_NUMBER=$pr_number" >> "$GITHUB_ENV"
-          echo "PR_URL=$pr_url" >> "$GITHUB_ENV"
-          echo "Opened PR: ${pr_url}"
-
-      - name: Comment PR link back to the issue
-        if: steps.preflight.outputs.go == 'true'
-        shell: bash
+      - name: Comment PR URL on Issue
+        if: success() && env.ISSUE_NUMBER != ''
         run: |
           set -euo pipefail
-          api="https://api.github.com"
-          owner="${GITHUB_REPOSITORY%/*}"
-          repo="${GITHUB_REPOSITORY#*/}"
-          token="${CODEX_PAT:-$GITHUB_TOKEN}"
+          gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
+            -f body="Opened PR: ${PR_URL}"
 
-          body="Opened PR: ${PR_URL} (changed: ${REQ_PATH})"
-          curl -sS -X POST \
-            -H "Authorization: Bearer ${token}" \
-            -H "Accept: application/vnd.github+json" \
-            "${api}/repos/${owner}/${repo}/issues/${ISSUE_NUMBER}/comments" \
-            -d "$(jq -Rn --arg b "$body" '{body:$b}')"
+      - name: Proof line
+        if: success()
+        run: |
+          set -euo pipefail
+          echo "PR_URL=${PR_URL}"
