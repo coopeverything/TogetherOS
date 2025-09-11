@@ -131,10 +131,12 @@ jobs:
           MODE_FIELD=$(jq -r '.content_mode' body.json)
           CONTENT_FIELD=$(jq -r '.content' body.json)
 
-          echo "path=$PATH_FIELD" >> "$GITHUB_OUTPUT"
-          echo "message=$MSG_FIELD" >> "$GITHUB_OUTPUT"
-          echo "title=$TITLE_FIELD" >> "$GITHUB_OUTPUT"
-          echo "mode=$MODE_FIELD" >> "$GITHUB_OUTPUT"
+          {
+            echo "path=$PATH_FIELD"
+            echo "message=$MSG_FIELD"
+            echo "title=$TITLE_FIELD"
+            echo "mode=$MODE_FIELD"
+          } >> "$GITHUB_OUTPUT"
           printf '%s' "$CONTENT_FIELD" > content.input
 
       - name: Enforce allowlist (codex/* only)

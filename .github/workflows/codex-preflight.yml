@@ -1,3 +1,4 @@
+---
 name: codex-preflight
 on:
   issues:
@@ -12,13 +13,15 @@ jobs:
     if: ${{ github.event.issue.pull_request == null }}
     runs-on: ubuntu-latest
     steps:
-      - name: Capture body
+      - name: Read body safely
         id: cap
         run: |
           set -euo pipefail
-          printf "%s" "${{ github.event.issue.body }}" > body.json
-          echo "RAW_BYTES=$(wc -c < body.json)"
-          head -c 120 body.json || true; echo
+          BODY="$(jq -r '.issue.body // empty' "$GITHUB_EVENT_PATH")"
+          printf '%s' "$BODY" > body.json
+          printf 'RAW_BYTES=%s\n' "$(wc -c < body.json)"
+          head -c 120 body.json || true
+          printf '\n'
 
       - name: Validate JSON
         id: jq
@@ -37,7 +40,6 @@ jobs:
         id: schema
         run: |
           set -euo pipefail
-          need='["path","message","title","content_mode","content"]'
           # types
           jq -e '
             .path|type=="string" and
@@ -57,8 +59,8 @@ jobs:
         run: |
           set -euo pipefail
           min=$(jq -c . body.json)
-          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }} -X PATCH -f body="$min"
-          gh issue edit ${{ github.event.issue.number }} -R "${{ github.repository }}" --add-label codex-ready
+          gh api "repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" -X PATCH -f body="$min"
+          gh issue edit "${{ github.event.issue.number }}" -R "${{ github.repository }}" --add-label codex-ready
 
       - name: Comment diagnostics on failure
         if: steps.jq.outputs.valid != 'true' || steps.schema.outputs.ok != 'true'
@@ -69,5 +71,5 @@ jobs:
           bytes=$(wc -c < body.json)
           preview=$(head -c 200 body.json | sed -e 's/[^[:print:]\t]/?/g')
           jqerr=$(sed -e ':a;N;$!ba;s/\n/\\n/g' err.txt 2>/dev/null || true)
-          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+          gh api "repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" \
             -f body=$'Preflight could not validate your JSON (or schema).\n\nDiagnostics:\n- BYTES_RAW='"$bytes"$'\n- PREVIEW='"$preview"$'\n- jq_error='"${jqerr:-ok}"$'\n'
