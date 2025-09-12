@@ -1,7 +1,7 @@
---- 
+---
 name: codex-gateway
 
-on:
+'on':
   workflow_dispatch:
   issues:
     types: [opened, edited, labeled]
@@ -33,8 +33,9 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issues' && contains(join(github.event.issue.labels.*.name, ','), 'codex-task'))
+        github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'issues' &&
+         contains(join(github.event.issue.labels.*.name, ','), 'codex-task'))
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPO: ${{ github.repository }}
@@ -98,7 +99,9 @@ jobs:
             echo "FAIL_ISSUE_COMMENTED=HTTP_422" >> "$GITHUB_ENV"
             exit 1
           fi
-          ERR="${{ steps.schema.outputs.schema_error || steps.parse.outputs.parse_error || 'validation failed' }}"
+            ERR="${{ steps.schema.outputs.schema_error ||
+              steps.parse.outputs.parse_error ||
+              'validation failed' }}"
           gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
               -H "Accept: application/vnd.github+json" \
               -f body="Schema check failed (HTTP 422): ${ERR}"
@@ -150,7 +153,8 @@ jobs:
         if: success()
         run: |
           set -euo pipefail
-          SHA=$(gh api "repos/${REPO}/git/ref/heads/${DEFAULT_BASE}" --jq .object.sha)
+          SHA=$(gh api "repos/${REPO}/git/ref/heads/${DEFAULT_BASE}" \
+            --jq '.object.sha')
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
 
       - name: Create branch
@@ -190,7 +194,7 @@ jobs:
             -f message="${MSG_FIELD}" \
             -f content="${B64}" \
             -f branch="${{ steps.branch.outputs.name }}" \
-            --silent --jq '.content.sha' | tee new_sha.txt >/dev/null
+            --jq '.content.sha' | tee new_sha.txt >/dev/null
 
       - name: Open PR
         id: pr
@@ -220,4 +224,3 @@ jobs:
         run: |
           set -euo pipefail
           echo "PR_URL=${PR_URL}"
-
