@@ -1,4 +1,4 @@
----
+--- 
 name: codex-gateway
 
 on:
@@ -65,7 +65,7 @@ jobs:
         run: |
           set -euo pipefail
           if ! jq -e . body.json >/dev/null 2>jq_parse_err.txt; then
-            ERR=$(sed 's/"/\\"/g' jq_parse_err.txt)
+            ERR=$(sed 's/\"/\\\"/g' jq_parse_err.txt)
             echo "parse_error=${ERR}" >> "$GITHUB_OUTPUT"
             echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
             exit 1
@@ -75,25 +75,15 @@ jobs:
         id: schema
         run: |
           set -euo pipefail
-          if ! jq -r -e '
-            . as $in
-            | if (type=="object") then . else error("Root must be an object") end
-            | if (has("path")) then . else error("missing key: path") end
-            | if (has("message")) then . else error("missing key: message") end
-            | if (has("title")) then . else error("missing key: title") end
-            | if (has("content_mode")) then . else error("missing key: content_mode") end
-            | if (has("content")) then . else error("missing key: content") end
-            | if (.path|type=="string") then . else error("path must be string") end
-            | if (.path|startswith("codex/")) then . else error("path must start with \"codex/\"") end
-            | if (.message|type=="string") then . else error("message must be string") end
-            | if (.title|type=="string") then . else error("title must be string") end
-            | if (.content_mode|type=="string") then . else error("content_mode must be string") end
-            | if (.content_mode=="text" or .content_mode=="base64") then . else error("content_mode must be \"text\" or \"base64\"") end
-            | if ((.content|type)=="string" and (.content|length)>0) then . else error("content must be a non-empty string") end
-            | 1
-          ' body.json 2>jq_schema_err.txt; then
-            ERR=$(tr -d '\n' < jq_schema_err.txt | sed 's/"/\\"/g')
-            echo "schema_error=${ERR}" >> "$GITHUB_OUTPUT"
+          if ! jq -e '
+            (type=="object") and
+            (.path|type=="string" and startswith("codex/")) and
+            (.title|type=="string") and
+            (.message|type=="string") and
+            (.content_mode|type=="string" and (.=="text" or .=="base64")) and
+            (.content|type=="string")
+          ' body.json >/dev/null; then
+            echo "schema_error=schema validation failed" >> "$GITHUB_OUTPUT"
             echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
             exit 1
           fi
@@ -105,14 +95,14 @@ jobs:
           set -euo pipefail
           if [ "${EVENT_NAME}" != "issues" ]; then
             echo "Non-issues event failed validation."
-            echo FAIL_ISSUE_COMMENTED=HTTP_422
+            echo "FAIL_ISSUE_COMMENTED=HTTP_422" >> "$GITHUB_ENV"
             exit 1
           fi
           ERR="${{ steps.schema.outputs.schema_error || steps.parse.outputs.parse_error || 'validation failed' }}"
           gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
-            -H "Accept: application/vnd.github+json" \
-            -f body="Schema check failed (HTTP 422): ${ERR}"
-          echo FAIL_ISSUE_COMMENTED=HTTP_422
+              -H "Accept: application/vnd.github+json" \
+              -f body="Schema check failed (HTTP 422): ${ERR}"
+          echo "FAIL_ISSUE_COMMENTED=HTTP_422" >> "$GITHUB_ENV"
           exit 1
 
       - name: Extract fields (trusted after schema)
