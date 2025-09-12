@@ -34,9 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issues' && (
-         contains(join(github.event.issue.labels.*.name, ','), 'codex-task')
-      ))
+      (github.event_name == 'issues' && contains(join(github.event.issue.labels.*.name, ','), 'codex-task'))
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPO: ${{ github.repository }}
@@ -67,7 +65,7 @@ jobs:
         run: |
           set -euo pipefail
           if ! jq -e . body.json >/dev/null 2>jq_parse_err.txt; then
-            ERR=$(cat jq_parse_err.txt | sed 's/"/\\"/g')
+            ERR=$(sed 's/"/\\"/g' jq_parse_err.txt)
             echo "parse_error=${ERR}" >> "$GITHUB_OUTPUT"
             echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
             exit 1
@@ -78,22 +76,21 @@ jobs:
         run: |
           set -euo pipefail
           if ! jq -r -e '
-            (type=="object") or (error("Root must be an object"));
-            has("path") or (error("missing key: path"));
-            has("message") or (error("missing key: message"));
-            has("title") or (error("missing key: title"));
-            has("content_mode") or (error("missing key: content_mode"));
-            has("content") or (error("missing key: content"));
-            (.path|type=="string") or (error("path must be string"));
-            (.path|startswith("codex/")) or (error("path must start with \"codex/\""));
-            (.message|type=="string") or (error("message must be string"));
-            (.title|type=="string") or (error("title must be string"));
-            (.content_mode|type=="string") or (error("content_mode must be string"));
-            (.content_mode=="text" or .content_mode=="base64")
-              or (error("content_mode must be \"text\" or \"base64\""));
-            (.content|type=="string" and (.content|length>0))
-              or (error("content must be a non-empty string"));
-            1
+            . as $in
+            | if (type=="object") then . else error("Root must be an object") end
+            | if (has("path")) then . else error("missing key: path") end
+            | if (has("message")) then . else error("missing key: message") end
+            | if (has("title")) then . else error("missing key: title") end
+            | if (has("content_mode")) then . else error("missing key: content_mode") end
+            | if (has("content")) then . else error("missing key: content") end
+            | if (.path|type=="string") then . else error("path must be string") end
+            | if (.path|startswith("codex/")) then . else error("path must start with \"codex/\"") end
+            | if (.message|type=="string") then . else error("message must be string") end
+            | if (.title|type=="string") then . else error("title must be string") end
+            | if (.content_mode|type=="string") then . else error("content_mode must be string") end
+            | if (.content_mode=="text" or .content_mode=="base64") then . else error("content_mode must be \"text\" or \"base64\"") end
+            | if ((.content|type)=="string" and (.content|length)>0) then . else error("content must be a non-empty string") end
+            | 1
           ' body.json 2>jq_schema_err.txt; then
             ERR=$(tr -d '\n' < jq_schema_err.txt | sed 's/"/\\"/g')
             echo "schema_error=${ERR}" >> "$GITHUB_OUTPUT"
@@ -108,15 +105,13 @@ jobs:
           set -euo pipefail
           if [ "${EVENT_NAME}" != "issues" ]; then
             echo "Non-issues event failed validation."
+            echo FAIL_ISSUE_COMMENTED=HTTP_422
             exit 1
           fi
           ERR="${{ steps.schema.outputs.schema_error || steps.parse.outputs.parse_error || 'validation failed' }}"
-          PAYLOAD=$(jq -cn --arg body "Schema check failed (HTTP 422): $ERR" '{body:$body}')
-          gh api \
-            -X POST \
-            "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
+          gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
             -H "Accept: application/vnd.github+json" \
-            -f body="$(jq -r '.body' <<<"$PAYLOAD")"
+            -f body="Schema check failed (HTTP 422): ${ERR}"
           echo FAIL_ISSUE_COMMENTED=HTTP_422
           exit 1
 
@@ -130,11 +125,12 @@ jobs:
           TITLE_FIELD=$(jq -r '.title' body.json)
           MODE_FIELD=$(jq -r '.content_mode' body.json)
           CONTENT_FIELD=$(jq -r '.content' body.json)
-
-          echo "path=$PATH_FIELD" >> "$GITHUB_OUTPUT"
-          echo "message=$MSG_FIELD" >> "$GITHUB_OUTPUT"
-          echo "title=$TITLE_FIELD" >> "$GITHUB_OUTPUT"
-          echo "mode=$MODE_FIELD" >> "$GITHUB_OUTPUT"
+          {
+            echo "path=$PATH_FIELD"
+            echo "message=$MSG_FIELD"
+            echo "title=$TITLE_FIELD"
+            echo "mode=$MODE_FIELD"
+          } >> "$GITHUB_OUTPUT"
           printf '%s' "$CONTENT_FIELD" > content.input
 
       - name: Enforce allowlist (codex/* only)
@@ -200,7 +196,6 @@ jobs:
           PATH_FIELD="${{ steps.fields.outputs.path }}"
           MSG_FIELD="${{ steps.fields.outputs.message }}"
           B64=$(cat content.b64)
-
           gh api -X PUT "repos/${REPO}/contents/${PATH_FIELD}" \
             -f message="${MSG_FIELD}" \
             -f content="${B64}" \
