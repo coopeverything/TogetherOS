@@ -66,7 +66,7 @@ jobs:
         run: |
           set -euo pipefail
           if ! jq -e . body.json >/dev/null 2>jq_parse_err.txt; then
-            ERR=$(sed 's/\"/\\\"/g' jq_parse_err.txt)
+            ERR=$(sed 's/\\\"/\\\\\\\"/g' jq_parse_err.txt)
             echo "parse_error=${ERR}" >> "$GITHUB_OUTPUT"
             echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
             exit 1
@@ -165,6 +165,28 @@ jobs:
             -f ref="refs/heads/${{ steps.branch.outputs.name }}" \
             -f sha="${{ steps.base.outputs.sha }}"
 
+      - name: Get existing file SHA on branch
+        id: exists
+        if: success()
+        run: |
+          set -euo pipefail
+          PATH_FIELD="${{ steps.fields.outputs.path }}"
+          REF="${{ steps.branch.outputs.name }}"
+          STATUS=0
+          RESP=$(gh api "repos/${REPO}/contents/${PATH_FIELD}?ref=${REF}" \
+            2>err.txt) || STATUS=$?
+          if [ $STATUS -eq 0 ]; then
+            SHA=$(printf '%s' "$RESP" | jq -r '.sha')
+            echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          elif grep -q '404' err.txt; then
+            SHA=""
+            echo "sha=" >> "$GITHUB_OUTPUT"
+          else
+            cat err.txt >&2
+            exit $STATUS
+          fi
+          echo "EXISTING_SHA=${SHA}"
+
       - name: Prepare base64 content
         id: b64
         if: success()
@@ -190,11 +212,15 @@ jobs:
           PATH_FIELD="${{ steps.fields.outputs.path }}"
           MSG_FIELD="${{ steps.fields.outputs.message }}"
           B64=$(cat content.b64)
-          gh api -X PUT "repos/${REPO}/contents/${PATH_FIELD}" \
-            -f message="${MSG_FIELD}" \
-            -f content="${B64}" \
-            -f branch="${{ steps.branch.outputs.name }}" \
-            --jq '.content.sha' | tee new_sha.txt >/dev/null
+          ARGS=(-f message="${MSG_FIELD}" -f content="${B64}" \
+            -f branch="${{ steps.branch.outputs.name }}")
+          if [ -n "${{ steps.exists.outputs.sha }}" ]; then
+            ARGS+=(-f sha="${{ steps.exists.outputs.sha }}")
+          fi
+          RESP=$(gh api -X PUT "repos/${REPO}/contents/${PATH_FIELD}" \
+            "${ARGS[@]}")
+          printf '%s' "$RESP" | jq -er '.content.sha' | \
+            tee new_sha.txt >/dev/null
 
       - name: Open PR
         id: pr
