@@ -1,4 +1,4 @@
----
+---  # yamllint disable rule:line-length
 name: codex-gateway
 
 'on':
@@ -10,6 +10,10 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   lint:
@@ -33,9 +37,9 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     if: |
-        github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'issues' &&
-         contains(join(github.event.issue.labels.*.name, ','), 'codex-task'))
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issues' &&
+       contains(join(github.event.issue.labels.*.name, ','), 'codex-task'))
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPO: ${{ github.repository }}
@@ -44,73 +48,54 @@ jobs:
       EVENT_NAME: ${{ github.event_name }}
       DEFAULT_BASE: ${{ github.event.repository.default_branch || 'main' }}
     steps:
-      - name: Setup shell
+      - name: preflight
+        id: preflight
         run: |
           set -euo pipefail
-
-      - name: Extract and persist Issue body as-is
-        id: save_body
-        env:
-          ISSUE_BODY: ${{ github.event.issue.body || '' }}
-        run: |
-          set -euo pipefail
-          if [ "${EVENT_NAME}" = "issues" ]; then
-            printf '%s' "$ISSUE_BODY" > body.json
-          else
-            echo '{}' > body.json
-          fi
-          echo "len=$(wc -c < body.json | tr -d ' ')" >> "$GITHUB_OUTPUT"
-
-      - name: Validate strict JSON (parse only)
-        id: parse
-        run: |
-          set -euo pipefail
-          if ! jq -e . body.json >/dev/null 2>jq_parse_err.txt; then
-            ERR=$(sed 's/\\\"/\\\\\\\"/g' jq_parse_err.txt)
-            echo "parse_error=${ERR}" >> "$GITHUB_OUTPUT"
-            echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
+          body_raw="$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")"
+          if ! printf '%s' "$body_raw" | jq -e '
+            . as $root
+            | if (type == "object")
+              then $root
+              else error("Root must be an object")
+              end
+          ' >/dev/null 2>jq_err.txt; then
+            JQ_ERROR=$(cat jq_err.txt)
+            if [ "$EVENT_NAME" = "issues" ]; then
+              gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
+                -f body="$JQ_ERROR"
+            fi
             exit 1
           fi
+          echo "PREFLIGHT=START"
+          echo "JSON_ROOT=object"
+          echo "BODY_SHA256=$(printf '%s' "$body_raw" | sha256sum | awk '{print $1}')"
+          printf 'ok=1\n' >> "$GITHUB_OUTPUT"
+          printf 'body=%s\n' "$(printf '%s' "$body_raw" | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+      - name: Decode body
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
+        run: |
+          set -euo pipefail
+          printf '%s' "${{ steps.preflight.outputs.body }}" | base64 -d > body.json
 
       - name: Schema guard with jq
         id: schema
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
         run: |
           set -euo pipefail
-          if ! jq -e '
+          jq -e '
             (type=="object") and
             (.path|type=="string" and startswith("codex/")) and
             (.title|type=="string") and
             (.message|type=="string") and
             (.content_mode|type=="string" and (.=="text" or .=="base64")) and
             (.content|type=="string")
-          ' body.json >/dev/null; then
-            echo "schema_error=schema validation failed" >> "$GITHUB_OUTPUT"
-            echo "HTTP_STATUS=422" >> "$GITHUB_ENV"
-            exit 1
-          fi
-          echo "HTTP_STATUS=200" >> "$GITHUB_ENV"
+          ' body.json >/dev/null
 
-      - name: On failure → comment jq error and exit (HTTP 422)
-        if: failure()
-        run: |
-          set -euo pipefail
-          if [ "${EVENT_NAME}" != "issues" ]; then
-            echo "Non-issues event failed validation."
-            echo "FAIL_ISSUE_COMMENTED=HTTP_422" >> "$GITHUB_ENV"
-            exit 1
-          fi
-            ERR="${{ steps.schema.outputs.schema_error ||
-              steps.parse.outputs.parse_error ||
-              'validation failed' }}"
-          gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
-              -H "Accept: application/vnd.github+json" \
-              -f body="Schema check failed (HTTP 422): ${ERR}"
-          echo "FAIL_ISSUE_COMMENTED=HTTP_422" >> "$GITHUB_ENV"
-          exit 1
-
-      - name: Extract fields (trusted after schema)
+      - name: Extract fields
         id: fields
-        if: success()
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
         run: |
           set -euo pipefail
           PATH_FIELD=$(jq -r '.path' body.json)
@@ -123,11 +108,11 @@ jobs:
             echo "message=$MSG_FIELD"
             echo "title=$TITLE_FIELD"
             echo "mode=$MODE_FIELD"
+            echo "content=$CONTENT_FIELD"
           } >> "$GITHUB_OUTPUT"
-          printf '%s' "$CONTENT_FIELD" > content.input
 
-      - name: Enforce allowlist (codex/* only)
-        if: success()
+      - name: Enforce allowlist
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
         run: |
           set -euo pipefail
           case "${{ steps.fields.outputs.path }}" in
@@ -135,66 +120,15 @@ jobs:
             *) echo "::error::Path not allowlisted"; exit 1 ;;
           esac
 
-      - name: Compute branch name
-        id: branch
-        if: success()
-        run: |
-          set -euo pipefail
-          if [ -n "${ISSUE_NUMBER}" ]; then
-            BRANCH="codex/${ISSUE_NUMBER}-${GITHUB_RUN_ID}"
-          else
-            TS=$(date +%s)
-            BRANCH="codex/dispatch-${TS}-${GITHUB_RUN_ID}"
-          fi
-          echo "name=$BRANCH" >> "$GITHUB_OUTPUT"
-
-      - name: Get base SHA
-        id: base
-        if: success()
-        run: |
-          set -euo pipefail
-          SHA=$(gh api "repos/${REPO}/git/ref/heads/${DEFAULT_BASE}" \
-            --jq '.object.sha')
-          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
-
-      - name: Create branch
-        if: success()
-        run: |
-          set -euo pipefail
-          gh api -X POST "repos/${REPO}/git/refs" \
-            -f ref="refs/heads/${{ steps.branch.outputs.name }}" \
-            -f sha="${{ steps.base.outputs.sha }}"
-
-      - name: Get existing file SHA on branch
-        id: exists
-        if: success()
-        run: |
-          set -euo pipefail
-          PATH_FIELD="${{ steps.fields.outputs.path }}"
-          REF="${{ steps.branch.outputs.name }}"
-          STATUS=0
-          RESP=$(gh api "repos/${REPO}/contents/${PATH_FIELD}?ref=${REF}" \
-            2>err.txt) || STATUS=$?
-          if [ $STATUS -eq 0 ]; then
-            SHA=$(printf '%s' "$RESP" | jq -r '.sha')
-            echo "sha=$SHA" >> "$GITHUB_OUTPUT"
-          elif grep -q '404' err.txt; then
-            SHA=""
-            echo "sha=" >> "$GITHUB_OUTPUT"
-          else
-            cat err.txt >&2
-            exit $STATUS
-          fi
-          echo "EXISTING_SHA=${SHA}"
-
-      - name: Prepare base64 content
-        id: b64
-        if: success()
+      - name: Prepare content
+        id: prep
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
         run: |
           set -euo pipefail
           MODE="${{ steps.fields.outputs.mode }}"
+          printf '%s' "${{ steps.fields.outputs.content }}" > content.input
           if [ "$MODE" = "text" ]; then
-            base64 -w0 content.input > content.b64
+            printf '%s' "${{ steps.fields.outputs.content }}" | base64 -w0 > content.b64
           else
             if ! base64 -d content.input >/dev/null 2>/dev/null; then
               echo "::error::Provided base64 content failed to decode"
@@ -202,51 +136,107 @@ jobs:
             fi
             tr -d '\n' < content.input > content.b64
           fi
-          echo "ok=1" >> "$GITHUB_OUTPUT"
+
+      - name: Compute branch name
+        id: branch
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
+        run: |
+          set -euo pipefail
+          if [ -n "${ISSUE_NUMBER}" ]; then
+            echo "name=codex/issue-${ISSUE_NUMBER}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=codex/dispatch-${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Idempotency check
+        id: idem
+        if: ${{ success() && steps.preflight.outputs.ok == '1' }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.branch.outputs.name }}"
+          PATH_FIELD="${{ steps.fields.outputs.path }}"
+          STATUS=0
+          RESP=$(gh api "repos/${REPO}/contents/${PATH_FIELD}?ref=${BRANCH}" 2>err.txt) || STATUS=$?
+          NEW_CONTENT_B64=$(cat content.b64)
+          if [ $STATUS -eq 0 ]; then
+            EXIST_B64=$(printf '%s' "$RESP" | jq -r '.content' | tr -d '\n')
+            if [ "$EXIST_B64" = "$NEW_CONTENT_B64" ]; then
+              echo "no=1" >> "$GITHUB_OUTPUT"
+              echo "NO_CHANGES=1"
+              if [ "$EVENT_NAME" = "issues" ]; then
+                gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
+                  -f body="No changes"
+              fi
+              exit 0
+            fi
+            SHA=$(printf '%s' "$RESP" | jq -r '.sha')
+            echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Get base SHA
+        id: base
+        if: ${{ success() && steps.preflight.outputs.ok == '1' && steps.idem.outputs.no != '1' }}
+        run: |
+          set -euo pipefail
+          SHA=$(gh api "repos/${REPO}/git/ref/heads/${DEFAULT_BASE}" --jq '.object.sha')
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Create branch
+        if: ${{ success() && steps.preflight.outputs.ok == '1' && steps.idem.outputs.no != '1' }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.branch.outputs.name }}"
+          STATUS=0
+          gh api "repos/${REPO}/git/ref/heads/${BRANCH}" >/dev/null 2>&1 || STATUS=$?
+          if [ $STATUS -ne 0 ]; then
+            gh api -X POST "repos/${REPO}/git/refs" \
+              -f ref="refs/heads/${BRANCH}" \
+              -f sha="${{ steps.base.outputs.sha }}"
+          fi
 
       - name: PUT file contents
         id: put
-        if: success()
+        if: ${{ success() && steps.preflight.outputs.ok == '1' && steps.idem.outputs.no != '1' }}
         run: |
           set -euo pipefail
           PATH_FIELD="${{ steps.fields.outputs.path }}"
           MSG_FIELD="${{ steps.fields.outputs.message }}"
+          BRANCH="${{ steps.branch.outputs.name }}"
           B64=$(cat content.b64)
-          ARGS=(-f message="${MSG_FIELD}" -f content="${B64}" \
-            -f branch="${{ steps.branch.outputs.name }}")
-          if [ -n "${{ steps.exists.outputs.sha }}" ]; then
-            ARGS+=(-f sha="${{ steps.exists.outputs.sha }}")
+          ARGS=(-f message="$MSG_FIELD" -f content="$B64" -f branch="$BRANCH")
+          if [ -n "${{ steps.idem.outputs.sha }}" ]; then
+            ARGS+=(-f sha="${{ steps.idem.outputs.sha }}")
           fi
-          RESP=$(gh api -X PUT "repos/${REPO}/contents/${PATH_FIELD}" \
-            "${ARGS[@]}")
-          printf '%s' "$RESP" | jq -er '.content.sha' | \
-            tee new_sha.txt >/dev/null
+          RESP=$(gh api -X PUT "repos/${REPO}/contents/${PATH_FIELD}" "${ARGS[@]}")
+          printf '%s' "$RESP" | jq -er '.content.sha' | tee new_sha.txt >/dev/null
 
       - name: Open PR
         id: pr
-        if: success()
+        if: ${{ success() && steps.preflight.outputs.ok == '1' && steps.idem.outputs.no != '1' }}
         run: |
           set -euo pipefail
           TITLE="${{ steps.fields.outputs.title }}"
           HEAD="${{ steps.branch.outputs.name }}"
           PR_JSON=$(gh api -X POST "repos/${REPO}/pulls" \
-            -f title="${TITLE}" \
-            -f head="${HEAD}" \
+            -f title="$TITLE" \
+            -f head="$HEAD" \
             -f base="${DEFAULT_BASE}" \
             -H "Accept: application/vnd.github+json")
           PR_URL=$(jq -r '.html_url' <<<"$PR_JSON")
           echo "url=$PR_URL" >> "$GITHUB_OUTPUT"
-          echo "PR_URL=${PR_URL}" >> "$GITHUB_ENV"
+          echo "PR_URL=$PR_URL" >> "$GITHUB_ENV"
 
       - name: Comment PR URL on Issue
-        if: success() && env.ISSUE_NUMBER != ''
+        if: ${{ success() && steps.preflight.outputs.ok == '1' && steps.idem.outputs.no != '1' && env.ISSUE_NUMBER != '' }}
         run: |
           set -euo pipefail
           gh api -X POST "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" \
             -f body="Opened PR: ${PR_URL}"
 
       - name: Proof line
-        if: success()
+        if: ${{ success() && steps.preflight.outputs.ok == '1' && steps.idem.outputs.no != '1' }}
         run: |
           set -euo pipefail
           echo "PR_URL=${PR_URL}"
