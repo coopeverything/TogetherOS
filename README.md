@@ -57,10 +57,12 @@ This is not just software. It is infrastructure for **social change**.
 
 ## Getting Started
 
-- See [`DDP_Knowledge_2.txt`](./DDP_Knowledge_2.txt) for verified facts.  
-- See [`DDP_Tech_Roadmap.docx`](./DDP_Tech_Roadmap.docx) for detailed stack and milestones.  
-- See [`DDP_Vision.docx`](./DDP_Vision.docx) for the full long-term vision.  
-- See [`DDP_WhitePaper.md`](./DDP_WhitePaper.md) for the summarized white paper.  
+- See [`docs/overview.md`](./docs/overview.md) for a quick tour.  
+- See [`docs/DDP_WhitePaper.md`](./docs/DDP_WhitePaper.md) for the summarized white paper.  
+<!-- Optional links below: add these files to the repo root if you want them live -->
+<!-- - See [`DDP_Knowledge_2.txt`](./DDP_Knowledge_2.txt) for verified facts.   -->
+<!-- - See [`DDP_Tech_Roadmap.docx`](./DDP_Tech_Roadmap.docx) for detailed stack and milestones.   -->
+<!-- - See [`DDP_Vision.docx`](./DDP_Vision.docx) for the full long-term vision.   -->
 
 First tasks for contributors will be labeled as **good first issue** under one of the four tracks: *Technology, Community, Social Economy, Governance*.  
 

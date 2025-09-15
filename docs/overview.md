@@ -21,9 +21,10 @@ It combines community, cooperative economy, and collective governance with open,
 - Join discussions and propose features aligned with our vision.  
 
 ## Learn More
-- [DDP Vision (Full Document)](../DDP_Vision.docx)  
-- [DDP White Paper (Summary)](../DDP_WhitePaper.md)  
-- [DDP Tech Roadmap](../DDP_Tech_Roadmap.docx)  
+- [DDP White Paper (Summary)](./DDP_WhitePaper.md)  
+<!-- Optional: add these files to the repo root if you want to link them here too -->
+<!-- - [DDP Vision (Full Document)](../DDP_Vision.docx)  -->
+<!-- - [DDP Tech Roadmap](../DDP_Tech_Roadmap.docx)  -->
 
 ---
 
