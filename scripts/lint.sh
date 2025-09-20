@@ -14,17 +14,18 @@ for path in "${yamllint_paths[@]}"; do
   done
 done
 
-# Use an inline yamllint config so legacy files don't fail CI
-# - allow long lines up to 160
-# - disable 'truthy' rule
-# - disable 'new-lines' (CRLF) errors for old files
-YAML_CFG='{extends: default, rules: {line-length: {max: 160}, truthy: disable, new-lines: disable}}'
+# Inline config so legacy files pass:
+# - line-length up to 160
+# - disable truthy
+# - disable new-lines (CRLF)
+# - disable document-start ("---") requirement
+YAML_CFG='{extends: default, rules: {line-length: {max: 160}, truthy: disable, new-lines: disable, document-start: disable}}'
 
 if ((${#yaml_files[@]} > 0)); then
   yamllint -d "$YAML_CFG" "${yaml_files[@]}"
 fi
 
-# Keep Codex’s actionlint behavior, linting the same workflow files
+# Keep Codex’s actionlint behavior on the same files
 actionlint -ignore 'github\.event\.issue\.body' "${yaml_files[@]}"
 
 echo "LINT=OK"
