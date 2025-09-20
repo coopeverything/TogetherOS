@@ -1,4 +1,3 @@
----
 name: smoke
 
 on:
@@ -7,9 +6,6 @@ on:
   push:
     branches:
       - main
-
-permissions:
-  contents: read
 
 jobs:
   smoke:
@@ -26,12 +22,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y jq yamllint gh curl
-          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash \
-            | sudo bash -s -- -b /usr/local/bin
+          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o /tmp/actionlint.sh
+          sudo bash /tmp/actionlint.sh latest /usr/local/bin
           actionlint --version
           echo "ACTIONLINT=OK"
 
-      # This will SKIP until scripts/validate.sh exists on the branch
+      # Skips until scripts/validate.sh exists on the branch
       - name: Run validation
         if: ${{ hashFiles('scripts/validate.sh') != '' }}
         run: bash scripts/validate.sh
