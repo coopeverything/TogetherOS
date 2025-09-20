@@ -2,42 +2,37 @@
 set -euo pipefail
 shopt -s nullglob globstar
 
-# Prefer limiting to our new workflows; fallback to all
-limit_files=(.github/workflows/lint.yml .github/workflows/smoke.yml)
-yaml_files=()
+yamllint_paths=(
+  .github/workflows/**/*.yml
+  .github/workflows/**/*.yaml
+)
 
-# Collect limited set if present
-available_limit=()
-for f in "${limit_files[@]}"; do
-  [[ -f "$f" ]] && available_limit+=("$f")
+yaml_files=()
+for path in "${yamllint_paths[@]}"; do
+  for file in $path; do
+    yaml_files+=("$file")
+  done
 done
 
-if ((${#available_limit[@]} > 0)); then
-  yaml_files=("${available_limit[@]}")
-else
-  yamllint_paths=(
-    .github/workflows/**/*.yml
-    .github/workflows/**/*.yaml
-  )
-  for path in "${yamllint_paths[@]}"; do
-    for file in $path; do
-      yaml_files+=("$file")
-    done
-  done
+# NEW: explicitly use repo config if present
+CONFIG_FLAG=()
+if [[ -f ".yamllint.yaml" ]]; then
+  CONFIG_FLAG=(-c .yamllint.yaml)
 fi
 
-# Run yamllint (use repo config if present)
 if ((${#yaml_files[@]} > 0)); then
-  if [[ -f ".yamllint.yaml" ]]; then
-    yamllint -c .yamllint.yaml "${yaml_files[@]}"
-  else
-    yamllint "${yaml_files[@]}"
-  fi
+  yamllint "${CONFIG_FLAG[@]}" "${yaml_files[@]}"
 fi
 
-# Run actionlint on the same set (ignore known pattern)
-if ((${#yaml_files[@]} > 0)); then
-  actionlint -ignore 'github\.event\.issue\.body' "${yaml_files[@]}"
+# Keep Codex’s actionlint behavior; prefer our two new workflows if present
+limit=(.github/workflows/lint.yml .github/workflows/smoke.yml)
+present=()
+for f in "${limit[@]}"; do
+  [[ -f "$f" ]] && present+=("$f")
+done
+
+if ((${#present[@]} > 0)); then
+  actionlint -ignore 'github\.event\.issue\.body' "${present[@]}"
 else
   actionlint -ignore 'github\.event\.issue\.body'
 fi
