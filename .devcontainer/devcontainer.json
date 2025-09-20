@@ -1,0 +1,14 @@
+{
+  "name": "ddp",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "installOhMyZsh": false
+    },
+    "ghcr.io/devcontainers/features/jq:1": {},
+    "ghcr.io/devcontainers/features/yamllint:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/actionlint:1": {}
+  }
+}
