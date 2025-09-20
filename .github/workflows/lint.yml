@@ -1,0 +1,33 @@
+name: lint
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: ci/lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq yamllint gh curl
+
+      - name: Install actionlint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o /tmp/actionlint.sh
+          sudo bash /tmp/actionlint.sh latest /usr/local/bin
+          actionlint --version && echo "ACTIONLINT=OK"
+
+      - name: Run lint script
+        if: ${{ hashFiles('scripts/lint.sh') != '' }}
+        run: bash scripts/lint.sh
+
+      - name: Final status
+        run: echo "LINT=OK"
