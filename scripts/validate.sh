@@ -13,4 +13,11 @@ printf 'ACTIONLINT=OK\n'
 gh --version >/dev/null
 printf 'GH=OK\n'
 
+# Report whether devcontainer file exists (non-fatal either way)
+if [ -f ".devcontainer/devcontainer.json" ]; then
+  printf 'DEVCONTAINER=OK\n'
+else
+  printf 'DEVCONTAINER=MISSING\n'
+fi
+
 printf 'PREFLIGHT=OK\n'
