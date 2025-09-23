@@ -1,12 +1,11 @@
 extends: default
+
 rules:
   line-length:
-    max: 160
+    max: 240
     level: warning
   truthy: disable
   comments:
     min-spaces-from-content: 1
-  document-start: disable
-  new-lines:
-    level: warning
+
 ignore: []
