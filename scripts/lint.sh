@@ -1,31 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
-shopt -s nullglob globstar
 
-yamllint_paths=(
-  .github/workflows/**/*.yml
-  .github/workflows/**/*.yaml
-)
+# Glob workflow YAML files
+mapfile -t yaml_files < <(find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \))
 
-yaml_files=()
-for path in "${yamllint_paths[@]}"; do
-  for file in $path; do
-    yaml_files+=("$file")
-  done
-done
+# Inline yamllint config
+yamllint_config='{
+  "line-length": {"max": 160},
+  "truthy": {"level": "disable"},
+  "new-lines": {"level": "disable"},
+  "document-start": {"level": "disable"}
+}'
 
-# Inline config so legacy files pass:
-# - line-length up to 160
-# - disable truthy
-# - disable new-lines (CRLF)
-# - disable document-start ("---") requirement
-YAML_CFG='{extends: default, rules: {line-length: {max: 160}, truthy: disable, new-lines: disable, document-start: disable}}'
+# Run yamllint with inline config
+yamllint -d "$yamllint_config" "${yaml_files[@]}"
+yamllint_exit=$?
 
-if ((${#yaml_files[@]} > 0)); then
-  yamllint -d "$YAML_CFG" "${yaml_files[@]}"
+if [[ $yamllint_exit -eq 1 ]]; then
+  echo "YAMLLINT_ERRORS=1"
+  exit 1
+elif [[ $yamllint_exit -eq 2 ]]; then
+  echo "YAMLLINT_WARNINGS=1"
+  # continue
+elif [[ $yamllint_exit -eq 0 ]]; then
+  echo "YAMLLINT=OK"
 fi
 
-# Keep Codex’s actionlint behavior on the same files
+# Run actionlint with ignore as before
 actionlint -ignore 'github\.event\.issue\.body' "${yaml_files[@]}"
 
 echo "LINT=OK"
