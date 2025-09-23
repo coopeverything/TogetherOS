@@ -1,33 +1,64 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Glob workflow YAML files
-mapfile -t yaml_files < <(find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \))
+# Keep Codex's structure (globbing all workflow YAMLs)
+shopt -s nullglob globstar
 
-# Inline yamllint config
-yamllint_config='{ "rules": { "line-length": {"max": 160}, "truthy": {"level": "disable"}, "new-lines": {"level": "disable"}, "document-start": {"level": "disable"} } }'
+yamllint_paths=(
+  .github/workflows/**/*.yml
+  .github/workflows/**/*.yaml
+)
 
-# Run yamllint with inline config
+yaml_files=()
+for path in "${yamllint_paths[@]}"; do
+  for file in $path; do
+    yaml_files+=("$file")
+  done
+done
+
+# Prefer repo config; clean fallback if it doesn't exist
+CONFIG_ARGS=()
+if [[ -f ".yamllint.yaml" ]]; then
+  CONFIG_ARGS=(-c .yamllint.yaml)
+else
+  # Valid inline config (no invalid 'level' keys)
+  YAML_CFG='{extends: default, rules: {line-length: {max: 160}, truthy: disable, new-lines: disable, document-start: disable}}'
+  CONFIG_ARGS=(-d "$YAML_CFG")
+fi
+
+# --- yamllint (errors fail; warnings tolerated) ---
+YAMLLINT_EXIT=0
+if ((${#yaml_files[@]} > 0)); then
+  set +e
+  yamllint "${CONFIG_ARGS[@]}" "${yaml_files[@]}"
+  YAMLLINT_EXIT=$?
+  set -e
+else
+  echo "NO_YAML_WORKFLOWS=1"
+fi
+
+case "$YAMLLINT_EXIT" in
+  0) echo "YAMLLINT=OK" ;;
+  1) echo "YAMLLINT_ERRORS=1"; exit 1 ;;
+  2) echo "YAMLLINT_WARNINGS=1" ;;  # continue on warnings
+  *) echo "YAMLLINT_UNKNOWN=$YAMLLINT_EXIT"; exit "$YAMLLINT_EXIT" ;;
+esac
+
+# --- actionlint (ShellCheck disabled for now) ---
 set +e
-yamllint -d "$yamllint_config" "${yaml_files[@]}"
-yamllint_exit=$?
+if ((${#yaml_files[@]} > 0)); then
+  actionlint -shellcheck=never -ignore 'github\.event\.issue\.body' "${yaml_files[@]}"
+else
+  actionlint -shellcheck=never -ignore 'github\.event\.issue\.body'
+fi
+AL_EXIT=$?
 set -e
 
-if [[ $yamllint_exit -eq 1 ]]; then
-  echo "YAMLLINT_ERRORS=1"
-  exit 1
-elif [[ $yamllint_exit -eq 2 ]]; then
-  echo "YAMLLINT_WARNINGS=1"
-elif [[ $yamllint_exit -eq 0 ]]; then
-  echo "YAMLLINT=OK"
-fi
-
-# Run actionlint with ignore as before
-if ! actionlint -shellcheck=never -ignore 'github\.event\.issue\.body' "${yaml_files[@]}"; then
+if [[ $AL_EXIT -ne 0 ]]; then
   echo "ACTIONLINT_ERRORS=1"
   exit 1
-else
-  echo "ACTIONLINT=OK"
 fi
+echo "ACTIONLINT=OK"
 
+# Final proof
 echo "LINT=OK"
