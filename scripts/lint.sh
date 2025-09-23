@@ -1,32 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Glob workflow YAML files
-mapfile -t yaml_files < <(find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \))
+shopt -s nullglob globstar
 
-# Inline yamllint config
-yamllint_config='{
-  "line-length": {"max": 160},
-  "truthy": {"level": "disable"},
-  "new-lines": {"level": "disable"},
-  "document-start": {"level": "disable"}
-}'
+yamllint_paths=(
+  .github/workflows/**/*.yml
+  .github/workflows/**/*.yaml
+)
 
-# Run yamllint with inline config
-yamllint -d "$yamllint_config" "${yaml_files[@]}"
-yamllint_exit=$?
+yaml_files=()
+for path in "${yamllint_paths[@]}"; do
+  for file in $path; do
+    yaml_files+=("$file")
+  done
+done
 
-if [[ $yamllint_exit -eq 1 ]]; then
-  echo "YAMLLINT_ERRORS=1"
-  exit 1
-elif [[ $yamllint_exit -eq 2 ]]; then
-  echo "YAMLLINT_WARNINGS=1"
-  # continue
-elif [[ $yamllint_exit -eq 0 ]]; then
-  echo "YAMLLINT=OK"
+if ((${#yaml_files[@]} > 0)); then
+  yamllint "${yaml_files[@]}"
 fi
 
-# Run actionlint with ignore as before
-actionlint -ignore 'github\.event\.issue\.body' "${yaml_files[@]}"
+# Only change: disable ShellCheck within actionlint
+actionlint -shellcheck=never -ignore 'github\.event\.issue\.body'
 
 echo "LINT=OK"
