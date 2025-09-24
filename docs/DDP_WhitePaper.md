@@ -26,9 +26,9 @@ The Direct Democracy Platform (DDP) is a modular, governance- and community-driv
 
 ## Modules
 - **Forum & Decision Pipeline**: From proposal → deliberation → vote → action → review.  
-- **Community Features**: Social feed, events, mutual aid classifieds, couch-surfing mobility.  
+- **Community Features**: Social feed, events, mutual aid classifieds, local and global thematic groups, couch-surfing mobility, friendships and relationships.  
 - **Economy Tools**: Ledger, points & badges, donations & dues, pooling, crypto fractions.  
-- **Governance Tools**: Federated groups, AI summaries, objection/review flow, voting diversity.  
+- **Governance Tools**: Discussion and voting, Federated groups, AI summaries, objection/review flow.  
 - **Onboarding**: Archetype-based profiling, gamified challenges, support points bank.  
 
 ## Global Aim
