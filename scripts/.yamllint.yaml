@@ -5,6 +5,8 @@ rules:
     max: 240
     level: warning
   truthy: disable
+  document-start: disable
+  new-lines: disable
   comments:
     min-spaces-from-content: 1
 
