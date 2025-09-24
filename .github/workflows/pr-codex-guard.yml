@@ -1,0 +1,69 @@
+name: pr/codex-path-guard
+
+on:
+  pull_request:
+
+jobs:
+  guard:
+    name: pr/codex-path-guard
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write   # to comment/label
+    steps:
+      - name: Check for 'codex' label
+        id: has_label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = (context.payload.pull_request.labels || []).map(l => l.name.toLowerCase());
+            core.setOutput('codex', labels.includes('codex') ? 'true' : 'false');
+
+      - name: List changed files
+        id: files
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const files = await github.paginate(
+              github.rest.pulls.listFiles, { owner, repo, pull_number, per_page: 100 }
+            );
+            const paths = files.map(f => f.filename);
+            core.setOutput('paths', JSON.stringify(paths));
+
+      - name: Compute offenders (outside codex/*)
+        id: offenders
+        run: |
+          paths='${{ steps.files.outputs.paths }}'
+          echo "$paths" | jq -r '.[]' > /tmp/paths.txt
+          awk '!/^codex\// {print}' /tmp/paths.txt > /tmp/offenders.txt || true
+          if [ -s /tmp/offenders.txt ]; then
+            echo "has_offenders=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_offenders=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Advisory comment + label if: label=codex AND offenders exist
+      - name: Comment & label (advisory)
+        if: ${{ steps.has_label.outputs.codex == 'true' && steps.offenders.outputs.has_offenders == 'true' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const body = [
+              "⚠️ **Codex path guard (advisory):** this PR is labeled `codex` but touches files outside `codex/*`.",
+              "",
+              "Only files under `codex/` should be added/changed for Codex tasks.",
+              "",
+              "Please move non-codex changes to a separate PR."
+            ].join("\n");
+            await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            try {
+              await github.rest.issues.addLabels({ owner, repo, issue_number, labels: ["needs-path-fix"] });
+            } catch (e) {}
+
+      # Always pass (advisory only)
+      - name: Guard marker
+        run: echo "PR_CODEX_GUARD=ADVISORY"
