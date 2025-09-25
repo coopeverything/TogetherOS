@@ -1,11 +1,7 @@
-# Build Status
+# CI Status
 
-[![smoke](https://github.com/TheEpicuros/ddp/actions/workflows/smoke.yml/badge.svg?branch=main)](https://github.com/TheEpicuros/ddp/actions/workflows/smoke.yml?query=branch%3Amain)
-[![lint](https://github.com/TheEpicuros/ddp/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/TheEpicuros/ddp/actions/workflows/lint.yml?query=branch%3Amain)
+[![smoke](https://github.com/TheEpicuros/ddp/actions/workflows/smoke.yml/badge.svg)](https://github.com/TheEpicuros/ddp/actions/workflows/smoke.yml)
+[![lint](https://github.com/TheEpicuros/ddp/actions/workflows/lint.yml/badge.svg)](https://github.com/TheEpicuros/ddp/actions/workflows/lint.yml)
 
-- **smoke / ci/smoke** → unified validators gate (expects `VALIDATORS=GREEN`)
-- **lint / ci/lint** → workflow YAML + actionlint (expects `LINT=OK`)
-
-## Quick Links
-- Smoke runs (main): https://github.com/TheEpicuros/ddp/actions/workflows/smoke.yml?query=branch%3Amain
-- Lint runs (main): https://github.com/TheEpicuros/ddp/actions/workflows/lint.yml?query=branch%3Amain
+- Required checks (branch protection): **smoke / ci/smoke** and **lint / ci/lint**
+- See `OPERATIONS.md` for the one-page runbook.
