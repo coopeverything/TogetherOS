@@ -3,7 +3,6 @@ description: Create/update files under codex/* with a strict JSON body and a tar
 title: "codex: <short task>"
 labels:
   - codex
-  - codex-ready
 body:
   - type: markdown
     attributes:
@@ -12,6 +11,7 @@ body:
         - Paste a single strict JSON object (no comments, no trailing commas).
         - All file paths **must** be under `codex/`.
         - Keep payload minimal. Codex or maintainers will open a PR.
+        - The **preflight validator** adds `codex-ready` automatically after checks pass. Do **not** add it manually.
 
         **Minimal schema**
         ~~~json
@@ -56,7 +56,11 @@ body:
     attributes:
       label: Acknowledgements
       options:
+        - label: I confirm the body is a single strict JSON object (no arrays/comments) and `jq -e .` would pass.
+          required: true
         - label: I confirm all paths are under `codex/`.
           required: true
-        - label: I understand CI must show the target proof-line before merge.
+        - label: I understand the preflight validator will add `codex-ready` if checks pass.
+          required: true
+        - label: I understand a "no changes" outcome is valid and may return a proof-line indicating no updates were needed.
           required: true
