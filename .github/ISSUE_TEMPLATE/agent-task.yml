@@ -1,43 +1,51 @@
-name: "Agent Task"
-description: "Template for Agent lane tasks"
-title: "[Agent Task] <short description>"
-labels: ["agent-task"]
+---
+name: Agent task
+description: Run a tiny, verified change via the Agent lane (scoped paths + proof-lines).
+title: "agent: <short goal>"
+labels:
+  - agent
+  - automation
 body:
   - type: markdown
     attributes:
       value: |
-        ## Agent Task Issue
-
-        Please fill out the required fields for an Agent lane task.
-
+        **Instructions**
+        - Keep scope tiny. Provide a clear goal and an explicit path allowlist.
+        - The PR MUST print these proof-lines in Checks:
+          - `PROOF: ACTIONLINT=OK`
+          - `PROOF: YAMLLINT=OK`
+          - `PROOF: SMOKE=OK`
+          - `PROOF: AGENT_PR_CHECKS=OK`
+        - Files changed must be a subset of the allowlist.
   - type: input
     id: goal
     attributes:
-      label: "Goal"
-      description: "Describe the main objective of this Agent lane task."
-      placeholder: "e.g., Add support for agent PR checks"
+      label: Goal
+      description: One-sentence goal (what to change/build).
+      placeholder: Scaffold /proposals page + add nav link
     validations:
       required: true
-
-  - type: input
-    id: scope-allowlist
-    attributes:
-      label: "Scope allowlist"
-      description: "List the only allowed scope for this task (use relative paths)."
-      value: ".github/ISSUE_TEMPLATE/"
-    validations:
-      required: true
-
   - type: textarea
-    id: done-when-checks
+    id: scope
     attributes:
-      label: "Done when / Checks"
-      description: |
-        Define the criteria for considering this task complete.
-        For agent lane tasks, include a proof-line to be printed in the PR description (required):
-        'TEMPLATE=AGENT_TASK_OK'
-      placeholder: |
-        - All files in .github/ISSUE_TEMPLATE/ are updated as required.
-        - PR description contains: TEMPLATE=AGENT_TASK_OK
+      label: Scope allowlist (paths)
+      description: Comma-separated globs, e.g. "apps/frontend/*, codex/*"
+      placeholder: apps/frontend/*, codex/*
     validations:
       required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details / acceptance
+      description: What should be considered done? Any extra proof-lines to print?
+      placeholder: |
+        Done when: PROOF: PROPOSALS_PAGE=OK printed by smoke.
+  - type: checkboxes
+    id: acks
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: I confirm the changed files must be limited to the allowlist.
+          required: true
+        - label: I understand PR must show the four proof-lines listed above.
+          required: true

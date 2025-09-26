@@ -1,0 +1,32 @@
+Title: Agent Task Lane — Exploratory Phase
+Version: 2025-09-26
+
+Purpose
+- Stand up an “Agent lane” to run tiny, verified repository changes with strict proofs.
+- Keep scope safe via per-issue allowlists and required checks.
+
+Lane Rules
+1) Two lanes active: (A) Codex gateway (codex/* only), (B) Agent lane (scoped paths via issue allowlist).
+2) One change → one verification: each Agent PR must print minimal proof-lines and touch ONLY the allowlisted paths.
+3) Docs-first: any change to workflows, issue templates, or discipline must update knowledge docs in the same PR or the immediate next one.
+
+Required Status Check
+- Name: agent-pr-checks
+- Blocking on main via Branch Protection.
+
+Agent PR Proof-lines (in Checks)
+- PROOF: ACTIONLINT=OK
+- PROOF: YAMLLINT=OK
+- PROOF: SMOKE=OK
+- PROOF: AGENT_PR_CHECKS=OK
+
+Allowlist & Scope
+- Each issue defines a path allowlist. Reviewer must verify changed files ⊆ allowlist before merge.
+
+Failure Classification (quick)
+- 401/403/404/422 per our discipline taxonomy.
+- Syntax (YAML/JSON/PS) → fix and re-run until proofs print.
+
+Promotion to Standard
+- After 2–3 successful tasks: remove “Exploratory” from titles; fold this lane into OPERATIONS.
+- Changelog flag: AGENT_LANE=STANDARD

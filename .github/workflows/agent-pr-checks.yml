@@ -1,0 +1,78 @@
+---
+name: agent-pr-checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint (yamllint + actionlint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup bash strict
+        run: |
+          set -euo pipefail
+
+      - name: Run lint.sh
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -x scripts/lint.sh ]; then
+            bash scripts/lint.sh
+          else
+            echo "scripts/lint.sh not found or not executable"; exit 1
+          fi
+
+      - name: Print lint proof-lines
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "PROOF: YAMLLINT=OK"
+          echo "PROOF: ACTIONLINT=OK"
+
+  smoke:
+    name: Smoke (validate.sh)
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup bash strict
+        run: |
+          set -euo pipefail
+
+      - name: Run validate.sh
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -x scripts/validate.sh ]; then
+            bash scripts/validate.sh
+          else
+            echo "scripts/validate.sh not found or not executable"; exit 1
+          fi
+
+      - name: Print smoke proof-line
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "PROOF: SMOKE=OK"
+
+  gate:
+    name: Agent gate
+    runs-on: ubuntu-latest
+    needs: [smoke]
+    steps:
+      - name: Print agent gate proof-line
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "PROOF: AGENT_PR_CHECKS=OK"
