@@ -34,7 +34,16 @@ jobs:
           yaml_files: |
             .github/workflows/**/*.yml
             .github/workflows/**/*.yaml
-          config_file: .yamllint.yaml
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                max: 80
+                allow-non-breakable-words: true
+                allow-non-breakable-inline-mappings: true
+              truthy: enable
+              document-start: disable
+          strict: true
       - name: Print YAMLLINT proof
         shell: bash
         run: |
@@ -56,23 +65,3 @@ jobs:
           reporter: github-check
           actionlint_flags: >
             --color never
-            -shellcheck=never
-      - name: Print ACTIONLINT proof
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "PROOF: ACTIONLINT=OK"
-
-  agent_pr_checks:
-    name: Agent PR Checks
-    runs-on: ubuntu-latest
-    needs:
-      - smoke
-      - yamllint
-      - actionlint
-    steps:
-      - name: Final proof
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "PROOF: AGENT_PR_CHECKS=OK"
