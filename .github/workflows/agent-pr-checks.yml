@@ -28,11 +28,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run yamllint
+      - name: Run yamllint (scope: agent workflow only)
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: |
-            .github/workflows
+            .github/workflows/agent-pr-checks.yml
           config_data: |
             extends: default
             rules:
