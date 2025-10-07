@@ -1,0 +1,10 @@
+﻿# OPERATIONS (v2)
+
+Start here → README → **OPERATIONS** → STATUS
+
+## Contributor rules (short)
+Every PR description must include:
+# Ensure folder and (re)write tracker with safe ASCII quotes
+New-Item -ItemType Directory -Force -Path STATUS | Out-Null
+@'
+Tracker placeholder. Paste your latest "What we finished — What is left (v2)" here.
