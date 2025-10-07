@@ -1,4 +1,4 @@
-# Automation Summary — Temporary Phase
+﻿# Automation Summary â€” Temporary Phase
 
 This document captures **automation-related changes** during the setup and early deployment
 phase of the DDP project. It is temporary and will be merged into permanent docs (e.g. `OPERATIONS.md`)
@@ -8,7 +8,7 @@ once stabilized.
 
 ## CI/CD Adjustments
 
-- ✅ CI baseline: GREEN (sanity + smoke tests pass).
+- âœ… CI baseline: GREEN (sanity + smoke tests pass).
 - CI updated to skip npm/yarn installs if no `package.json` exists at the repo root.
 - Added deploy workflow (`.github/workflows/deploy.yml`):
   - Uses `rsync` to push to VPS when PR label **staging-ok** is applied.
@@ -23,7 +23,7 @@ once stabilized.
   - Prints stylesheet URLs
   - Fetches CSS and greps for `.signup` + layout rules
 - GitHub Actions Deploy secrets (set in repo settings):
-  - `SSH_PRIVATE_KEY` → local `G:\AI-Project\ssh_keys\id_ed25519`
+  - `SSH_PRIVATE_KEY` â†’ local `G:\Coopeverything\TogetherOS\ssh_keys\id_ed25519`
   - `VPS_HOST = continentjump`
   - `VPS_USER = platform`
   - `VPS_PATH = /home/platform/htdocs/platform.local/frontend`
@@ -43,7 +43,7 @@ once stabilized.
 - New monorepo layout: `apps/frontend`, `packages/ui`, `scripts/`, `.github/workflows/`.
 - `docs/` folder includes `OPERATIONS.md` (deploy & CSS update playbook).
 - Frontend: Next.js 14 + Tailwind v4 with `postcss` plugin.
-- Local dev root: `G:\AI-Project\ddp-on-vps`.
+- Local dev root: `G:\Coopeverything\TogetherOS\ddp-on-vps`.
 - VPS runtime root: `/home/platform/htdocs/platform.local/frontend`.
 
 ---
@@ -82,3 +82,4 @@ once stabilized.
 ---
 
 **Status:** Temporary document. To be merged into `OPERATIONS.md` once processes stabilize.
+

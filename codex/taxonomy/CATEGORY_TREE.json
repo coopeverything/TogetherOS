@@ -1,20 +1,74 @@
 ﻿{
-  "id": "togetheros.category_tree.v1",
-  "label": "TogetherOS Categories",
-  "keyword_palette": [
-    "mutual-aid","timebank","microloans","co-op","governance","direct-vote",
-    "proposal","deliberation","education","knowledge-commons","health",
-    "wellbeing","environment","regeneration","housing","infrastructure",
-    "culture","media","onboarding","badges","progress","seed-to-tree"
+  "Collaborative Education": [
+    "Local organizing",
+    "Project management",
+    "Caring for the elderly",
+    "Repairing electronics",
+    "Sustainable design",
+    "Peaceful conflict resolution",
+    "Mentorship & peer learning"
   ],
-  "items": [
-    { "id": "gov",   "label": "Governance & Direct Legislation", "keywords": ["governance","direct-vote","proposal"], "items": [] },
-    { "id": "comm",  "label": "Community & Mutual Aid",          "keywords": ["mutual-aid","timebank"],               "items": [] },
-    { "id": "econ",  "label": "Social Economy & Co-ops",         "keywords": ["co-op","microloans"],                  "items": [] },
-    { "id": "edu",   "label": "Education & Knowledge Commons",   "keywords": ["education","knowledge-commons"],       "items": [] },
-    { "id": "health","label": "Health & Wellbeing",              "keywords": ["health","wellbeing"],                  "items": [] },
-    { "id": "env",   "label": "Environment & Regeneration",      "keywords": ["environment","regeneration"],          "items": [] },
-    { "id": "house", "label": "Housing & Infrastructure",        "keywords": ["housing","infrastructure"],            "items": [] },
-    { "id": "cult",  "label": "Culture & Media",                  "keywords": ["culture","media"],                     "items": [] }
-  ]
+  "Social Economy": [
+    "Cooperatives",
+    "Timebank exchange",
+    "Repair & reuse",
+    "Upcycling",
+    "Mutual aid",
+    "Donations & meaningful investment"
+  ],
+  "Common Wellbeing": [
+    "Preventative care",
+    "Public health",
+    "Nutrition",
+    "Mental health first aid",
+    "Community clinics",
+    "Movement & recovery"
+  ],
+  "Cooperative Technology": [
+    "Open hardware",
+    "Open source software",
+    "Privacy & security",
+    "Community networks",
+    "Federated services",
+    "Human-centered AI"
+  ],
+  "Collective Governance": [
+    "Direct legislation",
+    "Deliberation & discourse",
+    "Empathic moderation",
+    "Consensus tools",
+    "Participatory budgeting",
+    "Conflict resolution"
+  ],
+  "Community Connection": [
+    "Local hubs",
+    "Mutual aid boards",
+    "Timebanking",
+    "Events & meetups",
+    "Volunteer matching",
+    "Skill exchanges"
+  ],
+  "Collaborative Media & Culture": [
+    "Storytelling",
+    "Open archives",
+    "Community radio",
+    "Documentaries",
+    "Commons media",
+    "Cultural restoration"
+  ],
+  "Common Planet": [
+    "Regeneration",
+    "Conservation",
+    "Local agriculture",
+    "Circular materials",
+    "Right-to-repair",
+    "Climate resilience"
+  ],
+  "_keyword_palette": {
+    "Collaborative": ["education", "art", "design", "innovation", "culture"],
+    "Social": ["economy", "justice", "inclusion", "care"],
+    "Common": ["wellbeing", "environment", "shared resources"],
+    "Cooperative": ["technology", "organization", "governance"],
+    "Collective": ["action", "legislation", "transformation"]
+  }
 }
