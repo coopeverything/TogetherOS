@@ -1,0 +1,64 @@
+﻿---
+name: pr/metadata-preflight
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  preflight:
+    name: Validate PR metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (shallow)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Validate Category/Keywords in PR body against taxonomy
+        shell: bash
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+        run: |
+          set -euo pipefail
+          echo "PREFLIGHT=START"
+          body="$(jq -r '.pull_request.body // ""' "$GITHUB_EVENT_PATH")"
+          body="$(printf "%s" "$body" | tr -d '\r')"
+
+          has_cat="$(printf "%s\n" "$body" | grep -iE '^[[:space:]]*Category[[:space:]]*:' || true)"
+          has_keys="$(printf "%s\n" "$body" | grep -iE '^[[:space:]]*Keywords[[:space:]]*:' || true)"
+          if [ -z "$has_cat" ] || [ -z "$has_keys" ]; then
+            echo "PR_METADATA=FAIL"
+            echo "::error title=Missing PR metadata::PR description must include lines 'Category:' and 'Keywords:'"
+            exit 1
+          fi
+
+          category_value="$(printf "%s\n" "$body" \
+            | awk -F: '/^[[:space:]]*[Cc]ategory[[:space:]]*:/ { $1=""; sub(/^[[:space:]]+/, "", $0); print; exit }' \
+            | sed 's/,.*$//' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+
+          allowed=""
+          if [ -f codex/taxonomy/CATEGORY_TREE.json ]; then
+            # Accept any field named "name" anywhere, skip empties
+            allowed="$(jq -r '..|.name? // empty' codex/taxonomy/CATEGORY_TREE.json | sed '/^$/d' || true)"
+          fi
+
+          if [ -n "$allowed" ]; then
+            shopt -s nocasematch || true
+            match=no
+            while IFS= read -r name; do
+              if [[ "$category_value" == "$name" ]]; then match=yes; break; fi
+            done <<< "$allowed"
+            shopt -u nocasematch || true
+            if [ "$match" != "yes" ]; then
+              echo "PR_METADATA=FAIL"
+              echo "::error title=Invalid Category::Category '$category_value' not found in taxonomy. Allowed: $(echo "$allowed" | paste -sd ', ' -)"
+              exit 1
+            fi
+          fi
+
+          echo "PR_METADATA=OK"
