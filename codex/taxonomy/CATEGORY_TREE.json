@@ -1,0 +1,20 @@
+﻿{
+  "id": "togetheros.category_tree.v1",
+  "label": "TogetherOS Categories",
+  "keyword_palette": [
+    "mutual-aid","timebank","microloans","co-op","governance","direct-vote",
+    "proposal","deliberation","education","knowledge-commons","health",
+    "wellbeing","environment","regeneration","housing","infrastructure",
+    "culture","media","onboarding","badges","progress","seed-to-tree"
+  ],
+  "items": [
+    { "id": "gov",   "label": "Governance & Direct Legislation", "keywords": ["governance","direct-vote","proposal"], "items": [] },
+    { "id": "comm",  "label": "Community & Mutual Aid",          "keywords": ["mutual-aid","timebank"],               "items": [] },
+    { "id": "econ",  "label": "Social Economy & Co-ops",         "keywords": ["co-op","microloans"],                  "items": [] },
+    { "id": "edu",   "label": "Education & Knowledge Commons",   "keywords": ["education","knowledge-commons"],       "items": [] },
+    { "id": "health","label": "Health & Wellbeing",              "keywords": ["health","wellbeing"],                  "items": [] },
+    { "id": "env",   "label": "Environment & Regeneration",      "keywords": ["environment","regeneration"],          "items": [] },
+    { "id": "house", "label": "Housing & Infrastructure",        "keywords": ["housing","infrastructure"],            "items": [] },
+    { "id": "cult",  "label": "Culture & Media",                  "keywords": ["culture","media"],                     "items": [] }
+  ]
+}
