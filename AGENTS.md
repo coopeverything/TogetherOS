@@ -1,16 +1,14 @@
-﻿# Agents Loop — Planner → Cline → CI → Staging
+﻿# Agents & PR Discipline
 
-**Output order for every task**
-A) TESTS FIRST  
-B) UNIFIED DIFF (repo-relative paths)  
-C) SELF-CRITIQUE (edge cases, a11y, perf, rollback)
+## PR metadata (required in every PR description)
+Add **both** lines to your PR description:
 
-**Rules**
-- Tailwind v4 conventions.
-- `/signup` must be 100dvh & fully responsive.
-- Provide small, reviewable diffs.
 
-**Cline usage**
-- Paste A/B/C into Cline.
-- Let Cline run tests & open a PR.
-- When CI is green, label PR: `staging-ok`.
+- Canonical categories & palette (human-readable): `docs/DDP_CATEGORIES_AND_KEYWORDS.md`
+- Machine-readable taxonomy (authoritative): `codex/taxonomy/CATEGORY_TREE.json`
+- Contributor runbook & proof-lines: `docs/OPERATIONS_v2.md`
+
+Notes:
+- Use exactly one Category.
+- Choose 2–6 Keywords from the palette for routing/search/analytics.
+- PRs without the two lines will be asked to update their description before review (automation enforcement lands next).
