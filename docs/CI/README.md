@@ -1,10 +1,19 @@
-﻿# DDP CI / Actions Debug Playbook
 
-Date: 2025-09-03
 
-## Goal
-Ensure GitHub Actions can execute minimal workflows (ping.yml, manual-ping.yml, deploy.yml) and that runs produce at least one job on ubuntu-latest.
+This document used the old “DDP” framing. It’s been **archived** to prevent confusion.
 
+**Please see the canonical docs:**
+- Categories (canonical): `docs/DDP_CATEGORIES_AND_KEYWORDS.md`
+- Status (public): `docs/STATUS_v2.md`  — tracker: `STATUS/What_we_finished_What_is_left_v2.txt`
+- Operations (start here): `docs/OPERATIONS_v2.md`
+- Vision (placeholder): `docs/DDP_Vision_v2.md`
+- Tech roadmap (placeholder): `docs/DDP_Tech_Roadmap_v2.md`
+
+**Naming:**  
+- Umbrella movement/community = **coopeverything**  
+- Technology platform = **TogetherOS**  
+- Avoid using “DDP” in new prose.
+=======
 ## Quick Facts
 - Workflows normalized: spaces (no tabs), LF, UTF-8 (no BOM).
 - Triggers:
@@ -54,3 +63,4 @@ Set-Location G:\Coopeverything\TogetherOS\ddp-on-vps; $ErrorActionPreference='St
 - This file lives at docs/CI/README.md in the repo.
 - Keep workflows tab-free and LF-separated.
 - Use minimal echo steps for first validation, then expand to SSH deploy.
+

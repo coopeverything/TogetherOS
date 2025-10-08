@@ -1,21 +1,15 @@
-# DDP — What we finished / What is left (updated)
+﻿# Archived (superseded)
 
-## What we achieved (net-new capabilities)
-- Fine-grained PAT set, validated, and saved as repo secret `CODEX_PAT`.  
-- End-to-end GitHub API control from PowerShell: create branch → add file → open PR → merge → delete branch.  
-- Workflow dispatch (Deploy) via API and via smoke workflow; verified 204 and successful runs.  
-- `codex-secret-smoke` workflow: verifies token; optional Deploy trigger via input.  
-- `codex-gateway` workflow: turns labeled Issues (with strict JSON body) into a branch + file write + PR (path-allowlisted to `codex/`).  
-- `codex-autolabel` workflow: auto-adds `codex-task` when the title starts with Codex:; gateway runs on opened|edited|labeled.  
-- Hardening: path allowlist (`codex/*`), opt-in fan-out, minimal permissions, clear error taxonomy, observability one-liners.  
-- Project discipline doc authored and merged: `docs/DDP-DISCIPLINE.md` (runbook for you/me/Codex).  
+This document used the old “DDP” framing. It’s been **archived** to prevent confusion.
 
-## What’s left to reach “full automation” (ranked, bite-size)
-1. Schema guard for Issue JSON (jq validate fields + types).  
-2. Formatting & linting before PR (Prettier/Black/etc. inside codex/).  
-3. Branch protection + status checks (require CI/smoke to pass before merging).  
-4. Error feedback to the Issue (comment exact failure reason).  
-5. Size/encoding limits (content length guard, base64 option, reject oversize).  
-6. Idempotency (detect no-change updates; short-circuit with “no changes” comment).  
-7. PAT rotation & migration to GitHub App (later).  
-8. Roll-forward/rollback hooks (trigger Deploy or revert automatically).  
+**Please see the canonical docs:**
+- Categories (canonical): `docs/DDP_CATEGORIES_AND_KEYWORDS.md`
+- Status (public): `docs/STATUS_v2.md`  — tracker: `STATUS/What_we_finished_What_is_left_v2.txt`
+- Operations (start here): `docs/OPERATIONS_v2.md`
+- Vision (placeholder): `docs/DDP_Vision_v2.md`
+- Tech roadmap (placeholder): `docs/DDP_Tech_Roadmap_v2.md`
+
+**Naming:**  
+- Umbrella movement/community = **coopeverything**  
+- Technology platform = **TogetherOS**  
+- Avoid using “DDP” in new prose.

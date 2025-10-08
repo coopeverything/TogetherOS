@@ -1,56 +1,15 @@
-\# --- CONFIG (adjust only if your repo isn't TheEpicuros/ddp) ---
+﻿# Archived (superseded)
 
-$owner='TheEpicuros'; $repoName='ddp'; $repo="$owner/$repoName"
+This document used the old “DDP” framing. It’s been **archived** to prevent confusion.
 
-$path='docs/DDP-DISCIPLINE.md'
+**Please see the canonical docs:**
+- Categories (canonical): `docs/DDP_CATEGORIES_AND_KEYWORDS.md`
+- Status (public): `docs/STATUS_v2.md`  — tracker: `STATUS/What_we_finished_What_is_left_v2.txt`
+- Operations (start here): `docs/OPERATIONS_v2.md`
+- Vision (placeholder): `docs/DDP_Vision_v2.md`
+- Tech roadmap (placeholder): `docs/DDP_Tech_Roadmap_v2.md`
 
-$branchPrefix='docs-discipline'
-
-$H=@{ Authorization="Bearer $env:CODEX\_PAT"; Accept="application/vnd.github+json"; "User-Agent"="codex-agent" }
-
-
-
-\# --- FILE CONTENT (full Markdown) ---
-
-$md = @'
-
-\# DDP Discipline — Applied Operations (v2)
-
-
-
-\## Goals
-
-\- Advance in tiny, verified steps.
-
-\- Keep state clean; never assume success without proof.
-
-\- Diagnose by evidence (HTTP codes / specific log lines), not guesses.
-
-
-
-\## Principles
-
-1\. One step at a time; request one proof line after each step.
-
-2\. Don’t repeat steps unless evidence shows they didn’t complete.
-
-3\. For workflow edits, provide \*\*full-file\*\* YAML (no partial patches).
-
-4\. Shells are brittle: prefer single-line commands or here-strings.
-
-5\. Be explicit about where to look (exact step / field).
-
-6\. Classify errors before acting (401 vs 403 vs 422 vs 204).
-
-7\. Least privilege + explicit allowlists.
-
-
-
-\## PowerShell Discipline
-
-\- Use `Invoke-RestMethod`; avoid `curl` alias.
-
-\- Headers shape:
-
-
-
+**Naming:**  
+- Umbrella movement/community = **coopeverything**  
+- Technology platform = **TogetherOS**  
+- Avoid using “DDP” in new prose.
