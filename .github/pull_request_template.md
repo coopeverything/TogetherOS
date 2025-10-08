@@ -1,12 +1,21 @@
-# Summary
-One or two sentences about the change.
+﻿# PR Title
 
-## Checks (must be green on this branch)
-- [ ] `smoke / ci/smoke` shows **VALIDATORS=GREEN** and **SMOKE=OK**
-- [ ] `lint / ci/lint` shows **LINT=OK**
+## Summary
+Brief description of the change and why it’s needed.
 
-## Proof lines (paste exact from logs)
-```text
-VALIDATORS=GREEN
-SMOKE=OK
-LINT=OK
+## Category & Keywords (REQUIRED)
+- **Category:** <!-- one of the 8 canonical categories -->
+- **Keywords:** <!-- comma-separated canonical keywords -->
+
+## Checklist
+- [ ] Small, verifiable diff
+- [ ] Updated docs if behavior or process changed
+- [ ] CI passes (or draft PR to run checks)
+
+## Proof-lines
+- VALIDATORS= <!-- e.g., GREEN / counts -->
+- SMOKE=      <!-- e.g., OK -->
+- LINT=       <!-- e.g., OK -->
+
+## Links
+- Related Issue/Task: <!-- e.g., codex/* or GitHub issue -->
