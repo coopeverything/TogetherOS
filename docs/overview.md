@@ -1,31 +1,33 @@
-# DDP Overview
+# TogetherOS — Overview
 
-## About This Project
-The **Direct Democracy Platform (DDP)** is an open-source effort to build infrastructure for **social change**.  
-It combines community, cooperative economy, and collective governance with open, decentralized technology.
+**TogetherOS** is an operating system for human cooperation: a stack of social, economic, and governance tools that communities can actually run. It helps groups share power, fund the commons, and make decisions together — with empathy-first moderation and tiny, verifiable steps.
 
-## Four Tracks
-- **Technology** — Open sourced, decentralized code, automation, infrastructure, and tools.  
-- **Community** — Belonging, connection, healing, participation. We take care of our basic needs together.  
-- **Social Economy** — Thriving through co-ops, collective purchasing, timebanks, mutual aid, microloans, mutual funding and investment, 501(c), housing trusts, a just health system, and our own Social Horizon crypto.  
-- **Governance** — Leaderless, directly democratic, AI assisted, empathy based, transparent collective decision-making. No ideologies, no parties, no professional leaders, no pyramids of power.  
+- 📜 **Manifesto**: read the canonical vision in [docs/Manifesto.md](./Manifesto.md)
+- 💬 **Start here**: join the contributor hub in [GitHub Discussions #88](https://github.com/coopeverything/TogetherOS/discussions/88)
+- 🧭 **8 Cooperation Paths** (canonical): Collaborative Education · Social Economy · Common Wellbeing · Cooperative Technology · Collective Governance · Community Connection · Collaborative Media & Culture · Common Planet
 
-## Why It Matters
-- Locally: support each other through mutual aid, timebanks, co-ops, events, and belonging.  
-- Nationally: build cooperative legal and financial structures, housing, healthcare, and education systems.  
-- Globally: share best practices, coordinate cooperation, and create a cooperative economy with fair wealth distribution.  
+## What we’re asking contributors to do
+1. **Read the Manifesto** to align on goals and scope.  
+2. **Introduce yourself in Discussions #88**: share your skills, tools, and the Path you’re drawn to.  
+3. **In #88, say which Path/module you want to help with** and propose a tiny first change; we’ll assign or open the issue and point you to a starter task 
+4. **Reflect in #88 after merge**: what you learned, what to try next. We grow by iteration.
 
-## How to Contribute
-- Explore issues labeled by track: Technology, Community, Social Economy, Governance.  
-- Start with **good first issue** tasks.  
-- Join discussions and propose features aligned with our vision.  
+## Core Mechanics
+- **Support Points**: measurable signals for proposals, teams, and projects; used to route attention and resources.
+- **Empathy-first moderation**: de-escalation and restorative patterns to keep discourse generative.
+- **Tiny, Verifiable Steps**: every change ships as the smallest unit with proofs (lint/smoke/validators) before scaling.
+- **Archetype-guided onboarding**: paths that match contributor styles (builder, organizer, researcher, storyteller, etc.).
 
-## Learn More
-- [DDP White Paper (Summary)](./DDP_WhitePaper.md)  
-<!-- Optional: add these files to the repo root if you want to link them here too -->
-<!-- - [DDP Vision (Full Document)](../DDP_Vision.docx)  -->
-<!-- - [DDP Tech Roadmap](../DDP_Tech_Roadmap.docx)  -->
+## Initial Delivery Tracks
+- **Community Connection** — local groups, events, and a geo-map of cooperation projects.
+- **Social Economy (incl. Social Horizon)** — time-banking, mutual-aid flows, micro-funds, and a crypto rail that serves the commons.
+- **Collective Governance** — open deliberation, direct legislation modules, and participation metrics.
+- **Cooperative Technology** — privacy-respecting infra and contributor tooling.
 
----
+## Contribution Discipline
+- **Docs-first**: every change updates the relevant docs and playbooks.
+- **Least-privilege + proofs**: branches must pass `ci/lint` and `ci/smoke` before merge.
+- **One smallest change → verify → proceed**: reduce risk, maintain momentum.
 
-Together, we are building a cooperative digital country — one that grows from neighborhoods to global collaboration.
+—  
+Next: say hello and pick your first tiny issue in [Discussions #88](https://github.com/coopeverything/TogetherOS/discussions/88).
