@@ -1,0 +1,47 @@
+# TogetherOS — Categories & Keywords (Canonical)
+
+These are the canonical **8 Cooperation Paths** and the shared keyword palette used in docs, issues, and UI.  
+When you need a new term, add it here first (brief one-line rationale in the PR).
+
+## 1) Collaborative Education
+Learn, co-teach, certify; patterns for knowledge capture and reuse.  
+**Keywords:** learning, curriculum, tutorials, workshops, certification, docs, open-edu, mentorship, research-notes
+
+## 2) Social Economy
+Mutual aid, time-banking, micro-funds, and **Social Horizon** crypto; finance the commons.  
+**Keywords:** timebank, mutual-aid, microgrants, crowdfund, cooperative-finance, wallets, Social-Horizon, credits
+
+## 3) Common Wellbeing
+Health, nutrition, movement, care networks; reduce isolation and improve daily life.  
+**Keywords:** health, nutrition, movement, care-teams, accessibility, mental-health, support-groups
+
+## 4) Cooperative Technology
+Open, privacy-respecting tools and infrastructure that communities own and operate.  
+**Keywords:** open-source, privacy, self-host, dev-containers, CI/CD, infra, maps, identity, moderation-tools
+
+## 5) Collective Governance
+Open deliberation, direct legislation, empathy-first moderation, participation metrics.  
+**Keywords:** proposals, voting, consensus, facilitation, moderation, restorative, metrics, support-points
+
+## 6) Community Connection
+Local groups, events, co-ops, and city-level collaboration mapped to real people and places.  
+**Keywords:** groups, events, meetups, chapters, city-hubs, geo-map, directories
+
+## 7) Collaborative Media & Culture
+Stories, film, music, writing, and archives that celebrate cooperation and courage.  
+**Keywords:** storytelling, film, music, writing, archives, media-library, licensing, remix
+
+## 8) Common Planet
+Habitat repair, food forests, circular materials, climate-positive logistics.  
+**Keywords:** regeneration, circularity, materials, food-forest, permaculture, repair-cafe, climate
+
+---
+
+## Usage rules
+- Use these exact **Path names** across docs, issues, and UI.
+- Prefer existing keywords; add sparingly with a short rationale.
+- When migrating older text, map content to one Path above and drop non-canonical labels.
+
+## Cross-refs
+- Manifesto: `docs/Manifesto.md`
+- Overview: `docs/overview.md`
