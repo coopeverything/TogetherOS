@@ -1,6 +1,6 @@
 # TogetherOS — Overview
 
-**TogetherOS** is an operating system for human cooperation: a stack of social, economic, and governance tools that communities can actually run. It helps groups share power, fund the commons, and make decisions together — with empathy-first moderation and tiny, verifiable steps.
+**TogetherOS** is an operating system for human cooperation: a stack of social, economic, and governance tools that communities can actually run. It helps groups of people leverage the great power of an aligned collective, solve common problems and prosper. Groups share knowledge and power, fund the commons, and make decisions together — with empathy-first moderation and tiny, verifiable steps.
 
 - 📜 **Manifesto**: read the canonical vision in [docs/Manifesto.md](./Manifesto.md)
 - 💬 **Start here**: join the contributor hub in [GitHub Discussions #88](https://github.com/coopeverything/TogetherOS/discussions/88)
