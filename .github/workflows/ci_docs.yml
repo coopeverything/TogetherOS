@@ -2,11 +2,11 @@ name: ci/docs
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - '**/*.md'
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - '**/*.md'
 
@@ -19,21 +19,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Markdown style/lint (no apt, uses a prebuilt action)
+      # Markdown style/lint
       - name: markdownlint
         uses: DavidAnson/markdownlint-cli2-action@v16
         with:
           globs: |
             **/*.md
 
-      # Link checker (fast, containerized; no apt)
+      # Link checker
       - name: Link check
         uses: lycheeverse/lychee-action@v1
         with:
-          # check all markdown files in repo (README + docs, etc.)
           args: >
-            --no-progress --verbose --exclude-mail
-            --accept 200,204
+            --no-progress --verbose --exclude-mail --accept 200,204
             --include **/*.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
