@@ -132,10 +132,12 @@ SMOKE=OK
 
 - Verify the push to `main` re-runs checks and ends with:
 
-LINT=OK
-VALIDATORS=GREEN
-SMOKE=OK
+LINT=OK  
+VALIDATORS=GREEN  
+SMOKE=OK  
+
 
 *(for docs-only PRs, also confirm `DOCS=OK` in job logs).*
 
 *End of Playbook.*
+
