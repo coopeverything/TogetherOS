@@ -1,0 +1,79 @@
+name: Module Increment
+description: Small, shippable slice for a specific module
+title: "inc(<module>): <short slice>"
+labels: ["type:increment"]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      options:
+        - scaffold
+        - ui
+        - auth
+        - profiles
+        - groups
+        - forum
+        - governance
+        - social-economy
+        - reputation
+        - onboarding
+        - search
+        - notifications
+        - docs-hooks
+        - observability
+        - security
+    validations:
+      required: true
+  - type: dropdown
+    id: slice-type
+    attributes:
+      label: Slice type
+      options: [UI, API, Data, Docs, Infra]
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      options: [S, M, L]
+    validations:
+      required: true
+  - type: input
+    id: slice
+    attributes:
+      label: Slice name
+      placeholder: e.g., proposal-create form, profile-card component
+    validations:
+      required: true
+  - type: textarea
+    id: what-why
+    attributes:
+      label: What & Why
+      description: One or two sentences
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Bullet list of testable outcomes
+      placeholder: |
+        - When X, Y happens
+        - Empty/loading/error states defined
+    validations:
+      required: true
+  - type: textarea
+    id: links
+    attributes:
+      label: Links
+      description: Designs, module page anchors, related PRs
+  - type: textarea
+    id: proof
+    attributes:
+      label: Proof lines (paste in PR body upon completion)
+      value: |
+        LINT=OK
+        VALIDATORS=GREEN
+        SMOKE=OK
+
