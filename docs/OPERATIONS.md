@@ -19,37 +19,47 @@ SMOKE=OK
 - Docs-only changes: the code-lint job is skipped (via `paths-ignore`); a lightweight docs job checks markdown and links.
 
 ## 2) Branching & Commits
+```bash
 - Branch from `main`: `feature/<short-topic>` or `docs/<short-topic>`.
 - Commit messages (imperative, concise), for example:
 docs: align overview with contributor hub
 feat(governance): add proposal scoring util
 fix(ci): correct docs workflow include paths
-
+```
 
 ## 3) Pull Requests
+```bash
 - **Scope:** exactly one tiny change.
 - **Description:** what/why, list of touched files, and the two proof lines.
 - **Labels:** add the relevant Path label (e.g., `path:cooperative-technology`, `path:social-economy`).
 
 ### PR template snippet (copy/paste into your PR body)
-What & Why
+```
+## What & Why
+<1–3 sentences>
 
-Smallest change: <one sentence>
+## Smallest change
 
-Touchpoints
+<1 sentence>
 
-files: <list>
+## Touchpoints
+- files:
+  - <path/one>
+  - <path/two>
 
-Proof
+## Proof
+
 
 LINT=OK
 SMOKE=OK
 
 
 ## 4) Required Checks & CI
+```bash
 - Branch protection requires **`ci/lint`** (and **`ci/smoke`** if enabled).
 - Docs-only edits are ignored by `ci/lint` and validated by **`ci/docs`**.
 - Details: [CI/Actions_Playbook.md](./CI/Actions_Playbook.md)
+```
 
 ## 5) Local Preflight (recommended)
 Before opening a PR:
@@ -60,6 +70,7 @@ Before opening a PR:
 # LINT=OK
 # SMOKE=OK
 If your change is docs-only, run your local markdown checks if available; otherwise include the proof lines once CI passes.
+```
 
 ## 6) Security & Access
 
@@ -94,3 +105,4 @@ Relevant docs updated
 CI green where applicable
 
 — End of OPERATIONS —
+
