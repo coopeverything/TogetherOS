@@ -13,7 +13,8 @@ This hub lists all platform modules with links to specs, active increments, and 
 - [Proposals & Decisions (Governance)](./governance.md)
 - [Social Economy Primitives](./social-economy.md)
 - [Support Points & Reputation](./reputation.md)
-- [Onboarding (“Bridge”)](./onboarding.md)
+- [Onboarding](./onboarding.md)
+- [Bridge](./bridge.md)
 - [Search & Tags](./search.md)
 - [Notifications & Inbox](./notifications.md)
 - [Docs Site Hooks](./docs-hooks.md)
@@ -27,4 +28,4 @@ This hub lists all platform modules with links to specs, active increments, and 
 - **Definition of Done (DoD):** code merged → docs updated (this hub or module page) → proofs in PR body:
 LINT=OK  
 VALIDATORS=GREEN  
-SMOKE=OK  
+SMOKE=OK
