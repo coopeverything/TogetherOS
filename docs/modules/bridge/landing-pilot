@@ -1,0 +1,172 @@
+Bridge — Landing Pilot (Owner-led, Contributor-assisted)
+
+Purpose: Ship a minimal public page where visitors can ask "What is TogetherOS?" and get a calm, mission-first answer. This creates real usage, seeds the Bridge FAQ, and informs the fuller Bridge module.
+
+Owner: @coopeverything-core
+Labels: module:bridge, slice:qna, type:increment, size:XS|S, target:Now
+Status: Planned (pre-MVP)
+
+1) What & Why
+
+A single /bridge page with one text box and streaming answer. We start with a hosted LLM via API (no tools yet), log anonymized requests, and learn from trusted testers. The goal is understanding before onboarding: a calm explainer that reflects the Manifesto and shows our tone.
+
+Outcomes
+
+Real questions from visitors → a curated seed Bridge FAQ.
+
+Proven streaming UI + rate-limited API route.
+
+Append-only logs + validator in CI.
+
+2) UX Spec (Minimal)
+
+Intro: "Ask Bridge what TogetherOS is."
+
+Input: single line, submit on Enter, disabled while streaming.
+
+Output: streamed markdown; below it show a short disclaimer: "Bridge may be imperfect; verify important details."
+
+Footer stub: "Sources (coming soon)."
+
+States
+
+Empty → placeholder prompt
+
+Loading → animated dots
+
+Error → toast with retry
+
+Rate-limited → message with suggested wait
+
+3) API Contract (Fixture-free, provider API only)
+
+Route: POST /api/bridge/ask
+
+Request (JSON)
+{
+"question": "What is TogetherOS?"
+}
+
+Response (JSON)
+{
+"answer": "TogetherOS is…",
+"disclaimer": "Bridge may be imperfect; verify important details."
+}
+
+Errors
+
+HTTP	Meaning
+204	Empty/whitespace input
+401	Missing/invalid key
+429	Rate limit exceeded
+500	Unexpected server error
+
+Notes
+
+Initial answers are uncited (citations arrive with MCP/RAG in later phases). Keep answers brief and grounded in curated snippets.
+
+Streaming response required.
+
+4) System Prompt (paste into server-side call)
+
+You are Bridge, the assistant of TogetherOS. Speak plainly, avoid jargon, and emphasize cooperation, empathy, and human decision-making. Answer only what was asked. Prefer concrete examples over abstractions. End with: "Bridge may be imperfect; verify important details."
+
+Style rules
+
+Calm, respectful, hopeful.
+
+No hype; no ideology labels.
+
+Invite a small next step when appropriate.
+
+5) Privacy, Logs, and CI
+
+Rate-limit: default 30 requests/hour/IP.
+
+Logging: append a line to logs/bridge/actions-YYYY-MM-DD.ndjson:
+{ "id":"ulid…", "ts":"2025-10-15T12:00:00Z", "action":"ask", "ip_hash":"sha256(salt+ip)", "q_len":142, "latency_ms":820 }
+
+No PII stored (hash only). Avoid storing raw prompts during the pilot; if enabled later, redact emails/phones/handles.
+
+Validator: scripts/validate.sh must parse the last non-empty line and print exactly:
+LINT=OK
+VALIDATORS=GREEN
+SMOKE=OK
+
+6) Implementation Notes (Monorepo)
+
+apps/frontend/app/bridge/page.tsx — UI with streaming.
+
+apps/frontend/app/api/bridge/ask/route.ts — validates input, rate-limits, calls provider API, logs NDJSON, streams back.
+
+logs/bridge/.gitkeep — ensure directory tracked.
+
+.env — OPENAI_API_KEY, BRIDGE_ENV=prod, optional RATE_LIMIT_PER_HOUR=30.
+
+VPS checklist
+
+Node 20 + pnpm; Nginx proxy on 80/443; Let’s Encrypt.
+
+Deploy via existing rsync + Compose; smoke route returns SMOKE=OK.
+
+7) Content Prep (Owner)
+
+Curate 6–10 canon snippets (Manifesto “why”, Modules Hub, Status snapshot) to anchor answers.
+
+Maintain docs/modules/bridge/faq-seed.md with high-quality Q&A from testers.
+
+8) Contributor Tasks (XS/S)
+
+ Implement streaming UI and API route (with 204/401/429/500 taxonomy).
+
+ Add NDJSON logger + validator script.
+
+ Storybook story for the chat box (empty/loading/error).
+
+ Basic a11y: labels, focus ring, keyboard submit, reduced motion.
+
+Each task should include acceptance and a tiny proof (e.g., validator output).
+
+9) Metrics for the Pilot
+
+p95 time-to-first-token < 800 ms (provider + network permitting).
+
+Helpful rating from testers ≥ 70%.
+
+10–30 good questions captured into faq-seed.md.
+
+10) Upgrade Path (Later)
+
+Citations: add MCP server exposing docs.search / docs.get(path, range); render source chips.
+
+Thread tidy: add button → structured summary (problem/options/trade-offs/next).
+
+Agent policy: migrate to agent/tooling with repository-audited prompts.
+
+11) Working with the Assistant (Bridge)
+
+Ask the assistant to draft: system prompts, validator scripts, and copy tweaks.
+
+Have it simulate testers ("Ask me 5 hard questions a newcomer might ask").
+
+Use it to turn answers into FAQ entries and propose concise improvements.
+
+Request self-verifying commands with BEGIN/END SUMMARY for any shell work.
+
+12) Risks & Mitigations
+
+Over-promising: keep answers brief and cautionary; point to pilot scope.
+
+PII leakage: redaction policy; no raw prompt storage in pilot.
+
+Cost drift: keep answers short; cap requests/IP; see cost scenarios in main Bridge doc.
+
+13) Done Definition
+
+Public /bridge page live with streaming answers.
+
+Logs append and validator prints proof lines in CI.
+
+faq-seed.md contains ≥ 10 curated Q&A.
+
+Tip: if you prefer the JSON/NDJSON samples to render in code blocks, you can add backticks inside the file (not around the whole thing). The problem came from wrapping the entire document in a single code fence.
