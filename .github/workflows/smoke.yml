@@ -25,12 +25,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Cache actionlint binary
+      - name: Cache actionlint
+        id: cache-actionlint
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/bin/actionlint
+          key: ${{ runner.os }}-actionlint-1.7.0
+          restore-keys: |
+            ${{ runner.os }}-actionlint-
+
       - name: Install validation tooling
         run: |
           sudo apt-get update
           sudo apt-get install -y jq yamllint gh curl
+
+      - name: Install actionlint (if not cached)
+        if: steps.cache-actionlint.outputs.cache-hit != 'true'
+        run: |
           curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o /tmp/actionlint.sh
           sudo bash /tmp/actionlint.sh latest /usr/local/bin
+
+      - name: Verify actionlint
+        run: |
           actionlint --version
           echo "ACTIONLINT=OK"
 
