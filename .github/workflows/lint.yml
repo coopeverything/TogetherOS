@@ -15,6 +15,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Cache apt packages
+      - name: Cache apt packages
+        uses: actions/cache@v4
+        id: cache-apt
+        with:
+          path: |
+            /var/cache/apt/archives/*.deb
+            /var/lib/apt/lists/*
+          key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/lint.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-
+
       # Cache actionlint binary
       - name: Cache actionlint
         id: cache-actionlint
@@ -27,7 +39,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
+          if [ "${{ steps.cache-apt.outputs.cache-hit }}" != "true" ]; then
+            sudo apt-get update
+          fi
           sudo apt-get install -y jq yamllint gh curl
 
       - name: Install actionlint
