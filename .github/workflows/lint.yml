@@ -4,9 +4,19 @@ name: lint
 on:
   workflow_dispatch:
   pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/**'
+      - '**.yml'
+      - '**.yaml'
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/**'
+      - '**.yml'
+      - '**.yaml'
 
 jobs:
   lint:
@@ -15,16 +25,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Cache system dependencies
+        uses: actions/cache@v4
+        id: sys-cache
+        with:
+          path: /usr/local/bin/actionlint
+          key: actionlint-${{ runner.os }}-v1.6.26
+
+      - name: Install system dependencies (if not cached)
+        if: steps.sys-cache.outputs.cache-hit != 'true'
         run: |
-          sudo apt-get update
+          sudo apt-get update -qq
           sudo apt-get install -y jq yamllint gh curl
 
-      - name: Install actionlint
+      - name: Install actionlint (if not cached)
+        if: steps.sys-cache.outputs.cache-hit != 'true'
         run: |
           curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o /tmp/actionlint.sh
           sudo bash /tmp/actionlint.sh latest /usr/local/bin
+
+      - name: Verify tools
+        run: |
           actionlint --version && echo "ACTIONLINT=OK"
+          yamllint --version && echo "YAMLLINT=OK"
 
       - name: Run lint script
         if: ${{ hashFiles('scripts/lint.sh') != '' }}

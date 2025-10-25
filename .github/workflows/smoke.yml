@@ -4,9 +4,23 @@ name: smoke
 on:
   workflow_dispatch:
   pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/**'
+      - 'docs/**'
+      - '**.md'
+      - '**.yml'
+      - '**.yaml'
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/**'
+      - 'docs/**'
+      - '**.md'
+      - '**.yml'
+      - '**.yaml'
   schedule:
     # Daily at 12:00 UTC (05:00 PT)
     - cron: '0 12 * * *'
@@ -25,12 +39,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install validation tooling
+      - name: Cache validation tools
+        uses: actions/cache@v4
+        id: tools-cache
+        with:
+          path: |
+            /usr/local/bin/actionlint
+            ~/.cache/apt
+          key: validation-tools-${{ runner.os }}-v1.6.26
+
+      - name: Install validation tooling (if not cached)
+        if: steps.tools-cache.outputs.cache-hit != 'true'
         run: |
-          sudo apt-get update
+          sudo apt-get update -qq
           sudo apt-get install -y jq yamllint gh curl
           curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o /tmp/actionlint.sh
           sudo bash /tmp/actionlint.sh latest /usr/local/bin
+
+      - name: Verify cached tools
+        run: |
           actionlint --version
           echo "ACTIONLINT=OK"
 

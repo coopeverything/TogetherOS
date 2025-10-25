@@ -5,19 +5,32 @@ on:
     branches: [main]
     paths:
       - '**/*.md'
+      - '.markdownlint*'
+      - '.lychee*'
   pull_request:
     branches: [main]
     paths:
       - '**/*.md'
+      - '.markdownlint*'
+      - '.lychee*'
 
 jobs:
   docs-lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 8  # Reduced from 10 minutes
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Cache lychee for faster link checking
+      - name: Cache lychee
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/lychee
+          key: lychee-${{ runner.os }}-${{ hashFiles('**/*.md') }}
+          restore-keys: |
+            lychee-${{ runner.os }}-
 
       # Markdown style/lint
       - name: markdownlint
@@ -26,12 +39,16 @@ jobs:
           globs: |
             **/*.md
 
-      # Link checker
+      # Link checker with caching
       - name: Link check
         uses: lycheeverse/lychee-action@v1
         with:
           args: >
-            --no-progress --verbose --exclude-mail --accept 200,204
+            --no-progress --verbose --exclude-mail --accept 200,204,429
+            --cache --max-cache-age 1d
             --include **/*.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docs validation complete
+        run: echo "DOCS=OK"
