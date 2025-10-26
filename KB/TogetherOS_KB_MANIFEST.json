@@ -1,0 +1,49 @@
+{
+  "manifest_name": "TogetherOS_KB_MANIFEST",
+  "version": "2025-10-08",
+  "description": "Canonical minimal knowledge base for TogetherOS project. Repo is source of truth; these are helper-only files.",
+  "files": [
+    {
+      "file": "DISCIPLINE_APPLIED_OPERATIONS-v6.txt",
+      "version_tag": "v6",
+      "size_bytes": 11732,
+      "sha256": "15e7b5b6dcdd06ad5238d731e9e00f4d6b7e23089e402be0ebf19a0ef0d2a530",
+      "purpose": "Operational discipline rules, proof-lines, cadence."
+    },
+    {
+      "file": "VSCODE_DEVCONTAINERS_2025-09-25.txt",
+      "version_tag": "2025-09-25",
+      "size_bytes": 5436,
+      "sha256": "efb327b0f3e91d4f3ad7084bfe3c624c6e72cc09e4dcb982ebc8146854bbf278",
+      "purpose": "Devcontainer configuration tips and troubleshooting."
+    },
+    {
+      "file": "VSCODE_KNOWLEDGE.txt",
+      "version_tag": "initial scaffold",
+      "size_bytes": 2613,
+      "sha256": "4b5ef81cf9376d8f5214d9a8c7d84d9da2a8e496c6800e15e55cb8c449d9ac19",
+      "purpose": "Confirmed VS Code UI flows and wording."
+    },
+    {
+      "file": "TogetherOS_Working_Path_VSCode+Copilot.md",
+      "version_tag": "TogetherOS v1",
+      "size_bytes": 3742,
+      "sha256": "b74b92fd4cf57de2d14d5d73c542777ecb3eaf047cd035b2e2c4e27d8b59dcf4",
+      "purpose": "Private workflow helper for VS Code + Copilot lane."
+    },
+    {
+      "file": "KB_README.txt",
+      "version_tag": "2025-10-08",
+      "size_bytes": 1524,
+      "sha256": "69c2ac49d52d9a75f9a1459f2c25ebc54ff933ecf2e8848f54c3b32e04c9de57",
+      "purpose": "Policy summary: repo is source of truth, KB minimal."
+    }
+  ],
+  "policy": {
+    "docs_commit_rule": "direct-to-main for obviously-correct changes",
+    "code_ci_rule": "PR-gated; ci/lint + ci/smoke required",
+    "proof_lines": ["VALIDATORS=GREEN", "LINT=OK", "SMOKE=OK"],
+    "last_verified_commit": "9265b8b"
+  },
+  "notes": "Hashes computed from uploaded text files on 2025-10-08. Manifest intended for local archive and assistant sync verification."
+}
