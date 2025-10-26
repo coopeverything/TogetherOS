@@ -20,7 +20,7 @@ For the append-only activity log, see: [STATUS/What_we_finished_What_is_left_v2.
 | **Forum / Deliberation** | Topics, posts, summarization hooks, empathy tools | <!-- progress:forum=0 --> 0% | Topic list + post composer MVP | Storage schema + moderation rules |
 | **Proposals & Decisions** | Proposal object, evidence/options, vote, review | <!-- progress:governance=0 --> 0% | Proposal create/read MVP | Ballot types + quorum rules |
 | **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
-| **Support Points & Reputation** | Points bank, allocation per idea, badges | <!-- progress:reputation=0 --> 0% | 100-point wallet + allocate UI | Abuse caps; per-idea limit logic |
+| **Support Points & Reputation** | Points bank, allocation per idea, badges | <!-- progress:reputation=20 --> 20% | 100-point wallet + allocate UI | Abuse caps; per-idea limit logic |
 | **Onboarding (“Bridge”)** | Scenario intro, quick profile, “first tiny step” | <!-- progress:onboarding=0 --> 0% | 3-step onboarding flow | Content copy + gating toggles |
 | **Search & Tags** | Global search, Path/keyword filters | <!-- progress:search=0 --> 0% | Tag facet filter on lists | Index choice (client/server) |
 | **Notifications & Inbox** | Mentions, proposal updates, reminders | <!-- progress:notifications=0 --> 0% | In-app toasts + inbox page | Source events & digest batching |
