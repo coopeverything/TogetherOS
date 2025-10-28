@@ -959,7 +959,6 @@ describe('POST /api/rewards/events', () => {
 - [ ] Module spec updated if behavior changed
 
 **TogetherOS Principles:**
-- [ ] One tiny change per PR (smallest shippable increment)
 - [ ] Docs-first: spec matches implementation
 - [ ] Privacy-first: no PII exposure, IP hashing if needed
 - [ ] Validation: Zod schemas validate all inputs
