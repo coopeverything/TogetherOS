@@ -806,8 +806,7 @@ We've designed the Reward System to be accessible with clear, small issues perfe
 1. **Read this spec** — Understand the full picture
 2. **Check Issues** — Look for `good-first-issue` labels
 3. **Join Discussions** — Ask questions in Discussions #88
-4. **Small PRs** — One change per PR, well-tested
-5. **Follow workflow** — Branch from `Claude-1st-build`, target back to it
+4. **Follow workflow** — Branch from `claude-yolo`, target back to it
 
 ### Issue Breakdown Strategy
 
