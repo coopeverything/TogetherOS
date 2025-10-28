@@ -107,7 +107,41 @@ export async function POST(request: NextRequest) {
     });
 
     if (!openaiResponse.ok) {
-      throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+      const errorData = await openaiResponse.json().catch(() => ({}));
+      const errorMessage = errorData.error?.message || `OpenAI API error: ${openaiResponse.status}`;
+
+      // Handle specific OpenAI errors
+      if (openaiResponse.status === 401) {
+        logBridgeAction({
+          action: 'error',
+          ip_hash: ipHash,
+          q_len: question.length,
+          status: 401,
+          error: 'Invalid OpenAI API key',
+          latency_ms: Date.now() - startTime,
+        });
+        return NextResponse.json(
+          { error: 'Service authentication failed' },
+          { status: 401 }
+        );
+      }
+
+      if (openaiResponse.status === 429) {
+        logBridgeAction({
+          action: 'error',
+          ip_hash: ipHash,
+          q_len: question.length,
+          status: 429,
+          error: 'OpenAI rate limit exceeded',
+          latency_ms: Date.now() - startTime,
+        });
+        return NextResponse.json(
+          { error: 'Service temporarily unavailable. Please try again later.' },
+          { status: 503 }
+        );
+      }
+
+      throw new Error(errorMessage);
     }
 
     // Log successful request

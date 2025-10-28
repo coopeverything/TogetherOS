@@ -8,6 +8,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import styles from './BridgeChat.module.css';
 
 export interface BridgeChatProps {
   /** Optional CSS class name for styling */
@@ -93,24 +94,24 @@ export function BridgeChat({ className }: BridgeChatProps) {
 
   return (
     <div className={className}>
-      <div className="bridge-container">
+      <div className={styles['bridge-container']}>
         <h2>Ask Bridge</h2>
-        <p className="bridge-intro">Ask Bridge what TogetherOS is.</p>
+        <p className={styles['bridge-intro']}>Ask Bridge what TogetherOS is.</p>
 
         <form onSubmit={handleSubmit}>
-          <div className="bridge-input-container">
+          <div className={styles['bridge-input-container']}>
             <input
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="What is TogetherOS?"
-              className="bridge-input"
+              className={styles['bridge-input']}
               aria-label="Ask a question to Bridge"
               disabled={isDisabled}
             />
             <button
               type="submit"
-              className="bridge-submit"
+              className={styles['bridge-submit']}
               aria-label="Submit question"
               disabled={isDisabled}
             >
@@ -120,28 +121,28 @@ export function BridgeChat({ className }: BridgeChatProps) {
         </form>
 
         {(state === 'error' || state === 'rate-limited') && (
-          <div className="bridge-error" role="alert">
+          <div className={styles['bridge-error']} role="alert">
             {errorMessage}
           </div>
         )}
 
         {answer && (
-          <div className="bridge-output" role="region" aria-live="polite">
+          <div className={styles['bridge-output']} role="region" aria-live="polite">
             {answer}
           </div>
         )}
 
         {state === 'loading' && (
-          <div className="bridge-loading" aria-live="polite">
+          <div className={styles['bridge-loading']} aria-live="polite">
             Thinking...
           </div>
         )}
 
-        <p className="bridge-disclaimer">
+        <p className={styles['bridge-disclaimer']}>
           Bridge may be imperfect; verify important details.
         </p>
 
-        <p className="bridge-sources-stub">
+        <p className={styles['bridge-sources-stub']}>
           Sources (coming soon).
         </p>
       </div>

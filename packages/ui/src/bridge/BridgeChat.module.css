@@ -1,0 +1,163 @@
+/* Bridge Chat Styles */
+
+.bridge-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.bridge-container h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.bridge-intro {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.bridge-input-container {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.bridge-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.bridge-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.bridge-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.bridge-submit {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  min-width: 120px;
+}
+
+.bridge-submit:hover:not(:disabled) {
+  background-color: #357abd;
+}
+
+.bridge-submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.bridge-loading {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #666;
+  text-align: center;
+  font-style: italic;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.bridge-error {
+  padding: 1rem 1.25rem;
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  color: #856404;
+  margin-bottom: 1.5rem;
+}
+
+.bridge-output {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 1.5rem;
+  white-space: pre-wrap;
+  min-height: 100px;
+}
+
+.bridge-output:empty {
+  display: none;
+}
+
+.bridge-disclaimer {
+  font-size: 0.875rem;
+  color: #999;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.bridge-sources-stub {
+  font-size: 0.875rem;
+  color: #999;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Accessibility improvements */
+.bridge-input:focus-visible,
+.bridge-submit:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .bridge-loading {
+    animation: none;
+  }
+
+  .bridge-input,
+  .bridge-submit {
+    transition: none !important;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .bridge-container {
+    padding: 1rem;
+  }
+
+  .bridge-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .bridge-input-container {
+    flex-direction: column;
+  }
+
+  .bridge-submit {
+    width: 100%;
+  }
+}
