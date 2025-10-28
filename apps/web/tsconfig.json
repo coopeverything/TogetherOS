@@ -16,7 +16,8 @@
     "incremental": true,
     "paths": {
       "@togetheros/ui": ["../../packages/ui/src"],
-      "@togetheros/ui/*": ["../../packages/ui/src/*"]
+      "@togetheros/ui/*": ["../../packages/ui/src/*"],
+      "@/lib/*": ["../../lib/*"]
     },
     "plugins": [
       {

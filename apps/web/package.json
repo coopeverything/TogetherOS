@@ -13,7 +13,8 @@
     "@togetheros/ui": "*",
     "next": "^14.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "ulid": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
