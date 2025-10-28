@@ -12,7 +12,7 @@ For the append-only activity log, see: [STATUS/What_we_finished_What_is_left_v2.
 
 | Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
 | --- | --- | ---:| --- | --- |
-| **Monorepo & Scaffolding** | Next.js 14 app (`apps/frontend`), `packages/ui`, scripts, basic pages/routes | <!-- progress:scaffold=0 --> 0% | Create baseline app shell, healthy dev server | Decide base nav + placeholder pages |
+| **Monorepo & Scaffolding** | Next.js 14 app (`apps/frontend`), `packages/ui`, scripts, basic pages/routes | <!-- progress:scaffold=10 --> 10% | Create baseline app shell, healthy dev server | Decide base nav + placeholder pages |
 | **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=0 --> 0% | Install shadcn/ui, set base typography + colors | Choose token naming + dark mode rule |
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=0 --> 0% | Wire provider (e.g., NextAuth or custom) | Secret storage & provider choice |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=0 --> 0% | Minimal profile view/edit | Data model for tags/keywords |

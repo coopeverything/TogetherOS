@@ -1,0 +1,95 @@
+---
+name: auto/progress-update
+
+# Automatically updates module progress when PRs are merged to claude-yolo
+# Looks for progress markers in PR body like: progress:bridge=+10
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - claude-yolo
+      - main
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  update-progress:
+    name: auto/progress-update
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract progress updates from PR body
+        id: extract
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || "";
+            const title = context.payload.pull_request.title || "";
+
+            // Look for progress markers like:
+            // progress:bridge=+10
+            // progress:governance=25
+            // progress:scaffold=+5
+            const progressRegex = /progress:([a-z-]+)=(\+?\d+)/g;
+            const updates = [];
+
+            let match;
+            while ((match = progressRegex.exec(body)) !== null) {
+              updates.push({
+                module: match[1],
+                value: match[2]
+              });
+            }
+
+            core.setOutput('updates', JSON.stringify(updates));
+            core.setOutput('has_updates', updates.length > 0 ? 'true' : 'false');
+            core.setOutput('pr_title', title);
+
+      - name: Apply progress updates
+        if: steps.extract.outputs.has_updates == 'true'
+        env:
+          UPDATES: ${{ steps.extract.outputs.updates }}
+          PR_TITLE: ${{ steps.extract.outputs.pr_title }}
+        run: |
+          echo "Applying progress updates from PR..."
+          echo "${UPDATES}" | jq -r '.[] | "\(.module) \(.value)"' | while read -r module value; do
+            echo "Updating ${module} to ${value}%"
+            bash scripts/update-progress.sh "${module}" "${value}" "Auto-update from PR: ${PR_TITLE}"
+          done
+
+      - name: Configure git
+        if: steps.extract.outputs.has_updates == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit progress updates
+        if: steps.extract.outputs.has_updates == 'true'
+        env:
+          UPDATES: ${{ steps.extract.outputs.updates }}
+        run: |
+          if git diff --quiet docs/STATUS_v2.md; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          MODULE_LIST=$(echo "${UPDATES}" | jq -r '.[].module' | paste -sd "," -)
+
+          git add docs/STATUS_v2.md STATUS/progress-log.md || true
+          git commit -m "chore(status): auto-update progress for ${MODULE_LIST}
+
+Triggered by PR #${{ github.event.pull_request.number }}
+[skip ci]"
+          git push
+
+      - name: Update marker
+        run: echo "AUTO_PROGRESS_UPDATE=OK"

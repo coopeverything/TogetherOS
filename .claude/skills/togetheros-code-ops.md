@@ -56,6 +56,8 @@ Use this mapping to auto-select the appropriate Cooperation Path:
 - **commands.install**: Override install command (default: `npm ci`)
 - **commands.build**: Override build command (default: `npm run build`)
 - **commands.test**: Add test command if needed (default: none in YOLO mode)
+- **progress**: Estimated progress increase percentage (e.g., "10" or "+10", default: auto-calculate based on work)
+- **skip_progress**: Set to "true" to skip progress tracking (default: false)
 
 ## Workflow Steps
 
@@ -102,7 +104,14 @@ Use this mapping to auto-select the appropriate Cooperation Path:
 - Commit with message: `feat({module}): {slice} - {scope}`
 - Push branch: `git push -u origin feature/{module}-{slice}`
 
-### 8. PR Creation with Auto-Category
+### 8. Progress & Next Steps Update
+- Calculate estimated progress increase based on work completed
+- Update module's Next Steps in `docs/modules/{module}/` using `scripts/update-module-next-steps.sh`
+- Mark completed tasks as done
+- Add any new tasks discovered during implementation
+- Prepare progress marker for PR body (e.g., `progress:bridge=+10`)
+
+### 9. PR Creation with Auto-Category & Progress
 - Auto-select Cooperation Path using module→path mapping above
 - Generate 3-5 relevant keywords from:
   - Module name
@@ -114,6 +123,7 @@ Use this mapping to auto-select the appropriate Cooperation Path:
   - **Files Modified**: List with brief description
   - **Category**: Selected Cooperation Path
   - **Keywords**: Generated keyword list
+  - **Progress Marker**: `progress:{module}=+X` (for auto-update on merge)
   - **Proof Lines** (if validation was run):
     ```
     LINT=OK
@@ -122,6 +132,8 @@ Use this mapping to auto-select the appropriate Cooperation Path:
 - Output PR URL and 5-line action summary
 
 **Note**: If `gh` CLI is not authenticated, output the PR creation URL and the formatted PR body for manual creation
+
+**Progress Auto-Update**: When the PR merges, GitHub Actions will detect the `progress:module=+X` marker and automatically update `docs/STATUS_v2.md`
 
 ## Safety Guidelines
 
@@ -190,3 +202,45 @@ Example for bridge module:
 
 Example for governance module:
 - `governance`, `proposals`, `voting`, `consensus`, `deliberation`
+
+## Progress Tracking & Automation
+
+### How It Works
+
+1. **During Implementation**: As you complete work, estimate the progress increase (typically 5-20% per feature)
+2. **Update Next Steps**: Use `scripts/update-module-next-steps.sh` to:
+   - Mark completed tasks as done
+   - Add new tasks discovered during work
+3. **Add Progress Marker**: Include `progress:{module}=+X` in PR body
+4. **Auto-Update on Merge**: GitHub Actions detects the marker and updates `docs/STATUS_v2.md`
+
+### Progress Estimation Guide
+
+- **Scaffold/Setup**: +5-10% (foundational structure)
+- **Core Feature**: +10-20% (major functionality)
+- **Enhancement**: +5-10% (improvements to existing features)
+- **Polish/Refine**: +2-5% (UI tweaks, minor fixes)
+- **Testing/Docs**: +5% (comprehensive testing or documentation)
+
+### Available Scripts
+
+**Update Progress Manually**:
+```bash
+./scripts/update-progress.sh bridge 15 "Completed streaming UI"
+./scripts/update-progress.sh governance +10  # Increment by 10%
+```
+
+**Manage Next Steps**:
+```bash
+./scripts/update-module-next-steps.sh bridge init              # Initialize section
+./scripts/update-module-next-steps.sh bridge add "Task name"   # Add task
+./scripts/update-module-next-steps.sh bridge complete "Task"   # Mark done
+./scripts/update-module-next-steps.sh bridge list              # Show tasks
+```
+
+### Module Progress Keys
+
+From `docs/STATUS_v2.md`:
+- **Core Modules**: scaffold, ui, auth, profiles, groups, forum, governance, social-economy, reputation, onboarding, search, notifications, docs-hooks, observability, security
+- **Path Modules**: path-education, path-governance, path-community, path-media, path-wellbeing, path-economy, path-technology, path-planet
+- **DevEx**: devcontainer, ci-lint, ci-docs, ci-smoke, deploy, secrets
