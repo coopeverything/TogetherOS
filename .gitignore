@@ -11,3 +11,4 @@ build/
 out/
 coverage/
 .mcp.json
+.vercel

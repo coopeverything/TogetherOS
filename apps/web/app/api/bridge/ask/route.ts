@@ -2,18 +2,43 @@
  * Bridge API Endpoint: POST /api/bridge/ask
  *
  * Streaming Q&A endpoint for Bridge landing pilot
- * Features: Rate limiting, NDJSON logging, privacy-first
+ * Features: Rate limiting, NDJSON logging, privacy-first, RAG with docs
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { join } from 'path';
 import { checkRateLimit } from '@/lib/bridge/rate-limiter';
 import { logBridgeAction, getClientIp, hashIp } from '@/lib/bridge/logger';
+import {
+  buildIndex,
+  getRelevantExcerpts,
+  getSources,
+  type DocEntry,
+} from '@/lib/bridge/docs-indexer';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const BRIDGE_SYSTEM_PROMPT = `You are Bridge, the assistant of TogetherOS. Speak plainly, avoid jargon, and emphasize cooperation, empathy, and human decision-making. Answer only what was asked. Prefer concrete examples over abstractions and be concise.`;
+
+// Cache the document index in memory
+let docsIndex: DocEntry[] | null = null;
+
+function getDocsIndex(): DocEntry[] {
+  if (!docsIndex) {
+    try {
+      // Build index from /docs directory
+      const docsPath = join(process.cwd(), '..', '..', 'docs');
+      docsIndex = buildIndex(docsPath);
+      console.log(`[Bridge] Indexed ${docsIndex.length} documents`);
+    } catch (error) {
+      console.error('[Bridge] Error building docs index:', error);
+      docsIndex = [];
+    }
+  }
+  return docsIndex;
+}
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
@@ -87,6 +112,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get relevant documentation context (RAG)
+    const index = getDocsIndex();
+    const context = getRelevantExcerpts(index, question, 1500);
+    const sources = getSources(index, question, 3);
+
+    // Build enhanced system prompt with context
+    const enhancedSystemPrompt = context
+      ? `${BRIDGE_SYSTEM_PROMPT}
+
+Use the following documentation to inform your answer:
+
+${context}
+
+Cite sources when relevant using the format [Source: title].`
+      : BRIDGE_SYSTEM_PROMPT;
+
     // Call OpenAI API with streaming
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -97,7 +138,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         messages: [
-          { role: 'system', content: BRIDGE_SYSTEM_PROMPT },
+          { role: 'system', content: enhancedSystemPrompt },
           { role: 'user', content: question },
         ],
         stream: true,
@@ -107,7 +148,41 @@ export async function POST(request: NextRequest) {
     });
 
     if (!openaiResponse.ok) {
-      throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+      const errorData = await openaiResponse.json().catch(() => ({}));
+      const errorMessage = errorData.error?.message || `OpenAI API error: ${openaiResponse.status}`;
+
+      // Handle specific OpenAI errors
+      if (openaiResponse.status === 401) {
+        logBridgeAction({
+          action: 'error',
+          ip_hash: ipHash,
+          q_len: question.length,
+          status: 401,
+          error: 'Invalid OpenAI API key',
+          latency_ms: Date.now() - startTime,
+        });
+        return NextResponse.json(
+          { error: 'Service authentication failed' },
+          { status: 401 }
+        );
+      }
+
+      if (openaiResponse.status === 429) {
+        logBridgeAction({
+          action: 'error',
+          ip_hash: ipHash,
+          q_len: question.length,
+          status: 429,
+          error: 'OpenAI rate limit exceeded',
+          latency_ms: Date.now() - startTime,
+        });
+        return NextResponse.json(
+          { error: 'Service temporarily unavailable. Please try again later.' },
+          { status: 503 }
+        );
+      }
+
+      throw new Error(errorMessage);
     }
 
     // Log successful request
@@ -153,6 +228,13 @@ export async function POST(request: NextRequest) {
                 }
               }
             }
+          }
+
+          // Append sources at the end
+          if (sources.length > 0) {
+            const sourcesText = '\n\n---\n\n**Sources:**\n' +
+              sources.map(s => `- [${s.title}](../../docs/${s.path})`).join('\n');
+            controller.enqueue(encoder.encode(sourcesText));
           }
         } catch (error) {
           console.error('Stream error:', error);

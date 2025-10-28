@@ -190,8 +190,9 @@ Reply with exactly: **APPROVE OPEN: https://raw.githubusercontent.com/coopeveryt
 ## Next Steps
 
 ### To Do
-- [ ] Add basic styling for BridgeChat component
-- [ ] Add LLM provider configuration (OpenAI API key setup)
+- [ ] Test Bridge endpoint with real OpenAI API key
+- [ ] Add Storybook stories for BridgeChat states
+- [ ] Run accessibility audit (axe/lighthouse)
 
 ### In Progress
 - Currently being worked on
@@ -199,8 +200,10 @@ Reply with exactly: **APPROVE OPEN: https://raw.githubusercontent.com/coopeveryt
 ### Done
 - [x] Add NDJSON logging
 - [x] Implement streaming API endpoint
-- [x] Add tasks here as development progresses
-- Completed items move here
+- [x] Add basic styling for BridgeChat component
+- [x] Add LLM provider configuration (OpenAI API key setup)
+- [x] Create configuration documentation
+- [x] Add enhanced error handling with fallbacks
 
 ---
 

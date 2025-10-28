@@ -959,6 +959,7 @@ describe('POST /api/rewards/events', () => {
 - [ ] Module spec updated if behavior changed
 
 **TogetherOS Principles:**
+- [ ] One tiny change per PR (smallest shippable increment)
 - [ ] Docs-first: spec matches implementation
 - [ ] Privacy-first: no PII exposure, IP hashing if needed
 - [ ] Validation: Zod schemas validate all inputs
@@ -967,7 +968,7 @@ describe('POST /api/rewards/events', () => {
 - [ ] PR includes proof lines in description
 - [ ] All CI checks pass (ci/lint, ci/docs, ci/smoke)
 - [ ] No linting errors or warnings
-- [ ] Branch targets `claude-yolo` (not main)
+- [ ] Branch targets `Claude-1st-build` (not main)
 
 **Path Labels:**
 - [ ] PR tagged with correct Cooperation Path
