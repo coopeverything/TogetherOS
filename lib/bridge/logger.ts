@@ -31,9 +31,23 @@ function getLogFilePath(): string {
 }
 
 /**
- * Ensure log directory exists
+ * Check if running in serverless environment (Vercel, AWS Lambda, etc.)
+ */
+function isServerless(): boolean {
+  return !!(
+    process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.NETLIFY ||
+    process.env.LAMBDA_TASK_ROOT
+  );
+}
+
+/**
+ * Ensure log directory exists (skip in serverless)
  */
 function ensureLogDir(): void {
+  if (isServerless()) return;
+
   if (!existsSync(LOG_DIR)) {
     mkdirSync(LOG_DIR, { recursive: true });
   }
@@ -52,23 +66,34 @@ export interface BridgeLogEntry {
 
 /**
  * Log a Bridge action to NDJSON
+ * In serverless: logs to console (captured by platform)
+ * In local dev: appends to NDJSON file
  */
 export function logBridgeAction(entry: Omit<BridgeLogEntry, 'id' | 'ts'>): void {
-  ensureLogDir();
-
   const logEntry: BridgeLogEntry = {
     id: ulid(),
     ts: new Date().toISOString(),
     ...entry,
   };
 
-  const logLine = JSON.stringify(logEntry) + '\n';
+  const logLine = JSON.stringify(logEntry);
+
+  // In serverless environments, log to console (platform captures it)
+  if (isServerless()) {
+    console.log('[Bridge Log]', logLine);
+    return;
+  }
+
+  // In local development, write to NDJSON file
+  ensureLogDir();
   const logPath = getLogFilePath();
 
   try {
-    appendFileSync(logPath, logLine, 'utf8');
+    appendFileSync(logPath, logLine + '\n', 'utf8');
   } catch (error) {
     console.error('Failed to write Bridge log:', error);
+    // Fallback to console
+    console.log('[Bridge Log]', logLine);
   }
 }
 
