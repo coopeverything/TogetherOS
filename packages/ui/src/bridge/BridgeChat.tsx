@@ -139,11 +139,7 @@ export function BridgeChat({ className }: BridgeChatProps) {
         )}
 
         <p className={styles['bridge-disclaimer']}>
-          Bridge may be imperfect; verify important details.
-        </p>
-
-        <p className={styles['bridge-sources-stub']}>
-          Sources (coming soon).
+          Bridge answers are informed by TogetherOS documentation. Sources are listed below each answer.
         </p>
       </div>
     </div>

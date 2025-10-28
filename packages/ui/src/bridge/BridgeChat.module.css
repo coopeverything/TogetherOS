@@ -108,6 +108,21 @@
   display: none;
 }
 
+.bridge-output hr {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 2px solid #e0e0e0;
+}
+
+.bridge-output a {
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+.bridge-output a:hover {
+  text-decoration: underline;
+}
+
 .bridge-disclaimer {
   font-size: 0.875rem;
   color: #999;
