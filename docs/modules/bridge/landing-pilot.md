@@ -190,13 +190,15 @@ Reply with exactly: **APPROVE OPEN: https://raw.githubusercontent.com/coopeveryt
 ## Next Steps
 
 ### To Do
-- [ ] Add NDJSON logging
-- [ ] Implement streaming API endpoint
+- [ ] Add basic styling for BridgeChat component
+- [ ] Add LLM provider configuration (OpenAI API key setup)
 
 ### In Progress
 - Currently being worked on
 
 ### Done
+- [x] Add NDJSON logging
+- [x] Implement streaming API endpoint
 - [x] Add tasks here as development progresses
 - Completed items move here
 
