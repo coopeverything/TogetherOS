@@ -968,7 +968,7 @@ describe('POST /api/rewards/events', () => {
 - [ ] PR includes proof lines in description
 - [ ] All CI checks pass (ci/lint, ci/docs, ci/smoke)
 - [ ] No linting errors or warnings
-- [ ] Branch targets `Claude-1st-build` (not main)
+- [ ] Branch targets `claude-yolo` (not main)
 
 **Path Labels:**
 - [ ] PR tagged with correct Cooperation Path
