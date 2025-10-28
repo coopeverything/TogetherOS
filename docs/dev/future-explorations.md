@@ -36,17 +36,63 @@ This document tracks future tasks and improvements to explore for TogetherOS dev
 
 **Desired Behavior:**
 - On permission prompt, detect user's choice
-- If user consistently chooses option 2, update `.claude/permissions.json` (or equivalent)
+- If user consistently chooses option 2, update `.claude/settings.local.json`
 - Future sessions skip the prompt for that operation
 - User can always revoke permissions via config
 
-**Implementation:**
-- Research Claude Code's permission system structure
-- Identify where permission choices are stored
-- Create auto-update logic when user selects option 2
-- Test that permissions persist across sessions
+**Investigation Findings (2025-10-28):**
 
-**Status:** Not started
+**Permission File Location:**
+- `.claude/settings.local.json` in project root
+- Contains `permissions.allow` array
+- Supports wildcards (e.g., `Write(*)`, `Bash(npm:*)`)
+
+**Current Allow List:**
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash", "Write(*)", "Edit(*)", "Read(*)", "Glob(*)", "Grep(*)",
+      "TodoWrite(*)",
+      "Bash(gh pr:*)", "Bash(npm run dev:*)", "Bash(npm install:*)",
+      "Bash(vercel login)", "Bash(vercel:*)", "Bash(curl:*)",
+      "mcp__notion__API-post-search",
+      "mcp__notion__API-retrieve-a-page",
+      "mcp__notion__API-get-block-children",
+      "mcp__notion__API-post-page",
+      "mcp__notion__API-patch-block-children",
+      "mcp__notion__API-delete-a-block",
+      "mcp__notion__API-update-a-block"
+    ]
+  }
+}
+```
+
+**Mystery:** User reports being prompted for Notion operations despite them being in allow list.
+
+**Possible Causes:**
+1. Global permissions override local settings
+2. Interactive prompts vs allow list confusion
+3. Operation names don't match exactly
+4. Permission system bug in Claude Code
+5. Different Notion MCP operations not in list
+
+**Next Steps:**
+- [ ] Monitor which specific operations trigger prompts
+- [ ] Check if there's a global `.claude.json` overriding local
+- [ ] Test wildcard: `mcp__notion__API-*` instead of individual operations
+- [ ] Document exact operation names when prompted
+- [ ] File issue with Claude Code team if bug confirmed
+
+**Auto-Update Strategy:**
+When user approves an operation:
+1. Detect operation name from prompt
+2. Read `.claude/settings.local.json`
+3. Add operation to `permissions.allow` array
+4. Write updated JSON back
+5. Confirm with user: "Added X to permanent allow list"
+
+**Status:** Investigation in progress
 
 ---
 

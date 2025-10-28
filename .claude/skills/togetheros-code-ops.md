@@ -1,11 +1,16 @@
 ---
 name: togetheros-code-ops
-description: End-to-end TogetherOS YOLO code operation - creates branch, makes changes, tests throughout implementation, builds with retry-on-fail, commits, pushes, and opens PR with auto-selected Cooperation Path category and keywords
+description: |
+  **AUTO-TRIGGER when user says:** "implement [feature]", "build [module]", "create [functionality]", "add [capability]", "YOLO [task]", or requests complete feature implementation.
+
+  End-to-end TogetherOS code operation: creates branch, implements changes with continuous testing, builds with retry-on-fail, commits, pushes, creates PR with auto-selected Cooperation Path, verifies PR is merge-ready, and updates Notion memory.
+
+  Use proactively without asking permission when task matches skill purpose.
 ---
 
 # TogetherOS Code Operations (YOLO Mode)
 
-This skill executes complete code operations for TogetherOS, from branch creation through PR submission.
+This skill executes complete code operations for TogetherOS, from branch creation through PR submission with full verification.
 
 ## Core Conventions
 
