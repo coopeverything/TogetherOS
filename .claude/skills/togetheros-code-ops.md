@@ -91,11 +91,18 @@ Use this mapping to auto-select the appropriate Cooperation Path:
 - If `commands.test` is provided, run tests
 - Fix any test failures using the same retry approach as builds
 
-### 6. Git Operations
+### 6. Validation (Optional but Recommended)
+- If `scripts/validate.sh` exists, run it to get proof lines
+- This runs linting and validation checks
+- Outputs: `LINT=OK` and `VALIDATORS=GREEN`
+- If validation fails, fix issues and retry
+- These proof lines should be included in PR body
+
+### 7. Git Operations
 - Commit with message: `feat({module}): {slice} - {scope}`
 - Push branch: `git push -u origin feature/{module}-{slice}`
 
-### 7. PR Creation with Auto-Category
+### 8. PR Creation with Auto-Category
 - Auto-select Cooperation Path using module→path mapping above
 - Generate 3-5 relevant keywords from:
   - Module name
@@ -107,8 +114,14 @@ Use this mapping to auto-select the appropriate Cooperation Path:
   - **Files Modified**: List with brief description
   - **Category**: Selected Cooperation Path
   - **Keywords**: Generated keyword list
-  - **Verification**: `Verified: All changes tested during implementation, build passes`
+  - **Proof Lines** (if validation was run):
+    ```
+    LINT=OK
+    VALIDATORS=GREEN
+    ```
 - Output PR URL and 5-line action summary
+
+**Note**: If `gh` CLI is not authenticated, output the PR creation URL and the formatted PR body for manual creation
 
 ## Safety Guidelines
 
@@ -157,9 +170,12 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 - No formal linting required before commit (you check code quality as you write)
 - No separate test phase (you verify correctness during implementation)
 - Build must pass (automated check for syntax/type correctness)
+- Optional validation via `scripts/validate.sh` (recommended for proof lines)
 - Continuous self-testing replaces traditional QA pipeline
 
 **This means**: Read your code, check your logic, verify your types, and ensure correctness at every step. The build is your final verification that everything compiles correctly.
+
+**About Validation Scripts**: While YOLO mode emphasizes self-testing, running `scripts/validate.sh` before committing provides proof lines (`LINT=OK`, `VALIDATORS=GREEN`) that CI checks look for. These checks are advisory-only and won't block merges, but including them shows good practice.
 
 ## Keyword Generation Logic
 
