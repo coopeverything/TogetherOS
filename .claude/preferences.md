@@ -50,20 +50,30 @@ This file documents user preferences and workflow expectations that should persi
 
 ## PR Workflow
 
+### ⚠️ CRITICAL: Base Branch
+
+**ALWAYS use `claude-yolo` as base branch - NEVER use `main`**
+- All feature branches created from `claude-yolo`
+- All PRs target `claude-yolo`, not `main`
+- User NEVER works directly with main
+
 ### Always Required Before Suggesting Merge
 
 **Run This Checklist:**
 ```bash
 # 1. Check mergeable
-gh pr view <PR#> --json mergeable
+gh pr view <PR#> --json mergeable,baseRefName
 
-# 2. Review CI
+# 2. Verify base is claude-yolo (not main!)
+# baseRefName should be "claude-yolo"
+
+# 3. Review CI
 gh pr checks <PR#>
 
-# 3. Fix conflicts if needed
-git fetch origin main && git merge origin/main
+# 4. Fix conflicts if needed
+git fetch origin claude-yolo && git merge origin/claude-yolo
 
-# 4. Fix CI failures if needed
+# 5. Fix CI failures if needed
 gh run view <run-id> --log-failed
 ```
 

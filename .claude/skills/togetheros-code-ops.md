@@ -14,9 +14,10 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 
 ## Core Conventions
 
-- **Base Branch**: `claude-yolo`
+- **Base Branch**: `claude-yolo` **⚠️ NEVER USE main AS BASE - ALWAYS USE claude-yolo**
 - **Branch Pattern**: `feature/{module}-{slice}`
 - **Commit Format**: `feat({module}): {slice} - {scope}`
+- **PR Target**: ALL PRs go to `claude-yolo`, **NEVER to main**
 - **PR Verification**: Always include in PR body:
   ```
   Verified: All changes tested during implementation, build passes
@@ -123,17 +124,27 @@ Use this mapping to auto-select the appropriate Cooperation Path:
   - Slice description
   - Key technologies used
   - Scope keywords
-- Create PR to `claude-yolo` with body containing:
-  - **Summary**: What changed and why
-  - **Files Modified**: List with brief description
-  - **Category**: Selected Cooperation Path
-  - **Keywords**: Generated keyword list
-  - **Progress Marker**: `progress:{module}=+X` (for auto-update on merge)
-  - **Proof Lines** (if validation was run):
-    ```
-    LINT=OK
-    VALIDATORS=GREEN
-    ```
+- Create PR to `claude-yolo` with body in this EXACT format:
+  ```
+  Category: [Selected Cooperation Path Name]
+  Keywords: [keyword1, keyword2, keyword3, ...]
+
+  ## Summary
+  [What changed and why]
+
+  ## Files Changed
+  [List with brief description]
+
+  ## Progress
+  progress:{module}=+X
+
+  [Proof lines if validation run]
+  ```
+- **CRITICAL FORMAT RULES:**
+  - First line MUST be `Category:` (plain text, no bold, no markdown)
+  - Second line MUST be `Keywords:` (plain text, no bold, no markdown)
+  - Then blank line, then markdown sections
+  - Progress marker in body for auto-update on merge
 - Output PR URL and 5-line action summary
 
 **Note**: If `gh` CLI is not authenticated, output the PR creation URL and the formatted PR body for manual creation
