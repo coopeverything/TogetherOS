@@ -1,0 +1,20 @@
+{
+  "name": "@togetheros/ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared UI components for TogetherOS",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./bridge": "./src/bridge/index.ts"
+  },
+  "scripts": {
+    "build": "echo 'UI build placeholder'",
+    "lint": "echo 'UI lint placeholder'"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
