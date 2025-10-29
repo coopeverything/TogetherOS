@@ -4,6 +4,8 @@
  * This is the top-level layout that wraps all pages in the application.
  */
 
+import './globals.css';
+
 export const metadata = {
   title: 'TogetherOS',
   description: 'A cooperative operating system for collective action',

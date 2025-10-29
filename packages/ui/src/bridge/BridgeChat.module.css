@@ -1,23 +1,28 @@
-/* Bridge Chat Styles */
+/* Bridge Chat Styles - TogetherOS Design System */
 
 .bridge-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-  font-family: system-ui, -apple-system, sans-serif;
+  padding: 3rem 2rem;
+  font-family: Inter, -apple-system, sans-serif;
+  background: var(--bg-0, #FAFAF9);
+  min-height: 100vh;
 }
 
 .bridge-container h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #1a1a1a;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--ink-900, #0F172A);
+  line-height: 1.2;
 }
 
 .bridge-intro {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+  color: var(--ink-700, #334155);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  max-width: 68ch;
 }
 
 .bridge-input-container {
@@ -30,50 +35,56 @@
   flex: 1;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  background: var(--bg-1, #FFFFFF);
+  color: var(--ink-900, #0F172A);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 0.5rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  line-height: 1.6;
 }
 
 .bridge-input:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  border-color: var(--brand-500, #10B981);
+  box-shadow: 0 0 0 2px var(--brand-500, #10B981);
 }
 
 .bridge-input:disabled {
-  background-color: #f5f5f5;
+  background-color: var(--bg-2, #F5F5F4);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .bridge-submit {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   color: white;
-  background-color: #4a90e2;
+  background-color: var(--brand-600, #059669);
   border: none;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
   min-width: 120px;
 }
 
 .bridge-submit:hover:not(:disabled) {
-  background-color: #357abd;
+  background-color: #047857;
+  transform: translateY(-1px);
 }
 
 .bridge-submit:disabled {
-  background-color: #ccc;
+  background-color: var(--ink-400, #94A3B8);
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .bridge-loading {
-  padding: 1.5rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  color: #666;
+  padding: 2rem;
+  background-color: var(--bg-1, #FFFFFF);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 1rem;
+  color: var(--ink-700, #334155);
   text-align: center;
   font-style: italic;
   animation: pulse 1.5s ease-in-out infinite;
@@ -85,23 +96,26 @@
 }
 
 .bridge-error {
-  padding: 1rem 1.25rem;
-  background-color: #fff3cd;
-  border-left: 4px solid #ffc107;
-  border-radius: 4px;
-  color: #856404;
+  padding: 1rem 1.5rem;
+  background-color: var(--warn-bg, #FEF3C7);
+  border-left: 4px solid var(--warn, #D97706);
+  border-radius: 0.5rem;
+  color: var(--ink-900, #0F172A);
   margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
 .bridge-output {
-  padding: 1.5rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  line-height: 1.6;
-  color: #333;
+  padding: 2rem;
+  background-color: var(--bg-1, #FFFFFF);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 1rem;
+  line-height: 1.7;
+  color: var(--ink-900, #0F172A);
   margin-bottom: 1.5rem;
   white-space: pre-wrap;
   min-height: 100px;
+  max-width: 68ch;
 }
 
 .bridge-output:empty {
@@ -111,30 +125,33 @@
 .bridge-output hr {
   margin: 1.5rem 0;
   border: none;
-  border-top: 2px solid #e0e0e0;
+  border-top: 1px solid var(--border, #E5E7EB);
 }
 
 .bridge-output a {
-  color: #4a90e2;
+  color: var(--brand-600, #059669);
   text-decoration: none;
+  font-weight: 500;
 }
 
 .bridge-output a:hover {
   text-decoration: underline;
+  color: var(--brand-500, #10B981);
 }
 
 .bridge-disclaimer {
   font-size: 0.875rem;
-  color: #999;
+  color: var(--ink-400, #94A3B8);
   text-align: center;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border, #E5E7EB);
+  line-height: 1.6;
 }
 
 .bridge-sources-stub {
   font-size: 0.875rem;
-  color: #999;
+  color: var(--ink-400, #94A3B8);
   text-align: center;
   margin-top: 0.5rem;
 }
@@ -142,7 +159,7 @@
 /* Accessibility improvements */
 .bridge-input:focus-visible,
 .bridge-submit:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid var(--brand-500, #10B981);
   outline-offset: 2px;
 }
 
