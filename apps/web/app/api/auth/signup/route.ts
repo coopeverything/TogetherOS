@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createUser, findUserByEmail, logActivity } from '../../../../../../lib/db/users';
+import { createUser, findUserByEmail, logActivity } from '@/lib/db/users';
 
 export async function POST(request: NextRequest) {
   try {
