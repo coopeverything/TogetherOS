@@ -149,6 +149,22 @@
   color: var(--brand-500, #10B981);
 }
 
+.bridge-link {
+  color: var(--brand-600, #059669);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease-out;
+}
+
+.bridge-link:hover {
+  color: var(--brand-500, #10B981);
+  text-decoration: underline;
+}
+
+.bridge-link:visited {
+  color: var(--brand-600, #059669);
+}
+
 .bridge-disclaimer {
   font-size: 0.875rem;
   color: var(--ink-400, #94A3B8);
