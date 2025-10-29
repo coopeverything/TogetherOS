@@ -87,7 +87,7 @@ TogetherOS/
 │       └── tailwind-config/
 │
 ├── docs/                       # Specs & playbooks
-├── codex/                      # Knowledge base
+├── # REMOVED: codex/ (deprecated)                      # Knowledge base
 ├── scripts/                    # Validation scripts
 ├── .github/workflows/          # CI/CD
 ├── .devcontainer/              # Dev environment
@@ -632,7 +632,7 @@ export const Error: StoryObj = {
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core identity and workflow
-- [Tech Stack](./tech-stack.md) — Frameworks, tools, versions
-- [Data Models](./data-models.md) — Complete entity specifications
-- [CI/CD Discipline](./ci-cd-discipline.md) — Validation and proofs
+- [Main KB](togetheros-kb.md) — Core identity and workflow
+- [Tech Stack](tech-stack.md) — Frameworks, tools, versions
+- [Data Models](data-models.md) — Complete entity specifications
+- [CI/CD Discipline](../contributors/WORKFLOW.md) — Validation and proofs

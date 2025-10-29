@@ -567,7 +567,7 @@ When renaming/moving files:
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core principles, workflow
-- [Architecture](./architecture.md) — Domain-driven design, NDJSON patterns
-- [Data Models](./data-models.md) — BridgeQuery, BridgeAnswer entities
-- [CI/CD Discipline](./ci-cd-discipline.md) — Proof lines, validation
+- [Main KB](togetheros-kb.md) — Core principles, workflow
+- [Architecture](architecture.md) — Domain-driven design, NDJSON patterns
+- [Data Models](data-models.md) — BridgeQuery, BridgeAnswer entities
+- [CI/CD Discipline](../contributors/WORKFLOW.md) — Proof lines, validation

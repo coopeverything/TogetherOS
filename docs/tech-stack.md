@@ -388,6 +388,6 @@ git fetch origin main
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core identity and workflow
-- [Architecture](./architecture.md) — Monorepo structure, patterns
-- [CI/CD Discipline](./ci-cd-discipline.md) — Proof lines, validation workflows
+- [Main KB](togetheros-kb.md) — Core identity and workflow
+- [Architecture](architecture.md) — Monorepo structure, patterns
+- [CI/CD Discipline](../contributors/WORKFLOW.md) — Proof lines, validation workflows

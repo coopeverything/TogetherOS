@@ -582,7 +582,7 @@ GET    /api/treasury/investments
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core principles, workflow
-- [Architecture](./architecture.md) — Domain-driven design, data patterns
-- [Data Models](./data-models.md) — Complete entity specifications
-- [Governance Module](./governance-module.md) — How proposals/decisions work
+- [Main KB](togetheros-kb.md) — Core principles, workflow
+- [Architecture](architecture.md) — Domain-driven design, data patterns
+- [Data Models](data-models.md) — Complete entity specifications
+- [Governance Module](modules/governance.md) — How proposals/decisions work

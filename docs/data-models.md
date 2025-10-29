@@ -709,8 +709,8 @@ export type UpdateMemberInput = z.infer<typeof updateMemberSchema>
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core principles, workflow
-- [Architecture](./architecture.md) — Repository pattern, domain-driven design
-- [Bridge Module](./bridge-module.md) — Bridge-specific entities
-- [Governance Module](./governance-module.md) — Proposal/decision flow
-- [Social Economy](./social-economy.md) — Economic primitives
+- [Main KB](togetheros-kb.md) — Core principles, workflow
+- [Architecture](architecture.md) — Repository pattern, domain-driven design
+- [Bridge Module](modules/bridge.md) — Bridge-specific entities
+- [Governance Module](modules/governance.md) — Proposal/decision flow
+- [Social Economy](modules/social-economy.md) — Economic primitives
