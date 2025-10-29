@@ -100,7 +100,7 @@ export default function ExampleProfilePage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Bio */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>About</CardTitle>
               </CardHeader>
               <CardContent>
@@ -115,13 +115,13 @@ export default function ExampleProfilePage() {
 
             {/* Skills */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>Skills & Expertise</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div>
-                    <h4 className="font-semibold text-ink-900 mb-2">Technical Skills</h4>
+                    <h4 className="font-semibold text-ink-900 mb-3">Technical Skills</h4>
                     <div className="flex flex-wrap gap-2">
                       {['JavaScript', 'Python', 'React', 'Node.js', 'PostgreSQL', 'Docker'].map(skill => (
                         <span key={skill} className="px-3 py-1 bg-bg-2 text-ink-700 rounded-md text-sm">
@@ -131,7 +131,7 @@ export default function ExampleProfilePage() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-ink-900 mb-2">Cooperative Skills</h4>
+                    <h4 className="font-semibold text-ink-900 mb-3">Cooperative Skills</h4>
                     <div className="flex flex-wrap gap-2">
                       {['Facilitation', 'Community Organizing', 'Democratic Governance', 'Technical Writing'].map(skill => (
                         <span key={skill} className="px-3 py-1 bg-brand-100 text-brand-600 rounded-md text-sm">
@@ -141,7 +141,7 @@ export default function ExampleProfilePage() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-ink-900 mb-2">Languages</h4>
+                    <h4 className="font-semibold text-ink-900 mb-3">Languages</h4>
                     <div className="flex flex-wrap gap-2">
                       <span className="px-3 py-1 bg-bg-2 text-ink-700 rounded-md text-sm">English (native)</span>
                       <span className="px-3 py-1 bg-bg-2 text-ink-700 rounded-md text-sm">Spanish (conversational)</span>
@@ -153,7 +153,7 @@ export default function ExampleProfilePage() {
 
             {/* Current Projects */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>Current Projects</CardTitle>
               </CardHeader>
               <CardContent>
@@ -176,7 +176,7 @@ export default function ExampleProfilePage() {
 
             {/* References */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>References</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -196,7 +196,7 @@ export default function ExampleProfilePage() {
           <div className="space-y-6">
             {/* Cooperation Paths */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>Cooperation Paths</CardTitle>
                 <CardDescription>Active areas of interest</CardDescription>
               </CardHeader>
@@ -224,7 +224,7 @@ export default function ExampleProfilePage() {
 
             {/* Availability */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>How I Can Help</CardTitle>
               </CardHeader>
               <CardContent>
@@ -247,10 +247,10 @@ export default function ExampleProfilePage() {
 
             {/* Memberships */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>Cooperative Memberships</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-4">
                 <div>
                   <div className="font-semibold text-ink-900 text-sm">Portland Tech Co-op</div>
                   <div className="text-xs text-ink-700">Tech Committee Member</div>
@@ -266,7 +266,7 @@ export default function ExampleProfilePage() {
 
             {/* Contact */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-6">
                 <CardTitle>Connect</CardTitle>
               </CardHeader>
               <CardContent>
