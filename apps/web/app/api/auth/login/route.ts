@@ -1,10 +1,10 @@
 /**
- * User signup API
- * POST /api/auth/signup
+ * User login API
+ * POST /api/auth/login
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createUser, findUserByEmail, logActivity } from '@/lib/db/users';
+import { verifyPassword, logActivity } from '@/lib/db/users';
 import { createSession } from '@/lib/auth/session';
 
 export async function POST(request: NextRequest) {
@@ -12,44 +12,40 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body;
 
-    // Validate email
-    if (!email || !email.includes('@')) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: 'Valid email required' },
+        { error: 'Email and password required' },
         { status: 400 }
       );
     }
 
-    // Check if user already exists
-    const existing = await findUserByEmail(email);
-    if (existing) {
+    // Verify credentials
+    const user = await verifyPassword(email, password);
+    if (!user) {
       return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 409 }
+        { error: 'Invalid email or password' },
+        { status: 401 }
       );
     }
 
-    // Create user
-    const user = await createUser(email, password);
-
-    // Create session and log in automatically
-    const ip = request.headers.get('x-forwarded-for') || request.ip || 'unknown';
-    const userAgent = request.headers.get('user-agent') || 'unknown';
+    // Create session
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    const userAgent = request.headers.get('user-agent') || '';
     const token = await createSession(user.id, user.email, ip, userAgent);
 
     // Log activity
-    await logActivity(user.id, 'signup', { method: 'email', ip, userAgent });
+    await logActivity(user.id, 'login', { ip, userAgent });
 
+    // Set cookie
     const response = NextResponse.json({
       success: true,
       user: {
         id: user.id,
         email: user.email,
-        created_at: user.created_at,
+        name: user.name,
       },
     });
 
-    // Set session cookie
     response.cookies.set('session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -60,9 +56,9 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Login error:', error);
     return NextResponse.json(
-      { error: 'Failed to create account' },
+      { error: 'Failed to login' },
       { status: 500 }
     );
   }

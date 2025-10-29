@@ -106,10 +106,15 @@ export async function updateUser(
   let paramIndex = 1;
 
   Object.entries(updates).forEach(([key, value]) => {
-    fields.push(`${key} = $${paramIndex}`);
-    values.push(value);
-    paramIndex++;
+    if (value !== undefined) {
+      fields.push(`${key} = $${paramIndex}`);
+      values.push(value);
+      paramIndex++;
+    }
   });
+
+  // Always update updated_at
+  fields.push(`updated_at = NOW()`);
 
   values.push(userId);
 
