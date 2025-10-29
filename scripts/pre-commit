@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# TogetherOS pre-commit hook
+# Runs validation before allowing commit
+#
+# Install: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -e
+
+echo "🔍 Running pre-commit validation..."
+
+# Check if validation script exists
+if [ ! -f "./scripts/validate.sh" ]; then
+  echo "⚠️  Warning: scripts/validate.sh not found, skipping validation"
+  exit 0
+fi
+
+# Run validation
+if ./scripts/validate.sh; then
+  echo "✅ Pre-commit validation passed"
+  exit 0
+else
+  echo ""
+  echo "❌ Pre-commit validation failed"
+  echo ""
+  echo "Fix the issues above and try again."
+  echo "Or skip with: git commit --no-verify"
+  exit 1
+fi

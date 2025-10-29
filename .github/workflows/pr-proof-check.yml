@@ -21,8 +21,8 @@ jobs:
             const missing = required.filter(s => !body.includes(s));
             core.setOutput("missing", JSON.stringify(missing));
 
-      # Non-blocking notifier: comments + label if lines are missing
-      - name: Comment & label if missing (non-blocking)
+      # Comment & label if lines are missing
+      - name: Comment & label if missing
         if: steps.check.outputs.missing != '[]'
         uses: actions/github-script@v7
         env:
@@ -34,7 +34,7 @@ jobs:
             const issue_number = context.payload.pull_request.number;
 
             const body = [
-              "⚠️ Proof-lines missing in PR description.",
+              "🔴 **REQUIRED:** Proof-lines missing in PR description.",
               "",
               "Please paste these two lines from CI logs:",
               "```",
@@ -42,19 +42,27 @@ jobs:
               "LINT=OK",
               "```",
               "",
-              "Once added, re-run checks if needed."
+              "This check will fail until proof lines are added.",
+              "Once added, re-run checks."
             ].join("\n");
 
             // Add comment
             await github.rest.issues.createComment({ owner, repo, issue_number, body });
 
-            // Add a label (create if it doesn’t exist)
+            // Add a label (create if it doesn't exist)
             try {
               await github.rest.issues.addLabels({ owner, repo, issue_number, labels: ["needs-proof"] });
             } catch (e) {
               // ignore if labels not permitted or missing
             }
 
-      # Always pass (advisory only)
-      - name: Proof marker
-        run: echo "PR_PROOF_CHECK=ADVISORY"
+      # BLOCKING: Fail if proof lines are missing
+      - name: Validate proof lines (REQUIRED)
+        run: |
+          MISSING='${{ steps.check.outputs.missing }}'
+          if [ "$MISSING" != "[]" ]; then
+            echo "::error::Proof lines missing from PR body: $MISSING"
+            echo "PR body must include: VALIDATORS=GREEN and LINT=OK"
+            exit 1
+          fi
+          echo "✅ Proof lines validated"
