@@ -17,7 +17,8 @@
     "paths": {
       "@togetheros/ui": ["../../packages/ui/src"],
       "@togetheros/ui/*": ["../../packages/ui/src/*"],
-      "@/lib/*": ["../../lib/*"]
+      "@/lib/*": ["../../lib/*"],
+      "@/components/*": ["./components/*"]
     },
     "plugins": [
       {

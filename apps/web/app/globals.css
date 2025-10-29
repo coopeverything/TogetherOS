@@ -3,6 +3,10 @@
  * Design System: Warm Minimalism
  */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* CSS Variables - Light Mode (Default) */
 :root {
   /* Backgrounds & Surfaces */
