@@ -18,6 +18,7 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - **Branch Pattern**: `feature/{module}-{slice}`
 - **Commit Format**: `feat({module}): {slice} - {scope}`
 - **PR Target**: ALL PRs go to `claude-yolo`, **NEVER to main**
+- **Design System**: Follow `docs/design/system.md` for all UI work (colors, typography, components)
 - **PR Verification**: Always include in PR body:
   ```
   Verified: All changes tested during implementation, build passes
