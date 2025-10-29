@@ -17,6 +17,14 @@
   line-height: 1.2;
 }
 
+.bridge-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink-700, #334155);
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
 .bridge-intro {
   font-size: 1.125rem;
   color: var(--ink-700, #334155);

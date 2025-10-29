@@ -95,8 +95,12 @@ export function BridgeChat({ className }: BridgeChatProps) {
   return (
     <div className={className}>
       <div className={styles['bridge-container']}>
-        <h2>Ask Bridge</h2>
-        <p className={styles['bridge-intro']}>Ask Bridge what TogetherOS is.</p>
+        <h2>Bridge Knows!</h2>
+        <h3 className={styles['bridge-subtitle']}>Ask Bridge about all things that cooperation can achieve.</h3>
+        <p className={styles['bridge-intro']}>
+          Coopeverything is a vast project to transform the way we survive, thrive and govern ourselves.
+          Bridge will help you with your questions.
+        </p>
 
         <form onSubmit={handleSubmit}>
           <div className={styles['bridge-input-container']}>
