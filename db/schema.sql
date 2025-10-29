@@ -44,6 +44,16 @@ CREATE TABLE users (
   mastodon_handle VARCHAR(255) UNIQUE,
   instagram_id VARCHAR(255) UNIQUE,
 
+  -- Auto-filled OAuth data (captured at signup, user can override)
+  oauth_display_name VARCHAR(255), -- Display name from OAuth provider
+  oauth_avatar_url TEXT, -- Profile picture from OAuth
+  oauth_locale VARCHAR(10), -- User's locale (e.g., "en-US")
+  oauth_verified BOOLEAN DEFAULT FALSE, -- Whether OAuth provider verified the account
+
+  -- Full OAuth profile data (JSONB for flexibility)
+  -- Stores complete profile from provider for reference/debugging
+  oauth_raw_profile JSONB,
+
   -- Metadata
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW(),
