@@ -4,6 +4,8 @@ name: pr/metadata-preflight
 on:
   pull_request:
     types: [opened, edited, synchronize]
+    branches:
+      - main
 
 permissions:
   contents: read
