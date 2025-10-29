@@ -1,42 +1,44 @@
 /* Bridge Chat Styles - TogetherOS Design System */
 
 .bridge-container {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   font-family: Inter, -apple-system, sans-serif;
   background: var(--bg-0, #FAFAF9);
   min-height: 100vh;
 }
 
 .bridge-container h2 {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: var(--ink-900, #0F172A);
-  line-height: 1.2;
+  line-height: 1.1;
+  text-align: center;
 }
 
 .bridge-subtitle {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 500;
   color: var(--ink-700, #334155);
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .bridge-intro {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   color: var(--ink-700, #334155);
-  margin-bottom: 2rem;
-  line-height: 1.6;
-  max-width: 68ch;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+  text-align: center;
 }
 
 .bridge-input-container {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .bridge-input {
@@ -151,8 +153,8 @@
   font-size: 0.875rem;
   color: var(--ink-400, #94A3B8);
   text-align: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
+  margin-top: 4rem;
+  padding-top: 2.5rem;
   border-top: 1px solid var(--border, #E5E7EB);
   line-height: 1.6;
 }
