@@ -1,0 +1,225 @@
+/* Signup Page - TogetherOS Design System */
+
+.container {
+  min-height: 100vh;
+  background: var(--bg-0, #FAFAF9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.card {
+  max-width: 600px;
+  width: 100%;
+  background: var(--bg-1, #FFFFFF);
+  padding: 3rem 2.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border, #E5E7EB);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink-900, #0F172A);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.intro {
+  font-size: 1.0625rem;
+  color: var(--ink-700, #334155);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.callout {
+  font-size: 1.0625rem;
+  color: var(--ink-700, #334155);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: var(--brand-100, #D1FAE5);
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--brand-600, #059669);
+}
+
+.manifesto {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ink-900, #0F172A);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  font-style: italic;
+}
+
+.form {
+  margin-top: 2.5rem;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink-700, #334155);
+  margin-bottom: 0.5rem;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--ink-400, #94A3B8);
+  font-size: 0.875rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: var(--bg-1, #FFFFFF);
+  color: var(--ink-900, #0F172A);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: var(--brand-500, #10B981);
+  box-shadow: 0 0 0 2px var(--brand-500, #10B981);
+}
+
+.input:disabled {
+  background-color: var(--bg-2, #F5F5F4);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.error {
+  padding: 1rem 1.5rem;
+  background-color: var(--danger-bg, #FEE2E2);
+  border-left: 4px solid var(--danger, #DC2626);
+  border-radius: 0.5rem;
+  color: var(--ink-900, #0F172A);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+.button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--brand-600, #059669);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #047857;
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  background-color: var(--ink-400, #94A3B8);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.divider {
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+  position: relative;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border, #E5E7EB);
+}
+
+.divider span {
+  position: relative;
+  background: var(--bg-1, #FFFFFF);
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  color: var(--ink-400, #94A3B8);
+}
+
+.oauthButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.oauthButton {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink-700, #334155);
+  background: var(--bg-1, #FFFFFF);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out;
+  font-family: inherit;
+}
+
+.oauthButton:hover:not(:disabled) {
+  background: var(--bg-2, #F5F5F4);
+}
+
+.oauthButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.comingSoon {
+  font-size: 0.75rem;
+  color: var(--ink-400, #94A3B8);
+  font-weight: 400;
+}
+
+.disclaimer {
+  font-size: 0.875rem;
+  color: var(--ink-400, #94A3B8);
+  text-align: center;
+  line-height: 1.6;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border, #E5E7EB);
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 2rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .oauthButtons {
+    grid-template-columns: 1fr;
+  }
+}
