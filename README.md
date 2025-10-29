@@ -17,7 +17,7 @@ OS = Operating System (not “open source”). TogetherOS is a cooperation-first
 - **Common Planet** — habitat repair, food forests, circular materials, and climate-positive logistics.
 
 > Canonical names match the Manifesto; use these labels in docs, issues, and UI.
-> Canonical names/IDs/keywords live in [docs/TogetherOS_CATEGORIES_AND_KEYWORDS](docs/TogetherOS_CATEGORIES_AND_KEYWORDS) and [codex/taxonomy/CATEGORY_TREE.json](codex/taxonomy/CATEGORY_TREE.json).
+> Full taxonomy with keywords: [docs/TogetherOS_CATEGORIES_AND_KEYWORDS](docs/TogetherOS_CATEGORIES_AND_KEYWORDS) | Detailed specs: [docs/cooperation-paths.md](docs/cooperation-paths.md)
 
 ## Contributing (minimum PR metadata)
 

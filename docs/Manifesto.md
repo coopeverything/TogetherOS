@@ -92,7 +92,7 @@ These proposals reflect years of study and practice, not final truths. The platf
 The build is dynamic and community-steered—tell us what you want to ship next. Clone the monorepo (Next.js 14 + Tailwind, Docker devcontainer, GitHub Actions), run locally in minutes, and ship a tiny, verifiable step—CI/lint/smoke ready.  
 Start here: https://github.com/coopeverything/TogetherOS
 
-Find current projects & contribution lanes (pick a module and we’ll scope a tiny first step): `./docs/modules.md`
+Find current projects & contribution lanes (pick a module and we'll scope a tiny first step): [docs/modules/INDEX.md](./modules/INDEX.md)
 
 **Note:** The Bridge landing pilot is currently an internal pilot led by the core team and is not open for public contribution. When we are ready to accept external contributions, scoped tasks will be published in `./docs/modules.md` and announced in the Interest & Priorities forum.
 
@@ -103,7 +103,7 @@ To anyone motivated to join: we’ll invite contributors into meaningful roles a
 ---
 
 ## Current Projects & Modules (sample highlights)
-Find the full, growing list of modules and contribution opportunities in `./docs/modules.md`.
+Find the full, growing list of modules and contribution opportunities in [docs/modules/INDEX.md](./modules/INDEX.md).
 
 - **Decidim integration** — SSO + proposal sync. Proof: Decidim proposal visible & actionable in TogetherOS.  
 - **Bri (Bridge) Assistant** — Thread → claims/evidence/options transformer. Proof: Structured brief pinned to thread.  
@@ -111,8 +111,8 @@ Find the full, growing list of modules and contribution opportunities in `./docs
 - **Social Horizon Wallet (Mock → MVP)** — Non-custodial mock wallet with balances and grants. Proof: Grant disbursed → balance updated.  
 - **Mutual-Aid & Time-Bank Hub** — Matching + ledger accounting. Proof: Match creates ledger transaction & notification.
 
-(Full list: `./docs/modules.md` — linked above.)
+(Full list: [docs/modules/INDEX.md](./modules/INDEX.md) — linked above.)
 
 ## What to do next
-Go to `./docs/modules.md`, pick up to three modules you want to work on, and comment in the pinned Interest & Priorities thread. Declaring interest raises a module’s priority; we’ll scope a tiny, verifiable first task and tag you when the scoped issue lands.  
+Go to [docs/modules/INDEX.md](./modules/INDEX.md), pick up to three modules you want to work on, and comment in the pinned Interest & Priorities thread. Declaring interest raises a module’s priority; we’ll scope a tiny, verifiable first task and tag you when the scoped issue lands.  
 👉 Module interest & priorities: https://github.com/coopeverything/TogetherOS/discussions/88

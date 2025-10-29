@@ -14,12 +14,12 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Profiles](./profiles.md)
 - [Groups & Orgs](./groups.md)
 - [Forum / Deliberation](./forum.md)
-- [Proposals & Decisions (Governance)](../../.claude/knowledge/governance-module.md)
-- [Social Economy Primitives](./social-economy.md)
+- [Proposals & Decisions (Governance)](../../governance.md)
+- [Social Economy Primitives](modules/social-economy.md)
 - [Support Points & Reputation](./reputation.md)
 - [Onboarding](./onboarding.md)
 - [Bridge — Internal pilot (core team only)](./bridge/landing-pilot.md)
-  - [Full Bridge Specification](../../.claude/knowledge/bridge-module.md)
+  - [Full Bridge Specification](../../bridge.md)
 - [Search & Tags](./search.md)
 - [Notifications & Inbox](./notifications.md)
 - [Docs Site Hooks](./docs-hooks.md)
@@ -31,14 +31,14 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 For detailed implementation guides and architecture patterns, see:
 
 - [Main Knowledge Base](../../.claude/knowledge/togetheros-kb.md) — Core identity and workflow
-- [Tech Stack](../../.claude/knowledge/tech-stack.md) — Framework versions, dependencies, tooling
-- [Architecture Patterns](../../.claude/knowledge/architecture.md) — Data models, API contracts, monorepo structure
-- [Bridge Module](../../.claude/knowledge/bridge-module.md) — Complete AI assistant specification
-- [Governance Module](../../.claude/knowledge/governance-module.md) — Proposals & decisions implementation
-- [Social Economy](../../.claude/knowledge/social-economy.md) — Support Points, timebanking, Social Horizon currency
-- [Cooperation Paths](../../.claude/knowledge/cooperation-paths.md) — Full taxonomy with subcategories
+- [Tech Stack](../.tech-stack.md) — Framework versions, dependencies, tooling
+- [Architecture Patterns](../.architecture.md) — Data models, API contracts, monorepo structure
+- [Bridge Module](../../bridge.md) — Complete AI assistant specification
+- [Governance Module](../../governance.md) — Proposals & decisions implementation
+- [Social Economy](../.modules/social-economy.md) — Support Points, timebanking, Social Horizon currency
+- [Cooperation Paths](../../.cooperation-paths.md) — Full taxonomy with subcategories
 - [CI/CD Discipline](../../.claude/knowledge/ci-cd-discipline.md) — Proof lines, validation workflows
-- [Data Models](../../.claude/knowledge/data-models.md) — Core entities and relationships
+- [Data Models](../../.data-models.md) — Core entities and relationships
 
 ## How we build
 

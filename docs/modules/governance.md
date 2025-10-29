@@ -667,7 +667,7 @@ SMOKE=OK
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core principles, workflow
-- [Architecture](./architecture.md) — Domain-driven design patterns
-- [Data Models](./data-models.md) — Complete entity specifications
-- [CI/CD Discipline](./ci-cd-discipline.md) — Proof lines, validation
+- [Main KB](togetheros-kb.md) — Core principles, workflow
+- [Architecture](architecture.md) — Domain-driven design patterns
+- [Data Models](data-models.md) — Complete entity specifications
+- [CI/CD Discipline](../contributors/WORKFLOW.md) — Proof lines, validation

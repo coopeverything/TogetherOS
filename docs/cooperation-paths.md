@@ -4,7 +4,7 @@
 
 TogetherOS organizes all activities around **8 Cooperation Paths** — the foundational categories for resilience and prosperity. Every issue, PR, proposal, and initiative must be labeled with one primary path.
 
-**Source:** `codex/taxonomy/CATEGORY_TREE.json`
+**Source:** `docs/cooperation-paths.md`
 
 ---
 
@@ -265,7 +265,7 @@ path:common-planet
 1. **Every issue/PR must have exactly one Path label**
 2. **Use kebab-case** (lowercase with hyphens)
 3. **No shortcuts** — Use full canonical names from taxonomy
-4. **Update taxonomy if new keywords needed** — Add to `codex/taxonomy/CATEGORY_TREE.json` with rationale
+4. **Update taxonomy if new keywords needed** — Add to `docs/cooperation-paths.md` with rationale
 
 ---
 
@@ -376,7 +376,7 @@ Members can blend archetypes and contribute to multiple Cooperation Paths.
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core principles, workflow
-- [Social Economy](./social-economy.md) — Support Points, mutual aid, timebanking
-- [Governance Module](./governance-module.md) — Proposals and decisions
-- [Architecture](./architecture.md) — How Paths map to code structure
+- [Main KB](togetheros-kb.md) — Core principles, workflow
+- [Social Economy](modules/social-economy.md) — Support Points, mutual aid, timebanking
+- [Governance Module](modules/governance.md) — Proposals and decisions
+- [Architecture](architecture.md) — How Paths map to code structure
