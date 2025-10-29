@@ -1,7 +1,0 @@
-{
-  "framework": "nextjs",
-  "buildCommand": "npm run build --workspace=@togetheros/web",
-  "installCommand": "npm install",
-  "outputDirectory": ".next"
-}
-

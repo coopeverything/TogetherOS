@@ -18,6 +18,7 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - **Branch Pattern**: `feature/{module}-{slice}`
 - **Commit Format**: `feat({module}): {slice} - {scope}`
 - **PR Target**: ALL PRs go to `claude-yolo`, **NEVER to main**
+- **Deployment**: VPS-only (coopeverything.org) - **NO Vercel/Vertex**
 - **Design System**: Follow `docs/design/system.md` for all UI work (colors, typography, components)
 - **PR Verification**: Always include in PR body:
   ```
@@ -231,6 +232,16 @@ Example for governance module:
 3. **Add Progress Marker**: Include `progress:{module}=+X` in PR body
 4. **Auto-Update on Merge**: GitHub Actions detects the marker and updates `docs/STATUS_v2.md`
 
+### Progress Tracking Files
+
+TogetherOS maintains 3 interconnected progress files:
+
+1. **docs/STATUS_v2.md** - Module percentage dashboard (updated automatically via PR markers)
+2. **STATUS/progress-log.md** - Timestamped milestone log (appended by automation)
+3. **STATUS/progress-report.md** - Comprehensive progress report (manual updates at major milestones)
+
+**See full guide:** `docs/dev/progress-tracking-automation.md`
+
 ### Progress Estimation Guide
 
 - **Scaffold/Setup**: +5-10% (foundational structure)
@@ -238,6 +249,21 @@ Example for governance module:
 - **Enhancement**: +5-10% (improvements to existing features)
 - **Polish/Refine**: +2-5% (UI tweaks, minor fixes)
 - **Testing/Docs**: +5% (comprehensive testing or documentation)
+
+### PR Progress Markers (IMPORTANT)
+
+**Always include progress markers in PR body** for automatic tracking:
+
+```markdown
+## Progress
+progress:bridge=+10
+```
+
+**Syntax:**
+- `progress:MODULE=XX` - Set to specific percentage (e.g., `progress:auth=75`)
+- `progress:MODULE=+XX` - Increment by percentage (e.g., `progress:auth=+15`)
+
+This triggers the `auto-progress-update.yml` GitHub Action on merge.
 
 ### Available Scripts
 

@@ -118,7 +118,7 @@ gh run view <run-id> --log-failed
 ### Already Allowed (No Prompts Needed)
 - `Bash`, `Read`, `Write`, `Edit`, `Glob`, `Grep`
 - `TodoWrite(*)`
-- `Bash(gh pr:*)`, `Bash(npm:*)`, `Bash(vercel:*)`
+- `Bash(gh pr:*)`, `Bash(npm:*)`
 - All Notion API operations:
   - `mcp__notion__API-post-search`
   - `mcp__notion__API-retrieve-a-page`

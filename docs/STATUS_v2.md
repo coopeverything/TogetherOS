@@ -1,7 +1,7 @@
 # TogetherOS — Tech Status (v2)
 
 This page tracks the **technology scope** of TogetherOS (what exists, what’s next).  
-For the append-only activity log, see: [STATUS/What_we_finished_What_is_left_v2.txt](../STATUS/What_we_finished_What_is_left_v2.txt)
+For the comprehensive progress report, see: [STATUS/progress-report.md](../STATUS/progress-report.md)
 
 > Percentages are rough, contributor-facing indicators. Update after merged PRs.  
 > CI can target the HTML comments on each row for automated bumping.
@@ -12,21 +12,21 @@ For the append-only activity log, see: [STATUS/What_we_finished_What_is_left_v2.
 
 | Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
 | --- | --- | ---:| --- | --- |
-| **Monorepo & Scaffolding** | Next.js 14 app (`apps/frontend`), `packages/ui`, scripts, basic pages/routes | <!-- progress:scaffold=10 --> 10% | Create baseline app shell, healthy dev server | Decide base nav + placeholder pages |
-| **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=0 --> 0% | Install shadcn/ui, set base typography + colors | Choose token naming + dark mode rule |
-| **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=0 --> 0% | Wire provider (e.g., NextAuth or custom) | Secret storage & provider choice |
-| **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=0 --> 0% | Minimal profile view/edit | Data model for tags/keywords |
+| **Monorepo & Scaffolding** | Next.js 14 app (`apps/frontend`), `packages/ui`, scripts, basic pages/routes | <!-- progress:scaffold=40 --> 40% | Add more pages, refine routing structure | Base nav complete, need more placeholder pages |
+| **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=20 --> 20% | Install shadcn/ui, set base typography + colors | Choose token naming + dark mode rule |
+| **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=70 --> 70% | Complete OAuth providers, email verification | Secret storage & provider choice |
+| **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=40 --> 40% | Add profile editing UI polish, skills management | Data model for tags/keywords |
 | **Groups & Orgs** | Local groups, org records, federation handles | <!-- progress:groups=0 --> 0% | Create/join group MVP | Federation design (IDs/claims) |
 | **Forum / Deliberation** | Topics, posts, summarization hooks, empathy tools | <!-- progress:forum=0 --> 0% | Topic list + post composer MVP | Storage schema + moderation rules |
 | **Proposals & Decisions** | Proposal object, evidence/options, vote, review | <!-- progress:governance=0 --> 0% | Proposal create/read MVP | Ballot types + quorum rules |
 | **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
 | **Support Points & Reputation** | Points bank, allocation per idea, badges | <!-- progress:reputation=20 --> 20% | 100-point wallet + allocate UI | Abuse caps; per-idea limit logic |
-| **Onboarding (“Bridge”)** | Scenario intro, quick profile, “first tiny step” | <!-- progress:onboarding=0 --> 0% | 3-step onboarding flow | Content copy + gating toggles |
+| **Onboarding ("Bridge")** | Scenario intro, quick profile, "first tiny step" | <!-- progress:onboarding=40 --> 40% | Polish multi-step flow, add more guidance | Content copy + gating toggles |
 | **Search & Tags** | Global search, Path/keyword filters | <!-- progress:search=0 --> 0% | Tag facet filter on lists | Index choice (client/server) |
 | **Notifications & Inbox** | Mentions, proposal updates, reminders | <!-- progress:notifications=0 --> 0% | In-app toasts + inbox page | Source events & digest batching |
-| **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=0 --> 0% | Surface docs/OPERATIONS.md & CI playbook | Stable doc routes |
-| **Observability** | Basic logs, error boundary, uptime ping | <!-- progress:observability=0 --> 0% | Error boundary + simple tracker | Choose provider (self/3rd-party) |
-| **Security & Privacy** | Least-privilege tokens, PII handling, audit flags | <!-- progress:security=0 --> 0% | Secrets layout + no-PII logs | Threat model checklist |
+| **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=60 --> 60% | Integrate more doc links in app UI | Stable doc routes |
+| **Observability** | Basic logs, error boundary, uptime ping | <!-- progress:observability=10 --> 10% | Error boundary + simple tracker | Choose provider (self/3rd-party) |
+| **Security & Privacy** | Least-privilege tokens, PII handling, audit flags | <!-- progress:security=30 --> 30% | Secrets layout + no-PII logs | Threat model checklist |
 
 ---
 
@@ -49,12 +49,12 @@ For the append-only activity log, see: [STATUS/What_we_finished_What_is_left_v2.
 
 | Area | What’s included | Progress | Next milestone |
 | --- | --- | ---:| --- |
-| **Dev-container** | VS Code, Node, pnpm, lint, compose | <!-- progress:devcontainer=0 --> 0% | Add base `devcontainer.json` |
-| **CI Lint** | `yamllint`, `actionlint`, path-ignore for .md | <!-- progress:ci-lint=0 --> 0% | Ensure `.github/workflows/ci_lint.yml` present |
-| **CI Docs** | `markdownlint-cli2`, `lychee` | <!-- progress:ci-docs=0 --> 0% | Fix rules so new docs pass |
-| **CI Smoke** | `scripts/validate.sh` proof lines | <!-- progress:ci-smoke=0 --> 0% | Add minimal validator script |
-| **Deploy** | `deploy.yml`, rsync to VPS, compose restart | <!-- progress:deploy=0 --> 0% | Dry-run to staging |
-| **Secrets** | Names only in repo, values in GH | <!-- progress:secrets=0 --> 0% | Verify `SSH_PRIVATE_KEY`, `VPS_HOST`, `VPS_USER`, `VPS_PATH` |
+| **Dev-container** | VS Code, Node, pnpm, lint, compose | <!-- progress:devcontainer=30 --> 30% | Complete devcontainer setup with all tools |
+| **CI Lint** | `yamllint`, `actionlint`, path-ignore for .md | <!-- progress:ci-lint=70 --> 70% | Refine linting rules, add more checks |
+| **CI Docs** | `markdownlint-cli2`, `lychee` | <!-- progress:ci-docs=80 --> 80% | Fix remaining doc issues, tighten rules |
+| **CI Smoke** | `scripts/validate.sh` proof lines | <!-- progress:ci-smoke=60 --> 60% | Expand smoke test coverage |
+| **Deploy** | `deploy.yml`, rsync to VPS, compose restart | <!-- progress:deploy=70 --> 70% | Add staging environment, improve automation |
+| **Secrets** | Names only in repo, values in GH | <!-- progress:secrets=50 --> 50% | Audit all secrets, implement secrets management |
 
 ---
 

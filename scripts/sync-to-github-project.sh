@@ -4,7 +4,7 @@ set -euo pipefail
 # sync-to-github-project.sh
 #
 # Syncs module progress from docs/STATUS_v2.md to GitHub Projects
-# Creates/updates project items with current progress percentages
+# Creates or updates project items with current progress percentages
 #
 # Usage: ./scripts/sync-to-github-project.sh [--dry-run]
 
@@ -80,6 +80,49 @@ get_status_id() {
   fi
 }
 
+get_status_name() {
+  case $1 in
+    "$STATUS_TODO") echo "Todo" ;;
+    "$STATUS_IN_PROGRESS") echo "In Progress" ;;
+    "$STATUS_DONE") echo "Done" ;;
+    *) echo "Unknown" ;;
+  esac
+}
+
+# Cache existing project items
+echo "Fetching existing project items..."
+declare -A EXISTING_ITEMS
+
+# Query all items from the project
+ITEMS_RESPONSE=$(gh api graphql -f query="
+  query {
+    node(id: \"${PROJECT_ID}\") {
+      ... on ProjectV2 {
+        items(first: 100) {
+          nodes {
+            id
+            content {
+              ... on DraftIssue {
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+")
+
+# Parse items and cache by title (using process substitution to avoid subshell)
+while IFS='|' read -r title item_id; do
+  EXISTING_ITEMS["$title"]="$item_id"
+  echo "  Found existing: $title"
+done < <(echo "$ITEMS_RESPONSE" | jq -r '.data.node.items.nodes[] | select(.content.title != null) | "\(.content.title)|\(.id)"')
+
+echo ""
+echo "Loaded ${#EXISTING_ITEMS[@]} existing items"
+echo ""
+
 # Parse STATUS_v2.md and extract module progress
 echo "Parsing docs/STATUS_v2.md..."
 declare -A MODULE_PROGRESS
@@ -101,6 +144,19 @@ echo ""
 echo "Found ${#MODULE_PROGRESS[@]} modules to sync"
 echo ""
 
+# Function to find existing item by title
+find_item_id() {
+  local title=$1
+  # Check if item exists in our cache
+  for key in "${!EXISTING_ITEMS[@]}"; do
+    if [[ "$key" == "$title" ]]; then
+      echo "${EXISTING_ITEMS[$key]}"
+      return 0
+    fi
+  done
+  return 1
+}
+
 # Function to create or update project item
 sync_module() {
   local module_key=$1
@@ -116,22 +172,37 @@ sync_module() {
     return
   fi
 
-  # Create draft issue (will be a project item)
-  local item_response=$(gh api graphql -f query="
-    mutation {
-      addProjectV2DraftIssue(input: {
-        projectId: \"${PROJECT_ID}\"
-        title: \"${display_name}\"
-      }) {
-        projectItem {
-          id
+  local item_id=""
+
+  # Try to find existing item
+  if item_id=$(find_item_id "$display_name"); then
+    echo "  Updating existing item: $item_id"
+  else
+    # Create new draft issue
+    echo "  Creating new item..."
+    local item_response=$(gh api graphql -f query="
+      mutation {
+        addProjectV2DraftIssue(input: {
+          projectId: \"${PROJECT_ID}\"
+          title: \"${display_name}\"
+        }) {
+          projectItem {
+            id
+          }
         }
       }
-    }
-  ")
+    ")
 
-  local item_id=$(echo "$item_response" | jq -r '.data.addProjectV2DraftIssue.projectItem.id')
-  echo "  Created item: $item_id"
+    item_id=$(echo "$item_response" | jq -r '.data.addProjectV2DraftIssue.projectItem.id')
+
+    if [[ -z "$item_id" ]] || [[ "$item_id" == "null" ]]; then
+      echo "  ERROR: Failed to create item"
+      echo "  Response: $item_response"
+      return 1
+    fi
+
+    echo "  Created item: $item_id"
+  fi
 
   # Set Progress % field
   gh api graphql -f query="
@@ -194,15 +265,6 @@ sync_module() {
 
   echo "  ✓ Synced successfully"
   echo ""
-}
-
-get_status_name() {
-  case $1 in
-    "$STATUS_TODO") echo "Todo" ;;
-    "$STATUS_IN_PROGRESS") echo "In Progress" ;;
-    "$STATUS_DONE") echo "Done" ;;
-    *) echo "Unknown" ;;
-  esac
 }
 
 # Sync all modules

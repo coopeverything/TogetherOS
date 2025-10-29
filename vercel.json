@@ -1,8 +1,0 @@
-{
-  "name": "togetheros",
-  "buildCommand": "cd apps/web && npm run build",
-  "devCommand": "cd apps/web && npm run dev",
-  "installCommand": "npm install --force --no-package-lock",
-  "framework": "nextjs",
-  "outputDirectory": "apps/web/.next"
-}
