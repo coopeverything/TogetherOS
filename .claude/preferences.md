@@ -35,11 +35,17 @@ This file documents user preferences and workflow expectations that should persi
 - Any request for complete feature implementation
 
 **What It Does:**
-- Creates branch
+- Creates branch from latest `yolo`
 - Implements changes
 - Tests continuously
-- Commits and pushes
-- Creates PR
+- Commits changes
+- **Runs pre-push validation:**
+  - Updates from target branch (origin/yolo)
+  - Checks for conflicts
+  - Verifies TypeScript compiles
+  - Runs tests (when available)
+- Pushes only after validation passes
+- Creates PR with base=yolo
 - **Runs PR verification checks**
 - **Updates Notion memory**
 - Reports status
@@ -56,6 +62,49 @@ This file documents user preferences and workflow expectations that should persi
 - All feature branches created from `yolo`
 - All PRs target `yolo`, not `main`
 - User NEVER works directly with main
+
+### Pre-Push Validation (REQUIRED)
+
+**Before Creating Any PR, Run These Checks:**
+```bash
+# 1. Update target branch
+git fetch origin yolo
+
+# 2. Check if feature branch is up-to-date
+git merge-base --is-ancestor origin/yolo HEAD
+# If fails, need to rebase/merge
+
+# 3. Merge/rebase onto latest target
+git merge origin/yolo
+# OR: git rebase origin/yolo
+
+# 4. Verify no merge conflicts
+git status | grep -q "Unmerged paths" && echo "CONFLICTS FOUND - FIX FIRST"
+
+# 5. Verify TypeScript compiles
+cd apps/web && npx tsc --noEmit
+
+# 6. Run tests (when available)
+npm run test 2>/dev/null || echo "No tests configured yet"
+
+# 7. Verify CI would pass
+# Check lint, build, etc. locally before pushing
+```
+
+**Pre-Push Checklist:**
+- ✅ Feature branch is up-to-date with target branch
+- ✅ No merge conflicts exist
+- ✅ TypeScript compiles without errors
+- ✅ Tests pass (when tests exist)
+- ✅ CI would pass (run checks locally)
+
+**Only After All Checks Pass:**
+```bash
+git push origin feature-branch
+gh pr create --base yolo --head feature-branch
+```
+
+---
 
 ### Always Required Before Suggesting Merge
 

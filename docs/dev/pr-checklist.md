@@ -6,6 +6,31 @@
 
 ---
 
+## Pre-Push Validation (BEFORE Creating PR)
+
+**CRITICAL:** Before pushing code and creating a PR, run pre-push validation:
+
+```bash
+./scripts/pre-push-validation.sh yolo
+```
+
+**This Script Checks:**
+- ✅ Feature branch is up-to-date with target branch
+- ✅ No merge conflicts exist
+- ✅ TypeScript compiles without errors
+- ✅ Tests pass (when available)
+- ✅ No uncommitted changes
+
+**Why This Matters:**
+- Prevents merge conflicts in PRs
+- Catches build errors before CI
+- Ensures PR is immediately mergeable
+- Saves time and CI resources
+
+**See:** `.claude/preferences.md` for detailed pre-push workflow
+
+---
+
 ## Automated Checks (Claude Must Run)
 
 ### 1. Check PR Mergeable Status
@@ -163,16 +188,21 @@ For TogetherOS PRs, check for:
 ## Example Workflow
 
 ```bash
-# 1. Create PR
-gh pr create --base main --head feature/my-feature --title "..." --body "..."
+# 0. BEFORE creating PR - Run pre-push validation
+./scripts/pre-push-validation.sh yolo
+# This ensures branch is up-to-date, no conflicts, TypeScript compiles
+
+# 1. Push and create PR (only after validation passes)
+git push origin feature/my-feature
+gh pr create --base yolo --head feature/my-feature --title "..." --body "..."
 
 # 2. IMMEDIATELY run checks
 gh pr view 123 --json mergeable,statusCheckRollup | jq .
 gh pr checks 123
 
-# 3. If conflicts found
-git fetch origin main
-git merge origin/main
+# 3. If conflicts found (shouldn't happen if pre-push validation ran)
+git fetch origin yolo
+git merge origin/yolo
 # ... resolve conflicts ...
 git push
 
@@ -183,8 +213,8 @@ git push
 
 # 5. Final verification
 gh pr view 123 --json mergeable
-git log main..HEAD --oneline
-git diff main...HEAD --stat
+git log yolo..HEAD --oneline
+git diff yolo...HEAD --stat
 
 # 6. ONLY THEN tell user "PR ready to merge"
 ```
@@ -232,16 +262,21 @@ git diff main...HEAD --stat
 
 ---
 
-## Future Automation
+## Automation Scripts
 
-**Candidate for Script:**
+**Pre-Push Validation (✅ Implemented):**
 ```bash
-#!/bin/bash
+./scripts/pre-push-validation.sh [target-branch]
+# Runs all pre-push checks before creating PR
+```
+
+**Future: Pre-Merge Check:**
+```bash
 # scripts/pre-merge-check.sh <PR#>
 # Runs all automated checks and outputs report
 ```
 
-**See:** `docs/dev/future-explorations.md` for automation ideas
+**See:** `docs/dev/future-explorations.md` for more automation ideas
 
 ---
 
