@@ -6,6 +6,7 @@
 
 import './globals.css';
 import { DarkModeProvider } from '@/components/dark-mode-provider';
+import { ToastProvider } from '@/components/ui/toast';
 
 export const metadata = {
   title: 'TogetherOS',
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <DarkModeProvider>{children}</DarkModeProvider>
+        <DarkModeProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </DarkModeProvider>
       </body>
     </html>
   );
