@@ -10,11 +10,19 @@
     "./bridge": "./src/bridge/index.ts"
   },
   "scripts": {
-    "build": "echo 'UI build placeholder'",
-    "lint": "echo 'UI lint placeholder'"
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "dependencies": {
+    "@togetheros/types": "*"
   },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0"
   }
 }
