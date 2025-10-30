@@ -52,9 +52,9 @@ This file documents user preferences and workflow expectations that should persi
 
 ### ⚠️ CRITICAL: Base Branch
 
-**ALWAYS use `claude-yolo` as base branch - NEVER use `main`**
-- All feature branches created from `claude-yolo`
-- All PRs target `claude-yolo`, not `main`
+**ALWAYS use `yolo` as base branch - NEVER use `main`**
+- All feature branches created from `yolo`
+- All PRs target `yolo`, not `main`
 - User NEVER works directly with main
 
 ### Always Required Before Suggesting Merge
@@ -64,14 +64,14 @@ This file documents user preferences and workflow expectations that should persi
 # 1. Check mergeable
 gh pr view <PR#> --json mergeable,baseRefName
 
-# 2. Verify base is claude-yolo (not main!)
-# baseRefName should be "claude-yolo"
+# 2. Verify base is yolo (not main!)
+# baseRefName should be "yolo"
 
 # 3. Review CI
 gh pr checks <PR#>
 
 # 4. Fix conflicts if needed
-git fetch origin claude-yolo && git merge origin/claude-yolo
+git fetch origin yolo && git merge origin/ -yolo
 
 # 5. Fix CI failures if needed
 gh run view <run-id> --log-failed
