@@ -30,16 +30,7 @@ TogetherOS has an automated progress tracking system that keeps project status u
 
 **Update Method:** Appended by automation scripts
 
-### 3. `STATUS/progress-report.md`
-**Purpose:** Comprehensive progress report (what's done, what's left, blockers, timeline)
-
-**Format:** Structured text document with sections
-- What We Finished (by module)
-- What Is Left (prioritized task list)
-- Blockers & Decisions
-- Metrics & Timeline
-
-**Update Method:** Manual updates after major milestones
+**Note:** Previously, we maintained a third file `progress-report.md` with verbose details, but this was redundant with STATUS_v2.md and has been removed
 
 ---
 
@@ -182,13 +173,7 @@ SMOKE=OK
    ./scripts/generate-progress-report.sh "OAuth integration milestone"
    ```
 
-3. **Update comprehensive report (if major milestone):**
-   - Manually edit `STATUS/progress-report.md`
-   - Update the "What We Finished" section for the module
-   - Update blockers if resolved
-   - Update timeline if needed
-
-4. **Commit changes:**
+3. **Commit changes:**
    ```bash
    git add docs/STATUS_v2.md STATUS/progress-log.md
    git commit -m "docs(status): update progress for auth module"
@@ -267,11 +252,11 @@ Run `generate-progress-report.sh` at significant milestones:
 - Before demos or releases
 - After completing multiple modules
 
-### 5. Update Comprehensive Report Quarterly
+### 5. Review STATUS_v2.md Periodically
 
-The `progress-report.md` file is detailed and should be updated:
+The `STATUS_v2.md` file should be reviewed and updated:
 - At major milestones (MVP, beta, v1.0)
-- When blockers are resolved
+- When blockers are resolved or new ones identified
 - When timeline changes significantly
 - Quarterly for comprehensive review
 

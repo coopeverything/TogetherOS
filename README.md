@@ -28,7 +28,7 @@ OS = Operating System (not “open source”). TogetherOS is a cooperation-first
 ## Docs
 
 - **Ops (start here):** [docs/OPERATIONS.md](docs/OPERATIONS.md)
-- **Status (seed → tree):** [docs/STATUS_v2.md](docs/STATUS_v2.md) and tracker [STATUS/progress-report.md](STATUS/progress-report.md)
+- **Status (seed → tree):** [docs/STATUS_v2.md](docs/STATUS_v2.md) and changelog [STATUS/progress-log.md](STATUS/progress-log.md)
 - **Vision:** [docs/Manifesto.md](docs/Manifesto.md)
 - **CI Playbook:** [docs/CI/Actions_Playbook.md](docs/CI/Actions_Playbook.md)
 - **Index:** [docs/index.md](docs/index.md)

@@ -17,7 +17,7 @@ This page lists the **canonical docs**. If you rename or add a doc, update this 
 ## Status & Planning
 
 - Public status explainer: [STATUS_v2.md](./STATUS_v2.md)
-- Comprehensive progress report: [STATUS/progress-report.md](../STATUS/progress-report.md)
+- Progress changelog: [STATUS/progress-log.md](../STATUS/progress-log.md)
 - Tech roadmap: [roadmap/TECH_ROADMAP.md](./roadmap/TECH_ROADMAP.md)
 
 ## Knowledge Base (Detailed Specs)

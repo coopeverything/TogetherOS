@@ -1,7 +1,7 @@
 # TogetherOS — Tech Status (v2)
 
-This page tracks the **technology scope** of TogetherOS (what exists, what’s next).  
-For the comprehensive progress report, see: [STATUS/progress-report.md](../STATUS/progress-report.md)
+This page tracks the **technology scope** of TogetherOS (what exists, what's next).
+For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progress-log.md)
 
 > Percentages are rough, contributor-facing indicators. Update after merged PRs.  
 > CI can target the HTML comments on each row for automated bumping.

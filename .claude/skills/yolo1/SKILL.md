@@ -234,11 +234,10 @@ Example for governance module:
 
 ### Progress Tracking Files
 
-TogetherOS maintains 3 interconnected progress files:
+TogetherOS maintains 2 interconnected progress files:
 
 1. **docs/STATUS_v2.md** - Module percentage dashboard (updated automatically via PR markers)
 2. **STATUS/progress-log.md** - Timestamped milestone log (appended by automation)
-3. **STATUS/progress-report.md** - Comprehensive progress report (manual updates at major milestones)
 
 **See full guide:** `docs/dev/progress-tracking-automation.md`
 
