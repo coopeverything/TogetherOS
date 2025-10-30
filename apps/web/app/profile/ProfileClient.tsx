@@ -2,7 +2,8 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './profile.module.css';
+import { Card, Button, Badge, Avatar, Input, Textarea, Label, Alert } from '@/components/ui';
+import { cn } from '@/lib/utils';
 
 interface User {
   id: string;
@@ -97,103 +98,110 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
   if (!isEditing) {
     // View Mode
     return (
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.headerContent}>
-            <h1 className={styles.title}>Your Profile</h1>
-            <div className={styles.headerActions}>
-              <button onClick={() => setIsEditing(true)} className={styles.button}>
-                Edit Profile
-              </button>
-              <button onClick={() => router.push('/dashboard')} className={styles.buttonSecondary}>
-                Dashboard
-              </button>
+      <div className="min-h-screen bg-bg-0">
+        <header className="bg-white border-b border-border">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold text-ink-900">Your Profile</h1>
+              <div className="flex gap-3">
+                <Button variant="default" onClick={() => setIsEditing(true)}>
+                  Edit Profile
+                </Button>
+                <Button variant="secondary" onClick={() => router.push('/dashboard')}>
+                  Dashboard
+                </Button>
+              </div>
             </div>
           </div>
         </header>
 
-        <main className={styles.main}>
-          <div className={styles.profileCard}>
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Card className="p-8">
             {user.avatar_url && (
-              <img src={user.avatar_url} alt="Avatar" className={styles.avatar} />
+              <div className="flex justify-center mb-6">
+                <Avatar src={user.avatar_url} alt={user.name || 'User'} size="xl" />
+              </div>
             )}
 
-            <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>Basic Info</h2>
-              <div className={styles.field}>
-                <label className={styles.fieldLabel}>Email</label>
-                <p className={styles.fieldValue}>{user.email}</p>
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-ink-900 mb-4">Basic Info</h2>
+                <div className="space-y-3">
+                  <div>
+                    <Label className="text-ink-700">Email</Label>
+                    <p className="text-ink-900">{user.email}</p>
+                  </div>
+                  {user.name && (
+                    <div>
+                      <Label className="text-ink-700">Name</Label>
+                      <p className="text-ink-900">{user.name}</p>
+                    </div>
+                  )}
+                  {user.username && (
+                    <div>
+                      <Label className="text-ink-700">Username</Label>
+                      <p className="text-ink-900">@{user.username}</p>
+                    </div>
+                  )}
+                  {user.bio && (
+                    <div>
+                      <Label className="text-ink-700">Bio</Label>
+                      <p className="text-ink-900">{user.bio}</p>
+                    </div>
+                  )}
+                </div>
               </div>
-              {user.name && (
-                <div className={styles.field}>
-                  <label className={styles.fieldLabel}>Name</label>
-                  <p className={styles.fieldValue}>{user.name}</p>
+
+              {(user.city || user.state || user.country) && (
+                <div>
+                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Location</h2>
+                  <p className="text-ink-900">
+                    {[user.city, user.state, user.country].filter(Boolean).join(', ')}
+                  </p>
                 </div>
               )}
-              {user.username && (
-                <div className={styles.field}>
-                  <label className={styles.fieldLabel}>Username</label>
-                  <p className={styles.fieldValue}>@{user.username}</p>
+
+              {user.paths && user.paths.length > 0 && (
+                <div>
+                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Your Cooperation Paths</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {COOPERATION_PATHS.filter((p) => user.paths?.includes(p.id)).map((path) => (
+                      <Badge key={path.id} variant="brand">
+                        {path.emoji} {path.name}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               )}
-              {user.bio && (
-                <div className={styles.field}>
-                  <label className={styles.fieldLabel}>Bio</label>
-                  <p className={styles.fieldValue}>{user.bio}</p>
+
+              {user.skills && user.skills.length > 0 && (
+                <div>
+                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Skills</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {user.skills.map((skill, i) => (
+                      <Badge key={i} variant="default">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {user.can_offer && (
+                <div>
+                  <h2 className="text-xl font-semibold text-ink-900 mb-4">What I Can Offer</h2>
+                  <p className="text-ink-900">{user.can_offer}</p>
+                </div>
+              )}
+
+              {user.seeking_help && (
+                <div>
+                  <h2 className="text-xl font-semibold text-ink-900 mb-4">What I'm Seeking</h2>
+                  <p className="text-ink-900">{user.seeking_help}</p>
                 </div>
               )}
             </div>
-
-            {(user.city || user.state || user.country) && (
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>Location</h2>
-                <p className={styles.fieldValue}>
-                  {[user.city, user.state, user.country].filter(Boolean).join(', ')}
-                </p>
-              </div>
-            )}
-
-            {user.paths && user.paths.length > 0 && (
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>Your Cooperation Paths</h2>
-                <div className={styles.pathsList}>
-                  {COOPERATION_PATHS.filter((p) => user.paths?.includes(p.id)).map((path) => (
-                    <div key={path.id} className={styles.pathBadge}>
-                      <span>{path.emoji}</span>
-                      <span>{path.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {user.skills && user.skills.length > 0 && (
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>Skills</h2>
-                <div className={styles.skillsList}>
-                  {user.skills.map((skill, i) => (
-                    <span key={i} className={styles.skillTag}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {user.can_offer && (
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>What I Can Offer</h2>
-                <p className={styles.fieldValue}>{user.can_offer}</p>
-              </div>
-            )}
-
-            {user.seeking_help && (
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>What I'm Seeking</h2>
-                <p className={styles.fieldValue}>{user.seeking_help}</p>
-              </div>
-            )}
-          </div>
+          </Card>
         </main>
       </div>
     );
@@ -201,200 +209,183 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
 
   // Edit Mode
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1 className={styles.title}>Edit Profile</h1>
-          <div className={styles.headerActions}>
-            <button onClick={() => setIsEditing(false)} className={styles.buttonSecondary}>
+    <div className="min-h-screen bg-bg-0">
+      <header className="bg-white border-b border-border">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-ink-900">Edit Profile</h1>
+            <Button variant="secondary" onClick={() => setIsEditing(false)}>
               Cancel
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
-      <main className={styles.main}>
-        <form onSubmit={handleSubmit} className={styles.profileCard}>
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Basic Info</h2>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <form onSubmit={handleSubmit}>
+          <Card className="p-8 space-y-6">
+            <div>
+              <h2 className="text-xl font-semibold text-ink-900 mb-4">Basic Info</h2>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Your name"
+                  />
+                </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="name" className={styles.label}>
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Your name"
-                className={styles.input}
-              />
+                <div>
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    placeholder="username"
+                  />
+                  <p className="text-sm text-ink-700 mt-1">
+                    3-50 characters, letters, numbers, underscores, hyphens
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={formData.bio}
+                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    placeholder="Tell us about yourself"
+                    rows={4}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="avatar_url">Avatar URL</Label>
+                  <Input
+                    id="avatar_url"
+                    type="url"
+                    value={formData.avatar_url}
+                    onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
+                    placeholder="https://example.com/avatar.jpg"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="username" className={styles.label}>
-                Username
-              </label>
-              <input
-                id="username"
-                type="text"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                placeholder="username"
-                className={styles.input}
-              />
-              <p className={styles.hint}>3-50 characters, letters, numbers, underscores, hyphens</p>
+            <div>
+              <h2 className="text-xl font-semibold text-ink-900 mb-4">Location</h2>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="city">City</Label>
+                  <Input
+                    id="city"
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    placeholder="Your city"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="state">State/Province</Label>
+                  <Input
+                    id="state"
+                    type="text"
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    placeholder="Your state or province"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="country">Country</Label>
+                  <Input
+                    id="country"
+                    type="text"
+                    value={formData.country}
+                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                    placeholder="Your country"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="bio" className={styles.label}>
-                Bio
-              </label>
-              <textarea
-                id="bio"
-                value={formData.bio}
-                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                placeholder="Tell us about yourself"
-                className={styles.textarea}
-                rows={4}
-              />
+            <div>
+              <h2 className="text-xl font-semibold text-ink-900 mb-2">Cooperation Paths</h2>
+              <p className="text-sm text-ink-700 mb-4">Select the paths that resonate with you</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {COOPERATION_PATHS.map((path) => {
+                  const isSelected = formData.paths.includes(path.id);
+                  return (
+                    <Card
+                      key={path.id}
+                      className={cn(
+                        "flex flex-col items-center p-4 cursor-pointer hover:shadow-md transition-shadow",
+                        isSelected && "border-brand-500 bg-brand-50"
+                      )}
+                      onClick={() => togglePath(path.id)}
+                    >
+                      <div className="text-3xl mb-2">{path.emoji}</div>
+                      <div className="text-sm text-center font-medium">{path.name}</div>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="avatar_url" className={styles.label}>
-                Avatar URL
-              </label>
-              <input
-                id="avatar_url"
-                type="url"
-                value={formData.avatar_url}
-                onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                placeholder="https://example.com/avatar.jpg"
-                className={styles.input}
-              />
-            </div>
-          </div>
+            <div>
+              <h2 className="text-xl font-semibold text-ink-900 mb-4">Skills & Interests</h2>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="skills">Skills</Label>
+                  <Input
+                    id="skills"
+                    type="text"
+                    value={formData.skills}
+                    onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+                    placeholder="e.g. Web Development, Graphic Design, Community Organizing"
+                  />
+                  <p className="text-sm text-ink-700 mt-1">Separate multiple skills with commas</p>
+                </div>
 
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Location</h2>
+                <div>
+                  <Label htmlFor="can_offer">What I Can Offer</Label>
+                  <Textarea
+                    id="can_offer"
+                    value={formData.can_offer}
+                    onChange={(e) => setFormData({ ...formData, can_offer: e.target.value })}
+                    placeholder="How can you help the community?"
+                    rows={3}
+                  />
+                </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="city" className={styles.label}>
-                City
-              </label>
-              <input
-                id="city"
-                type="text"
-                value={formData.city}
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                placeholder="Your city"
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="state" className={styles.label}>
-                State/Province
-              </label>
-              <input
-                id="state"
-                type="text"
-                value={formData.state}
-                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                placeholder="Your state or province"
-                className={styles.input}
-              />
+                <div>
+                  <Label htmlFor="seeking_help">What I'm Seeking</Label>
+                  <Textarea
+                    id="seeking_help"
+                    value={formData.seeking_help}
+                    onChange={(e) => setFormData({ ...formData, seeking_help: e.target.value })}
+                    placeholder="What kind of help are you looking for?"
+                    rows={3}
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="country" className={styles.label}>
-                Country
-              </label>
-              <input
-                id="country"
-                type="text"
-                value={formData.country}
-                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                placeholder="Your country"
-                className={styles.input}
-              />
-            </div>
-          </div>
+            {state === 'error' && (
+              <Alert variant="danger" title="Error">
+                {errorMessage}
+              </Alert>
+            )}
 
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Cooperation Paths</h2>
-            <p className={styles.hint}>Select the paths that resonate with you</p>
-            <div className={styles.pathsGrid}>
-              {COOPERATION_PATHS.map((path) => {
-                const isSelected = formData.paths.includes(path.id);
-                return (
-                  <button
-                    key={path.id}
-                    type="button"
-                    onClick={() => togglePath(path.id)}
-                    className={`${styles.pathOption} ${isSelected ? styles.pathOptionActive : ''}`}
-                  >
-                    <span className={styles.pathEmoji}>{path.emoji}</span>
-                    <span className={styles.pathName}>{path.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Skills & Interests</h2>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="skills" className={styles.label}>
-                Skills
-              </label>
-              <input
-                id="skills"
-                type="text"
-                value={formData.skills}
-                onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
-                placeholder="e.g. Web Development, Graphic Design, Community Organizing"
-                className={styles.input}
-              />
-              <p className={styles.hint}>Separate multiple skills with commas</p>
-            </div>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="can_offer" className={styles.label}>
-                What I Can Offer
-              </label>
-              <textarea
-                id="can_offer"
-                value={formData.can_offer}
-                onChange={(e) => setFormData({ ...formData, can_offer: e.target.value })}
-                placeholder="How can you help the community?"
-                className={styles.textarea}
-                rows={3}
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="seeking_help" className={styles.label}>
-                What I'm Seeking
-              </label>
-              <textarea
-                id="seeking_help"
-                value={formData.seeking_help}
-                onChange={(e) => setFormData({ ...formData, seeking_help: e.target.value })}
-                placeholder="What kind of help are you looking for?"
-                className={styles.textarea}
-                rows={3}
-              />
-            </div>
-          </div>
-
-          {state === 'error' && <div className={styles.error}>{errorMessage}</div>}
-
-          <button type="submit" className={styles.submitButton} disabled={state === 'saving'}>
-            {state === 'saving' ? 'Saving...' : 'Save Changes'}
-          </button>
+            <Button type="submit" variant="default" disabled={state === 'saving'} className="w-full">
+              {state === 'saving' ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </Card>
         </form>
       </main>
     </div>
