@@ -1,10 +1,31 @@
 'use client';
 
 import { useState } from 'react';
+import {
+  Button,
+  Input,
+  Textarea,
+  Label,
+  Checkbox,
+  Radio,
+  Select,
+  Card,
+  Badge,
+  Alert,
+  Modal,
+  Tabs,
+  Spinner,
+  Tooltip,
+  Dropdown,
+  Accordion,
+  Progress,
+} from '@/components/ui';
 
 export default function DesignShowcase() {
   const [darkMode, setDarkMode] = useState(false);
   const [dashboardMode, setDashboardMode] = useState<'calm' | 'compact'>('calm');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [progressValue, setProgressValue] = useState(65);
 
   return (
     <div className={darkMode ? 'dark' : ''}>
@@ -97,6 +118,238 @@ export default function DesignShowcase() {
             </p>
           </section>
 
+          {/* UI Components Library */}
+          <section style={{ marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '2rem' }}>
+              Component Library
+            </h2>
+
+            {/* Buttons */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Buttons
+              </h3>
+              <Card className="flex gap-3 flex-wrap items-center">
+                <Button variant="default">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+                <Button variant="joy">Joy Accent</Button>
+                <Button variant="danger">Danger</Button>
+                <Button disabled>Disabled</Button>
+              </Card>
+            </div>
+
+            {/* Badges */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Badges
+              </h3>
+              <Card className="flex gap-2 flex-wrap items-center">
+                <Badge variant="default">Default</Badge>
+                <Badge variant="brand">Brand</Badge>
+                <Badge variant="joy">Joy</Badge>
+                <Badge variant="success">Success</Badge>
+                <Badge variant="info">Info</Badge>
+                <Badge variant="warning">Warning</Badge>
+                <Badge variant="danger">Danger</Badge>
+              </Card>
+            </div>
+
+            {/* Alerts */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Alerts
+              </h3>
+              <div className="space-y-3">
+                <Alert variant="default" title="Default Alert">
+                  This is a default alert message.
+                </Alert>
+                <Alert variant="success" title="Success!">
+                  Your changes have been saved successfully.
+                </Alert>
+                <Alert variant="info" title="Information">
+                  Please review the updated terms of service.
+                </Alert>
+                <Alert variant="warning" title="Warning">
+                  Your session will expire in 5 minutes.
+                </Alert>
+                <Alert variant="danger" title="Error">
+                  Failed to save changes. Please try again.
+                </Alert>
+              </div>
+            </div>
+
+            {/* Progress Bars */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Progress Bars
+              </h3>
+              <Card className="space-y-4">
+                <Progress value={progressValue} showLabel variant="brand" />
+                <Progress value={75} variant="joy" />
+                <Progress value={90} variant="success" size="sm" />
+                <Progress value={45} variant="warning" size="lg" showLabel />
+                <button
+                  onClick={() => setProgressValue(Math.min(progressValue + 10, 100))}
+                  className="px-4 py-2 bg-brand-600 text-white rounded-md text-sm font-medium"
+                >
+                  Increase Progress
+                </button>
+              </Card>
+            </div>
+
+            {/* Spinners */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Spinners
+              </h3>
+              <Card className="flex gap-6 items-center">
+                <Spinner size="sm" variant="brand" />
+                <Spinner size="md" variant="joy" />
+                <Spinner size="lg" variant="default" />
+              </Card>
+            </div>
+
+            {/* Form Components */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Form Components
+              </h3>
+              <Card className="space-y-4 max-w-md">
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" type="text" placeholder="Enter your name" className="mt-1" />
+                </div>
+                <div>
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea id="bio" placeholder="Tell us about yourself..." rows={3} className="mt-1" />
+                </div>
+                <div>
+                  <Label htmlFor="role">Role</Label>
+                  <Select id="role" className="mt-1">
+                    <option value="">Select a role</option>
+                    <option value="member">Member</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="admin">Admin</option>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Checkbox id="terms" label="I agree to the terms and conditions" />
+                  <Checkbox id="newsletter" label="Subscribe to newsletter" />
+                </div>
+                <div className="space-y-2">
+                  <Radio name="plan" value="basic" label="Basic Plan" />
+                  <Radio name="plan" value="pro" label="Pro Plan" />
+                  <Radio name="plan" value="enterprise" label="Enterprise Plan" />
+                </div>
+              </Card>
+            </div>
+
+            {/* Tabs */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Tabs
+              </h3>
+              <Card>
+                <Tabs
+                  tabs={[
+                    { id: 'overview', label: 'Overview', content: <p className="text-ink-700">Overview content goes here...</p> },
+                    { id: 'details', label: 'Details', content: <p className="text-ink-700">Details content goes here...</p> },
+                    { id: 'settings', label: 'Settings', content: <p className="text-ink-700">Settings content goes here...</p> },
+                  ]}
+                />
+              </Card>
+            </div>
+
+            {/* Accordion */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Accordion
+              </h3>
+              <Accordion
+                items={[
+                  {
+                    id: 'item-1',
+                    title: 'What is TogetherOS?',
+                    content: 'TogetherOS is a cooperation-first operating system stack designed to support collective action and mutual aid.',
+                  },
+                  {
+                    id: 'item-2',
+                    title: 'How does governance work?',
+                    content: 'We use participatory decision-making tools including proposals, voting, and consensus building.',
+                  },
+                  {
+                    id: 'item-3',
+                    title: 'Can I contribute?',
+                    content: 'Yes! All contributions are welcome. Check our GitHub repository for open issues and contributing guidelines.',
+                  },
+                ]}
+                defaultOpen={['item-1']}
+              />
+            </div>
+
+            {/* Dropdown */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Dropdown
+              </h3>
+              <Card>
+                <Dropdown
+                  trigger={
+                    <Button variant="secondary">Open Menu</Button>
+                  }
+                  items={[
+                    { label: 'Edit', value: 'edit', onClick: () => alert('Edit clicked') },
+                    { label: 'Duplicate', value: 'duplicate', onClick: () => alert('Duplicate clicked') },
+                    { label: 'Archive', value: 'archive', onClick: () => alert('Archive clicked') },
+                    { label: 'Delete', value: 'delete', onClick: () => alert('Delete clicked'), disabled: true },
+                  ]}
+                />
+              </Card>
+            </div>
+
+            {/* Tooltip */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Tooltip
+              </h3>
+              <Card className="flex gap-4 items-center">
+                <Tooltip content="Tooltip on top" position="top">
+                  <Button variant="secondary">Hover (Top)</Button>
+                </Tooltip>
+                <Tooltip content="Tooltip on bottom" position="bottom">
+                  <Button variant="secondary">Hover (Bottom)</Button>
+                </Tooltip>
+                <Tooltip content="Tooltip on left" position="left">
+                  <Button variant="secondary">Hover (Left)</Button>
+                </Tooltip>
+                <Tooltip content="Tooltip on right" position="right">
+                  <Button variant="secondary">Hover (Right)</Button>
+                </Tooltip>
+              </Card>
+            </div>
+
+            {/* Modal */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Modal
+              </h3>
+              <Card>
+                <Button onClick={() => setModalOpen(true)}>Open Modal</Button>
+                <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Example Modal">
+                  <p className="text-ink-700 mb-4">
+                    This is a modal dialog. Press Escape or click outside to close.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button onClick={() => setModalOpen(false)}>Confirm</Button>
+                    <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
+                  </div>
+                </Modal>
+              </Card>
+            </div>
+          </section>
+
           {/* Color Palette */}
           <section style={{ marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '2rem' }}>
@@ -162,64 +415,6 @@ export default function DesignShowcase() {
               <p style={{ fontSize: '1rem', color: 'var(--ink-400)', maxWidth: '68ch' }}>
                 Muted text (16px, Regular) for secondary information and captions.
               </p>
-            </div>
-          </section>
-
-          {/* Buttons */}
-          <section style={{ marginBottom: '4rem' }}>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '2rem' }}>
-              Buttons
-            </h2>
-            <div style={{ background: 'var(--bg-1)', padding: '2rem', borderRadius: '1rem', border: '1px solid var(--border)', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              <button style={{
-                background: 'var(--brand-600)',
-                color: 'white',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}>
-                Primary Action
-              </button>
-              <button style={{
-                background: 'var(--bg-1)',
-                color: 'var(--ink-700)',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                border: '1px solid var(--border)',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}>
-                Secondary Action
-              </button>
-              <button style={{
-                background: 'transparent',
-                color: 'var(--ink-700)',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textDecoration: 'underline',
-                fontSize: '1rem'
-              }}>
-                Tertiary Link
-              </button>
-              <button style={{
-                background: 'var(--joy-600)',
-                color: 'white',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}>
-                Joy Accent
-              </button>
             </div>
           </section>
 
@@ -298,89 +493,6 @@ export default function DesignShowcase() {
                 accent="success"
                 mode={dashboardMode}
               />
-            </div>
-          </section>
-
-          {/* Cards */}
-          <section style={{ marginBottom: '4rem' }}>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '2rem' }}>
-              Cards & Panels
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1.5rem' }}>
-              <div style={{
-                background: 'var(--bg-1)',
-                padding: '2rem',
-                borderRadius: '1rem',
-                border: '1px solid var(--border)'
-              }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
-                  Standard Card
-                </h3>
-                <p style={{ color: 'var(--ink-700)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Roomy padding (2rem), clean typography, and gentle borders. One action per card.
-                </p>
-                <button style={{
-                  background: 'var(--brand-600)',
-                  color: 'white',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '0.5rem',
-                  border: 'none',
-                  fontWeight: 600,
-                  cursor: 'pointer'
-                }}>
-                  Take Action
-                </button>
-              </div>
-
-              <div style={{
-                background: 'var(--joy-100)',
-                padding: '2rem',
-                borderRadius: '1rem',
-                border: '1px solid var(--joy-500)'
-              }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--joy-600)', marginBottom: '1rem' }}>
-                  Highlighted Card
-                </h3>
-                <p style={{ color: 'var(--ink-700)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Soft accent background draws attention to "what matters now" without overwhelming.
-                </p>
-                <button style={{
-                  background: 'var(--joy-600)',
-                  color: 'white',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '0.5rem',
-                  border: 'none',
-                  fontWeight: 600,
-                  cursor: 'pointer'
-                }}>
-                  Review Now
-                </button>
-              </div>
-
-              <div style={{
-                background: 'var(--bg-2)',
-                padding: '2rem',
-                borderRadius: '1rem',
-                border: '1px solid var(--border)'
-              }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-700)', marginBottom: '1rem' }}>
-                  Subtle Panel
-                </h3>
-                <p style={{ color: 'var(--ink-400)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Background panels for secondary content. Lower contrast keeps visual hierarchy clear.
-                </p>
-                <button style={{
-                  background: 'var(--bg-1)',
-                  color: 'var(--ink-700)',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '0.5rem',
-                  border: '1px solid var(--border)',
-                  fontWeight: 600,
-                  cursor: 'pointer'
-                }}>
-                  Learn More
-                </button>
-              </div>
             </div>
           </section>
 
