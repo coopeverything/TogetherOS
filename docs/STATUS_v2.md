@@ -13,7 +13,7 @@ For the comprehensive progress report, see: [STATUS/progress-report.md](../STATU
 | Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
 | --- | --- | ---:| --- | --- |
 | **Monorepo & Scaffolding** | Next.js 14 app (`apps/frontend`), `packages/ui`, scripts, basic pages/routes | <!-- progress:scaffold=40 --> 40% | Add more pages, refine routing structure | Base nav complete, need more placeholder pages |
-| **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=30 --> 30% | Install shadcn/ui, set base typography + colors | Choose token naming + dark mode rule |
+| **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=100 --> 100% | Production-ready ✅ | 25 components complete with dark mode |
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=70 --> 70% | Complete OAuth providers, email verification | Secret storage & provider choice |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=40 --> 40% | Add profile editing UI polish, skills management | Data model for tags/keywords |
 | **Groups & Orgs** | Local groups, org records, federation handles | <!-- progress:groups=0 --> 0% | Create/join group MVP | Federation design (IDs/claims) |
