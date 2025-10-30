@@ -849,9 +849,9 @@ See detailed issues in GitHub with `module:rewards` label.
 
 ## Related KB Files
 
-- [Main KB](./togetheros-kb.md) — Core principles, workflow
-- [Architecture](./architecture.md) — Domain-driven design, repository pattern
-- [Data Models](./data-models.md) — Complete entity specifications
-- [Social Economy](./social-economy.md) — Support Points allocation, timebanking
-- [Cooperation Paths](./cooperation-paths.md) — All 8 domains that generate rewards
-- [CI/CD Discipline](./ci-cd-discipline.md) — Proof lines, validation workflows
+- [Main KB](togetheros-kb.md) — Core principles, workflow
+- [Architecture](architecture.md) — Domain-driven design, repository pattern
+- [Data Models](data-models.md) — Complete entity specifications
+- [Social Economy](modules/social-economy.md) — Support Points allocation, timebanking
+- [Cooperation Paths](cooperation-paths.md) — All 8 domains that generate rewards
+- [CI/CD Discipline](../contributors/WORKFLOW.md) — Proof lines, validation workflows

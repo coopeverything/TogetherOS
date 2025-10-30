@@ -1,0 +1,274 @@
+/* Onboarding Flow - TogetherOS Design System */
+
+.container {
+  min-height: 100vh;
+  background: var(--bg-0, #FAFAF9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.card {
+  background: var(--bg-1, #FFFFFF);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 1rem;
+  padding: 3rem;
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+}
+
+.progress {
+  height: 4px;
+  background: var(--bg-2, #F5F5F4);
+  border-radius: 2px;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--brand-600, #059669);
+  transition: width 0.3s ease-out;
+}
+
+.step {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink-900, #0F172A);
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.intro {
+  font-size: 1.0625rem;
+  color: var(--ink-700, #334155);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.inputGroup {
+  margin-bottom: 2rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink-700, #334155);
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--ink-900, #0F172A);
+  background: var(--bg-0, #FAFAF9);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 0.5rem;
+  transition: all 0.15s ease-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-500, #10B981);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--ink-400, #94A3B8);
+  margin-top: 0.5rem;
+}
+
+.pathsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.pathCard {
+  background: var(--bg-0, #FAFAF9);
+  border: 2px solid var(--border, #E5E7EB);
+  border-radius: 0.75rem;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  font-family: inherit;
+}
+
+.pathCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pathCardActive {
+  background: var(--brand-100, #D1FAE5);
+  border-color: var(--brand-500, #10B981);
+}
+
+.pathEmoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.pathName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-900, #0F172A);
+  margin-bottom: 0.5rem;
+}
+
+.pathDesc {
+  font-size: 0.75rem;
+  color: var(--ink-600, #475569);
+  line-height: 1.4;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--brand-600, #059669);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button, .buttonSecondary {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  border: none;
+  font-family: inherit;
+}
+
+.button {
+  background: var(--brand-600, #059669);
+  color: white;
+}
+
+.button:hover:not(:disabled) {
+  background: #047857;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background: var(--bg-2, #F5F5F4);
+  color: var(--ink-700, #334155);
+}
+
+.buttonSecondary:hover {
+  background: var(--border, #E5E7EB);
+}
+
+.skipButton {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink-600, #475569);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease-out;
+  margin-top: 1rem;
+  font-family: inherit;
+}
+
+.skipButton:hover:not(:disabled) {
+  color: var(--ink-900, #0F172A);
+}
+
+.skipButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error {
+  background: #FEE2E2;
+  color: #991B1B;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+}
+
+.stepIndicator {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: var(--ink-400, #94A3B8);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: 2rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .intro {
+    font-size: 1rem;
+  }
+
+  .pathsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttonGroup {
+    flex-direction: column-reverse;
+  }
+
+  .button, .buttonSecondary {
+    width: 100%;
+  }
+}

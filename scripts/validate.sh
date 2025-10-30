@@ -45,5 +45,10 @@ else
   echo "LINT_SUITE=SKIPPED"
 fi
 
-# 4) Final proof
+# 4) Bridge logs validation (if logs exist)
+if [ -f "scripts/validate-bridge-logs.sh" ]; then
+  bash scripts/validate-bridge-logs.sh
+fi
+
+# 5) Final proof
 echo "VALIDATORS=GREEN"

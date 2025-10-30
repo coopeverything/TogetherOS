@@ -4,9 +4,9 @@
 Add **both** lines to your PR description:
 
 
-- Canonical categories & palette (human-readable): `docs/DDP_CATEGORIES_AND_KEYWORDS.md`
-- Machine-readable taxonomy (authoritative): `codex/taxonomy/CATEGORY_TREE.json`
-- Contributor runbook & proof-lines: `docs/OPERATIONS_v2.md`
+- Canonical categories & keywords: [docs/TogetherOS_CATEGORIES_AND_KEYWORDS](docs/TogetherOS_CATEGORIES_AND_KEYWORDS)
+- Detailed taxonomy specification: [docs/cooperation-paths.md](docs/cooperation-paths.md)
+- Contributor guide & workflow: [docs/OPERATIONS.md](docs/OPERATIONS.md) | [docs/contributors/](docs/contributors/)
 
 Notes:
 - Use exactly one Category.

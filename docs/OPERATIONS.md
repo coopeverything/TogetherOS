@@ -29,7 +29,6 @@ fix(ci): correct docs workflow include paths
 
 ## 3) Pull Requests
 ```bash
-- **Scope:** exactly one tiny change.
 - **Description:** what/why, list of touched files, and the two proof lines.
 - **Labels:** add the relevant Path label (e.g., `path:cooperative-technology`, `path:social-economy`).
 

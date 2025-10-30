@@ -112,9 +112,8 @@ SMOKE=OK
 
 ## 6) Our discipline (non-negotiable)
 
-- **One tiny change per PR.**
 - **Full files** for YAML/JSON/PowerShell (no partial patches).
-- Fix **one red check at a time**—don’t stack unrelated changes.
+- Fix **one red check at a time**—don't stack unrelated changes.
 - Any behavior/config change must update the relevant doc (this playbook or `docs/OPERATIONS.md`).
 
 ---

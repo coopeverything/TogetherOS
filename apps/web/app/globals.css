@@ -1,0 +1,115 @@
+/**
+ * TogetherOS Global Styles
+ * Design System: Warm Minimalism
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables - Light Mode (Default) */
+:root {
+  /* Backgrounds & Surfaces */
+  --bg-0: #FAFAF9;
+  --bg-1: #FFFFFF;
+  --bg-2: #F5F5F4;
+
+  /* Text & Neutrals */
+  --ink-900: #0F172A;
+  --ink-700: #334155;
+  --ink-400: #94A3B8;
+  --border: #E5E7EB;
+
+  /* Brand - Cooperative Green */
+  --brand-600: #059669;
+  --brand-500: #10B981;
+  --brand-100: #D1FAE5;
+
+  /* Joy - Apricot */
+  --joy-600: #F59E0B;
+  --joy-500: #FDBA74;
+  --joy-100: #FFF7ED;
+
+  /* Semantic Colors */
+  --success: #16A34A;
+  --success-bg: #DCFCE7;
+  --info: #0EA5E9;
+  --info-bg: #E0F2FE;
+  --warn: #D97706;
+  --warn-bg: #FEF3C7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+}
+
+/* Dark Mode */
+.dark {
+  --bg-0: #0B0F14;
+  --bg-1: #0F141A;
+  --bg-2: #121922;
+  --ink-900: #E5E7EB;
+  --ink-700: #CBD5E1;
+  --ink-400: #94A3B8;
+  --border: #1F2937;
+  --brand-500: #22C55E;
+  --joy-500: #FBBF24;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-0);
+  color: var(--ink-900);
+  line-height: 1.6;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink-900);
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+a {
+  color: var(--brand-600);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--brand-500);
+  text-decoration: underline;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,1 +1,14 @@
-node_modules/.env.env.*.DS_Storedist/build/.next/out/coverage/
+node_modules/
+.env
+.env.local
+.env.*.local
+.DS_Store
+# Allow .env.example
+!.env.example
+dist/
+build/
+.next/
+out/
+coverage/
+.mcp.json
+.vercel
