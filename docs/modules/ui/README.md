@@ -313,15 +313,104 @@ In YOLO mode, test components as you build:
 - Verify TypeScript types
 - Ensure responsive behavior
 
+#### Tooltip
+Contextual information on hover/focus.
+
+```tsx
+import { Tooltip } from '@/components/ui/tooltip';
+
+<Tooltip content="Helpful hint" position="top">
+  <Button>Hover me</Button>
+</Tooltip>
+```
+
+**Positions:** `top`, `bottom`, `left`, `right`
+
+#### Dropdown
+Menu with clickable items.
+
+```tsx
+import { Dropdown } from '@/components/ui/dropdown';
+
+<Dropdown
+  trigger={<Button>Open Menu</Button>}
+  items={[
+    { label: 'Edit', value: 'edit', onClick: () => {} },
+    { label: 'Delete', value: 'delete', onClick: () => {}, disabled: true },
+  ]}
+  position="bottom-left"
+/>
+```
+
+**Positions:** `bottom-left`, `bottom-right`, `top-left`, `top-right`
+
+#### Accordion
+Expandable content sections.
+
+```tsx
+import { Accordion } from '@/components/ui/accordion';
+
+<Accordion
+  items={[
+    { id: '1', title: 'Question 1', content: 'Answer 1' },
+    { id: '2', title: 'Question 2', content: 'Answer 2' },
+  ]}
+  allowMultiple={false}
+  defaultOpen={['1']}
+/>
+```
+
+#### Progress
+Progress bars with variants and labels.
+
+```tsx
+import { Progress } from '@/components/ui/progress';
+
+<Progress value={65} max={100} variant="brand" showLabel />
+```
+
+**Sizes:** `sm`, `md`, `lg`
+**Variants:** `brand`, `joy`, `success`, `info`, `warning`, `danger`
+
+## Dark Mode
+
+The application includes a comprehensive dark mode system using React Context.
+
+### Using Dark Mode
+
+```tsx
+import { useDarkMode, DarkModeToggle } from '@/components/dark-mode-provider';
+
+// In your component
+const { darkMode, toggleDarkMode, setDarkMode } = useDarkMode();
+
+// Or use the pre-built toggle
+<DarkModeToggle />
+```
+
+**Features:**
+- Automatic persistence to localStorage
+- System preference detection
+- Smooth transitions
+- CSS variable-based theming
+
+## Component Showcase
+
+Visit `/design` to see all components in action with interactive examples.
+
 ## Next Steps
 
-- [ ] Add Tooltip component
-- [ ] Add Dropdown/Popover component
-- [ ] Add Accordion component
-- [ ] Add Progress Bar component
-- [ ] Create component showcase page at `/design`
-- [ ] Add dark mode toggle
+- [x] Add Tooltip component
+- [x] Add Dropdown/Popover component
+- [x] Add Accordion component
+- [x] Add Progress Bar component
+- [x] Create component showcase page at `/design`
+- [x] Add dark mode toggle
 - [ ] Set up Storybook (optional)
+- [ ] Add Toast/Notification system
+- [ ] Add Dialog component (different from Modal)
+- [ ] Add Breadcrumb component
+- [ ] Add Pagination component
 
 ## Resources
 
@@ -331,6 +420,6 @@ In YOLO mode, test components as you build:
 
 ---
 
-**Version:** 1.0
+**Version:** 1.5
 **Last Updated:** October 2025
-**Status:** 50% Complete (scaffolding + core components)
+**Status:** 80% Complete (scaffolding + 17 core components + dark mode)

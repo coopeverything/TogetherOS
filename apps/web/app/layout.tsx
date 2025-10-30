@@ -5,6 +5,7 @@
  */
 
 import './globals.css';
+import { DarkModeProvider } from '@/components/dark-mode-provider';
 
 export const metadata = {
   title: 'TogetherOS',
@@ -18,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <DarkModeProvider>{children}</DarkModeProvider>
+      </body>
     </html>
   );
 }
