@@ -1,7 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import styles from './dashboard.module.css';
+import { Card, Button, Badge, Avatar } from '@/components/ui';
+import { cn } from '@/lib/utils';
 
 interface User {
   id: string;
@@ -36,126 +37,139 @@ export default function DashboardClient({ user }: { user: User }) {
   const userPaths = user.paths || [];
 
   return (
-    <div className={styles.container}>
+    <div className="min-h-screen bg-bg-0">
       {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1 className={styles.welcomeTitle}>
-            Welcome back{user.name ? `, ${user.name}` : ''}!
-          </h1>
-          <div className={styles.headerActions}>
-            <button onClick={() => router.push('/profile')} className={styles.headerButton}>
-              Profile
-            </button>
-            <button onClick={handleLogout} className={styles.headerButtonSecondary}>
-              Logout
-            </button>
+      <header className="bg-white border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              {user.avatar_url && (
+                <Avatar src={user.avatar_url} alt={user.name || 'User'} size="lg" />
+              )}
+              <h1 className="text-2xl font-bold text-ink-900">
+                Welcome back{user.name ? `, ${user.name}` : ''}!
+              </h1>
+            </div>
+            <div className="flex gap-3">
+              <Button variant="secondary" onClick={() => router.push('/profile')}>
+                Profile
+              </Button>
+              <Button variant="link" onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className={styles.main}>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <section className={styles.statsSection}>
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>👥</div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>1,247</div>
-              <div className={styles.statLabel}>Active Members</div>
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card className="flex items-center gap-4 p-6">
+            <div className="text-4xl">👥</div>
+            <div>
+              <div className="text-3xl font-bold text-ink-900">1,247</div>
+              <div className="text-sm text-ink-700">Active Members</div>
             </div>
-          </div>
+          </Card>
 
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>📋</div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>23</div>
-              <div className={styles.statLabel}>Open Proposals</div>
+          <Card className="flex items-center gap-4 p-6">
+            <div className="text-4xl">📋</div>
+            <div>
+              <div className="text-3xl font-bold text-ink-900">23</div>
+              <div className="text-sm text-ink-700">Open Proposals</div>
             </div>
-          </div>
+          </Card>
 
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>🤲</div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>89</div>
-              <div className={styles.statLabel}>Mutual Aid Requests</div>
+          <Card className="flex items-center gap-4 p-6">
+            <div className="text-4xl">🤲</div>
+            <div>
+              <div className="text-3xl font-bold text-ink-900">89</div>
+              <div className="text-sm text-ink-700">Mutual Aid Requests</div>
             </div>
-          </div>
+          </Card>
 
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>✨</div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{userPaths.length}/8</div>
-              <div className={styles.statLabel}>Your Paths</div>
+          <Card className="flex items-center gap-4 p-6">
+            <div className="text-4xl">✨</div>
+            <div>
+              <div className="text-3xl font-bold text-ink-900">{userPaths.length}/8</div>
+              <div className="text-sm text-ink-700">Your Paths</div>
             </div>
-          </div>
+          </Card>
         </section>
 
         {/* Your Journey */}
         {userPaths.length > 0 && (
-          <section className={styles.journeySection}>
-            <h2 className={styles.sectionTitle}>Your Cooperation Paths</h2>
-            <div className={styles.pathsList}>
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-ink-900 mb-4">Your Cooperation Paths</h2>
+            <div className="flex flex-wrap gap-3">
               {COOPERATION_PATHS.filter((p) => userPaths.includes(p.id)).map((path) => (
-                <div key={path.id} className={styles.activePathCard}>
-                  <div className={styles.pathEmoji}>{path.emoji}</div>
-                  <div className={styles.pathName}>{path.name}</div>
-                </div>
+                <Badge key={path.id} variant="brand" className="text-base px-4 py-2">
+                  {path.emoji} {path.name}
+                </Badge>
               ))}
             </div>
           </section>
         )}
 
         {/* Cooperation Paths Explorer */}
-        <section className={styles.pathsSection}>
-          <h2 className={styles.sectionTitle}>Explore Cooperation Paths</h2>
-          <p className={styles.sectionDesc}>
-            Choose the paths that resonate with you. You can always add or remove paths later.
-          </p>
-          <div className={styles.pathsGrid}>
-            {COOPERATION_PATHS.map((path) => {
-              const isActive = userPaths.includes(path.id);
-              return (
-                <div
-                  key={path.id}
-                  className={`${styles.pathCard} ${isActive ? styles.pathCardActive : ''}`}
-                  style={{ borderColor: path.color }}
-                >
-                  <div className={styles.pathCardEmoji}>{path.emoji}</div>
-                  <div className={styles.pathCardName}>{path.name}</div>
-                  {isActive && <div className={styles.pathCardBadge}>Active</div>}
-                </div>
-              );
-            })}
-          </div>
+        <section className="mb-8">
+          <Card>
+            <h2 className="text-2xl font-bold text-ink-900 mb-2">Explore Cooperation Paths</h2>
+            <p className="text-ink-700 mb-6">
+              Choose the paths that resonate with you. You can always add or remove paths later.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {COOPERATION_PATHS.map((path) => {
+                const isActive = userPaths.includes(path.id);
+                return (
+                  <Card
+                    key={path.id}
+                    className={cn(
+                      "flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow",
+                      isActive && "border-brand-500 bg-brand-50"
+                    )}
+                  >
+                    <div className="text-4xl mb-3">{path.emoji}</div>
+                    <div className="font-semibold text-ink-900 mb-2">{path.name}</div>
+                    {isActive && <Badge variant="success">Active</Badge>}
+                  </Card>
+                );
+              })}
+            </div>
+          </Card>
         </section>
 
         {/* Quick Actions */}
-        <section className={styles.actionsSection}>
-          <h2 className={styles.sectionTitle}>Quick Actions</h2>
-          <div className={styles.actionsGrid}>
-            <button onClick={() => router.push('/profile')} className={styles.actionCard}>
-              <div className={styles.actionIcon}>👤</div>
-              <div className={styles.actionTitle}>Edit Profile</div>
-              <div className={styles.actionDesc}>Update your bio, skills, and preferences</div>
-            </button>
+        <section>
+          <h2 className="text-2xl font-bold text-ink-900 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card
+              className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => router.push('/profile')}
+            >
+              <div className="text-4xl mb-3">👤</div>
+              <div className="font-semibold text-ink-900 mb-2">Edit Profile</div>
+              <div className="text-sm text-ink-700">Update your bio, skills, and preferences</div>
+            </Card>
 
-            <button className={styles.actionCard}>
-              <div className={styles.actionIcon}>🗳️</div>
-              <div className={styles.actionTitle}>Browse Proposals</div>
-              <div className={styles.actionDesc}>Vote on community decisions</div>
-            </button>
+            <Card className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">🗳️</div>
+              <div className="font-semibold text-ink-900 mb-2">Browse Proposals</div>
+              <div className="text-sm text-ink-700">Vote on community decisions</div>
+            </Card>
 
-            <button className={styles.actionCard}>
-              <div className={styles.actionIcon}>🤝</div>
-              <div className={styles.actionTitle}>Offer Help</div>
-              <div className={styles.actionDesc}>Share your skills with the community</div>
-            </button>
+            <Card className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">🤝</div>
+              <div className="font-semibold text-ink-900 mb-2">Offer Help</div>
+              <div className="text-sm text-ink-700">Share your skills with the community</div>
+            </Card>
 
-            <button className={styles.actionCard}>
-              <div className={styles.actionIcon}>📚</div>
-              <div className={styles.actionTitle}>Learn & Connect</div>
-              <div className={styles.actionDesc}>Find events and educational resources</div>
-            </button>
+            <Card className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">📚</div>
+              <div className="font-semibold text-ink-900 mb-2">Learn & Connect</div>
+              <div className="text-sm text-ink-700">Find events and educational resources</div>
+            </Card>
           </div>
         </section>
       </main>

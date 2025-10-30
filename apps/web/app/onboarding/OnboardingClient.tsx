@@ -2,7 +2,8 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './onboarding.module.css';
+import { Card, Button, Input, Label, Alert, Progress } from '@/components/ui';
+import { cn } from '@/lib/utils';
 
 interface User {
   id: string;
@@ -105,170 +106,180 @@ export default function OnboardingClient({ user }: { user: User }) {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        {/* Progress Bar */}
-        <div className={styles.progress}>
-          <div
-            className={styles.progressBar}
-            style={{ width: `${(step / totalSteps) * 100}%` }}
-          />
-        </div>
+    <div className="min-h-screen bg-bg-0 flex items-center justify-center px-4 py-8">
+      <div className="max-w-3xl w-full">
+        <Card className="p-8">
+          {/* Progress Bar */}
+          <Progress value={(step / totalSteps) * 100} variant="brand" className="mb-8" />
 
-        {/* Step 1: Welcome */}
-        {step === 1 && (
-          <div className={styles.step}>
-            <h1 className={styles.title}>Welcome to TogetherOS</h1>
-            <p className={styles.intro}>
-              You've just joined a community building a new way to organize—where cooperation
-              replaces competition, where communities solve their own problems, and where your
-              skills actually matter.
-            </p>
-            <p className={styles.intro}>
-              Let's take a few moments to set up your profile so you can connect with the right
-              people and projects.
-            </p>
-            <button onClick={handleNext} className={styles.button}>
-              Let's Get Started
-            </button>
+          {/* Step 1: Welcome */}
+          {step === 1 && (
+            <div className="text-center space-y-6">
+              <h1 className="text-3xl font-bold text-ink-900">Welcome to TogetherOS</h1>
+              <p className="text-lg text-ink-700">
+                You've just joined a community building a new way to organize—where cooperation
+                replaces competition, where communities solve their own problems, and where your
+                skills actually matter.
+              </p>
+              <p className="text-lg text-ink-700">
+                Let's take a few moments to set up your profile so you can connect with the right
+                people and projects.
+              </p>
+              <Button onClick={handleNext} variant="default" className="w-full sm:w-auto">
+                Let's Get Started
+              </Button>
+            </div>
+          )}
+
+          {/* Step 2: Name */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <div className="text-center">
+                <h1 className="text-3xl font-bold text-ink-900 mb-2">What should we call you?</h1>
+                <p className="text-lg text-ink-700">
+                  This can be your real name, a nickname, or whatever you'd like to be known as in
+                  the community.
+                </p>
+              </div>
+
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Your name"
+                  autoFocus
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <Button onClick={handleBack} variant="secondary" className="flex-1">
+                  Back
+                </Button>
+                <Button
+                  onClick={handleNext}
+                  variant="default"
+                  disabled={!canProceed()}
+                  className="flex-1"
+                >
+                  Continue
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Paths */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div className="text-center">
+                <h1 className="text-3xl font-bold text-ink-900 mb-2">Choose Your Paths</h1>
+                <p className="text-lg text-ink-700">
+                  Select the areas you're interested in. You can choose as many as you like, and you
+                  can always change these later.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {COOPERATION_PATHS.map((path) => {
+                  const isSelected = formData.paths.includes(path.id);
+                  return (
+                    <Card
+                      key={path.id}
+                      className={cn(
+                        "p-6 cursor-pointer hover:shadow-md transition-shadow relative",
+                        isSelected && "border-brand-500 bg-brand-50"
+                      )}
+                      onClick={() => togglePath(path.id)}
+                    >
+                      <div className="text-4xl mb-3">{path.emoji}</div>
+                      <div className="font-semibold text-ink-900 mb-2">{path.name}</div>
+                      <div className="text-sm text-ink-700">{path.desc}</div>
+                      {isSelected && (
+                        <div className="absolute top-4 right-4 text-brand-600 text-2xl">✓</div>
+                      )}
+                    </Card>
+                  );
+                })}
+              </div>
+
+              <div className="flex gap-3">
+                <Button onClick={handleBack} variant="secondary" className="flex-1">
+                  Back
+                </Button>
+                <Button
+                  onClick={handleNext}
+                  variant="default"
+                  disabled={!canProceed()}
+                  className="flex-1"
+                >
+                  Continue
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 4: Skills (Optional) */}
+          {step === 4 && (
+            <div className="space-y-6">
+              <div className="text-center">
+                <h1 className="text-3xl font-bold text-ink-900 mb-2">What skills can you share?</h1>
+                <p className="text-lg text-ink-700">
+                  This is optional, but it helps others know what you can contribute. You can add
+                  more skills anytime from your profile.
+                </p>
+              </div>
+
+              <div>
+                <Label htmlFor="skills">Skills (optional)</Label>
+                <Input
+                  id="skills"
+                  type="text"
+                  value={formData.skills}
+                  onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+                  placeholder="e.g. Web Development, Graphic Design, Community Organizing"
+                />
+                <p className="text-sm text-ink-700 mt-1">Separate multiple skills with commas</p>
+              </div>
+
+              {state === 'error' && (
+                <Alert variant="danger" title="Error">
+                  {errorMessage}
+                </Alert>
+              )}
+
+              <div className="flex gap-3">
+                <Button onClick={handleBack} variant="secondary" className="flex-1">
+                  Back
+                </Button>
+                <Button
+                  onClick={handleComplete}
+                  variant="default"
+                  disabled={state === 'saving'}
+                  className="flex-1"
+                >
+                  {state === 'saving' ? 'Completing...' : 'Complete Setup'}
+                </Button>
+              </div>
+
+              <div className="text-center">
+                <Button
+                  onClick={handleComplete}
+                  variant="link"
+                  disabled={state === 'saving'}
+                >
+                  Skip for now
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Step Indicator */}
+          <div className="text-center text-sm text-ink-700 mt-6">
+            Step {step} of {totalSteps}
           </div>
-        )}
-
-        {/* Step 2: Name */}
-        {step === 2 && (
-          <div className={styles.step}>
-            <h1 className={styles.title}>What should we call you?</h1>
-            <p className={styles.intro}>
-              This can be your real name, a nickname, or whatever you'd like to be known as in
-              the community.
-            </p>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="name" className={styles.label}>
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Your name"
-                className={styles.input}
-                autoFocus
-              />
-            </div>
-
-            <div className={styles.buttonGroup}>
-              <button onClick={handleBack} className={styles.buttonSecondary}>
-                Back
-              </button>
-              <button
-                onClick={handleNext}
-                className={styles.button}
-                disabled={!canProceed()}
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Paths */}
-        {step === 3 && (
-          <div className={styles.step}>
-            <h1 className={styles.title}>Choose Your Paths</h1>
-            <p className={styles.intro}>
-              Select the areas you're interested in. You can choose as many as you like, and you
-              can always change these later.
-            </p>
-
-            <div className={styles.pathsGrid}>
-              {COOPERATION_PATHS.map((path) => {
-                const isSelected = formData.paths.includes(path.id);
-                return (
-                  <button
-                    key={path.id}
-                    type="button"
-                    onClick={() => togglePath(path.id)}
-                    className={`${styles.pathCard} ${isSelected ? styles.pathCardActive : ''}`}
-                  >
-                    <div className={styles.pathEmoji}>{path.emoji}</div>
-                    <div className={styles.pathName}>{path.name}</div>
-                    <div className={styles.pathDesc}>{path.desc}</div>
-                    {isSelected && <div className={styles.checkmark}>✓</div>}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className={styles.buttonGroup}>
-              <button onClick={handleBack} className={styles.buttonSecondary}>
-                Back
-              </button>
-              <button
-                onClick={handleNext}
-                className={styles.button}
-                disabled={!canProceed()}
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 4: Skills (Optional) */}
-        {step === 4 && (
-          <div className={styles.step}>
-            <h1 className={styles.title}>What skills can you share?</h1>
-            <p className={styles.intro}>
-              This is optional, but it helps others know what you can contribute. You can add
-              more skills anytime from your profile.
-            </p>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="skills" className={styles.label}>
-                Skills (optional)
-              </label>
-              <input
-                id="skills"
-                type="text"
-                value={formData.skills}
-                onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
-                placeholder="e.g. Web Development, Graphic Design, Community Organizing"
-                className={styles.input}
-              />
-              <p className={styles.hint}>Separate multiple skills with commas</p>
-            </div>
-
-            {state === 'error' && <div className={styles.error}>{errorMessage}</div>}
-
-            <div className={styles.buttonGroup}>
-              <button onClick={handleBack} className={styles.buttonSecondary}>
-                Back
-              </button>
-              <button
-                onClick={handleComplete}
-                className={styles.button}
-                disabled={state === 'saving'}
-              >
-                {state === 'saving' ? 'Completing...' : 'Complete Setup'}
-              </button>
-            </div>
-
-            <button
-              onClick={handleComplete}
-              className={styles.skipButton}
-              disabled={state === 'saving'}
-            >
-              Skip for now
-            </button>
-          </div>
-        )}
-
-        {/* Step Indicator */}
-        <div className={styles.stepIndicator}>
-          Step {step} of {totalSteps}
-        </div>
+        </Card>
       </div>
     </div>
   );

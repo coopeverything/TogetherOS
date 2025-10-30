@@ -12,3 +12,4 @@ out/
 coverage/
 .mcp.json
 .vercel
+*.tsbuildinfo

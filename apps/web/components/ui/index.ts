@@ -67,3 +67,16 @@ export type { BreadcrumbProps, BreadcrumbItem } from './breadcrumb';
 
 export { Pagination } from './pagination';
 export type { PaginationProps } from './pagination';
+
+export { CommandPalette, useCommandPalette } from './command-palette';
+export type { CommandPaletteProps, CommandItem } from './command-palette';
+
+// Utility Components
+export { Avatar, AvatarGroup } from './avatar';
+export type { AvatarProps, AvatarGroupProps } from './avatar';
+
+export { Skeleton, SkeletonCard } from './skeleton';
+export type { SkeletonProps, SkeletonCardProps } from './skeleton';
+
+export { EmptyState, EmptyStateIcons } from './empty-state';
+export type { EmptyStateProps } from './empty-state';
