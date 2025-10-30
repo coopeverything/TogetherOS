@@ -25,33 +25,13 @@ This skill executes complete code operations for TogetherOS, from branch creatio
   Verified: All changes tested during implementation, build passes
   ```
 
-## The 8 Cooperation Paths
+## PR Category & Keywords
 
-Every PR must be tagged with ONE of these paths:
-
-1. **Collaborative Education** — Learning, co-teaching, peer mentorship, skill documentation
-2. **Social Economy** — Cooperatives, timebanking, mutual aid, repair/reuse networks
-3. **Common Wellbeing** — Health, nutrition, mental health, community clinics, care networks
-4. **Cooperative Technology** — Open-source software, privacy tools, federated services, human-centered AI
-5. **Collective Governance** — Direct legislation, deliberation, empathic moderation, consensus tools
-6. **Community Connection** — Local hubs, events, volunteer matching, skill exchanges
-7. **Collaborative Media & Culture** — Storytelling, documentaries, cultural restoration, commons media
-8. **Common Planet** — Regeneration, local agriculture, circular materials, climate resilience
-
-## Module → Path Mapping
-
-Use this mapping to auto-select the appropriate Cooperation Path:
-
-- **bridge** → Cooperative Technology
-- **governance** → Collective Governance
-- **social-economy**, **timebank**, **support-points** → Social Economy
-- **moderation**, **discourse** → Collective Governance
-- **community**, **events**, **volunteer** → Community Connection
-- **education**, **learning**, **mentorship** → Collaborative Education
-- **health**, **wellness**, **care** → Common Wellbeing
-- **media**, **culture**, **storytelling** → Collaborative Media & Culture
-- **environment**, **sustainability**, **agriculture** → Common Planet
-- **infrastructure**, **monorepo**, **ci-cd**, **api** → Cooperative Technology (default for tech work)
+**See:** `pr-formatter` skill for:
+- The 8 Cooperation Paths taxonomy
+- Module → Path mapping
+- Keyword generation logic
+- PR body formatting requirements
 
 ## Required Inputs
 
@@ -113,45 +93,30 @@ Use this mapping to auto-select the appropriate Cooperation Path:
 - Push branch: `git push -u origin feature/{module}-{slice}`
 
 ### 8. Progress & Next Steps Update
+
+**Use `status-tracker` skill** to:
 - Calculate estimated progress increase based on work completed
-- Update module's Next Steps in `docs/modules/{module}/` using `scripts/update-module-next-steps.sh`
+- Update module's Next Steps using `scripts/update-module-next-steps.sh`
 - Mark completed tasks as done
 - Add any new tasks discovered during implementation
 - Prepare progress marker for PR body (e.g., `progress:bridge=+10`)
 
 ### 9. PR Creation with Auto-Category & Progress
-- Auto-select Cooperation Path using module→path mapping above
-- Generate 3-5 relevant keywords from:
-  - Module name
-  - Slice description
-  - Key technologies used
-  - Scope keywords
-- Create PR to `yolo` with body in this EXACT format:
-  ```
-  Category: [Selected Cooperation Path Name]
-  Keywords: [keyword1, keyword2, keyword3, ...]
 
-  ## Summary
-  [What changed and why]
+**Use `pr-formatter` skill** to:
+- Auto-select Cooperation Path from module
+- Generate 3-5 relevant keywords
+- Format PR body with exact structure
+- Include progress marker from step 8
+- Create PR with `gh pr create --base yolo`
 
-  ## Files Changed
-  [List with brief description]
+**Then monitor post-push:**
+- Wait ~30 seconds for AI reviewers (Copilot/Codex)
+- Check for comments: `gh pr view <PR#> --comments`
+- Address all feedback until checks are green
+- **Note:** Lint/smoke disabled on yolo branch
 
-  ## Progress
-  progress:{module}=+X
-
-  [Proof lines if validation run]
-  ```
-- **CRITICAL FORMAT RULES:**
-  - First line MUST be `Category:` (plain text, no bold, no markdown)
-  - Second line MUST be `Keywords:` (plain text, no bold, no markdown)
-  - Then blank line, then markdown sections
-  - Progress marker in body for auto-update on merge
-- Output PR URL and 5-line action summary
-
-**Note**: If `gh` CLI is not authenticated, output the PR creation URL and the formatted PR body for manual creation
-
-**Progress Auto-Update**: When the PR merges, GitHub Actions will detect the `progress:module=+X` marker and automatically update `docs/STATUS_v2.md`
+Output PR URL and status summary
 
 ## Safety Guidelines
 
@@ -175,9 +140,8 @@ Inputs:
 
 **Expected Behavior**:
 - Branch: `feature/bridge-scaffold`
-- Path: **Cooperative Technology**
-- Keywords: `bridge`, `scaffold`, `ui-component`, `routing`, `ai-assistant`
 - Commit: `feat(bridge): scaffold - Create /bridge route, stub component in packages/ui, docs/modules/bridge/README.md`
+- PR formatted via `pr-formatter` skill (auto-selected category & keywords)
 
 ### Example 2: Governance Integration
 ```
@@ -190,9 +154,8 @@ Inputs:
 
 **Expected Behavior**:
 - Branch: `feature/governance-oss-integration`
-- Path: **Collective Governance**
-- Keywords: `governance`, `oss-integration`, `authentication`, `database`, `ci-cd`
 - Commit: `feat(governance): oss-integration - Integrate selected governance OSS with auth/DB and CI`
+- PR formatted via `pr-formatter` skill (auto-selected category & keywords)
 
 ## Testing Philosophy (YOLO Mode)
 
@@ -207,82 +170,14 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 
 **About Validation Scripts**: While YOLO mode emphasizes self-testing, running `scripts/validate.sh` before committing provides proof lines (`LINT=OK`, `VALIDATORS=GREEN`) that CI checks look for. These checks are advisory-only and won't block merges, but including them shows good practice.
 
-## Keyword Generation Logic
+## Related Skills
 
-Generate 3-5 keywords by combining:
-1. **Module name** (always include)
-2. **Technical components**: API, UI, database, routing, auth, etc.
-3. **Action type**: scaffold, integration, refactor, feature, bugfix
-4. **Domain concepts**: From the 8 Paths and their subcategories (see CATEGORY_TREE.json)
+- **pr-formatter**: PR creation, formatting, validation, AI feedback loop
+- **status-tracker**: Progress tracking, next steps management, Notion memory
 
-Example for bridge module:
-- `bridge`, `ai-assistant`, `streaming`, `citations`, `knowledge-base`
-
-Example for governance module:
-- `governance`, `proposals`, `voting`, `consensus`, `deliberation`
-
-## Progress Tracking & Automation
-
-### How It Works
-
-1. **During Implementation**: As you complete work, estimate the progress increase (typically 5-20% per feature)
-2. **Update Next Steps**: Use `scripts/update-module-next-steps.sh` to:
-   - Mark completed tasks as done
-   - Add new tasks discovered during work
-3. **Add Progress Marker**: Include `progress:{module}=+X` in PR body
-4. **Auto-Update on Merge**: GitHub Actions detects the marker and updates `docs/STATUS_v2.md`
-
-### Progress Tracking Files
-
-TogetherOS maintains 2 interconnected progress files:
-
-1. **docs/STATUS_v2.md** - Module percentage dashboard (updated automatically via PR markers)
-2. **STATUS/progress-log.md** - Timestamped milestone log (appended by automation)
-
-**See full guide:** `docs/dev/progress-tracking-automation.md`
-
-### Progress Estimation Guide
-
-- **Scaffold/Setup**: +5-10% (foundational structure)
-- **Core Feature**: +10-20% (major functionality)
-- **Enhancement**: +5-10% (improvements to existing features)
-- **Polish/Refine**: +2-5% (UI tweaks, minor fixes)
-- **Testing/Docs**: +5% (comprehensive testing or documentation)
-
-### PR Progress Markers (IMPORTANT)
-
-**Always include progress markers in PR body** for automatic tracking:
-
-```markdown
-## Progress
-progress:bridge=+10
-```
-
-**Syntax:**
-- `progress:MODULE=XX` - Set to specific percentage (e.g., `progress:auth=75`)
-- `progress:MODULE=+XX` - Increment by percentage (e.g., `progress:auth=+15`)
-
-This triggers the `auto-progress-update.yml` GitHub Action on merge.
-
-### Available Scripts
-
-**Update Progress Manually**:
-```bash
-./scripts/update-progress.sh bridge 15 "Completed streaming UI"
-./scripts/update-progress.sh governance +10  # Increment by 10%
-```
-
-**Manage Next Steps**:
-```bash
-./scripts/update-module-next-steps.sh bridge init              # Initialize section
-./scripts/update-module-next-steps.sh bridge add "Task name"   # Add task
-./scripts/update-module-next-steps.sh bridge complete "Task"   # Mark done
-./scripts/update-module-next-steps.sh bridge list              # Show tasks
-```
-
-### Module Progress Keys
-
-From `docs/STATUS_v2.md`:
-- **Core Modules**: scaffold, ui, auth, profiles, groups, forum, governance, social-economy, reputation, onboarding, search, notifications, docs-hooks, observability, security
-- **Path Modules**: path-education, path-governance, path-community, path-media, path-wellbeing, path-economy, path-technology, path-planet
-- **DevEx**: devcontainer, ci-lint, ci-docs, ci-smoke, deploy, secrets
+**See those skills for:**
+- Keyword generation details → `pr-formatter`
+- Progress estimation guide → `status-tracker`
+- Module progress keys → `status-tracker`
+- Notion memory updates → `status-tracker`
+- PR verification checklist → `pr-formatter`
