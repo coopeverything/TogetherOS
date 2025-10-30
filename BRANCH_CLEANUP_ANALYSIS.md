@@ -30,8 +30,8 @@ TogetherOS implements an **innovative and well-architected** governance system b
 
 - **DELETE: 31 branches** (stale automation tests, merged work, abandoned features)
 - **EVALUATE: 3 branches** (docs updates - mostly superseded)
-- **DECIDE: 1 branch** (claude-yolo - major features, needs merge decision)
-- **KEEP: 5 branches** (main, claude-yolo, active work)
+- **DECIDE: 1 branch** (yolo - major features, needs merge decision)
+- **KEEP: 5 branches** (main, yolo, active work)
 
 ---
 
@@ -257,7 +257,7 @@ jobs:
 - **chore/reconcile-main** - Aug 2024, 76 commits behind
 - **chore/sync-main-20250828-1921** - Temporary sync branch
 - **chore/cleanup-legacy-workflows-→-Create-branch-from-main** - Sept 2024
-- **feat/frontend-skeleton** - Superseded by claude-yolo
+- **feat/frontend-skeleton** - Superseded by yolo
 - **dev/devcontainer-setup** - Sept 2024, 76 commits behind
 - **55-add-hello-file-under-codex-agent** - Test branch
 - **TheEpicuros-patch-1** - 73 commits behind
@@ -269,8 +269,8 @@ jobs:
 ### docs/pr-template-refresh
 - **Last Updated:** Sept 24, 2024
 - **Changes:** Minor PR template updates (10 lines)
-- **Assessment:** claude-yolo has MUCH better PR template (40 lines, comprehensive)
-- **Recommendation:** DELETE - superseded by claude-yolo
+- **Assessment:** yolo has MUCH better PR template (40 lines, comprehensive)
+- **Recommendation:** DELETE - superseded by yolo
 
 ### docs/ops-playbook-refresh
 - **Last Updated:** Sept 24, 2024
@@ -290,9 +290,9 @@ jobs:
 
 ### main
 - **Status:** Stable branch, 96 commits
-- **Recommendation:** KEEP - but needs update from claude-yolo
+- **Recommendation:** KEEP - but needs update from yolo
 
-### claude-yolo (DECISION NEEDED)
+### yolo (DECISION NEEDED)
 - **Status:** 46 commits ahead of main, production-ready features
 - **Files:** 110 changed, +18,953/-597 lines
 - **Features:**
@@ -311,16 +311,16 @@ jobs:
 - **Recommendation:** KEEP until analysis complete, then DELETE
 
 ### claude/session-011CUa5wtxBvUBPN5vCGQ1d9
-- **Status:** Subset of claude-yolo (30 commits)
-- **Recommendation:** DELETE after claude-yolo decision
+- **Status:** Subset of yolo (30 commits)
+- **Recommendation:** DELETE after yolo decision
 
 ---
 
-## MAJOR DECISION: claude-yolo Branch
+## MAJOR DECISION: yolo Branch
 
 ### The Situation
 
-**claude-yolo** contains 46 commits of substantial production features not in main:
+**yolo** contains 46 commits of substantial production features not in main:
 - Authentication system (Supabase, OAuth)
 - User management (signup, onboarding, profile)
 - Dashboard and admin features
@@ -345,19 +345,19 @@ jobs:
 **Steps:**
 ```bash
 git checkout main
-git merge claude-yolo
+git merge yolo
 npm install
 npm test  # verify everything works
 git push origin main
-# Delete claude-yolo after successful merge
-git push origin --delete claude-yolo
+# Delete yolo after successful merge
+git push origin --delete yolo
 ```
 
-### Option B: Keep claude-yolo as development branch
+### Option B: Keep yolo as development branch
 
 **Pros:**
-- Maintains separation between stable (main) and development (claude-yolo)
-- Can continue iterating on claude-yolo
+- Maintains separation between stable (main) and development (yolo)
+- Can continue iterating on yolo
 - Main stays as last known good state
 
 **Cons:**
@@ -368,8 +368,8 @@ git push origin --delete claude-yolo
 **Steps:**
 ```bash
 # Update GitHub repository settings
-# Set default branch to: claude-yolo
-# Add branch protection to: claude-yolo
+# Set default branch to: yolo
+# Add branch protection to: yolo
 # Update all documentation references
 ```
 
@@ -378,7 +378,7 @@ git push origin --delete claude-yolo
 **Pros:**
 - Clean separation of development vs. releases
 - Can tag releases from release branch
-- Development continues on main or claude-yolo
+- Development continues on main or yolo
 
 **Cons:**
 - Adds complexity
@@ -408,17 +408,17 @@ git push origin --delete claude-yolo
 **Note:** 403 error indicates you need to run this with appropriate permissions
 
 ### Phase 2: Evaluate Docs Branches ✅
-**Analysis complete:** All 3 doc branches superseded by claude-yolo
+**Analysis complete:** All 3 doc branches superseded by yolo
 **Recommendation:** Add to deletion script
 
-### Phase 3: Decision on claude-yolo ⏳
+### Phase 3: Decision on yolo ⏳
 **Your decision needed:**
 - Merge to main? (recommended)
 - Keep as development branch?
 - Create release workflow?
 
 ### Phase 4: Final Cleanup
-After claude-yolo decision:
+After yolo decision:
 - Delete session branches
 - Delete this analysis branch
 - Update branch protection rules
@@ -440,7 +440,7 @@ After claude-yolo decision:
 
 ### Recommended Final Structure
 ```
-main                    # Production-ready code (after merging claude-yolo)
+main                    # Production-ready code (after merging yolo)
 ├── Active work branches (feature/*, fix/*, docs/*)
 └── Protected with required checks
 ```
@@ -451,10 +451,10 @@ main                    # Production-ready code (after merging claude-yolo)
 
 ### Immediate (Today)
 1. **Review this analysis**
-2. **Decide on claude-yolo** (merge to main recommended)
+2. **Decide on yolo** (merge to main recommended)
 3. **Run cleanup script:** `./scripts/cleanup-branches.sh`
    - Or manually delete via GitHub UI if permissions issue persists
-4. **Merge claude-yolo to main** (if chosen)
+4. **Merge yolo to main** (if chosen)
 
 ### This Week
 5. **Implement critical fixes:**
@@ -483,7 +483,7 @@ TogetherOS has an **excellent governance philosophy** that's rare in open source
 
 The repository has accumulated **31 stale branches** from development experimentation, particularly codex automation testing from September 2024. A clean sweep will improve clarity.
 
-The **claude-yolo branch** represents significant progress and should be merged to main to consolidate the codebase and provide a clear direction for contributors.
+The **yolo branch** represents significant progress and should be merged to main to consolidate the codebase and provide a clear direction for contributors.
 
 **Overall Assessment:**
 - **Philosophy:** 10/10 - Innovative and sound
@@ -491,8 +491,8 @@ The **claude-yolo branch** represents significant progress and should be merged 
 - **Repository hygiene:** 6/10 - Too many stale branches
 - **After cleanup:** 9/10 - Clean, clear, well-governed
 
-**Recommendation:** Proceed with cleanup, merge claude-yolo, and implement the 5 critical fixes (2-3 hours total effort) to achieve a world-class governance system.
+**Recommendation:** Proceed with cleanup, merge yolo, and implement the 5 critical fixes (2-3 hours total effort) to achieve a world-class governance system.
 
 ---
 
-**Analysis complete.** Ready for your decision on claude-yolo and cleanup execution.
+**Analysis complete.** Ready for your decision on yolo and cleanup execution.

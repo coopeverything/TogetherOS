@@ -1,25 +1,25 @@
 # Dual-Branch Documentation Strategy
 **Date:** 2025-10-29
-**Purpose:** Structure TogetherOS for both human contributors (main) and AI automation (claude-yolo)
+**Purpose:** Structure TogetherOS for both human contributors (main) and AI automation (yolo)
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-**Problem:** claude-yolo contains valuable features BUT also automation docs that would confuse human contributors
+**Problem:** yolo contains valuable features BUT also automation docs that would confuse human contributors
 
 **Solution:** Create shared knowledge structure + branch-specific automation
 
 **Result:**
 - **main** = Clean, human-friendly, no automation clutter
-- **claude-yolo** = Full automation + all features
+- **yolo** = Full automation + all features
 - **docs/knowledge/** = Shared source of truth
 
 ---
 
 ## ANALYSIS OF CLAUDE KB
 
-### Claude/Automation-SPECIFIC (Keep ONLY in claude-yolo)
+### Claude/Automation-SPECIFIC (Keep ONLY in yolo)
 
 1. **`.claude/preferences.md`** - Claude Code preferences, YOLO mode, Notion updates
 2. **`.claude/skills/togetheros-code-ops.md`** - YOLO skill automation
@@ -88,7 +88,7 @@ main branch excludes:
 ### CLAUDE-YOLO Branch ONLY (Full Automation)
 
 ```
-claude-yolo branch keeps:
+yolo branch keeps:
 ├── .claude/                      # ✅ KEEP all automation
 │   ├── knowledge/                # Can symlink to docs/knowledge/ OR keep separate
 │   ├── preferences.md
@@ -139,7 +139,7 @@ claude-yolo branch keeps:
    - Branch protection
    - ❌ Remove: Claude branch naming, YOLO mode, automation specifics
 
-2. **`.claude/knowledge/ci-cd-discipline.md`** (claude-yolo branch)
+2. **`.claude/knowledge/ci-cd-discipline.md`** (yolo branch)
    - Keep all automation details
    - Claude session branches
    - YOLO workflow
@@ -209,7 +209,7 @@ codex/                            # Or make read-only docs
 
 ---
 
-## MERGE STRATEGY: claude-yolo → main
+## MERGE STRATEGY: yolo → main
 
 ### What to Merge
 
@@ -238,11 +238,11 @@ codex/                            # Or make read-only docs
 
 ```bash
 # 1. Create merge branch
-git checkout -b merge/claude-yolo-to-main main
-git fetch origin claude-yolo
+git checkout -b merge/yolo-to-main main
+git fetch origin yolo
 
 # 2. Selective merge (exclude automation)
-git merge origin/claude-yolo --no-commit --no-ff
+git merge origin/yolo --no-commit --no-ff
 
 # 3. Unstage automation directories
 git reset HEAD .claude/
@@ -253,9 +253,9 @@ git reset HEAD .github/workflows/sync-github-project.yml
 
 # 4. Review and commit
 git status  # Verify what's being merged
-git commit -m "merge: integrate claude-yolo features without automation
+git commit -m "merge: integrate yolo features without automation
 
-Merges application features from claude-yolo:
+Merges application features from yolo:
 - Auth system and user onboarding
 - Dashboard and profile pages
 - Bridge module UI/API
@@ -269,13 +269,13 @@ Excludes automation systems:
 - Automation-specific workflows
 
 This creates a clean main branch for human contributors while
-preserving full automation in claude-yolo branch."
+preserving full automation in yolo branch."
 
 # 5. Handle conflicts if any
 # 6. Test thoroughly
 # 7. Merge to main
 git checkout main
-git merge merge/claude-yolo-to-main
+git merge merge/yolo-to-main
 git push origin main
 ```
 
@@ -388,7 +388,7 @@ General project documentation for all contributors.
 - Require proof lines in PR body (via pr-proof-check workflow - make it blocking!)
 - No direct pushes to main
 
-**claude-yolo branch:**
+**yolo branch:**
 - Same protections as main
 - Can have looser requirements for rapid iteration
 
@@ -415,7 +415,7 @@ General project documentation for all contributors.
 - `/docs/contributors/` = how to contribute
 - No `.claude/` or `codex/` confusion
 
-### For AI Automation (claude-yolo branch)
+### For AI Automation (yolo branch)
 
 ✅ **Full automation preserved:**
 - All Codex features
@@ -440,11 +440,11 @@ General project documentation for all contributors.
 
 ✅ **Clear branch purposes:**
 - main = production, human contributors
-- claude-yolo = development, full automation
+- yolo = development, full automation
 
 ✅ **Easy to explain:**
 - "Want to contribute? Use main branch"
-- "Want full automation? Use claude-yolo branch"
+- "Want full automation? Use yolo branch"
 
 ---
 
@@ -456,7 +456,7 @@ General project documentation for all contributors.
 - Day 5: Create human contributor guides
 
 ### Week 2: Main Branch Cleanup
-- Day 1-2: Selective merge from claude-yolo
+- Day 1-2: Selective merge from yolo
 - Day 3: Remove automation directories
 - Day 4: Update cross-references
 - Day 5: Test and verify
@@ -484,12 +484,12 @@ General project documentation for all contributors.
 - Docs can drift between branches
 - Updates must be made twice
 
-**Mitigation:** Periodic sync from claude-yolo → main for docs only
+**Mitigation:** Periodic sync from yolo → main for docs only
 
 ### Option B: Shared Knowledge via Symlinks
 
 **Both branches have:** `docs/knowledge/` (real)
-**claude-yolo has:** `.claude/knowledge/` → symlinks to `docs/knowledge/`
+**yolo has:** `.claude/knowledge/` → symlinks to `docs/knowledge/`
 
 **Pros:**
 - No duplication
@@ -509,19 +509,19 @@ General project documentation for all contributors.
 
 1. **Review this proposal** - Does this structure make sense?
 
-2. **Decide on merge timing** - Ready to merge claude-yolo → main now?
+2. **Decide on merge timing** - Ready to merge yolo → main now?
 
 3. **Choose knowledge strategy** - Copy or symlinks?
 
 4. **Create migration branches:**
    - `feature/shared-knowledge-structure` - Create `/docs/knowledge/`
    - `feature/contributor-guides` - Create `/docs/contributors/`
-   - `merge/claude-yolo-to-main-clean` - Selective merge without automation
+   - `merge/yolo-to-main-clean` - Selective merge without automation
 
 5. **Execute in order:**
    - First: Create shared structure (both branches)
    - Second: Migrate docs to shared location (both branches)
-   - Third: Merge claude-yolo features to main (selective)
+   - Third: Merge yolo features to main (selective)
    - Fourth: Remove automation from main
    - Fifth: Update cross-references and indexes
 
@@ -529,7 +529,7 @@ General project documentation for all contributors.
 
 ## QUESTIONS FOR YOU
 
-1. **Ready to merge claude-yolo to main?** (You said not yet, but now?)
+1. **Ready to merge yolo to main?** (You said not yet, but now?)
 
 2. **Keep codex/ in main as docs-only?** Or remove entirely?
    - Option A: Remove entirely
@@ -544,6 +544,6 @@ General project documentation for all contributors.
 
 ---
 
-**This structure lets main be clean and welcoming for humans while preserving full automation power in claude-yolo. Both branches benefit from shared knowledge, neither duplicates work unnecessarily.**
+**This structure lets main be clean and welcoming for humans while preserving full automation power in yolo. Both branches benefit from shared knowledge, neither duplicates work unnecessarily.**
 
 Ready to proceed?

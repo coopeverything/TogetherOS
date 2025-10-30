@@ -6,7 +6,7 @@ echo "Updating TogetherOS on VPS..."
 cd /var/www/togetheros
 
 echo "→ Pulling latest code..."
-git pull origin claude-yolo
+git pull origin yolo
 
 echo "→ Installing dependencies..."
 cd apps/web

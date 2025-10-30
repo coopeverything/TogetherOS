@@ -549,8 +549,8 @@ cd /var/www/coopeverything.org
 
 # Pull latest changes
 git fetch origin
-git checkout claude-yolo
-git pull origin claude-yolo
+git checkout yolo
+git pull origin yolo
 
 # Install dependencies
 npm install
@@ -721,5 +721,5 @@ All pages use the TogetherOS Warm Minimalism design system:
 ---
 
 **Status:** ✅ Ready for Production Deployment
-**Branch:** `claude-yolo`
+**Branch:** `yolo`
 **Last Updated:** October 28, 2025
