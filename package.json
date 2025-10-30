@@ -8,9 +8,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "echo 'Build script placeholder - configure with Next.js and TypeScript'",
-    "lint": "echo 'Lint script placeholder'",
-    "test": "echo 'Test script placeholder'"
+    "build": "tsc --build && npm run build:web",
+    "build:web": "npm run build --workspace=@togetheros/web",
+    "build:packages": "tsc --build packages/types packages/validators packages/ui",
+    "clean": "tsc --build --clean",
+    "dev": "npm run dev --workspace=@togetheros/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "echo 'Test script placeholder - configure with Jest'",
+    "typecheck": "tsc --build --dry"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -19,5 +24,8 @@
     "bcryptjs": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
   }
 }
