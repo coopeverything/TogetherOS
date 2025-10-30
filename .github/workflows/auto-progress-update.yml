@@ -25,6 +25,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Extract progress updates from PR body
         id: extract
@@ -71,22 +73,35 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Ensure push uses the GITHUB_TOKEN
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Commit progress updates
         if: ${{ steps.extract.outputs.has_updates == 'true' }}
         env:
           UPDATES: ${{ steps.extract.outputs.updates }}
         run: |
-          if git diff --quiet docs/STATUS_v2.md; then
+          # Detect any changes in the working tree
+          if [ -z "$(git status --porcelain)" ]; then
             echo "No changes to commit"
             exit 0
           fi
 
           MODULE_LIST=$(echo "${UPDATES}" | jq -r '.[].module' | paste -sd "," -)
-
+          # Stage the files (be permissive)
           git add docs/STATUS_v2.md STATUS/progress-log.md || true
-          git commit -m "chore(status): auto-update progress for ${MODULE_LIST}" -m "Triggered by PR #${{ github.event.pull_request.number }}\n[skip ci]"
-          git push
+
+          # Build a safe, multiline commit message
+          PR_NUM=${{ github.event.pull_request.number }}
+          COMMIT_MSG="chore(status): auto-update progress for ${MODULE_LIST}"
+          COMMIT_BODY="Triggered by PR #${PR_NUM}\n[skip ci]"
+
+          git commit -m "${COMMIT_MSG}" -m "${COMMIT_BODY}" || {
+            echo "git commit failed (maybe nothing to commit after add); exiting"
+            exit 0
+          }
+
+          git push origin HEAD:${{ github.event.pull_request.base.ref }}
 
       - name: Update marker
         run: echo "AUTO_PROGRESS_UPDATE=OK"
