@@ -19,6 +19,7 @@ This skill manages all progress tracking, status updates, and Notion memory for 
 - Creates and updates Notion session memory
 - Generates progress reports
 - Maintains timestamped milestone log
+- Triggers `sync-to-main` skill at 5% progress milestones
 
 ## Core Files
 
@@ -121,7 +122,33 @@ progress:bridge=+10
 - `docs/STATUS_v2.md` (module percentages)
 - `STATUS/progress-log.md` (timestamped entry)
 
-### 5. Notion Memory Updates
+### 5. Trigger sync-to-main at Milestones
+
+**When progress reaches 5% milestones** (5%, 10%, 15%, 20%, etc.):
+
+1. **Invoke sync-to-main skill (Phase 1 only)**
+   ```
+   Use Skill: sync-to-main
+   Action: Create WIP marker in main branch
+   ```
+
+2. **Skill automatically**:
+   - Checks out main branch
+   - Updates STATUS_v2.md with 🔄 marker: `- [module] 🔄 XX% - In active development (yolo branch)`
+   - Commits and pushes to main
+   - Returns to yolo branch
+
+3. **Notify user**:
+   ```
+   WIP marker created in main for [module] (XX%).
+   Contributors will see this module is in active development.
+
+   To sync code after production testing: "sync [module] to main"
+   ```
+
+**Note:** This only creates the WIP marker. Actual code sync (Phase 2) happens when user approves after production validation.
+
+### 6. Notion Memory Updates
 
 **When to Update Notion:**
 - After PR creation
@@ -225,6 +252,11 @@ Action: Add progress marker to PR body, update next steps
 - pr-formatter includes progress marker in formatted PR body
 - Ensures correct syntax for automation
 
+**With sync-to-main:**
+- status-tracker calls sync-to-main Phase 1 when progress hits 5% milestone
+- sync-to-main creates WIP marker in main branch
+- User later invokes sync-to-main Phase 2 manually for code sync
+
 **Standalone:**
 - Check current status: "what's our progress?"
 - Update Notion: "update session memory"
@@ -265,3 +297,4 @@ Action: Add progress marker to PR body, update next steps
 **Related Skills:**
 - **yolo1**: Full implementation workflow (calls this skill)
 - **pr-formatter**: PR body formatting (includes progress markers)
+- **sync-to-main**: Branch synchronization (called by this skill at 5% milestones)

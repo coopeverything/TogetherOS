@@ -7,6 +7,8 @@
 import './globals.css';
 import { DarkModeProvider } from '@/components/dark-mode-provider';
 import { ToastProvider } from '@/components/ui/toast';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'TogetherOS',
@@ -20,9 +22,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="flex flex-col min-h-screen">
         <DarkModeProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <Navigation />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </ToastProvider>
         </DarkModeProvider>
       </body>
     </html>
