@@ -1,5 +1,5 @@
 ---
-name: togetheros-code-ops
+name: yolo1
 description: |
   **AUTO-TRIGGER when user says:** "implement [feature]", "build [module]", "create [functionality]", "add [capability]", "YOLO [task]", or requests complete feature implementation.
 
@@ -14,10 +14,10 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 
 ## Core Conventions
 
-- **Base Branch**: `claude-yolo` **⚠️ NEVER USE main AS BASE - ALWAYS USE claude-yolo**
+- **Base Branch**: `yolo` **⚠️ NEVER USE main AS BASE - ALWAYS USE yolo**
 - **Branch Pattern**: `feature/{module}-{slice}`
 - **Commit Format**: `feat({module}): {slice} - {scope}`
-- **PR Target**: ALL PRs go to `claude-yolo`, **NEVER to main**
+- **PR Target**: ALL PRs go to `yolo`, **NEVER to main**
 - **Deployment**: VPS-only (coopeverything.org) - **NO Vercel/Vertex**
 - **Design System**: Follow `docs/design/system.md` for all UI work (colors, typography, components)
 - **PR Verification**: Always include in PR body:
@@ -70,8 +70,8 @@ Use this mapping to auto-select the appropriate Cooperation Path:
 ## Workflow Steps
 
 ### 1. Preparation
-- Ensure repo is on `claude-yolo` branch and up to date
-- Create feature branch: `feature/{module}-{slice}-yolo`
+- Ensure repo is on `yolo` branch and up to date
+- Create feature branch: `feature/{module}-{slice}`
 
 ### 2. Implementation (Test as You Go)
 - Apply scoped edits described in the `scope` parameter
@@ -126,7 +126,7 @@ Use this mapping to auto-select the appropriate Cooperation Path:
   - Slice description
   - Key technologies used
   - Scope keywords
-- Create PR to `claude-yolo` with body in this EXACT format:
+- Create PR to `yolo` with body in this EXACT format:
   ```
   Category: [Selected Cooperation Path Name]
   Keywords: [keyword1, keyword2, keyword3, ...]

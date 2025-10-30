@@ -24,7 +24,7 @@ This file documents user preferences and workflow expectations that should persi
 
 ## Skill Usage
 
-### togetheros-code-ops (YOLO Skill)
+### yolo1
 
 **Auto-Trigger When User Says:**
 - "implement [feature]"
@@ -71,7 +71,7 @@ gh pr view <PR#> --json mergeable,baseRefName
 gh pr checks <PR#>
 
 # 4. Fix conflicts if needed
-git fetch origin yolo && git merge origin/ -yolo
+git fetch origin yolo && git merge origin/yolo
 
 # 5. Fix CI failures if needed
 gh run view <run-id> --log-failed
