@@ -1,0 +1,39 @@
+# TogetherOS Code Owners
+#
+# These owners will be requested for review when someone opens a pull request
+# that modifies files in the specified paths.
+#
+# Syntax: <path> <owner1> <owner2>...
+# Owners can be: @username, @org/team-name, email@example.com
+
+# Default owners for everything (fallback)
+* @coopeverything
+
+# CI/CD and workflows - require maintainer review
+/.github/workflows/ @coopeverything
+/.github/CODEOWNERS @coopeverything
+/scripts/ @coopeverything
+
+# Core documentation - require maintainer review
+/docs/architecture.md @coopeverything
+/docs/tech-stack.md @coopeverything
+/docs/cooperation-paths.md @coopeverything
+
+# Configuration files - require careful review
+/.devcontainer/ @coopeverything
+/.markdownlint.jsonc @coopeverything
+/.yamllint.yaml @coopeverything
+/package.json @coopeverything
+/pnpm-workspace.yaml @coopeverything
+/tsconfig*.json @coopeverything
+
+# Application code - can be owned by specific teams in future
+# /apps/web/ @frontend-team
+# /apps/api/ @backend-team
+# /packages/ @platform-team
+
+# Module documentation - module maintainers can review
+# /docs/modules/bridge.md @bridge-team
+# /docs/modules/governance.md @governance-team
+
+# Comments show future structure as project grows

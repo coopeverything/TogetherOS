@@ -37,4 +37,4 @@ SMOKE=OK
 - [ ] No secrets or PII added; tokens remain in GitHub Secrets
 
 ## Links
-- Related Issue/Task: <!-- e.g., codex/* or GitHub issue -->
+- Related Issue/Task: <!-- e.g., GitHub issue or discussion -->

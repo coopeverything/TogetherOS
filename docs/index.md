@@ -17,7 +17,7 @@ This page lists the **canonical docs**. If you rename or add a doc, update this 
 ## Status & Planning
 
 - Public status explainer: [STATUS_v2.md](./STATUS_v2.md)
-- Tracker file (append-only log): [STATUS/What_we_finished_What_is_left_v2.txt](../STATUS/What_we_finished_What_is_left_v2.txt)
+- Comprehensive progress report: [STATUS/progress-report.md](../STATUS/progress-report.md)
 - Tech roadmap: [roadmap/TECH_ROADMAP.md](./roadmap/TECH_ROADMAP.md)
 
 ## Knowledge Base (Detailed Specs)
@@ -25,14 +25,14 @@ This page lists the **canonical docs**. If you rename or add a doc, update this 
 For comprehensive implementation guides, architecture patterns, and module specifications, see:
 
 - [Main Knowledge Base](../.claude/knowledge/togetheros-kb.md) — Core identity, workflow, and principles
-- [Tech Stack](../.claude/knowledge/tech-stack.md) — Framework versions, dependencies, tooling
-- [Architecture Patterns](../.claude/knowledge/architecture.md) — Data models, API contracts, monorepo structure
-- [Bridge Module](../.claude/knowledge/bridge-module.md) — Complete AI assistant specification
-- [Governance Module](../.claude/knowledge/governance-module.md) — Proposals & decisions implementation
-- [Social Economy](../.claude/knowledge/social-economy.md) — Support Points, timebanking, Social Horizon currency
-- [Cooperation Paths](../.claude/knowledge/cooperation-paths.md) — Full taxonomy with subcategories
+- [Tech Stack](.tech-stack.md) — Framework versions, dependencies, tooling
+- [Architecture Patterns](.architecture.md) — Data models, API contracts, monorepo structure
+- [Bridge Module](../modules/bridge.md) — Complete AI assistant specification
+- [Governance Module](../modules/governance.md) — Proposals & decisions implementation
+- [Social Economy](../modules/social-economy.md) — Support Points, timebanking, Social Horizon currency
+- [Cooperation Paths](.cooperation-paths.md) — Full taxonomy with subcategories
 - [CI/CD Discipline](../.claude/knowledge/ci-cd-discipline.md) — Proof lines, validation workflows
-- [Data Models](../.claude/knowledge/data-models.md) — Core entities and relationships
+- [Data Models](.data-models.md) — Core entities and relationships
 
 ## Contributor Hubs
 

@@ -1,14 +1,13 @@
----
 name: auto/progress-update
 
-# Automatically updates module progress when PRs are merged to claude-yolo
+# Automatically updates module progress when PRs are merged to yolo
 # Looks for progress markers in PR body like: progress:bridge=+10
 
 on:
   pull_request:
     types: [closed]
     branches:
-      - claude-yolo
+      - yolo
       - main
 
 permissions:
@@ -18,7 +17,7 @@ permissions:
 jobs:
   update-progress:
     name: auto/progress-update
-    if: github.event.pull_request.merged == true
+    if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,12 +25,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Extract progress updates from PR body
         id: extract
         uses: actions/github-script@v7
         with:
           script: |
+            const core = require('@actions/core');
             const body = context.payload.pull_request.body || "";
             const title = context.payload.pull_request.title || "";
 
@@ -55,7 +57,7 @@ jobs:
             core.setOutput('pr_title', title);
 
       - name: Apply progress updates
-        if: steps.extract.outputs.has_updates == 'true'
+        if: ${{ steps.extract.outputs.has_updates == 'true' }}
         env:
           UPDATES: ${{ steps.extract.outputs.updates }}
           PR_TITLE: ${{ steps.extract.outputs.pr_title }}
@@ -67,29 +69,39 @@ jobs:
           done
 
       - name: Configure git
-        if: steps.extract.outputs.has_updates == 'true'
+        if: ${{ steps.extract.outputs.has_updates == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Ensure push uses the GITHUB_TOKEN
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Commit progress updates
-        if: steps.extract.outputs.has_updates == 'true'
+        if: ${{ steps.extract.outputs.has_updates == 'true' }}
         env:
           UPDATES: ${{ steps.extract.outputs.updates }}
         run: |
-          if git diff --quiet docs/STATUS_v2.md; then
+          # Detect any changes in the working tree
+          if [ -z "$(git status --porcelain)" ]; then
             echo "No changes to commit"
             exit 0
           fi
 
           MODULE_LIST=$(echo "${UPDATES}" | jq -r '.[].module' | paste -sd "," -)
-
+          # Stage the files (be permissive)
           git add docs/STATUS_v2.md STATUS/progress-log.md || true
-          git commit -m "chore(status): auto-update progress for ${MODULE_LIST}
 
-Triggered by PR #${{ github.event.pull_request.number }}
-[skip ci]"
-          git push
+          # Build a safe, multiline commit message
+          PR_NUM=${{ github.event.pull_request.number }}
+          COMMIT_MSG="chore(status): auto-update progress for ${MODULE_LIST}"
+          COMMIT_BODY="Triggered by PR #${PR_NUM}\n[skip ci]"
+
+          git commit -m "${COMMIT_MSG}" -m "${COMMIT_BODY}" || {
+            echo "git commit failed (maybe nothing to commit after add); exiting"
+            exit 0
+          }
+
+          git push origin HEAD:${{ github.event.pull_request.base.ref }}
 
       - name: Update marker
         run: echo "AUTO_PROGRESS_UPDATE=OK"

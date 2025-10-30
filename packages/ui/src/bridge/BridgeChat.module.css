@@ -1,0 +1,221 @@
+/* Bridge Chat Styles - TogetherOS Design System */
+
+.bridge-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  font-family: Inter, -apple-system, sans-serif;
+  background: var(--bg-0, #FAFAF9);
+  min-height: 100vh;
+}
+
+.bridge-container h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--ink-900, #0F172A);
+  line-height: 1.1;
+  text-align: center;
+}
+
+.bridge-subtitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--ink-700, #334155);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.bridge-intro {
+  font-size: 1.0625rem;
+  color: var(--ink-700, #334155);
+  margin-bottom: 3rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.bridge-input-container {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.bridge-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: var(--bg-1, #FFFFFF);
+  color: var(--ink-900, #0F172A);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  line-height: 1.6;
+}
+
+.bridge-input:focus {
+  border-color: var(--brand-500, #10B981);
+  box-shadow: 0 0 0 2px var(--brand-500, #10B981);
+}
+
+.bridge-input:disabled {
+  background-color: var(--bg-2, #F5F5F4);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.bridge-submit {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--brand-600, #059669);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+  min-width: 120px;
+}
+
+.bridge-submit:hover:not(:disabled) {
+  background-color: #047857;
+  transform: translateY(-1px);
+}
+
+.bridge-submit:disabled {
+  background-color: var(--ink-400, #94A3B8);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.bridge-loading {
+  padding: 2rem;
+  background-color: var(--bg-1, #FFFFFF);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 1rem;
+  color: var(--ink-700, #334155);
+  text-align: center;
+  font-style: italic;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.bridge-error {
+  padding: 1rem 1.5rem;
+  background-color: var(--warn-bg, #FEF3C7);
+  border-left: 4px solid var(--warn, #D97706);
+  border-radius: 0.5rem;
+  color: var(--ink-900, #0F172A);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.bridge-output {
+  padding: 2rem;
+  background-color: var(--bg-1, #FFFFFF);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: 1rem;
+  line-height: 1.7;
+  color: var(--ink-900, #0F172A);
+  margin-bottom: 1.5rem;
+  white-space: pre-wrap;
+  min-height: 100px;
+  max-width: 68ch;
+}
+
+.bridge-output:empty {
+  display: none;
+}
+
+.bridge-output hr {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 1px solid var(--border, #E5E7EB);
+}
+
+.bridge-output a {
+  color: var(--brand-600, #059669);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.bridge-output a:hover {
+  text-decoration: underline;
+  color: var(--brand-500, #10B981);
+}
+
+.bridge-link {
+  color: var(--brand-600, #059669);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease-out;
+}
+
+.bridge-link:hover {
+  color: var(--brand-500, #10B981);
+  text-decoration: underline;
+}
+
+.bridge-link:visited {
+  color: var(--brand-600, #059669);
+}
+
+.bridge-disclaimer {
+  font-size: 0.875rem;
+  color: var(--ink-400, #94A3B8);
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border, #E5E7EB);
+  line-height: 1.6;
+}
+
+.bridge-sources-stub {
+  font-size: 0.875rem;
+  color: var(--ink-400, #94A3B8);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Accessibility improvements */
+.bridge-input:focus-visible,
+.bridge-submit:focus-visible {
+  outline: 2px solid var(--brand-500, #10B981);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .bridge-loading {
+    animation: none;
+  }
+
+  .bridge-input,
+  .bridge-submit {
+    transition: none !important;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .bridge-container {
+    padding: 1rem;
+  }
+
+  .bridge-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .bridge-input-container {
+    flex-direction: column;
+  }
+
+  .bridge-submit {
+    width: 100%;
+  }
+}
