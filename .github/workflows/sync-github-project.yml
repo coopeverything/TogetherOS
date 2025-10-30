@@ -1,0 +1,42 @@
+---
+name: sync/github-project
+
+# Syncs module progress to GitHub Projects when STATUS_v2.md changes
+
+on:
+  push:
+    branches:
+      - claude-yolo
+      - main
+    paths:
+      - 'docs/STATUS_v2.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  repository-projects: write
+
+jobs:
+  sync-project:
+    name: sync/github-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI with project scope
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+          gh auth status
+
+      - name: Sync to GitHub Project
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/sync-to-github-project.sh
+
+      - name: Sync marker
+        run: echo "GITHUB_PROJECT_SYNC=OK"
