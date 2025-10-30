@@ -6,7 +6,7 @@ name: sync/github-project
 on:
   push:
     branches:
-      - claude-yolo
+      - yolo
       - main
     paths:
       - 'docs/STATUS_v2.md'

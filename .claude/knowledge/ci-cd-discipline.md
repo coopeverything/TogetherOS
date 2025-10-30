@@ -450,7 +450,7 @@ docs/modules/INDEX.md       # Module hub
 ## Path Labels & Taxonomy
 
 ### Canonical Path Names
-Use these exact labels (from `codex/taxonomy/CATEGORY_TREE.json`):
+Use these exact labels (validated against `codex/taxonomy/CATEGORY_TREE.json`):
 ```
 path:collaborative-education
 path:social-economy
@@ -464,9 +464,9 @@ path:common-planet
 
 ### Adding New Keywords
 If you add a keyword:
-1. Update `codex/taxonomy/CATEGORY_TREE.json`
-2. Include short rationale in PR description
-3. Update `docs/TogetherOS_CATEGORIES_AND_KEYWORDS.md`
+1. Update `codex/taxonomy/CATEGORY_TREE.json` (machine-readable taxonomy for validation)
+2. Update `docs/TogetherOS_CATEGORIES_AND_KEYWORDS.md` (human-readable documentation)
+3. Include short rationale in PR description
 
 ---
 

@@ -126,7 +126,7 @@ UI Components: 10
 
 **Purpose:** Automatically update progress when PRs are merged
 
-**Trigger:** When a PR is merged to `claude-yolo` or `main`
+**Trigger:** When a PR is merged to `yolo` or `main`
 
 **How to use in PRs:**
 
@@ -323,7 +323,7 @@ grep -oP "<!-- progress:\K[a-z-]+" docs/STATUS_v2.md | sort -u
 
 **Check:**
 1. GitHub Action has necessary permissions
-2. Branch is `claude-yolo` or `main`
+2. Branch is `yolo` or `main`
 3. `[skip ci]` is not in commit message (unless intentional)
 
 ---

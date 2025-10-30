@@ -2,9 +2,11 @@
 set -euo pipefail
 
 echo "SMOKE: repo root=$(pwd)"
-test -f ".github/workflows/codex-gateway.yml" || { echo "missing codex-gateway.yml"; exit 1; }
 
-# Optional quick checks (don't fail if tools missing)
-command -v actionlint >/dev/null 2>&1 && actionlint .github/workflows/codex-gateway.yml || true
+# Check for critical taxonomy file
+test -f "codex/taxonomy/CATEGORY_TREE.json" || { echo "missing CATEGORY_TREE.json"; exit 1; }
+
+# Check for critical workflows
+test -f ".github/workflows/auto-progress-update.yml" || { echo "missing auto-progress-update.yml"; exit 1; }
 
 echo "SMOKE=OK"

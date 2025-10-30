@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Keep Codex's structure (globbing all workflow YAMLs)
+# Glob all workflow YAMLs for validation
 shopt -s nullglob globstar
 
 yamllint_paths=(

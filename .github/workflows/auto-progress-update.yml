@@ -1,14 +1,14 @@
 ---
 name: auto/progress-update
 
-# Automatically updates module progress when PRs are merged to claude-yolo
+# Automatically updates module progress when PRs are merged to yolo
 # Looks for progress markers in PR body like: progress:bridge=+10
 
 on:
   pull_request:
     types: [closed]
     branches:
-      - claude-yolo
+      - yolo
       - main
 
 permissions:

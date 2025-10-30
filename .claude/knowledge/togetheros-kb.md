@@ -115,9 +115,9 @@ Every issue, PR, and initiative must be labeled with one of these paths:
 - **Modules hub:** `docs/modules/INDEX.md`
 - **Status tracking:** `docs/STATUS_v2.md`
 
-### Taxonomy & Knowledge
-- **Cooperation Paths:** `codex/taxonomy/CATEGORY_TREE.json`
-- **Codex notes:** `codex/notes/`
+### Taxonomy
+- **Cooperation Paths (machine-readable):** `codex/taxonomy/CATEGORY_TREE.json`
+- **Cooperation Paths (human-readable):** `docs/TogetherOS_CATEGORIES_AND_KEYWORDS.md`
 
 ### Scripts & Validation
 - **Main validator:** `scripts/validate.sh`
