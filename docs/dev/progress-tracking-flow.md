@@ -193,32 +193,19 @@ git push
 
 ### Website shows outdated data
 
-**Root Cause:** Website needs manual update after pushing to yolo
+**With auto-deploy (after setup):**
+- Push to yolo → deploys automatically in ~3 minutes
+- See: [Auto-Deploy Setup](./auto-deploy-setup.md)
 
-**The website deploys from the `yolo` branch:**
-- Default branch: `yolo`
-- Update script: `scripts/update-vps.sh` pulls from `origin/yolo`
-- API reads: `docs/STATUS_v2.md` from repo root ✅
-
-**To update production after pushing to yolo:**
+**Without auto-deploy (manual):**
 ```bash
-# SSH into VPS
 ssh root@72.60.27.167
-
-# Run update script
 /var/www/togetheros/scripts/update-vps.sh
-
-# Or manually:
-cd /var/www/togetheros
-git pull origin yolo
-cd apps/web
-npm install && npm run build
-pm2 restart togetheros
 ```
 
 **Check:**
 1. Is STATUS_v2.md up to date in the yolo branch? ✅
-2. Has the VPS been updated since the push? (run update-vps.sh)
+2. Did auto-deploy run? Check: https://github.com/coopeverything/TogetherOS/actions
 3. Is the API path correct? (`apps/web/app/api/status/route.ts:63`) ✅
 
 ### CI not updating progress

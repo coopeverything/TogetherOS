@@ -48,6 +48,7 @@ This file documents user preferences and workflow expectations that should persi
 - Creates PR with base=yolo
 - **Runs PR verification checks**
 - **Updates Notion memory**
+- **Auto-deploys to production** (when merged to yolo)
 - Reports status
 
 **Don't Ask Permission** - Just use it when the request matches

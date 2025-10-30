@@ -1,0 +1,138 @@
+name: auto/deploy-production
+
+# Automatically deploys changes from yolo branch to production VPS
+# Triggers on: push to yolo (after all checks pass)
+
+on:
+  push:
+    branches:
+      - yolo
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/**'
+      - 'scripts/**'
+
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force deploy even if checks fail'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  # Pre-deployment checks
+  preflight:
+    name: Pre-deployment checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'apps/web/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: apps/web
+        run: npm ci
+
+      - name: TypeScript check
+        working-directory: apps/web
+        run: npx tsc --noEmit
+
+      - name: Build application
+        working-directory: apps/web
+        run: npm run build
+        env:
+          SKIP_ENV_VALIDATION: true
+
+      - name: Preflight marker
+        run: echo "PREFLIGHT=OK"
+
+  # Deploy to production VPS
+  deploy:
+    name: Deploy to production
+    needs: preflight
+    runs-on: ubuntu-latest
+    if: ${{ success() || github.event.inputs.force == 'true' }}
+    environment:
+      name: production
+      url: https://coopeverything.org
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy via SSH
+        env:
+          SSH_HOST: ${{ secrets.VPS_HOST }}
+          SSH_USER: ${{ secrets.VPS_USER }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} << 'ENDSSH'
+            set -e
+            echo "🚀 Starting deployment..."
+
+            cd /var/www/togetheros
+
+            echo "→ Pulling latest code from yolo..."
+            git fetch origin yolo
+            git reset --hard origin/yolo
+
+            echo "→ Installing dependencies..."
+            cd apps/web
+            npm install --production=false
+
+            echo "→ Building application..."
+            npm run build
+
+            echo "→ Restarting PM2..."
+            pm2 restart togetheros || pm2 start ecosystem.config.js
+
+            echo "✅ Deployment complete!"
+            echo "Visit: https://coopeverything.org"
+          ENDSSH
+
+      - name: Verify deployment
+        env:
+          SSH_HOST: ${{ secrets.VPS_HOST }}
+          SSH_USER: ${{ secrets.VPS_USER }}
+        run: |
+          sleep 5
+          ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "pm2 status togetheros"
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
+
+      - name: Deployment marker
+        run: echo "DEPLOY=OK"
+
+  # Notify on completion
+  notify:
+    name: Notify deployment status
+    needs: [preflight, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check status
+        run: |
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "✅ Deployment successful"
+            echo "🌐 Site: https://coopeverything.org"
+          else
+            echo "❌ Deployment failed"
+            exit 1
+          fi
