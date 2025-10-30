@@ -38,8 +38,10 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        working-directory: apps/web
         run: npm ci
+
+      - name: Build TypeScript packages
+        run: tsc --build
 
       - name: TypeScript check
         working-directory: apps/web
@@ -90,10 +92,13 @@ jobs:
             git reset --hard origin/yolo
 
             echo "→ Installing dependencies..."
-            cd apps/web
             npm install --production=false
 
+            echo "→ Building TypeScript packages..."
+            npm run build:packages
+
             echo "→ Building application..."
+            cd apps/web
             npm run build
 
             echo "→ Restarting PM2..."
