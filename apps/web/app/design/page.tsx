@@ -19,13 +19,24 @@ import {
   Dropdown,
   Accordion,
   Progress,
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  DialogFooter,
+  useToast,
+  Breadcrumb,
+  Pagination,
 } from '@/components/ui';
 
 export default function DesignShowcase() {
   const [darkMode, setDarkMode] = useState(false);
   const [dashboardMode, setDashboardMode] = useState<'calm' | 'compact'>('calm');
   const [modalOpen, setModalOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [progressValue, setProgressValue] = useState(65);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { addToast } = useToast();
 
   return (
     <div className={darkMode ? 'dark' : ''}>
@@ -346,6 +357,138 @@ export default function DesignShowcase() {
                     <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
                   </div>
                 </Modal>
+              </Card>
+            </div>
+
+            {/* Dialog */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Dialog
+              </h3>
+              <Card>
+                <Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>
+                <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                  <DialogHeader>
+                    <DialogTitle>Confirm Action</DialogTitle>
+                  </DialogHeader>
+                  <DialogBody>
+                    <p className="text-ink-700">
+                      Are you sure you want to proceed with this action? This cannot be undone.
+                    </p>
+                  </DialogBody>
+                  <DialogFooter>
+                    <Button variant="secondary" onClick={() => setDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={() => setDialogOpen(false)}>Confirm</Button>
+                  </DialogFooter>
+                </Dialog>
+              </Card>
+            </div>
+
+            {/* Toast */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Toast Notifications
+              </h3>
+              <Card className="flex gap-2 flex-wrap">
+                <Button onClick={() => addToast({ description: 'This is a default toast' })}>
+                  Default Toast
+                </Button>
+                <Button
+                  variant="default"
+                  onClick={() => addToast({
+                    title: 'Success!',
+                    description: 'Your changes have been saved.',
+                    variant: 'success'
+                  })}
+                >
+                  Success Toast
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => addToast({
+                    title: 'Info',
+                    description: 'New updates are available.',
+                    variant: 'info'
+                  })}
+                >
+                  Info Toast
+                </Button>
+                <Button
+                  variant="joy"
+                  onClick={() => addToast({
+                    title: 'Warning',
+                    description: 'Please review your settings.',
+                    variant: 'warning'
+                  })}
+                >
+                  Warning Toast
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => addToast({
+                    title: 'Error',
+                    description: 'Failed to save changes.',
+                    variant: 'danger',
+                    duration: 10000
+                  })}
+                >
+                  Error Toast (10s)
+                </Button>
+              </Card>
+            </div>
+
+            {/* Breadcrumb */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Breadcrumb
+              </h3>
+              <Card className="space-y-4">
+                <Breadcrumb
+                  items={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Design System', href: '/design' },
+                    { label: 'Components' },
+                  ]}
+                />
+                <Breadcrumb
+                  items={[
+                    { label: 'Dashboard', onClick: () => alert('Navigate to Dashboard') },
+                    { label: 'Settings', onClick: () => alert('Navigate to Settings') },
+                    { label: 'Profile', onClick: () => alert('Navigate to Profile') },
+                    { label: 'Edit' },
+                  ]}
+                  separator="›"
+                />
+              </Card>
+            </div>
+
+            {/* Pagination */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Pagination
+              </h3>
+              <Card className="space-y-6">
+                <div>
+                  <p className="text-ink-700 mb-4">
+                    Page {currentPage} of 20
+                  </p>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={20}
+                    onPageChange={setCurrentPage}
+                  />
+                </div>
+                <div>
+                  <p className="text-ink-700 mb-4 text-sm">
+                    Without first/last buttons:
+                  </p>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={20}
+                    onPageChange={setCurrentPage}
+                    showFirstLast={false}
+                  />
+                </div>
               </Card>
             </div>
           </section>

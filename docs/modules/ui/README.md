@@ -372,6 +372,100 @@ import { Progress } from '@/components/ui/progress';
 **Sizes:** `sm`, `md`, `lg`
 **Variants:** `brand`, `joy`, `success`, `info`, `warning`, `danger`
 
+#### Toast
+Temporary notification system with auto-dismiss.
+
+```tsx
+import { useToast } from '@/components/ui/toast';
+
+const { addToast } = useToast();
+
+addToast({
+  title: 'Success!',
+  description: 'Your changes have been saved.',
+  variant: 'success',
+  duration: 5000
+});
+```
+
+**Variants:** `default`, `success`, `info`, `warning`, `danger`
+**Features:**
+- Auto-dismiss with configurable duration
+- Manual dismiss button
+- Toast queue management
+- Stacking notifications
+
+#### Dialog
+Structured dialog with header, body, and footer sections.
+
+```tsx
+import { Dialog, DialogHeader, DialogTitle, DialogBody, DialogFooter } from '@/components/ui/dialog';
+
+<Dialog open={open} onClose={() => setOpen(false)}>
+  <DialogHeader>
+    <DialogTitle>Confirm Action</DialogTitle>
+  </DialogHeader>
+  <DialogBody>
+    <p>Are you sure you want to proceed?</p>
+  </DialogBody>
+  <DialogFooter>
+    <Button onClick={() => setOpen(false)}>Confirm</Button>
+  </DialogFooter>
+</Dialog>
+```
+
+**Features:**
+- Backdrop overlay
+- Escape key handling
+- Scroll lock
+- Composable parts for flexible layouts
+
+### Navigation Components
+
+#### Breadcrumb
+Navigation hierarchy display.
+
+```tsx
+import { Breadcrumb } from '@/components/ui/breadcrumb';
+
+<Breadcrumb
+  items={[
+    { label: 'Home', href: '/' },
+    { label: 'Settings', href: '/settings' },
+    { label: 'Profile' },
+  ]}
+  separator="/"
+/>
+```
+
+**Features:**
+- Custom separator (default: `/`)
+- Click handlers or hrefs
+- Automatic current page styling
+- ARIA navigation support
+
+#### Pagination
+Page navigation for lists and tables.
+
+```tsx
+import { Pagination } from '@/components/ui/pagination';
+
+<Pagination
+  currentPage={1}
+  totalPages={20}
+  onPageChange={(page) => setPage(page)}
+  showFirstLast={true}
+  siblingCount={1}
+/>
+```
+
+**Features:**
+- Ellipsis for large page counts
+- First/last page buttons (optional)
+- Configurable sibling count
+- Fully accessible with ARIA
+- Smart page range calculation
+
 ## Dark Mode
 
 The application includes a comprehensive dark mode system using React Context.
@@ -406,20 +500,33 @@ Visit `/design` to see all components in action with interactive examples.
 - [x] Add Progress Bar component
 - [x] Create component showcase page at `/design`
 - [x] Add dark mode toggle
+- [x] Add Toast/Notification system
+- [x] Add Dialog component (different from Modal)
+- [x] Add Breadcrumb component
+- [x] Add Pagination component
 - [ ] Set up Storybook (optional)
-- [ ] Add Toast/Notification system
-- [ ] Add Dialog component (different from Modal)
-- [ ] Add Breadcrumb component
-- [ ] Add Pagination component
+- [ ] Add Avatar component
+- [ ] Add Skeleton loader component
+- [ ] Add Empty state component
+- [ ] Add Command palette (Cmd+K)
 
 ## Resources
 
 - **Design System**: [docs/design/system.md](../../design/system.md)
 - **Tailwind Config**: `apps/web/tailwind.config.ts`
 - **Component Source**: `apps/web/components/ui/`
+- **Component Showcase**: `/design` route
 
 ---
 
-**Version:** 1.5
+**Version:** 2.0
 **Last Updated:** October 2025
-**Status:** 80% Complete (scaffolding + 17 core components + dark mode)
+**Status:** 95% Complete (scaffolding + 21 core components + dark mode + navigation)
+
+### Component Count: 21
+
+**Form (6):** Input, Textarea, Label, Checkbox, Radio, Select
+**Action (1):** Button
+**Display (3):** Card, Badge, Alert
+**Interactive (9):** Modal, Tabs, Spinner, Tooltip, Dropdown, Accordion, Progress, Toast, Dialog
+**Navigation (2):** Breadcrumb, Pagination

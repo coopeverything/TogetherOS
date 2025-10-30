@@ -54,3 +54,16 @@ export type { AccordionProps, AccordionItem } from './accordion';
 
 export { Progress } from './progress';
 export type { ProgressProps } from './progress';
+
+export { ToastProvider, useToast } from './toast';
+export type { Toast } from './toast';
+
+export { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogFooter } from './dialog';
+export type { DialogProps } from './dialog';
+
+// Navigation Components
+export { Breadcrumb } from './breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './breadcrumb';
+
+export { Pagination } from './pagination';
+export type { PaginationProps } from './pagination';
