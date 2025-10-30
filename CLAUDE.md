@@ -38,6 +38,9 @@ Progress tracking, next steps management, Notion session memory
 ### pr-formatter
 PR formatting with auto-category, keywords, validation, AI feedback handling
 
+### sync-to-main
+Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync after production validation
+
 **Usage:** Auto-trigger when task matches skill description. No permission needed.
 
 ---
