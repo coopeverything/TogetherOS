@@ -492,6 +492,94 @@ const { darkMode, toggleDarkMode, setDarkMode } = useDarkMode();
 
 Visit `/design` to see all components in action with interactive examples.
 
+#### Avatar
+User profile images with fallbacks and grouping.
+
+```tsx
+import { Avatar, AvatarGroup } from '@/components/ui/avatar';
+
+<Avatar src="/user.jpg" alt="User" fallback="U" size="md" />
+
+<AvatarGroup max={3}>
+  <Avatar src="/user1.jpg" alt="User 1" />
+  <Avatar src="/user2.jpg" alt="User 2" />
+  <Avatar src="/user3.jpg" alt="User 3" />
+</AvatarGroup>
+```
+
+**Sizes:** `sm`, `md`, `lg`, `xl`
+**Features:**
+- Automatic fallback to initials
+- Image error handling
+- Avatar grouping with overflow count
+- Ring styling for groups
+
+#### Skeleton
+Loading placeholders for content.
+
+```tsx
+import { Skeleton, SkeletonCard } from '@/components/ui/skeleton';
+
+<Skeleton variant="text" lines={3} />
+<Skeleton variant="circular" width={40} height={40} />
+<Skeleton variant="rectangular" width="100%" height={200} />
+
+<SkeletonCard hasAvatar lines={4} />
+```
+
+**Variants:** `text`, `circular`, `rectangular`
+**Features:**
+- Animated pulse effect
+- Multi-line text skeletons
+- Pre-built card skeleton
+- Customizable dimensions
+
+#### Empty State
+Placeholder for empty data states.
+
+```tsx
+import { EmptyState, EmptyStateIcons } from '@/components/ui/empty-state';
+
+<EmptyState
+  icon={<EmptyStateIcons.NoData />}
+  title="No data available"
+  description="Get started by adding your first item."
+  action={<Button>Add Item</Button>}
+/>
+```
+
+**Built-in Icons:** `NoData`, `NoResults`, `NoContent`, `Error`
+**Features:**
+- Customizable icon, title, description
+- Optional action button
+- Centered layout with proper spacing
+
+#### Command Palette
+Keyboard-driven command launcher (Cmd/Ctrl+K).
+
+```tsx
+import { CommandPalette, useCommandPalette } from '@/components/ui/command-palette';
+
+const items = [
+  {
+    id: 'home',
+    label: 'Go to Home',
+    description: 'Navigate to homepage',
+    onSelect: () => navigate('/'),
+    keywords: ['home', 'dashboard'],
+  },
+];
+
+<CommandPalette items={items} />
+```
+
+**Features:**
+- Cmd/Ctrl+K keyboard shortcut
+- Fuzzy search with keyword matching
+- Keyboard navigation (arrows, enter, escape)
+- Icon support for items
+- Auto-focus search input
+
 ## Next Steps
 
 - [x] Add Tooltip component
@@ -504,11 +592,11 @@ Visit `/design` to see all components in action with interactive examples.
 - [x] Add Dialog component (different from Modal)
 - [x] Add Breadcrumb component
 - [x] Add Pagination component
+- [x] Add Avatar component
+- [x] Add Skeleton loader component
+- [x] Add Empty state component
+- [x] Add Command palette (Cmd+K)
 - [ ] Set up Storybook (optional)
-- [ ] Add Avatar component
-- [ ] Add Skeleton loader component
-- [ ] Add Empty state component
-- [ ] Add Command palette (Cmd+K)
 
 ## Resources
 
@@ -519,14 +607,27 @@ Visit `/design` to see all components in action with interactive examples.
 
 ---
 
-**Version:** 2.0
+**Version:** 2.5
 **Last Updated:** October 2025
-**Status:** 95% Complete (scaffolding + 21 core components + dark mode + navigation)
+**Status:** 100% Complete ✅
 
-### Component Count: 21
+### Component Count: 25
 
 **Form (6):** Input, Textarea, Label, Checkbox, Radio, Select
 **Action (1):** Button
 **Display (3):** Card, Badge, Alert
 **Interactive (9):** Modal, Tabs, Spinner, Tooltip, Dropdown, Accordion, Progress, Toast, Dialog
-**Navigation (2):** Breadcrumb, Pagination
+**Navigation (3):** Breadcrumb, Pagination, CommandPalette
+**Utility (3):** Avatar/AvatarGroup, Skeleton/SkeletonCard, EmptyState
+
+## Summary
+
+The TogetherOS UI library is now **production-ready** with:
+- 25 fully-featured components
+- Complete dark mode system
+- Comprehensive accessibility support (WCAG AA)
+- Full TypeScript coverage
+- Interactive showcase at `/design`
+- Design system compliance
+
+All components follow the Warm Minimalism design philosophy and include proper ARIA attributes, keyboard navigation, and semantic HTML.

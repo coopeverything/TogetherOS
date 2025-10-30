@@ -27,6 +27,14 @@ import {
   useToast,
   Breadcrumb,
   Pagination,
+  Avatar,
+  AvatarGroup,
+  Skeleton,
+  SkeletonCard,
+  EmptyState,
+  EmptyStateIcons,
+  CommandPalette,
+  CommandItem,
 } from '@/components/ui';
 
 export default function DesignShowcase() {
@@ -36,7 +44,43 @@ export default function DesignShowcase() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [progressValue, setProgressValue] = useState(65);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const { addToast } = useToast();
+
+  // Command palette items
+  const commandItems: CommandItem[] = [
+    {
+      id: 'home',
+      label: 'Go to Home',
+      description: 'Navigate to homepage',
+      onSelect: () => addToast({ description: 'Navigating to Home...', variant: 'info' }),
+      keywords: ['home', 'dashboard'],
+    },
+    {
+      id: 'settings',
+      label: 'Open Settings',
+      description: 'Manage your account settings',
+      onSelect: () => addToast({ description: 'Opening Settings...', variant: 'info' }),
+      keywords: ['settings', 'preferences', 'config'],
+    },
+    {
+      id: 'profile',
+      label: 'View Profile',
+      description: 'Go to your profile page',
+      onSelect: () => addToast({ description: 'Viewing Profile...', variant: 'info' }),
+      keywords: ['profile', 'user', 'account'],
+    },
+    {
+      id: 'dark-mode',
+      label: 'Toggle Dark Mode',
+      description: 'Switch between light and dark themes',
+      onSelect: () => {
+        setDarkMode(!darkMode);
+        addToast({ description: `Switched to ${!darkMode ? 'dark' : 'light'} mode`, variant: 'success' });
+      },
+      keywords: ['dark', 'light', 'theme'],
+    },
+  ];
 
   return (
     <div className={darkMode ? 'dark' : ''}>
@@ -489,6 +533,116 @@ export default function DesignShowcase() {
                     showFirstLast={false}
                   />
                 </div>
+              </Card>
+            </div>
+
+            {/* Avatar */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Avatar
+              </h3>
+              <Card className="space-y-6">
+                <div>
+                  <p className="text-ink-700 mb-4 text-sm">Sizes:</p>
+                  <div className="flex gap-4 items-center">
+                    <Avatar size="sm" fallback="S" />
+                    <Avatar size="md" fallback="M" />
+                    <Avatar size="lg" fallback="L" />
+                    <Avatar size="xl" fallback="XL" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-ink-700 mb-4 text-sm">With images:</p>
+                  <div className="flex gap-4 items-center">
+                    <Avatar src="https://i.pravatar.cc/150?img=1" alt="User 1" />
+                    <Avatar src="https://i.pravatar.cc/150?img=2" alt="User 2" />
+                    <Avatar src="https://i.pravatar.cc/150?img=3" alt="User 3" />
+                    <Avatar src="invalid-url" alt="User 4" fallback="U4" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-ink-700 mb-4 text-sm">Avatar Group:</p>
+                  <AvatarGroup max={3}>
+                    <Avatar src="https://i.pravatar.cc/150?img=5" alt="User 1" />
+                    <Avatar src="https://i.pravatar.cc/150?img=6" alt="User 2" />
+                    <Avatar src="https://i.pravatar.cc/150?img=7" alt="User 3" />
+                    <Avatar src="https://i.pravatar.cc/150?img=8" alt="User 4" />
+                    <Avatar src="https://i.pravatar.cc/150?img=9" alt="User 5" />
+                  </AvatarGroup>
+                </div>
+              </Card>
+            </div>
+
+            {/* Skeleton */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Skeleton Loader
+              </h3>
+              <Card className="space-y-4">
+                <Button onClick={() => setShowSkeleton(!showSkeleton)}>
+                  {showSkeleton ? 'Hide' : 'Show'} Skeleton
+                </Button>
+                {showSkeleton ? (
+                  <div className="space-y-4">
+                    <Skeleton variant="text" width="60%" />
+                    <Skeleton variant="text" width="80%" />
+                    <Skeleton variant="rectangular" width="100%" height={200} />
+                    <div className="flex gap-4">
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <div className="flex-1">
+                        <Skeleton variant="text" lines={3} />
+                      </div>
+                    </div>
+                    <SkeletonCard hasAvatar lines={4} />
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <p className="text-ink-900 font-medium">Loaded Content</p>
+                    <p className="text-ink-700">This is the actual content that would be displayed after loading.</p>
+                    <div className="h-[200px] bg-brand-100 rounded-md flex items-center justify-center text-brand-600">
+                      Content Image
+                    </div>
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            {/* Empty State */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Empty State
+              </h3>
+              <Card>
+                <EmptyState
+                  icon={<EmptyStateIcons.NoData />}
+                  title="No data available"
+                  description="Get started by adding your first item to see it appear here."
+                  action={
+                    <Button onClick={() => addToast({ description: 'Adding item...', variant: 'success' })}>
+                      Add First Item
+                    </Button>
+                  }
+                />
+              </Card>
+              <Card className="mt-4">
+                <EmptyState
+                  icon={<EmptyStateIcons.NoResults />}
+                  title="No results found"
+                  description="Try adjusting your search or filters to find what you're looking for."
+                />
+              </Card>
+            </div>
+
+            {/* Command Palette */}
+            <div style={{ marginBottom: '3rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
+                Command Palette
+              </h3>
+              <Card>
+                <p className="text-ink-700 mb-4">
+                  Press <kbd className="px-2 py-1 bg-bg-2 border border-border rounded text-xs font-mono">Cmd/Ctrl + K</kbd> to open the command palette
+                </p>
+                <CommandPalette items={commandItems} />
               </Card>
             </div>
           </section>
