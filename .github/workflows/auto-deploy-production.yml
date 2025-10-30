@@ -97,8 +97,11 @@ jobs:
             echo "→ Building TypeScript packages..."
             npm run build:packages
 
-            echo "→ Building application..."
+            echo "→ Cleaning previous build..."
             cd apps/web
+            rm -rf .next
+
+            echo "→ Building application..."
             npm run build
 
             echo "→ Restarting PM2..."
