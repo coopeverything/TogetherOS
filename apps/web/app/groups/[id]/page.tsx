@@ -10,7 +10,6 @@ import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules
 export default function GroupDetailPage() {
   const params = useParams()
   const id = params.id as string
-  const router = useRouter()
   const [isMember, setIsMember] = useState(false)
   const [isJoining, setIsJoining] = useState(false)
 
