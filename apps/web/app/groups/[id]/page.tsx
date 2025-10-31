@@ -1,14 +1,15 @@
 'use client'
 
-import { useState, use } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { MemberDirectory, type Member } from '@togetheros/ui/groups/MemberDirectory'
 import { InMemoryGroupRepo } from '../../../../api/src/modules/groups/repos/InMemoryGroupRepo'
 import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules/groups/fixtures'
 
-export default function GroupDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+export default function GroupDetailPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const [isMember, setIsMember] = useState(false)
   const [isJoining, setIsJoining] = useState(false)

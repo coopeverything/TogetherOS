@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, use } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { RoleAssignment, type GroupRole } from '@togetheros/ui/groups/RoleAssignment'
 import type { GroupRoleType } from '@togetheros/types/groups'
 import { InMemoryGroupRepo } from '../../../../../api/src/modules/groups/repos/InMemoryGroupRepo'
 import { getFixtureGroups, getFixtureMembers } from '../../../../../api/src/modules/groups/fixtures'
 
-export default function GroupSettingsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+export default function GroupSettingsPage() {
+  const params = useParams()
+  const id = params.id as string
   const [roles, setRoles] = useState<GroupRole[]>([
     {
       id: 'role-1',
