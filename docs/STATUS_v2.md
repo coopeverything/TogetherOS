@@ -12,7 +12,7 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 
 | Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
 | --- | --- | ---:| --- | --- |
-| **Monorepo & Scaffolding** | Next.js 14 app (`apps/web`), `packages/ui`, `packages/types`, `packages/validators`, TypeScript project references, build scripts, 6 module placeholder pages | <!-- progress:scaffold=85 --> 85% | Complete Phase 3: testing infrastructure, final docs | Phase 1 (nav/footer/errors/loading) ✅, Phase 2 (monorepo config/TS refs) ✅ |
+| **Monorepo & Scaffolding** | Next.js 14 app (`apps/web`), `packages/ui`, `packages/types`, `packages/validators`, TypeScript project references, build scripts, 6 module placeholder pages, testing infrastructure (Vitest + React Testing Library), comprehensive docs | <!-- progress:scaffold=100 --> 100% | Production-ready ✅ | Phase 1 (nav/footer/errors/loading) ✅, Phase 2 (monorepo config/TS refs) ✅, Phase 3 (testing/docs) ✅ |
 | **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=100 --> 100% | Production-ready ✅ | 25 components complete with dark mode |
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=70 --> 70% | Complete OAuth providers, email verification | Secret storage & provider choice |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=40 --> 40% | Add profile editing UI polish, skills management | Data model for tags/keywords |

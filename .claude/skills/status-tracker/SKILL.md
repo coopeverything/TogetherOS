@@ -168,7 +168,16 @@ progress:bridge=+10
 - Keep only 3 most recent
 - Delete oldest when adding #4
 
-### 6. Generate Progress Reports
+**⚠️ Notion API Version Notice:**
+- Current MCP server may use pre-2025-09-03 API version
+- Works fine for single-source databases (current setup)
+- **Risk**: If "Claude Memory" database gets second data source added, operations will fail
+- **Future migration needed**: Switch from `database_id` to `data_source_id` when MCP server updates
+- **Monitor**: Check `@modelcontextprotocol/server-notion` for 2025-09-03 API support
+- **Reference**: https://developers.notion.com/docs/upgrade-guide-2025-09-03
+- **Action**: Document as tech debt if operations fail after Notion workspace changes
+
+### 7. Generate Progress Reports
 
 For comprehensive status overview:
 
