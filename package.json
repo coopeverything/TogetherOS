@@ -14,7 +14,12 @@
     "clean": "tsc --build --clean",
     "dev": "npm run dev --workspace=@togetheros/web",
     "lint": "npm run lint --workspaces --if-present",
-    "test": "echo 'Test script placeholder - configure with Jest'",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "test:packages": "vitest run --config vitest.config.ts",
+    "test:web": "npm run test --workspace=@togetheros/web",
     "typecheck": "tsc --build --dry"
   },
   "engines": {
@@ -26,6 +31,12 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^5.1.0",
+    "jsdom": "^27.0.1",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.5"
   }
 }
