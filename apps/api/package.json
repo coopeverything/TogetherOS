@@ -1,0 +1,23 @@
+{
+  "name": "@togetheros/api",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TogetherOS backend API services",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "dev": "tsc --build --watch"
+  },
+  "dependencies": {
+    "@togetheros/types": "*",
+    "@togetheros/validators": "*",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/uuid": "^9.0.0",
+    "typescript": "^5.0.0"
+  }
+}
