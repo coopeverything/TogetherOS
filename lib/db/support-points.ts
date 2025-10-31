@@ -382,7 +382,7 @@ export async function processRewardEvent(eventId: string): Promise<{ success: bo
 
     // Award the Support Points
     const awardResult = await awardSupportPoints(
-      event.member_id,
+      event.memberId,
       event.sp_weight,
       event.id,
       `Earned from ${event.event_type}`
