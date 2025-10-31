@@ -38,9 +38,9 @@ export default function GroupDetailPage() {
   }
 
   // Get group members
-  const groupMembers: Member[] = group.members
+  const groupMembers = group.members
     .map((memberId) => allMembers.find((m) => m.id === memberId))
-    .filter((m): m is Member => m !== undefined)
+    .filter((m): m is typeof allMembers[0] => m !== undefined)
 
   const handleJoinLeave = async () => {
     setIsJoining(true)
