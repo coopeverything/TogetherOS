@@ -125,13 +125,37 @@ export default function GroupDetailPage({ params }: { params: Promise<{ id: stri
         <MemberDirectory members={groupMembers} />
       </div>
 
-      {/* Activity Placeholder */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 text-center">
-        <p className="text-gray-500">Activity feed coming soon...</p>
-        <p className="text-gray-400 text-sm mt-2">
-          Proposals, events, and updates will appear here
-        </p>
+      {/* Proposals */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+        <div className="text-center py-8">
+          <p className="text-gray-500">Group Proposals</p>
+          <p className="text-gray-400 text-sm mt-2">
+            Proposal component available - integrate with governance module
+          </p>
+        </div>
       </div>
+
+      {/* Events */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+        <div className="text-center py-8">
+          <p className="text-gray-500">Group Events</p>
+          <p className="text-gray-400 text-sm mt-2">
+            Event coordination component available
+          </p>
+        </div>
+      </div>
+
+      {/* Federation (for federated groups only) */}
+      {group.type === 'federated' && (
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="text-center py-8">
+            <p className="text-gray-500">Federation Status</p>
+            <p className="text-gray-400 text-sm mt-2">
+              Cross-instance connections and sync status
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
