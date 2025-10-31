@@ -4,7 +4,7 @@
 
 The Groups & Organizations module enables communities to self-organize into cooperative structures with transparent governance, shared resources, and federated capabilities. Groups are the primary unit of coordination in TogetherOS.
 
-**Current Progress:** <!-- progress:groups=30 --> 30%
+**Current Progress:** <!-- progress:groups=60 --> 60%
 
 **Category:** Community Connection, Collective Governance
 
@@ -110,12 +110,15 @@ interface GroupMembership {
 - [ ] Create group form (next)
 - [ ] Join group flow (next)
 
-### Phase 2: Membership Management (60%)
-- [ ] Member directory per group
-- [ ] Role assignment/rotation
-- [ ] Invite system
-- [ ] Member profile within group context
-- [ ] Contribution tracking
+### Phase 2: Membership Management (60% - COMPLETE)
+- [x] Member directory per group
+- [x] Role assignment/rotation
+- [x] Group settings page (admin only)
+- [x] Create group form with validation
+- [x] Join/leave group functionality
+- [ ] Invite system (next)
+- [ ] Member profile within group context (next)
+- [ ] Contribution tracking (next)
 
 ### Phase 3: Resources & Coordination (100%)
 - [ ] Shared resource pools
@@ -490,10 +493,12 @@ interface FederatedGroupSync {
 - [x] Basic UI rendering
 - [x] Can list groups with filters
 
-### 60% Milestone
-- [ ] Create group flow complete
-- [ ] Join/leave functionality
-- [ ] Member directory per group
+### 60% Milestone (COMPLETE)
+- [x] Create group flow complete
+- [x] Join/leave functionality
+- [x] Member directory per group
+- [x] Role assignment UI
+- [x] Group settings page
 
 ### 100% (MVP)
 - [ ] Role rotation implemented
