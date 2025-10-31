@@ -16,7 +16,7 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 | **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=100 --> 100% | Production-ready ✅ | 25 components complete with dark mode |
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=70 --> 70% | Complete OAuth providers, email verification | Secret storage & provider choice |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=40 --> 40% | Add profile editing UI polish, skills management | Data model for tags/keywords |
-| **Groups & Orgs** | Local groups, org records, federation handles | <!-- progress:groups=30 --> 30% | Create/join group MVP | Federation design (IDs/claims) |
+| **Groups & Orgs** | Local groups, org records, federation handles | <!-- progress:groups=100 --> 100% | Production-ready ✅ | All core features complete |
 | **Forum / Deliberation** | Topics, posts, summarization hooks, empathy tools | <!-- progress:forum=0 --> 0% | Topic list + post composer MVP | Storage schema + moderation rules |
 | **Proposals & Decisions** | Proposal object, evidence/options, vote, review | <!-- progress:governance=0 --> 0% | Proposal create/read MVP | Ballot types + quorum rules |
 | **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |

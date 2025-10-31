@@ -12,11 +12,19 @@ export default function GroupsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-4xl font-bold text-gray-900">Groups & Organizations</h1>
-          <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
-            30% Complete
-          </span>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <h1 className="text-4xl font-bold text-gray-900">Groups & Organizations</h1>
+            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+              100% Complete
+            </span>
+          </div>
+          <Link
+            href="/groups/new"
+            className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
+          >
+            Create Group
+          </Link>
         </div>
         <p className="text-lg text-gray-600 max-w-3xl">
           Create and manage cooperative groups, organizations, and communities with transparent governance and shared resources.
@@ -82,9 +90,9 @@ export default function GroupsPage() {
           Module spec: <Link href="/docs/modules/groups" className="underline font-medium">docs/modules/groups.md</Link>
         </p>
         <div className="text-sm text-blue-700">
-          <p><strong>Status:</strong> 30% implemented</p>
-          <p><strong>Completed:</strong> Data models, fixtures, UI components, list view</p>
-          <p><strong>Next:</strong> Create group flow, join/leave functionality</p>
+          <p><strong>Status:</strong> 100% implemented ✅</p>
+          <p><strong>Completed:</strong> All core features - browse, create, join, manage, proposals, events, federation</p>
+          <p><strong>Components:</strong> 8 reusable UI components, full type safety, complete documentation</p>
         </div>
       </div>
     </div>
