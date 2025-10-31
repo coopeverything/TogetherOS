@@ -2,3 +2,4 @@
 // Main barrel export for @togetheros/validators
 
 export * from './rewards'
+export * from './groups'
