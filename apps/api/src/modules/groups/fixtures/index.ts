@@ -1,7 +1,7 @@
 // apps/api/src/modules/groups/fixtures/index.ts
 // Fixture data loader for groups
 
-import type { Group } from '@togetheros/types/groups'
+import type { Group, GroupType } from '@togetheros/types/groups'
 import fixtureData from './groups.json'
 
 /**
@@ -10,6 +10,7 @@ import fixtureData from './groups.json'
 export function getFixtureGroups(): Group[] {
   return fixtureData.groups.map((group) => ({
     ...group,
+    type: group.type as GroupType,
     createdAt: new Date(group.createdAt),
     updatedAt: new Date(group.updatedAt),
   }))
@@ -24,6 +25,7 @@ export function getFixtureGroupById(id: string): Group | undefined {
 
   return {
     ...group,
+    type: group.type as GroupType,
     createdAt: new Date(group.createdAt),
     updatedAt: new Date(group.updatedAt),
   }
@@ -38,6 +40,7 @@ export function getFixtureGroupByHandle(handle: string): Group | undefined {
 
   return {
     ...group,
+    type: group.type as GroupType,
     createdAt: new Date(group.createdAt),
     updatedAt: new Date(group.updatedAt),
   }
