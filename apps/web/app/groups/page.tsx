@@ -1,14 +1,21 @@
+'use client'
+
 import Link from 'next/link'
+import { GroupList } from '@togetheros/ui/groups'
+import { getFixtureGroups } from '../../../api/src/modules/groups/fixtures'
 
 export default function GroupsPage() {
+  // Load fixture data (in production, this would be fetched from API)
+  const groups = getFixtureGroups()
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <h1 className="text-4xl font-bold text-gray-900">Groups & Organizations</h1>
-          <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">
-            In Development
+          <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+            30% Complete
           </span>
         </div>
         <p className="text-lg text-gray-600 max-w-3xl">
@@ -24,7 +31,7 @@ export default function GroupsPage() {
             <h3 className="text-lg font-medium text-gray-900 mb-2">Core Features</h3>
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-green-600 mr-2">✓</span>
                 Create and join cooperative groups
               </li>
               <li className="flex items-start">
@@ -62,30 +69,10 @@ export default function GroupsPage() {
         </div>
       </div>
 
-      {/* UI Sketch */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">UI Sketch (Placeholder)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-300 p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center">
-                  <span className="text-orange-800 font-bold">G{i}</span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900">Group Name {i}</h3>
-                  <p className="text-sm text-gray-500">{15 + i * 5} members</p>
-                </div>
-              </div>
-              <p className="text-sm text-gray-600 mb-3">
-                A cooperative organization focused on collaborative projects and shared resources.
-              </p>
-              <button className="w-full px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium">
-                View Group
-              </button>
-            </div>
-          ))}
-        </div>
+      {/* Group List */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Browse Groups</h2>
+        <GroupList groups={groups} />
       </div>
 
       {/* Technical Details */}
@@ -95,9 +82,9 @@ export default function GroupsPage() {
           Module spec: <Link href="/docs/modules/groups" className="underline font-medium">docs/modules/groups.md</Link>
         </p>
         <div className="text-sm text-blue-700">
-          <p><strong>Status:</strong> 0% implemented</p>
-          <p><strong>Priority:</strong> Phase 2 (after Bridge & Governance)</p>
-          <p><strong>Dependencies:</strong> Auth, User profiles, Proposals module</p>
+          <p><strong>Status:</strong> 30% implemented</p>
+          <p><strong>Completed:</strong> Data models, fixtures, UI components, list view</p>
+          <p><strong>Next:</strong> Create group flow, join/leave functionality</p>
         </div>
       </div>
     </div>

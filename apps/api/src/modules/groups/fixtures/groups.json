@@ -1,0 +1,159 @@
+{
+  "groups": [
+    {
+      "id": "group-boston-coop",
+      "name": "Boston Cooperative Network",
+      "handle": "boston-coop",
+      "type": "local",
+      "description": "Building solidarity economy in Greater Boston through mutual aid, timebanking, and cooperative enterprises.",
+      "location": "Boston, MA",
+      "members": [
+        "member-alice",
+        "member-bob",
+        "member-carol"
+      ],
+      "createdAt": "2024-06-15T10:00:00Z",
+      "updatedAt": "2025-10-20T14:30:00Z"
+    },
+    {
+      "id": "group-oakland-tools",
+      "name": "Oakland Tool Library",
+      "handle": "oakland-tools",
+      "type": "local",
+      "description": "A community-run lending library for tools, equipment, and repair workshops. Share what you have, borrow what you need.",
+      "location": "Oakland, CA",
+      "members": [
+        "member-dave",
+        "member-eve",
+        "member-frank"
+      ],
+      "createdAt": "2024-08-10T09:00:00Z",
+      "updatedAt": "2025-10-25T11:15:00Z"
+    },
+    {
+      "id": "group-oss-educators",
+      "name": "Open Source Educators",
+      "handle": "oss-educators",
+      "type": "thematic",
+      "description": "Teachers and educators promoting free and open-source software in schools and universities. Virtual community focused on curriculum development and peer support.",
+      "members": [
+        "member-grace",
+        "member-henry",
+        "member-iris",
+        "member-jack"
+      ],
+      "createdAt": "2024-07-01T12:00:00Z",
+      "updatedAt": "2025-10-28T16:45:00Z"
+    },
+    {
+      "id": "group-climate-adaptation",
+      "name": "Climate Adaptation Network",
+      "handle": "climate-adaptation",
+      "type": "thematic",
+      "description": "Grassroots network building community resilience to climate change through local action, knowledge sharing, and mutual support.",
+      "members": [
+        "member-kate",
+        "member-leo",
+        "member-mia"
+      ],
+      "createdAt": "2024-09-05T08:30:00Z",
+      "updatedAt": "2025-10-29T09:20:00Z"
+    },
+    {
+      "id": "group-housing-alliance",
+      "name": "Cooperative Housing Alliance",
+      "handle": "housing-alliance",
+      "type": "federated",
+      "description": "Multi-city network of housing cooperatives providing legal support, financing advice, and governance templates for co-op housing projects.",
+      "members": [
+        "member-noah",
+        "member-olive",
+        "member-paul"
+      ],
+      "createdAt": "2024-05-20T14:00:00Z",
+      "updatedAt": "2025-10-27T13:10:00Z"
+    }
+  ],
+  "members": [
+    {
+      "id": "member-alice",
+      "handle": "alice_organizer",
+      "displayName": "Alice Chen"
+    },
+    {
+      "id": "member-bob",
+      "handle": "bob_builder",
+      "displayName": "Bob Martinez"
+    },
+    {
+      "id": "member-carol",
+      "handle": "carol_community",
+      "displayName": "Carol Johnson"
+    },
+    {
+      "id": "member-dave",
+      "handle": "dave_tools",
+      "displayName": "Dave Thompson"
+    },
+    {
+      "id": "member-eve",
+      "handle": "eve_engineer",
+      "displayName": "Eve Rodriguez"
+    },
+    {
+      "id": "member-frank",
+      "handle": "frank_fix",
+      "displayName": "Frank Wilson"
+    },
+    {
+      "id": "member-grace",
+      "handle": "grace_teach",
+      "displayName": "Grace Lee"
+    },
+    {
+      "id": "member-henry",
+      "handle": "henry_hack",
+      "displayName": "Henry Brown"
+    },
+    {
+      "id": "member-iris",
+      "handle": "iris_innovate",
+      "displayName": "Iris Patel"
+    },
+    {
+      "id": "member-jack",
+      "handle": "jack_code",
+      "displayName": "Jack Davis"
+    },
+    {
+      "id": "member-kate",
+      "handle": "kate_climate",
+      "displayName": "Kate Green"
+    },
+    {
+      "id": "member-leo",
+      "handle": "leo_land",
+      "displayName": "Leo Nguyen"
+    },
+    {
+      "id": "member-mia",
+      "handle": "mia_mutual",
+      "displayName": "Mia Anderson"
+    },
+    {
+      "id": "member-noah",
+      "handle": "noah_housing",
+      "displayName": "Noah Williams"
+    },
+    {
+      "id": "member-olive",
+      "handle": "olive_organize",
+      "displayName": "Olive Taylor"
+    },
+    {
+      "id": "member-paul",
+      "handle": "paul_policy",
+      "displayName": "Paul Garcia"
+    }
+  ]
+}
