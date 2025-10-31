@@ -4,7 +4,7 @@
  */
 
 import { query } from './index';
-import type { MemberRewardBalance, RewardEvent, CreateRewardEventInput } from '@/packages/types/src/rewards';
+import type { MemberRewardBalance, RewardEvent, CreateRewardEventInput } from '@togetheros/types';
 
 export interface SupportPointsBalance {
   member_id: string;
@@ -334,7 +334,7 @@ export async function getTargetAllocations(
  * Create a reward event
  */
 export async function createRewardEvent(input: CreateRewardEventInput): Promise<RewardEvent> {
-  const {SP_WEIGHTS} = await import('@/packages/types/src/rewards');
+  const {SP_WEIGHTS} = await import('@togetheros/types');
 
   // Calculate SP weight based on event type
   const sp_weight = SP_WEIGHTS[input.event_type] || 0;
@@ -382,7 +382,7 @@ export async function processRewardEvent(eventId: string): Promise<{ success: bo
 
     // Award the Support Points
     const awardResult = await awardSupportPoints(
-      event.member_id,
+      event.memberId,
       event.sp_weight,
       event.id,
       `Earned from ${event.event_type}`
