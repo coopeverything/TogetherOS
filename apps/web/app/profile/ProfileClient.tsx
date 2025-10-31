@@ -3,7 +3,8 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, Button, Badge, Avatar, Input, Textarea, Label, Alert } from '@/components/ui';
-import { TagInput, AvatarUpload, ProfileCompletionIndicator } from '@togetheros/ui/profiles';
+import { TagInput, ProfileCompletionIndicator } from '@togetheros/ui/profiles';
+import { AvatarUpload } from '@/components/profile/AvatarUpload';
 import { cn } from '@/lib/utils';
 
 interface User {

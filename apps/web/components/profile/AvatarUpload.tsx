@@ -3,11 +3,7 @@
 import * as React from 'react';
 import { useState, useRef, ChangeEvent } from 'react';
 import { cn } from '@/lib/utils';
-import { Avatar } from './avatar';
-import { Button } from './button';
-import { Input } from './input';
-import { Label } from './label';
-import { Tabs } from './tabs';
+import { Avatar, Button, Input, Label, Tabs } from '@/components/ui';
 
 export interface AvatarUploadProps {
   value?: string;
@@ -36,20 +32,17 @@ export function AvatarUpload({
 
     setError('');
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       setError('Please select an image file');
       return;
     }
 
-    // Validate file size
     const maxSizeBytes = maxSizeMB * 1024 * 1024;
     if (file.size > maxSizeBytes) {
       setError(`File size must be less than ${maxSizeMB}MB`);
       return;
     }
 
-    // Create preview and convert to base64
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
@@ -95,22 +88,15 @@ export function AvatarUpload({
 
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Preview */}
       <div className="flex items-center gap-4">
         <Avatar src={preview} alt={name} size="xl" />
         {preview && (
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onClick={handleRemove}
-          >
+          <Button type="button" variant="secondary" size="sm" onClick={handleRemove}>
             Remove
           </Button>
         )}
       </div>
 
-      {/* Upload method tabs */}
       <Tabs
         defaultTab={uploadMethod}
         onChange={(tabId) => setUploadMethod(tabId as 'url' | 'file')}
@@ -130,11 +116,7 @@ export function AvatarUpload({
                     placeholder="https://example.com/avatar.jpg"
                     className="flex-1"
                   />
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={handleUrlSubmit}
-                  >
+                  <Button type="button" variant="secondary" onClick={handleUrlSubmit}>
                     Apply
                   </Button>
                 </div>
@@ -170,10 +152,7 @@ export function AvatarUpload({
         ]}
       />
 
-      {/* Error message */}
-      {error && (
-        <p className="text-sm text-[#DC2626]">{error}</p>
-      )}
+      {error && <p className="text-sm text-[#DC2626]">{error}</p>}
     </div>
   );
 }

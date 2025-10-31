@@ -1,8 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Progress, Card, Badge } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '../utils';
 
 interface User {
   name?: string;
@@ -55,9 +54,9 @@ export function ProfileCompletionIndicator({
   const percentage = Math.round((completedWeight / totalWeight) * 100);
 
   const getStatusColor = () => {
-    if (percentage >= 80) return 'success';
-    if (percentage >= 50) return 'warning';
-    return 'danger';
+    if (percentage >= 80) return { bg: 'bg-[#DCFCE7]', text: 'text-[#16A34A]', bar: 'bg-[#16A34A]' };
+    if (percentage >= 50) return { bg: 'bg-[#FEF3C7]', text: 'text-[#D97706]', bar: 'bg-[#D97706]' };
+    return { bg: 'bg-[#FEE2E2]', text: 'text-[#DC2626]', bar: 'bg-[#DC2626]' };
   };
 
   const getStatusLabel = () => {
@@ -66,25 +65,37 @@ export function ProfileCompletionIndicator({
     return 'Getting Started';
   };
 
+  const statusColor = getStatusColor();
   const incompleteItems = items.filter((item) => !item.completed);
 
   if (percentage === 100 && !showDetails) {
-    return null; // Hide when complete and details not requested
+    return null;
   }
 
   return (
-    <Card className={cn('p-4', className)}>
+    <div className={cn('rounded-lg border border-border bg-white shadow-sm p-4', className)}>
       <div className="space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-ink-900">Profile Completion</h3>
-          <Badge variant={getStatusColor()}>
+          <span className={cn(
+            'inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold border',
+            statusColor.bg,
+            statusColor.text
+          )}>
             {percentage}% {getStatusLabel()}
-          </Badge>
+          </span>
         </div>
 
         {/* Progress bar */}
-        <Progress value={percentage} variant={getStatusColor()} />
+        <div className="w-full">
+          <div className="w-full bg-bg-2 rounded-full overflow-hidden h-2">
+            <div
+              className={cn('h-full transition-all duration-300 ease-out rounded-full', statusColor.bar)}
+              style={{ width: `${percentage}%` }}
+            />
+          </div>
+        </div>
 
         {/* Details */}
         {showDetails && incompleteItems.length > 0 && (
@@ -104,11 +115,11 @@ export function ProfileCompletionIndicator({
         )}
 
         {percentage === 100 && (
-          <p className="text-xs text-success-600 font-medium">
+          <p className="text-xs text-[#16A34A] font-medium">
             Your profile is complete!
           </p>
         )}
       </div>
-    </Card>
+    </div>
   );
 }
