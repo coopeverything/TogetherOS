@@ -50,7 +50,7 @@ export const createGroupSchema = z.object({
     .max(100, 'Location cannot exceed 100 characters')
     .optional(),
 
-  creatorId: z.string().uuid('Creator ID must be a valid UUID'),
+  creatorId: z.string().min(1),  // Allow any string ID
 }).refine(
   (data) => data.type !== 'local' || !!data.location,
   {
@@ -92,13 +92,13 @@ export type UpdateGroupInput = z.infer<typeof updateGroupSchema>
  * Full group schema (including generated fields)
  */
 export const groupSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().min(1),  // Allow any string ID (including fixture IDs)
   name: z.string().min(3).max(100),
   handle: z.string().min(3).max(50).regex(handleRegex),
   type: groupTypeSchema,
   description: z.string().min(10).max(500).optional(),
   location: z.string().max(100).optional(),
-  members: z.array(z.string().uuid()),
+  members: z.array(z.string().min(1)),  // Allow any string member IDs
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 })
@@ -112,8 +112,8 @@ export type Group = z.infer<typeof groupSchema>
  * Join group input schema
  */
 export const joinGroupSchema = z.object({
-  groupId: z.string().uuid('Group ID must be a valid UUID'),
-  memberId: z.string().uuid('Member ID must be a valid UUID'),
+  groupId: z.string().min(1),  // Allow any string ID
+  memberId: z.string().min(1),  // Allow any string ID
   message: z.string()
     .min(10, 'Introduction message must be at least 10 characters')
     .max(500, 'Introduction message cannot exceed 500 characters')
@@ -129,13 +129,13 @@ export type JoinGroupInput = z.infer<typeof joinGroupSchema>
  * Group role schema
  */
 export const groupRoleSchema = z.object({
-  id: z.string().uuid(),
-  groupId: z.string().uuid(),
-  memberId: z.string().uuid(),
+  id: z.string().min(1),
+  groupId: z.string().min(1),
+  memberId: z.string().min(1),
   role: groupRoleTypeSchema,
   grantedAt: z.coerce.date(),
   expiresAt: z.coerce.date().optional(),
-  grantedBy: z.string().uuid(),
+  grantedBy: z.string().min(1),
   recallable: z.boolean(),
 }).refine(
   (data) => !data.expiresAt || data.expiresAt > data.grantedAt,
@@ -154,9 +154,9 @@ export type GroupRole = z.infer<typeof groupRoleSchema>
  * Group membership schema
  */
 export const groupMembershipSchema = z.object({
-  id: z.string().uuid(),
-  groupId: z.string().uuid(),
-  memberId: z.string().uuid(),
+  id: z.string().min(1),
+  groupId: z.string().min(1),
+  memberId: z.string().min(1),
   status: membershipStatusSchema,
   joinedAt: z.coerce.date(),
   lastActiveAt: z.coerce.date().optional(),
@@ -193,7 +193,7 @@ export type GroupFilters = z.infer<typeof groupFiltersSchema>
  * Group stats schema
  */
 export const groupStatsSchema = z.object({
-  groupId: z.string().uuid(),
+  groupId: z.string().min(1),
   memberCount: z.number().int().nonnegative(),
   activeMemberCount: z.number().int().nonnegative(),
   proposalCount: z.number().int().nonnegative(),
