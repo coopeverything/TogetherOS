@@ -100,7 +100,7 @@ DevEx Modules:
 Progress Summary
 ============================================
 Authentication: 70%
-Scaffolding: 40%
+Scaffolding: 100%
 UI System: 20%
 ...
 Average Progress: 35%
