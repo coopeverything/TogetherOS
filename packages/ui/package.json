@@ -8,14 +8,17 @@
   "exports": {
     ".": "./src/index.ts",
     "./bridge": "./src/bridge/index.ts",
-    "./groups": "./src/groups/index.ts"
+    "./groups": "./src/groups/index.ts",
+    "./profiles": "./src/profiles/index.ts"
   },
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean"
   },
   "dependencies": {
-    "@togetheros/types": "*"
+    "@togetheros/types": "*",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",

@@ -21,6 +21,15 @@ export interface User {
   skills?: string[];
   can_offer?: string;
   seeking_help?: string;
+  profile_visibility?: 'public' | 'members' | 'private';
+  social_links?: {
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+    mastodon?: string;
+    bluesky?: string;
+  };
   onboarding_step?: string;
   onboarding_completed_at?: Date;
   created_at: Date;
@@ -62,6 +71,18 @@ export async function findUserById(id: string): Promise<User | null> {
   const result = await query<User>(
     'SELECT * FROM users WHERE id = $1 AND deleted_at IS NULL',
     [id]
+  );
+
+  return result.rows[0] || null;
+}
+
+/**
+ * Find user by username
+ */
+export async function findUserByUsername(username: string): Promise<User | null> {
+  const result = await query<User>(
+    'SELECT * FROM users WHERE username = $1 AND deleted_at IS NULL',
+    [username]
   );
 
   return result.rows[0] || null;

@@ -3,11 +3,13 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, Button, Badge, Avatar, Input, Textarea, Label, Alert } from '@/components/ui';
+import { TagInput, AvatarUpload, ProfileCompletionIndicator } from '@togetheros/ui/profiles';
 import { cn } from '@/lib/utils';
 
 interface User {
   id: string;
   email: string;
+  email_verified?: boolean;
   name?: string;
   username?: string;
   bio?: string;
@@ -19,6 +21,15 @@ interface User {
   skills?: string[];
   can_offer?: string;
   seeking_help?: string;
+  profile_visibility?: 'public' | 'members' | 'private';
+  social_links?: {
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+    mastodon?: string;
+    bluesky?: string;
+  };
 }
 
 const COOPERATION_PATHS = [
@@ -30,6 +41,39 @@ const COOPERATION_PATHS = [
   { id: 'community', name: 'Community Connection', emoji: '🤝' },
   { id: 'media', name: 'Collaborative Media', emoji: '🎨' },
   { id: 'planet', name: 'Common Planet', emoji: '🌍' },
+];
+
+const COMMON_SKILLS = [
+  'Web Development',
+  'Mobile Development',
+  'UI/UX Design',
+  'Graphic Design',
+  'Community Organizing',
+  'Event Planning',
+  'Project Management',
+  'Teaching',
+  'Writing',
+  'Public Speaking',
+  'Social Media',
+  'Marketing',
+  'Fundraising',
+  'Legal Advice',
+  'Accounting',
+  'Data Analysis',
+  'Research',
+  'Translation',
+  'Video Editing',
+  'Photography',
+  'Illustration',
+  'Carpentry',
+  'Gardening',
+  'Cooking',
+  'Childcare',
+  'Elder Care',
+  'Mental Health Support',
+  'Conflict Resolution',
+  'Facilitation',
+  'Strategic Planning',
 ];
 
 export default function ProfileClient({ initialUser }: { initialUser: User }) {
@@ -45,9 +89,18 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
     state: user.state || '',
     country: user.country || '',
     paths: user.paths || [],
-    skills: (user.skills || []).join(', '),
+    skills: user.skills || [],
     can_offer: user.can_offer || '',
     seeking_help: user.seeking_help || '',
+    profile_visibility: user.profile_visibility || 'public',
+    social_links: {
+      github: user.social_links?.github || '',
+      twitter: user.social_links?.twitter || '',
+      linkedin: user.social_links?.linkedin || '',
+      website: user.social_links?.website || '',
+      mastodon: user.social_links?.mastodon || '',
+      bluesky: user.social_links?.bluesky || '',
+    },
   });
   const [state, setState] = useState<'idle' | 'saving' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -61,13 +114,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
       const response = await fetch('/api/profile', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          skills: formData.skills
-            .split(',')
-            .map((s) => s.trim())
-            .filter(Boolean),
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
@@ -104,6 +151,14 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold text-ink-900">Your Profile</h1>
               <div className="flex gap-3">
+                {user.username && (
+                  <Button
+                    variant="secondary"
+                    onClick={() => router.push(`/profile/${user.username}`)}
+                  >
+                    View Public Profile
+                  </Button>
+                )}
                 <Button variant="default" onClick={() => setIsEditing(true)}>
                   Edit Profile
                 </Button>
@@ -115,7 +170,10 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
           </div>
         </header>
 
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+          {/* Profile Completion Indicator */}
+          <ProfileCompletionIndicator user={user} />
+
           <Card className="p-8">
             {user.avatar_url && (
               <div className="flex justify-center mb-6">
@@ -129,7 +187,14 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                 <div className="space-y-3">
                   <div>
                     <Label className="text-ink-700">Email</Label>
-                    <p className="text-ink-900">{user.email}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-ink-900">{user.email}</p>
+                      {user.email_verified ? (
+                        <Badge variant="success">Verified</Badge>
+                      ) : (
+                        <Badge variant="warning">Not Verified</Badge>
+                      )}
+                    </div>
                   </div>
                   {user.name && (
                     <div>
@@ -200,6 +265,74 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                   <p className="text-ink-900">{user.seeking_help}</p>
                 </div>
               )}
+
+              {user.social_links && Object.values(user.social_links).some(v => v) && (
+                <div>
+                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Connect</h2>
+                  <div className="flex flex-wrap gap-3">
+                    {user.social_links.github && (
+                      <a
+                        href={`https://github.com/${user.social_links.github}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                      >
+                        <span>GitHub</span>
+                      </a>
+                    )}
+                    {user.social_links.twitter && (
+                      <a
+                        href={`https://twitter.com/${user.social_links.twitter}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                      >
+                        <span>Twitter</span>
+                      </a>
+                    )}
+                    {user.social_links.linkedin && (
+                      <a
+                        href={`https://linkedin.com/in/${user.social_links.linkedin}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                      >
+                        <span>LinkedIn</span>
+                      </a>
+                    )}
+                    {user.social_links.mastodon && (
+                      <a
+                        href={user.social_links.mastodon.startsWith('http') ? user.social_links.mastodon : `https://mastodon.social/@${user.social_links.mastodon}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                      >
+                        <span>Mastodon</span>
+                      </a>
+                    )}
+                    {user.social_links.bluesky && (
+                      <a
+                        href={`https://bsky.app/profile/${user.social_links.bluesky}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                      >
+                        <span>Bluesky</span>
+                      </a>
+                    )}
+                    {user.social_links.website && (
+                      <a
+                        href={user.social_links.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                      >
+                        <span>Website</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </Card>
         </main>
@@ -264,13 +397,11 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                 </div>
 
                 <div>
-                  <Label htmlFor="avatar_url">Avatar URL</Label>
-                  <Input
-                    id="avatar_url"
-                    type="url"
+                  <Label>Avatar</Label>
+                  <AvatarUpload
                     value={formData.avatar_url}
-                    onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                    placeholder="https://example.com/avatar.jpg"
+                    onChange={(avatar_url) => setFormData({ ...formData, avatar_url })}
+                    name={formData.name || 'User'}
                   />
                 </div>
               </div>
@@ -342,14 +473,14 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="skills">Skills</Label>
-                  <Input
-                    id="skills"
-                    type="text"
+                  <TagInput
                     value={formData.skills}
-                    onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
-                    placeholder="e.g. Web Development, Graphic Design, Community Organizing"
+                    onChange={(skills) => setFormData({ ...formData, skills })}
+                    placeholder="Type a skill and press Enter"
+                    suggestions={COMMON_SKILLS}
+                    maxTags={20}
                   />
-                  <p className="text-sm text-ink-700 mt-1">Separate multiple skills with commas</p>
+                  <p className="text-sm text-ink-700 mt-1">Add up to 20 skills. Start typing to see suggestions.</p>
                 </div>
 
                 <div>
@@ -373,6 +504,146 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                     rows={3}
                   />
                 </div>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-ink-900 mb-4">Social Links</h2>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="github">GitHub Username</Label>
+                  <Input
+                    id="github"
+                    type="text"
+                    value={formData.social_links.github}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      social_links: { ...formData.social_links, github: e.target.value }
+                    })}
+                    placeholder="username"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="twitter">Twitter/X Username</Label>
+                  <Input
+                    id="twitter"
+                    type="text"
+                    value={formData.social_links.twitter}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      social_links: { ...formData.social_links, twitter: e.target.value }
+                    })}
+                    placeholder="username"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="linkedin">LinkedIn Username</Label>
+                  <Input
+                    id="linkedin"
+                    type="text"
+                    value={formData.social_links.linkedin}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      social_links: { ...formData.social_links, linkedin: e.target.value }
+                    })}
+                    placeholder="username"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="mastodon">Mastodon Handle</Label>
+                  <Input
+                    id="mastodon"
+                    type="text"
+                    value={formData.social_links.mastodon}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      social_links: { ...formData.social_links, mastodon: e.target.value }
+                    })}
+                    placeholder="@username@instance.social"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="bluesky">Bluesky Handle</Label>
+                  <Input
+                    id="bluesky"
+                    type="text"
+                    value={formData.social_links.bluesky}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      social_links: { ...formData.social_links, bluesky: e.target.value }
+                    })}
+                    placeholder="username.bsky.social"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="website">Personal Website</Label>
+                  <Input
+                    id="website"
+                    type="url"
+                    value={formData.social_links.website}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      social_links: { ...formData.social_links, website: e.target.value }
+                    })}
+                    placeholder="https://example.com"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-ink-900 mb-2">Privacy Settings</h2>
+              <p className="text-sm text-ink-700 mb-4">Control who can see your profile</p>
+              <div className="space-y-3">
+                <label className="flex items-start gap-3 p-3 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
+                  <input
+                    type="radio"
+                    name="profile_visibility"
+                    value="public"
+                    checked={formData.profile_visibility === 'public'}
+                    onChange={(e) => setFormData({ ...formData, profile_visibility: e.target.value as 'public' | 'members' | 'private' })}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <div className="font-medium text-ink-900">Public</div>
+                    <div className="text-sm text-ink-700">Anyone can view your profile</div>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 p-3 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
+                  <input
+                    type="radio"
+                    name="profile_visibility"
+                    value="members"
+                    checked={formData.profile_visibility === 'members'}
+                    onChange={(e) => setFormData({ ...formData, profile_visibility: e.target.value as 'public' | 'members' | 'private' })}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <div className="font-medium text-ink-900">Members Only</div>
+                    <div className="text-sm text-ink-700">Only logged-in members can view your profile</div>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 p-3 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
+                  <input
+                    type="radio"
+                    name="profile_visibility"
+                    value="private"
+                    checked={formData.profile_visibility === 'private'}
+                    onChange={(e) => setFormData({ ...formData, profile_visibility: e.target.value as 'public' | 'members' | 'private' })}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <div className="font-medium text-ink-900">Private</div>
+                    <div className="text-sm text-ink-700">Only you can view your profile</div>
+                  </div>
+                </label>
               </div>
             </div>
 

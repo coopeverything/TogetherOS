@@ -4,3 +4,4 @@
 // Re-export all component modules
 export * from './bridge'
 export * from './groups'
+export * from './profiles'
