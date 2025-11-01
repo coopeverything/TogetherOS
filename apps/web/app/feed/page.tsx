@@ -6,7 +6,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PostList } from '@togetheros/ui'
+import { PostList, PostComposer, type CreatePostData } from '@togetheros/ui'
 import type { Post, ReactionType } from '@togetheros/types'
 import { InMemoryPostRepo } from '../../../../apps/api/src/modules/feed/repos/InMemoryPostRepo'
 import { samplePosts } from '../../../../apps/api/src/modules/feed/fixtures'
@@ -29,6 +29,7 @@ export default function FeedPage() {
   const [topics, setTopics] = useState<string[]>([])
   const [reactionCounts] = useState<Record<string, any>>({})
   const [userReactions, setUserReactions] = useState<Record<string, ReactionType>>({})
+  const [composerOpen, setComposerOpen] = useState(false)
 
   // Load posts
   useEffect(() => {
@@ -73,7 +74,38 @@ export default function FeedPage() {
 
   // Handle discuss (placeholder)
   const handleDiscuss = (postId: string) => {
-    alert(`Discussion feature coming soon! Post ID: ${postId}`)
+    alert(`Discussion threads coming in Phase 3! Post ID: ${postId}`)
+  }
+
+  // Handle create post
+  const handleCreatePost = async (data: CreatePostData) => {
+    try {
+      if (data.type === 'native') {
+        await postRepo.createNative({
+          authorId: '00000000-0000-0000-0000-000000000001', // Alice
+          content: data.content!,
+          title: data.title,
+          topics: data.topics,
+        })
+      } else {
+        await postRepo.createImport({
+          authorId: '00000000-0000-0000-0000-000000000001',
+          sourceUrl: data.sourceUrl!,
+          topics: data.topics,
+          preview: {
+            title: 'Imported content',
+            platform: 'unknown',
+            fetchedAt: new Date(),
+          },
+        })
+      }
+      // Reload posts
+      const loadedPosts = await postRepo.list({ topic: selectedTopic, limit: 20 })
+      setPosts(loadedPosts)
+    } catch (error) {
+      console.error('Failed to create post:', error)
+      throw error
+    }
   }
 
   return (
@@ -90,7 +122,7 @@ export default function FeedPage() {
             </div>
             <button
               className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
-              onClick={() => alert('Post composer coming soon!')}
+              onClick={() => setComposerOpen(true)}
             >
               + Create Post
             </button>
@@ -139,11 +171,18 @@ export default function FeedPage() {
         {!loading && posts.length > 0 && (
           <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-4">
             <p className="text-sm text-blue-800">
-              <strong>Phase 1 MVP:</strong> Basic feed with reactions and topic filtering.
-              Coming soon: Post composer, social media import, discussion threads, priority tracking.
+              <strong>Phase 2:</strong> Post composer added (native + import). Discussion threads in Phase 3.
             </p>
           </div>
         )}
+
+        {/* Post Composer Modal */}
+        <PostComposer
+          isOpen={composerOpen}
+          onClose={() => setComposerOpen(false)}
+          onSubmit={handleCreatePost}
+          topics={topics}
+        />
       </div>
     </div>
   )

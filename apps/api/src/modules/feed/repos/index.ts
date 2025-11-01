@@ -4,3 +4,5 @@
 export { PostRepo } from './PostRepo'
 export type { PostFilters, CreateNativePostInput, CreateImportPostInput } from './PostRepo'
 export { InMemoryPostRepo } from './InMemoryPostRepo'
+export { ThreadRepo } from './ThreadRepo'
+export { InMemoryThreadRepo } from './InMemoryThreadRepo'

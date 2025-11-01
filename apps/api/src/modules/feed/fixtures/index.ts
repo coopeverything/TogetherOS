@@ -354,3 +354,6 @@ Stop buying tools you'll use once! Share the love.`,
     updatedAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
   },
 ]
+
+// Export thread fixtures
+export { sampleThreads, sampleThreadPosts } from './threads'
