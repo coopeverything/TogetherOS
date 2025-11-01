@@ -64,7 +64,9 @@ export async function getGoogleTokens(code: string): Promise<GoogleTokenResponse
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Failed to get Google tokens: ${error}`);
+    // Log detailed error but throw generic message to avoid exposure
+    console.error('Google token exchange failed:', error);
+    throw new Error('Failed to exchange authorization code for tokens');
   }
 
   return response.json();
@@ -82,7 +84,9 @@ export async function getGoogleProfile(accessToken: string): Promise<GoogleProfi
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Failed to get Google profile: ${error}`);
+    // Log detailed error but throw generic message to avoid exposure
+    console.error('Google profile fetch failed:', error);
+    throw new Error('Failed to fetch user profile from Google');
   }
 
   return response.json();

@@ -12,6 +12,9 @@ export async function GET(request: NextRequest) {
     // Generate state for CSRF protection
     const state = crypto.randomBytes(32).toString('hex');
 
+    // Get base URL for safe redirects
+    const baseUrl = new URL(request.url).origin;
+
     // Store state in cookie for verification
     const response = NextResponse.redirect(getGoogleAuthUrl(state));
     response.cookies.set('oauth_state', state, {
@@ -24,7 +27,8 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error('Google OAuth error:', error);
-    return NextResponse.redirect('/login?error=oauth_failed');
+    console.error('Google OAuth error:', error instanceof Error ? error.message : 'Unknown error');
+    const baseUrl = new URL(request.url).origin;
+    return NextResponse.redirect(`${baseUrl}/login?error=oauth_failed`);
   }
 }

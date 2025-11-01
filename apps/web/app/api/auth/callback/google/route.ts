@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getGoogleTokens, getGoogleProfile, mapGoogleProfileToUser } from '@/lib/auth/oauth/google';
-import { findUserByEmail, createUser, updateUser } from '@/lib/db/users';
+import { findUserByEmail, findUserByGoogleId, createUser, updateUser } from '@/lib/db/users';
 import { createSession } from '@/lib/auth/session';
 import { query } from '@/lib/db';
 
@@ -15,20 +15,23 @@ export async function GET(request: NextRequest) {
   const state = searchParams.get('state');
   const error = searchParams.get('error');
 
+  // Get base URL for safe redirects
+  const baseUrl = new URL(request.url).origin;
+
   // Check for OAuth errors
   if (error) {
-    return NextResponse.redirect(`/login?error=${error}`);
+    return NextResponse.redirect(`${baseUrl}/login?error=${error}`);
   }
 
   // Verify required params
   if (!code || !state) {
-    return NextResponse.redirect('/login?error=invalid_callback');
+    return NextResponse.redirect(`${baseUrl}/login?error=invalid_callback`);
   }
 
   // Verify state (CSRF protection)
   const storedState = request.cookies.get('oauth_state')?.value;
   if (!storedState || storedState !== state) {
-    return NextResponse.redirect('/login?error=invalid_state');
+    return NextResponse.redirect(`${baseUrl}/login?error=invalid_state`);
   }
 
   try {
@@ -41,17 +44,25 @@ export async function GET(request: NextRequest) {
     // Map profile to user fields
     const userData = mapGoogleProfileToUser(profile);
 
-    // Check if user exists
-    let user = await findUserByEmail(userData.email!);
+    // Check if user exists by Google ID first (prevents duplicate accounts)
+    let user = await findUserByGoogleId(userData.google_id!);
 
     if (user) {
-      // Update existing user with OAuth data
+      // Update existing user with latest OAuth data
       user = await updateUser(user.id, userData);
     } else {
-      // Create new user
-      user = await createUser(userData.email!);
-      // Update with OAuth data
-      user = await updateUser(user.id, userData);
+      // Check if user exists by email (account linking)
+      user = await findUserByEmail(userData.email!);
+      
+      if (user) {
+        // Link Google account to existing user
+        user = await updateUser(user.id, userData);
+      } else {
+        // Create new user
+        user = await createUser(userData.email!);
+        // Update with OAuth data
+        user = await updateUser(user.id, userData);
+      }
     }
 
     // Create session
@@ -66,7 +77,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Set session cookie and redirect
-    const response = NextResponse.redirect('/dashboard');
+    const response = NextResponse.redirect(`${baseUrl}/dashboard`);
     response.cookies.set('session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -80,7 +91,7 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error('Google OAuth callback error:', error);
-    return NextResponse.redirect('/login?error=oauth_failed');
+    console.error('Google OAuth callback error:', error instanceof Error ? error.message : 'Unknown error');
+    return NextResponse.redirect(`${baseUrl}/login?error=oauth_failed`);
   }
 }

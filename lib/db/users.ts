@@ -32,6 +32,13 @@ export interface User {
   };
   onboarding_step?: string;
   onboarding_completed_at?: Date;
+  // OAuth fields
+  google_id?: string;
+  oauth_display_name?: string;
+  oauth_avatar_url?: string;
+  oauth_locale?: string;
+  oauth_verified?: boolean;
+  oauth_raw_profile?: any;
   created_at: Date;
   updated_at: Date;
 }
@@ -83,6 +90,18 @@ export async function findUserByUsername(username: string): Promise<User | null>
   const result = await query<User>(
     'SELECT * FROM users WHERE username = $1 AND deleted_at IS NULL',
     [username]
+  );
+
+  return result.rows[0] || null;
+}
+
+/**
+ * Find user by Google ID
+ */
+export async function findUserByGoogleId(googleId: string): Promise<User | null> {
+  const result = await query<User>(
+    'SELECT * FROM users WHERE google_id = $1 AND deleted_at IS NULL',
+    [googleId]
   );
 
   return result.rows[0] || null;
