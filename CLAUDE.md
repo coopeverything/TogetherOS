@@ -2,6 +2,8 @@
 
 **Auto-loaded at every session start**
 
+<!-- Test comment to verify Codex bot reviews - 2025-01-11 -->
+
 ---
 
 ## Project Knowledge (Auto-Imported)
