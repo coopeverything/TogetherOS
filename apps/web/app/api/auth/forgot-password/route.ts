@@ -45,19 +45,23 @@ export async function POST(request: Request) {
     // Create new reset token
     const token = await createPasswordResetToken(userId);
 
-    // In production, send email with reset link
-    // For development, return the token
+    // Generate reset URL
     const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/reset-password?token=${token}`;
 
     if (process.env.NODE_ENV === 'development') {
+      // Dev mode: Return reset URL for testing
       return NextResponse.json({
         message: 'Password reset email sent',
         resetUrl // Only in dev mode
       });
     }
 
-    // TODO: Send email with resetUrl
-    // await sendPasswordResetEmail(email, resetUrl);
+    // MVP LIMITATION: Email sending not implemented yet
+    // Email infrastructure (SMTP, templates) requires separate setup
+    // Will be implemented in future PR with email service (SendGrid/Resend)
+    // For now, users must request reset link from admin
+    console.warn('Password reset requested for', email, '- email sending not configured');
+    // Future: await sendPasswordResetEmail(email, resetUrl);
 
     return NextResponse.json({
       message: 'If an account with that email exists, a password reset link has been sent.'
