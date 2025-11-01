@@ -4,7 +4,7 @@
 
 The Feed module is TogetherOS's primary engagement surface, combining social media UX with structured deliberation and AI-powered intelligence. It transforms passive content consumption into active participation through a conversion funnel: scroll → react → discuss → prioritize → vote → act.
 
-**Current Progress:** <!-- progress:feed=0 --> 0%
+**Current Progress:** <!-- progress:feed=40 --> 40%
 
 **Category:** Community Connection, Collective Governance, Cooperative Technology
 

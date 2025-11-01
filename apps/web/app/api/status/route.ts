@@ -18,6 +18,7 @@ const moduleNames: Record<string, string> = {
   auth: 'Identity & Auth',
   profiles: 'Profiles',
   groups: 'Groups & Orgs',
+  feed: 'Feed',
   forum: 'Forum / Deliberation',
   governance: 'Proposals & Decisions',
   'social-economy': 'Social Economy Primitives',

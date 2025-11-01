@@ -13,6 +13,7 @@ body:
         - auth
         - profiles
         - groups
+        - feed
         - forum
         - governance
         - social-economy

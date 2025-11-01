@@ -17,7 +17,8 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle) | <!-- progress:auth=70 --> 70% | Complete OAuth providers, email verification | Secret storage & provider choice |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=100 --> 100% | Production-ready ✅ | All core features complete |
 | **Groups & Orgs** | Local groups, org records, federation handles | <!-- progress:groups=100 --> 100% | Production-ready ✅ | All core features complete |
-| **Feed / Forum** | Social media feed + native posts, multi-dimensional reactions, topic filtering, discussion threads (Phase 1-2: feed UI, reactions, post composer complete) | <!-- progress:forum=40 --> 40% | Discussion threads + thread replies (Phase 3) | Bridge topic intelligence |
+| **Feed** | Social media feed + native posts, multi-dimensional reactions, topic filtering, post composer (Phase 1-2 complete) | <!-- progress:feed=40 --> 40% | Discussion threads integration (Phase 3) | Bridge topic intelligence |
+| **Forum / Deliberation** | Structured discussion threads for deep deliberation, empathy-first moderation, consensus-building tools | <!-- progress:forum=0 --> 0% | Topic list + post composer MVP | Bridge thread tidy, AI moderation |
 | **Proposals & Decisions** | Proposal object, evidence/options, vote, review | <!-- progress:governance=0 --> 0% | Proposal create/read MVP | Ballot types + quorum rules |
 | **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
 | **Support Points & Reputation** | Points bank, allocation per idea, badges | <!-- progress:reputation=20 --> 20% | 100-point wallet + allocate UI | Abuse caps; per-idea limit logic |
