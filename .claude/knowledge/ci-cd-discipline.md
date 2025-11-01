@@ -551,25 +551,62 @@ gh pr merge <num> --squash --delete-branch
 - ✅ Change is <500 lines
 - ✅ Not flagged as security-sensitive
 
-### Copilot Review Integration
+### Dual-Bot Review Integration
 
-**What Copilot checks:**
-- Security vulnerabilities (SQL injection, XSS, eval, etc.)
-- Performance issues (expensive operations in render, missing memoization)
-- Type safety (any usage, unsafe casts, missing null checks)
-- Code quality (unused variables, missing error handling, accessibility)
-- Best practices (React patterns, async/await, naming conventions)
+**Two bots review EVERY PR (both required):**
 
-**How to request review:**
-Copilot automatically reviews all PRs. To manually trigger:
+#### Bot 1: Codex (`chatgpt-codex-connector`) - PRIMARY
+**What Codex checks:**
+- Security vulnerabilities (SQL injection, XSS, eval, auth issues)
+- Type safety & correctness
+- Performance problems
+- Code quality & best practices
+- Architecture & design patterns
+
+**Priority levels:**
+- **P1 (Critical)**: BLOCKS MERGE - Must fix
+- **P2 (Important)**: Should fix before merge
+- **P3 (Nice-to-have)**: Can defer
+
+**Manual trigger:**
 ```bash
-# Comment in PR
-@copilot review
-
-# Or request focused review
-@copilot review security
-@copilot review performance
+gh pr comment <PR#> --body "@codex review"
 ```
+
+#### Bot 2: Copilot (`copilot-pull-request-reviewer`) - SECONDARY
+**What Copilot checks:**
+- Security vulnerabilities
+- Performance issues (render optimization, memoization)
+- Type safety (any usage, unsafe casts, null checks)
+- Code quality (unused variables, error handling, accessibility)
+- Best practices (React patterns, async/await)
+
+**Review states:**
+- **APPROVED**: No blocking issues
+- **COMMENTED**: Suggestions (non-blocking)
+- **CHANGES_REQUESTED**: BLOCKS MERGE
+
+**Manual trigger:**
+```bash
+gh pr comment <PR#> --body "@copilot review"
+# Or focused:
+# @copilot review security
+# @copilot review performance
+```
+
+### Merge Requirements (Dual-Bot Gate)
+
+**PR can ONLY merge if:**
+- ✅ Tests pass
+- ✅ Codex reviewed (NO P1 issues)
+- ✅ Copilot reviewed (NO CHANGES_REQUESTED)
+- ✅ Both bots completed their reviews
+
+**Either bot can block:**
+- ❌ Codex P1 issue → Cannot merge
+- ❌ Copilot CHANGES_REQUESTED → Cannot merge
+
+**Wait time:** 5 minutes after opening PR for both bots to review
 
 ### Example: Full Workflow
 

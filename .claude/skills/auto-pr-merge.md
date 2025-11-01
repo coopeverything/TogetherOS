@@ -26,10 +26,41 @@ Use this skill when you want to:
 
 ## Prerequisites
 
-- ✅ GitHub Copilot PR reviewer enabled on repository
+- ✅ **Dual bot reviewers enabled:**
+  - `chatgpt-codex-connector` (OpenAI Codex) - PRIMARY reviewer
+  - `copilot-pull-request-reviewer` (GitHub Copilot) - SECONDARY reviewer
 - ✅ Branch protection on `yolo` with status checks
 - ✅ Tests configured and passing
 - ✅ Auto-deploy workflow ready (`.github/workflows/auto-deploy-production.yml`)
+
+## Dual-Bot Review System
+
+**Every PR must be reviewed by BOTH bots before merge:**
+
+### Bot 1: Codex (chatgpt-codex-connector)
+- OpenAI GPT-4 powered code analysis
+- Provides detailed feedback with priority levels:
+  - **P1** (Critical) - BLOCKS MERGE - Must fix before merge
+  - **P2** (Important) - Should fix before merge
+  - **P3** (Nice-to-have) - Can defer to future PR
+- Review format: Comprehensive analysis with specific recommendations
+
+### Bot 2: Copilot (copilot-pull-request-reviewer)
+- GitHub native review bot
+- Provides overview summary + line-by-line comments
+- Can REQUEST CHANGES (blocks merge)
+- Review format: Summary + inline suggestions with ```suggestion blocks
+
+### Merge Requirements (ALL must be true)
+- ✅ Tests pass
+- ✅ Codex reviewed (no P1 issues)
+- ✅ Copilot reviewed (no CHANGES_REQUESTED)
+- ✅ All blocking issues addressed
+
+### Either Bot Can Block Merge
+- Codex P1 issue → ❌ Cannot merge
+- Copilot CHANGES_REQUESTED → ❌ Cannot merge
+- Both must approve (or at minimum: both reviewed with no blocks)
 
 ## Workflow Steps
 
@@ -66,31 +97,75 @@ gh pr create --base yolo \
 Category: {one of 8 Cooperation Paths}
 Keywords: {comma, separated}
 
-Waiting for Copilot review...
+Waiting for Codex + Copilot review...
 EOF
 )"
 ```
 
-### 4. Wait for Copilot Review
+### 4. Wait for BOTH Bot Reviews (Codex + Copilot)
 
 ```bash
-# Wait 60 seconds for Copilot to analyze code
-sleep 60
-
-# Get PR number from gh pr list
+# Get PR number
 PR_NUMBER=$(gh pr list --head feature/{module}-{description} --json number --jq '.[0].number')
 
-# Check for reviews
-gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
-  --jq '.[] | select(.user.login | contains("copilot"))'
+# Wait 5 minutes for BOTH bots to analyze code
+echo "Waiting 5 minutes for chatgpt-codex-connector + copilot-pull-request-reviewer..."
+sleep 300
+
+# Check if BOTH reviewed
+CODEX_REVIEWED=$(gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '[.[] | select(.user.login == "chatgpt-codex-connector")] | length')
+
+COPILOT_REVIEWED=$(gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '[.[] | select(.user.login == "copilot-pull-request-reviewer")] | length')
+
+echo "✓ Codex reviews: $CODEX_REVIEWED"
+echo "✓ Copilot reviews: $COPILOT_REVIEWED"
+
+# If either missing, trigger manually
+if [ "$CODEX_REVIEWED" -eq 0 ]; then
+  echo "⚠️  Codex hasn't reviewed yet. Manually triggering..."
+  gh pr comment $PR_NUMBER --body "@codex review"
+  sleep 120  # Wait 2 more minutes
+fi
+
+if [ "$COPILOT_REVIEWED" -eq 0 ]; then
+  echo "⚠️  Copilot hasn't reviewed yet. Manually triggering..."
+  gh pr comment $PR_NUMBER --body "@copilot review"
+  sleep 120  # Wait 2 more minutes
+fi
 ```
 
-### 5. Read and Analyze Bot Comments
+### 5. Read and Analyze BOTH Bot Reviews
 
 ```bash
-# Get all line-level comments from Copilot
+# Read Codex review (chatgpt-codex-connector)
+echo "=== CODEX REVIEW ==="
+gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '.[] | select(.user.login == "chatgpt-codex-connector") | {
+    state: .state,
+    body: .body
+  }'
+
+# Count P1 issues from Codex
+CODEX_P1=$(gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '.[] | select(.user.login == "chatgpt-codex-connector") | .body' \
+  | grep -c "P1:" || echo 0)
+
+echo "Codex P1 issues: $CODEX_P1"
+
+# Read Copilot review (copilot-pull-request-reviewer)
+echo ""
+echo "=== COPILOT REVIEW ==="
+gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '.[] | select(.user.login == "copilot-pull-request-reviewer") | {
+    state: .state,
+    body: .body
+  }'
+
+# Get Copilot line-level comments
 gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/comments \
-  --jq '.[] | select(.user.login | contains("copilot") or contains("Copilot")) | {
+  --jq '.[] | select(.user.login == "Copilot") | {
     file: .path,
     line: .line,
     issue: .body,
@@ -98,9 +173,15 @@ gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/comments \
   }'
 ```
 
-### 6. Address Each Issue
+### 6. Address Issues from BOTH Bots
 
-For each Copilot comment:
+**Priority order:**
+1. Fix ALL Codex P1 issues (blocking)
+2. Fix ALL Copilot CHANGES_REQUESTED issues (blocking)
+3. Fix Codex P2 issues (should fix)
+4. Address Copilot suggestions (nice-to-have)
+
+For each issue:
 
 **If suggestion provided:**
 ```bash
@@ -119,18 +200,49 @@ git commit -m "fix({scope}): address Copilot feedback - {issue summary}"
 git push origin feature/{module}-{description}
 ```
 
-### 7. Verify Review Status
+### 7. Verify BOTH Bot Reviews (Blocking Check)
 
 ```bash
-# Check if Copilot approved or requested changes
-REVIEW_DECISION=$(gh pr view $PR_NUMBER --json reviewDecision --jq '.reviewDecision')
+# Get Codex review state
+CODEX_STATE=$(gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '.[] | select(.user.login == "chatgpt-codex-connector") | .state' | tail -1)
 
-# Possible values: APPROVED, CHANGES_REQUESTED, REVIEW_REQUIRED, ""
+# Count Codex P1 issues
+CODEX_P1_COUNT=$(gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '.[] | select(.user.login == "chatgpt-codex-connector") | .body' \
+  | grep -c "P1:" || echo 0)
 
-if [ "$REVIEW_DECISION" = "CHANGES_REQUESTED" ]; then
-  echo "⚠️  Copilot requested changes - not ready to merge"
+# Get Copilot review state
+COPILOT_STATE=$(gh api repos/coopeverything/TogetherOS/pulls/$PR_NUMBER/reviews \
+  --jq '.[] | select(.user.login == "copilot-pull-request-reviewer") | .state' | tail -1)
+
+# Check for blocking issues
+BLOCKED=false
+
+if [ "$CODEX_STATE" = "CHANGES_REQUESTED" ]; then
+  echo "❌ BLOCKED: Codex requested changes"
+  BLOCKED=true
+fi
+
+if [ "$CODEX_P1_COUNT" -gt 0 ]; then
+  echo "❌ BLOCKED: Codex found $CODEX_P1_COUNT P1 (critical) issues"
+  BLOCKED=true
+fi
+
+if [ "$COPILOT_STATE" = "CHANGES_REQUESTED" ]; then
+  echo "❌ BLOCKED: Copilot requested changes"
+  BLOCKED=true
+fi
+
+if [ "$BLOCKED" = true ]; then
+  echo ""
+  echo "Cannot merge until all blocking issues from BOTH bots are resolved."
+  echo "Address feedback and push updates, then wait for re-review."
   exit 1
 fi
+
+# If we reach here, both bots reviewed with no blocking issues
+echo "✅ Both Codex and Copilot reviewed - no blocking issues"
 ```
 
 ### 8. Check Status Checks
@@ -148,20 +260,28 @@ if [ "$CHECKS_PASS" != "true" ]; then
 fi
 ```
 
-### 9. Auto-Merge
+### 9. Auto-Merge (After Dual-Bot Approval)
 
 ```bash
-# Merge if:
-# - No CHANGES_REQUESTED review
-# - All status checks pass
-# - At least 1 approval OR no blocking reviews
+# Merge ONLY if:
+# - Tests passed (step 8)
+# - Codex reviewed with no P1 issues (step 7)
+# - Copilot reviewed with no CHANGES_REQUESTED (step 7)
+# - All blocking feedback addressed
 
 gh pr merge $PR_NUMBER \
   --squash \
   --delete-branch \
   --subject "{type}({scope}): {description}" \
-  --body "Automated merge after Copilot review and test validation"
+  --body "Automated merge after Codex + Copilot review and test validation.
+
+Reviews:
+- Codex (chatgpt-codex-connector): $CODEX_STATE
+- Copilot (copilot-pull-request-reviewer): $COPILOT_STATE
+- Tests: PASSED"
 ```
+
+**Note:** For SQL-only or documentation-only PRs where bots don't review, use `--admin` flag to bypass branch protection.
 
 ### 10. Monitor Deployment
 
