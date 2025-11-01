@@ -106,6 +106,6 @@ export function mapGoogleProfileToUser(profile: GoogleProfile): Partial<User> {
     oauth_avatar_url: profile.picture,
     oauth_locale: profile.locale,
     oauth_verified: profile.email_verified,
-    oauth_raw_profile: profile as any,
+    oauth_raw_profile: profile as Record<string, unknown>,
   };
 }

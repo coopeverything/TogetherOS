@@ -58,10 +58,8 @@ export async function GET(request: NextRequest) {
         // Link Google account to existing user
         user = await updateUser(user.id, userData);
       } else {
-        // Create new user
-        user = await createUser(userData.email!);
-        // Update with OAuth data
-        user = await updateUser(user.id, userData);
+        // Create new user with OAuth data in a single operation
+        user = await createUser(userData.email!, undefined, userData);
       }
     }
 

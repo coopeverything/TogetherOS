@@ -38,22 +38,39 @@ export interface User {
   oauth_avatar_url?: string;
   oauth_locale?: string;
   oauth_verified?: boolean;
-  oauth_raw_profile?: any;
+  oauth_raw_profile?: Record<string, unknown>;
   created_at: Date;
   updated_at: Date;
 }
 
 /**
- * Create a new user (email signup)
+ * Create a new user (email signup or OAuth)
  */
-export async function createUser(email: string, password?: string): Promise<User> {
+export async function createUser(email: string, password?: string, userData?: Partial<User>): Promise<User> {
   const passwordHash = password ? await bcrypt.hash(password, 10) : null;
 
+  // Build dynamic insert based on provided data
+  const fields = ['email', 'password_hash'];
+  const values: any[] = [email, passwordHash];
+  const placeholders = ['$1', '$2'];
+  
+  if (userData) {
+    let paramIndex = 3;
+    Object.entries(userData).forEach(([key, value]) => {
+      if (value !== undefined && key !== 'email' && key !== 'id' && key !== 'created_at' && key !== 'updated_at') {
+        fields.push(key);
+        values.push(value);
+        placeholders.push(`$${paramIndex}`);
+        paramIndex++;
+      }
+    });
+  }
+
   const result = await query<User>(
-    `INSERT INTO users (email, password_hash)
-     VALUES ($1, $2)
-     RETURNING id, email, email_verified, name, created_at, updated_at`,
-    [email, passwordHash]
+    `INSERT INTO users (${fields.join(', ')})
+     VALUES (${placeholders.join(', ')})
+     RETURNING *`,
+    values
   );
 
   return result.rows[0];
