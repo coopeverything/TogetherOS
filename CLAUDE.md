@@ -32,6 +32,9 @@
 ### yolo1
 Full-stack feature implementation: branch → code → test → commit → push → PR → deploy
 
+### auto-pr-merge
+Automated PR workflow: push → Copilot review → fix issues → merge → deploy. Quality-first automation with safety gates.
+
 ### status-tracker
 Progress tracking, next steps management, Notion session memory
 
@@ -57,9 +60,10 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 - See `yolo1` skill for details
 
 **CI on yolo branch:**
-- Lint/smoke: Disabled
-- Copilot/Codex reviewers: Enabled
-- Build verification: Required
+- Tests: Enabled (npm test)
+- Copilot code review: Enabled (GitHub Copilot PR reviewer bot)
+- Lint/smoke: Disabled (only runs on main)
+- Auto-deploy: Triggers on merge to production
 
 **Detailed workflows:** See `pr-formatter` and `yolo1` skills
 

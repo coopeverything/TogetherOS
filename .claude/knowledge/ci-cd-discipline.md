@@ -4,10 +4,11 @@
 
 ### The Rules
 1. **One tiny change per PR** — Smallest shippable increment only
-2. **Full files for YAML/JSON** — No partial patches
-3. **Fix one red check at a time** — Don't stack unrelated changes
-4. **Docs-first** — Any behavior/config change must update relevant docs
-5. **Proof lines required** — Every PR body includes validation output
+2. **All PRs require bot review** — Copilot must review all code before merge
+3. **Full files for YAML/JSON** — No partial patches
+4. **Fix one red check at a time** — Don't stack unrelated changes
+5. **Docs-first** — Any behavior/config change must update relevant docs
+6. **Proof lines required** — Every PR body includes validation output
 
 ---
 
@@ -494,9 +495,169 @@ If you add a keyword:
 
 ---
 
+## Automated PR Workflow (New Process)
+
+### Overview
+
+As of 2025-01-11, all code must go through automated PR review before merging to `yolo`. This ensures quality gates are met and prevents large, unreviewed code dumps.
+
+### Required Flow
+
+```
+feature branch → PR → Copilot review → fix issues → tests pass → merge → deploy
+```
+
+**No direct pushes to yolo allowed** (except emergency hotfixes with explicit approval).
+
+### Using auto-pr-merge Skill
+
+See `.claude/skills/auto-pr-merge.md` for complete documentation.
+
+**Quick start:**
+```bash
+# 1. Implement feature
+git checkout -b feature/my-change
+# ... make changes ...
+
+# 2. Push and create PR
+git push -u origin feature/my-change
+gh pr create --base yolo --title "..." --body "..."
+
+# 3. Wait for Copilot review (30-60 seconds)
+sleep 60
+
+# 4. Check for feedback
+gh pr view <num> --json reviews,comments
+
+# 5. Address all Copilot comments
+# ... fix issues ...
+git push origin feature/my-change
+
+# 6. Merge when approved and tests pass
+gh pr merge <num> --squash --delete-branch
+```
+
+### Quality Gates
+
+**PR will NOT auto-merge if:**
+- ❌ Copilot requested changes
+- ❌ Tests failing
+- ❌ >500 lines changed (split into smaller PRs)
+- ❌ Security-sensitive code (requires human approval)
+
+**PR will auto-merge when:**
+- ✅ Copilot approved OR no blocking reviews
+- ✅ All status checks pass
+- ✅ Change is <500 lines
+- ✅ Not flagged as security-sensitive
+
+### Copilot Review Integration
+
+**What Copilot checks:**
+- Security vulnerabilities (SQL injection, XSS, eval, etc.)
+- Performance issues (expensive operations in render, missing memoization)
+- Type safety (any usage, unsafe casts, missing null checks)
+- Code quality (unused variables, missing error handling, accessibility)
+- Best practices (React patterns, async/await, naming conventions)
+
+**How to request review:**
+Copilot automatically reviews all PRs. To manually trigger:
+```bash
+# Comment in PR
+@copilot review
+
+# Or request focused review
+@copilot review security
+@copilot review performance
+```
+
+### Example: Full Workflow
+
+```bash
+# Feature: Add user avatar upload
+
+# 1. Create branch
+git checkout yolo
+git checkout -b feature/user-avatar-upload
+
+# 2. Implement (small change)
+# - Add avatar field to User entity
+# - Add upload endpoint
+# - Add UI component
+
+git add lib/db/users.ts apps/api/src/modules/profiles/handlers/avatar.ts
+git commit -m "feat(profiles): add avatar upload endpoint"
+
+git push -u origin feature/user-avatar-upload
+
+# 3. Create PR
+gh pr create --base yolo \
+  --title "feat(profiles): Add user avatar upload" \
+  --body "Implements avatar upload via file or URL.
+
+Category: Cooperative Technology
+Keywords: profiles, avatar, upload, UX
+
+Waiting for Copilot review..."
+
+# 4. Get PR number
+PR=$(gh pr list --head feature/user-avatar-upload --json number --jq '.[0].number')
+
+# 5. Wait for Copilot
+sleep 60
+
+# 6. Check feedback
+gh api repos/coopeverything/TogetherOS/pulls/$PR/comments \
+  --jq '.[] | select(.user.login | contains("copilot")) | {file: .path, line: .line, issue: .body}'
+
+# Example output:
+# {
+#   "file": "apps/api/src/modules/profiles/handlers/avatar.ts",
+#   "line": 15,
+#   "issue": "Missing file size validation. Add check for max 5MB upload."
+# }
+
+# 7. Fix issue
+# Edit file to add size validation
+git add apps/api/src/modules/profiles/handlers/avatar.ts
+git commit -m "fix(profiles): add 5MB file size limit (Copilot feedback)"
+git push origin feature/user-avatar-upload
+
+# 8. Verify tests pass
+gh pr checks $PR --watch
+
+# 9. Merge
+gh pr merge $PR --squash --delete-branch
+
+# 10. Monitor deployment
+gh run watch $(gh run list --workflow=auto-deploy-production --limit 1 --json databaseId --jq '.[0].databaseId')
+```
+
+### Safety & Rollback
+
+If deployed code causes issues:
+
+```bash
+# Option 1: Revert via git
+git checkout yolo
+git revert <bad-commit-sha>
+git push origin yolo
+# Auto-deploy will deploy the revert
+
+# Option 2: Manual VPS rollback
+ssh root@72.60.27.167
+cd /var/www/togetheros
+git reset --hard <previous-good-commit>
+npm run build
+pm2 restart togetheros
+```
+
+---
+
 ## Related KB Files
 
 - [Main KB](./togetheros-kb.md) — Core principles, workflow
 - [Tech Stack](./tech-stack.md) — Tools, versions, dependencies
 - [Architecture](./architecture.md) — Code structure, patterns
 - [Cooperation Paths](./cooperation-paths.md) — Path labels and taxonomy
+- [Auto-PR-Merge Skill](../../.claude/skills/auto-pr-merge.md) — Complete automation workflow
