@@ -240,6 +240,292 @@ interface Proof {
 
 ---
 
+## Feed Module Entities
+
+The Feed module combines social media UX with structured deliberation. Entities support the conversion funnel: scroll → react → discuss → prioritize → vote → act.
+
+### Post
+
+Primary content unit in the feed (native or imported from social media).
+
+```typescript
+interface Post {
+  id: string                    // UUID
+  type: PostType                // 'native' | 'instagram' | 'tiktok' | 'twitter' | 'facebook' | 'other'
+  authorId: string              // Member UUID
+  groupId?: string              // Optional: scope to group
+
+  // Native post fields
+  title?: string                // 10-200 chars (optional for native posts)
+  content?: string              // Markdown, 1-5000 chars (native posts only)
+
+  // Import fields
+  sourceUrl?: string            // Original social media URL
+  sourcePreview?: MediaPreview  // Fetched metadata
+
+  // Shared fields
+  topics: string[]              // 1-5 Cooperation Path keywords
+  status: PostStatus            // 'active' | 'archived' | 'flagged' | 'hidden'
+  discussionThreadId?: string   // Link to forum thread if discussion opened
+  discussionCount: number       // # of discussion participants
+
+  createdAt: Date
+  updatedAt: Date
+}
+
+type PostType = 'native' | 'instagram' | 'tiktok' | 'twitter' | 'facebook' | 'other'
+type PostStatus = 'active' | 'archived' | 'flagged' | 'hidden'
+
+interface MediaPreview {
+  title: string                 // Post title from source
+  description?: string          // Post description
+  thumbnailUrl?: string         // Preview image
+  authorName?: string           // Original author handle
+  platform: string              // 'instagram', 'tiktok', etc.
+  embedHtml?: string            // Optional embed code
+  fetchedAt: Date
+}
+```
+
+**Validation:**
+- Native posts: `content` required (1-5000 chars), `title` optional (10-200 chars)
+- Import posts: `sourceUrl` required (valid URL), `sourcePreview` required
+- All posts: `topics` array (1-5 items), `status` valid enum
+
+---
+
+### Reaction
+
+Multi-dimensional engagement beyond simple "likes".
+
+```typescript
+interface Reaction {
+  id: string                    // UUID
+  postId: string                // Can be Post or ThreadPost
+  userId: string
+  type: ReactionType
+  createdAt: Date
+}
+
+type ReactionType =
+  | 'care'        // This matters to me
+  | 'insightful'  // This changed my perspective
+  | 'agree'       // I agree with this
+  | 'disagree'    // I respectfully disagree
+  | 'act'         // I want to take action on this
+  | 'question'    // I have questions about this
+
+interface ReactionCounts {
+  care: number
+  insightful: number
+  agree: number
+  disagree: number
+  act: number
+  question: number
+  total: number
+}
+```
+
+---
+
+### DiscussionThread
+
+Forum thread opened from a feed post.
+
+```typescript
+interface DiscussionThread {
+  id: string                    // UUID
+  postId: string                // Original feed post
+  title: string                 // Auto-generated or user-provided
+  topic: string                 // Primary topic tag
+  participantCount: number      // Unique participants
+  postCount: number             // Total posts in thread
+  createdAt: Date
+  lastActivityAt: Date
+}
+```
+
+---
+
+### ThreadPost
+
+Individual post within a discussion thread.
+
+```typescript
+interface ThreadPost {
+  id: string                    // UUID
+  threadId: string
+  authorId: string
+  content: string               // Markdown, 1-5000 chars
+  parentId?: string             // For nested replies (1 level deep)
+  createdAt: Date
+  updatedAt: Date
+}
+```
+
+---
+
+### PostRating
+
+Multi-dimensional quality rating for discussion posts.
+
+```typescript
+interface PostRating {
+  id: string                    // UUID
+  postId: string                // ThreadPost ID
+  raterId: string               // User who rated
+  language: number              // 1-5: Clarity, grammar
+  originality: number           // 1-5: Novel perspective
+  tone: number                  // 1-5: Cooperation-conducive
+  argument: number              // 1-5: Logical strength
+  createdAt: Date
+}
+
+interface AggregatedRating {
+  postId: string
+  ratingCount: number
+  averageLanguage: number
+  averageOriginality: number
+  averageTone: number
+  averageArgument: number
+  overallScore: number          // Weighted combination
+}
+```
+
+---
+
+### Priority
+
+User's personal prioritization of topics (private, used by Bridge AI).
+
+```typescript
+interface Priority {
+  id: string                    // UUID
+  userId: string
+  topic: string                 // Topic name
+  rank: number                  // User's ranking (1 = highest)
+  weight: number                // 1-10: How much do you care
+  updatedAt: Date
+}
+```
+
+**Privacy:** Private to user and Bridge AI. Only aggregate statistics are public.
+
+---
+
+### TopicSentiment
+
+Aggregated community sentiment on a topic (anonymous, public).
+
+```typescript
+interface TopicSentiment {
+  topic: string                 // Topic name
+  postCount: number             // Total posts on topic
+  participantCount: number      // Unique participants
+
+  // Reaction aggregation
+  reactions: ReactionCounts
+
+  // Calculated metrics
+  engagementScore: number       // Weighted reaction total
+  consensusScore: number        // Agree / (Agree + Disagree)
+  actionReadiness: number       // Act reactions / participants
+
+  // Priority aggregation (anonymous)
+  averagePriority: number       // Avg user priority rank
+  averageWeight: number         // Avg user care weight
+
+  lastUpdated: Date
+}
+```
+
+**Privacy:** Fully anonymous - no individual data exposed.
+
+---
+
+### Evidence
+
+Supporting evidence attached to viewpoints in discussions.
+
+```typescript
+interface Evidence {
+  id: string                    // UUID
+  postId: string                // ThreadPost ID
+  url: string                   // External link
+  title: string                 // Link title
+  snippet?: string              // Key excerpt
+  viewpoint: 'support' | 'oppose' | 'neutral'
+  verified: boolean             // Checked by Bridge/moderators
+  addedBy: string               // User ID
+  createdAt: Date
+}
+```
+
+---
+
+### UserReputation (Feed Module)
+
+Reputation earned through feed contributions.
+
+```typescript
+interface UserReputation {
+  userId: string
+
+  // Aggregate scores
+  totalPosts: number
+  averageLanguageRating: number
+  averageOriginalityRating: number
+  averageToneRating: number
+  averageArgumentRating: number
+
+  // Overall reputation
+  reputationScore: number       // Weighted combination
+
+  // Badges earned
+  badges: FeedBadge[]
+
+  updatedAt: Date
+}
+
+type FeedBadgeType =
+  | 'insightful-contributor'    // High originality ratings
+  | 'bridge-builder'            // High tone ratings
+  | 'original-thinker'          // Unique perspectives
+  | 'active-participant'        // High post count
+  | 'evidence-supporter'        // Adds quality evidence
+  | 'consensus-finder'          // Helps resolve disagreements
+
+interface FeedBadge {
+  id: string
+  type: FeedBadgeType
+  earnedAt: Date
+}
+```
+
+---
+
+### InterestProfile (Private)
+
+User's interest profile calculated by Bridge AI.
+
+```typescript
+interface InterestProfile {
+  userId: string
+  interests: TopicInterest[]    // Calculated percentages
+  lastUpdated: Date
+}
+
+interface TopicInterest {
+  topic: string
+  percentage: number            // Relative interest 0-100
+  activityCount: number         // # of interactions
+}
+```
+
+**Privacy:** VIEW ONLY - users can see their own profile but cannot directly edit. Calculated by Bridge based on reactions, discussion participation, and priorities.
+
+---
+
 ## Social Economy Models
 
 ### SupportPointsWallet

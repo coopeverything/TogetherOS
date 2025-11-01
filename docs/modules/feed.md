@@ -34,6 +34,53 @@ A feed that guides users from consumption to participation:
 
 ---
 
+## What Users Will Experience
+
+### For Casual Members (Scroll & React)
+
+You open TogetherOS and land on the **Feed** - a familiar social media experience but radically different:
+
+- **See posts from your community** mixed with content they've imported (Instagram, TikTok, X/Twitter, Facebook)
+- **Instead of "like,"** you react with **meaning:**
+  - ❤️ **Care** - This matters to me
+  - 💡 **Insightful** - This changed my perspective
+  - ✓ **Agree** - I agree with this
+  - ⚡ **Act** - I want to take action on this
+- **Filter by topics** you care about (Climate, Housing, Cooperative Economy, Common Wellbeing, etc.)
+- **Bridge AI quietly learns** what matters to you (private, never shared with other members)
+
+### For Engaged Members (Discuss & Prioritize)
+
+When a post sparks something:
+
+- Click **Discuss** → opens a structured thread with deliberation tools
+- **Rate post quality** on four dimensions: language, originality, tone, argument strength
+- **Add evidence** from credible sources to support or oppose viewpoints
+- Bridge AI **surfaces related posts** and perspectives you might have missed
+- **Minority opinions preserved** - dissenting voices are codified, not buried
+
+### For Active Contributors (Deliberate & Act)
+
+As issues gain traction:
+
+- **Prioritize:** Drag topics into your personal ranking (top 5 visible only to you, used by Bridge to understand community priorities)
+- Bridge uses aggregate priorities to show **anonymous community statistics:**
+  - "67% of members care about housing this week"
+  - "45% are actively discussing climate action"
+  - "Housing support increased 12% since last month"
+- **High-priority topics** automatically become **Proposals** in the Governance module when they hit thresholds
+- **Conversion funnel in action:** scroll → react → discuss → prioritize → deliberate → propose → vote → act
+
+### What Makes This Different
+
+- **No algorithm gaming:** You see what your community shares and what they think matters - not what maximizes engagement or advertising revenue
+- **Nuanced reactions:** Beyond binary like/dislike - express real human responses that convey meaning
+- **Privacy-first profiling:** Your interests and priorities stay private to you and Bridge; only aggregate anonymous statistics are public
+- **Action-oriented:** Everything flows toward **doing something together**, not just scrolling endlessly and feeling anxious
+- **Empathy-first moderation:** AI-assisted de-escalation, red-team prompts for bias, structured compromise labs when disagreements heat up
+
+---
+
 ## Key Entities
 
 ### Post
