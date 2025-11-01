@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     // Log activity
     await query(
       'INSERT INTO user_activity (user_id, action, metadata) VALUES ($1, $2, $3)',
-      [user.id, 'google_login', { provider: 'google' }]
+      [user.id, 'google_login', JSON.stringify({ provider: 'google' })]
     );
 
     // Set session cookie and redirect
