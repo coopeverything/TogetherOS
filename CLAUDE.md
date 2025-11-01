@@ -60,8 +60,12 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 - See `yolo1` skill for details
 
 **CI on yolo branch:**
-- Tests: Enabled (npm test)
-- Copilot code review: Enabled (GitHub Copilot PR reviewer bot)
+- Tests: Enabled (npm test) - REQUIRED ✅
+- Dual-bot code review: REQUIRED ✅
+  - **Codex** (`chatgpt-codex-connector`) - PRIMARY: P1 issues block merge
+  - **Copilot** (`copilot-pull-request-reviewer`) - SECONDARY: Change requests block merge
+  - Wait time: 5 minutes for both bots
+  - Either bot can block merge
 - Lint/smoke: Disabled (only runs on main)
 - Auto-deploy: Triggers on merge to production
 
