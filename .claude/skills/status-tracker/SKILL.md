@@ -45,6 +45,7 @@ This skill manages all progress tracking, status updates, and Notion memory for 
 
 ## Work Completed
 - [achievements]
+- Example: "Created test page at /test/profiles with component showcase"
 
 ## Discoveries
 - [findings, decisions, blockers]

@@ -52,6 +52,10 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 - All PRs target `yolo`
 - Auto-deploy to production on merge
 
+**Test Pages:** `/test/{module}` pattern
+- Component testing and demos at www.coopeverything.org/test/{module}
+- See `yolo1` skill for details
+
 **CI on yolo branch:**
 - Lint/smoke: Disabled
 - Copilot/Codex reviewers: Enabled
