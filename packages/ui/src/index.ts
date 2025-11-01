@@ -5,3 +5,4 @@
 export * from './bridge'
 export * from './groups'
 export * from './profiles'
+export * from './feed'
