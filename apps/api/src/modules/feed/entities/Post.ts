@@ -5,6 +5,11 @@ import type { Post as PostType, PostType as PostTypeEnum, PostStatus, MediaPrevi
 import { postSchema } from '@togetheros/validators'
 import { v4 as uuidv4 } from 'uuid'
 
+/** Maximum number of topics allowed per post */
+const MAX_TOPICS = 5
+/** Minimum number of topics required per post */
+const MIN_TOPICS = 1
+
 /**
  * Post entity
  * Represents a feed post (native or imported) with business logic
@@ -40,8 +45,8 @@ export class Post {
     const now = new Date()
 
     // Validate topics
-    if (input.topics.length === 0 || input.topics.length > 5) {
-      throw new Error('Post must have 1-5 topics')
+    if (input.topics.length < MIN_TOPICS || input.topics.length > MAX_TOPICS) {
+      throw new Error(`Post must have ${MIN_TOPICS}-${MAX_TOPICS} topics`)
     }
 
     const validated = postSchema.parse({
@@ -92,8 +97,8 @@ export class Post {
     const now = new Date()
 
     // Validate topics
-    if (input.topics.length === 0 || input.topics.length > 5) {
-      throw new Error('Post must have 1-5 topics')
+    if (input.topics.length < MIN_TOPICS || input.topics.length > MAX_TOPICS) {
+      throw new Error(`Post must have ${MIN_TOPICS}-${MAX_TOPICS} topics`)
     }
 
     // Determine platform from URL or preview
