@@ -16,6 +16,12 @@ updates:
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
+    groups:
+      major-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "version-update:semver-major"
 
   # GitHub Actions updates
   - package-ecosystem: "github-actions"
