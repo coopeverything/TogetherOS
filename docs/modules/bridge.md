@@ -7,7 +7,7 @@
 - Structure deliberations (thread tidying)
 - Improve discourse (moderation assistance)
 
-**Status:** 0% implementation, detailed spec complete
+**Status:** 40% implementation (Landing Pilot phase), core infrastructure complete
 **Owner:** @coopeverything-core
 **Labels:** `module:bridge`, `type:increment`
 **Current priority:** Landing pilot (internal MVP)
@@ -424,6 +424,116 @@ Ship minimal `/bridge` page for visitors to ask "What is TogetherOS?" and get mi
 7. CI proof lines: `LINT=OK`, `VALIDATORS=GREEN`, `SMOKE=OK`
 
 **Detailed spec:** `docs/modules/bridge/landing-pilot.md`
+
+---
+
+## Current Implementation Status (Landing Pilot)
+
+### ✅ What's Complete (40%)
+
+#### Backend & API
+- **Streaming Q&A endpoint:** `apps/web/app/api/bridge/ask/route.ts` (272 lines)
+  - OpenAI GPT-3.5-turbo integration
+  - RAG with docs indexing
+  - Rate limiting (30 req/hour/IP, configurable)
+  - NDJSON logging with IP hashing
+  - Error taxonomy (204, 401, 429, 500)
+  - Source citations appended to responses
+
+#### Shared Libraries
+- **docs-indexer.ts** (179 lines) — Document scanning, keyword search, citation sources
+- **logger.ts** (118 lines) — NDJSON append-only logging, IP hashing
+- **rate-limiter.ts** (114 lines) — In-memory sliding window rate limiter
+
+#### Frontend & UI
+- **BridgeChat component:** `packages/ui/src/bridge/BridgeChat.tsx` (201 lines)
+  - Streaming state management (idle, loading, streaming, error, rate-limited)
+  - Markdown link rendering
+  - Error display with user-friendly messages
+- **Page route:** `apps/web/app/bridge/page.tsx` (minimal wrapper)
+
+#### Testing & Validation
+- **Unit tests:** `packages/ui/src/bridge/__tests__/BridgeChat.test.tsx` (240 lines)
+  - Full coverage: rendering, input, submission, error states, streaming
+- **NDJSON validator:** `scripts/validate-bridge-logs.sh` (79 lines)
+  - Format validation, required fields check, SHA-256 hash validation
+- **CI integration:** `scripts/validate.sh` calls Bridge validator automatically
+
+#### Documentation
+- **Module spec:** `docs/modules/bridge.md` (this file)
+- **Landing pilot spec:** `docs/modules/bridge/landing-pilot.md` (222 lines)
+- **Configuration guide:** `docs/modules/bridge/configuration.md` (222 lines)
+- **Progress tracking:** `docs/modules/bridge/progress.md` (190 lines)
+
+---
+
+### 🔴 Critical Gaps (Required for "Done")
+
+#### Tier 1: Shipping Blockers (5-10 hours)
+1. **Test with real OpenAI API key** (Size: XS, 1-2 hours)
+   - Set up `OPENAI_API_KEY` in production `.env`
+   - Verify end-to-end streaming works
+   - Confirm NDJSON logs write correctly
+   - Test rate limiting in practice
+   - **Acceptance:** Live `/bridge` page streams answers successfully
+
+2. **Seed FAQ from testers** (Size: S, 4-8 hours)
+   - Create `docs/modules/bridge/faq-seed.md`
+   - Collect 10-30 curated Q&A pairs from internal testers
+   - Measure helpful rating (target: ≥70%)
+   - Track p95 time-to-first-token (target: <800ms)
+   - **Acceptance:** FAQ seed file created with quality questions
+
+#### Tier 2: Quality Gates (8-16 hours)
+3. **Storybook stories** (Size: M, 6-12 hours including setup)
+   - **Blocker:** Storybook not set up in repo yet (no `.storybook/` directory)
+   - Install and configure Storybook
+   - Create `packages/ui/src/bridge/BridgeChat.stories.tsx`
+   - Cover all states: empty, loading, streaming, success, errors (204, 429, 500)
+   - Add accessibility addon
+   - **Acceptance:** Storybook URL accessible, stories pass a11y checks
+
+4. **Accessibility audit** (Size: XS, 2-4 hours)
+   - Run axe/lighthouse on `/bridge` page
+   - Fix any critical issues (labels, focus rings, keyboard nav)
+   - Test reduced motion support
+   - Verify keyboard-only navigation
+   - **Acceptance:** axe passes, Lighthouse a11y ≥90, keyboard-only nav works
+
+**Total Effort to "Done": 13-26 hours**
+
+---
+
+### 🟡 Future Phases (Not Blocking Landing Pilot)
+
+These are documented in the spec but explicitly deferred:
+
+- **Phase 0:** Knowledge Dataset (`docs.jsonl`), Bridge Ethics Charter
+- **Phase 2:** Thread Tidy endpoint, Citation chips UI, MCP server integration
+- **Phase 3:** Moderation assist features
+- **Phase 4:** Federation capabilities
+
+**See full phase details in sections above.**
+
+---
+
+### Priority Order
+
+**Immediate (This Week):**
+1. Set up OpenAI API key in production
+2. Test Bridge endpoint end-to-end
+3. Fix any bugs discovered in testing
+
+**Short-term (Next 2 Weeks):**
+1. Install and configure Storybook
+2. Create BridgeChat stories
+3. Run accessibility audit and fix issues
+4. Collect first 10 FAQ entries from testers
+
+**After Landing Pilot Ships:**
+1. Monitor usage metrics (p95 latency, helpful rating)
+2. Iterate on FAQ based on real questions
+3. Plan Phase 2 (citations) based on user feedback
 
 ---
 
