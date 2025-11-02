@@ -9,6 +9,9 @@ import { danger, warn, fail } from 'danger';
 const pr = danger.github.pr;
 const body = pr.body || '';
 
+// Skip proof line validation for Dependabot PRs
+const isDependabot = pr.user.login === 'dependabot[bot]';
+
 // Required proof line patterns
 const requiredProofLines = [
   { pattern: /LINT=OK/i, name: 'LINT=OK' },
@@ -21,48 +24,52 @@ const optionalProofLines = [
   { pattern: /DOCS=OK/i, name: 'DOCS=OK' },
 ];
 
-// Check required proof lines
-let missingRequired = [];
-for (const proofLine of requiredProofLines) {
-  if (!proofLine.pattern.test(body)) {
-    missingRequired.push(proofLine.name);
+// Check required proof lines (skip for Dependabot)
+if (!isDependabot) {
+  let missingRequired = [];
+  for (const proofLine of requiredProofLines) {
+    if (!proofLine.pattern.test(body)) {
+      missingRequired.push(proofLine.name);
+    }
+  }
+
+  if (missingRequired.length > 0) {
+    fail(
+      `❌ Missing required proof lines: ${missingRequired.join(', ')}\n\n` +
+      `Please add proof lines to your PR description after running validation locally.\n\n` +
+      `Expected format:\n` +
+      `\`\`\`\n` +
+      `LINT=OK\n` +
+      `VALIDATORS=GREEN (or SMOKE=OK)\n` +
+      `\`\`\``
+    );
   }
 }
 
-if (missingRequired.length > 0) {
-  fail(
-    `❌ Missing required proof lines: ${missingRequired.join(', ')}\n\n` +
-    `Please add proof lines to your PR description after running validation locally.\n\n` +
-    `Expected format:\n` +
-    `\`\`\`\n` +
-    `LINT=OK\n` +
-    `VALIDATORS=GREEN (or SMOKE=OK)\n` +
-    `\`\`\``
-  );
-}
-
-// Check optional proof lines (warn only)
-let missingOptional = [];
-for (const proofLine of optionalProofLines) {
-  if (!proofLine.pattern.test(body)) {
-    missingOptional.push(proofLine.name);
+// Check optional proof lines (skip for Dependabot)
+if (!isDependabot) {
+  let missingOptional = [];
+  for (const proofLine of optionalProofLines) {
+    if (!proofLine.pattern.test(body)) {
+      missingOptional.push(proofLine.name);
+    }
   }
-}
 
-if (missingOptional.length > 0) {
-  warn(
-    `⚠️  Consider adding these proof lines: ${missingOptional.join(', ')}\n\n` +
-    `Run \`./scripts/validate.sh\` locally to generate proof lines.`
-  );
-}
+  if (missingOptional.length > 0) {
+    warn(
+      `⚠️  Consider adding these proof lines: ${missingOptional.join(', ')}\n\n` +
+      `Run \`./scripts/validate.sh\` locally to generate proof lines.`
+    );
+  }
 
-// Check for category and keywords
-if (!/Category:/i.test(body)) {
-  warn('⚠️  PR description should include "Category: <one of 8 Cooperation Paths>"');
-}
+  // Check for category and keywords
+  if (!/Category:/i.test(body)) {
+    warn('⚠️  PR description should include "Category: <one of 8 Cooperation Paths>"');
+  }
 
-if (!/Keywords:/i.test(body)) {
-  warn('⚠️  PR description should include "Keywords: comma, separated, words"');
+  if (!/Keywords:/i.test(body)) {
+    warn('⚠️  PR description should include "Keywords: comma, separated, words"');
+  }
 }
 
 // Warn if PR is too large
