@@ -22,14 +22,33 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { token, password } = body;
 
-    if (!token || !password) {
+    // Strict type validation - prevent type confusion attacks
+    if (typeof token !== 'string' || typeof password !== 'string') {
+      return NextResponse.json(
+        { error: 'Token and password must be strings' },
+        { status: 400 }
+      );
+    }
+
+    // Reject empty strings
+    if (token.trim() === '' || password.trim() === '') {
       return NextResponse.json(
         { error: 'Token and password required' },
         { status: 400 }
       );
     }
 
-    // Validate password strength (basic)
+    // Verify token FIRST before any password validation (timing attack prevention)
+    const userId = await verifyResetToken(token);
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'Invalid or expired reset token' },
+        { status: 400 }
+      );
+    }
+
+    // Validate password strength AFTER token verification
     if (password.length < 8) {
       return NextResponse.json(
         { error: 'Password must be at least 8 characters' },
@@ -37,12 +56,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify token
-    const userId = await verifyResetToken(token);
-
-    if (!userId) {
+    // Additional password complexity check
+    if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
       return NextResponse.json(
-        { error: 'Invalid or expired reset token' },
+        { error: 'Password must contain both letters and numbers' },
         { status: 400 }
       );
     }

@@ -141,6 +141,62 @@ async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPr
 }
 
 /**
+ * Validate URL against allowlist to prevent SSRF
+ */
+function validateUrlAgainstAllowlist(url: string): void {
+  const ALLOWED_DOMAINS = [
+    'instagram.com',
+    'tiktok.com',
+    'twitter.com',
+    'x.com',
+    'facebook.com',
+    'fb.com',
+    'youtube.com',
+    'youtu.be',
+    'linkedin.com',
+  ]
+
+  let parsedUrl: URL
+  try {
+    parsedUrl = new URL(url)
+  } catch {
+    throw new Error('Invalid URL')
+  }
+
+  // Ensure HTTPS only (prevent protocol-level attacks)
+  if (parsedUrl.protocol !== 'https:') {
+    throw new Error('Only HTTPS URLs are allowed')
+  }
+
+  // Check hostname against allowlist
+  const hostname = parsedUrl.hostname.toLowerCase()
+  const isAllowed = ALLOWED_DOMAINS.some(
+    (domain) => hostname === domain || hostname.endsWith(`.${domain}`)
+  )
+
+  if (!isAllowed) {
+    throw new Error(`URL domain not allowed. Supported: ${ALLOWED_DOMAINS.join(', ')}`)
+  }
+
+  // Prevent internal network access
+  const BLOCKED_IPS = [
+    '127.0.0.1',
+    'localhost',
+    '0.0.0.0',
+    '::1',
+  ]
+
+  if (BLOCKED_IPS.some((ip) => hostname === ip || hostname.startsWith(ip))) {
+    throw new Error('Access to internal network resources is forbidden')
+  }
+
+  // Prevent IP address access (only domain names allowed)
+  if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(hostname)) {
+    throw new Error('Direct IP address access is not allowed')
+  }
+}
+
+/**
  * Main entry point: Fetch social media link preview
  * Tries oEmbed first, falls back to Open Graph
  */
@@ -151,12 +207,8 @@ export async function fetchSocialMediaPreview(
   // Rate limiting
   checkRateLimit(ip)
 
-  // Validate URL
-  try {
-    new URL(url)
-  } catch {
-    throw new Error('Invalid URL')
-  }
+  // Validate URL and check against allowlist (SSRF protection)
+  validateUrlAgainstAllowlist(url)
 
   // Detect platform
   const platform = detectPlatform(url)

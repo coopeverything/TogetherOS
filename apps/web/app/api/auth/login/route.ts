@@ -12,14 +12,32 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body;
 
-    if (!email || !password) {
+    // Strict input validation - reject non-string inputs
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return NextResponse.json(
+        { error: 'Email and password must be strings' },
+        { status: 400 }
+      );
+    }
+
+    // Reject empty strings
+    if (email.trim() === '' || password.trim() === '') {
       return NextResponse.json(
         { error: 'Email and password required' },
         { status: 400 }
       );
     }
 
-    // Verify credentials
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      );
+    }
+
+    // Verify credentials (secure constant-time comparison in verifyPassword)
     const user = await verifyPassword(email, password);
     if (!user) {
       return NextResponse.json(
