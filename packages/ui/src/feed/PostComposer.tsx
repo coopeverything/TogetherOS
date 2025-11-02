@@ -1,15 +1,23 @@
 // packages/ui/src/feed/PostComposer.tsx
 // Modal for creating native posts or importing social media content
+// Phase 3: Includes Bridge topic suggestions
 
 'use client'
 
 import { useState } from 'react'
+
+export interface TopicSuggestion {
+  topic: string
+  confidence: number
+  reason: string
+}
 
 export interface PostComposerProps {
   isOpen: boolean
   onClose: () => void
   onSubmit: (data: CreatePostData) => void | Promise<void>
   topics: string[]  // Available topic tags
+  onSuggestTopics?: (content: string, title?: string) => TopicSuggestion[]  // Bridge topic suggestion callback
 }
 
 export interface CreatePostData {
@@ -24,12 +32,13 @@ export interface CreatePostData {
   groupId?: string
 }
 
-export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopics }: PostComposerProps) {
+export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopics, onSuggestTopics }: PostComposerProps) {
   const [mode, setMode] = useState<'native' | 'import'>('native')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [sourceUrl, setSourceUrl] = useState('')
   const [selectedTopics, setSelectedTopics] = useState<string[]>([])
+  const [suggestedTopics, setSuggestedTopics] = useState<TopicSuggestion[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   if (!isOpen) return null
@@ -68,6 +77,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
       setContent('')
       setSourceUrl('')
       setSelectedTopics([])
+      setSuggestedTopics([])
       onClose()
     } catch (error) {
       console.error('Failed to create post:', error)
@@ -84,6 +94,28 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
       setSelectedTopics([...selectedTopics, topic])
     } else {
       alert('Maximum 5 topics allowed')
+    }
+  }
+
+  const handleGetSuggestions = () => {
+    if (!onSuggestTopics) {
+      alert('Topic suggestions not available')
+      return
+    }
+
+    const textToAnalyze = mode === 'native' ? content : sourceUrl
+    if (!textToAnalyze) {
+      alert('Please add some content first')
+      return
+    }
+
+    const suggestions = onSuggestTopics(textToAnalyze, mode === 'native' ? title : undefined)
+    setSuggestedTopics(suggestions)
+  }
+
+  const addSuggestedTopic = (topic: string) => {
+    if (!selectedTopics.includes(topic) && selectedTopics.length < 5) {
+      setSelectedTopics([...selectedTopics, topic])
     }
   }
 
@@ -199,6 +231,78 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                   </p>
                 </div>
               </>
+            )}
+
+            {/* Bridge Topic Suggestions (Phase 3) */}
+            {onSuggestTopics && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-semibold text-gray-900">
+                    🤖 AI Topic Suggestions
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={handleGetSuggestions}
+                    disabled={!content && !sourceUrl}
+                    className="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Get Suggestions
+                  </button>
+                </div>
+
+                {suggestedTopics.length > 0 ? (
+                  <div className="space-y-2">
+                    {suggestedTopics.map((suggestion) => (
+                      <div
+                        key={suggestion.topic}
+                        className="flex items-center justify-between bg-white rounded p-2"
+                      >
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm text-gray-900">
+                              {suggestion.topic}
+                            </span>
+                            <span
+                              className="text-xs px-2 py-0.5 rounded-full"
+                              style={{
+                                backgroundColor: suggestion.confidence > 0.7
+                                  ? '#dcfce7'
+                                  : suggestion.confidence > 0.4
+                                    ? '#fef3c7'
+                                    : '#fee2e2',
+                                color: suggestion.confidence > 0.7
+                                  ? '#166534'
+                                  : suggestion.confidence > 0.4
+                                    ? '#92400e'
+                                    : '#991b1b',
+                              }}
+                            >
+                              {Math.round(suggestion.confidence * 100)}% match
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-600 mt-1">{suggestion.reason}</p>
+                        </div>
+                        {!selectedTopics.includes(suggestion.topic) && selectedTopics.length < 5 && (
+                          <button
+                            type="button"
+                            onClick={() => addSuggestedTopic(suggestion.topic)}
+                            className="ml-2 px-3 py-1 bg-orange-600 text-white text-xs rounded-lg hover:bg-orange-700 transition-colors"
+                          >
+                            Add
+                          </button>
+                        )}
+                        {selectedTopics.includes(suggestion.topic) && (
+                          <span className="ml-2 text-xs text-green-600 font-medium">✓ Added</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-gray-600">
+                    Click "Get Suggestions" to let Bridge analyze your content and suggest relevant topics.
+                  </p>
+                )}
+              </div>
             )}
 
             {/* Topic selection */}

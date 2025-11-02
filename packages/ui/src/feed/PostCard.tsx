@@ -35,6 +35,12 @@ export interface PostCardProps {
   /** Callback when discuss button clicked */
   onDiscuss?: (postId: string) => void
 
+  /** Callback when topic clicked (Phase 3: topic filtering) */
+  onTopicClick?: (topic: string) => void
+
+  /** Callback when "Show related" clicked (Phase 3: Bridge intelligence) */
+  onShowRelated?: (postId: string) => void
+
   /** Optional CSS class name */
   className?: string
 }
@@ -89,6 +95,8 @@ export function PostCard({
   userReaction,
   onReact,
   onDiscuss,
+  onTopicClick,
+  onShowRelated,
   className = '',
 }: PostCardProps) {
   const platformColor = getPlatformColor(post.type)
@@ -113,13 +121,29 @@ export function PostCard({
             )}
             <span className="text-sm text-gray-500">{formatTimeAgo(post.createdAt)}</span>
           </div>
-          {/* Topics */}
-          <div className="flex gap-1 mt-1 flex-wrap">
+          {/* Topics (Phase 3: clickable for filtering) */}
+          <div className="flex gap-1 mt-1 flex-wrap items-center">
             {post.topics.map((topic) => (
-              <span key={topic} className="text-xs text-orange-600 hover:underline cursor-pointer">
+              <button
+                key={topic}
+                type="button"
+                onClick={() => onTopicClick?.(topic)}
+                className="text-xs text-orange-600 hover:underline cursor-pointer hover:text-orange-800 transition-colors"
+                title={`Filter by ${topic}`}
+              >
                 #{topic.replace(/\s+/g, '')}
-              </span>
+              </button>
             ))}
+            {onShowRelated && post.topics.length > 0 && (
+              <button
+                type="button"
+                onClick={() => onShowRelated(post.id)}
+                className="ml-2 text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                title="Show related posts"
+              >
+                🔗 Show related
+              </button>
+            )}
           </div>
         </div>
       </div>
