@@ -297,6 +297,14 @@ Action: Add progress marker to PR body, update next steps
 - Check "Claude Memory" parent page exists
 - Ensure proper permissions for page creation
 
+**Notion UUID validation error?**
+- **Symptom**: `"path.block_id should be a valid uuid, instead was \"29fd133a-246e-811db872-eccf65334c38\""`
+- **Cause**: Claude Code internal bug (issue #5504) - occasionally corrupts UUIDs by removing one dash
+- **Pattern**: Dash removed at position 18 (e.g., `811d-b872` becomes `811db872`)
+- **Fix**: Simply retry the operation with the original correct UUID - second attempt usually succeeds
+- **Not our bug**: This is a Claude Code serialization issue, not our code or the MCP server
+- **Status**: No workaround needed beyond manual retry - track as known issue
+
 ## Reference
 
 **Full Documentation:**

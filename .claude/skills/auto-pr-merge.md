@@ -27,40 +27,169 @@ Use this skill when you want to:
 ## Prerequisites
 
 - ✅ **Dual bot reviewers enabled:**
-  - `chatgpt-codex-connector` (OpenAI Codex) - PRIMARY reviewer
-  - `copilot-pull-request-reviewer` (GitHub Copilot) - SECONDARY reviewer
+  - `chatgpt-codex-connector` (OpenAI Codex) - PRIMARY reviewer (inline reviews)
+  - `copilot-swe-agent` (GitHub Copilot SWE) - SECONDARY reviewer (creates sub-PRs)
 - ✅ Branch protection on `yolo` with status checks
 - ✅ Tests configured and passing
 - ✅ Auto-deploy workflow ready (`.github/workflows/auto-deploy-production.yml`)
 
 ## Dual-Bot Review System
 
-**Every PR must be reviewed by BOTH bots before merge:**
+**Every PR gets reviewed by BOTH bots before merge:**
 
-### Bot 1: Codex (chatgpt-codex-connector)
+### Bot 1: Codex (chatgpt-codex-connector) - INLINE REVIEWS
 - OpenAI GPT-4 powered code analysis
-- Provides detailed feedback with priority levels:
+- Provides **inline review comments** on the same PR
+- Priority levels:
   - **P1** (Critical) - BLOCKS MERGE - Must fix before merge
   - **P2** (Important) - Should fix before merge
   - **P3** (Nice-to-have) - Can defer to future PR
 - Review format: Comprehensive analysis with specific recommendations
+- **Manual trigger**: Comment `@codex review` on PR
 
-### Bot 2: Copilot (copilot-pull-request-reviewer)
-- GitHub native review bot
-- Provides overview summary + line-by-line comments
-- Can REQUEST CHANGES (blocks merge)
-- Review format: Summary + inline suggestions with ```suggestion blocks
+### Bot 2: Copilot SWE Agent (copilot-swe-agent) - SUB-PR CREATOR
+- GitHub Copilot code writing bot
+- Creates **separate sub-PR** with suggested fixes (not inline review)
+- Branch naming: `copilot/sub-pr-{parent-pr-number}`
+- Sub-PR must be evaluated BEFORE merging parent PR
+- **Manual trigger**: Comment `@copilot review` on PR
 
 ### Merge Requirements (ALL must be true)
 - ✅ Tests pass
-- ✅ Codex reviewed (no P1 issues)
-- ✅ Copilot reviewed (no CHANGES_REQUESTED)
+- ✅ Codex reviewed (no P1 issues fixed)
+- ✅ Copilot sub-PR evaluated (useful changes cherry-picked or noted)
 - ✅ All blocking issues addressed
 
-### Either Bot Can Block Merge
-- Codex P1 issue → ❌ Cannot merge
-- Copilot CHANGES_REQUESTED → ❌ Cannot merge
-- Both must approve (or at minimum: both reviewed with no blocks)
+### Codex Can Block Merge
+- Codex P1 issue → ❌ Cannot merge until fixed
+- Copilot sub-PR → ⚠️  Evaluate before merging (may contain important fixes)
+
+## Handling Copilot SWE Agent Sub-PRs
+
+**IMPORTANT:** When you comment `@copilot review`, the bot creates a **separate PR** with suggested fixes, NOT inline comments.
+
+### Detection
+
+After triggering Copilot review, wait 2-5 minutes then check for sub-PR:
+
+```bash
+# Get your PR number
+PR_NUMBER=$(gh pr list --head feature/{your-branch} --json number --jq '.[0].number')
+
+# Check if Copilot created a sub-PR
+SUB_PR=$(gh pr list --author "app/copilot-swe-agent" \
+  --search "sub-pr-$PR_NUMBER in:title" \
+  --json number --jq '.[0].number // empty')
+
+if [ -n "$SUB_PR" ]; then
+  echo "✓ Copilot created sub-PR #$SUB_PR"
+  gh pr view $SUB_PR
+else
+  echo "ℹ No sub-PR created by Copilot"
+fi
+```
+
+### Evaluation Workflow
+
+**Step 1: Review Sub-PR Changes**
+```bash
+# View sub-PR diff
+gh pr diff $SUB_PR
+
+# Read PR description to understand what Copilot is fixing
+gh pr view $SUB_PR --json title,body --jq '{title, body}'
+```
+
+**Step 2: Decision Tree**
+
+Choose one option:
+
+**Option A: Cherry-pick useful changes** (recommended for security/bug fixes)
+```bash
+# Checkout sub-PR branch
+gh pr checkout $SUB_PR
+
+# View commits
+git log --oneline copilot/sub-pr-$PR_NUMBER ^yolo
+
+# Return to your feature branch
+git checkout feature/{your-branch}
+
+# Cherry-pick specific commits (replace SHA)
+git cherry-pick <commit-sha>
+
+# Or merge entire sub-PR branch if all changes useful
+git merge --no-ff copilot/sub-pr-$PR_NUMBER -m "merge: incorporate Copilot sub-PR fixes"
+
+# Push updates
+git push origin feature/{your-branch}
+
+# Close sub-PR with comment
+gh pr close $SUB_PR --comment "Changes incorporated into parent PR #$PR_NUMBER via cherry-pick. Thank you Copilot!"
+```
+
+**Option B: Note for later** (for suggestions that aren't urgent)
+```bash
+# Add comment to sub-PR acknowledging the feedback
+gh pr comment $SUB_PR --body "Thanks for the suggestions. These improvements are noted for a future PR focused on code quality. Closing sub-PR as parent PR #$PR_NUMBER will merge first."
+
+# Close sub-PR
+gh pr close $SUB_PR
+
+# Document findings in parent PR
+gh pr comment $PR_NUMBER --body "Note: Copilot sub-PR #$SUB_PR suggested improvements to [list topics]. Will address in follow-up PR."
+```
+
+**Option C: Ignore** (only if sub-PR has no useful changes)
+```bash
+# Close with explanation
+gh pr close $SUB_PR --comment "Sub-PR created after parent was already reviewed and ready to merge. No additional changes needed."
+```
+
+### **CRITICAL: Always handle sub-PR BEFORE merging parent PR**
+
+**Wrong workflow** (creates orphaned sub-PRs):
+```
+❌ Merge parent PR → Sub-PR becomes conflicted → Must close stale sub-PR
+```
+
+**Correct workflow**:
+```
+✅ Check for sub-PR → Evaluate changes → Cherry-pick or note → Merge parent PR → Close sub-PR
+```
+
+### Auto-Detection in PR Workflow
+
+Add this step after waiting for Codex review:
+
+```bash
+# After Codex reviews and you fix P1 issues
+# Before merging, check for Copilot sub-PR
+
+SUB_PR=$(gh pr list --author "app/copilot-swe-agent" \
+  --search "sub-pr-$PR_NUMBER" --json number --jq '.[0].number // empty')
+
+if [ -n "$SUB_PR" ]; then
+  echo "⚠️  Copilot created sub-PR #$SUB_PR"
+  echo "Evaluate sub-PR before merging:"
+  gh pr view $SUB_PR
+
+  # Prompt for action
+  read -p "Action: [c]herry-pick, [n]ote, [i]gnore? " action
+
+  case $action in
+    c) gh pr checkout $SUB_PR
+       echo "Review commits and cherry-pick:"
+       git log --oneline
+       ;;
+    n) gh pr comment $SUB_PR --body "Noted for future PR"
+       gh pr close $SUB_PR
+       ;;
+    i) gh pr close $SUB_PR --comment "No changes needed"
+       ;;
+  esac
+fi
+```
 
 ## Workflow Steps
 

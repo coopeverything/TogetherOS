@@ -573,40 +573,52 @@ gh pr merge <num> --squash --delete-branch
 gh pr comment <PR#> --body "@codex review"
 ```
 
-#### Bot 2: Copilot (`copilot-pull-request-reviewer`) - SECONDARY
-**What Copilot checks:**
-- Security vulnerabilities
-- Performance issues (render optimization, memoization)
-- Type safety (any usage, unsafe casts, null checks)
-- Code quality (unused variables, error handling, accessibility)
-- Best practices (React patterns, async/await)
+#### Bot 2: Copilot SWE Agent (`copilot-swe-agent`) - SECONDARY
+**What Copilot SWE Agent does:**
+- Creates **separate sub-PR** with suggested fixes (NOT inline review)
+- Suggests improvements for:
+  - Security vulnerabilities
+  - Performance issues (render optimization, memoization)
+  - Type safety (any usage, unsafe casts, null checks)
+  - Code quality (unused variables, error handling, accessibility)
+  - Best practices (React patterns, async/await)
 
-**Review states:**
-- **APPROVED**: No blocking issues
-- **COMMENTED**: Suggestions (non-blocking)
-- **CHANGES_REQUESTED**: BLOCKS MERGE
+**Output format:**
+- **Sub-PR** on branch `copilot/sub-pr-{parent-pr-number}`
+- Contains actual code changes, not just comments
+- Must be evaluated BEFORE merging parent PR
 
 **Manual trigger:**
 ```bash
 gh pr comment <PR#> --body "@copilot review"
-# Or focused:
-# @copilot review security
-# @copilot review performance
+
+# Then check for sub-PR (wait 2-5 minutes):
+SUB_PR=$(gh pr list --author "app/copilot-swe-agent" \
+  --search "sub-pr-<PR#>" --json number --jq '.[0].number // empty')
 ```
+
+**Handling sub-PRs:**
+1. **Cherry-pick** useful changes to parent PR branch
+2. **Note** for later if not urgent
+3. **Close** sub-PR after evaluating (don't let it orphan)
 
 ### Merge Requirements (Dual-Bot Gate)
 
 **PR can ONLY merge if:**
 - ✅ Tests pass
-- ✅ Codex reviewed (NO P1 issues)
-- ✅ Copilot reviewed (NO CHANGES_REQUESTED)
-- ✅ Both bots completed their reviews
+- ✅ Codex reviewed (NO P1 issues fixed)
+- ✅ Copilot sub-PR evaluated (changes cherry-picked or noted)
+- ✅ Sub-PR closed with explanation
 
-**Either bot can block:**
-- ❌ Codex P1 issue → Cannot merge
-- ❌ Copilot CHANGES_REQUESTED → Cannot merge
+**Codex can block:**
+- ❌ Codex P1 issue → Cannot merge until fixed
 
-**Wait time:** 5 minutes after opening PR for both bots to review
+**Copilot sub-PR workflow:**
+- ⚠️  Check for sub-PR before merging parent
+- ⚠️  Evaluate changes, cherry-pick if useful
+- ⚠️  Close sub-PR to avoid orphaning
+
+**Wait time:** 5 minutes after opening PR + 2-5 minutes for sub-PR creation
 
 ### Example: Full Workflow
 
