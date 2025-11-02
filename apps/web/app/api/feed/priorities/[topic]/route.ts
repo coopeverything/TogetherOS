@@ -8,9 +8,10 @@ import { query } from '@/lib/db';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { topic: string } }
+  { params }: { params: Promise<{ topic: string }> }
 ) {
   try {
+    const { topic } = await params;
     const userId = request.headers.get('x-user-id'); // TODO: Get from session
 
     if (!userId) {
@@ -22,7 +23,7 @@ export async function DELETE(
 
     await query(
       'DELETE FROM priorities WHERE user_id = $1 AND topic = $2',
-      [userId, params.topic]
+      [userId, topic]
     );
 
     return NextResponse.json({ success: true });

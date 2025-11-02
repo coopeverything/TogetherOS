@@ -8,9 +8,10 @@ import { query } from '@/lib/db';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
+    const { postId } = await params;
     const userId = request.headers.get('x-user-id'); // TODO: Get from session
 
     if (!userId) {
@@ -46,7 +47,7 @@ export async function POST(
         argument_score = $6,
         updated_at = NOW()
       RETURNING *`,
-      [params.postId, userId, language, originality, tone, argument]
+      [postId, userId, language, originality, tone, argument]
     );
 
     return NextResponse.json(result.rows[0]);
@@ -61,9 +62,10 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
+    const { postId } = await params;
     const userId = request.headers.get('x-user-id'); // TODO: Get from session
 
     if (!userId) {
@@ -77,7 +79,7 @@ export async function GET(
     const result = await query(
       `SELECT * FROM post_ratings
        WHERE post_id = $1 AND user_id = $2`,
-      [params.postId, userId]
+      [postId, userId]
     );
 
     if (result.rows.length === 0) {

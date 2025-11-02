@@ -8,10 +8,10 @@ import { findUserByUsername } from '@/lib/db/users';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   try {
-    const { username } = params;
+    const { username } = await params;
 
     // Fetch user by username
     const user = await findUserByUsername(username);

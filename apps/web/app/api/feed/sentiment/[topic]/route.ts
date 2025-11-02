@@ -8,9 +8,10 @@ import { query } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { topic: string } }
+  { params }: { params: Promise<{ topic: string }> }
 ) {
   try {
+    const { topic } = await params;
     const searchParams = request.nextUrl.searchParams;
     const range = searchParams.get('range') || 'month';
 
@@ -43,7 +44,7 @@ export async function GET(
        WHERE topic = $1
          AND date > NOW() - INTERVAL '${interval}'
        ORDER BY date ASC`,
-      [params.topic]
+      [topic]
     );
 
     // Format dates as ISO strings for JSON

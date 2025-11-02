@@ -9,9 +9,10 @@ import { query } from '@/lib/db';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
+    const { postId } = await params;
     const userId = request.headers.get('x-user-id'); // TODO: Get from session
 
     if (!userId) {
@@ -51,7 +52,7 @@ export async function POST(
       `INSERT INTO evidence (post_id, user_id, url, viewpoint, description)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [params.postId, userId, url, viewpoint, description || null]
+      [postId, userId, url, viewpoint, description || null]
     );
 
     return NextResponse.json(result.rows[0]);
@@ -66,9 +67,10 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
+    const { postId } = await params;
     const result = await query(
       `SELECT
         e.*,
@@ -77,7 +79,7 @@ export async function GET(
        JOIN users u ON e.user_id = u.id
        WHERE e.post_id = $1
        ORDER BY e.verified DESC, e.created_at ASC`,
-      [params.postId]
+      [postId]
     );
 
     return NextResponse.json(result.rows);

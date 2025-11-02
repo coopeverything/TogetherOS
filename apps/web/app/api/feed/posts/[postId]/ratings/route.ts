@@ -9,14 +9,15 @@ import { query } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
+    const { postId } = await params;
     // Get aggregate ratings from materialized view
     const result = await query(
       `SELECT * FROM post_rating_aggregates
        WHERE post_id = $1`,
-      [params.postId]
+      [postId]
     );
 
     if (result.rows.length === 0) {
