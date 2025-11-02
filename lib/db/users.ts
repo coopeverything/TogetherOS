@@ -32,6 +32,17 @@ export interface User {
   };
   onboarding_step?: string;
   onboarding_completed_at?: Date;
+  // OAuth fields
+  google_id?: string;
+  facebook_id?: string;
+  bluesky_handle?: string;
+  mastodon_handle?: string;
+  instagram_id?: string;
+  oauth_display_name?: string;
+  oauth_avatar_url?: string;
+  oauth_locale?: string;
+  oauth_verified?: boolean;
+  oauth_raw_profile?: any;
   created_at: Date;
   updated_at: Date;
 }

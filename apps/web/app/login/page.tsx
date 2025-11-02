@@ -87,6 +87,11 @@ export default function LoginPage() {
               disabled={state === 'loading'}
               required
             />
+            <div style={{ marginTop: '0.5rem', textAlign: 'right' }}>
+              <Link href="/forgot-password" style={{ fontSize: '0.875rem', color: 'var(--brand-600)' }}>
+                Forgot password?
+              </Link>
+            </div>
           </div>
 
           {state === 'error' && (
@@ -106,8 +111,12 @@ export default function LoginPage() {
           </div>
 
           <div className={styles.oauthButtons}>
-            <button type="button" className={styles.oauthButton} disabled>
-              Google <span className={styles.comingSoon}>(soon)</span>
+            <button
+              type="button"
+              className={styles.oauthButton}
+              onClick={() => window.location.href = '/api/auth/google'}
+            >
+              Google
             </button>
             <button type="button" className={styles.oauthButton} disabled>
               Facebook <span className={styles.comingSoon}>(soon)</span>
