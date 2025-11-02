@@ -3,7 +3,16 @@
 
 'use client'
 
-import type { CommunityPriorityStats } from '../../../apps/api/src/services/feed/PriorityService'
+// Type definition for community priority statistics
+export interface CommunityPriorityStats {
+  topic: string
+  userCount: number
+  percentageOfCommunity: number
+  averageWeight: number
+  averageRank: number
+  trendDirection: 'up' | 'down' | 'stable'
+  trendPercentage: number
+}
 
 export interface CommunityPrioritiesMapProps {
   stats: CommunityPriorityStats[]

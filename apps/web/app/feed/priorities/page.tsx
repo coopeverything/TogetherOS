@@ -1,8 +1,23 @@
 'use client';
 
+import { useState } from 'react';
 import { PriorityList } from '@togetheros/ui/feed';
+import type { Priority } from '@togetheros/types';
 
 export default function PrioritiesPage() {
+  // Mock data for now - TODO: Replace with API call
+  const [priorities, setPriorities] = useState<Priority[]>([]);
+
+  const handleUpdatePriority = (topic: string, rank: number, weight: number) => {
+    setPriorities(prev =>
+      prev.map(p => (p.topic === topic ? { ...p, rank, weight } : p))
+    );
+  };
+
+  const handleRemovePriority = (topic: string) => {
+    setPriorities(prev => prev.filter(p => p.topic !== topic));
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-8">
@@ -12,7 +27,11 @@ export default function PrioritiesPage() {
         </p>
       </div>
 
-      <PriorityList />
+      <PriorityList
+        priorities={priorities}
+        onUpdatePriority={handleUpdatePriority}
+        onRemovePriority={handleRemovePriority}
+      />
 
       <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
         <h2 className="font-semibold mb-2">How priorities work</h2>

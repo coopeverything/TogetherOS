@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     const user = await createUser(email, password);
 
     // Create session and log in automatically
-    const ip = request.headers.get('x-forwarded-for') || request.ip || 'unknown';
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
     const userAgent = request.headers.get('user-agent') || 'unknown';
     const token = await createSession(user.id, user.email, ip, userAgent);
 

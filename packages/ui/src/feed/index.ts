@@ -23,7 +23,7 @@ export type { PostComposerProps, CreatePostData, TopicSuggestion } from './PostC
 export type { ThreadViewProps } from './ThreadView'
 export type { DuplicateThreadModalProps, SimilarThread } from './DuplicateThreadModal'
 export type { PriorityListProps } from './PriorityList'
-export type { CommunityPrioritiesMapProps } from './CommunityPrioritiesMap'
+export type { CommunityPrioritiesMapProps, CommunityPriorityStats } from './CommunityPrioritiesMap'
 export type { TopicSentiment, SentimentMapProps } from './SentimentMap'
 export type { SentimentDataPoint, TrendLinesProps } from './TrendLines'
 export type { ActionRecommendation, ActionRecommendationsProps } from './ActionRecommendations'

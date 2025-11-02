@@ -59,4 +59,7 @@ export async function close() {
   await pool.end();
 }
 
-export default { query, getClient, close };
+// Export pool for health checks
+export { pool };
+
+export default { query, getClient, close, pool };

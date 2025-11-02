@@ -1,8 +1,13 @@
 'use client';
 
 import { CommunityPrioritiesMap } from '@togetheros/ui/feed';
+import type { CommunityPriorityStats } from '@togetheros/ui/feed';
 
 export default function CommunityMapPage() {
+  // Mock data for now - TODO: Replace with API call
+  const mockStats: CommunityPriorityStats[] = [];
+  const mockTotalUsers = 0;
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
@@ -12,7 +17,7 @@ export default function CommunityMapPage() {
         </p>
       </div>
 
-      <CommunityPrioritiesMap />
+      <CommunityPrioritiesMap stats={mockStats} totalUsers={mockTotalUsers} />
 
       <div className="mt-8 grid md:grid-cols-2 gap-6">
         <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
