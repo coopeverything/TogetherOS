@@ -2,9 +2,11 @@ node_modules/
 .env
 .env.local
 .env.*.local
+ecosystem.config.js
 .DS_Store
-# Allow .env.example
+# Allow .env.example and ecosystem.config.example.js
 !.env.example
+!ecosystem.config.example.js
 dist/
 build/
 .next/
