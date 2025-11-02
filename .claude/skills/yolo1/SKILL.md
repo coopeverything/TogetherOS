@@ -93,11 +93,18 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - If validation fails, fix issues and retry
 - These proof lines should be included in PR body
 
-### 7. Git Operations
+### 7. Security Check (Recommended)
+- Check for open critical CodeQL alerts before creating PR
+- Run: `gh api repos/coopeverything/TogetherOS/code-scanning/alerts --jq '[.[] | select(.state == "open" and .rule.severity == "error")] | length'`
+- If critical alerts exist, warn about them (don't block, just inform)
+- Include security status in PR body: `SECURITY=OK (0 new critical alerts)` or `SECURITY=WARN (X critical alerts exist)`
+- View alerts at: https://github.com/coopeverything/TogetherOS/security/code-scanning
+
+### 8. Git Operations
 - Commit with message: `feat({module}): {slice} - {scope}`
 - Push branch: `git push -u origin feature/{module}-{slice}`
 
-### 8. Progress & Next Steps Update
+### 9. Progress & Next Steps Update
 
 **Use `status-tracker` skill** to:
 - Calculate estimated progress increase based on work completed
@@ -106,7 +113,7 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - Add any new tasks discovered during implementation
 - Prepare progress marker for PR body (e.g., `progress:bridge=+10`)
 
-### 9. PR Creation with Auto-Category & Progress
+### 10. PR Creation with Auto-Category & Progress
 
 **Use `pr-formatter` skill** to:
 - Auto-select Cooperation Path from module
