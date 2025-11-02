@@ -14,6 +14,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Profiles](./profiles.md)
 - [Groups & Orgs](./groups.md)
 - [Feed](./feed.md) — Social media feed with imported content, multi-dimensional reactions, and discussion initiation (Phase 1: 20% complete)
+- [Gamification](./gamification.md) — Local community growth tracking, milestone celebrations, invitation rewards (15% complete — spec only)
 - [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation (Feed discussions flow here)
 - [Proposals & Decisions (Governance)](../../governance.md)
 - [Social Economy Primitives](modules/social-economy.md)

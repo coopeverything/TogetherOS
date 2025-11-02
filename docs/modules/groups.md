@@ -522,6 +522,7 @@ interface FederatedGroupSync {
 - **Events:** Group events calendar
 - **Social Economy:** Shared resource pools
 - **Forum:** Group discussions
+- **Gamification:** Milestone tracking, growth progress bars, invitation rewards (see `docs/modules/gamification.md`)
 
 ---
 
@@ -566,6 +567,7 @@ interface FederatedGroupSync {
 - [Cooperation Paths](../cooperation-paths.md) — Community Connection taxonomy
 - [Governance Module](./governance.md) — Group-scoped proposals
 - [Social Economy](./social-economy.md) — Shared resource coordination
+- [Gamification Module](./gamification.md) — Local community growth tracking, milestones, invitation rewards
 
 ---
 

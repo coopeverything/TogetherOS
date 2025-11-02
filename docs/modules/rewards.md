@@ -104,7 +104,35 @@ const SP_WEIGHTS = {
 - Barter units exchangeable for help/mentorship within network
 - Support Points partially convertible (e.g., 100 SP → 1 hour credit)
 
-### 4. Social Horizon Fractions (Future)
+### 4. Reward Points (RP)
+**Purpose:** Gamification-specific points earned through community growth actions
+
+**How They Work:**
+- Earned through specific gamified actions (inviting members, organizing meetups, launching initiatives)
+- Used to unlock progression badges and celebrate community milestones
+- Distinct from Support Points (different purpose and mechanics)
+
+**Distinction from Support Points:**
+
+| Aspect | Support Points (SP) | Reward Points (RP) |
+|--------|---------------------|-------------------|
+| **Purpose** | Signal priorities, measure contribution across all domains | Incentivize specific community growth actions |
+| **How Earned** | Verified contributions (PRs, proposals, facilitation, care work) | Gamified actions (invitations, meetup organization, milestone achievements) |
+| **How Used** | Allocated to proposals (max 10 per idea), convertible to timebank/Social Horizon | Unlock badges, progression in skill trees |
+| **Reclaimed** | Yes, when proposals close | No, permanently earned |
+| **Initial Allocation** | 100 SP per member | 100 RP starting balance (if invited) |
+| **Module** | Social Economy, Rewards | Gamification |
+
+**Example RP Actions:**
+- Send invitation: +25 RP
+- Invitee joins: +50 RP
+- Organize first meetup (15+ members): +100 RP
+- Launch working group (50+ members): +150 RP
+- Mentor new group (100+ members): +200 RP
+
+See `docs/modules/gamification.md` for complete RP system specification.
+
+### 5. Social Horizon Fractions (Future)
 - Cooperative currency for lasting value creation
 - Distributed with anti-speculation safeguards
 - Tied to verified community benefit

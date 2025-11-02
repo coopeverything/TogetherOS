@@ -1142,6 +1142,7 @@ const upsertPrioritySchema = z.object({
 - **Bridge:** All AI intelligence (clustering, profiling, recommendations)
 - **Profiles:** Reputation display, interest tags
 - **Notifications:** Feed activity alerts
+- **Gamification:** GroupGrowthTracker sidebar widget, local community stats, invitation CTAs (see `docs/modules/gamification.md`)
 
 ---
 
