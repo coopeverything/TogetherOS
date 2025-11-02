@@ -120,6 +120,38 @@ System may be prompting even when operation is in allow list
 
 ---
 
+## Time Estimation Guidelines
+
+**Context:** TogetherOS development = just the operator + Claude in yolo mode (no human devs)
+
+**Realistic Estimates for Claude Autonomous Work:**
+
+| Task Type | Human-Estimated | Claude Actual | Ratio |
+|-----------|----------------|---------------|-------|
+| Comprehensive spec (1,000+ lines) | 2-3 hours | **10-15 min** | ~10-12x faster |
+| Module 0% → 100% (Groups) | 8-12 hours | **3 hours** | ~3-4x faster |
+| Full-stack feature (yolo1 skill) | 4-6 hours | **30-45 min** | ~6-8x faster |
+| Documentation updates | 1-2 hours | **5-10 min** | ~8-12x faster |
+| PR workflow (create → review → merge) | 30-60 min | **5-10 min** | ~5-6x faster |
+
+**Why Claude Is Faster:**
+- No context switching or interruptions
+- Parallel file operations (read/write/edit simultaneously)
+- Instant recall of project patterns and conventions
+- No manual typing delays
+- Automated git/PR workflows
+
+**Adjust Estimates in Docs:**
+- When writing specs, use **Claude-time estimates** (10-15 min vs 2-3 hours)
+- Module implementation phases: Divide human estimates by 6-10x
+- Don't over-promise completion times to external stakeholders (use conservative Claude estimates)
+
+**Example:**
+- ❌ "Estimated time: ~2.5-3 hours" (human assumption)
+- ✅ "Estimated time: ~15-20 minutes (Claude autonomous)" (realistic)
+
+---
+
 ## Session Memory
 
 **Notion Memory:** See `status-tracker` skill for session page format and workflow
