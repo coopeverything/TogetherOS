@@ -14,7 +14,7 @@
 
 ## Required Checks (Gate to Merge)
 
-### ci/lint (Always Required)
+### ci/lint (Required for main PRs)
 **Purpose:** Validate all GitHub workflow YAML
 
 **Tools:**
@@ -28,7 +28,12 @@ PROOF: ACTIONLINT=OK
 PROOF: LINT=OK
 ```
 
-**Branch Protection:** ✅ **ci/lint** always required
+**Branch Protection:**
+- ✅ **main branch:** ci/lint REQUIRED (enforced by CI)
+- ⚠️  **yolo branch:** ci/lint does NOT run (fast iteration mode)
+  - Developers run `./scripts/validate.sh` locally
+  - Danger.js requires `TESTS=OK` for yolo PRs (not `LINT=OK`)
+  - Lint validation happens when syncing to main branch
 
 ---
 
@@ -131,23 +136,33 @@ SECURITY=WARN (X critical alerts exist)
 
 ## PR Body Convention
 
-### Required Proof Lines (Human-Visible)
-Every PR description must include:
+### Required Proof Lines (Two-Tier System)
+
+**Proof lines differ by target branch:**
+
+**For PRs targeting yolo branch:**
+```
+Category: <one of the 8 canonical Cooperation Paths>
+Keywords: comma, separated, words
+
+TESTS=OK
+```
+
+**Optional for yolo (recommended):**
+```
+LINT=OK
+VALIDATORS=GREEN
+DOCS=OK
+```
+
+**For PRs targeting main branch:**
 ```
 Category: <one of the 8 canonical Cooperation Paths>
 Keywords: comma, separated, words
 
 LINT=OK
-SMOKE=OK (or VALIDATORS=GREEN)
-```
-
-**For docs-only PRs:**
-```
-Category: Cooperative Technology
-Keywords: documentation, ci, playbook
-
-DOCS=OK
-LINT=OK
+SMOKE=OK
+TESTS=OK
 ```
 
 **For CI/docs or infra changes:**

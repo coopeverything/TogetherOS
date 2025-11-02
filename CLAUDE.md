@@ -69,6 +69,16 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 - Lint/smoke: Disabled (only runs on main)
 - Auto-deploy: Triggers on merge to production
 
+**Proof lines for yolo PRs:**
+- `TESTS=OK` - REQUIRED (matches CI validation)
+- `LINT=OK` - Optional (run `./scripts/validate.sh` locally for best practices)
+- `VALIDATORS=GREEN`, `DOCS=OK` - Optional
+
+**Proof lines for main PRs:**
+- `LINT=OK` - REQUIRED (CI validates)
+- `SMOKE=OK` - REQUIRED (CI validates)
+- `TESTS=OK` - REQUIRED (CI validates)
+
 **Detailed workflows:** See `pr-formatter` and `yolo1` skills
 
 ---

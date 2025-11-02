@@ -12,17 +12,31 @@ const body = pr.body || '';
 // Skip proof line validation for Dependabot PRs
 const isDependabot = pr.user.login === 'dependabot[bot]';
 
-// Required proof line patterns
-const requiredProofLines = [
-  { pattern: /LINT=OK/i, name: 'LINT=OK' },
-];
+// Detect target branch for two-tier proof line requirements
+const isYoloPR = pr.base.ref === 'yolo';
+
+// Required proof lines differ by branch (align with actual CI checks)
+// Yolo: Tests only (lint/smoke don't run on yolo branch)
+// Main: Full suite (lint + smoke + tests all run on main branch)
+const requiredProofLines = isYoloPR
+  ? [{ pattern: /TESTS=OK/i, name: 'TESTS=OK' }]
+  : [
+      { pattern: /LINT=OK/i, name: 'LINT=OK' },
+      { pattern: /SMOKE=OK/i, name: 'SMOKE=OK' },
+      { pattern: /TESTS=OK/i, name: 'TESTS=OK' },
+    ];
 
 // Optional proof lines (warn if missing)
-const optionalProofLines = [
-  { pattern: /VALIDATORS=GREEN/i, name: 'VALIDATORS=GREEN' },
-  { pattern: /SMOKE=OK/i, name: 'SMOKE=OK' },
-  { pattern: /DOCS=OK/i, name: 'DOCS=OK' },
-];
+const optionalProofLines = isYoloPR
+  ? [
+      { pattern: /LINT=OK/i, name: 'LINT=OK' },
+      { pattern: /VALIDATORS=GREEN/i, name: 'VALIDATORS=GREEN' },
+      { pattern: /DOCS=OK/i, name: 'DOCS=OK' },
+    ]
+  : [
+      { pattern: /VALIDATORS=GREEN/i, name: 'VALIDATORS=GREEN' },
+      { pattern: /DOCS=OK/i, name: 'DOCS=OK' },
+    ];
 
 // Check required proof lines (skip for Dependabot)
 if (!isDependabot) {
@@ -34,13 +48,19 @@ if (!isDependabot) {
   }
 
   if (missingRequired.length > 0) {
+    const branchInfo = isYoloPR
+      ? `yolo branch (tests only)`
+      : `main branch (full validation)`;
+    const exampleFormat = isYoloPR
+      ? `TESTS=OK\nLINT=OK (optional, run ./scripts/validate.sh locally)`
+      : `LINT=OK\nSMOKE=OK\nTESTS=OK`;
+
     fail(
-      `❌ Missing required proof lines: ${missingRequired.join(', ')}\n\n` +
+      `❌ Missing required proof lines for ${branchInfo}: ${missingRequired.join(', ')}\n\n` +
       `Please add proof lines to your PR description after running validation locally.\n\n` +
       `Expected format:\n` +
       `\`\`\`\n` +
-      `LINT=OK\n` +
-      `VALIDATORS=GREEN (or SMOKE=OK)\n` +
+      `${exampleFormat}\n` +
       `\`\`\``
     );
   }
