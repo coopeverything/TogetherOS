@@ -74,6 +74,46 @@ PROOF: SMOKE=OK
 
 ---
 
+### Security Checks (Recommended)
+
+**Purpose:** Verify no new critical security issues introduced
+
+**Tool:** GitHub CodeQL code scanning
+
+**Check Command:**
+```bash
+gh api repos/coopeverything/TogetherOS/code-scanning/alerts \
+  --jq '[.[] | select(.state == "open" and .rule.severity == "error")] | length'
+```
+
+**Proof Lines:**
+```
+SECURITY=OK (0 new critical alerts)
+# or
+SECURITY=WARN (X critical alerts exist)
+```
+
+**When to use:**
+- Before creating PRs (integrated in yolo1 skill Step 7)
+- After fixing security vulnerabilities
+- When modifying authentication, authorization, or data validation code
+
+**When to block merge:**
+- New P1 (error-level) alerts introduced by PR changes
+- Existing P1 alerts in files modified by PR (must be addressed first)
+- Security-sensitive code (auth routes, data validation) with open alerts
+
+**View alerts:** https://github.com/coopeverything/TogetherOS/security/code-scanning
+
+**Alert Severity Levels:**
+- **Error (P1)** — Critical vulnerabilities (SSRF, auth bypass, injection attacks) - MUST FIX
+- **Warning (P2)** — Medium-severity issues (incomplete validation, race conditions) - SHOULD FIX
+- **Note (P3)** — Code quality issues (unused variables, style) - CAN DEFER
+
+**Branch Protection:** Optional (advisory-only, doesn't block)
+
+---
+
 ## When Workflows Run
 
 ### Pull Request → main
