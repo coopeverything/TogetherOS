@@ -3,10 +3,14 @@ updates:
   # Enable version updates for npm dependencies
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "yolo"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "06:00"
+    cooldown:
+      default-days: 0
+      semver-major-days: 30
     open-pull-requests-limit: 10
     reviewers:
       - "coopeverything/maintainers"
@@ -26,6 +30,7 @@ updates:
   # GitHub Actions updates
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "yolo"
     schedule:
       interval: "weekly"
       day: "monday"
