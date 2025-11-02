@@ -598,13 +598,14 @@ gh pr merge <num> --squash --delete-branch
 - ❌ Copilot requested changes
 - ❌ Tests failing
 - ❌ >500 lines changed (split into smaller PRs)
-- ❌ Security-sensitive code (requires human approval)
+- ❌ Codex P1 (critical) issues unfixed
 
-**PR will auto-merge when:**
+**PR can merge when:**
 - ✅ Copilot approved OR no blocking reviews
+- ✅ Codex reviewed (no unfixed P1 issues)
 - ✅ All status checks pass
 - ✅ Change is <500 lines
-- ✅ Not flagged as security-sensitive
+- ✅ Human approval NOT REQUIRED (bot reviews sufficient)
 
 ### Dual-Bot Review Integration
 
@@ -661,9 +662,14 @@ SUB_PR=$(gh pr list --author "app/copilot-swe-agent" \
 
 **PR can ONLY merge if:**
 - ✅ Tests pass
-- ✅ Codex reviewed (NO P1 issues fixed)
+- ✅ Codex reviewed (NO P1 issues unfixed)
 - ✅ Copilot sub-PR evaluated (changes cherry-picked or noted)
 - ✅ Sub-PR closed with explanation
+
+**Branch Protection (yolo branch):**
+- ✅ Required: Test status check must pass
+- ✅ Required: Bot reviews (Codex + Copilot)
+- ❌ NOT required: Human approval (removed 2025-11-02)
 
 **Codex can block:**
 - ❌ Codex P1 issue → Cannot merge until fixed
