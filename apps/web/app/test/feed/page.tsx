@@ -7,10 +7,14 @@ import {
   PostList,
   PostComposer,
   ThreadView,
-  type CreatePostData
+  DuplicateThreadModal,
+  type CreatePostData,
+  type TopicSuggestion,
+  type SimilarThread as SimilarThreadUI
 } from '@togetheros/ui';
-import type { Post, ReactionType, ThreadPost } from '@togetheros/types';
+import type { Post, ReactionType, ThreadPost, DiscussionThread } from '@togetheros/types';
 import { Card, Button, Badge } from '@/components/ui';
+import { TopicIntelligence, AVAILABLE_TOPICS } from '@/../../apps/api/src/services/bridge';
 
 // Mock user IDs (matching feed fixtures)
 const ALICE_ID = '00000000-0000-0000-0000-000000000001';
@@ -26,14 +30,31 @@ const AUTHOR_NAMES: Record<string, string> = {
   [DAVE_ID]: 'Dave Wilson',
 };
 
-// Available topics
-const AVAILABLE_TOPICS = [
-  'Community Connection',
-  'Common Planet',
-  'Social Economy',
-  'Cooperative Technology',
-  'Collective Governance',
-  'Common Wellbeing',
+// Available topics (now from Bridge intelligence service)
+// const AVAILABLE_TOPICS is imported from TopicIntelligence
+
+// Mock discussion threads for duplicate detection testing
+const MOCK_THREADS: DiscussionThread[] = [
+  {
+    id: 'thread-1',
+    postId: '1',
+    title: 'Community Garden Planning and Organization',
+    topic: 'Community Connection',
+    participantCount: 12,
+    postCount: 34,
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    lastActivityAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
+  },
+  {
+    id: 'thread-2',
+    postId: '2',
+    title: 'Housing Cooperative Formation Steps',
+    topic: 'Social Economy',
+    participantCount: 8,
+    postCount: 19,
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+    lastActivityAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+  },
 ];
 
 // Sample posts for showcase
@@ -187,6 +208,11 @@ export default function FeedTestPage() {
   const [composerOpen, setComposerOpen] = useState(false);
   const [showcaseComposerOpen, setShowcaseComposerOpen] = useState(false);
 
+  // Phase 3: Bridge intelligence state
+  const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
+  const [similarThreads, setSimilarThreads] = useState<SimilarThreadUI[]>([]);
+  const [proposedThreadTitle, setProposedThreadTitle] = useState('');
+
   // Handlers
   const handleReact = (postId: string, type: ReactionType) => {
     if (userReactions[postId] === type) {
@@ -199,7 +225,70 @@ export default function FeedTestPage() {
   };
 
   const handleDiscuss = (postId: string) => {
-    alert(`Discussion thread view coming in Phase 3! Post ID: ${postId}`);
+    // Phase 3: Check for duplicate threads before creating discussion
+    const post = demoPosts.find(p => p.id === postId);
+    if (!post) return;
+
+    const title = post.title || post.content?.substring(0, 100) || 'Discussion';
+    const topic = post.topics[0] || 'General';
+
+    // Use Bridge intelligence to find similar threads
+    const similar = TopicIntelligence.findSimilarThreads(
+      title,
+      post.content || '',
+      topic,
+      MOCK_THREADS,
+      5
+    );
+
+    if (similar.length > 0) {
+      setProposedThreadTitle(title);
+      setSimilarThreads(similar);
+      setDuplicateModalOpen(true);
+    } else {
+      alert(`No similar threads found. Creating new discussion: "${title}"`);
+    }
+  };
+
+  // Phase 3: Topic suggestion handler for PostComposer
+  const handleSuggestTopics = (content: string, title?: string): TopicSuggestion[] => {
+    return TopicIntelligence.suggestTopics(content, title);
+  };
+
+  // Phase 3: Topic filtering handler
+  const handleTopicClick = (topic: string) => {
+    setSelectedTopic(topic === selectedTopic ? undefined : topic);
+  };
+
+  // Phase 3: Show related posts handler
+  const handleShowRelated = (postId: string) => {
+    const post = demoPosts.find(p => p.id === postId);
+    if (!post) return;
+
+    const similar = TopicIntelligence.findSimilarPosts(
+      post.content || '',
+      post.topics,
+      demoPosts.filter(p => p.id !== postId),
+      5
+    );
+
+    if (similar.length > 0) {
+      alert(`Found ${similar.length} similar posts! (Bridge intelligence working)`);
+    } else {
+      alert('No similar posts found.');
+    }
+  };
+
+  // Phase 3: Duplicate modal handlers
+  const handleJoinThread = (threadId: string) => {
+    const thread = MOCK_THREADS.find(t => t.id === threadId);
+    alert(`Joining existing discussion: "${thread?.title}"`);
+    setDuplicateModalOpen(false);
+  };
+
+  const handleCreateNewThread = () => {
+    alert(`Creating new discussion: "${proposedThreadTitle}"`);
+    setDuplicateModalOpen(false);
   };
 
   const handleCreatePost = async (data: CreatePostData) => {
@@ -245,7 +334,8 @@ export default function FeedTestPage() {
           <div className="mt-3 flex gap-2">
             <Badge variant="brand">Phase 1 ✓</Badge>
             <Badge variant="brand">Phase 2 ✓</Badge>
-            <Badge variant="default">Phase 3 (Next)</Badge>
+            <Badge variant="brand">Phase 3 ✓</Badge>
+            <Badge variant="default">Phase 4+ (Next)</Badge>
           </div>
         </div>
 
@@ -286,7 +376,7 @@ export default function FeedTestPage() {
 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">Native Post (with title)</h3>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Native Post (with title) - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[0]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[0].authorId]}
@@ -294,11 +384,13 @@ export default function FeedTestPage() {
                       userReaction={userReactions['1']}
                       onReact={handleReact}
                       onDiscuss={handleDiscuss}
+                      onTopicClick={handleTopicClick}
+                      onShowRelated={handleShowRelated}
                     />
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">Native Post (without title)</h3>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Native Post (without title) - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[1]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[1].authorId]}
@@ -306,28 +398,34 @@ export default function FeedTestPage() {
                       userReaction={userReactions['2']}
                       onReact={handleReact}
                       onDiscuss={handleDiscuss}
+                      onTopicClick={handleTopicClick}
+                      onShowRelated={handleShowRelated}
                     />
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">Imported Instagram Post</h3>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Imported Instagram Post - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[2]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[2].authorId]}
                       reactionCounts={reactionCounts['3']}
                       onReact={handleReact}
                       onDiscuss={handleDiscuss}
+                      onTopicClick={handleTopicClick}
+                      onShowRelated={handleShowRelated}
                     />
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">Imported Twitter/X Post</h3>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Imported Twitter/X Post - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[3]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[3].authorId]}
                       reactionCounts={reactionCounts['4']}
                       onReact={handleReact}
                       onDiscuss={handleDiscuss}
+                      onTopicClick={handleTopicClick}
+                      onShowRelated={handleShowRelated}
                     />
                   </div>
                 </div>
@@ -376,11 +474,11 @@ export default function FeedTestPage() {
 
               {/* PostComposer */}
               <section>
-                <h2 className="text-2xl font-semibold mb-4">PostComposer Component</h2>
-                <p className="text-gray-600 mb-6">Modal for creating native posts or importing social media content.</p>
+                <h2 className="text-2xl font-semibold mb-4">PostComposer Component - Phase 3 ✓</h2>
+                <p className="text-gray-600 mb-6">Modal for creating native posts or importing social media content. Now with Bridge AI topic suggestions!</p>
 
                 <Button onClick={() => setShowcaseComposerOpen(true)}>
-                  Open PostComposer Demo
+                  Open PostComposer Demo (with AI suggestions)
                 </Button>
                 <PostComposer
                   isOpen={showcaseComposerOpen}
@@ -390,6 +488,7 @@ export default function FeedTestPage() {
                     setShowcaseComposerOpen(false);
                   }}
                   topics={AVAILABLE_TOPICS}
+                  onSuggestTopics={handleSuggestTopics}
                 />
               </section>
 
@@ -464,6 +563,17 @@ export default function FeedTestPage() {
                 onClose={() => setComposerOpen(false)}
                 onSubmit={handleCreatePost}
                 topics={AVAILABLE_TOPICS}
+                onSuggestTopics={handleSuggestTopics}
+              />
+
+              {/* Phase 3: Duplicate Thread Detection Modal */}
+              <DuplicateThreadModal
+                isOpen={duplicateModalOpen}
+                onClose={() => setDuplicateModalOpen(false)}
+                similarThreads={similarThreads}
+                onJoinThread={handleJoinThread}
+                onCreateNew={handleCreateNewThread}
+                proposedTitle={proposedThreadTitle}
               />
             </div>
           )}
