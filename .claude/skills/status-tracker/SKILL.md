@@ -37,7 +37,7 @@ This skill manages all progress tracking, status updates, and Notion memory for 
 - Start: Create page in "Claude Memory" → `10/30/25 14:30`
 - During: Update on achievements/discoveries (continuous, not end-dump)
 - End: Finalize status, next steps, branch/commit
-- Cleanup: Keep 3 most recent, delete oldest when adding #4
+- Cleanup: Keep 6 most recent, delete oldest when adding #7
 
 **Format:**
 ```
@@ -166,8 +166,8 @@ progress:bridge=+10
 **Detailed Session Pages:**
 - Create with date format: `10/30/25 14:30`
 - Update continuously during session (not end-dump)
-- Keep only 3 most recent
-- Delete oldest when adding #4
+- Keep only 6 most recent
+- Delete oldest when adding #7
 
 **⚠️ Notion API Version Notice:**
 - Current MCP server may use pre-2025-09-03 API version
@@ -277,7 +277,7 @@ Action: Add progress marker to PR body, update next steps
 1. **Never decrease progress** - Only increment or set higher values
 2. **Keep progress realistic** - Small features = 5-10%, major features = 15-20%
 3. **Update next steps synchronously** - Do it during implementation, not after
-4. **Notion cleanup** - Always maintain exactly 3 session pages
+4. **Notion cleanup** - Always maintain exactly 6 session pages
 5. **Progress markers must be exact syntax** - `progress:module=+X` (no spaces around `=`)
 
 ## Troubleshooting
