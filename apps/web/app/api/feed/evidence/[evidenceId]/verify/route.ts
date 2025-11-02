@@ -9,7 +9,7 @@ import { query } from '@/lib/db';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { evidenceId: string } }
+  { params }: { params: Promise<{ evidenceId: string }> }
 ) {
   try {
     const userId = request.headers.get('x-user-id'); // TODO: Get from session
@@ -23,6 +23,7 @@ export async function PUT(
 
     // TODO: Check if user has moderator role
 
+    const { evidenceId } = await params;
     const { verified } = await request.json();
 
     const result = await query(
@@ -33,7 +34,7 @@ export async function PUT(
            updated_at = NOW()
        WHERE id = $3
        RETURNING *`,
-      [verified, userId, params.evidenceId]
+      [verified, userId, evidenceId]
     );
 
     if (result.rows.length === 0) {
