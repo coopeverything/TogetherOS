@@ -6,7 +6,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PostList, PostComposer, type CreatePostData } from '@togetheros/ui'
+import { PostList, PostComposer, GroupGrowthTracker, type CreatePostData } from '@togetheros/ui'
 import type { Post, ReactionType } from '@togetheros/types'
 
 // Mock sample posts (defined locally for client component)
@@ -83,71 +83,90 @@ export default function FeedPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Feed</h1>
-              <p className="text-gray-600 mt-1">
-                Community posts and imported content
-              </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Two-column grid layout: Feed (left) + Sidebar (right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main feed content - 2/3 width on large screens */}
+          <div className="lg:col-span-2">
+            {/* Header */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">Feed</h1>
+                  <p className="text-gray-600 mt-1">
+                    Community posts and imported content
+                  </p>
+                </div>
+                <button
+                  className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
+                  onClick={() => setComposerOpen(true)}
+                >
+                  + Create Post
+                </button>
+              </div>
+
+              {/* Topic filters */}
+              <div className="flex gap-2 overflow-x-auto pb-2">
+                <button
+                  onClick={() => setSelectedTopic(undefined)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                    !selectedTopic
+                      ? 'bg-orange-600 text-white'
+                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  All Topics
+                </button>
+                {topics.map((topic) => (
+                  <button
+                    key={topic}
+                    onClick={() => setSelectedTopic(topic)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                      selectedTopic === topic
+                        ? 'bg-orange-600 text-white'
+                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    {topic}
+                  </button>
+                ))}
+              </div>
             </div>
-            <button
-              className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
-              onClick={() => setComposerOpen(true)}
-            >
-              + Create Post
-            </button>
+
+            {/* Feed */}
+            <PostList
+              posts={posts}
+              authorNames={authorNames}
+              reactionCounts={reactionCounts}
+              userReactions={userReactions}
+              loading={loading}
+              onReact={handleReact}
+              onDiscuss={handleDiscuss}
+            />
+
+            {/* Info banner */}
+            {!loading && posts.length > 0 && (
+              <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-4">
+                <p className="text-sm text-blue-800">
+                  <strong>Phase 2:</strong> Post composer added (native + import). Discussion threads in Phase 3.
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Topic filters */}
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            <button
-              onClick={() => setSelectedTopic(undefined)}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                !selectedTopic
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              All Topics
-            </button>
-            {topics.map((topic) => (
-              <button
-                key={topic}
-                onClick={() => setSelectedTopic(topic)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                  selectedTopic === topic
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                {topic}
-              </button>
-            ))}
-          </div>
+          {/* Sidebar - 1/3 width on large screens, hidden on mobile */}
+          <aside className="hidden lg:block lg:col-span-1">
+            <div className="sticky top-8">
+              <GroupGrowthTracker
+                groupId="seattle-local"
+                currentMemberCount={47}
+                recentGrowth={3}
+                location="Seattle"
+                onInvite={() => alert('Invitation flow coming soon!')}
+              />
+            </div>
+          </aside>
         </div>
-
-        {/* Feed */}
-        <PostList
-          posts={posts}
-          authorNames={authorNames}
-          reactionCounts={reactionCounts}
-          userReactions={userReactions}
-          loading={loading}
-          onReact={handleReact}
-          onDiscuss={handleDiscuss}
-        />
-
-        {/* Info banner */}
-        {!loading && posts.length > 0 && (
-          <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-4">
-            <p className="text-sm text-blue-800">
-              <strong>Phase 2:</strong> Post composer added (native + import). Discussion threads in Phase 3.
-            </p>
-          </div>
-        )}
 
         {/* Post Composer Modal */}
         <PostComposer
