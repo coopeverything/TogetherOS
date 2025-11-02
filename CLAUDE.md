@@ -227,8 +227,13 @@ System may be prompting even when operation is in allow list
 
 **At Start:**
 1. This file (CLAUDE.md) auto-loaded
-2. Check Notion session memory (see `status-tracker` skill)
-3. Review `git status` and recent commits
+2. **Check deployment status (CRITICAL):**
+   - Look for open `deployment-failure` GitHub issues
+   - Check recent deployment history: `gh run list --workflow=auto-deploy-production.yml --limit 5`
+   - If failures detected → **Automatically invoke yolo1 skill** to diagnose and fix
+   - Report findings to user
+3. Check Notion session memory (see `status-tracker` skill)
+4. Review `git status` and recent commits
 
 **During:**
 - Follow autonomy guidelines
