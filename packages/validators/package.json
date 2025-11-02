@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@togetheros/types": "*",
-    "zod": "^3.22.0"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
