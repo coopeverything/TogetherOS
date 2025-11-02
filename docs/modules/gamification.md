@@ -196,7 +196,8 @@ Gamification **makes community growth transparent and rewarding**:
 - **Action:** Invitee joins and completes profile to 50%+
 - **Reward (Inviter):** **+50 RP** (75 RP total)
 - **Reward (Invitee):** **+100 RP** starting balance
-- **Rationale:** Dual-sided reward, both parties benefit
+- **Database:** Set `invitations.invitee_member_id` when account created (enables Stage 3 tracking)
+- **Rationale:** Dual-sided reward, both parties benefit; durable link for quality tracking
 
 **Stage 3: First Contribution**
 - **Action:** Invitee makes first meaningful contribution (post, proposal, event attendance)
@@ -212,8 +213,11 @@ Gamification **makes community growth transparent and rewarding**:
 
 **Quality Tracking:**
 - Track "invite quality score" (% of invites that become active members)
+- **Implementation:** Join `invitations` on `invitee_member_id` to check activity (posts, events, contributions)
+- Active member = made ≥1 contribution in past 30 days
 - Low quality score (<30%) triggers warning, then temp suspension of invite privileges
 - Transparent scoring visible to member ("Your invite quality: 65%")
+- **Why member ID matters:** Email-based tracking breaks when users change email or sign up via OAuth
 
 **Geographic Validation:**
 - Inviter and invitee must share same city/region tag
@@ -587,6 +591,7 @@ CREATE TABLE invitations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   inviter_id UUID REFERENCES members(id) ON DELETE CASCADE,
   invitee_email TEXT NOT NULL,
+  invitee_member_id UUID REFERENCES members(id) ON DELETE SET NULL,  -- Set when invitation accepted
   group_id UUID REFERENCES groups(id) ON DELETE CASCADE,
   status TEXT CHECK (status IN ('pending', 'accepted', 'expired', 'declined')),
   sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -599,6 +604,7 @@ CREATE TABLE invitations (
 );
 
 CREATE INDEX idx_invitations_inviter ON invitations(inviter_id);
+CREATE INDEX idx_invitations_invitee ON invitations(invitee_member_id);  -- For tracking invite quality
 CREATE INDEX idx_invitations_status ON invitations(status);
 CREATE INDEX idx_invitations_group ON invitations(group_id);
 
