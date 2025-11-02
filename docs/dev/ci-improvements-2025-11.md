@@ -689,6 +689,93 @@ if (!isBot) {
 
 ---
 
-**Document Version:** 1.1
-**Last Updated:** 2025-11-02 (PM session - Dependabot automation)
-**Status:** Danger.js fix implemented, bot review investigation pending
+## Compatibility Score Integration (2025-11-02 PM)
+
+### Implementation: Automated Score Checking
+
+**Added to Danger.js (commit TBD):**
+```javascript
+// Check Dependabot compatibility score
+if (isDependabot) {
+  const scoreMatch = body.match(/compatibility_score[^)]*new-version=([^)]+)\)/);
+
+  if (scoreMatch) {
+    const percentMatch = body.match(/(\d+)%[^)]*compatibility/i);
+
+    if (percentMatch) {
+      const score = parseInt(percentMatch[1]);
+
+      if (score < 50) {
+        warn(`🔴 Compatibility score: ${score}% (High risk)`);
+      } else if (score < 75) {
+        warn(`🟡 Compatibility score: ${score}% (Moderate risk - threshold: 75%)`);
+      }
+    } else {
+      warn(`⚠️ Compatibility score: Unknown (check ecosystem readiness)`);
+    }
+  }
+}
+```
+
+### Compatibility Score Interpretation Guide
+
+**What the scores mean:**
+
+| Score | Risk Level | Action Required |
+|-------|-----------|-----------------|
+| **≥75%** | ✅ Low | Safe to merge (still test major versions) |
+| **50-74%** | 🟡 Moderate | Review changelog + test locally |
+| **<50%** | 🔴 High | Defer or close PR, likely breaking changes |
+| **Unknown** | ⚠️ New/Rare | Check ecosystem readiness manually |
+
+**Why scores can be misleading:**
+
+1. **Crowd-sourced from public repos only** → Your setup may differ
+2. **Requires ≥5 repos** to have attempted upgrade → New versions show "unknown"
+3. **False negatives:** Tailwind v4 showed 19% but worked for us
+4. **False positives:** 95% doesn't guarantee compatibility with your specific use case
+
+**Decision protocol:**
+
+```
+IF patch update (x.y.Z):
+  → Auto-merge (bypass score check)
+
+ELSE IF score ≥75%:
+  → Merge after local testing for major versions
+
+ELSE IF score 50-74%:
+  → Review changelog
+  → Test locally
+  → Decide case-by-case
+
+ELSE IF score <50%:
+  → Defer 30-90 days OR close PR
+  → Wait for ecosystem maturity
+
+ELSE IF score unknown:
+  → Check ecosystem readiness:
+    - React → Next.js support
+    - Next.js → 14 days old
+    - Tailwind → tailwind-merge compat
+```
+
+### Updated Workflows
+
+**CLAUDE.md updated with:**
+- Compatibility score thresholds (75% minimum)
+- Version type rules (patch/minor/major)
+- Ecosystem readiness checklists
+- Automated Danger.js integration notes
+
+**Benefits:**
+- ✅ Automated warnings for low-score PRs
+- ✅ Consistent decision framework
+- ✅ Prevents React 19-style surprises (unknown scores flag for review)
+- ✅ Maintains human judgment (warnings, not hard blocks)
+
+---
+
+**Document Version:** 1.2
+**Last Updated:** 2025-11-02 (PM session - Compatibility score integration)
+**Status:** Danger.js fix + compatibility score check implemented

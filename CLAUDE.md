@@ -73,6 +73,58 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 
 ---
 
+## Dependabot Update Protocol
+
+**Before merging Dependabot PRs:**
+
+### 1. Check Compatibility Score (in PR description)
+
+**Thresholds:**
+- **≥75%** ✅ - Safe to merge (still test locally for major versions)
+- **50-74%** 🟡 - Moderate risk → Review changelog + test locally
+- **<50%** 🔴 - High risk → Defer or close PR
+- **"Unknown"** ⚠️ - New release → Check ecosystem readiness
+
+### 2. Version Type Rules
+
+**Patch updates (1.0.0 → 1.0.1):**
+- ✅ Can bypass score threshold (bug fixes only)
+- Auto-merge if CI passes
+
+**Minor updates (1.0.0 → 1.1.0):**
+- Check score, test locally if <75%
+
+**Major updates (1.0.0 → 2.0.0):**
+- Always require manual review (breaking changes expected)
+- Defer 30-90 days for ecosystem maturity
+- Check framework compatibility (Next.js for React, etc.)
+
+### 3. Ecosystem Readiness Checklist
+
+**For React updates:**
+- ✅ Next.js officially supports version
+- ✅ Radix UI/shadcn compatible
+- ✅ @types/react available
+
+**For Next.js updates:**
+- ✅ React version compatible
+- ✅ Release >14 days old (early bugs fixed)
+
+**For Tailwind updates:**
+- ✅ tailwind-merge compatible version exists
+- ✅ UI package ecosystem updated
+
+### 4. Danger.js Automation
+
+Danger.js will automatically:
+- Warn if score <75%
+- Flag "unknown" scores for manual review
+- Provide risk assessment based on score
+
+**No action needed** - warnings appear in PR comments automatically.
+
+---
+
 ## Permission System
 
 ### Current Allow List Location

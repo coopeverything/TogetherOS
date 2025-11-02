@@ -94,4 +94,48 @@ if (!titlePattern.test(pr.title)) {
   );
 }
 
+// Check Dependabot compatibility score
+if (isDependabot) {
+  // Look for compatibility score badge in PR body
+  const scoreMatch = body.match(/compatibility_score[^)]*new-version=([^)]+)\)/);
+
+  if (scoreMatch) {
+    // Try to extract percentage from badge URL or surrounding text
+    const percentMatch = body.match(/(\d+)%[^)]*compatibility/i);
+
+    if (percentMatch) {
+      const score = parseInt(percentMatch[1]);
+
+      if (score < 50) {
+        warn(
+          `🔴 **Compatibility score: ${score}%** (High risk)\n\n` +
+          `This upgrade has a low success rate in other repositories. ` +
+          `Review the changelog carefully and test locally before merging.\n\n` +
+          `**Recommendation:** Consider deferring this update or closing the PR.`
+        );
+      } else if (score < 75) {
+        warn(
+          `🟡 **Compatibility score: ${score}%** (Moderate risk)\n\n` +
+          `This upgrade has a moderate success rate in other repositories. ` +
+          `Review the changelog and test locally before merging.\n\n` +
+          `**Threshold:** 75% (project policy)`
+        );
+      } else {
+        // Score ≥75%, informational only
+        console.log(`✅ Compatibility score: ${score}% (meets 75% threshold)`);
+      }
+    } else {
+      // Badge exists but couldn't extract score (might be "unknown")
+      warn(
+        `⚠️  **Compatibility score: Unknown**\n\n` +
+        `This version is too new or has insufficient data (<5 public repos tested). ` +
+        `Check ecosystem readiness before merging:\n` +
+        `- Review release notes and changelog\n` +
+        `- Check if framework (Next.js) officially supports this version\n` +
+        `- Test locally with your specific setup`
+      );
+    }
+  }
+}
+
 console.log('✅ Danger.js checks complete');
