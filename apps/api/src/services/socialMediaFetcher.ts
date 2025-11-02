@@ -72,7 +72,14 @@ async function fetchViaOEmbed(
         'User-Agent': 'TogetherOS/1.0',
       },
       signal: AbortSignal.timeout(5000), // 5 second timeout
+      redirect: 'manual', // Prevent automatic redirects (SSRF protection)
     })
+
+    // Check for redirects and block them
+    if (response.status >= 300 && response.status < 400) {
+      console.warn(`oEmbed redirect blocked for ${platform}`)
+      return null
+    }
 
     if (!response.ok) {
       console.warn(`oEmbed failed for ${platform}: ${response.status}`)
@@ -106,7 +113,13 @@ async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPr
         'User-Agent': 'TogetherOS/1.0',
       },
       signal: AbortSignal.timeout(5000),
+      redirect: 'manual', // Prevent automatic redirects (SSRF protection)
     })
+
+    // Check for redirects and block them
+    if (response.status >= 300 && response.status < 400) {
+      throw new Error('Redirects are not allowed for security reasons')
+    }
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`)
