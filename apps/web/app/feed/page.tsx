@@ -8,11 +8,9 @@
 import { useState, useEffect } from 'react'
 import { PostList, PostComposer, type CreatePostData } from '@togetheros/ui'
 import type { Post, ReactionType } from '@togetheros/types'
-import { InMemoryPostRepo } from '../../../../apps/api/src/modules/feed/repos/InMemoryPostRepo'
-import { samplePosts } from '../../../../apps/api/src/modules/feed/fixtures'
 
-// Initialize repo with sample posts
-const postRepo = new InMemoryPostRepo(samplePosts)
+// Mock sample posts (defined locally for client component)
+const samplePosts: Post[] = []
 
 // Mock author names (matching UUIDs from fixtures)
 const authorNames: Record<string, string> = {
@@ -36,15 +34,9 @@ export default function FeedPage() {
     async function loadPosts() {
       setLoading(true)
       try {
-        const loadedPosts = await postRepo.list({
-          topic: selectedTopic,
-          limit: 20,
-        })
-        setPosts(loadedPosts)
-
-        // Load topics
-        const loadedTopics = await postRepo.getTopics()
-        setTopics(loadedTopics)
+        // TODO: Fetch from API when endpoints are ready
+        setPosts(samplePosts)
+        setTopics([])
       } catch (error) {
         console.error('Failed to load posts:', error)
       } finally {
@@ -80,28 +72,9 @@ export default function FeedPage() {
   // Handle create post
   const handleCreatePost = async (data: CreatePostData) => {
     try {
-      if (data.type === 'native') {
-        await postRepo.createNative({
-          authorId: '00000000-0000-0000-0000-000000000001', // Alice
-          content: data.content!,
-          title: data.title,
-          topics: data.topics,
-        })
-      } else {
-        await postRepo.createImport({
-          authorId: '00000000-0000-0000-0000-000000000001',
-          sourceUrl: data.sourceUrl!,
-          topics: data.topics,
-          preview: {
-            title: 'Imported content',
-            platform: 'unknown',
-            fetchedAt: new Date(),
-          },
-        })
-      }
-      // Reload posts
-      const loadedPosts = await postRepo.list({ topic: selectedTopic, limit: 20 })
-      setPosts(loadedPosts)
+      // TODO: POST to API when endpoint is ready
+      alert('Post creation coming soon! API endpoint in progress.')
+      console.log('Would create post:', data)
     } catch (error) {
       console.error('Failed to create post:', error)
       throw error
