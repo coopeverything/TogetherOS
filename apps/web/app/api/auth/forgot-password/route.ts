@@ -105,7 +105,11 @@ export async function POST(request: Request) {
     // Email infrastructure (SMTP, templates) requires separate setup
     // Will be implemented in future PR with email service (SendGrid/Resend)
     // For now, users must request reset link from admin
-    console.warn('Password reset requested for', email, '- email sending not configured');
+    // Log sanitized email hash instead of raw email (prevent log injection)
+    console.warn('Password reset requested - email sending not configured', {
+      emailHash: hashEmail(email),
+      userId,
+    });
     // Future: await sendPasswordResetEmail(email, resetUrl);
 
     return NextResponse.json({

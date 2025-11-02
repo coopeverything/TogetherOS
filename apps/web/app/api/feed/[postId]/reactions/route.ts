@@ -10,14 +10,14 @@ import {
 } from '../../../../../../api/src/modules/feed/handlers/posts'
 
 interface Params {
-  params: {
+  params: Promise<{
     postId: string
-  }
+  }>
 }
 
 export async function GET(request: NextRequest, { params }: Params) {
   try {
-    const { postId } = params
+    const { postId } = await params
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId')
 
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, { params }: Params) {
 
 export async function POST(request: NextRequest, { params }: Params) {
   try {
-    const { postId } = params
+    const { postId } = await params
     const body = await request.json()
 
     // TODO: Get userId from session/auth
