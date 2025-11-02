@@ -66,6 +66,7 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
   - **Copilot SWE** (`copilot-swe-agent`) - SECONDARY: Creates sub-PRs with fixes
   - Wait time: 5 minutes for bot reviews
   - **IMPORTANT**: Check for Copilot sub-PRs BEFORE merging parent PR
+- Human approval: NOT REQUIRED (bot reviews sufficient) ✅
 - Lint/smoke: Disabled (only runs on main)
 - Auto-deploy: Triggers on merge to production
 
