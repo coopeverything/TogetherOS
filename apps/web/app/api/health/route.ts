@@ -71,10 +71,15 @@ export async function GET() {
     // Determine overall health status
     let overallStatus: HealthCheck['status'] = 'ok';
 
+    // Only database errors should mark as unhealthy (critical)
     if (dbHealth.status === 'error') {
       overallStatus = 'unhealthy';
-    } else if (memHealth.status === 'critical') {
-      overallStatus = 'unhealthy';
+    }
+    // Memory issues are informational only - heap % is not a reliable health indicator
+    // V8 naturally runs at 90%+ heap usage and will expand as needed
+    // Mark as degraded only for extreme cases (>97%)
+    else if (memHealth.status === 'critical' && memHealth.percentage > 97) {
+      overallStatus = 'degraded';
     } else if (memHealth.status === 'warning') {
       overallStatus = 'degraded';
     }
