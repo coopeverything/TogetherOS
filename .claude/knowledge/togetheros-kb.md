@@ -263,6 +263,7 @@ git fetch origin <branch-name>
 4. **Update STATUS_v2.md after changes** — Bump progress markers using HTML comments
 5. **Bridge pilot is core-team only** — Not open for public contributions yet
 6. **All PRs need Path labels** — Use canonical names from CATEGORY_TREE.json
+7. **Notion UUID errors are expected** — Claude Code bug (issue #5504) occasionally corrupts UUIDs; simply retry with original UUID
 
 ---
 

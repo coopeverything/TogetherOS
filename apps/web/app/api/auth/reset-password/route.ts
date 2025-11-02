@@ -7,6 +7,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyResetToken, markResetTokenUsed } from '@/lib/auth/verification';
 import bcrypt from 'bcryptjs';
 import { query } from '@/lib/db';
+import { logSecurityEvent, hashIP } from '@/lib/auth/security-logger';
+
+function getClientIP(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  return request.headers.get('x-real-ip') || 'unknown';
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -52,6 +61,17 @@ export async function POST(request: NextRequest) {
 
     // Invalidate all existing sessions for security
     await query('DELETE FROM sessions WHERE user_id = $1', [userId]);
+
+    // Log security event
+    const clientIP = getClientIP(request);
+    await logSecurityEvent({
+      event_type: 'password_reset_completed',
+      user_id: userId,
+      ip_hash: hashIP(clientIP),
+      metadata: {
+        sessions_invalidated: true
+      }
+    });
 
     return NextResponse.json({
       success: true,
