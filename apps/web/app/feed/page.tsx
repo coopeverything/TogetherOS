@@ -9,9 +9,6 @@ import { useState, useEffect } from 'react'
 import { PostList, PostComposer, GroupGrowthTracker, type CreatePostData } from '@togetheros/ui'
 import type { Post, ReactionType } from '@togetheros/types'
 
-// Mock sample posts (defined locally for client component)
-const samplePosts: Post[] = []
-
 // Mock author names (matching UUIDs from fixtures)
 const authorNames: Record<string, string> = {
   '00000000-0000-0000-0000-000000000001': 'Alice Cooper',
@@ -23,6 +20,8 @@ const authorNames: Record<string, string> = {
 export default function FeedPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [selectedTopic, setSelectedTopic] = useState<string | undefined>()
   const [topics, setTopics] = useState<string[]>([])
   const [reactionCounts] = useState<Record<string, any>>({})
@@ -31,20 +30,62 @@ export default function FeedPage() {
 
   // Load posts
   useEffect(() => {
+    const abortController = new AbortController()
+
     async function loadPosts() {
       setLoading(true)
+      setError(null)
       try {
-        // TODO: Fetch from API when endpoints are ready
-        setPosts(samplePosts)
-        setTopics([])
-      } catch (error) {
-        console.error('Failed to load posts:', error)
+        // Build query params
+        const params = new URLSearchParams({
+          limit: '20',
+          offset: '0',
+        })
+        if (selectedTopic) {
+          params.set('topic', selectedTopic)
+        }
+
+        // Fetch from API with abort signal
+        const response = await fetch(`/api/feed?${params.toString()}`, {
+          signal: abortController.signal,
+        })
+        if (!response.ok) {
+          throw new Error(`Failed to load posts: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+
+        // Only update state if this request wasn't aborted
+        if (!abortController.signal.aborted) {
+          setPosts(data.posts || [])
+
+          // Extract unique topics from all posts
+          const topicsSet = new Set<string>()
+          ;(data.posts || []).forEach((post: Post) => {
+            post.topics.forEach((topic) => topicsSet.add(topic))
+          })
+          setTopics(Array.from(topicsSet))
+        }
+      } catch (err) {
+        // Ignore abort errors
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
+        console.error('Failed to load posts:', err)
+        setError(err instanceof Error ? err.message : 'Failed to load posts')
       } finally {
-        setLoading(false)
+        if (!abortController.signal.aborted) {
+          setLoading(false)
+        }
       }
     }
 
     loadPosts()
+
+    // Cleanup: abort pending request when selectedTopic changes
+    return () => {
+      abortController.abort()
+    }
   }, [selectedTopic])
 
   // Handle reaction
@@ -71,13 +112,52 @@ export default function FeedPage() {
 
   // Handle create post
   const handleCreatePost = async (data: CreatePostData) => {
+    setSubmitting(true)
+    setError(null)
     try {
-      // TODO: POST to API when endpoint is ready
-      alert('Post creation coming soon! API endpoint in progress.')
-      console.log('Would create post:', data)
-    } catch (error) {
-      console.error('Failed to create post:', error)
-      throw error
+      const response = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `Failed to create post: ${response.statusText}`)
+      }
+
+      // Close composer on success
+      setComposerOpen(false)
+
+      // Reload posts to include the new post
+      const params = new URLSearchParams({
+        limit: '20',
+        offset: '0',
+      })
+      if (selectedTopic) {
+        params.set('topic', selectedTopic)
+      }
+
+      const listResponse = await fetch(`/api/feed?${params.toString()}`)
+      if (listResponse.ok) {
+        const listData = await listResponse.json()
+        setPosts(listData.posts || [])
+
+        // Update topics
+        const topicsSet = new Set<string>()
+        ;(listData.posts || []).forEach((post: Post) => {
+          post.topics.forEach((topic) => topicsSet.add(topic))
+        })
+        setTopics(Array.from(topicsSet))
+      }
+    } catch (err) {
+      console.error('Failed to create post:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create post. Please try again.'
+      setError(errorMessage)
+      alert(errorMessage)
+      throw err
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -98,12 +178,22 @@ export default function FeedPage() {
                   </p>
                 </div>
                 <button
-                  className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
+                  className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => setComposerOpen(true)}
+                  disabled={submitting}
                 >
-                  + Create Post
+                  {submitting ? 'Creating...' : '+ Create Post'}
                 </button>
               </div>
+
+              {/* Error banner */}
+              {error && (
+                <div className="mb-4 bg-red-50 rounded-lg border border-red-200 p-4">
+                  <p className="text-sm text-red-800">
+                    <strong>Error:</strong> {error}
+                  </p>
+                </div>
+              )}
 
               {/* Topic filters */}
               <div className="flex gap-2 overflow-x-auto pb-2">
