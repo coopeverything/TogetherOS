@@ -4,3 +4,4 @@
 export * from './rewards'
 export * from './groups'
 export * from './feed'
+export * from './notifications'
