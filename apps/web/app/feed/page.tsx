@@ -30,6 +30,8 @@ export default function FeedPage() {
 
   // Load posts
   useEffect(() => {
+    const abortController = new AbortController()
+
     async function loadPosts() {
       setLoading(true)
       setError(null)
@@ -43,30 +45,47 @@ export default function FeedPage() {
           params.set('topic', selectedTopic)
         }
 
-        // Fetch from API
-        const response = await fetch(`/api/feed?${params.toString()}`)
+        // Fetch from API with abort signal
+        const response = await fetch(`/api/feed?${params.toString()}`, {
+          signal: abortController.signal,
+        })
         if (!response.ok) {
           throw new Error(`Failed to load posts: ${response.statusText}`)
         }
 
         const data = await response.json()
-        setPosts(data.posts || [])
 
-        // Extract unique topics from all posts
-        const topicsSet = new Set<string>()
-        ;(data.posts || []).forEach((post: Post) => {
-          post.topics.forEach((topic) => topicsSet.add(topic))
-        })
-        setTopics(Array.from(topicsSet))
+        // Only update state if this request wasn't aborted
+        if (!abortController.signal.aborted) {
+          setPosts(data.posts || [])
+
+          // Extract unique topics from all posts
+          const topicsSet = new Set<string>()
+          ;(data.posts || []).forEach((post: Post) => {
+            post.topics.forEach((topic) => topicsSet.add(topic))
+          })
+          setTopics(Array.from(topicsSet))
+        }
       } catch (err) {
+        // Ignore abort errors
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
         console.error('Failed to load posts:', err)
         setError(err instanceof Error ? err.message : 'Failed to load posts')
       } finally {
-        setLoading(false)
+        if (!abortController.signal.aborted) {
+          setLoading(false)
+        }
       }
     }
 
     loadPosts()
+
+    // Cleanup: abort pending request when selectedTopic changes
+    return () => {
+      abortController.abort()
+    }
   }, [selectedTopic])
 
   // Handle reaction
