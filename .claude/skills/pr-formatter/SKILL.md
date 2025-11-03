@@ -160,21 +160,42 @@ gh pr create --base yolo --head feature-branch --title "[Title]" --body "[Format
 
 **Process:**
 1. After PR created, wait ~60 seconds for AI reviewers to analyze (Codex + Copilot)
-2. **Check for inline code comments** (not just PR comments):
+2. **Check for inline code comments** (use multiple API endpoints):
    ```bash
-   # CRITICAL: Check Codex inline review comments
+   # CRITICAL: Check Codex inline review comments (try multiple endpoints)
+
+   # Endpoint 1: Pull request comments
    gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
      --jq '.[] | select(.user.login == "chatgpt-codex-connector") | {file: .path, line: .line, body: .body}'
 
-   # Check Copilot inline comments
+   # Endpoint 2: Pull request reviews
+   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/reviews \
+     --jq '.[] | select(.user.login == "chatgpt-codex-connector")'
+
+   # Endpoint 3: Issue comments (general PR comments)
+   gh api repos/coopeverything/TogetherOS/issues/<PR#>/comments \
+     --jq '.[] | select(.user.login == "chatgpt-codex-connector")'
+
+   # Check Copilot inline comments (all endpoints)
    gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
      --jq '.[] | select(.user.login | contains("copilot")) | {file: .path, line: .line, body: .body}'
+
+   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/reviews \
+     --jq '.[] | select(.user.login | contains("copilot"))'
    ```
-3. **If API returns empty but you see "Commented" status**: View PR on web
+3. **MANDATORY: Always verify on web UI** (not just when API returns empty):
    ```bash
    gh pr view <PR#> --web
-   # Manually scroll through "Files Changed" tab to find inline comments
    ```
+   **Verification checklist:**
+   - [ ] Open "Files Changed" tab
+   - [ ] Scroll through EVERY changed file
+   - [ ] Look for comment badges/icons on line numbers
+   - [ ] Read ALL inline comments (not just review summary)
+   - [ ] Confirm P1 issues identified in API queries match web UI
+   - [ ] Look for comments that API might have missed
+
+   **CRITICAL:** GitHub API sometimes returns empty results even when comments exist. Web UI inspection is REQUIRED for every PR, not optional.
 4. **Categorize feedback by priority**:
    - **P1 (Critical)**: MUST fix - security, build artifacts, breaking changes
    - **P2 (Important)**: SHOULD fix - code quality, performance, best practices

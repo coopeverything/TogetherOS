@@ -30,7 +30,9 @@
 ## Available Skills
 
 ### yolo1
-Full-stack feature implementation: branch → code → test → commit → push → PR → deploy
+Full-stack feature implementation: branch → code → test → commit → push → PR → bot review → merge → deploy verification
+
+**Delivers complete feature to production** (not just "PR ready")
 
 ### auto-pr-merge
 Automated PR workflow: push → Copilot review → fix issues → merge → deploy. Quality-first automation with safety gates.
@@ -58,6 +60,13 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 **Test Pages:** `/test/{module}` pattern
 - Component testing and demos at www.coopeverything.org/test/{module}
 - See `yolo1` skill for details
+
+**Clean Working Directory Discipline:**
+- Always verify `git status` is clean before creating feature branches
+- Never start new work with uncommitted changes in working directory
+- Use `git stash` or commit changes before switching contexts
+- Feature branches MUST start from clean state to prevent accidental file inclusion
+- See yolo1 skill Step 1 for verification commands
 
 **CI on yolo branch:**
 - Tests: Enabled (npm test) - REQUIRED ✅

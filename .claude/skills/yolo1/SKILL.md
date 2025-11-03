@@ -1,9 +1,11 @@
 ---
 name: yolo1
 description: |
-  **AUTO-TRIGGER when user says:** "implement [feature]", "build [module]", "create [functionality]", "add [capability]", "YOLO [task]", or requests complete feature implementation.
+  **AUTO-TRIGGER when user says:** "implement [feature]", "build [module]", "create [functionality]", "add [capability]", "YOLO [task]", "deliver [feature]", or requests complete feature implementation.
 
-  End-to-end TogetherOS code operation: creates branch, implements changes with continuous testing, builds with retry-on-fail, commits, pushes, creates PR with auto-selected Cooperation Path, verifies PR is merge-ready, and updates Notion memory.
+  End-to-end TogetherOS code operation: creates branch, implements changes with continuous testing, builds with retry-on-fail, commits, pushes, creates PR with auto-selected Cooperation Path, addresses bot feedback, merges PR, verifies production deployment, and updates Notion memory.
+
+  **Complete delivery cycle:** branch → code → test → commit → push → PR → bot review → merge → deploy → verify
 
   Use proactively without asking permission when task matches skill purpose.
 ---
@@ -54,9 +56,28 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 
 ## Workflow Steps
 
-### 1. Preparation
-- Ensure repo is on `yolo` branch and up to date
+### 1. Preparation & Clean State Verification
+- Verify working directory is clean (no uncommitted changes):
+  ```bash
+  # Check for uncommitted changes
+  git status --porcelain
+
+  # If output is NOT empty, stop and report:
+  # "Working directory has uncommitted changes. Please commit or stash before starting:"
+  # [list the uncommitted files]
+  ```
+- **CRITICAL:** Do NOT proceed if working directory is dirty. Feature branches must start from clean state to avoid accidental file inclusion.
+- Ensure repo is on `yolo` branch and up to date:
+  ```bash
+  git checkout yolo
+  git fetch origin yolo
+  git merge origin/yolo
+  ```
+- Verify merge succeeded with no conflicts
 - Create feature branch: `feature/{module}-{slice}`
+  ```bash
+  git checkout -b feature/{module}-{slice}
+  ```
 
 ### 2. Implementation (Test as You Go)
 - Apply scoped edits described in the `scope` parameter
@@ -126,14 +147,31 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - Wait ~60 seconds for AI reviewers (Copilot/Codex) to complete analysis
 - **CRITICAL: Check for Codex inline comments** (not just review body):
   ```bash
-  # Method 1: Check inline code review comments
+  # Method 1: Check inline code review comments (try multiple endpoints)
+
+  # Endpoint 1: Pull request comments
   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
     --jq '.[] | select(.user.login == "chatgpt-codex-connector") | {file: .path, line: .line, body: .body}'
 
-  # Method 2: If API returns empty, view PR on web to check manually
+  # Endpoint 2: Pull request reviews
+  gh api repos/coopeverything/TogetherOS/pulls/<PR#>/reviews \
+    --jq '.[] | select(.user.login == "chatgpt-codex-connector")'
+
+  # Endpoint 3: Issue comments (general PR comments)
+  gh api repos/coopeverything/TogetherOS/issues/<PR#>/comments \
+    --jq '.[] | select(.user.login == "chatgpt-codex-connector")'
+
+  # Method 2: ALWAYS verify on web UI (MANDATORY, not just fallback)
   gh pr view <PR#> --web
-  # Scroll through Files Changed tab looking for inline comments
+  # REQUIRED: Manually inspect "Files Changed" tab for inline comments
+  # GitHub sometimes returns empty API results even when comments exist
   ```
+- **Process for verification:**
+  1. Run all API commands above
+  2. Open web UI (mandatory verification step)
+  3. Scroll through EVERY file in "Files Changed" tab
+  4. Look for comment badges on line numbers
+  5. Only after web UI verification can you confirm "no P1 issues"
 - **Analyze Codex feedback priority**:
   - **P1 (Critical)**: MUST fix before merge - security issues, breaking changes, build artifacts
   - **P2 (Important)**: SHOULD fix before merge - code quality, best practices
@@ -152,7 +190,63 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - Verify all checks passing: `gh pr checks <PR#>`
 - **Note:** Lint/smoke disabled on yolo branch, but test check must pass
 
-Output PR URL and final status after all bot feedback addressed
+Output PR URL and summary of bot feedback addressed
+
+### 11. Merge PR When Ready
+
+**After all checks pass and P1 issues resolved:**
+```bash
+# Verify PR is truly merge-ready
+gh pr checks <PR#>  # All must be green
+gh pr view <PR#> --json mergeable --jq '.mergeable'  # Must be "MERGEABLE"
+
+# Verify no unresolved P1 Codex issues via web UI (mandatory check)
+gh pr view <PR#> --web
+# Manually confirm no P1 issues in Files Changed tab
+
+# Merge PR
+gh pr merge <PR#> --squash --delete-branch
+
+# Capture merge commit SHA
+MERGE_SHA=$(gh pr view <PR#> --json mergeCommit --jq '.mergeCommit.oid')
+echo "Merged as commit: $MERGE_SHA"
+```
+
+**Do NOT stop at "ready to merge" - actually merge the PR when verified.**
+
+### 12. Deployment Verification
+
+**After merge, verify production deployment:**
+```bash
+# Get workflow run triggered by merge
+WORKFLOW_RUN=$(gh run list --workflow=auto-deploy-production.yml --branch=yolo --limit 1 --json databaseId --jq '.[0].databaseId')
+
+# Monitor deployment (wait up to 5 minutes)
+gh run watch $WORKFLOW_RUN --exit-status
+
+# Check deployment status
+DEPLOY_STATUS=$(gh run view $WORKFLOW_RUN --json conclusion --jq '.conclusion')
+
+if [ "$DEPLOY_STATUS" = "success" ]; then
+  echo "✅ Deployment successful"
+  echo "Changes live at: https://www.coopeverything.org"
+else
+  echo "❌ Deployment failed - see logs:"
+  gh run view $WORKFLOW_RUN --log-failed
+  # Report deployment failure to user for investigation
+fi
+```
+
+**Output final delivery summary:**
+```
+✅ Feature delivered:
+- PR #<num>: <title>
+- Merged commit: <sha>
+- Deployment: <SUCCESS|FAILED>
+- Live URL: https://www.coopeverything.org/<relevant-path>
+```
+
+**Only after deployment verification is delivery complete.**
 
 ## Safety Guidelines
 
