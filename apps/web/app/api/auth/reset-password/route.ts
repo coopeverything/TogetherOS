@@ -30,7 +30,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Reject empty strings
+    // Reject empty strings (pre-check for fast-fail)
+    // SECURITY: This is NOT the security boundary. Actual authorization
+    // happens in verifyResetToken() which performs database lookup of valid tokens.
     if (token.trim() === '' || password.trim() === '') {
       return NextResponse.json(
         { error: 'Token and password required' },

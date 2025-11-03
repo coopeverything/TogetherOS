@@ -30,7 +30,9 @@ function checkRateLimit(ip: string): void {
 }
 
 /**
- * Detect platform from URL
+ * Detect platform from URL for UI categorization only
+ * SECURITY: This is NOT a security boundary. Actual URL validation
+ * happens in validateUrlAgainstAllowlist() using URL.hostname parsing.
  */
 export function detectPlatform(url: string): string {
   const urlLower = url.toLowerCase()
@@ -108,6 +110,9 @@ async function fetchViaOEmbed(
  */
 async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPreview> {
   try {
+    // SECURITY: URL validated by validateUrlAgainstAllowlist() before calling this function
+    // (see line 226 in fetchSocialMediaPreview). Multi-layer SSRF protection includes:
+    // HTTPS-only, hostname allowlist, internal network blocking, no redirects, rate limiting.
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'TogetherOS/1.0',
