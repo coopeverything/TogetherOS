@@ -6,7 +6,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PostList, PostComposer, GroupGrowthTracker, type CreatePostData } from '@togetheros/ui'
+import { PostList, PostComposer, GroupGrowthTracker, InvitationModal, type CreatePostData, type InvitationData } from '@togetheros/ui'
 import type { Post, ReactionType } from '@togetheros/types'
 
 // Mock author names (matching UUIDs from fixtures)
@@ -27,6 +27,7 @@ export default function FeedPage() {
   const [reactionCounts] = useState<Record<string, any>>({})
   const [userReactions, setUserReactions] = useState<Record<string, ReactionType>>({})
   const [composerOpen, setComposerOpen] = useState(false)
+  const [inviteModalOpen, setInviteModalOpen] = useState(false)
 
   // Load posts
   useEffect(() => {
@@ -161,6 +162,21 @@ export default function FeedPage() {
     }
   }
 
+  // Handle invitation submission
+  const handleInviteSubmit = async (data: InvitationData) => {
+    try {
+      // In a real implementation, this would call an API endpoint
+      // For now, just simulate success
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      console.log('Invitation sent:', data)
+      // Success handled by modal (shows success state)
+    } catch (err) {
+      console.error('Failed to send invitation:', err)
+      throw err // Modal will display error
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -252,7 +268,7 @@ export default function FeedPage() {
                 currentMemberCount={47}
                 recentGrowth={3}
                 location="Seattle"
-                onInvite={() => alert('Invitation flow coming soon!')}
+                onInvite={() => setInviteModalOpen(true)}
               />
             </div>
           </aside>
@@ -264,6 +280,16 @@ export default function FeedPage() {
           onClose={() => setComposerOpen(false)}
           onSubmit={handleCreatePost}
           topics={topics}
+        />
+
+        {/* Invitation Modal */}
+        <InvitationModal
+          isOpen={inviteModalOpen}
+          onClose={() => setInviteModalOpen(false)}
+          onSubmit={handleInviteSubmit}
+          groupId="seattle-local"
+          location="Seattle"
+          rewardPoints={100}
         />
       </div>
     </div>
