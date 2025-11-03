@@ -124,14 +124,7 @@ jobs:
 
           if [ "$PM2_STATUS" -eq "0" ]; then
             echo "❌ PM2 process not running, initiating rollback..."
-            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} <<'ROLLBACK'
-cd /var/www/togetheros
-echo "→ Rolling back to previous commit..."
-git reset --hard HEAD~1
-npm run build:packages
-cd apps/web && npm run build
-pm2 restart togetheros
-ROLLBACK
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && echo '→ Rolling back to previous commit...' && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
             exit 1
           fi
 
@@ -140,16 +133,7 @@ ROLLBACK
 
           if [ "$HEALTH_STATUS" != "ok" ] && [ "$HEALTH_STATUS" != "degraded" ]; then
             echo "❌ Health check failed (status: $HEALTH_STATUS), initiating rollback..."
-            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} <<'ROLLBACK'
-cd /var/www/togetheros
-echo "→ Rolling back to previous commit..."
-git reset --hard HEAD~1
-npm run build:packages
-cd apps/web && npm run build
-pm2 restart togetheros
-echo "→ Rollback complete, waiting for recovery..."
-sleep 10
-ROLLBACK
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && echo '→ Rolling back to previous commit...' && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros && echo '→ Rollback complete, waiting for recovery...' && sleep 10"
 
             # Verify rollback succeeded
             ROLLBACK_HEALTH=$(curl -sf https://coopeverything.org/api/health | jq -r '.status' || echo "error")
@@ -164,25 +148,13 @@ ROLLBACK
           echo "🧪 Testing critical endpoints..."
           curl -f https://coopeverything.org/ || {
             echo "❌ Homepage failed, initiating rollback..."
-            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} <<'ROLLBACK'
-cd /var/www/togetheros
-git reset --hard HEAD~1
-npm run build:packages
-cd apps/web && npm run build
-pm2 restart togetheros
-ROLLBACK
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
             exit 1
           }
 
           curl -f https://coopeverything.org/signup || {
             echo "❌ Signup page failed, initiating rollback..."
-            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} <<'ROLLBACK'
-cd /var/www/togetheros
-git reset --hard HEAD~1
-npm run build:packages
-cd apps/web && npm run build
-pm2 restart togetheros
-ROLLBACK
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
             exit 1
           }
 
