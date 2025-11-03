@@ -8,9 +8,12 @@ import {
   PostComposer,
   ThreadView,
   DuplicateThreadModal,
+  GroupGrowthTracker,
+  InvitationModal,
   type CreatePostData,
   type TopicSuggestion,
-  type SimilarThread as SimilarThreadUI
+  type SimilarThread as SimilarThreadUI,
+  type InvitationData
 } from '@togetheros/ui';
 import type { Post, ReactionType, ThreadPost, DiscussionThread } from '@togetheros/types';
 import { Card, Button, Badge } from '@/components/ui';
@@ -213,6 +216,9 @@ export default function FeedTestPage() {
   const [similarThreads, setSimilarThreads] = useState<SimilarThreadUI[]>([]);
   const [proposedThreadTitle, setProposedThreadTitle] = useState('');
 
+  // Gamification: Invitation modal state
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+
   // Handlers
   const handleReact = (postId: string, type: ReactionType) => {
     if (userReactions[postId] === type) {
@@ -316,6 +322,13 @@ export default function FeedTestPage() {
       updatedAt: new Date(),
     };
     setDemoPosts([newPost, ...demoPosts]);
+  };
+
+  const handleInviteSubmit = async (data: InvitationData) => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Invitation submitted:', data);
+    alert(`Invitation sent to ${data.inviteeName} (${data.inviteeEmail}) - 50RP earned!`);
+    setInviteModalOpen(false);
   };
 
   const filteredPosts = selectedTopic
@@ -574,6 +587,26 @@ export default function FeedTestPage() {
                 onJoinThread={handleJoinThread}
                 onCreateNew={handleCreateNewThread}
                 proposedTitle={proposedThreadTitle}
+              />
+
+              {/* Gamification: Group Growth Tracker & Invitation */}
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold mb-4">Group Growth & Invitations</h3>
+                <GroupGrowthTracker
+                  groupId="seattle-001"
+                  location="Seattle"
+                  currentMemberCount={12}
+                  onInvite={() => setInviteModalOpen(true)}
+                />
+              </div>
+
+              <InvitationModal
+                isOpen={inviteModalOpen}
+                onClose={() => setInviteModalOpen(false)}
+                onSubmit={handleInviteSubmit}
+                groupId="seattle-001"
+                location="Seattle"
+                rewardPoints={50}
               />
             </div>
           )}
