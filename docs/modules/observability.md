@@ -2,9 +2,24 @@
 
 **Purpose:** Monitor system health, track errors, measure performance, and provide visibility into production behavior.
 
-**Status:** Phase 1 Complete (15%)
+**Status:** Phase 1.5 - Self-Hosted Stack Ready (40%)
 
 **Path:** `path:cooperative-technology`
+
+---
+
+## Current Deployment State
+
+### ✅ Active (Lightweight Monitoring)
+- Error/performance NDJSON loggers (passive, log on demand)
+- System metrics API endpoints (`/api/metrics`, `/api/metrics/system`)
+- Monitoring UI pages (`/test/logs`, `/test/monitoring`)
+- Alert manager library (Discord/Slack webhooks)
+
+### ⚠️ Configured But Inactive (Ready When Needed)
+- Docker stack: Uptime Kuma, Prometheus, Grafana, Loki (~700MB RAM)
+- Cron jobs: Health checks, synthetic monitoring
+- **Activate when needed:** See `docs/ops/SELF_HOSTED_MONITORING.md`
 
 ---
 
@@ -12,11 +27,11 @@
 
 The Observability module provides real-time visibility into TogetherOS production systems through:
 
-1. **Error Tracking** - Capture and analyze runtime errors (Sentry)
+1. **Error Tracking** - NDJSON logger with PII redaction (self-hosted, replaces Sentry)
 2. **Health Monitoring** - System status checks (database, memory, uptime)
-3. **Uptime Monitoring** - External availability checks (UptimeRobot)
-4. **Performance Monitoring** - APM for response times and bottlenecks (Phase 3)
-5. **Synthetic Monitoring** - Automated user journey testing (Phase 3)
+3. **Uptime Monitoring** - Uptime Kuma ready (self-hosted, replaces UptimeRobot)
+4. **Performance Monitoring** - Prometheus metrics + custom loggers (self-hosted, replaces New Relic)
+5. **Synthetic Monitoring** - Playwright E2E tests + cron automation (ready but inactive)
 
 ### Non-Goals
 - User behavior analytics (separate Analytics module)
@@ -50,6 +65,46 @@ The Observability module provides real-time visibility into TogetherOS productio
 - Health endpoint: ✅ Implemented
 - Auto-rollback: ✅ Enabled (<60s recovery)
 - Uptime monitoring: 📋 Documentation ready (manual setup required)
+
+### Phase 1.5: Self-Hosted Stack (✅ Complete - 40% Total)
+
+**Implemented:**
+- ✅ Self-hosted error logger (NDJSON with PII sanitization)
+- ✅ Performance logger (request timing, NDJSON format)
+- ✅ Alert manager (Discord/Slack/webhook support)
+- ✅ Prometheus metrics endpoint (`/api/metrics`)
+- ✅ System metrics endpoint (`/api/metrics/system`)
+- ✅ Log dashboard UI (`/test/logs`)
+- ✅ Docker Compose stack (Uptime Kuma, Prometheus, Grafana, Loki)
+- ✅ Health check cron script (5-min intervals)
+- ✅ Synthetic monitoring script (Playwright E2E tests)
+- ✅ Complete documentation (`docs/ops/SELF_HOSTED_MONITORING.md`)
+
+**Key Files:**
+- `lib/observability/error-logger.ts` - NDJSON error logger
+- `lib/observability/perf-logger.ts` - Performance metrics logger
+- `lib/observability/alert-manager.ts` - Centralized alerting
+- `apps/web/app/api/metrics/route.ts` - Prometheus metrics
+- `apps/web/app/api/metrics/system/route.ts` - System resource metrics
+- `apps/web/app/test/logs/page.tsx` - Metrics dashboard UI
+- `apps/web/middleware.ts` - Request timing middleware
+- `docker-compose.observability.yml` - Full monitoring stack
+- `config/prometheus/prometheus.yml` - Prometheus config
+- `config/grafana/dashboards/` - Pre-built dashboards
+- `config/loki/loki-config.yml` - Log aggregation config
+- `scripts/health-check.sh` - Automated health checks
+- `scripts/synthetic-monitoring.sh` - Automated E2E tests
+- `tests/e2e/synthetic/critical-paths.spec.ts` - Critical user journeys
+
+**Status:**
+- Code-level monitoring: ✅ Active (lightweight, passive)
+- Docker stack: ⚠️ Ready but inactive (start when needed)
+- Cron jobs: ⚠️ Ready but not installed (activate when needed)
+
+**Cost Savings:**
+- Replaces: Sentry ($26/mo) + UptimeRobot Pro ($7/mo) + New Relic ($99/mo)
+- Self-hosted cost: $0/mo (uses existing VPS)
+- Total savings: $132/mo
 
 ### Phase 2: Enhanced Testing (🔜 Next - Weeks 2-6)
 
@@ -406,11 +461,14 @@ beforeSend(event) {
 
 ---
 
-## Progress: 15%
+## Progress: 40%
 
-<!-- progress:observability=15 -->
+<!-- progress:observability=40 -->
 
-**Phase 1:** ✅ Complete (error tracking, health checks, auto-rollback)
-**Phase 2:** 📋 Planned (test coverage, synthetic monitoring)
-**Phase 3:** 📋 Planned (APM, performance monitoring)
+**Phase 1:** ✅ Complete (external service setup - Sentry, health endpoint)
+**Phase 1.5:** ✅ Complete (self-hosted stack - error/perf logs, Prometheus, Grafana, Loki, Uptime Kuma)
+**Phase 2:** 📋 Planned (test coverage expansion)
+**Phase 3:** 📋 Planned (advanced monitoring activation)
 **Phase 4:** 📋 Planned (canary deployment, feature flags)
+
+**Current State:** Lightweight monitoring active, heavy services ready but inactive (activate when needed)

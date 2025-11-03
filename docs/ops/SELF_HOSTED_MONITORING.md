@@ -19,7 +19,62 @@ This stack provides:
 
 ---
 
-## Quick Start
+## Current Deployment Status
+
+### ✅ Active Now (Lightweight - No Manual Setup Required)
+
+These components are **already deployed and running** with the application:
+
+**Code-level monitoring:**
+- Error logger (`lib/observability/error-logger.ts`) - Writes NDJSON logs when errors occur
+- Performance logger (`lib/observability/perf-logger.ts`) - Tracks request timing
+- Alert manager (`lib/observability/alert-manager.ts`) - Sends alerts when called
+- Request middleware (`apps/web/middleware.ts`) - Adds timing headers
+
+**API Endpoints:**
+- `/api/metrics` - Prometheus-format metrics (only responds when scraped)
+- `/api/metrics/system` - JSON system metrics (only responds when requested)
+
+**UI Pages:**
+- `/test/logs` - System metrics dashboard (only loads when visited)
+- `/test/monitoring` - Health check UI (only loads when visited)
+
+**Resource usage:** Negligible (~0 MB RAM, <1% CPU) - these only activate when used
+
+### ⚠️ Inactive (Ready But Not Started)
+
+These components are **configured and ready** but **NOT running** to conserve resources:
+
+**Docker Stack (~700 MB RAM, ~30% CPU when running):**
+- ❌ Uptime Kuma (port 3001) - Not started
+- ❌ Prometheus (port 9090) - Not started
+- ❌ Grafana (port 3002) - Not started
+- ❌ Loki (port 3100) - Not started
+- ❌ Promtail - Not started
+
+**Cron Jobs:**
+- ❌ Health check script (`scripts/health-check.sh`) - Not in crontab
+- ❌ Synthetic monitoring (`scripts/synthetic-monitoring.sh`) - Not in crontab
+
+**All configuration files exist and are production-ready. Start them when you need them.**
+
+### When to Activate What
+
+**Activate when you get 100+ daily users:**
+- Start Prometheus (metrics collection)
+- Start health check cron (alerts on downtime)
+- Configure Discord/Slack webhooks for alerts
+
+**Activate when you get 1,000+ daily users:**
+- Start full Docker stack (Grafana, Loki, Uptime Kuma)
+- Start synthetic monitoring cron
+- Setup log aggregation and dashboards
+
+**For now:** The lightweight code-level monitoring (error/perf logs, metrics endpoints) is sufficient.
+
+---
+
+## Quick Start (Manual Activation)
 
 ### 1. Start Observability Stack
 
