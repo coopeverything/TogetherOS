@@ -55,11 +55,11 @@ export interface Notification {
   /** Notification title */
   title: string
 
-  /** Notification body/description */
-  body: string
+  /** Notification message/description */
+  message: string
 
-  /** Icon emoji or identifier */
-  icon: string
+  /** Icon emoji or identifier (optional) */
+  icon?: string
 
   /** Priority level */
   priority: NotificationPriority
@@ -93,8 +93,8 @@ export interface CreateNotificationInput {
   userId: string
   type: NotificationType
   title: string
-  body: string
-  icon: string
+  message: string
+  icon?: string
   priority?: NotificationPriority
   reference?: NotificationReference
   actorId?: string

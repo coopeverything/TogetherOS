@@ -92,6 +92,28 @@ export async function markAllAsRead(userId: string): Promise<{ count: number }> 
 }
 
 /**
+ * POST /api/notifications/actions/mark-as-read
+ * Mark a single notification as read
+ */
+export async function markAsRead(
+  notificationId: string,
+  userId: string
+): Promise<NotificationType | null> {
+  return updateNotificationStatus(notificationId, userId, 'read')
+}
+
+/**
+ * POST /api/notifications/actions/mark-as-unread
+ * Mark a single notification as unread
+ */
+export async function markAsUnread(
+  notificationId: string,
+  userId: string
+): Promise<NotificationType | null> {
+  return updateNotificationStatus(notificationId, userId, 'unread')
+}
+
+/**
  * POST /api/notifications
  * Create a new notification
  * Body: CreateNotificationInput
