@@ -122,13 +122,37 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - Include progress marker from step 8
 - Create PR with `gh pr create --base yolo`
 
-**Then monitor post-push:**
-- Wait ~30 seconds for AI reviewers (Copilot/Codex)
-- Check for comments: `gh pr view <PR#> --comments`
-- Address all feedback until checks are green
-- **Note:** Lint/smoke disabled on yolo branch
+**Then monitor post-push and verify bot reviews:**
+- Wait ~60 seconds for AI reviewers (Copilot/Codex) to complete analysis
+- **CRITICAL: Check for Codex inline comments** (not just review body):
+  ```bash
+  # Method 1: Check inline code review comments
+  gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
+    --jq '.[] | select(.user.login == "chatgpt-codex-connector") | {file: .path, line: .line, body: .body}'
 
-Output PR URL and status summary
+  # Method 2: If API returns empty, view PR on web to check manually
+  gh pr view <PR#> --web
+  # Scroll through Files Changed tab looking for inline comments
+  ```
+- **Analyze Codex feedback priority**:
+  - **P1 (Critical)**: MUST fix before merge - security issues, breaking changes, build artifacts
+  - **P2 (Important)**: SHOULD fix before merge - code quality, best practices
+  - **P3 (Nice-to-have)**: CAN defer - minor suggestions, stylistic preferences
+- **Fix all P1 issues** before considering PR merge-ready
+- **For each P1 issue**:
+  1. Fix the code
+  2. Commit with descriptive message (e.g., "fix: address Codex P1 - remove build artifact import")
+  3. Push to update PR
+  4. Wait for re-analysis
+- Check for Copilot sub-PRs:
+  ```bash
+  gh pr list --author "app/copilot-swe-agent" --search "sub-pr-<PR#>"
+  ```
+- If sub-PR exists: Review changes, cherry-pick useful fixes, close sub-PR with explanation
+- Verify all checks passing: `gh pr checks <PR#>`
+- **Note:** Lint/smoke disabled on yolo branch, but test check must pass
+
+Output PR URL and final status after all bot feedback addressed
 
 ## Safety Guidelines
 
