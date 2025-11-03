@@ -534,42 +534,58 @@ export default function FeedTestPage() {
                 </Button>
               </div>
 
-              {/* Topic filters */}
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                <button
-                  onClick={() => setSelectedTopic(undefined)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                    !selectedTopic
-                      ? 'bg-orange-600 text-white'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  All Topics
-                </button>
-                {AVAILABLE_TOPICS.map((topic) => (
-                  <button
-                    key={topic}
-                    onClick={() => setSelectedTopic(topic)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                      selectedTopic === topic
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    {topic}
-                  </button>
-                ))}
-              </div>
+              {/* 2-column layout: Feed + Sidebar */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Feed Column */}
+                <div className="lg:col-span-2 space-y-6">
+                  {/* Topic filters */}
+                  <div className="flex gap-2 overflow-x-auto pb-2">
+                    <button
+                      onClick={() => setSelectedTopic(undefined)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                        !selectedTopic
+                          ? 'bg-orange-600 text-white'
+                          : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      All Topics
+                    </button>
+                    {AVAILABLE_TOPICS.map((topic) => (
+                      <button
+                        key={topic}
+                        onClick={() => setSelectedTopic(topic)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                          selectedTopic === topic
+                            ? 'bg-orange-600 text-white'
+                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        {topic}
+                      </button>
+                    ))}
+                  </div>
 
-              {/* Interactive Feed */}
-              <PostList
-                posts={filteredPosts}
-                authorNames={AUTHOR_NAMES}
-                reactionCounts={reactionCounts}
-                userReactions={userReactions}
-                onReact={handleReact}
-                onDiscuss={handleDiscuss}
-              />
+                  {/* Interactive Feed */}
+                  <PostList
+                    posts={filteredPosts}
+                    authorNames={AUTHOR_NAMES}
+                    reactionCounts={reactionCounts}
+                    userReactions={userReactions}
+                    onReact={handleReact}
+                    onDiscuss={handleDiscuss}
+                  />
+                </div>
+
+                {/* Sidebar Column */}
+                <div className="space-y-4">
+                  <GroupGrowthTracker
+                    groupId="seattle-001"
+                    location="Seattle"
+                    currentMemberCount={12}
+                    onInvite={() => setInviteModalOpen(true)}
+                  />
+                </div>
+              </div>
 
               <PostComposer
                 isOpen={composerOpen}
@@ -589,17 +605,7 @@ export default function FeedTestPage() {
                 proposedTitle={proposedThreadTitle}
               />
 
-              {/* Gamification: Group Growth Tracker & Invitation */}
-              <div className="mt-8">
-                <h3 className="text-xl font-semibold mb-4">Group Growth & Invitations</h3>
-                <GroupGrowthTracker
-                  groupId="seattle-001"
-                  location="Seattle"
-                  currentMemberCount={12}
-                  onInvite={() => setInviteModalOpen(true)}
-                />
-              </div>
-
+              {/* Gamification: Invitation Modal */}
               <InvitationModal
                 isOpen={inviteModalOpen}
                 onClose={() => setInviteModalOpen(false)}
