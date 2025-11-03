@@ -210,5 +210,24 @@ describe('Input Validation', () => {
       const input = 'hello world'
       expect(sanitizeInput(input)).toBe('hello world')
     })
+
+    it('prevents entity bypass by escaping ampersands first', () => {
+      // Attack: Submit pre-encoded entities hoping they'll decode back to dangerous chars
+      const attack = '&lt;script&gt;alert(1)&lt;/script&gt;'
+      const sanitized = sanitizeInput(attack)
+
+      // Should double-encode the ampersands, preventing entity bypass
+      expect(sanitized).toBe('&amp;lt;script&amp;gt;alert(1)&amp;lt;&#x2F;script&amp;gt;')
+      expect(sanitized).not.toContain('<script>')
+      expect(sanitized).not.toContain('&lt;') // Original entity should be escaped
+    })
+
+    it('escapes ampersands in normal text', () => {
+      const input = 'Tom & Jerry'
+      const sanitized = sanitizeInput(input)
+
+      expect(sanitized).toBe('Tom &amp; Jerry')
+      expect(sanitized).toContain('&amp;')
+    })
   })
 })

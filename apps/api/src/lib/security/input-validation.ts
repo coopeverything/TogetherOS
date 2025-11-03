@@ -115,6 +115,7 @@ export function validateResetToken(token: string): void {
  */
 export function sanitizeInput(input: string): string {
   return input
+    .replace(/&/g, '&amp;')  // Must escape & FIRST to prevent entity bypass
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')

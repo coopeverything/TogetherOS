@@ -144,7 +144,8 @@ describe('socialMediaFetcher - Security', () => {
   describe('Rate Limiting', () => {
     it('enforces rate limit (30 requests per hour per IP)', async () => {
       const url = 'https://instagram.com/post/123'
-      const ip = '1.2.3.4'
+      // Use unique IP to avoid interference from SSRF tests
+      const ip = '100.200.300.400'
 
       // Make 30 requests (max allowed)
       const requests = Array(30).fill(null).map(() =>
@@ -162,16 +163,16 @@ describe('socialMediaFetcher - Security', () => {
     it('isolates rate limits by IP address', async () => {
       const url = 'https://instagram.com/post/123'
 
-      // IP 1 makes 30 requests
+      // IP 1 makes 30 requests - use unique IP to avoid SSRF test interference
       const ip1Requests = Array(30).fill(null).map(() =>
-        fetchSocialMediaPreview(url, '1.2.3.4').catch(() => null)
+        fetchSocialMediaPreview(url, '200.100.50.25').catch(() => null)
       )
       await Promise.all(ip1Requests)
 
       // IP 2 should still be able to make requests
       // This should fail at fetch, not rate limit
       try {
-        await fetchSocialMediaPreview(url, '5.6.7.8')
+        await fetchSocialMediaPreview(url, '250.150.75.35')
       } catch (error) {
         if (error instanceof Error) {
           expect(error.message).not.toContain('Rate limit exceeded')
