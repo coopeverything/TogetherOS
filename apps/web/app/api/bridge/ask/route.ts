@@ -29,9 +29,14 @@ function getDocsIndex(): DocEntry[] {
   if (!docsIndex) {
     try {
       // Build index from /docs directory
-      const docsPath = join(process.cwd(), '..', '..', 'docs');
+      // Use environment variable or intelligent fallbacks based on deployment context
+      const docsPath = process.env.BRIDGE_DOCS_PATH ||
+        (process.env.NODE_ENV === 'production'
+          ? join(process.cwd(), 'docs')  // Production: docs at root level
+          : join(process.cwd(), '..', '..', 'docs'));  // Development: monorepo structure
+
       docsIndex = buildIndex(docsPath);
-      console.log(`[Bridge] Indexed ${docsIndex.length} documents`);
+      console.log(`[Bridge] Indexed ${docsIndex.length} documents from ${docsPath}`);
     } catch (error) {
       console.error('[Bridge] Error building docs index:', error);
       docsIndex = [];
@@ -65,16 +70,17 @@ export async function POST(request: NextRequest) {
 
     // Check API key - 401 for missing/invalid
     if (!OPENAI_API_KEY) {
+      console.error('[Bridge] OPENAI_API_KEY environment variable is not set. Please configure it in your .env file.');
       logBridgeAction({
         action: 'error',
         ip_hash: ipHash,
         q_len: question.length,
         status: 401,
-        error: 'API key not configured',
+        error: 'OPENAI_API_KEY not configured',
         latency_ms: Date.now() - startTime,
       });
       return NextResponse.json(
-        { error: 'Service not configured' },
+        { error: 'Service not configured. Please contact the administrator.' },
         { status: 401 }
       );
     }
