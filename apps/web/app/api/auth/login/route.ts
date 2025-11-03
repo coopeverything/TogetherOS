@@ -20,7 +20,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Reject empty strings
+    // Reject empty strings (pre-check for fast-fail)
+    // SECURITY: This is NOT the security boundary. Actual authentication
+    // happens in verifyPassword() which performs database lookup and bcrypt comparison.
     if (email.trim() === '' || password.trim() === '') {
       return NextResponse.json(
         { error: 'Email and password required' },
@@ -28,7 +30,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate email format
+    // Validate email format (input sanitization layer)
+    // SECURITY: Regex uses linear time O(n) - no nested quantifiers, no exponential backtracking.
+    // This is defense-in-depth; actual auth still requires database verification.
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(

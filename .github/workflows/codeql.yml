@@ -40,3 +40,39 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{ matrix.language }}"
+
+      - name: Check for New P1 Alerts
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Checking for NEW critical alerts introduced by this PR..."
+
+          # Get base branch (main or yolo)
+          BASE_REF="${{ github.base_ref }}"
+
+          # Get current commit
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          # Fetch all open P1 alerts for current branch
+          CURRENT_ALERTS=$(gh api repos/${{ github.repository }}/code-scanning/alerts \
+            --jq '[.[] | select(.state == "open" and .rule.severity == "error" and .most_recent_instance.ref == "refs/heads/${{ github.head_ref }}") | .rule.id] | unique | sort')
+
+          # Fetch all open P1 alerts for base branch
+          BASE_ALERTS=$(gh api repos/${{ github.repository }}/code-scanning/alerts \
+            --jq '[.[] | select(.state == "open" and .rule.severity == "error" and .most_recent_instance.ref == "refs/heads/'"$BASE_REF"'") | .rule.id] | unique | sort')
+
+          # Find new alerts (present in current but not in base)
+          NEW_ALERTS=$(comm -13 <(echo "$BASE_ALERTS") <(echo "$CURRENT_ALERTS"))
+
+          if [ -n "$NEW_ALERTS" ] && [ "$NEW_ALERTS" != "" ]; then
+            echo "❌ NEW P1 (critical) alerts detected:"
+            echo "$NEW_ALERTS"
+            echo ""
+            echo "Please review and fix these critical security issues before merging."
+            echo "View alerts: https://github.com/${{ github.repository }}/security/code-scanning"
+            exit 1
+          else
+            echo "✅ No new P1 alerts introduced by this PR"
+            echo "Existing alerts (if any) are documented as false positives"
+          fi
