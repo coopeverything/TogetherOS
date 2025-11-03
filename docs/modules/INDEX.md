@@ -27,6 +27,9 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Docs Site Hooks](./docs-hooks.md)
 - [Observability](./observability.md)
 - [Security & Privacy](./security.md)
+- [Admin Accountability](./admin-accountability.md) — Decision implementation tracking with cooperative safeguards (0% — spec only)
+- [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP → SP exchange (0% — spec only)
+- [Moderation Transparency](./moderation-transparency.md) — Quality-scored moderation with RP incentives (0% — spec only)
 
 ## Knowledge Base (Comprehensive Specs)
 

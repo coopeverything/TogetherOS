@@ -29,6 +29,9 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 | **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=60 --> 60% | Integrate more doc links in app UI | Stable doc routes |
 | **Observability** | Basic logs, error boundary, uptime ping | <!-- progress:observability=10 --> 10% | Error boundary + simple tracker | Choose provider (self/3rd-party) |
 | **Security & Privacy** | Least-privilege tokens, PII handling, audit flags | <!-- progress:security=30 --> 30% | Secrets layout + no-PII logs | Threat model checklist |
+| **Admin Accountability** | Decision → implementation → verification pipeline, admin queue, settings classification (assembly vote vs admin discretion), NDJSON audit logs, recall mechanism | <!-- progress:admin-accountability=0 --> 0% | Initiative entity + conversion logic | Spec complete (docs/modules/admin-accountability.md), no code yet |
+| **Support Points & Reward Points UI** | SP wallet & allocation interface, RP dashboard with earnings tracker, RP → SP exchange at configurable rates, admin tracking panels | <!-- progress:support-points-ui=0 --> 0% | SP wallet component + allocation widget | Spec complete (docs/modules/support-points-ui.md), no code yet. Extends reputation backend (45% complete). |
+| **Moderation Transparency** | Quality-scored moderation with member ratings (1-5 stars), RP incentives tied to scores, 1-month rotating terms, public moderation log (members-only), coordinator queue with AI assistance, appeal system | <!-- progress:moderation-transparency=0 --> 0% | Flag entity + moderation queue | Spec complete (docs/modules/moderation-transparency.md), no code yet |
 
 ---
 
