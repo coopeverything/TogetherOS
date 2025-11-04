@@ -152,6 +152,10 @@ export default function TrainingDataPage() {
     return 'var(--danger)';
   };
 
+  const handleExport = (format: 'csv' | 'json') => {
+    window.open(`/api/bridge-training/export?format=${format}`, '_blank');
+  };
+
   return (
     <div style={{ background: 'var(--bg-0)', minHeight: '100vh', padding: '3rem 2rem' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
@@ -297,6 +301,44 @@ export default function TrainingDataPage() {
               />
             </div>
           </div>
+        </div>
+
+        {/* Export Buttons */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            marginBottom: '2rem',
+          }}
+        >
+          <button
+            onClick={() => handleExport('csv')}
+            style={{
+              padding: '0.75rem 1.5rem',
+              background: 'var(--brand-600)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '0.5rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Export as CSV
+          </button>
+          <button
+            onClick={() => handleExport('json')}
+            style={{
+              padding: '0.75rem 1.5rem',
+              background: 'var(--ink-700)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '0.5rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Export as JSON
+          </button>
         </div>
 
         {/* Error Message */}
