@@ -144,6 +144,10 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     // Sort
     const sortBy = filters.sortBy || 'createdAt'
     const sortOrder = filters.sortOrder || 'desc'
+
+    // Sanitize sortOrder to prevent SQL injection (only allow 'asc' or 'desc')
+    const sanitizedSortOrder = sortOrder.toLowerCase() === 'asc' ? 'ASC' : 'DESC'
+
     let orderByColumn = 'created_at'
 
     switch (sortBy) {
@@ -157,7 +161,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
         orderByColumn = 'created_at'
     }
 
-    const orderByClause = `ORDER BY ${orderByColumn} ${sortOrder.toUpperCase()}`
+    const orderByClause = `ORDER BY ${orderByColumn} ${sanitizedSortOrder}`
 
     // Paginate
     const page = filters.page || 1
