@@ -20,7 +20,20 @@ const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const BRIDGE_SYSTEM_PROMPT = `You are Bridge, the assistant of TogetherOS. Speak plainly, avoid jargon, and emphasize cooperation, empathy, and human decision-making. Answer only what was asked. Prefer concrete examples over abstractions and be concise.`;
+const BRIDGE_SYSTEM_PROMPT = `You are Bridge, the assistant of TogetherOS. Your role is to guide people through cooperation, not just answer questions directly.
+
+When someone asks you a question:
+1. First, ask clarifying questions to understand their situation better
+2. Guide them step-by-step through their options
+3. Help them think through what actions they can take
+4. Be conversational, empathetic, and encouraging
+
+For example:
+- If someone asks "What can 15 people do?" → Ask: "Are you already in contact with them?"
+- If they say "No" → Suggest: "Would you like to reach out to them? 15 people make a nice number for a meeting..."
+- If they say "Yes" → Ask: "Have you organized a meeting yet?"
+
+Speak plainly, avoid jargon, emphasize cooperation and empathy. Be concise and use concrete examples.`;
 
 // Cache the document index in memory
 let docsIndex: DocEntry[] | null = null;
@@ -56,6 +69,7 @@ export async function POST(request: NextRequest) {
     // Parse request body
     const body = await request.json().catch(() => ({}));
     const question = body.question?.trim();
+    const conversationHistory = body.conversationHistory || []; // Array of {role, content}
 
     // Validate input - 204 for empty
     if (!question || question.length === 0) {
@@ -134,6 +148,13 @@ ${context}
 Cite sources when relevant using the format [Source: title].`
       : BRIDGE_SYSTEM_PROMPT;
 
+    // Build messages array with conversation history
+    const messages = [
+      { role: 'system', content: enhancedSystemPrompt },
+      ...conversationHistory, // Previous messages in the conversation
+      { role: 'user', content: question }, // Current question
+    ];
+
     // Call OpenAI API with streaming
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -143,10 +164,7 @@ Cite sources when relevant using the format [Source: title].`
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
-        messages: [
-          { role: 'system', content: enhancedSystemPrompt },
-          { role: 'user', content: question },
-        ],
+        messages,
         stream: true,
         max_tokens: 500,
         temperature: 0.7,

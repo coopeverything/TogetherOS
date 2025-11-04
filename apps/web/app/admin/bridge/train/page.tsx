@@ -134,6 +134,25 @@ export default function BridgeTrainPage() {
           </div>
         )}
 
+        {/* Training Mode Selection */}
+        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <a
+            href="/admin/bridge/train-conversation"
+            style={{
+              display: 'inline-block',
+              padding: '0.75rem 1.5rem',
+              background: 'var(--brand-200)',
+              color: 'var(--brand-700)',
+              textDecoration: 'none',
+              borderRadius: '0.5rem',
+              fontWeight: 600,
+              fontSize: '0.875rem',
+            }}
+          >
+            Switch to Conversation Training →
+          </a>
+        </div>
+
         {/* Training Form */}
         <BridgeTrainingForm onSubmit={handleSubmit} />
 

@@ -216,9 +216,151 @@ export interface TrainingStatistics {
   recentActivity: BridgeTrainingSession[]
 }
 
+// === Conversational Training Types ===
+
+// Conversation entity - represents a multi-turn training conversation
+export interface BridgeConversation {
+  id: string
+
+  // Conversation metadata
+  title?: string // Optional title for the conversation
+  category?: string
+
+  // Conversation status
+  status: 'in_progress' | 'completed' | 'archived'
+
+  // Quality metrics
+  averageQualityScore?: number // Average of all message ratings
+  totalMessages: number
+  ratedMessages: number
+
+  // Training metadata
+  trainingStatus: 'pending' | 'reviewed' | 'approved' | 'rejected' | 'used_in_training'
+  usedInTraining: boolean
+  trainingBatchId?: string
+
+  // Audit fields
+  createdBy: string
+  createdAt: Date
+  updatedAt: Date
+  completedAt?: Date
+  ipHash?: string
+
+  // Soft delete
+  deletedAt?: Date
+  deletedBy?: string
+}
+
+// Message entity - represents individual messages in a conversation
+export interface BridgeMessage {
+  id: string
+  conversationId: string
+
+  // Message content
+  role: 'user' | 'assistant' // user = member, assistant = Bridge
+  content: string
+
+  // Bridge-specific metadata (only for assistant messages)
+  bridgeModel?: string
+  bridgeTemperature?: number
+  bridgeSources?: BridgeSource[]
+  bridgeResponseTimeMs?: number
+
+  // Message ordering
+  sequenceNumber: number // 0, 1, 2, 3... for ordering
+
+  // Timestamps
+  createdAt: Date
+
+  // Soft delete
+  deletedAt?: Date
+}
+
+// Message rating entity - ratings for Bridge responses (assistant messages only)
+export interface BridgeMessageRating {
+  id: string
+  messageId: string
+  conversationId: string
+
+  // Quality rating (1-5 stars) - single rating for both questions and answers
+  qualityScore: number
+
+  // Operator's ideal alternative response
+  idealResponse?: string
+  idealSources?: BridgeSource[]
+
+  // Rating metadata
+  ratingNotes?: string
+
+  // Audit fields
+  ratedBy: string
+  ratedAt: Date
+  updatedAt: Date
+}
+
+// === Input Types for Conversational Training API ===
+
+export interface CreateConversationInput {
+  title?: string
+  category?: string
+  initialQuestion: string // First user message
+}
+
+export interface AddMessageInput {
+  conversationId: string
+  role: 'user' | 'assistant'
+  content: string
+  bridgeModel?: string
+  bridgeTemperature?: number
+  bridgeSources?: BridgeSource[]
+  bridgeResponseTimeMs?: number
+}
+
+export interface RateMessageInput {
+  messageId: string
+  qualityScore: number // 1-5
+  idealResponse?: string
+  idealSources?: BridgeSource[]
+  ratingNotes?: string
+}
+
+export interface CompleteConversationInput {
+  conversationId: string
+}
+
+// === Query/Filter Types for Conversations ===
+
+export interface ConversationFilters {
+  status?: 'in_progress' | 'completed' | 'archived'
+  trainingStatus?: 'pending' | 'reviewed' | 'approved' | 'rejected'
+  category?: string
+  searchQuery?: string
+  minQualityScore?: number
+  sortBy?: 'createdAt' | 'averageQualityScore' | 'totalMessages'
+  sortOrder?: 'asc' | 'desc'
+  page?: number
+  pageSize?: number
+}
+
+export interface PaginatedConversations {
+  items: BridgeConversation[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
+export interface ConversationWithMessages {
+  conversation: BridgeConversation
+  messages: BridgeMessage[]
+  ratings: BridgeMessageRating[]
+}
+
 // === Export convenience types ===
 
 export type TrainingExampleStatus = BridgeTrainingExample['trainingStatus']
 export type TrainingBatchStatus = BridgeTrainingBatch['status']
 export type TrainingBatchType = BridgeTrainingBatch['trainingType']
 export type FeedbackType = BridgeTrainingFeedback['feedbackType']
+export type ConversationStatus = BridgeConversation['status']
+export type MessageRole = BridgeMessage['role']

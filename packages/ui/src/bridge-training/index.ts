@@ -4,3 +4,5 @@
 export { StarRating } from './StarRating'
 export { BridgeTrainingForm } from './BridgeTrainingForm'
 export type { BridgeTrainingFormProps } from './BridgeTrainingForm'
+export { ConversationTrainingForm } from './ConversationTrainingForm'
+export type { ConversationTrainingFormProps } from './ConversationTrainingForm'
