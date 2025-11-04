@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { listTrainingExamples } from '../../../../../api/src/modules/bridge-training/handlers';
+import { requireAdmin } from '@/lib/auth/middleware';
 import type { BridgeTrainingExample } from '@togetheros/types';
 
 /**
@@ -70,6 +71,9 @@ function convertToCSV(examples: BridgeTrainingExample[]): string {
  */
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    await requireAdmin(request);
+
     const { searchParams } = new URL(request.url);
     const format = searchParams.get('format') || 'json';
 
