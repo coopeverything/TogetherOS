@@ -10,19 +10,19 @@ import type {
   PaginatedTrainingExamples,
   TrainingStatistics,
 } from '@togetheros/types'
-import { InMemoryBridgeTrainingRepo } from '../repos/InMemoryBridgeTrainingRepo'
-import { sampleTrainingExamples } from '../fixtures'
+import { PostgresBridgeTrainingRepo } from '../repos/PostgresBridgeTrainingRepo'
+import { BridgeTrainingRepo } from '../repos/BridgeTrainingRepo'
 
-// Singleton repo for in-memory storage (session-scoped)
-let trainingRepo: InMemoryBridgeTrainingRepo | null = null
+// Singleton repo for PostgreSQL storage
+let trainingRepo: BridgeTrainingRepo | null = null
 
 /**
  * Get or initialize training repo
  */
-function getTrainingRepo(): InMemoryBridgeTrainingRepo {
+function getTrainingRepo(): BridgeTrainingRepo {
   if (!trainingRepo) {
-    // Initialize with sample fixtures
-    trainingRepo = new InMemoryBridgeTrainingRepo(sampleTrainingExamples)
+    // Initialize PostgreSQL repository
+    trainingRepo = new PostgresBridgeTrainingRepo()
   }
   return trainingRepo
 }
