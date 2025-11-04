@@ -9,11 +9,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateRecommendationsForActiveUsers } from '../../../../../../lib/bridge/recommendation-jobs';
 
-// Require API key for job endpoints
-const JOB_API_KEY = process.env.JOB_API_KEY || 'dev-job-key';
+// Require API key for job endpoints (must be set in environment)
+const JOB_API_KEY = process.env.JOB_API_KEY;
 
 export async function POST(request: NextRequest) {
   try {
+    // Fail closed if API key not configured
+    if (!JOB_API_KEY) {
+      console.error('JOB_API_KEY environment variable not set');
+      return NextResponse.json({ error: 'Service misconfigured' }, { status: 500 });
+    }
+
     // Verify API key
     const apiKey = request.headers.get('x-api-key');
     if (apiKey !== JOB_API_KEY) {

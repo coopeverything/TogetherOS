@@ -69,8 +69,11 @@ CREATE INDEX idx_perf_ctr ON recommendation_performance(click_through_rate DESC)
 CREATE INDEX idx_perf_conversion ON recommendation_performance(conversion_rate DESC);
 
 -- Function to refresh performance view
+-- SECURITY DEFINER allows togetheros_app to refresh the view
 CREATE OR REPLACE FUNCTION refresh_recommendation_performance()
-RETURNS void AS $$
+RETURNS void
+SECURITY DEFINER
+AS $$
 BEGIN
   REFRESH MATERIALIZED VIEW recommendation_performance;
 END;
