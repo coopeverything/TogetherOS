@@ -83,33 +83,33 @@ export default function BridgeTrainPage() {
   };
 
   return (
-    <div style={{ background: 'var(--bg-0)', minHeight: '100vh', padding: '3rem 2rem' }}>
+    <div style={{ background: 'var(--bg-0)', minHeight: '100vh', padding: '2rem 1rem' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ marginBottom: '3rem' }}>
+        <div style={{ marginBottom: '2rem' }}>
           <h1
             style={{
-              fontSize: '2rem',
-              fontWeight: 700,
+              fontSize: '1.5rem',
+              fontWeight: 600,
               color: 'var(--ink-900)',
               marginBottom: '0.5rem',
             }}
           >
             Train Bridge AI
           </h1>
-          <p style={{ color: 'var(--ink-700)', fontSize: '1.125rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ink-700)', fontSize: '0.875rem', lineHeight: 1.6 }}>
             Help improve Bridge by providing example questions and ideal responses.
           </p>
 
           {exampleCount > 0 && (
             <div
               style={{
-                marginTop: '1rem',
-                padding: '0.75rem 1rem',
+                marginTop: '0.75rem',
+                padding: '0.5rem 0.75rem',
                 background: 'var(--brand-100)',
                 color: 'var(--brand-600)',
                 borderRadius: '0.5rem',
-                fontSize: '0.875rem',
+                fontSize: '0.8125rem',
               }}
             >
               {exampleCount} training {exampleCount === 1 ? 'example' : 'examples'} created this
@@ -122,12 +122,13 @@ export default function BridgeTrainPage() {
         {successMessage && (
           <div
             style={{
-              marginBottom: '2rem',
-              padding: '1rem 1.5rem',
+              marginBottom: '1.5rem',
+              padding: '0.75rem 1rem',
               background: 'var(--success-bg)',
               color: 'var(--success)',
               borderRadius: '0.5rem',
               border: '1px solid var(--success)',
+              fontSize: '0.875rem',
             }}
           >
             {successMessage}
@@ -135,18 +136,18 @@ export default function BridgeTrainPage() {
         )}
 
         {/* Training Mode Selection */}
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+        <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
           <a
             href="/admin/bridge/train-conversation"
             style={{
               display: 'inline-block',
-              padding: '0.75rem 1.5rem',
+              padding: '0.5rem 1rem',
               background: 'var(--brand-200)',
               color: 'var(--brand-700)',
               textDecoration: 'none',
               borderRadius: '0.5rem',
               fontWeight: 600,
-              fontSize: '0.875rem',
+              fontSize: '0.8125rem',
             }}
           >
             Switch to Conversation Training →
@@ -159,23 +160,23 @@ export default function BridgeTrainPage() {
         {/* Instructions Panel */}
         <div
           style={{
-            marginTop: '3rem',
-            padding: '2rem',
+            marginTop: '2rem',
+            padding: '1rem',
             background: 'var(--bg-2)',
-            borderRadius: '1rem',
+            borderRadius: '0.5rem',
           }}
         >
           <h3
             style={{
-              fontSize: '1.25rem',
+              fontSize: '0.9375rem',
               fontWeight: 600,
               color: 'var(--ink-900)',
-              marginBottom: '1rem',
+              marginBottom: '0.75rem',
             }}
           >
             Training Guidelines
           </h3>
-          <ul style={{ color: 'var(--ink-700)', lineHeight: 1.8, paddingLeft: '1.5rem' }}>
+          <ul style={{ color: 'var(--ink-700)', fontSize: '0.8125rem', lineHeight: 1.7, paddingLeft: '1.5rem' }}>
             <li>Ask questions that real users might ask about TogetherOS, cooperation, or governance</li>
             <li>Rate Bridge's response honestly across all three dimensions</li>
             <li>
