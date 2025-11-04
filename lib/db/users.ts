@@ -139,10 +139,14 @@ export async function updateUser(
   const values: any[] = [];
   let paramIndex = 1;
 
+  // JSONB fields that need JSON.stringify()
+  const jsonbFields = ['paths', 'social_links', 'oauth_raw_profile'];
+
   Object.entries(updates).forEach(([key, value]) => {
     if (value !== undefined) {
       fields.push(`${key} = $${paramIndex}`);
-      values.push(value);
+      // Properly serialize JSONB fields to prevent "invalid input syntax for type json" error
+      values.push(jsonbFields.includes(key) ? JSON.stringify(value) : value);
       paramIndex++;
     }
   });
