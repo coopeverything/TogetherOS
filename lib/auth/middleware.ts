@@ -42,3 +42,20 @@ export async function requireAuth(request: NextRequest): Promise<User> {
 
   return user;
 }
+
+/**
+ * Require admin authentication - returns admin user or throws error
+ */
+export async function requireAdmin(request: NextRequest): Promise<User> {
+  const user = await getCurrentUser(request);
+
+  if (!user) {
+    throw new Error('Unauthorized');
+  }
+
+  if (!user.is_admin) {
+    throw new Error('Forbidden: Admin access required');
+  }
+
+  return user;
+}

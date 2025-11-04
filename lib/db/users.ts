@@ -43,6 +43,8 @@ export interface User {
   oauth_locale?: string;
   oauth_verified?: boolean;
   oauth_raw_profile?: any;
+  // Admin fields
+  is_admin: boolean;
   created_at: Date;
   updated_at: Date;
 }
