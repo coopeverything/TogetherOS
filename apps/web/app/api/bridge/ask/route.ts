@@ -15,6 +15,9 @@ import {
   getSources,
   type DocEntry,
 } from '@/lib/bridge/docs-indexer';
+import { fetchUserContext, fetchCityContext } from '../../../../lib/bridge/context-service';
+import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
+import type { ActivityRecommendation as ActivityRec } from '@togetheros/types';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
@@ -70,6 +73,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const question = body.question?.trim();
     const conversationHistory = body.conversationHistory || []; // Array of {role, content}
+    const userId = body.userId; // Optional: enables context-aware recommendations
 
     // Validate input - 204 for empty
     if (!question || question.length === 0) {
@@ -132,21 +136,72 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Fetch user and city context if userId provided (Phase 1: Context Foundation)
+    let userContext = null;
+    let cityContext = null;
+    let suggestedActivities: ActivityRec[] = [];
+
+    if (userId) {
+      try {
+        userContext = await fetchUserContext({ userId });
+        cityContext = await fetchCityContext({
+          city: userContext.city,
+          region: userContext.region,
+        });
+        suggestedActivities = getActivitiesForCitySize(cityContext.totalGroupMembers);
+      } catch (error) {
+        console.error('[Bridge] Error fetching context:', error);
+        // Continue without context - don't fail the request
+      }
+    }
+
     // Get relevant documentation context (RAG)
     const index = getDocsIndex();
     const context = getRelevantExcerpts(index, question, 1500);
     const sources = getSources(index, question, 3);
 
     // Build enhanced system prompt with context
-    const enhancedSystemPrompt = context
-      ? `${BRIDGE_SYSTEM_PROMPT}
+    let enhancedSystemPrompt = BRIDGE_SYSTEM_PROMPT;
+
+    // Add user/city context if available (Phase 1: Context-Aware Recommendations)
+    if (userContext && cityContext) {
+      const contextSection = `
+
+CONTEXT ABOUT THIS USER:
+- Location: ${userContext.city}, ${userContext.region}
+- Interests: ${userContext.explicitInterests.join(', ')}
+- Active in ${userContext.groupMemberships.length} group(s)
+- Engagement level: ${userContext.engagementScore}/100
+- Has attended ${userContext.eventAttendance.length} event(s)
+
+WHAT'S HAPPENING IN ${cityContext.city.toUpperCase()}:
+- ${cityContext.activeGroups.length} active groups with ${cityContext.totalGroupMembers} total members
+- ${cityContext.upcomingEvents.length} upcoming events in the next 30 days
+- Trending topics: ${cityContext.trendingTopics.join(', ')}
+- Popular interests: ${cityContext.popularInterests.join(', ')}
+
+SUGGESTED ACTIVITIES FOR ${cityContext.totalGroupMembers} MEMBERS:
+${suggestedActivities.slice(0, 3).map((a: ActivityRec) => `- ${a.name}: ${a.description} (${a.rewardPoints} RPs, ${a.timeCommitment})`).join('\n')}
+
+Use this context to make personalized recommendations. For example:
+- If user hasn't joined local groups, suggest relevant ones based on their interests
+- If there are upcoming events matching their interests, encourage participation
+- Suggest activities appropriate for the city's size
+- Offer Reward Points (RPs) as incentive for engagement`;
+
+      enhancedSystemPrompt += contextSection;
+    }
+
+    // Add documentation context (RAG)
+    if (context) {
+      enhancedSystemPrompt += `
 
 Use the following documentation to inform your answer:
 
 ${context}
 
-Cite sources when relevant using the format [Source: title].`
-      : BRIDGE_SYSTEM_PROMPT;
+Cite sources when relevant using the format [Source: title].`;
+    }
 
     // Build messages array with conversation history
     const messages = [
