@@ -150,34 +150,9 @@ export async function POST(request: NextRequest) {
     // Build enhanced system prompt with context
     let enhancedSystemPrompt = BRIDGE_SYSTEM_PROMPT;
 
-    // Add user/city context if available (Phase 1: Context-Aware Recommendations)
-    if (userContext && cityContext) {
-      const contextSection = `
-
-CONTEXT ABOUT THIS USER:
-- Location: ${userContext.city}, ${userContext.region}
-- Interests: ${userContext.explicitInterests.join(', ')}
-- Active in ${userContext.groupMemberships.length} group(s)
-- Engagement level: ${userContext.engagementScore}/100
-- Has attended ${userContext.eventAttendance.length} event(s)
-
-WHAT'S HAPPENING IN ${cityContext.city.toUpperCase()}:
-- ${cityContext.activeGroups.length} active groups with ${cityContext.totalGroupMembers} total members
-- ${cityContext.upcomingEvents.length} upcoming events in the next 30 days
-- Trending topics: ${cityContext.trendingTopics.join(', ')}
-- Popular interests: ${cityContext.popularInterests.join(', ')}
-
-SUGGESTED ACTIVITIES FOR ${cityContext.totalGroupMembers} MEMBERS:
-${suggestedActivities.slice(0, 3).map((a: ActivityRec) => `- ${a.name}: ${a.description} (${a.rewardPoints} RPs, ${a.timeCommitment})`).join('\n')}
-
-Use this context to make personalized recommendations. For example:
-- If user hasn't joined local groups, suggest relevant ones based on their interests
-- If there are upcoming events matching their interests, encourage participation
-- Suggest activities appropriate for the city's size
-- Offer Reward Points (RPs) as incentive for engagement`;
-
-      enhancedSystemPrompt += contextSection;
-    }
+    // User/city context temporarily disabled (P1 security fix)
+    // TODO: Re-enable after implementing session-based authentication
+    // See: Phase 1 (Context Foundation) in bridge recommendations spec
 
     // Add documentation context (RAG)
     if (context) {
