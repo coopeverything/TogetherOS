@@ -145,31 +145,32 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
         <div
           style={{
             background: 'var(--bg-1)',
-            padding: '2rem',
-            borderRadius: '1rem',
+            padding: '1rem',
+            borderRadius: '0.5rem',
             border: '1px solid var(--border)',
           }}
         >
           <h2
             style={{
-              fontSize: '1.5rem',
-              fontWeight: 700,
+              fontSize: '1.125rem',
+              fontWeight: 600,
               color: 'var(--ink-900)',
-              marginBottom: '1rem',
+              marginBottom: '0.75rem',
             }}
           >
             Step 1: Ask Bridge a Question
           </h2>
-          <p style={{ color: 'var(--ink-700)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ink-700)', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: 1.6 }}>
             Ask Bridge a question about TogetherOS, cooperation, or governance to see how it responds.
           </p>
 
           <form onSubmit={handleAskBridge}>
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: '0.75rem' }}>
               <label
                 style={{
                   display: 'block',
                   fontWeight: 600,
+                  fontSize: '0.8125rem',
                   color: 'var(--ink-700)',
                   marginBottom: '0.5rem',
                 }}
@@ -184,7 +185,8 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
                 disabled={isLoading}
                 style={{
                   width: '100%',
-                  padding: '0.75rem 1rem',
+                  padding: '0.5rem 0.75rem',
+                  fontSize: '0.875rem',
                   border: '1px solid var(--border)',
                   borderRadius: '0.5rem',
                   background: 'var(--bg-1)',
@@ -196,8 +198,9 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             {error && (
               <div
                 style={{
-                  padding: '0.75rem',
-                  marginBottom: '1rem',
+                  padding: '0.5rem',
+                  marginBottom: '0.75rem',
+                  fontSize: '0.875rem',
                   background: 'var(--danger-bg)',
                   color: 'var(--danger)',
                   borderRadius: '0.5rem',
@@ -213,7 +216,8 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
               style={{
                 background: isLoading ? 'var(--ink-400)' : 'var(--brand-600)',
                 color: 'white',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
                 borderRadius: '0.5rem',
                 border: 'none',
                 fontWeight: 600,
@@ -231,17 +235,17 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
         <div
           style={{
             background: 'var(--bg-1)',
-            padding: '2rem',
-            borderRadius: '1rem',
+            padding: '1rem',
+            borderRadius: '0.5rem',
             border: '1px solid var(--border)',
           }}
         >
           <h2
             style={{
-              fontSize: '1.5rem',
-              fontWeight: 700,
+              fontSize: '1.125rem',
+              fontWeight: 600,
               color: 'var(--ink-900)',
-              marginBottom: '1rem',
+              marginBottom: '0.75rem',
             }}
           >
             Step 2: Bridge's Response
@@ -250,36 +254,36 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
           <div
             style={{
               background: 'var(--bg-2)',
-              padding: '1.5rem',
+              padding: '0.75rem',
               borderRadius: '0.5rem',
-              marginBottom: '1.5rem',
+              marginBottom: '1rem',
             }}
           >
-            <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+            <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
               Question:
             </div>
-            <div style={{ color: 'var(--ink-900)', marginBottom: '1rem' }}>{question}</div>
+            <div style={{ color: 'var(--ink-900)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>{question}</div>
 
-            <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+            <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
               Bridge's Answer:
             </div>
-            <div style={{ color: 'var(--ink-900)', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+            <div style={{ color: 'var(--ink-900)', fontSize: '0.875rem', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
               {bridgeResponse}
             </div>
           </div>
 
           <h3
             style={{
-              fontSize: '1.125rem',
+              fontSize: '0.9375rem',
               fontWeight: 600,
               color: 'var(--ink-900)',
-              marginBottom: '1rem',
+              marginBottom: '0.75rem',
             }}
           >
             Rate Bridge's Response
           </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
             <StarRating
               label="Helpfulness"
               value={ratings.helpfulness}
@@ -300,8 +304,9 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
           {error && (
             <div
               style={{
-                padding: '0.75rem',
-                marginBottom: '1rem',
+                padding: '0.5rem',
+                marginBottom: '0.75rem',
+                fontSize: '0.875rem',
                 background: 'var(--danger-bg)',
                 color: 'var(--danger)',
                 borderRadius: '0.5rem',
@@ -311,13 +316,14 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
               onClick={() => setStep('ask')}
               style={{
                 background: 'transparent',
                 color: 'var(--ink-700)',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
                 borderRadius: '0.5rem',
                 border: '1px solid var(--border)',
                 fontWeight: 600,
@@ -332,7 +338,8 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
               style={{
                 background: canProceedToIdeal ? 'var(--brand-600)' : 'var(--ink-400)',
                 color: 'white',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
                 borderRadius: '0.5rem',
                 border: 'none',
                 fontWeight: 600,
@@ -350,33 +357,33 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
         <div
           style={{
             background: 'var(--bg-1)',
-            padding: '2rem',
-            borderRadius: '1rem',
+            padding: '1rem',
+            borderRadius: '0.5rem',
             border: '1px solid var(--border)',
           }}
         >
           <h2
             style={{
-              fontSize: '1.5rem',
-              fontWeight: 700,
+              fontSize: '1.125rem',
+              fontWeight: 600,
               color: 'var(--ink-900)',
-              marginBottom: '1rem',
+              marginBottom: '0.75rem',
             }}
           >
             Step 3: Provide Ideal Response
           </h2>
 
-          <p style={{ color: 'var(--ink-700)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ink-700)', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: 1.6 }}>
             Write how Bridge should have answered this question. This will be used to train the AI.
           </p>
 
           <div
             style={{
               background: 'var(--bg-2)',
-              padding: '1rem',
+              padding: '0.75rem',
               borderRadius: '0.5rem',
-              marginBottom: '1.5rem',
-              fontSize: '0.875rem',
+              marginBottom: '1rem',
+              fontSize: '0.8125rem',
             }}
           >
             <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.25rem' }}>
@@ -388,11 +395,12 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             </div>
           </div>
 
-          <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{ marginBottom: '1rem' }}>
             <label
               style={{
                 display: 'block',
                 fontWeight: 600,
+                fontSize: '0.8125rem',
                 color: 'var(--ink-700)',
                 marginBottom: '0.5rem',
               }}
@@ -406,7 +414,8 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
               rows={8}
               style={{
                 width: '100%',
-                padding: '0.75rem 1rem',
+                padding: '0.5rem 0.75rem',
+                fontSize: '0.875rem',
                 border: '1px solid var(--border)',
                 borderRadius: '0.5rem',
                 background: 'var(--bg-1)',
@@ -420,8 +429,9 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
           {error && (
             <div
               style={{
-                padding: '0.75rem',
-                marginBottom: '1rem',
+                padding: '0.5rem',
+                marginBottom: '0.75rem',
+                fontSize: '0.875rem',
                 background: 'var(--danger-bg)',
                 color: 'var(--danger)',
                 borderRadius: '0.5rem',
@@ -431,14 +441,15 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
               onClick={() => setStep('rate')}
               disabled={isSaving}
               style={{
                 background: 'transparent',
                 color: 'var(--ink-700)',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
                 borderRadius: '0.5rem',
                 border: '1px solid var(--border)',
                 fontWeight: 600,
@@ -453,7 +464,8 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
               style={{
                 background: isSaving || !idealResponse.trim() ? 'var(--ink-400)' : 'var(--brand-600)',
                 color: 'white',
-                padding: '0.75rem 1.5rem',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
                 borderRadius: '0.5rem',
                 border: 'none',
                 fontWeight: 600,

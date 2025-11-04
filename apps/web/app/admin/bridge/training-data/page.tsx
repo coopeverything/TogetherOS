@@ -21,6 +21,7 @@ export default function TrainingDataPage() {
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedExample, setSelectedExample] = useState<BridgeTrainingExample | null>(null);
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   // Fetch training examples
@@ -157,32 +158,32 @@ export default function TrainingDataPage() {
   };
 
   return (
-    <div style={{ background: 'var(--bg-0)', minHeight: '100vh', padding: '3rem 2rem' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+    <div style={{ background: 'var(--bg-0)', minHeight: '100vh', padding: '2rem 1rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
           <h1
             style={{
-              fontSize: '2rem',
-              fontWeight: 700,
+              fontSize: '1.5rem',
+              fontWeight: 600,
               color: 'var(--ink-900)',
               marginBottom: '0.5rem',
             }}
           >
             Training Data Viewer
           </h1>
-          <p style={{ color: 'var(--ink-700)', fontSize: '1.125rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ink-700)', fontSize: '0.875rem', lineHeight: 1.6 }}>
             View, edit, and manage Bridge training examples
           </p>
         </div>
 
-        {/* Stats */}
+        {/* Stats - Compact 8-grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '1rem',
-            marginBottom: '2rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+            gap: '0.75rem',
+            marginBottom: '1.5rem',
           }}
         >
           {[
@@ -190,154 +191,139 @@ export default function TrainingDataPage() {
             {
               label: 'Pending',
               count: examples.filter((ex) => ex.trainingStatus === 'pending').length,
-              color: 'var(--warn)',
+              color: '#f59e0b',
             },
             {
               label: 'Approved',
               count: examples.filter((ex) => ex.trainingStatus === 'approved').length,
-              color: 'var(--success)',
+              color: '#10b981',
             },
             {
               label: 'Rejected',
               count: examples.filter((ex) => ex.trainingStatus === 'rejected').length,
-              color: 'var(--danger)',
+              color: '#ef4444',
+            },
+            {
+              label: 'Reviewed',
+              count: examples.filter((ex) => ex.trainingStatus === 'reviewed').length,
+              color: '#3b82f6',
+            },
+            {
+              label: 'High Quality',
+              count: examples.filter((ex) => (ex.qualityScore || 0) >= 80).length,
+              color: '#10b981',
+            },
+            {
+              label: 'With Ideal',
+              count: examples.filter((ex) => ex.idealResponse).length,
+              color: '#8b5cf6',
+            },
+            {
+              label: 'Rated',
+              count: examples.filter((ex) => ex.helpfulnessRating || ex.accuracyRating || ex.toneRating).length,
+              color: '#6b7280',
             },
           ].map((stat) => (
             <div
               key={stat.label}
               style={{
                 background: 'var(--bg-1)',
-                padding: '1.5rem',
+                padding: '0.75rem',
                 borderRadius: '0.5rem',
                 border: '1px solid var(--border)',
+                textAlign: 'center',
               }}
             >
-              <div style={{ fontSize: '2rem', fontWeight: 700, color: stat.color }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 600, color: stat.color, marginBottom: '0.25rem' }}>
                 {stat.count}
               </div>
-              <div style={{ fontSize: '0.875rem', color: 'var(--ink-700)', marginTop: '0.25rem' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--ink-700)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {stat.label}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Filters */}
+        {/* Filters - Compact inline bar */}
         <div
           style={{
             background: 'var(--bg-1)',
-            padding: '1.5rem',
-            borderRadius: '1rem',
+            padding: '0.75rem',
+            borderRadius: '0.5rem',
             border: '1px solid var(--border)',
-            marginBottom: '2rem',
+            marginBottom: '1rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
+            alignItems: 'center',
           }}
         >
-          <div
+          <label style={{ fontSize: '0.875rem', color: 'var(--ink-700)' }}>
+            Status:
+          </label>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '1rem',
+              padding: '0.25rem 0.5rem',
+              fontSize: '0.875rem',
+              border: '1px solid var(--border)',
+              borderRadius: '0.25rem',
+              background: 'var(--bg-2)',
+              color: 'var(--ink-900)',
             }}
           >
-            {/* Status Filter */}
-            <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontWeight: 600,
-                  color: 'var(--ink-700)',
-                  marginBottom: '0.5rem',
-                  fontSize: '0.875rem',
-                }}
-              >
-                Filter by Status
-              </label>
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.5rem',
-                  background: 'var(--bg-1)',
-                  color: 'var(--ink-900)',
-                }}
-              >
-                <option value="all">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="reviewed">Reviewed</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
 
-            {/* Search */}
-            <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontWeight: 600,
-                  color: 'var(--ink-700)',
-                  marginBottom: '0.5rem',
-                  fontSize: '0.875rem',
-                }}
-              >
-                Search
-              </label>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search questions, responses..."
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.5rem',
-                  background: 'var(--bg-1)',
-                  color: 'var(--ink-900)',
-                }}
-              />
-            </div>
-          </div>
-        </div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+            style={{
+              marginLeft: 'auto',
+              padding: '0.25rem 0.5rem',
+              fontSize: '0.875rem',
+              border: '1px solid var(--border)',
+              borderRadius: '0.25rem',
+              background: 'var(--bg-2)',
+              color: 'var(--ink-900)',
+              width: '200px',
+            }}
+          />
 
-        {/* Export Buttons */}
-        <div
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            marginBottom: '2rem',
-          }}
-        >
           <button
             onClick={() => handleExport('csv')}
             style={{
-              padding: '0.75rem 1.5rem',
-              background: 'var(--brand-600)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '0.5rem',
-              fontWeight: 600,
+              padding: '0.25rem 0.75rem',
+              fontSize: '0.875rem',
+              border: '1px solid var(--border)',
+              borderRadius: '0.25rem',
+              background: 'var(--bg-2)',
+              color: 'var(--ink-900)',
               cursor: 'pointer',
             }}
           >
-            Export as CSV
+            CSV ↓
           </button>
           <button
             onClick={() => handleExport('json')}
             style={{
-              padding: '0.75rem 1.5rem',
-              background: 'var(--ink-700)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '0.5rem',
-              fontWeight: 600,
+              padding: '0.25rem 0.75rem',
+              fontSize: '0.875rem',
+              border: '1px solid var(--border)',
+              borderRadius: '0.25rem',
+              background: 'var(--bg-2)',
+              color: 'var(--ink-900)',
               cursor: 'pointer',
             }}
           >
-            Export as JSON
+            JSON ↓
           </button>
         </div>
 
@@ -397,177 +383,213 @@ export default function TrainingDataPage() {
           </div>
         )}
 
-        {/* Examples List */}
+        {/* Examples List - Compact expandable cards */}
         {!isLoading && filteredExamples.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {filteredExamples.map((example) => (
-              <div
-                key={example.id}
-                style={{
-                  background: 'var(--bg-1)',
-                  padding: '1.5rem',
-                  borderRadius: '1rem',
-                  border: '1px solid var(--border)',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
-                      <span
-                        style={{
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            {filteredExamples.map((example) => {
+              const isExpanded = expandedCardId === example.id;
+              const getPriorityColor = () => {
+                if (example.qualityScore && example.qualityScore >= 80) return '#10b981';
+                if (example.trainingStatus === 'pending') return '#f59e0b';
+                if (example.trainingStatus === 'rejected') return '#ef4444';
+                return '#3b82f6';
+              };
+
+              return (
+                <div
+                  key={example.id}
+                  style={{
+                    background: 'var(--bg-1)',
+                    padding: '0.875rem',
+                    borderRadius: '0.5rem',
+                    border: isExpanded ? '2px solid var(--brand-500)' : '1px solid var(--border)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onClick={() => setExpandedCardId(isExpanded ? null : example.id)}
+                >
+                  <div style={{ display: 'flex', alignItems: 'start', gap: '0.75rem' }}>
+                    {/* Priority indicator bar */}
+                    <div style={{
+                      width: '3px',
+                      minHeight: '60px',
+                      background: getPriorityColor(),
+                      borderRadius: '2px',
+                      alignSelf: 'stretch',
+                    }} />
+
+                    {/* Content */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      {/* Meta badges */}
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        marginBottom: '0.5rem',
+                        flexWrap: 'wrap',
+                      }}>
+                        <span style={{
                           fontSize: '0.75rem',
-                          fontWeight: 600,
-                          padding: '0.25rem 0.75rem',
+                          padding: '0.125rem 0.5rem',
                           borderRadius: '0.25rem',
                           background: getStatusColor(example.trainingStatus) + '20',
                           color: getStatusColor(example.trainingStatus),
-                        }}
-                      >
-                        {example.trainingStatus.toUpperCase()}
-                      </span>
-                      {example.qualityScore !== undefined && (
-                        <span
-                          style={{
+                          textTransform: 'capitalize',
+                        }}>
+                          {example.trainingStatus}
+                        </span>
+                        {example.qualityScore !== undefined && (
+                          <span style={{
                             fontSize: '0.75rem',
-                            fontWeight: 600,
-                            padding: '0.25rem 0.75rem',
+                            padding: '0.125rem 0.5rem',
                             borderRadius: '0.25rem',
                             background: getQualityScoreColor(example.qualityScore) + '20',
                             color: getQualityScoreColor(example.qualityScore),
-                          }}
+                          }}>
+                            Q: {example.qualityScore}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Question */}
+                      <div style={{
+                        fontSize: '0.9375rem',
+                        fontWeight: 500,
+                        color: 'var(--ink-900)',
+                        marginBottom: '0.5rem',
+                      }}>
+                        {example.question}
+                      </div>
+
+                      {/* Meta info */}
+                      <div style={{
+                        fontSize: '0.8125rem',
+                        color: 'var(--ink-700)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        flexWrap: 'wrap',
+                      }}>
+                        <span>{new Date(example.createdAt).toLocaleDateString()}</span>
+                        {(example.helpfulnessRating || example.accuracyRating || example.toneRating) && (
+                          <>
+                            <span>•</span>
+                            <span>⭐ Rated</span>
+                          </>
+                        )}
+                        {example.idealResponse && (
+                          <>
+                            <span>•</span>
+                            <span>✓ Has ideal</span>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Ratings (compact inline) */}
+                      {(example.helpfulnessRating || example.accuracyRating || example.toneRating) && (
+                        <div style={{
+                          marginTop: '0.5rem',
+                          display: 'flex',
+                          gap: '1rem',
+                          fontSize: '0.8125rem',
+                          color: 'var(--ink-700)',
+                        }}>
+                          {example.helpfulnessRating && (
+                            <span>H: {example.helpfulnessRating}/5</span>
+                          )}
+                          {example.accuracyRating && (
+                            <span>A: {example.accuracyRating}/5</span>
+                          )}
+                          {example.toneRating && (
+                            <span>T: {example.toneRating}/5</span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Expanded actions */}
+                      {isExpanded && (
+                        <div style={{
+                          marginTop: '0.75rem',
+                          paddingTop: '0.75rem',
+                          borderTop: '1px solid var(--border)',
+                          display: 'flex',
+                          gap: '0.5rem',
+                          flexWrap: 'wrap',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
                         >
-                          Quality: {example.qualityScore}/100
-                        </span>
+                          {example.trainingStatus === 'pending' && (
+                            <>
+                              <button
+                                onClick={() => handleApprove(example.id)}
+                                style={{
+                                  padding: '0.375rem 0.75rem',
+                                  fontSize: '0.8125rem',
+                                  border: '1px solid #10b981',
+                                  borderRadius: '0.25rem',
+                                  background: '#10b98110',
+                                  color: '#10b981',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Approve
+                              </button>
+                              <button
+                                onClick={() => handleReject(example.id)}
+                                style={{
+                                  padding: '0.375rem 0.75rem',
+                                  fontSize: '0.8125rem',
+                                  border: '1px solid #ef4444',
+                                  borderRadius: '0.25rem',
+                                  background: '#ef444410',
+                                  color: '#ef4444',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Reject
+                              </button>
+                            </>
+                          )}
+                          <button
+                            onClick={() => handleDelete(example.id)}
+                            style={{
+                              padding: '0.375rem 0.75rem',
+                              fontSize: '0.8125rem',
+                              border: '1px solid #ef4444',
+                              borderRadius: '0.25rem',
+                              background: '#ef444410',
+                              color: '#ef4444',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => setSelectedExample(example)}
+                            style={{
+                              marginLeft: 'auto',
+                              padding: '0.375rem 0.75rem',
+                              fontSize: '0.8125rem',
+                              border: '1px solid var(--brand-500)',
+                              borderRadius: '0.25rem',
+                              background: 'var(--brand-500)',
+                              color: 'white',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            View Details →
+                          </button>
+                        </div>
                       )}
                     </div>
-                    <div style={{ fontWeight: 600, color: 'var(--ink-900)', marginBottom: '0.5rem' }}>
-                      {example.question}
-                    </div>
-                    {example.reviewNotes && (
-                      <div
-                        style={{
-                          fontSize: '0.875rem',
-                          color: 'var(--ink-700)',
-                          fontStyle: 'italic',
-                          marginTop: '0.5rem',
-                        }}
-                      >
-                        Notes: {example.reviewNotes}
-                      </div>
-                    )}
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-                    <button
-                      onClick={() => setSelectedExample(example)}
-                      style={{
-                        padding: '0.5rem 1rem',
-                        background: 'var(--brand-600)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '0.5rem',
-                        fontWeight: 600,
-                        fontSize: '0.875rem',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      View
-                    </button>
-                    {example.trainingStatus === 'pending' && (
-                      <>
-                        <button
-                          onClick={() => handleApprove(example.id)}
-                          style={{
-                            padding: '0.5rem 1rem',
-                            background: 'var(--success)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '0.5rem',
-                            fontWeight: 600,
-                            fontSize: '0.875rem',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Approve
-                        </button>
-                        <button
-                          onClick={() => handleReject(example.id)}
-                          style={{
-                            padding: '0.5rem 1rem',
-                            background: 'var(--danger)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '0.5rem',
-                            fontWeight: 600,
-                            fontSize: '0.875rem',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Reject
-                        </button>
-                      </>
-                    )}
-                    <button
-                      onClick={() => handleDelete(example.id)}
-                      style={{
-                        padding: '0.5rem 1rem',
-                        background: 'transparent',
-                        color: 'var(--danger)',
-                        border: '1px solid var(--danger)',
-                        borderRadius: '0.5rem',
-                        fontWeight: 600,
-                        fontSize: '0.875rem',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Delete
-                    </button>
                   </div>
                 </div>
-
-                {/* Ratings */}
-                {(example.helpfulnessRating || example.accuracyRating || example.toneRating) && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '1.5rem',
-                      padding: '0.75rem',
-                      background: 'var(--bg-2)',
-                      borderRadius: '0.5rem',
-                      fontSize: '0.875rem',
-                    }}
-                  >
-                    {example.helpfulnessRating && (
-                      <div>
-                        <span style={{ color: 'var(--ink-700)' }}>Helpfulness: </span>
-                        <span style={{ fontWeight: 600, color: 'var(--ink-900)' }}>
-                          {example.helpfulnessRating}/5
-                        </span>
-                      </div>
-                    )}
-                    {example.accuracyRating && (
-                      <div>
-                        <span style={{ color: 'var(--ink-700)' }}>Accuracy: </span>
-                        <span style={{ fontWeight: 600, color: 'var(--ink-900)' }}>
-                          {example.accuracyRating}/5
-                        </span>
-                      </div>
-                    )}
-                    {example.toneRating && (
-                      <div>
-                        <span style={{ color: 'var(--ink-700)' }}>Tone: </span>
-                        <span style={{ fontWeight: 600, color: 'var(--ink-900)' }}>
-                          {example.toneRating}/5
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
-        {/* Detail Modal */}
+        {/* Detail Modal - Compact */}
         {selectedExample && (
           <div
             style={{
@@ -580,7 +602,7 @@ export default function TrainingDataPage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '2rem',
+              padding: '1rem',
               zIndex: 50,
             }}
             onClick={() => setSelectedExample(null)}
@@ -588,17 +610,17 @@ export default function TrainingDataPage() {
             <div
               style={{
                 background: 'var(--bg-1)',
-                borderRadius: '1rem',
+                borderRadius: '0.5rem',
                 maxWidth: '800px',
                 width: '100%',
                 maxHeight: '90vh',
                 overflow: 'auto',
-                padding: '2rem',
+                padding: '1.5rem',
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--ink-900)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--ink-900)' }}>
                   Training Example Details
                 </h2>
                 <button
@@ -615,18 +637,19 @@ export default function TrainingDataPage() {
                 </button>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {/* Question */}
                 <div>
-                  <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
                     Question
                   </div>
                   <div
                     style={{
-                      padding: '1rem',
+                      padding: '0.75rem',
                       background: 'var(--bg-2)',
                       borderRadius: '0.5rem',
                       color: 'var(--ink-900)',
+                      fontSize: '0.875rem',
                     }}
                   >
                     {selectedExample.question}
@@ -635,15 +658,16 @@ export default function TrainingDataPage() {
 
                 {/* Bridge Response */}
                 <div>
-                  <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
                     Bridge's Response
                   </div>
                   <div
                     style={{
-                      padding: '1rem',
+                      padding: '0.75rem',
                       background: 'var(--bg-2)',
                       borderRadius: '0.5rem',
                       color: 'var(--ink-900)',
+                      fontSize: '0.875rem',
                       whiteSpace: 'pre-wrap',
                       lineHeight: 1.6,
                     }}
@@ -655,15 +679,16 @@ export default function TrainingDataPage() {
                 {/* Ideal Response */}
                 {selectedExample.idealResponse && (
                   <div>
-                    <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+                    <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
                       Ideal Response
                     </div>
                     <div
                       style={{
-                        padding: '1rem',
+                        padding: '0.75rem',
                         background: 'var(--success-bg)',
                         borderRadius: '0.5rem',
                         color: 'var(--ink-900)',
+                        fontSize: '0.875rem',
                         whiteSpace: 'pre-wrap',
                         lineHeight: 1.6,
                       }}
@@ -678,29 +703,29 @@ export default function TrainingDataPage() {
                   selectedExample.accuracyRating ||
                   selectedExample.toneRating) && (
                   <div>
-                    <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+                    <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
                       Ratings
                     </div>
                     <div
                       style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(3, 1fr)',
-                        gap: '1rem',
+                        gap: '0.75rem',
                       }}
                     >
                       {selectedExample.helpfulnessRating && (
                         <div
                           style={{
-                            padding: '1rem',
+                            padding: '0.75rem',
                             background: 'var(--bg-2)',
                             borderRadius: '0.5rem',
                             textAlign: 'center',
                           }}
                         >
-                          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--brand-600)' }}>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--brand-600)' }}>
                             {selectedExample.helpfulnessRating}
                           </div>
-                          <div style={{ fontSize: '0.875rem', color: 'var(--ink-700)' }}>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--ink-700)' }}>
                             Helpfulness
                           </div>
                         </div>
@@ -708,31 +733,31 @@ export default function TrainingDataPage() {
                       {selectedExample.accuracyRating && (
                         <div
                           style={{
-                            padding: '1rem',
+                            padding: '0.75rem',
                             background: 'var(--bg-2)',
                             borderRadius: '0.5rem',
                             textAlign: 'center',
                           }}
                         >
-                          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--brand-600)' }}>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--brand-600)' }}>
                             {selectedExample.accuracyRating}
                           </div>
-                          <div style={{ fontSize: '0.875rem', color: 'var(--ink-700)' }}>Accuracy</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--ink-700)' }}>Accuracy</div>
                         </div>
                       )}
                       {selectedExample.toneRating && (
                         <div
                           style={{
-                            padding: '1rem',
+                            padding: '0.75rem',
                             background: 'var(--bg-2)',
                             borderRadius: '0.5rem',
                             textAlign: 'center',
                           }}
                         >
-                          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--brand-600)' }}>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--brand-600)' }}>
                             {selectedExample.toneRating}
                           </div>
-                          <div style={{ fontSize: '0.875rem', color: 'var(--ink-700)' }}>Tone</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--ink-700)' }}>Tone</div>
                         </div>
                       )}
                     </div>
@@ -741,15 +766,15 @@ export default function TrainingDataPage() {
 
                 {/* Metadata */}
                 <div>
-                  <div style={{ fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
                     Metadata
                   </div>
                   <div
                     style={{
-                      padding: '1rem',
+                      padding: '0.75rem',
                       background: 'var(--bg-2)',
                       borderRadius: '0.5rem',
-                      fontSize: '0.875rem',
+                      fontSize: '0.8125rem',
                     }}
                   >
                     <div style={{ marginBottom: '0.5rem' }}>
@@ -787,15 +812,16 @@ export default function TrainingDataPage() {
                 </div>
               </div>
 
-              <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+              <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                 <button
                   onClick={() => setSelectedExample(null)}
                   style={{
-                    padding: '0.75rem 1.5rem',
+                    padding: '0.5rem 1rem',
                     background: 'transparent',
                     color: 'var(--ink-700)',
                     border: '1px solid var(--border)',
                     borderRadius: '0.5rem',
+                    fontSize: '0.875rem',
                     fontWeight: 600,
                     cursor: 'pointer',
                   }}
