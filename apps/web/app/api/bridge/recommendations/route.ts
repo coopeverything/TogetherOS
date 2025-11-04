@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { recommendationRepo } from '../../../../../api/src/modules/bridge-recommendations/repos/InMemoryRecommendationRepo';
+import { recommendationRepo } from '../../../../../api/src/modules/bridge-recommendations/repos/PostgresRecommendationRepo';
 
 export async function GET(request: NextRequest) {
   try {
