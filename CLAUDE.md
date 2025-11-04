@@ -93,6 +93,51 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 
 ---
 
+## Production Server Access
+
+**SSH Access:** `ssh root@continentjump`
+- Uses SSH key authentication (no password)
+- Server IP: 72.60.27.167
+- Project path: `/var/www/togetheros`
+
+**Common Operations:**
+
+```bash
+# Connect to production server
+ssh root@continentjump
+
+# Navigate to project
+cd /var/www/togetheros
+
+# Run database migration
+psql -U postgres -d togetheros -f db/migrations/XXX_migration_name.sql
+
+# Set user as admin (example)
+psql -U postgres -d togetheros -c "UPDATE users SET is_admin = TRUE WHERE email = 'user@example.com';"
+
+# Check deployment status
+pm2 status togetheros
+
+# View logs
+pm2 logs togetheros --lines 100
+
+# Restart application (if needed)
+pm2 restart togetheros
+```
+
+**Database Access:**
+```bash
+# Connect to PostgreSQL
+psql -U postgres -d togetheros
+
+# Common queries
+\dt                  # List tables
+\d users            # Describe users table
+SELECT * FROM users WHERE is_admin = TRUE;
+```
+
+---
+
 ## Dependabot Update Protocol
 
 **Before merging Dependabot PRs:**
