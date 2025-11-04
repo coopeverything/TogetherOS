@@ -2,8 +2,7 @@
  * Bridge Context Service
  * Fetches user and city context for context-aware recommendations
  *
- * Phase 1: MVP with mock data
- * Phase 2+: Real database queries
+ * Uses real database queries when available, falls back to mock data
  */
 
 import type {
@@ -15,6 +14,7 @@ import type {
   BridgeGroupMembership,
   BridgeEventAttendance,
 } from '@togetheros/types';
+import { buildUserContextFromDB, buildCityContextFromDB } from './context-service-db';
 
 // Cache TTL: 5 minutes for user context, 1 hour for city context
 const USER_CONTEXT_CACHE_TTL = 5 * 60 * 1000;
@@ -76,13 +76,25 @@ export async function fetchCityContext(
   return context;
 }
 
+// Toggle between database and mock data
+const USE_DATABASE = process.env.BRIDGE_USE_DB !== 'false'; // Default to true
+
 /**
  * Build user context
- * TODO: Replace with real database queries
+ * Uses database queries when available, falls back to mock data
  */
 async function buildUserContext(
   input: FetchUserContextInput
 ): Promise<UserContext> {
+  // Try database first if enabled
+  if (USE_DATABASE) {
+    try {
+      return await buildUserContextFromDB(input);
+    } catch (error) {
+      console.warn('Failed to fetch user context from database, falling back to mock:', error);
+      // Fall through to mock data
+    }
+  }
   // MVP: Mock data for demonstration
   // In production, this would query:
   // - profiles table for location and explicit interests
@@ -160,11 +172,20 @@ async function buildUserContext(
 
 /**
  * Build city context
- * TODO: Replace with real database queries
+ * Uses database queries when available, falls back to mock data
  */
 async function buildCityContext(
   input: FetchCityContextInput
 ): Promise<CityContext> {
+  // Try database first if enabled
+  if (USE_DATABASE) {
+    try {
+      return await buildCityContextFromDB(input);
+    } catch (error) {
+      console.warn('Failed to fetch city context from database, falling back to mock:', error);
+      // Fall through to mock data
+    }
+  }
   // MVP: Mock data for demonstration
   // In production, this would query:
   // - groups table filtered by city

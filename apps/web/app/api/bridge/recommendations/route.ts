@@ -6,24 +6,25 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/auth/middleware';
 import { recommendationRepo } from '../../../../../api/src/modules/bridge-recommendations/repos/PostgresRecommendationRepo';
 
 export async function GET(request: NextRequest) {
   try {
+    // Get authenticated user
+    const user = await getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
     const status = searchParams.get('status');
     const type = searchParams.get('type');
     const minRelevance = searchParams.get('minRelevance');
     const limit = searchParams.get('limit');
 
-    // Validate input
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'userId is required' },
-        { status: 400 }
-      );
-    }
+    // Use authenticated user's ID
+    const userId = user.id;
 
     // Get recommendations
     const recommendations = await recommendationRepo.getRecommendations({

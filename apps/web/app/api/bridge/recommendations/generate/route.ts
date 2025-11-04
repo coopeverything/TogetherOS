@@ -6,22 +6,24 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/auth/middleware';
 import { fetchUserContext, fetchCityContext } from '../../../../../lib/bridge/context-service';
 import { generateRecommendations } from '../../../../../lib/bridge/recommendation-generator';
 import { recommendationRepo } from '../../../../../../api/src/modules/bridge-recommendations/repos/PostgresRecommendationRepo';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { userId, maxRecommendations = 5 } = body;
-
-    // Validate input
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'userId is required' },
-        { status: 400 }
-      );
+    // Get authenticated user
+    const user = await getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const body = await request.json();
+    const { maxRecommendations = 5 } = body;
+
+    // Use authenticated user's ID
+    const userId = user.id;
 
     // Fetch user and city context
     const userContext = await fetchUserContext({ userId });

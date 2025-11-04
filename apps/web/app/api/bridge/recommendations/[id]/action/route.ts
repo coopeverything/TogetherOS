@@ -6,6 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/auth/middleware';
 import { recommendationRepo } from '../../../../../../../api/src/modules/bridge-recommendations/repos/PostgresRecommendationRepo';
 
 interface RouteParams {
@@ -16,9 +17,15 @@ interface RouteParams {
 
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
+    // Get authenticated user
+    const user = await getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     const body = await request.json();
-    const { action, userId } = body;
+    const { action } = body;
 
     // Validate input
     if (!action || !['act', 'dismiss'].includes(action)) {
@@ -28,12 +35,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'userId is required' },
-        { status: 400 }
-      );
-    }
+    // Use authenticated user's ID
+    const userId = user.id;
 
     // Get recommendation
     const recommendation = await recommendationRepo.getById(id);
