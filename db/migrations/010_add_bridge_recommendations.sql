@@ -1,6 +1,15 @@
 -- Bridge Recommendations Migration
 -- Stores personalized recommendations for users based on context
 
+-- Create trigger function to auto-update updated_at column
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TABLE bridge_recommendations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
@@ -13,6 +22,10 @@ CREATE TABLE bridge_recommendations (
   -- Content
   title VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
+
+  -- Target resource (what the recommendation points to)
+  target_id VARCHAR(255), -- ID of the resource (group ID, event ID, post ID, etc.)
+  target_url TEXT, -- URL to the resource
 
   -- Targeting
   matched_interests TEXT[], -- Interests that matched (e.g., ['housing', 'climate'])
