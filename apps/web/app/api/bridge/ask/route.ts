@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const question = body.question?.trim();
     const conversationHistory = body.conversationHistory || []; // Array of {role, content}
-    const userId = body.userId; // Optional: enables context-aware recommendations
+    // TODO: Add userId support with proper authentication (see PR #200 Codex P1 comment)
 
     // Validate input - 204 for empty
     if (!question || question.length === 0) {
@@ -136,24 +136,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch user and city context if userId provided (Phase 1: Context Foundation)
-    let userContext = null;
-    let cityContext = null;
-    let suggestedActivities: ActivityRec[] = [];
-
-    if (userId) {
-      try {
-        userContext = await fetchUserContext({ userId });
-        cityContext = await fetchCityContext({
-          city: userContext.city,
-          region: userContext.region,
-        });
-        suggestedActivities = getActivitiesForCitySize(cityContext.totalGroupMembers);
-      } catch (error) {
-        console.error('[Bridge] Error fetching context:', error);
-        // Continue without context - don't fail the request
-      }
-    }
+    // Fetch user and city context - DISABLED until authentication is implemented
+    // TODO: Re-enable after adding session-based authentication (Phase 1: Context Foundation)
+    const userContext = null;
+    const cityContext = null;
+    const suggestedActivities: ActivityRec[] = [];
 
     // Get relevant documentation context (RAG)
     const index = getDocsIndex();
