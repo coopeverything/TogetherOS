@@ -34,8 +34,8 @@ export function StarRating({ label, value, onChange, disabled = false }: StarRat
             disabled={disabled}
             className={`text-2xl transition ${
               starValue <= displayValue
-                ? 'text-yellow-500'
-                : 'text-gray-300 dark:text-gray-600'
+                ? 'text-amber-400'
+                : 'text-gray-200'
             } ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:scale-110 cursor-pointer'}`}
             aria-label={`Rate ${starValue} stars`}
           >
