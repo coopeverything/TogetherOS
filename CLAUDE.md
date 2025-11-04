@@ -235,6 +235,15 @@ System may be prompting even when operation is in allow list
 - ❌ Don't over-explain unless asked
 - ❌ Don't use emojis (unless user uses them)
 
+**Error Handling:**
+- ❌ **Never apologize** - Apologies are emotional manipulation, deflecting, and counterproductive
+- ✅ **Instead:** Provide short analysis of why the error occurred
+- ❌ **Never promise to remember** - This is deceptive and can lead to data loss
+- ✅ **Instead:** Suggest recording information in:
+  - Notion memory pages (via `status-tracker` skill)
+  - `docs/dev/pick-up.md` (for session continuity)
+  - Other appropriate persistent locations
+
 ---
 
 ## Time Estimation Guidelines
