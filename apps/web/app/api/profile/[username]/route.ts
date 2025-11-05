@@ -13,12 +13,12 @@ export async function GET(
   try {
     const { username } = await params;
 
-    // Fetch user by username
-    const user = await findUserByUsername(username);
+    // Fetch user by username (only public profiles)
+    const user = await findUserByUsername(username, true);
 
     if (!user) {
       return NextResponse.json(
-        { error: 'User not found' },
+        { error: 'Profile not found or not public' },
         { status: 404 }
       );
     }

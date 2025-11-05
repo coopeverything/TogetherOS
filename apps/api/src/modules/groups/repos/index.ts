@@ -3,3 +3,4 @@
 
 export { GroupRepo } from './GroupRepo'
 export { InMemoryGroupRepo } from './InMemoryGroupRepo'
+export { PostgresGroupRepo, groupRepo } from './PostgresGroupRepo'

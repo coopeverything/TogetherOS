@@ -8,6 +8,7 @@ import {
   createTrainingExample,
 } from '../../../../../api/src/modules/bridge-training/handlers'
 import type { TrainingExampleFilters } from '@togetheros/types'
+import { requireAdmin } from '@/lib/auth/middleware'
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,15 +52,24 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Require admin authentication
+    const user = await requireAdmin(request)
+
     const body = await request.json()
 
-    // TODO: Get userId from session/auth
-    const userId = 'admin_1' // Hardcoded for MVP
-
-    const example = await createTrainingExample(body, userId)
+    const example = await createTrainingExample(body, user.id)
     return NextResponse.json({ example }, { status: 201 })
   } catch (error: any) {
     console.error('POST /api/bridge-training/examples error:', error)
+
+    // Check if auth error
+    if (error.message === 'Unauthorized' || error.message === 'Admin access required') {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 403 }
+      )
+    }
+
     return NextResponse.json(
       { error: error.message || 'Failed to create training example' },
       { status: 400 }

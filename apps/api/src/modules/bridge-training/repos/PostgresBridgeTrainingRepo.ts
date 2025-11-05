@@ -168,11 +168,15 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     const pageSize = filters.pageSize || 20
     const offset = (page - 1) * pageSize
 
+    // Add pagination parameters to params array
+    const limitIndex = paramIndex
+    const offsetIndex = paramIndex + 1
+
     const result = await query<any>(
       `SELECT * FROM bridge_training_examples
        ${whereClause}
        ${orderByClause}
-       LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
+       LIMIT $${limitIndex} OFFSET $${offsetIndex}`,
       [...params, pageSize, offset]
     )
 

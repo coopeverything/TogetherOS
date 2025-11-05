@@ -2,8 +2,7 @@
 // API handlers for group growth tracking and milestones
 
 import type { GroupGrowthData, Milestone, MilestoneAchievement } from '@togetheros/types'
-import { InMemoryGroupRepo } from '../repos/InMemoryGroupRepo'
-import { getFixtureGroups } from '../fixtures'
+import { groupRepo } from '../repos/PostgresGroupRepo'
 
 // Milestone definitions (matching GroupGrowthTracker component)
 export const MILESTONES: Milestone[] = [
@@ -71,19 +70,6 @@ export const MILESTONES: Milestone[] = [
   },
 ]
 
-// Singleton repo for in-memory storage
-let groupRepo: InMemoryGroupRepo | null = null
-
-/**
- * Get or initialize group repo
- */
-function getGroupRepo(): InMemoryGroupRepo {
-  if (!groupRepo) {
-    groupRepo = new InMemoryGroupRepo(getFixtureGroups())
-  }
-  return groupRepo
-}
-
 /**
  * Mock growth history data
  * In production, this would come from a database tracking member joins/leaves
@@ -146,8 +132,7 @@ const mockGrowthHistory = new Map<string, MilestoneAchievement[]>([
  * Get growth data for a specific group
  */
 export async function getGroupGrowth(groupId: string): Promise<GroupGrowthData | null> {
-  const repo = getGroupRepo()
-  const group = await repo.findById(groupId)
+  const group = await groupRepo.findById(groupId)
 
   if (!group) {
     return null
@@ -174,10 +159,8 @@ export async function getGroupGrowth(groupId: string): Promise<GroupGrowthData |
  * Returns the first matching local group
  */
 export async function getGroupGrowthByLocation(location: string): Promise<GroupGrowthData | null> {
-  const repo = getGroupRepo()
-
   // Find local groups matching location
-  const groups = await repo.list({
+  const groups = await groupRepo.list({
     type: 'local',
     location,
     limit: 1,

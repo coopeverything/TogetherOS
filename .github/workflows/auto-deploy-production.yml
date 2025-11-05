@@ -91,6 +91,12 @@ jobs:
             git fetch origin yolo
             git reset --hard origin/yolo
 
+            echo "→ Running database migrations..."
+            bash scripts/run-migrations.sh || {
+              echo "⚠️  Migration failed, continuing with deployment..."
+              echo "Database may need manual intervention"
+            }
+
             echo "→ Installing dependencies..."
             npm install --production=false
 

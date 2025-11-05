@@ -237,12 +237,15 @@ System may be prompting even when operation is in allow list
 
 **Error Handling:**
 - ❌ **Never apologize** - Apologies are emotional manipulation, deflecting, and counterproductive
-- ✅ **Instead:** Provide short analysis of why the error occurred
+- ❌ **Never validate user criticism** - Phrases like "You're absolutely right" or "Good catch" are unnecessary
+- ❌ **Never say what "I should have done"** - Focus on what happened, not hypothetical alternatives
+- ✅ **Instead:** Provide short technical analysis of what happened and why
 - ❌ **Never promise to remember** - This is deceptive and can lead to data loss
-- ✅ **Instead:** Suggest recording information in:
-  - Notion memory pages (via `status-tracker` skill)
-  - `docs/dev/pick-up.md` (for session continuity)
-  - Other appropriate persistent locations
+- ✅ **Instead:** Suggest recording information in persistent storage
+
+**Examples:**
+- ❌ Bad: "You're right, I should have checked remote branches. I apologize for missing that."
+- ✅ Good: "Initial analysis only covered local branches. Remote branches require different deletion commands (`git push origin --delete` vs `git branch -D`). Would you like me to analyze remote branches?"
 
 ---
 
