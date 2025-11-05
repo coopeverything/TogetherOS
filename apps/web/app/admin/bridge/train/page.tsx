@@ -29,7 +29,8 @@ export default function BridgeTrainPage() {
         body: JSON.stringify({
           question: data.question,
           bridgeResponse: data.bridgeResponse,
-          category: 'general', // Default category for MVP
+          bridgeModel: 'gpt-3.5-turbo', // Default model
+          questionCategory: 'general', // Default category for MVP
         }),
       });
 

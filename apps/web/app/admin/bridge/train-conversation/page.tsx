@@ -51,7 +51,8 @@ export default function BridgeConversationTrainPage() {
             body: JSON.stringify({
               question: userMessage.content,
               bridgeResponse: bridgeMessage.content,
-              category: 'general', // Default category
+              bridgeModel: 'gpt-3.5-turbo', // Default model
+              questionCategory: 'general', // Default category
             })
           });
 
