@@ -1,12 +1,12 @@
 // apps/api/src/modules/governance/repos/InMemoryProposalRepo.ts
 // In-memory implementation of ProposalRepo for MVP/testing
 
+import type { Proposal as ProposalType } from '@togetheros/types/governance'
 import type {
-  Proposal as ProposalType,
   CreateProposalInput,
   UpdateProposalInput,
   ListProposalsFilters,
-} from '@togetheros/types/governance'
+} from '@togetheros/validators/governance'
 import type { ProposalRepo } from './ProposalRepo'
 import { Proposal } from '../entities/Proposal'
 

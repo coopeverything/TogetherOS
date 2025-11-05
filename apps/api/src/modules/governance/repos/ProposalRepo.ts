@@ -1,12 +1,12 @@
 // apps/api/src/modules/governance/repos/ProposalRepo.ts
 // Repository interface for Proposal entity
 
+import type { Proposal as ProposalType } from '@togetheros/types/governance'
 import type {
-  Proposal as ProposalType,
   CreateProposalInput,
   UpdateProposalInput,
   ListProposalsFilters,
-} from '@togetheros/types/governance'
+} from '@togetheros/validators/governance'
 
 /**
  * Proposal repository interface
