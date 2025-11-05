@@ -76,7 +76,7 @@ export interface Proposal {
   status: ProposalStatus
 
   /** Evidence array (research, data, expert opinions) */
-  evidence: Evidence[]
+  evidence: ProposalEvidence[]
 
   /** Options array (alternatives with trade-offs) */
   options: Option[]
@@ -116,10 +116,10 @@ export interface Proposal {
 }
 
 /**
- * Evidence entity
+ * Proposal Evidence entity
  * Research, data, expert opinions supporting proposals
  */
-export interface Evidence {
+export interface ProposalEvidence {
   /** Unique identifier (UUID v4) */
   id: string
 
