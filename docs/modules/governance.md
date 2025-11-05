@@ -9,6 +9,12 @@
 **Labels:** `module:governance`
 **Next milestone:** Submit a minimal proposal and see it in a list
 
+**Key Features:**
+- **Individual AND Group Proposals:** Members can create personal proposals OR group-scoped proposals
+- **Bridge AI Integration:** Similarity detection, regulation conflict checking, conversational clarification (architecture prepared, implementation future)
+- **Support Points Integration:** Proposals earn RP, accept SP allocations for prioritization
+- **Consent-Based Decisions:** Transparent voting with minority report preservation
+
 ---
 
 ## Why This Exists
@@ -219,18 +225,33 @@ scripts/validate.sh                       # Add seed check
 ```typescript
 interface Proposal {
   id: string
-  groupId: string               // Which group owns this
-  authorId: string              // Member who created
+
+  // Polymorphic scoping: individual OR group proposals
+  scopeType: 'individual' | 'group'
+  scopeId: string               // user.id (if individual) OR group.id (if group)
+
+  authorId: string              // Member who created (always individual)
   title: string                 // 3-200 chars
   summary: string               // 10-2000 chars
+
+  // Governance workflow
   evidence: Evidence[]          // Research, links, data
   options: Option[]             // Alternatives with trade-offs
   positions: Position[]         // Member stances
   minorityReport?: string       // Objections codified
   status: ProposalStatus
+
+  // Bridge AI integration fields (prepared for future use)
+  bridgeSimilarityCheckDone: boolean
+  bridgeSimilarProposals: Array<{id: string, similarity: number}>
+  bridgeRegulationConflicts: Array<{regulationId: string, severity: string}>
+  bridgeClarificationThreadId?: string
+
+  // Timestamps
   createdAt: Date
   updatedAt: Date
   decidedAt?: Date
+  deletedAt?: Date              // Soft delete support
 }
 
 type ProposalStatus =
@@ -315,6 +336,37 @@ interface Vote {
 }
 ```
 
+### Regulation (For Bridge Integration)
+```typescript
+interface Regulation {
+  id: string
+  title: string                 // 3-200 chars
+  description: string           // Full regulation text
+  category: string              // e.g., 'governance', 'moderation', 'resource-allocation'
+
+  // Originating proposal
+  sourceProposalId?: string     // Which proposal created this regulation
+
+  // Scope (global or group-specific)
+  scopeType: 'global' | 'group'
+  scopeId?: string              // NULL for global, group.id for group-specific
+
+  // Full text for Bridge semantic search
+  fullText: string              // Complete regulation text for AI analysis
+
+  // Status & supersession
+  status: 'active' | 'superseded' | 'repealed'
+  supersededBy?: string         // Link to newer regulation
+
+  // Timestamps
+  implementedAt: Date
+  createdAt: Date
+  updatedAt: Date
+}
+```
+
+**Purpose:** Store implemented regulations for Bridge to check against new proposals. Bridge uses semantic search to detect conflicts between proposals and existing regulations.
+
 ---
 
 ## API Contracts
@@ -327,9 +379,17 @@ interface Vote {
   title: string          // 3-200 chars
   summary: string        // 10-2000 chars
   authorId: string       // UUID
-  groupId?: string       // Optional, defaults to member's primary group
+
+  // Scoping: individual OR group
+  scopeType: 'individual' | 'group'
+  scopeId: string        // user.id (if individual) OR group.id (if group)
 }
 ```
+
+**Notes:**
+- Individual proposals: `scopeType='individual'`, `scopeId=authorId`
+- Group proposals: `scopeType='group'`, `scopeId={groupId}`
+- Author must be member of group if scopeType='group'
 
 **Response (Success):**
 ```typescript
@@ -359,13 +419,20 @@ interface Vote {
 **Query Params:**
 ```typescript
 {
-  groupId?: string       // Filter by group
-  status?: string        // Filter by status
-  authorId?: string      // Filter by author
-  limit?: number         // Default 50, max 100
-  offset?: number        // Pagination
+  scopeType?: 'individual' | 'group'  // Filter by scope type
+  scopeId?: string                    // Filter by specific scope
+  status?: string                     // Filter by status
+  authorId?: string                   // Filter by author
+  limit?: number                      // Default 50, max 100
+  offset?: number                     // Pagination
 }
 ```
+
+**Examples:**
+- All individual proposals: `?scopeType=individual`
+- All group proposals: `?scopeType=group`
+- Specific group's proposals: `?scopeType=group&scopeId={groupId}`
+- User's personal proposals: `?scopeType=individual&scopeId={userId}`
 
 **Response:**
 ```typescript
@@ -412,6 +479,63 @@ interface Vote {
   }
 }
 ```
+
+---
+
+## Support Points Integration
+
+Proposals integrate with the existing Support Points (SP) system for prioritization and reward:
+
+### Reward Events
+
+Members earn SP for proposal-related activities:
+
+```typescript
+const proposalRewardEvents = [
+  'proposal_created',      // +10 SP
+  'proposal_researched',   // +5 SP (added evidence/options)
+  'proposal_facilitated',  // +15 SP (moderated discussion)
+  'proposal_voted',        // +2 SP (cast vote)
+  'proposal_delivered',    // +20 SP (completed initiative)
+]
+```
+
+### SP Allocations
+
+Members can allocate SP to proposals to signal priority:
+
+- **Target type:** `'proposal'`
+- **Target ID:** Proposal UUID
+- **Max allocation:** 10 SP per member per proposal
+- **Reclaim:** When proposal closes (approved/rejected/archived)
+
+**Example:**
+```typescript
+// Member allocates SP to proposal
+await supportPointsRepo.allocate({
+  memberId: 'user-123',
+  targetType: 'proposal',
+  targetId: 'proposal-abc',
+  amount: 10
+})
+
+// When proposal closes, reclaim all allocations
+await supportPointsRepo.reclaimAll({
+  targetType: 'proposal',
+  targetId: 'proposal-abc'
+})
+```
+
+### Integration Points
+
+1. **Proposal creation** → Trigger `proposal_created` reward event (+10 SP)
+2. **Evidence/options added** → Trigger `proposal_researched` (+5 SP)
+3. **Vote cast** → Trigger `proposal_voted` (+2 SP)
+4. **Proposal approved** → Trigger `proposal_delivered` for author (+20 SP)
+5. **Proposal list** → Show SP allocation totals per proposal
+6. **Proposal detail** → Show "Allocate SP" button for members
+
+**Note:** SP integration uses existing `support_points_allocations` and `reward_events` tables. No schema changes needed.
 
 ---
 
@@ -647,6 +771,51 @@ export const Deliberation: StoryObj = {
 
 ---
 
+## Bridge AI Integration
+
+Bridge provides intelligent assistance during proposal creation and deliberation. The complete architecture is documented in:
+
+**See:** `docs/architecture/bridge-proposals-integration.md`
+
+### Key Capabilities (Prepared, Not Yet Implemented)
+
+1. **Similarity Detection**
+   - Semantic search against existing proposals and decisions
+   - Threshold: 0.7 similarity triggers clarification dialogue
+   - Prevents duplicate proposals
+
+2. **Regulation Conflict Checking**
+   - Compare proposals against implemented regulations
+   - Severity levels: blocker / warning / info
+   - Suggest amendments to resolve conflicts
+
+3. **Conversational Clarification**
+   - Bridge initiates dialogue if issues found
+   - Member clarifies intent or modifies proposal
+   - Non-blocking: member can proceed with explanation
+
+4. **Phrasing Optimization**
+   - Suggest improvements to title/summary
+   - Non-imposing: member accepts or rejects
+   - Improve clarity and actionability
+
+### Database Fields (Prepared)
+
+Proposal schema includes Bridge integration fields (currently unused):
+
+```typescript
+{
+  bridgeSimilarityCheckDone: boolean
+  bridgeSimilarProposals: Array<{id: string, similarity: number}>
+  bridgeRegulationConflicts: Array<{regulationId: string, severity: string}>
+  bridgeClarificationThreadId?: string
+}
+```
+
+These fields are ready for when Bridge integration is implemented. They do not affect MVP functionality.
+
+---
+
 ## Definition of Done (DoD)
 
 When MVP slices are complete:
@@ -671,3 +840,26 @@ SMOKE=OK
 - [Architecture](architecture.md) — Domain-driven design patterns
 - [Data Models](data-models.md) — Complete entity specifications
 - [CI/CD Discipline](../contributors/WORKFLOW.md) — Proof lines, validation
+
+---
+
+## Next Steps
+
+### To Do
+- [ ] Write tests and complete polish
+- [ ] Create UI components and pages
+- [ ] Integrate Support Points (reward events, allocations)
+- [ ] Build API handlers and routes (CRUD endpoints)
+- [ ] Implement domain layer (types, validators, entities, repos)
+- [ ] Create database migrations (proposals and regulations tables)
+- [ ] Add tasks here as development progresses
+
+### In Progress
+- Currently being worked on
+
+### Done
+- Completed items move here
+
+---
+
+*Last updated: Auto-generated by update-module-next-steps.sh*
