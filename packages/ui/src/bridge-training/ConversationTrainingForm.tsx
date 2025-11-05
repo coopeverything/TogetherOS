@@ -203,14 +203,15 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
     }
 
     // Check if all Bridge messages have been rated
-    const bridgeMessages = messages.filter((m, idx) => m.role === 'assistant' && idx > 0);
-    const unratedBridgeMessages = bridgeMessages.filter((_, idx) => {
-      const actualIndex = messages.findIndex((m, i) => i > 0 && m.role === 'assistant');
-      return !isMessageRated(actualIndex + idx);
-    });
+    const bridgeMessageIndices = messages
+      .map((m, idx) => ({ message: m, index: idx }))
+      .filter(({ message, index }) => message.role === 'assistant' && index > 0)
+      .map(({ index }) => index);
 
-    if (unratedBridgeMessages.length > 0) {
-      setError(`Please rate all ${bridgeMessages.length} Bridge responses before finishing`);
+    const unratedBridgeIndices = bridgeMessageIndices.filter(idx => !isMessageRated(idx));
+
+    if (unratedBridgeIndices.length > 0) {
+      setError(`Please rate all ${bridgeMessageIndices.length} Bridge responses before finishing`);
       return;
     }
 
