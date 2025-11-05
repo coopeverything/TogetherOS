@@ -186,9 +186,9 @@ export interface TopicSentiment {
 }
 
 /**
- * Supporting evidence attached to viewpoints
+ * Supporting evidence attached to viewpoints in discussions
  */
-export interface Evidence {
+export interface DiscussionEvidence {
   id: string                    // UUID
   postId: string                // ThreadPost ID
   url: string                   // External link

@@ -388,7 +388,7 @@ export const conversationMessageSchema = z.object({
   role: z.enum(['bridge', 'user']),
   content: z.string().min(1),
   timestamp: z.coerce.date(),
-  metadata: z.record(z.string(), z.unknown()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 })
 
 /**
