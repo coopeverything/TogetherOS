@@ -91,10 +91,19 @@ export async function findUserById(id: string): Promise<User | null> {
 
 /**
  * Find user by username
+ * @param username - Username to search for
+ * @param checkVisibility - If true, only return users with public profiles
  */
-export async function findUserByUsername(username: string): Promise<User | null> {
+export async function findUserByUsername(
+  username: string,
+  checkVisibility: boolean = false
+): Promise<User | null> {
+  const visibilityClause = checkVisibility
+    ? "AND (profile_visibility = 'public' OR profile_visibility IS NULL)"
+    : '';
+
   const result = await query<User>(
-    'SELECT * FROM users WHERE username = $1 AND deleted_at IS NULL',
+    `SELECT * FROM users WHERE username = $1 AND deleted_at IS NULL ${visibilityClause}`,
     [username]
   );
 
