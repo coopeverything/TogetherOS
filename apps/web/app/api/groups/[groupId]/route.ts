@@ -29,7 +29,7 @@ export async function GET(
 
     return NextResponse.json({ group });
   } catch (error: any) {
-    console.error('GET /api/groups/[groupId] error:', error);
+    console.error('GET /api/groups/[groupId] error:', error.message || 'Unknown error');
     return NextResponse.json(
       { error: error.message || 'Failed to get group' },
       { status: 500 }
@@ -68,7 +68,7 @@ export async function PUT(
 
     return NextResponse.json({ group });
   } catch (error: any) {
-    console.error('PUT /api/groups/[groupId] error:', error);
+    console.error('PUT /api/groups/[groupId] error:', error.message || 'Unknown error');
 
     if (error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -105,7 +105,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.error('DELETE /api/groups/[groupId] error:', error);
+    console.error('DELETE /api/groups/[groupId] error:', error.message || 'Unknown error');
 
     if (error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
