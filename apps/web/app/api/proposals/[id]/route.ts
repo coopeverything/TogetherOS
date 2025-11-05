@@ -12,7 +12,7 @@ import {
   updateProposal,
   deleteProposal,
 } from '../../../../../api/src/modules/governance/handlers/crud';
-import type { UpdateProposalInput } from '@togetheros/types/governance';
+import type { UpdateProposalInput } from '@togetheros/validators/governance';
 
 export async function GET(
   request: NextRequest,

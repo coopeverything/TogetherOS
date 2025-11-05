@@ -2,12 +2,12 @@
 // CRUD handlers for proposals
 
 import { InMemoryProposalRepo } from '../repos/InMemoryProposalRepo';
+import type { Proposal } from '@togetheros/types/governance';
 import type {
-  Proposal,
   CreateProposalInput,
   UpdateProposalInput,
   ListProposalsFilters,
-} from '@togetheros/types/governance';
+} from '@togetheros/validators/governance';
 
 // Initialize repository (MVP: in-memory, will migrate to PostgreSQL)
 const proposalRepo = new InMemoryProposalRepo();

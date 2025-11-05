@@ -10,7 +10,7 @@ import {
   createProposal,
   listProposals,
 } from '../../../../api/src/modules/governance/handlers/crud';
-import type { CreateProposalInput, ListProposalsFilters } from '@togetheros/types/governance';
+import type { CreateProposalInput, ListProposalsFilters } from '@togetheros/validators/governance';
 
 export async function POST(request: NextRequest) {
   try {
