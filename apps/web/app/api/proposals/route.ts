@@ -1,0 +1,84 @@
+/**
+ * Proposals API Endpoint
+ * POST /api/proposals - Create new proposal
+ * GET /api/proposals - List proposals with filters
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAuth } from '@/lib/auth/middleware';
+import {
+  createProposal,
+  listProposals,
+} from '../../../../api/src/modules/governance/handlers/crud';
+import type { CreateProposalInput, ListProposalsFilters } from '@togetheros/types/governance';
+
+export async function POST(request: NextRequest) {
+  try {
+    // Require authentication
+    const user = await requireAuth(request);
+
+    const body = await request.json();
+
+    // Validate required fields
+    if (!body.title || !body.summary || !body.scopeType || !body.scopeId) {
+      return NextResponse.json(
+        { error: 'Missing required fields: title, summary, scopeType, scopeId' },
+        { status: 400 }
+      );
+    }
+
+    // Set author to authenticated user
+    const input: CreateProposalInput = {
+      scopeType: body.scopeType,
+      scopeId: body.scopeId,
+      authorId: user.id,
+      title: body.title,
+      summary: body.summary,
+    };
+
+    const proposal = await createProposal(input);
+
+    return NextResponse.json({ proposal }, { status: 201 });
+  } catch (error: any) {
+    console.error('POST /api/proposals error:', error.message || 'Unknown error');
+
+    if (error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    return NextResponse.json(
+      { error: error.message || 'Failed to create proposal' },
+      { status: 400 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+
+    // Parse filters
+    const filters: ListProposalsFilters = {
+      scopeType: searchParams.get('scopeType') as any,
+      scopeId: searchParams.get('scopeId') || undefined,
+      status: searchParams.get('status') as any,
+      authorId: searchParams.get('authorId') || undefined,
+      limit: searchParams.get('limit')
+        ? parseInt(searchParams.get('limit')!)
+        : 50,
+      offset: searchParams.get('offset')
+        ? parseInt(searchParams.get('offset')!)
+        : 0,
+    };
+
+    const result = await listProposals(filters);
+
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.error('GET /api/proposals error:', error.message || 'Unknown error');
+    return NextResponse.json(
+      { error: error.message || 'Failed to list proposals' },
+      { status: 500 }
+    );
+  }
+}
