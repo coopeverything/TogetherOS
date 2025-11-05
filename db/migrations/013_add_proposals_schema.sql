@@ -77,6 +77,36 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_proposals_updated_at BEFORE UPDATE ON proposals
   FOR EACH ROW EXECUTE FUNCTION update_proposals_updated_at();
 
+-- Function to validate scope_id referential integrity
+CREATE OR REPLACE FUNCTION validate_proposal_scope()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Validate individual proposals reference valid users
+  IF NEW.scope_type = 'individual' THEN
+    IF NOT EXISTS (SELECT 1 FROM users WHERE id = NEW.scope_id) THEN
+      RAISE EXCEPTION 'Invalid individual scope_id: % (user does not exist)', NEW.scope_id;
+    END IF;
+    -- Individual proposals must have scope_id = author_id
+    IF NEW.scope_id != NEW.author_id THEN
+      RAISE EXCEPTION 'Individual proposals must have scope_id equal to author_id';
+    END IF;
+
+  -- Validate group proposals reference valid groups
+  ELSIF NEW.scope_type = 'group' THEN
+    IF NOT EXISTS (SELECT 1 FROM groups WHERE id = NEW.scope_id AND deleted_at IS NULL) THEN
+      RAISE EXCEPTION 'Invalid group scope_id: % (group does not exist or is deleted)', NEW.scope_id;
+    END IF;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to validate scope_id on insert and update
+CREATE TRIGGER validate_proposal_scope_trigger
+  BEFORE INSERT OR UPDATE ON proposals
+  FOR EACH ROW EXECUTE FUNCTION validate_proposal_scope();
+
 -- Comments for documentation
 COMMENT ON TABLE proposals IS 'Community proposals for governance decisions (individual or group-scoped)';
 COMMENT ON COLUMN proposals.scope_type IS 'Scoping: individual (personal proposal) or group (group-wide proposal)';
