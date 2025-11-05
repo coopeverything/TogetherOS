@@ -13,7 +13,7 @@ import type {
 } from '@togetheros/types';
 import { matchActivities } from './activity-matcher';
 import { generateRecommendation } from './recommendation-templates';
-import { nanoid } from 'nanoid';
+import { randomUUID } from 'crypto';
 
 /**
  * Generate all recommendations for a user
@@ -206,7 +206,7 @@ export function generateGroupRecommendations(
 
     if (relevance.score >= 40) { // Only recommend if reasonably relevant
       recommendations.push({
-        id: nanoid(),
+        id: randomUUID(),
         userId: userContext.userId,
         type: 'local_group',
         title: `Join "${group.name}"`,
@@ -254,7 +254,7 @@ export function generateEventRecommendations(
 
     if (relevance.score >= 40) {
       recommendations.push({
-        id: nanoid(),
+        id: randomUUID(),
         userId: userContext.userId,
         type: 'event',
         title: `Attend "${event.title}"`,
@@ -300,7 +300,7 @@ export function generateActivityRecommendations(
   for (const { activity, relevanceScore, matchReasons } of topActivities) {
     if (relevanceScore >= 40) {
       recommendations.push({
-        id: nanoid(),
+        id: randomUUID(),
         userId: userContext.userId,
         type: 'activity',
         title: `Try "${activity.name}"`,
