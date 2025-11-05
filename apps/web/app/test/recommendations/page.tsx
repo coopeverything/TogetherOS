@@ -9,7 +9,7 @@ import { useState } from 'react';
 import type { Recommendation } from '@togetheros/types';
 
 export default function RecommendationsTestPage() {
-  const [userId, setUserId] = useState('user_test_001');
+  const [userId, setUserId] = useState('2214caba-da2c-4a3c-88eb-1cba645ae90d'); // George_R
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -22,6 +22,7 @@ export default function RecommendationsTestPage() {
       const response = await fetch('/api/bridge/recommendations/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ userId, maxRecommendations: 5 }),
       });
 
@@ -43,7 +44,9 @@ export default function RecommendationsTestPage() {
     setError('');
 
     try {
-      const response = await fetch(`/api/bridge/recommendations?userId=${userId}&limit=10`);
+      const response = await fetch(`/api/bridge/recommendations?userId=${userId}&limit=10`, {
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch recommendations');
@@ -63,6 +66,7 @@ export default function RecommendationsTestPage() {
       const response = await fetch(`/api/bridge/recommendations/${recommendationId}/action`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ userId, action }),
       });
 

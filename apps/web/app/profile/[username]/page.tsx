@@ -52,9 +52,10 @@ async function getPublicProfile(username: string): Promise<User | null> {
 export default async function PublicProfilePage({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
-  const user = await getPublicProfile(params.username);
+  const { username } = await params;
+  const user = await getPublicProfile(username);
 
   if (!user) {
     notFound();
