@@ -16,21 +16,23 @@ import type { UpdateProposalInput } from '@togetheros/validators/governance';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const proposal = await getProposalById(params.id);
+    const { id } = await params;
+    const proposal = await getProposalById(id);
 
     if (!proposal) {
       return NextResponse.json(
-        { error: `Proposal with id '${params.id}' does not exist` },
+        { error: `Proposal with id '${id}' does not exist` },
         { status: 404 }
       );
     }
 
     return NextResponse.json({ proposal });
   } catch (error: any) {
-    console.error(`GET /api/proposals/${params.id} error:`, error.message || 'Unknown error');
+    const { id } = await params;
+    console.error(`GET /api/proposals/${id} error:`, error.message || 'Unknown error');
     return NextResponse.json(
       { error: error.message || 'Failed to get proposal' },
       { status: 500 }
@@ -40,17 +42,18 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // Require authentication
     const user = await requireAuth(request);
 
     // Check if proposal exists
-    const existing = await getProposalById(params.id);
+    const existing = await getProposalById(id);
     if (!existing) {
       return NextResponse.json(
-        { error: `Proposal with id '${params.id}' does not exist` },
+        { error: `Proposal with id '${id}' does not exist` },
         { status: 404 }
       );
     }
@@ -73,11 +76,12 @@ export async function PUT(
       decisionOutcome: body.decisionOutcome,
     };
 
-    const proposal = await updateProposal(params.id, updates);
+    const proposal = await updateProposal(id, updates);
 
     return NextResponse.json({ proposal });
   } catch (error: any) {
-    console.error(`PUT /api/proposals/${params.id} error:`, error.message || 'Unknown error');
+    const { id } = await params;
+    console.error(`PUT /api/proposals/${id} error:`, error.message || 'Unknown error');
 
     if (error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -92,17 +96,18 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // Require authentication
     const user = await requireAuth(request);
 
     // Check if proposal exists
-    const existing = await getProposalById(params.id);
+    const existing = await getProposalById(id);
     if (!existing) {
       return NextResponse.json(
-        { error: `Proposal with id '${params.id}' does not exist` },
+        { error: `Proposal with id '${id}' does not exist` },
         { status: 404 }
       );
     }
@@ -115,11 +120,12 @@ export async function DELETE(
       );
     }
 
-    await deleteProposal(params.id);
+    await deleteProposal(id);
 
     return NextResponse.json({ message: 'Proposal deleted successfully' });
   } catch (error: any) {
-    console.error(`DELETE /api/proposals/${params.id} error:`, error.message || 'Unknown error');
+    const { id } = await params;
+    console.error(`DELETE /api/proposals/${id} error:`, error.message || 'Unknown error');
 
     if (error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
