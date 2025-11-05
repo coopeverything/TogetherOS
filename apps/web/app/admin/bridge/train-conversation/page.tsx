@@ -20,15 +20,86 @@ export default function BridgeConversationTrainPage() {
     ratings: { messageIndex: number; qualityScore: number; idealResponse: string }[];
   }) => {
     try {
-      // For MVP, just log the data (in production, this would save to database)
-      console.log('[Conversation Training] Saving conversation:', {
-        totalMessages: data.messages.length,
-        bridgeMessages: data.messages.filter(m => m.role === 'assistant').length,
-        ratingsProvided: data.ratings.length,
-        averageQuality: data.ratings.length > 0
-          ? Math.round((data.ratings.reduce((sum, r) => sum + r.qualityScore, 0) * 100) / (data.ratings.length * 5))
-          : 0,
-      });
+      // Save each rated Bridge response as a training example
+      let savedCount = 0;
+      const errors: string[] = [];
+
+      for (const rating of data.ratings) {
+        const bridgeMessage = data.messages[rating.messageIndex];
+
+        // Find the user question that led to this response
+        // Look backwards from the Bridge message to find the most recent user message
+        let userMessage = null;
+        for (let i = rating.messageIndex - 1; i >= 0; i--) {
+          if (data.messages[i].role === 'user') {
+            userMessage = data.messages[i];
+            break;
+          }
+        }
+
+        if (!userMessage || bridgeMessage.role !== 'assistant') {
+          errors.push(`Skipped rating at index ${rating.messageIndex}: invalid message structure`);
+          continue;
+        }
+
+        try {
+          // Step 1: Create training example
+          const createResponse = await fetch('/api/bridge-training/examples', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              question: userMessage.content,
+              bridgeResponse: bridgeMessage.content,
+              category: 'general', // Default category
+            })
+          });
+
+          if (!createResponse.ok) {
+            const errorData = await createResponse.json().catch(() => ({ error: 'Unknown error' }));
+            errors.push(`Failed to create example at index ${rating.messageIndex}: ${errorData.error}`);
+            continue;
+          }
+
+          const { example } = await createResponse.json();
+
+          // Step 2: Rate the response
+          const rateResponse = await fetch(`/api/bridge-training/examples/${example.id}/rate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              helpfulnessRating: rating.qualityScore,
+              accuracyRating: rating.qualityScore,
+              toneRating: rating.qualityScore,
+            })
+          });
+
+          if (!rateResponse.ok) {
+            errors.push(`Failed to rate example at index ${rating.messageIndex}`);
+            continue;
+          }
+
+          // Step 3: Provide ideal response
+          const idealResponseResult = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              idealResponse: rating.idealResponse,
+            })
+          });
+
+          if (!idealResponseResult.ok) {
+            errors.push(`Failed to save ideal response at index ${rating.messageIndex}`);
+            continue;
+          }
+
+          savedCount++;
+        } catch (error: any) {
+          errors.push(`Exception at index ${rating.messageIndex}: ${error.message}`);
+        }
+      }
 
       setConversationCount(conversationCount + 1);
 
@@ -36,9 +107,16 @@ export default function BridgeConversationTrainPage() {
         ? Math.round((data.ratings.reduce((sum, r) => sum + r.qualityScore, 0) * 100) / (data.ratings.length * 5))
         : 0;
 
-      setSuccessMessage(
-        `Conversation saved! ${data.ratings.length} responses rated with ${avgQuality}/100 average quality`
-      );
+      if (errors.length > 0) {
+        console.error('[Conversation Training] Errors:', errors);
+        setSuccessMessage(
+          `Saved ${savedCount}/${data.ratings.length} training examples with ${avgQuality}/100 average quality. ${errors.length} failed.`
+        );
+      } else {
+        setSuccessMessage(
+          `Conversation saved! ${savedCount} training examples created with ${avgQuality}/100 average quality`
+        );
+      }
 
       // Clear success message after 5 seconds
       setTimeout(() => setSuccessMessage(''), 5000);
