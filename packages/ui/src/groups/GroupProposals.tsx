@@ -7,15 +7,16 @@
 'use client'
 
 import { useState } from 'react'
+import type { Proposal, ProposalStatus } from '@togetheros/types'
 
-export interface Proposal {
-  id: string
-  title: string
-  summary: string
-  status: 'draft' | 'deliberation' | 'voting' | 'decided'
-  authorId: string
+/**
+ * UI-specific proposal type with additional display fields
+ */
+export type GroupProposalDisplay = Proposal & {
+  /** Author name for display (joined from users table) */
   authorName: string
-  createdAt: Date
+
+  /** Vote count (optional, for decided proposals) */
   voteCount?: number
 }
 
@@ -23,8 +24,8 @@ export interface GroupProposalsProps {
   /** Group ID */
   groupId: string
 
-  /** List of proposals */
-  proposals: Proposal[]
+  /** List of proposals with display data */
+  proposals: GroupProposalDisplay[]
 
   /** Callback when creating new proposal */
   onCreateProposal?: () => void
@@ -33,16 +34,24 @@ export interface GroupProposalsProps {
   className?: string
 }
 
-function getStatusColor(status: Proposal['status']): string {
+function getStatusColor(status: ProposalStatus): string {
   switch (status) {
     case 'draft':
       return 'bg-gray-100 text-gray-800'
+    case 'research':
+      return 'bg-yellow-100 text-yellow-800'
     case 'deliberation':
       return 'bg-blue-100 text-blue-800'
     case 'voting':
       return 'bg-purple-100 text-purple-800'
     case 'decided':
       return 'bg-green-100 text-green-800'
+    case 'delivery':
+      return 'bg-indigo-100 text-indigo-800'
+    case 'reviewed':
+      return 'bg-teal-100 text-teal-800'
+    case 'archived':
+      return 'bg-slate-100 text-slate-600'
   }
 }
 
@@ -52,7 +61,7 @@ export function GroupProposals({
   onCreateProposal,
   className = '',
 }: GroupProposalsProps) {
-  const [filter, setFilter] = useState<Proposal['status'] | 'all'>('all')
+  const [filter, setFilter] = useState<ProposalStatus | 'all'>('all')
 
   const filteredProposals = filter === 'all'
     ? proposals
@@ -74,10 +83,10 @@ export function GroupProposals({
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 mb-6 overflow-x-auto">
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         <button
           onClick={() => setFilter('all')}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'all'
               ? 'bg-orange-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -86,8 +95,28 @@ export function GroupProposals({
           All ({proposals.length})
         </button>
         <button
+          onClick={() => setFilter('draft')}
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
+            filter === 'draft'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Draft ({proposals.filter((p) => p.status === 'draft').length})
+        </button>
+        <button
+          onClick={() => setFilter('research')}
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
+            filter === 'research'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Research ({proposals.filter((p) => p.status === 'research').length})
+        </button>
+        <button
           onClick={() => setFilter('deliberation')}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'deliberation'
               ? 'bg-orange-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -97,7 +126,7 @@ export function GroupProposals({
         </button>
         <button
           onClick={() => setFilter('voting')}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'voting'
               ? 'bg-orange-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -107,13 +136,43 @@ export function GroupProposals({
         </button>
         <button
           onClick={() => setFilter('decided')}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'decided'
               ? 'bg-orange-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Decided ({proposals.filter((p) => p.status === 'decided').length})
+        </button>
+        <button
+          onClick={() => setFilter('delivery')}
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
+            filter === 'delivery'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Delivery ({proposals.filter((p) => p.status === 'delivery').length})
+        </button>
+        <button
+          onClick={() => setFilter('reviewed')}
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
+            filter === 'reviewed'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Reviewed ({proposals.filter((p) => p.status === 'reviewed').length})
+        </button>
+        <button
+          onClick={() => setFilter('archived')}
+          className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
+            filter === 'archived'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Archived ({proposals.filter((p) => p.status === 'archived').length})
         </button>
       </div>
 
