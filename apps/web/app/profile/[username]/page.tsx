@@ -41,7 +41,7 @@ async function getPublicProfile(username: string): Promise<User | null> {
       skills: user.skills,
       can_offer: user.can_offer,
       seeking_help: user.seeking_help,
-      created_at: user.created_at,
+      created_at: user.created_at?.toISOString(),
     };
   } catch (error) {
     console.error('Failed to fetch public profile:', error);
