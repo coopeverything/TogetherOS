@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/middleware';
-import { PostgresQuestionnaireRepo } from '@/api/src/modules/bridge-behavioral/repos';
+import { PostgresQuestionnaireRepo } from '../../../../../api/src/modules/bridge-behavioral/repos';
 
 /**
  * GET /api/bridge/questionnaires
