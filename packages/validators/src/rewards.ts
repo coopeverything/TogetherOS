@@ -55,7 +55,7 @@ export const rewardEventSchema = z.object({
   id: z.string().uuid(),
   memberId: z.string().uuid(),
   event_type: rewardEventTypeSchema,
-  sp_weight: z.number().int().positive(),
+  sp_weight: z.number().int().nonnegative(), // Allow 0 for tracking events like city_group_joined
   context: eventContextSchema,
   source: z.string().min(1).max(50),
   dedup_key: z.string().min(1),
