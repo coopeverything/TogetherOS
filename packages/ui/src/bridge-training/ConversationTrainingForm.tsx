@@ -15,6 +15,7 @@
 
 import { useState, FormEvent, useRef, useEffect } from 'react';
 import { StarRating } from './StarRating';
+import { renderMarkdown } from '../bridge/markdown-renderer';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -277,8 +278,8 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
               <div style={{ fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.25rem', opacity: 0.7 }}>
                 {message.role === 'user' ? 'You' : 'Bridge'}
               </div>
-              <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
-                {message.content}
+              <div style={{ lineHeight: 1.6 }}>
+                {message.role === 'assistant' ? renderMarkdown(message.content) : message.content}
               </div>
             </div>
 
