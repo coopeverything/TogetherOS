@@ -155,16 +155,33 @@ describe('rewardEventSchema', () => {
       id: '550e8400-e29b-41d4-a716-446655440000',
       memberId: '550e8400-e29b-41d4-a716-446655440001',
       event_type: 'pr_merged_medium',
-      sp_weight: 0, // Must be positive
+      sp_weight: -5, // Must be non-negative (0 is now valid for tracking events)
       context: {},
       source: 'github',
       dedup_key: 'test',
       timestamp: new Date(),
       status: 'processed',
     }
-    
+
     const result = rewardEventSchema.safeParse(event)
     expect(result.success).toBe(false)
+  })
+
+  it('accepts zero SP weight for tracking events', () => {
+    const event = {
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      memberId: '550e8400-e29b-41d4-a716-446655440001',
+      event_type: 'city_group_joined',
+      sp_weight: 0, // Valid for tracking events like city_group_joined
+      context: {},
+      source: 'groups',
+      dedup_key: 'test',
+      timestamp: new Date(),
+      status: 'processed',
+    }
+
+    const result = rewardEventSchema.safeParse(event)
+    expect(result.success).toBe(true)
   })
 
   it('rejects invalid status', () => {
