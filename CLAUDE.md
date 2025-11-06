@@ -193,6 +193,56 @@ Danger.js will automatically:
 
 ---
 
+## Security Alerts (CodeQL)
+
+**Policy:** P1 security alerts in modified files BLOCK merge.
+
+### How It Works
+
+**Danger.js automatically checks:**
+- Fetches all open P1 (error severity) CodeQL alerts
+- Cross-references with files modified by the PR
+- **Blocks merge** if any P1 alerts exist in modified files
+
+### Decision Criteria
+
+**BLOCKS merge:**
+- ❌ P1 alert exists in file modified by this PR
+- Example: PR modifies `apps/api/route.ts` which has log injection alert
+
+**DOES NOT block merge:**
+- ✅ P1 alert exists in file NOT modified by this PR
+- ✅ P2/P3 alerts (warnings/notes) - informational only
+
+### Alert Severity Levels
+
+- **P1 (Error)** — Critical vulnerabilities (SQL injection, XSS, auth bypass, log injection) - MUST FIX
+- **P2 (Warning)** — Medium-severity issues (incomplete validation, race conditions) - SHOULD FIX
+- **P3 (Note)** — Code quality issues (unused variables, style) - CAN DEFER
+
+### When Blocked
+
+If Danger.js blocks your PR:
+
+1. **View the alert:** Click the alert link in the PR comment
+2. **Fix the issue:** Update the code to address the vulnerability
+3. **Common fixes:**
+   - Log injection: `JSON.stringify(userInput)` before logging
+   - SQL injection: Use parameterized queries
+   - XSS: Sanitize/escape user input before rendering
+4. **Push update:** Danger.js will re-check automatically
+5. **Merge when clear:** Once fixed, PR will be unblocked
+
+### View All Alerts
+
+**CodeQL Dashboard:** https://github.com/coopeverything/TogetherOS/security/code-scanning
+
+**Pre-existing alerts:**
+- Alert #64 (P1): Log injection in `apps/web/app/api/groups/route.ts:44` - Fix when that file is next modified
+- Alert #80 (P2): Polynomial ReDoS in `packages/ui/src/bridge/markdown-renderer.tsx:44`
+
+---
+
 ## Permission System
 
 ### Current Allow List Location

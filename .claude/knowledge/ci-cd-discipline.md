@@ -79,43 +79,55 @@ PROOF: SMOKE=OK
 
 ---
 
-### Security Checks (Recommended)
+### Security Checks (Automated via Danger.js)
 
-**Purpose:** Verify no new critical security issues introduced
+**Purpose:** Verify no P1 security alerts exist in modified files
 
-**Tool:** GitHub CodeQL code scanning
+**Tool:** GitHub CodeQL code scanning + Danger.js enforcement
 
-**Check Command:**
+**Enforcement:** Danger.js automatically blocks merge if P1 alerts exist in modified files
+
+**Check Logic:**
+1. Danger.js fetches all open P1 (error severity) CodeQL alerts
+2. Cross-references with files modified by the PR
+3. **Blocks merge** if any P1 alerts found in modified files
+4. Allows merge if P1 alerts only in unmodified files (informational)
+
+**Manual Check Command:**
 ```bash
 gh api repos/coopeverything/TogetherOS/code-scanning/alerts \
   --jq '[.[] | select(.state == "open" and .rule.severity == "error")] | length'
 ```
 
-**Proof Lines:**
+**Proof Lines (Optional):**
 ```
-SECURITY=OK (0 new critical alerts)
+SECURITY=OK (0 P1 alerts in modified files)
 # or
-SECURITY=WARN (X critical alerts exist)
+SECURITY=WARN (X P1 alerts exist, but not in modified files)
 ```
 
-**When to use:**
-- Before creating PRs (integrated in yolo1 skill Step 7)
-- After fixing security vulnerabilities
-- When modifying authentication, authorization, or data validation code
+**When Danger.js BLOCKS merge:**
+- ❌ P1 alert exists in file modified by this PR
+- Example: PR modifies `apps/api/route.ts` which has log injection alert
 
-**When to block merge:**
-- New P1 (error-level) alerts introduced by PR changes
-- Existing P1 alerts in files modified by PR (must be addressed first)
-- Security-sensitive code (auth routes, data validation) with open alerts
+**When Danger.js ALLOWS merge:**
+- ✅ P1 alert exists in file NOT modified by this PR (informational only)
+- ✅ P2/P3 alerts (warnings/notes) - informational only
+
+**If Blocked:**
+1. View alert link in Danger.js PR comment
+2. Fix the vulnerability in the modified file
+3. Push update (Danger.js will re-check automatically)
+4. Merge when clear
 
 **View alerts:** https://github.com/coopeverything/TogetherOS/security/code-scanning
 
 **Alert Severity Levels:**
-- **Error (P1)** — Critical vulnerabilities (SSRF, auth bypass, injection attacks) - MUST FIX
+- **Error (P1)** — Critical vulnerabilities (SQL injection, XSS, auth bypass, log injection) - MUST FIX
 - **Warning (P2)** — Medium-severity issues (incomplete validation, race conditions) - SHOULD FIX
 - **Note (P3)** — Code quality issues (unused variables, style) - CAN DEFER
 
-**Branch Protection:** Optional (advisory-only, doesn't block)
+**Enforcement:** Automated (Danger.js check is required, runs on every PR)
 
 ---
 
