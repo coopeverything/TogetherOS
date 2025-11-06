@@ -61,7 +61,7 @@ function getModuleCategory(key: string): 'core' | 'path' | 'devex' {
 export async function GET() {
   try {
     // Read STATUS_v2.md from the repo root
-    const statusFilePath = join(process.cwd(), '..', '..', 'docs', 'STATUS_v2.md');
+    const statusFilePath = join(process.cwd(), 'docs', 'STATUS_v2.md');
     const content = await readFile(statusFilePath, 'utf-8');
 
     // Extract progress markers using regex
