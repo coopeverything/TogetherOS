@@ -81,37 +81,43 @@ jobs:
           SSH_HOST: ${{ secrets.VPS_HOST }}
           SSH_USER: ${{ secrets.VPS_USER }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} << 'ENDSSH'
-            set -e
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} bash -s << 'ENDSSH'
+            set -exuo pipefail
             echo "🚀 Starting deployment..."
 
             cd /var/www/togetheros
 
             echo "→ Pulling latest code from yolo..."
-            git fetch origin yolo
-            git reset --hard origin/yolo
+            git fetch origin yolo 2>&1
+            git reset --hard origin/yolo 2>&1
 
             echo "→ Running database migrations..."
-            bash scripts/run-migrations.sh || {
+            bash scripts/run-migrations.sh 2>&1 || {
               echo "⚠️  Migration failed, continuing with deployment..."
               echo "Database may need manual intervention"
             }
 
             echo "→ Installing dependencies..."
-            npm install --production=false
+            npm install --production=false 2>&1 | tail -20
 
             echo "→ Building TypeScript packages..."
-            npm run build:packages
+            npm run build:packages 2>&1 | tail -10
 
             echo "→ Cleaning previous build..."
             cd apps/web
             rm -rf .next
+            echo "✓ .next directory removed"
 
             echo "→ Building application..."
-            npm run build
+            npm run build 2>&1 || {
+              echo "❌ Build failed!"
+              exit 1
+            }
+            echo "✓ Build complete"
 
             echo "→ Restarting PM2..."
-            pm2 restart togetheros || pm2 start ecosystem.config.js
+            pm2 restart togetheros 2>&1 || pm2 start ecosystem.config.js 2>&1
+            pm2 status togetheros 2>&1
 
             echo "✅ Deployment complete!"
             echo "Visit: https://coopeverything.org"
