@@ -94,6 +94,8 @@ jobs:
 
             echo "→ Running database migrations..."
             set +e
+            # Load DATABASE_URL from .env for migrations
+            export $(grep -v '^#' .env | grep DATABASE_URL | xargs)
             bash scripts/run-migrations.sh 2>&1
             MIGRATION_EXIT=$?
             set -e
