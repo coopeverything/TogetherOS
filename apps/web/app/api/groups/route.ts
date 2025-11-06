@@ -41,7 +41,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ group }, { status: 201 });
   } catch (error: any) {
-    console.error('POST /api/groups error:', error.message || 'Unknown error');
+    // Sanitize error message for logging (prevent log injection)
+    const sanitizedError = error instanceof Error
+      ? error.message.replace(/[\r\n]/g, ' ').substring(0, 200)
+      : 'Unknown error';
+    console.error('POST /api/groups error:', sanitizedError);
 
     if (error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -86,7 +90,11 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error('GET /api/groups error:', error.message || 'Unknown error');
+    // Sanitize error message for logging (prevent log injection)
+    const sanitizedError = error instanceof Error
+      ? error.message.replace(/[\r\n]/g, ' ').substring(0, 200)
+      : 'Unknown error';
+    console.error('GET /api/groups error:', sanitizedError);
     return NextResponse.json(
       { error: error.message || 'Failed to list groups' },
       { status: 500 }
