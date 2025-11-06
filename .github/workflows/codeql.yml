@@ -65,7 +65,8 @@ jobs:
           # Find new alerts (present in current but not in base)
           NEW_ALERTS=$(comm -13 <(echo "$BASE_ALERTS") <(echo "$CURRENT_ALERTS"))
 
-          if [ -n "$NEW_ALERTS" ] && [ "$NEW_ALERTS" != "" ]; then
+          # Check if there are actual new alerts (not empty, not just "[]")
+          if [ -n "$NEW_ALERTS" ] && [ "$NEW_ALERTS" != "" ] && [ "$NEW_ALERTS" != "[]" ]; then
             echo "❌ NEW P1 (critical) alerts detected:"
             echo "$NEW_ALERTS"
             echo ""
