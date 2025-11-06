@@ -4,6 +4,8 @@
  *
  * Route: /admin/bridge
  * Auth: Admin only (protected by layout.tsx)
+ *
+ * Test deployment workflow fix (verbose error handling)
  */
 
 'use client';
