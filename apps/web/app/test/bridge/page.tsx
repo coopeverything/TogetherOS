@@ -11,9 +11,30 @@ export default function BridgeTestPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Deprecation Notice */}
+        <div className="mb-6 bg-orange-50 border-2 border-orange-500 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <div className="text-orange-600 text-2xl">⚠️</div>
+            <div>
+              <h2 className="text-lg font-semibold text-orange-900 mb-1">
+                This Page is Obsolete
+              </h2>
+              <p className="text-orange-800 mb-2">
+                Bridge testing and training has been consolidated into the admin interface.
+              </p>
+              <a
+                href="/admin/bridge"
+                className="inline-block px-4 py-2 bg-orange-600 text-white font-medium rounded hover:bg-orange-700 transition-colors"
+              >
+                Go to Bridge Admin →
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Bridge Components Test Page</h1>
+        <div className="mb-8 opacity-50">
+          <h1 className="text-3xl font-bold text-gray-900">Bridge Components Test Page (Deprecated)</h1>
           <p className="mt-2 text-gray-600">
             Testing interface for Bridge AI assistant components and interactions.
           </p>
