@@ -233,7 +233,8 @@ async function checkSecurityAlertsInModifiedFiles() {
   }
 }
 
-// Run security check (async)
-await checkSecurityAlertsInModifiedFiles();
-
-console.log('✅ Danger.js checks complete');
+// Run security check (async) - wrapped in IIFE to avoid top-level await
+(async () => {
+  await checkSecurityAlertsInModifiedFiles();
+  console.log('✅ Danger.js checks complete');
+})();
