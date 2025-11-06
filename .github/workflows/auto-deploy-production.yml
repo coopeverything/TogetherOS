@@ -95,6 +95,7 @@ jobs:
             bash scripts/run-migrations.sh 2>&1 || {
               echo "⚠️  Migration failed, continuing with deployment..."
               echo "Database may need manual intervention"
+              true
             }
 
             echo "→ Installing dependencies..."
