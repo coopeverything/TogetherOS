@@ -6,7 +6,7 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ProposalForm } from '@togetheros/ui/governance'
@@ -14,18 +14,44 @@ import type { ProposalFormData } from '@togetheros/ui/governance'
 
 export default function NewProposalPage() {
   const router = useRouter()
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+  const [groups, setGroups] = useState<Array<{ id: string; name: string }>>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // In a real app, get from session/auth
-  const currentUserId = 'current-user-id'
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        // Fetch current user
+        const userResponse = await fetch('/api/profile')
+        if (userResponse.status === 401) {
+          router.push('/login?redirect=/governance/new')
+          return
+        }
+        if (!userResponse.ok) {
+          throw new Error('Failed to fetch user profile')
+        }
+        const userData = await userResponse.json()
+        setCurrentUserId(userData.user.id)
 
-  // In a real app, fetch user's groups from API
-  const groups = [
-    { id: 'group-1', name: 'Cooperative Technology Working Group' },
-    { id: 'group-2', name: 'Community Wellbeing Circle' },
-    { id: 'group-3', name: 'Social Economy Collective' },
-  ]
+        // Fetch user's groups
+        const groupsResponse = await fetch('/api/groups')
+        if (groupsResponse.ok) {
+          const groupsData = await groupsResponse.json()
+          // Filter to groups user is a member of (for now, show all)
+          setGroups(groupsData.groups || [])
+        }
+      } catch (err: any) {
+        console.error('Error fetching user data:', err)
+        setError(err.message || 'Failed to load user data')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUserData()
+  }, [router])
 
   const handleSubmit = async (data: ProposalFormData) => {
     try {
@@ -64,6 +90,33 @@ export default function NewProposalPage() {
 
   const handleCancel = () => {
     router.push('/governance')
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center">
+          <p className="text-lg text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!currentUserId) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-yellow-900 mb-2">Authentication Required</h2>
+          <p className="text-yellow-700 mb-4">You must be logged in to create proposals.</p>
+          <button
+            onClick={() => router.push('/login?redirect=/governance/new')}
+            className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
+          >
+            Log In
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

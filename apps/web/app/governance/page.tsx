@@ -16,13 +16,23 @@ export default function GovernancePage() {
   const router = useRouter()
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    async function fetchProposals() {
+    async function fetchData() {
       try {
         setLoading(true)
+
+        // Fetch current user (optional - don't require auth to view list)
+        const userResponse = await fetch('/api/profile')
+        if (userResponse.ok) {
+          const userData = await userResponse.json()
+          setCurrentUserId(userData.user.id)
+        }
+
+        // Fetch proposals
         const response = await fetch('/api/proposals')
 
         if (!response.ok) {
@@ -32,7 +42,7 @@ export default function GovernancePage() {
         const data = await response.json()
         setProposals(data.proposals || [])
 
-        // In a real app, we'd fetch author names from user API
+        // TODO: Fetch author names from user API
         // For now, use placeholder names
         const names: Record<string, string> = {}
         data.proposals?.forEach((p: Proposal) => {
@@ -40,18 +50,22 @@ export default function GovernancePage() {
         })
         setAuthorNames(names)
       } catch (err: any) {
-        console.error('Error fetching proposals:', err)
+        console.error('Error fetching data:', err)
         setError(err.message || 'Failed to load proposals')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProposals()
+    fetchData()
   }, [])
 
   const handleCreateProposal = () => {
-    router.push('/governance/new')
+    if (!currentUserId) {
+      router.push('/login?redirect=/governance/new')
+    } else {
+      router.push('/governance/new')
+    }
   }
 
   if (loading) {

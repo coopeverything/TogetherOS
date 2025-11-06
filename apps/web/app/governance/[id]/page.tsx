@@ -17,18 +17,26 @@ export default function ProposalDetailPage() {
   const id = params?.id as string
   const router = useRouter()
   const [proposal, setProposal] = useState<Proposal | null>(null)
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  // In a real app, get from session/auth
-  const currentUserId = 'current-user-id'
-  const isAuthor = proposal?.authorId === currentUserId
+  const isAuthor = proposal && currentUserId ? proposal.authorId === currentUserId : false
 
   useEffect(() => {
-    async function fetchProposal() {
+    async function fetchData() {
       try {
         setLoading(true)
+
+        // Fetch current user (optional - don't require auth to view)
+        const userResponse = await fetch('/api/profile')
+        if (userResponse.ok) {
+          const userData = await userResponse.json()
+          setCurrentUserId(userData.user.id)
+        }
+
+        // Fetch proposal
         const response = await fetch(`/api/proposals/${id}`)
 
         if (!response.ok) {
@@ -41,14 +49,14 @@ export default function ProposalDetailPage() {
         const data = await response.json()
         setProposal(data.proposal)
       } catch (err: any) {
-        console.error('Error fetching proposal:', err)
+        console.error('Error fetching data:', err)
         setError(err.message || 'Failed to load proposal')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProposal()
+    fetchData()
   }, [id])
 
   const handleEdit = () => {
