@@ -15,6 +15,9 @@ export const rewardEventTypeSchema = z.enum([
   'code_review',
   'issue_triage',
   'bug_fix',
+  'group_created',
+  'group_joined',
+  'city_group_joined',
 ])
 
 /**
@@ -52,7 +55,7 @@ export const rewardEventSchema = z.object({
   id: z.string().uuid(),
   memberId: z.string().uuid(),
   event_type: rewardEventTypeSchema,
-  sp_weight: z.number().int().positive(),
+  sp_weight: z.number().int().nonnegative(), // Allow 0 for tracking events like city_group_joined
   context: eventContextSchema,
   source: z.string().min(1).max(50),
   dedup_key: z.string().min(1),
@@ -124,6 +127,9 @@ export function getSPWeight(eventType: RewardEventType): number {
     code_review: 3,
     issue_triage: 2,
     bug_fix: 15,
+    group_created: 15,
+    group_joined: 3,
+    city_group_joined: 0,
   }
   return weights[eventType]
 }
