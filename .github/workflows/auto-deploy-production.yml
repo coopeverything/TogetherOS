@@ -80,6 +80,7 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.VPS_HOST }}
           SSH_USER: ${{ secrets.VPS_USER }}
+        shell: bash {0}
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} bash -s << 'ENDSSH'
             set -exuo pipefail
