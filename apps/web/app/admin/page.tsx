@@ -57,7 +57,7 @@ export default function AdminDashboard() {
     {
       title: 'Bridge Training',
       description: 'Manage training data, Q&A examples, and conversation training',
-      path: '/admin/bridge/training-data',
+      path: '/admin/bridge',
       category: 'AI Assistant',
       stats: 'Unified training interface',
     },
@@ -149,12 +149,6 @@ export default function AdminDashboard() {
       description: 'Compact, utilitarian admin UI patterns',
       path: '/test/admin-design',
       category: 'Design System',
-    },
-    {
-      title: 'Bridge Interface',
-      description: 'AI assistant Q&A interface testing',
-      path: '/test/bridge',
-      category: 'Bridge',
     },
     {
       title: 'Profile Components',
