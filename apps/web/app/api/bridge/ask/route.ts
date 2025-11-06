@@ -281,7 +281,7 @@ Cite sources when relevant using the format [Source: title].`;
           // Append sources at the end with structured formatting
           if (sources.length > 0) {
             const sourcesText = '\n\n---\n\n### Sources\n\n' +
-              sources.map(s => `- [${s.title}](https://github.com/coopeverything/TogetherOS/blob/main/docs/${s.path})`).join('\n');
+              sources.map(s => `- [${s.title}](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/${s.path})`).join('\n');
             controller.enqueue(encoder.encode(sourcesText));
           }
         } catch (error) {
