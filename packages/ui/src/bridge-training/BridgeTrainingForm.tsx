@@ -12,6 +12,7 @@
 
 import { useState, FormEvent } from 'react';
 import { StarRating } from './StarRating';
+import { renderMarkdown } from '../bridge/markdown-renderer';
 
 type Step = 'ask' | 'rate' | 'ideal' | 'save';
 
@@ -267,8 +268,8 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
               Bridge's Answer:
             </div>
-            <div style={{ color: 'var(--ink-900)', fontSize: '0.875rem', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
-              {bridgeResponse}
+            <div style={{ color: 'var(--ink-900)', fontSize: '0.875rem', lineHeight: 1.6 }}>
+              {renderMarkdown(bridgeResponse)}
             </div>
           </div>
 

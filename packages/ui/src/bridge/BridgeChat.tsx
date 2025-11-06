@@ -9,6 +9,7 @@
 
 import { useState, FormEvent } from 'react';
 import styles from './BridgeChat.module.css';
+import { renderMarkdown } from './markdown-renderer';
 
 export interface BridgeChatProps {
   /** Optional CSS class name for styling */
@@ -16,135 +17,6 @@ export interface BridgeChatProps {
 }
 
 type ChatState = 'idle' | 'loading' | 'streaming' | 'error' | 'rate-limited';
-
-/**
- * Parse inline markdown formatting (links, bold) within a line
- * Handles: [text](url), **bold**
- */
-function parseInlineMarkdown(text: string): JSX.Element[] {
-  const parts: JSX.Element[] = [];
-  // Combined regex for links and bold
-  const inlineRegex = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
-  let lastIndex = 0;
-  let match;
-  let key = 0;
-
-  while ((match = inlineRegex.exec(text)) !== null) {
-    // Add text before the match
-    if (match.index > lastIndex) {
-      parts.push(
-        <span key={`text-${key++}`}>{text.slice(lastIndex, match.index)}</span>
-      );
-    }
-
-    if (match[1] && match[2]) {
-      // Link: [text](url)
-      const linkText = match[1];
-      const url = match[2];
-      parts.push(
-        <a
-          key={`link-${key++}`}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles['bridge-link']}
-        >
-          {linkText}
-        </a>
-      );
-    } else if (match[3]) {
-      // Bold: **text**
-      parts.push(
-        <strong key={`bold-${key++}`}>{match[3]}</strong>
-      );
-    }
-
-    lastIndex = match.index + match[0].length;
-  }
-
-  // Add remaining text
-  if (lastIndex < text.length) {
-    parts.push(<span key={`text-${key++}`}>{text.slice(lastIndex)}</span>);
-  }
-
-  return parts.length > 0 ? parts : [<span key="default">{text}</span>];
-}
-
-/**
- * Render markdown-formatted answer with support for:
- * - H3 headers (###)
- * - Bullet lists (-, *)
- * - Links ([text](url))
- * - Bold text (**text**)
- * - Horizontal rules (---)
- */
-function renderMarkdown(text: string): JSX.Element[] {
-  const lines = text.split('\n');
-  const elements: JSX.Element[] = [];
-  let listItems: JSX.Element[] = [];
-  let listKey = 0;
-
-  const flushList = () => {
-    if (listItems.length > 0) {
-      elements.push(
-        <ul key={`list-${listKey++}`} className={styles['bridge-list']}>
-          {listItems}
-        </ul>
-      );
-      listItems = [];
-    }
-  };
-
-  lines.forEach((line, idx) => {
-    const trimmedLine = line.trim();
-
-    // Horizontal rule
-    if (trimmedLine === '---') {
-      flushList();
-      elements.push(<hr key={`hr-${idx}`} />);
-      return;
-    }
-
-    // H3 header
-    if (trimmedLine.startsWith('###')) {
-      flushList();
-      const headerText = trimmedLine.slice(3).trim();
-      elements.push(
-        <h3 key={`h3-${idx}`} className={styles['bridge-heading']}>
-          {parseInlineMarkdown(headerText)}
-        </h3>
-      );
-      return;
-    }
-
-    // Bullet list item
-    if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
-      const itemText = trimmedLine.slice(2).trim();
-      listItems.push(
-        <li key={`li-${idx}`}>{parseInlineMarkdown(itemText)}</li>
-      );
-      return;
-    }
-
-    // Regular paragraph (flush list first)
-    if (trimmedLine.length > 0) {
-      flushList();
-      elements.push(
-        <p key={`p-${idx}`} className={styles['bridge-paragraph']}>
-          {parseInlineMarkdown(line)}
-        </p>
-      );
-    } else {
-      // Empty line
-      flushList();
-    }
-  });
-
-  // Flush any remaining list items
-  flushList();
-
-  return elements.length > 0 ? elements : [<span key="default">{text}</span>];
-}
 
 export function BridgeChat({ className }: BridgeChatProps) {
   const [question, setQuestion] = useState('');
@@ -261,7 +133,13 @@ export function BridgeChat({ className }: BridgeChatProps) {
 
         {answer && (
           <div className={styles['bridge-output']} role="region" aria-live="polite">
-            {renderMarkdown(answer)}
+            {renderMarkdown(answer, {
+              linkClassName: styles['bridge-link'],
+              headingClassName: styles['bridge-heading'],
+              paragraphClassName: styles['bridge-paragraph'],
+              listClassName: styles['bridge-list'],
+              sourceClassName: styles['bridge-source-link'],
+            })}
           </div>
         )}
 
