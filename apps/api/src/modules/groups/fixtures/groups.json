@@ -34,7 +34,7 @@
       "id": "group-oss-educators",
       "name": "Open Source Educators",
       "handle": "oss-educators",
-      "type": "thematic",
+      "type": "national",
       "description": "Teachers and educators promoting free and open-source software in schools and universities. Virtual community focused on curriculum development and peer support.",
       "members": [
         "member-grace",
@@ -49,7 +49,7 @@
       "id": "group-climate-adaptation",
       "name": "Climate Adaptation Network",
       "handle": "climate-adaptation",
-      "type": "thematic",
+      "type": "national",
       "description": "Grassroots network building community resilience to climate change through local action, knowledge sharing, and mutual support.",
       "members": [
         "member-kate",
@@ -63,7 +63,7 @@
       "id": "group-housing-alliance",
       "name": "Cooperative Housing Alliance",
       "handle": "housing-alliance",
-      "type": "federated",
+      "type": "national",
       "description": "Multi-city network of housing cooperatives providing legal support, financing advice, and governance templates for co-op housing projects.",
       "members": [
         "member-noah",
