@@ -56,6 +56,16 @@ export async function POST(request: NextRequest) {
       summary: body.summary,
     };
 
+    // Debug logging
+    console.log('Creating proposal with:', {
+      scopeType: input.scopeType,
+      scopeId: input.scopeId,
+      authorId: input.authorId,
+      scopeIdType: typeof input.scopeId,
+      authorIdType: typeof input.authorId,
+      areEqual: input.scopeId === input.authorId,
+    });
+
     const proposal = await createProposal(input);
 
     return NextResponse.json({ proposal }, { status: 201 });
