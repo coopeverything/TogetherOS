@@ -130,12 +130,17 @@ Initial content:
 - If validation fails, fix issues and retry
 - These proof lines should be included in PR body
 
-### 7. Security Check (Recommended)
-- Check for open critical CodeQL alerts before creating PR
-- Run: `gh api repos/coopeverything/TogetherOS/code-scanning/alerts --jq '[.[] | select(.state == "open" and .rule.severity == "error")] | length'`
-- If critical alerts exist, warn about them (don't block, just inform)
-- Include security status in PR body: `SECURITY=OK (0 new critical alerts)` or `SECURITY=WARN (X critical alerts exist)`
-- View alerts at: https://github.com/coopeverything/TogetherOS/security/code-scanning
+### 7. Security Check (P1 Alerts in Modified Files)
+- **IMPORTANT:** Danger.js will automatically block merge if P1 alerts exist in modified files
+- Check if any of YOUR modified files have open P1 (error severity) CodeQL alerts
+- Run: `gh api repos/coopeverything/TogetherOS/code-scanning/alerts --jq '.[] | select(.state == "open" and .rule.severity == "error") | .most_recent_instance.location.path' | sort -u`
+- Cross-reference with files modified in this PR (from `git diff --name-only yolo`)
+- **If P1 alerts exist in modified files:**
+  - MUST fix them before creating PR (Danger.js will block merge otherwise)
+  - Common fixes: `JSON.stringify(userInput)` for log injection, parameterized queries for SQL injection
+  - View alert details: https://github.com/coopeverything/TogetherOS/security/code-scanning
+- **If P1 alerts only in unmodified files:** Informational only (won't block merge)
+- Include security status in PR body: `SECURITY=OK (0 P1 alerts in modified files)` or `SECURITY=WARN (X P1 alerts exist, but not in modified files)`
 
 ### 8. Git Operations
 - Commit with message: `feat({module}): {slice} - {scope}`

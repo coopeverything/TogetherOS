@@ -158,4 +158,82 @@ if (isDependabot) {
   }
 }
 
+// Check for P1 CodeQL security alerts in modified files
+// Only block if alert exists in files being touched by this PR
+async function checkSecurityAlertsInModifiedFiles() {
+  try {
+    // Get all files modified by this PR
+    const modifiedFiles = [
+      ...danger.git.modified_files,
+      ...danger.git.created_files,
+    ];
+
+    if (modifiedFiles.length === 0) {
+      return; // No files modified, nothing to check
+    }
+
+    // Fetch all open P1 (error severity) CodeQL alerts
+    const alerts = await danger.github.api.codeScanning.listAlertsForRepo({
+      owner: danger.github.thisPR.owner,
+      repo: danger.github.thisPR.repo,
+      state: 'open',
+      severity: 'error', // P1 only
+    });
+
+    if (!alerts.data || alerts.data.length === 0) {
+      console.log('✅ No P1 security alerts found');
+      return;
+    }
+
+    // Filter alerts to only those in modified files
+    const alertsInModifiedFiles = alerts.data.filter((alert) => {
+      const alertPath = alert.most_recent_instance?.location?.path;
+      return alertPath && modifiedFiles.includes(alertPath);
+    });
+
+    if (alertsInModifiedFiles.length === 0) {
+      console.log(`✅ No P1 security alerts in modified files (${modifiedFiles.length} files checked)`);
+      return;
+    }
+
+    // Found P1 alerts in modified files - BLOCK merge
+    let message = `❌ **P1 security alerts in modified files** (must fix before merge)\n\n`;
+    message += `This PR modifies files that have critical security issues. You must fix these alerts before merging.\n\n`;
+
+    alertsInModifiedFiles.forEach((alert) => {
+      const location = alert.most_recent_instance?.location;
+      const filePath = location?.path || 'unknown';
+      const lineStart = location?.start_line || '?';
+      const ruleName = alert.rule?.description || alert.rule?.id || 'Unknown issue';
+
+      message += `**${filePath}:${lineStart}**\n`;
+      message += `- ${ruleName}\n`;
+      if (alert.most_recent_instance?.message?.text) {
+        message += `- Details: ${alert.most_recent_instance.message.text}\n`;
+      }
+      message += `- [View alert →](${alert.html_url})\n\n`;
+    });
+
+    message += `**Why this blocks merge:**\n`;
+    message += `- P1 alerts = critical security vulnerabilities (injection, auth bypass, etc.)\n`;
+    message += `- Policy: Fix security issues in files you're already modifying\n`;
+    message += `- Pre-existing alerts in OTHER files = informational only (won't block)\n\n`;
+
+    message += `**View all security alerts:** https://github.com/${danger.github.thisPR.owner}/${danger.github.thisPR.repo}/security/code-scanning`;
+
+    fail(message);
+  } catch (error) {
+    // Don't fail the PR if CodeQL API check fails (e.g., API rate limit, permissions)
+    // Just warn that we couldn't check
+    warn(
+      `⚠️  Unable to check CodeQL security alerts: ${error.message}\n\n` +
+      `This is likely a temporary API issue. Please manually verify no P1 alerts exist in your modified files:\n` +
+      `https://github.com/${danger.github.thisPR.owner}/${danger.github.thisPR.repo}/security/code-scanning`
+    );
+  }
+}
+
+// Run security check (async)
+await checkSecurityAlertsInModifiedFiles();
+
 console.log('✅ Danger.js checks complete');

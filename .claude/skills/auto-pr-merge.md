@@ -363,15 +363,25 @@ if [ "$COPILOT_STATE" = "CHANGES_REQUESTED" ]; then
   BLOCKED=true
 fi
 
+# Check Danger.js for P1 security alerts in modified files
+DANGER_FAILED=$(gh pr checks $PR_NUMBER --json name,conclusion \
+  --jq '.[] | select(.name == "Validate PR" and .conclusion == "FAILURE") | .name' || echo "")
+
+if [ -n "$DANGER_FAILED" ]; then
+  echo "❌ BLOCKED: Danger.js found P1 security alerts in modified files"
+  BLOCKED=true
+fi
+
 if [ "$BLOCKED" = true ]; then
   echo ""
-  echo "Cannot merge until all blocking issues from BOTH bots are resolved."
+  echo "Cannot merge until all blocking issues from BOTH bots AND security checks are resolved."
   echo "Address feedback and push updates, then wait for re-review."
   exit 1
 fi
 
 # If we reach here, both bots reviewed with no blocking issues
 echo "✅ Both Codex and Copilot reviewed - no blocking issues"
+echo "✅ Danger.js passed - no P1 security alerts in modified files"
 ```
 
 ### 8. Check Status Checks
@@ -396,6 +406,7 @@ fi
 # - Tests passed (step 8)
 # - Codex reviewed with no P1 issues (step 7)
 # - Copilot reviewed with no CHANGES_REQUESTED (step 7)
+# - Danger.js passed (no P1 security alerts in modified files)
 # - All blocking feedback addressed
 
 gh pr merge $PR_NUMBER \
