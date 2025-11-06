@@ -204,12 +204,12 @@ export class MemberStateClassifier {
 
     // Add confidence context
     const confidence = scores[state];
-    const runner up = Object.entries(scores)
+    const runnerUp = Object.entries(scores)
       .filter(([s]) => s !== state)
       .sort(([, a], [, b]) => b - a)[0];
 
-    if (runner up && confidence - runner up[1] < 0.2) {
-      reasons.push(`Close to ${runner up[0]} state (margin: ${((confidence - runner up[1]) * 100).toFixed(0)}%)`);
+    if (runnerUp && confidence - runnerUp[1] < 0.2) {
+      reasons.push(`Close to ${runnerUp[0]} state (margin: ${((confidence - runnerUp[1]) * 100).toFixed(0)}%)`);
     }
 
     return reasons.join('; ');
