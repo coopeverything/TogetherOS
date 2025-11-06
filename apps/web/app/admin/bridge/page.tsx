@@ -150,7 +150,7 @@ export default function BridgeAdminPage() {
 
           const { example } = await createResponse.json();
 
-          await fetch(`/api/bridge-training/examples/${example.id}/rate`, {
+          const rateResponse = await fetch(`/api/bridge-training/examples/${example.id}/rate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -161,7 +161,12 @@ export default function BridgeAdminPage() {
             }),
           });
 
-          await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
+          if (!rateResponse.ok) {
+            errors.push(`Failed to rate example at index ${rating.messageIndex}`);
+            continue;
+          }
+
+          const idealResponse = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -169,6 +174,11 @@ export default function BridgeAdminPage() {
               idealResponse: rating.idealResponse,
             }),
           });
+
+          if (!idealResponse.ok) {
+            errors.push(`Failed to save ideal response at index ${rating.messageIndex}`);
+            continue;
+          }
 
           savedCount++;
         } catch (error: any) {
@@ -262,15 +272,6 @@ export default function BridgeAdminPage() {
     if (score >= 60) return 'var(--info)';
     if (score >= 40) return 'var(--warn)';
     return 'var(--danger)';
-  };
-
-  const toggleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('desc');
-    }
   };
 
   return (
