@@ -92,13 +92,14 @@ jobs:
             git reset --hard origin/yolo 2>&1
 
             echo "→ Running database migrations..."
-            {
-              bash scripts/run-migrations.sh || {
-                echo "⚠️  Migration failed, continuing with deployment..."
-                echo "Database may need manual intervention"
-                true
-              }
-            } 2>&1
+            set +e
+            bash scripts/run-migrations.sh 2>&1
+            MIGRATION_EXIT=$?
+            set -e
+            if [ $MIGRATION_EXIT -ne 0 ]; then
+              echo "⚠️  Migration failed (exit code: $MIGRATION_EXIT), continuing with deployment..."
+              echo "Database may need manual intervention"
+            fi
 
             echo "→ Installing dependencies..."
             npm install --production=false 2>&1 | tail -20
