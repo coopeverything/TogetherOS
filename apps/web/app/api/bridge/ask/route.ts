@@ -36,7 +36,14 @@ For example:
 - If they say "No" → Suggest: "Would you like to reach out to them? 15 people make a nice number for a meeting..."
 - If they say "Yes" → Ask: "Have you organized a meeting yet?"
 
-Speak plainly, avoid jargon, emphasize cooperation and empathy. Be concise and use concrete examples.`;
+Speak plainly, avoid jargon, emphasize cooperation and empathy. Be concise and use concrete examples.
+
+**FORMATTING GUIDELINES:**
+- Use ### for section headings when structuring your response
+- Use - or * for bullet lists when presenting options or steps
+- Use **bold** for emphasis on key terms or important concepts
+- Make links clickable by using [descriptive text](URL) format
+- Structure complex answers with clear sections and lists for readability`;
 
 // Cache the document index in memory
 let docsIndex: DocEntry[] | null = null;
@@ -271,9 +278,9 @@ Cite sources when relevant using the format [Source: title].`;
             }
           }
 
-          // Append sources at the end
+          // Append sources at the end with structured formatting
           if (sources.length > 0) {
-            const sourcesText = '\n\n---\n\n**Sources:**\n' +
+            const sourcesText = '\n\n---\n\n### Sources\n\n' +
               sources.map(s => `- [${s.title}](https://github.com/coopeverything/TogetherOS/blob/main/docs/${s.path})`).join('\n');
             controller.enqueue(encoder.encode(sourcesText));
           }

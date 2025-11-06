@@ -123,7 +123,6 @@
   line-height: 1.7;
   color: var(--ink-900, #0F172A);
   margin-bottom: 1.5rem;
-  white-space: pre-wrap;
   min-height: 100px;
   max-width: 68ch;
 }
@@ -147,6 +146,52 @@
 .bridge-output a:hover {
   text-decoration: underline;
   color: var(--brand-500, #10B981);
+}
+
+/* Markdown formatting styles */
+.bridge-heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ink-900, #0F172A);
+  margin: 1.25rem 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.bridge-heading:first-child {
+  margin-top: 0;
+}
+
+.bridge-paragraph {
+  margin: 0.75rem 0;
+  line-height: 1.7;
+}
+
+.bridge-paragraph:first-child {
+  margin-top: 0;
+}
+
+.bridge-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.bridge-list {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+  line-height: 1.7;
+}
+
+.bridge-list li {
+  margin: 0.5rem 0;
+  padding-left: 0.25rem;
+}
+
+.bridge-list li::marker {
+  color: var(--brand-600, #059669);
+}
+
+.bridge-output strong {
+  font-weight: 600;
+  color: var(--ink-900, #0F172A);
 }
 
 .bridge-link {
