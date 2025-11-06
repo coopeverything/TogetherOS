@@ -6,3 +6,5 @@
 export * from './MemberStateRepo';
 export * from './MemoryRepo';
 export * from './DecisionLoopRepo';
+export * from './QuestionnaireRepo';
+export * from './PostgresQuestionnaireRepo';
