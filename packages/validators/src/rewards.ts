@@ -15,6 +15,9 @@ export const rewardEventTypeSchema = z.enum([
   'code_review',
   'issue_triage',
   'bug_fix',
+  'group_created',
+  'group_joined',
+  'city_group_joined',
 ])
 
 /**
@@ -124,6 +127,9 @@ export function getSPWeight(eventType: RewardEventType): number {
     code_review: 3,
     issue_triage: 2,
     bug_fix: 15,
+    group_created: 15,
+    group_joined: 3,
+    city_group_joined: 0,
   }
   return weights[eventType]
 }

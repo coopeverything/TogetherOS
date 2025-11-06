@@ -7,7 +7,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { GroupType } from '@togetheros/types/groups'
+import type { GroupType, CooperationPath } from '@togetheros/types/groups'
 
 export interface CreateGroupFormProps {
   /** Callback when form is submitted */
@@ -29,6 +29,8 @@ export interface CreateGroupFormData {
   type: GroupType
   description?: string
   location?: string
+  cooperationPath?: CooperationPath
+  tags?: string[]
 }
 
 export function CreateGroupForm({
@@ -43,7 +45,11 @@ export function CreateGroupForm({
     type: 'local',
     description: '',
     location: '',
+    cooperationPath: 'Community Connection',
+    tags: [],
   })
+
+  const [tagInput, setTagInput] = useState('')
 
   const [errors, setErrors] = useState<Partial<Record<keyof CreateGroupFormData, string>>>({})
 
@@ -164,10 +170,39 @@ export function CreateGroupForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
           required
         >
-          <option value="local">Local - Geography-based community</option>
-          <option value="thematic">Thematic - Interest or topic-based</option>
-          <option value="federated">Federated - Cross-instance coordination</option>
+          <option value="local">Local - City or regional group</option>
+          <option value="national">National - Country-wide group</option>
+          <option value="global">Global - International group</option>
         </select>
+      </div>
+
+      {/* Cooperation Path */}
+      <div>
+        <label htmlFor="cooperationPath" className="block text-sm font-medium text-gray-700 mb-1">
+          Cooperation Path *
+        </label>
+        <select
+          id="cooperationPath"
+          value={formData.cooperationPath}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, cooperationPath: e.target.value as CooperationPath }))
+          }
+          disabled={isSubmitting}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+          required
+        >
+          <option value="Collaborative Education">Collaborative Education</option>
+          <option value="Social Economy">Social Economy</option>
+          <option value="Common Wellbeing">Common Wellbeing</option>
+          <option value="Cooperative Technology">Cooperative Technology</option>
+          <option value="Collective Governance">Collective Governance</option>
+          <option value="Community Connection">Community Connection</option>
+          <option value="Collaborative Media & Culture">Collaborative Media & Culture</option>
+          <option value="Common Planet">Common Planet</option>
+        </select>
+        <p className="mt-1 text-xs text-gray-500">
+          Select the primary category for your group
+        </p>
       </div>
 
       {/* Location (conditional) */}
@@ -208,6 +243,73 @@ export function CreateGroupForm({
           {formData.description?.length || 0} / 500 characters
         </p>
         {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+      </div>
+
+      {/* Tags */}
+      <div>
+        <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
+          Tags (optional, 0-5 tags)
+        </label>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="text"
+            id="tags"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault()
+                const tag = tagInput.trim().toLowerCase()
+                const tags = formData.tags || []
+                if (tag && !tags.includes(tag) && tags.length < 5) {
+                  setFormData((prev) => ({ ...prev, tags: [...(prev.tags || []), tag] }))
+                  setTagInput('')
+                }
+              }
+            }}
+            disabled={isSubmitting || (formData.tags?.length || 0) >= 5}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+            placeholder="e.g., timebanking, urban-farming, repair"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const tag = tagInput.trim().toLowerCase()
+              const tags = formData.tags || []
+              if (tag && !tags.includes(tag) && tags.length < 5) {
+                setFormData((prev) => ({ ...prev, tags: [...(prev.tags || []), tag] }))
+                setTagInput('')
+              }
+            }}
+            disabled={isSubmitting || !tagInput.trim() || (formData.tags?.length || 0) >= 5}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 transition-colors"
+          >
+            Add
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-2">
+          {formData.tags?.map((tag) => (
+            <span
+              key={tag}
+              className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm"
+            >
+              {tag}
+              <button
+                type="button"
+                onClick={() =>
+                  setFormData((prev) => ({ ...prev, tags: prev.tags?.filter((t) => t !== tag) || [] }))
+                }
+                disabled={isSubmitting}
+                className="hover:text-orange-900"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+        <p className="mt-1 text-xs text-gray-500">
+          Press Enter or comma to add a tag. {formData.tags?.length || 0} / 5 tags
+        </p>
       </div>
 
       {/* Actions */}

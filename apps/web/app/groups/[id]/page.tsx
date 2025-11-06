@@ -145,8 +145,8 @@ export default function GroupDetailPage() {
         </div>
       </div>
 
-      {/* Federation (for federated groups only) */}
-      {group.type === 'federated' && (
+      {/* Federation (for global groups only) */}
+      {group.type === 'global' && (
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <div className="text-center py-8">
             <p className="text-gray-500">Federation Status</p>

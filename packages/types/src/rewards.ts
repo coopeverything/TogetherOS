@@ -12,6 +12,9 @@ export type RewardEventType =
   | 'code_review'          // PR review completed
   | 'issue_triage'         // Issue labeled/prioritized
   | 'bug_fix'              // Bug fix merged
+  | 'group_created'        // Created a new group (not city group)
+  | 'group_joined'         // Joined an existing group (not city group)
+  | 'city_group_joined'    // Joined auto-created city group (no reward)
 
 /**
  * Domain-specific context for reward events
@@ -145,4 +148,7 @@ export const SP_WEIGHTS: Record<RewardEventType, number> = {
   code_review: 3,
   issue_triage: 2,
   bug_fix: 15,
+  group_created: 15,        // Creating a new group
+  group_joined: 3,          // Joining an existing group
+  city_group_joined: 0,     // Joining city group (no reward)
 }
