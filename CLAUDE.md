@@ -109,8 +109,11 @@ ssh root@continentjump
 # Navigate to project
 cd /var/www/togetheros
 
-# Run database migration
-psql -U postgres -d togetheros -f db/migrations/XXX_migration_name.sql
+# Run database migrations (automated on deployments)
+# Migrations run automatically on every deployment
+# Manual run if needed:
+export $(grep DATABASE_URL .env | xargs)
+bash scripts/run-migrations.sh
 
 # Set user as admin (example)
 psql -U postgres -d togetheros -c "UPDATE users SET is_admin = TRUE WHERE email = 'user@example.com';"
