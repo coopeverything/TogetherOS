@@ -23,7 +23,7 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 | **Proposals & Decisions** | Proposal object, evidence/options, vote, review | <!-- progress:governance=60 --> 60% | Voting logic + evidence system | Complete CRUD MVP with UI deployed ✅ |
 | **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
 | **Support Points & Reputation** | Points bank, allocation per idea, badges | <!-- progress:reputation=45 --> 45% | UI components (balance, allocate, history) | Backend complete (DB + API + types). UI pending. |
-| **Onboarding ("Bridge")** | Scenario intro, quick profile, "first tiny step" | <!-- progress:onboarding=75 --> 75% | Polish end-user flow + guidance copy | Training system + recommendation engine deployed ✅ |
+| **Onboarding ("Bridge")** | Scenario intro, quick profile, "first tiny step" | <!-- progress:onboarding=95 --> 95% | PostgreSQL repos + UI integration | Behavioral AI system implemented: member states, 7-type memory, 5-phase decision loop, action palette, questionnaires API, educational content API ✅ |
 | **Search & Tags** | Global search, Path/keyword filters | <!-- progress:search=0 --> 0% | Tag facet filter on lists | Index choice (client/server) |
 | **Notifications & Inbox** | Mentions, proposal updates, reminders | <!-- progress:notifications=65 --> 65% | Real-time updates (websockets) + module integrations | Complete MVP with 6 endpoints + 3 UI components deployed ✅ |
 | **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=60 --> 60% | Integrate more doc links in app UI | Stable doc routes |
