@@ -298,18 +298,26 @@ System may be prompting even when operation is in allow list
    - Check recent deployment history: `gh run list --workflow=auto-deploy-production.yml --limit 5`
    - If failures detected → **Automatically invoke yolo1 skill** to diagnose and fix
    - Report findings to user
-3. Check Notion session memory (see `status-tracker` skill)
+3. **Create Notion session page (RECOMMENDED for complex work):**
+   - Use: `mcp__notion__API-post-page`
+   - Parent: `296d133a-246e-80a6-a870-c0d163e9c826`
+   - Title: `"Nov 10, 25 14:30 - Session"`
+   - See `status-tracker` skill for format details
+   - If UUID bug occurs, retry once then proceed
 4. Review `git status` and recent commits
 
 **During:**
 - Follow autonomy guidelines
 - Use TodoWrite for multi-step tasks
-- Update Notion on achievements/discoveries
+- **Update Notion with achievements/discoveries** (use `mcp__notion__API-patch-block-children`)
 
 **At End:**
-- Update Notion session page
-- Push all changes
-- Clear TodoWrite list
+1. **Finalize Notion session page:**
+   - Add final summary (accomplishments, PRs, status)
+   - Update title with theme: `"Nov 10, 25 14:30 - {work summary}"`
+   - Archive oldest session if >6 exist
+2. Push all changes
+3. Clear TodoWrite list
 
 ---
 
