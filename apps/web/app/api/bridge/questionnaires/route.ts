@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/middleware';
+import { PostgresQuestionnaireRepo } from '../../../../../api/src/modules/bridge-behavioral/repos';
 
 /**
  * GET /api/bridge/questionnaires
@@ -18,52 +19,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // TODO: Implement with PostgreSQL repo
-    // For now, return mock data based on seeded questionnaires
-    const questionnaires = [
-      {
-        id: crypto.randomUUID(),
-        type: 'location',
-        question: 'Where are you based?',
-        description: 'Help us connect you with nearby cooperators',
-        answerType: 'single_choice',
-        options: [
-          { value: 'city', label: 'City/Town' },
-          { value: 'region', label: 'Region/State' },
-          { value: 'country', label: 'Country' },
-          { value: 'prefer_not_say', label: 'Prefer not to say' },
-        ],
-        sequenceNumber: 1,
-        estimatedTimeSeconds: 30,
-        rpReward: 10,
-      },
-      {
-        id: crypto.randomUUID(),
-        type: 'interests',
-        question: 'Which cooperation paths interest you most?',
-        description: 'Select all that apply',
-        answerType: 'multiple_choice',
-        options: [
-          { value: 'collaborative-education', label: 'Collaborative Education' },
-          { value: 'social-economy', label: 'Social Economy' },
-          { value: 'common-wellbeing', label: 'Common Wellbeing' },
-          { value: 'cooperative-technology', label: 'Cooperative Technology' },
-          { value: 'collective-governance', label: 'Collective Governance' },
-          { value: 'community-connection', label: 'Community Connection' },
-          { value: 'collaborative-media-culture', label: 'Collaborative Media & Culture' },
-          { value: 'common-planet', label: 'Common Planet' },
-        ],
-        sequenceNumber: 2,
-        estimatedTimeSeconds: 60,
-        rpReward: 10,
-      },
-    ];
+    const repo = new PostgresQuestionnaireRepo();
+    const [questionnaires, stats] = await Promise.all([
+      repo.getIncompleteQuestionnaires(user.id),
+      repo.getCompletionStats(user.id),
+    ]);
 
     return NextResponse.json({
       userId: user.id,
       questionnaires,
-      totalAvailable: 10,
-      completedCount: 0,
+      totalAvailable: stats.totalQuestionnaires,
+      completedCount: stats.completedCount,
+      completionPercentage: stats.completionPercentage,
+      totalRPEarned: stats.totalRPEarned,
     });
   } catch (error) {
     console.error('[Bridge Questionnaires API] Error:', error);
@@ -96,19 +64,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Implement with PostgreSQL repo
-    // For now, return mock response
-    const response = {
-      id: crypto.randomUUID(),
+    const repo = new PostgresQuestionnaireRepo();
+
+    // Get the questionnaire to determine RP reward
+    const questionnaire = await repo.getQuestionnaireById(questionnaireId);
+    if (!questionnaire) {
+      return NextResponse.json(
+        { error: 'Questionnaire not found' },
+        { status: 404 }
+      );
+    }
+
+    // Create the response
+    const response = await repo.createResponse({
       userId: user.id,
       questionnaireId,
       questionnaireType,
       answer,
       startedAt: startedAt ? new Date(startedAt) : new Date(),
       completedAt: new Date(),
-      durationSeconds: 45, // Mock duration
-      rpAwarded: 10,
-    };
+      rpAwarded: questionnaire.rpReward,
+    });
+
+    // TODO: Trigger RP award event (integrate with RP economy system)
 
     return NextResponse.json({
       success: true,
