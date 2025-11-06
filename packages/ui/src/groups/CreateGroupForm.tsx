@@ -27,8 +27,9 @@ export interface CreateGroupFormData {
   name: string
   handle: string
   type: GroupType
-  description?: string
+  description: string
   location?: string
+  zipCode?: string
   cooperationPath?: CooperationPath
   tags?: string[]
 }
@@ -83,10 +84,14 @@ export function CreateGroupForm({
       newErrors.handle = 'Handle must be lowercase alphanumeric with hyphens only'
     }
 
-    if (formData.description && formData.description.length < 10) {
+    if (!formData.description || formData.description.length < 10) {
       newErrors.description = 'Description must be at least 10 characters'
-    } else if (formData.description && formData.description.length > 500) {
+    } else if (formData.description.length > 500) {
       newErrors.description = 'Description cannot exceed 500 characters'
+    }
+
+    if (formData.zipCode && !/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
+      newErrors.zipCode = 'ZIP code must be valid US format (e.g., 12345 or 12345-6789)'
     }
 
     if (formData.type === 'local' && !formData.location) {
@@ -205,30 +210,52 @@ export function CreateGroupForm({
         </p>
       </div>
 
-      {/* Location (conditional) */}
+      {/* Location and ZIP (conditional) */}
       {formData.type === 'local' && (
-        <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-            Location *
-          </label>
-          <input
-            type="text"
-            id="location"
-            value={formData.location}
-            onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
-            disabled={isSubmitting}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
-            placeholder="e.g., Boston, MA"
-            required
-          />
-          {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location}</p>}
-        </div>
+        <>
+          <div>
+            <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+              ZIP Code (optional)
+            </label>
+            <input
+              type="text"
+              id="zipCode"
+              value={formData.zipCode || ''}
+              onChange={(e) => setFormData((prev) => ({ ...prev, zipCode: e.target.value }))}
+              disabled={isSubmitting}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+              placeholder="e.g., 02108"
+              maxLength={10}
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Auto-assigns you to your city's group and geocodes location
+            </p>
+            {errors.zipCode && <p className="mt-1 text-sm text-red-600">{errors.zipCode}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+              Location *
+            </label>
+            <input
+              type="text"
+              id="location"
+              value={formData.location}
+              onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
+              disabled={isSubmitting}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+              placeholder="e.g., Boston, MA"
+              required
+            />
+            {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location}</p>}
+          </div>
+        </>
       )}
 
       {/* Description */}
       <div>
         <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-          Description (optional)
+          Description *
         </label>
         <textarea
           id="description"
@@ -238,9 +265,10 @@ export function CreateGroupForm({
           rows={4}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
           placeholder="Describe your group's purpose and activities..."
+          required
         />
         <p className="mt-1 text-xs text-gray-500">
-          {formData.description?.length || 0} / 500 characters
+          {formData.description?.length || 0} / 500 characters (minimum 10)
         </p>
         {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
       </div>
