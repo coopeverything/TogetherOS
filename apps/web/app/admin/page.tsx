@@ -55,25 +55,91 @@ export default function AdminDashboard() {
 
   const adminPages = [
     {
-      title: 'Training Data Viewer',
-      description: 'View, filter, approve/reject Bridge training examples',
+      title: 'Bridge Training',
+      description: 'Manage training data, Q&A examples, and conversation training',
       path: '/admin/bridge/training-data',
-      category: 'Bridge Training',
-      stats: 'Manage training data',
+      category: 'AI Assistant',
+      stats: 'Unified training interface',
     },
     {
-      title: 'Single Q&A Training',
-      description: 'Ask Bridge questions and provide ideal responses',
-      path: '/admin/bridge/train',
-      category: 'Bridge Training',
-      stats: 'One-shot training',
+      title: 'Members Admin',
+      description: 'User accounts, roles, permissions, and activity',
+      path: '/admin/members',
+      category: 'User Management',
+      stats: 'Coming soon',
+      disabled: true,
     },
     {
-      title: 'Conversation Training',
-      description: 'Multi-turn dialogue training with context',
-      path: '/admin/bridge/train-conversation',
-      category: 'Bridge Training',
-      stats: 'Multi-turn training',
+      title: 'Moderation Reports',
+      description: 'Flagged content, user reports, and moderation queue',
+      path: '/admin/moderation',
+      category: 'Safety',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Group Management',
+      description: 'Oversight of all groups, settings, and coordination',
+      path: '/admin/groups',
+      category: 'Groups',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Governance Oversight',
+      description: 'Proposal monitoring, decision logs, minority reports',
+      path: '/admin/governance',
+      category: 'Governance',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Social Economy',
+      description: 'Support Points, timebanking, treasury oversight',
+      path: '/admin/economy',
+      category: 'Economy',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'System Logs & Audit',
+      description: 'Security events, NDJSON logs, system health monitoring',
+      path: '/admin/logs',
+      category: 'System',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Analytics Dashboard',
+      description: 'User growth, engagement metrics, system performance',
+      path: '/admin/analytics',
+      category: 'Insights',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Email & Notifications',
+      description: 'Manage system notifications and email templates',
+      path: '/admin/notifications',
+      category: 'Communications',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Feature Flags',
+      description: 'Toggle experimental features and rollout controls',
+      path: '/admin/features',
+      category: 'System',
+      stats: 'Coming soon',
+      disabled: true,
+    },
+    {
+      title: 'Backup & Export',
+      description: 'Data export, backup management, and recovery',
+      path: '/admin/backup',
+      category: 'Data',
+      stats: 'Coming soon',
+      disabled: true,
     },
   ]
 
@@ -142,7 +208,7 @@ export default function AdminDashboard() {
             {adminPages.map(page => (
               <a
                 key={page.path}
-                href={page.path}
+                href={page.disabled ? undefined : page.path}
                 style={{
                   display: 'block',
                   background: 'var(--bg-1)',
@@ -151,15 +217,25 @@ export default function AdminDashboard() {
                   padding: '1rem',
                   textDecoration: 'none',
                   transition: 'all 0.15s ease',
-                  cursor: 'pointer',
+                  cursor: page.disabled ? 'not-allowed' : 'pointer',
+                  opacity: page.disabled ? 0.6 : 1,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--brand-500)'
-                  e.currentTarget.style.background = 'var(--bg-2)'
+                  if (!page.disabled) {
+                    e.currentTarget.style.borderColor = 'var(--brand-500)'
+                    e.currentTarget.style.background = 'var(--bg-2)'
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--border)'
-                  e.currentTarget.style.background = 'var(--bg-1)'
+                  if (!page.disabled) {
+                    e.currentTarget.style.borderColor = 'var(--border)'
+                    e.currentTarget.style.background = 'var(--bg-1)'
+                  }
+                }}
+                onClick={(e) => {
+                  if (page.disabled) {
+                    e.preventDefault()
+                  }
                 }}
               >
                 <div style={{
