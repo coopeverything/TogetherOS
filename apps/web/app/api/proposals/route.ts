@@ -20,9 +20,29 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Validate required fields
-    if (!body.title || !body.summary || !body.scopeType || !body.scopeId) {
+    if (!body.title || !body.summary || !body.scopeType) {
       return NextResponse.json(
-        { error: 'Missing required fields: title, summary, scopeType, scopeId' },
+        { error: 'Missing required fields: title, summary, scopeType' },
+        { status: 400 }
+      );
+    }
+
+    // For individual proposals, scopeId must equal authorId
+    // For group proposals, scopeId must be provided
+    let scopeId: string;
+    if (body.scopeType === 'individual') {
+      scopeId = user.id; // Always use authenticated user's ID
+    } else if (body.scopeType === 'group') {
+      if (!body.scopeId) {
+        return NextResponse.json(
+          { error: 'scopeId is required for group proposals' },
+          { status: 400 }
+        );
+      }
+      scopeId = body.scopeId;
+    } else {
+      return NextResponse.json(
+        { error: 'Invalid scopeType. Must be "individual" or "group"' },
         { status: 400 }
       );
     }
@@ -30,7 +50,7 @@ export async function POST(request: NextRequest) {
     // Set author to authenticated user
     const input: CreateProposalInput = {
       scopeType: body.scopeType,
-      scopeId: body.scopeId,
+      scopeId,
       authorId: user.id,
       title: body.title,
       summary: body.summary,

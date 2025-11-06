@@ -56,6 +56,22 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 
 ## Workflow Steps
 
+### 0. Session Memory (Start)
+
+**Create Notion session page** to track this work:
+```
+Use Notion API: mcp__notion__API-post-page
+Parent page ID: 296d133a-246e-80a6-a870-c0d163e9c826
+Title format: "Nov 10, 25 14:30 - Session"
+Initial content:
+  - Repository: TogetherOS
+  - Branch: yolo (or feature branch)
+  - Module: {module}
+  - Slice: {slice}
+```
+
+**Note:** This is optional but recommended for continuity between sessions. If Notion API fails (UUID bug #5504), retry once then proceed without blocking.
+
 ### 1. Preparation & Clean State Verification
 - Verify working directory is clean (no uncommitted changes):
   ```bash
@@ -247,6 +263,33 @@ fi
 ```
 
 **Only after deployment verification is delivery complete.**
+
+### 13. Session Memory (Finalize)
+
+**Update Notion session page** with final summary:
+```
+Use Notion API: mcp__notion__API-patch-block-children
+Update session page created in Step 0
+
+Add final blocks:
+  - Accomplishments: What was delivered
+  - PR: Link to merged PR
+  - Deployment: Success/failure status
+  - Files Changed: Count and key files
+  - Duration: Session start to end time
+  - Status: ✅ Completed
+
+Update page title: "Nov 10, 25 14:30 - {module} {slice} implementation"
+```
+
+**Cleanup old sessions** (keep only 6 most recent):
+```
+Use Notion API: mcp__notion__API-post-search
+Search for session pages, sort by last_edited_time
+If count > 6: Archive oldest pages using mcp__notion__API-delete-a-block
+```
+
+**Note:** This is optional but recommended for session continuity. If it fails, don't block - report completion and move on.
 
 ## Safety Guidelines
 

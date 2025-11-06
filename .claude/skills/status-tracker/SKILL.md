@@ -31,17 +31,26 @@ This skill manages all progress tracking, status updates, and Notion memory for 
 
 ## Workflow Steps
 
-### 0. Session Memory (Notion)
+### 0. Session Memory (Notion) - **RECOMMENDED**
+
+**When:** At session start and end (especially for complex work or yolo1 workflows)
 
 **Flow:**
-- Start: Create page in "Claude Memory" → `10/30/25 14:30`
-- During: Update on achievements/discoveries (continuous, not end-dump)
-- End: Finalize status, next steps, branch/commit
-- Cleanup: Keep 6 most recent, delete oldest when adding #7
+- **Start:** Create page in "Claude Memory" → `Nov 10, 25 14:30 - Session`
+- **During:** Update on achievements/discoveries (continuous, not end-dump)
+- **End:** Finalize with summary, rename title with theme
+- **Cleanup:** Keep 6 most recent, archive oldest when adding #7
+
+**Quick Start:**
+```
+Use Notion API: mcp__notion__API-post-page
+Parent page ID: 296d133a-246e-80a6-a870-c0d163e9c826
+Title: "Nov 10, 25 14:30 - Session"
+```
 
 **Format:**
 ```
-# Session: 10/30/25 14:30
+# Session: Nov 10, 25 14:30
 
 ## Work Completed
 - [achievements]
@@ -55,6 +64,11 @@ Branch: [name] | Commit: [hash] | Build: [status]
 
 ## Next Steps
 - [2-3 actions]
+```
+
+**At session end, update title:**
+```
+"Nov 10, 25 14:30 - {module} {feature} implementation"
 ```
 
 ### 1. Progress Tracking During Implementation
@@ -149,12 +163,14 @@ progress:bridge=+10
 
 **Note:** This only creates the WIP marker. Actual code sync (Phase 2) happens when user approves after production validation.
 
-### 6. Notion Memory Updates
+### 6. Notion Memory Updates - **RECOMMENDED FOR ALL YOLO1 WORKFLOWS**
 
 **When to Update Notion:**
+- **Session start** (create page)
+- During implementation (append updates)
 - After PR creation
 - Major milestone completion
-- Session handoff point
+- **Session end** (finalize summary)
 - User requests it
 
 **Quick Handoff Page:**
@@ -164,10 +180,15 @@ progress:bridge=+10
 - Keep it minimal: 10-15 lines total, easy to scan
 
 **Detailed Session Pages:**
-- Create with date format: `10/30/25 14:30`
+- Create with date format: `Nov 10, 25 14:30`
 - Update continuously during session (not end-dump)
 - Keep only 6 most recent
-- Delete oldest when adding #7
+- Archive oldest when adding #7
+
+**Integration with yolo1:**
+- Step 0: Create session page at workflow start
+- Step 13: Finalize session page after deployment
+- See yolo1 skill for exact API call examples
 
 **⚠️ Notion API Version Notice:**
 - Current MCP server may use pre-2025-09-03 API version
