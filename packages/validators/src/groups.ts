@@ -7,7 +7,7 @@ import type { GroupType, GroupRoleType, MembershipStatus } from '@togetheros/typ
 /**
  * Group type enum schema
  */
-export const groupTypeSchema = z.enum(['local', 'thematic', 'federated'])
+export const groupTypeSchema = z.enum(['local', 'national', 'global'])
 
 /**
  * Group role type enum schema
@@ -50,7 +50,7 @@ export const createGroupSchema = z.object({
     .max(100, 'Location cannot exceed 100 characters')
     .optional(),
 
-  creatorId: z.string().min(1),  // Allow any string ID
+  creatorId: z.string().min(1).optional(),  // Optional for system-created city groups
 }).refine(
   (data) => data.type !== 'local' || !!data.location,
   {
