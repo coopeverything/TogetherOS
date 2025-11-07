@@ -4,22 +4,36 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CreateGroupForm, type CreateGroupFormData } from '@togetheros/ui/groups/CreateGroupForm'
-import { InMemoryGroupRepo } from '../../../../api/src/modules/groups/repos/InMemoryGroupRepo'
+import { LocalStorageGroupRepo } from '../../../../api/src/modules/groups/repos/LocalStorageGroupRepo'
 import { getFixtureGroups } from '../../../../api/src/modules/groups/fixtures'
+import { NominatimService } from '../../../../api/src/modules/geo/services/NominatimService'
 
 export default function NewGroupPage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Initialize repo with fixtures
-  const repo = new InMemoryGroupRepo(getFixtureGroups())
+  // Initialize repo with fixtures (loads from localStorage if available)
+  const repo = new LocalStorageGroupRepo(getFixtureGroups())
 
   const handleSubmit = async (data: CreateGroupFormData) => {
     setIsSubmitting(true)
     setError(null)
 
     try {
+      // Optionally geocode ZIP code if provided
+      let geocodedLocation = null
+      if (data.zipCode && data.type === 'local') {
+        const nominatimService = new NominatimService()
+        geocodedLocation = await nominatimService.geocodeZipCode(data.zipCode)
+
+        if (geocodedLocation) {
+          // Auto-fill location from geocoded data
+          data.location = `${geocodedLocation.city}, ${geocodedLocation.state}`
+          console.log('Geocoded ZIP:', geocodedLocation)
+        }
+      }
+
       // In production, this would be an API call
       // For now, we'll use the repo directly
       const group = await repo.create({
