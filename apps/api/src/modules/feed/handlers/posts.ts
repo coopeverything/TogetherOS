@@ -3,21 +3,21 @@
 
 import type { Post, Reaction, ReactionCounts, ReactionType, EmbeddedUrl } from '@togetheros/types'
 import type { PostFilters } from '../repos/PostRepo'
-import { InMemoryPostRepo } from '../repos/InMemoryPostRepo'
+import { PostgresPostRepo } from '../repos/PostgresPostRepo'
 import { v4 as uuidv4 } from 'uuid'
 import { extractUrls, filterSocialMediaUrls, findUrlPosition } from '../../services/urlParser'
 import { fetchSocialMediaPreview } from '../../services/socialMediaFetcher'
 
-// Singleton repos for in-memory storage (session-scoped)
-let postRepo: InMemoryPostRepo | null = null
-const reactions = new Map<string, Reaction[]>() // postId -> reactions
+// Singleton repo for PostgreSQL storage
+let postRepo: PostgresPostRepo | null = null
+const reactions = new Map<string, Reaction[]>() // postId -> reactions (TODO: move to database)
 
 /**
  * Get or initialize post repo
  */
-function getPostRepo(): InMemoryPostRepo {
+function getPostRepo(): PostgresPostRepo {
   if (!postRepo) {
-    postRepo = new InMemoryPostRepo([])
+    postRepo = new PostgresPostRepo()
   }
   return postRepo
 }
