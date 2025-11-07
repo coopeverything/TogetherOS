@@ -88,7 +88,15 @@ async function fetchViaOEmbed(
       return null
     }
 
-    const data = await response.json()
+    const data = await response.json() as {
+      title?: string;
+      description?: string;
+      thumbnail_url?: string;
+      url?: string;
+      author_name?: string;
+      author_url?: string;
+      html?: string;
+    }
 
     return {
       title: data.title || 'Untitled',
