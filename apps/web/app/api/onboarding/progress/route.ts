@@ -10,7 +10,7 @@ import {
   getOnboardingProgress,
   updateOnboardingStep,
   completeOnboarding,
-} from '../../../../../../api/src/services/bridge/OnboardingService';
+} from '../../../../../api/src/services/bridge/OnboardingService';
 
 /**
  * GET /api/onboarding/progress
