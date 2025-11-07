@@ -191,6 +191,63 @@ export class PostgresPostRepo implements PostRepo {
   }
 
   /**
+   * Open discussion on post
+   */
+  async openDiscussion(postId: string, threadId: string): Promise<void> {
+    await query(
+      'UPDATE posts SET discussion_thread_id = $1 WHERE id = $2',
+      [threadId, postId]
+    )
+  }
+
+  /**
+   * Increment discussion count
+   */
+  async incrementDiscussionCount(postId: string): Promise<void> {
+    await query(
+      'UPDATE posts SET discussion_count = discussion_count + 1 WHERE id = $1',
+      [postId]
+    )
+  }
+
+  /**
+   * Archive post
+   */
+  async archive(postId: string): Promise<void> {
+    await query(
+      "UPDATE posts SET status = 'archived' WHERE id = $1",
+      [postId]
+    )
+  }
+
+  /**
+   * Flag post for moderation
+   */
+  async flag(postId: string): Promise<void> {
+    await query(
+      "UPDATE posts SET status = 'flagged' WHERE id = $1",
+      [postId]
+    )
+  }
+
+  /**
+   * Delete post
+   */
+  async delete(id: string): Promise<void> {
+    await query('DELETE FROM posts WHERE id = $1', [id])
+  }
+
+  /**
+   * Get all unique topics
+   */
+  async getTopics(): Promise<string[]> {
+    const result = await query<{ topic: string }>(
+      `SELECT DISTINCT unnest(topics) as topic FROM posts ORDER BY topic`
+    )
+    return result.rows.map(row => row.topic)
+  }
+
+  /**
    * Map database row to Post type
    * Handles snake_case → camelCase conversion and JSONB parsing
    */

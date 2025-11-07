@@ -21,6 +21,7 @@
     { "path": "./packages/types" },
     { "path": "./packages/validators" },
     { "path": "./packages/ui" },
+    { "path": "./apps/api" },
     { "path": "./apps/web" }
   ]
 }

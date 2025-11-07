@@ -5,8 +5,8 @@ import type { Post, Reaction, ReactionCounts, ReactionType, EmbeddedUrl } from '
 import type { PostFilters } from '../repos/PostRepo'
 import { PostgresPostRepo } from '../repos/PostgresPostRepo'
 import { v4 as uuidv4 } from 'uuid'
-import { extractUrls, filterSocialMediaUrls, findUrlPosition } from '../../services/urlParser'
-import { fetchSocialMediaPreview } from '../../services/socialMediaFetcher'
+import { extractUrls, filterSocialMediaUrls, findUrlPosition } from '../../../services/urlParser'
+import { fetchSocialMediaPreview } from '../../../services/socialMediaFetcher'
 
 // Singleton repo for PostgreSQL storage
 let postRepo: PostgresPostRepo | null = null

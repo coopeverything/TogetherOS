@@ -70,6 +70,15 @@ export const mediaPreviewSchema = z.object({
 })
 
 /**
+ * Embedded URL schema (social media URLs detected in content)
+ */
+export const embeddedUrlSchema = z.object({
+  url: z.string().url(),
+  preview: mediaPreviewSchema,
+  position: z.number().int().min(0),
+})
+
+/**
  * Full post schema
  */
 export const postSchema = z.object({
@@ -81,6 +90,7 @@ export const postSchema = z.object({
   // Native post fields
   title: z.string().min(10).max(200).optional(),
   content: z.string().min(1).max(5000).optional(),
+  embeddedUrls: z.array(embeddedUrlSchema).optional(),
 
   // Import fields
   sourceUrl: z.string().url().optional(),
