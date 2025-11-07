@@ -1,7 +1,7 @@
 // apps/api/src/modules/feed/entities/Post.ts
 // Domain entity for Post - Pure business logic
 
-import type { Post as PostType, PostType as PostTypeEnum, PostStatus, MediaPreview } from '@togetheros/types'
+import type { Post as PostType, PostType as PostTypeEnum, PostStatus, MediaPreview, EmbeddedUrl } from '@togetheros/types'
 import { postSchema } from '@togetheros/validators'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -17,6 +17,7 @@ export class Post {
     public readonly groupId: string | undefined,
     public readonly title: string | undefined,
     public readonly content: string | undefined,
+    public readonly embeddedUrls: ReadonlyArray<EmbeddedUrl> | undefined,
     public readonly sourceUrl: string | undefined,
     public readonly sourcePreview: MediaPreview | undefined,
     public readonly topics: ReadonlyArray<string>,
@@ -36,6 +37,7 @@ export class Post {
     title?: string
     topics: string[]
     groupId?: string
+    embeddedUrls?: EmbeddedUrl[]
   }): Post {
     const now = new Date()
 
@@ -51,6 +53,7 @@ export class Post {
       groupId: input.groupId,
       title: input.title,
       content: input.content,
+      embeddedUrls: input.embeddedUrls,
       sourceUrl: undefined,
       sourcePreview: undefined,
       topics: input.topics,
@@ -68,6 +71,7 @@ export class Post {
       validated.groupId,
       validated.title,
       validated.content,
+      validated.embeddedUrls,
       validated.sourceUrl,
       validated.sourcePreview,
       validated.topics,
@@ -110,6 +114,7 @@ export class Post {
       groupId: input.groupId,
       title: undefined,
       content: undefined,
+      embeddedUrls: undefined,
       sourceUrl: input.sourceUrl,
       sourcePreview: input.preview,
       topics: input.topics,
@@ -127,6 +132,7 @@ export class Post {
       validated.groupId,
       validated.title,
       validated.content,
+      validated.embeddedUrls,
       validated.sourceUrl,
       validated.sourcePreview,
       validated.topics,
@@ -151,6 +157,7 @@ export class Post {
       validated.groupId,
       validated.title,
       validated.content,
+      validated.embeddedUrls,
       validated.sourceUrl,
       validated.sourcePreview,
       validated.topics,
@@ -177,6 +184,7 @@ export class Post {
       this.groupId,
       this.title,
       this.content,
+      this.embeddedUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -199,6 +207,7 @@ export class Post {
       this.groupId,
       this.title,
       this.content,
+      this.embeddedUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -221,6 +230,7 @@ export class Post {
       this.groupId,
       this.title,
       this.content,
+      this.embeddedUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -243,6 +253,7 @@ export class Post {
       this.groupId,
       this.title,
       this.content,
+      this.embeddedUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -300,6 +311,7 @@ export class Post {
       groupId: this.groupId,
       title: this.title,
       content: this.content,
+      embeddedUrls: this.embeddedUrls ? [...this.embeddedUrls] : undefined,
       sourceUrl: this.sourceUrl,
       sourcePreview: this.sourcePreview,
       topics: [...this.topics],
