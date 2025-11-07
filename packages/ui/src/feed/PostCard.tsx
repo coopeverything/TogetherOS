@@ -8,6 +8,7 @@
 'use client'
 
 import type { Post, ReactionType } from '@togetheros/types'
+import { UrlPreviewCard } from './UrlPreviewCard'
 
 export interface PostCardProps {
   /** Post data to display */
@@ -155,7 +156,19 @@ export function PostCard({
             <h3 className="text-lg font-semibold text-gray-900 mb-2">{post.title}</h3>
           )}
           {post.content && (
-            <p className="text-gray-700 whitespace-pre-line">{post.content}</p>
+            <p className="text-gray-700 whitespace-pre-line mb-3">{post.content}</p>
+          )}
+          {/* Embedded URL previews */}
+          {post.embeddedUrls && post.embeddedUrls.length > 0 && (
+            <div className="space-y-3">
+              {post.embeddedUrls.map((embedded, idx) => (
+                <UrlPreviewCard
+                  key={idx}
+                  url={embedded.url}
+                  preview={embedded.preview}
+                />
+              ))}
+            </div>
           )}
         </div>
       ) : (
