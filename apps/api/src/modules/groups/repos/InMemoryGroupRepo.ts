@@ -10,7 +10,7 @@ import { Group } from '../entities/Group'
  * Stores groups in memory (non-persistent)
  */
 export class InMemoryGroupRepo implements GroupRepo {
-  private groups: Map<string, Group>
+  protected groups: Map<string, Group>
 
   constructor(initialGroups: GroupType[] = []) {
     this.groups = new Map()

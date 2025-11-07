@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { MemberDirectory, type Member } from '@togetheros/ui/groups/MemberDirectory'
-import { InMemoryGroupRepo } from '../../../../api/src/modules/groups/repos/InMemoryGroupRepo'
+import { LocalStorageGroupRepo } from '../../../../api/src/modules/groups/repos/LocalStorageGroupRepo'
 import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules/groups/fixtures'
 
 export default function GroupDetailPage() {
@@ -13,8 +13,8 @@ export default function GroupDetailPage() {
   const [isMember, setIsMember] = useState(false)
   const [isJoining, setIsJoining] = useState(false)
 
-  // Initialize repo with fixtures
-  const repo = new InMemoryGroupRepo(getFixtureGroups())
+  // Initialize repo with fixtures (loads from localStorage if available)
+  const repo = new LocalStorageGroupRepo(getFixtureGroups())
   const allMembers = getFixtureMembers()
 
   // Find group
