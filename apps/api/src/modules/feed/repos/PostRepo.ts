@@ -19,6 +19,7 @@ export interface CreateNativePostInput {
   title?: string
   topics: string[]
   groupId?: string
+  embeddedUrls?: { url: string; preview: any; position: number }[]
 }
 
 export interface CreateImportPostInput {
