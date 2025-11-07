@@ -46,6 +46,15 @@ export interface MediaPreview {
 }
 
 /**
+ * Embedded URL with preview (for native posts with social media links)
+ */
+export interface EmbeddedUrl {
+  url: string                   // The full URL
+  preview: MediaPreview         // Fetched preview metadata
+  position: number              // Character position in content
+}
+
+/**
  * Primary content unit in the feed
  */
 export interface Post {
@@ -57,6 +66,7 @@ export interface Post {
   // Native post fields
   title?: string                // For native posts (10-200 chars)
   content?: string              // Markdown content (for native posts)
+  embeddedUrls?: EmbeddedUrl[]  // Auto-detected social media URLs in content
 
   // Import fields
   sourceUrl?: string            // Social media URL

@@ -1,21 +1,23 @@
 // apps/api/src/modules/feed/handlers/posts.ts
 // API handlers for feed posts and reactions
 
-import type { Post, Reaction, ReactionCounts, ReactionType } from '@togetheros/types'
+import type { Post, Reaction, ReactionCounts, ReactionType, EmbeddedUrl } from '@togetheros/types'
 import type { PostFilters } from '../repos/PostRepo'
-import { InMemoryPostRepo } from '../repos/InMemoryPostRepo'
+import { PostgresPostRepo } from '../repos/PostgresPostRepo'
 import { v4 as uuidv4 } from 'uuid'
+import { extractUrls, filterSocialMediaUrls, findUrlPosition } from '../../services/urlParser'
+import { fetchSocialMediaPreview } from '../../services/socialMediaFetcher'
 
-// Singleton repos for in-memory storage (session-scoped)
-let postRepo: InMemoryPostRepo | null = null
-const reactions = new Map<string, Reaction[]>() // postId -> reactions
+// Singleton repo for PostgreSQL storage
+let postRepo: PostgresPostRepo | null = null
+const reactions = new Map<string, Reaction[]>() // postId -> reactions (TODO: move to database)
 
 /**
  * Get or initialize post repo
  */
-function getPostRepo(): InMemoryPostRepo {
+function getPostRepo(): PostgresPostRepo {
   if (!postRepo) {
-    postRepo = new InMemoryPostRepo([])
+    postRepo = new PostgresPostRepo()
   }
   return postRepo
 }
@@ -53,7 +55,7 @@ export async function getPost(id: string): Promise<Post | null> {
 /**
  * POST /api/feed
  * Create new post (native or import)
- * Body: { type: 'native' | 'import', ...fields }
+ * Body: { type: 'native' | 'import', ...fields, ip?: string }
  */
 export async function createPost(body: {
   type: 'native' | 'import'
@@ -64,6 +66,7 @@ export async function createPost(body: {
   preview?: any
   topics: string[]
   groupId?: string
+  ip?: string
 }): Promise<Post> {
   const repo = getPostRepo()
 
@@ -71,12 +74,41 @@ export async function createPost(body: {
     if (!body.content) {
       throw new Error('Native posts require content')
     }
+
+    // Auto-detect social media URLs in content
+    let embeddedUrls: EmbeddedUrl[] | undefined
+    const urls = extractUrls(body.content)
+    const socialMediaUrls = filterSocialMediaUrls(urls)
+
+    if (socialMediaUrls.length > 0) {
+      // Fetch previews for detected social media URLs
+      const ip = body.ip || '127.0.0.1'
+      embeddedUrls = []
+
+      for (const url of socialMediaUrls) {
+        try {
+          const preview = await fetchSocialMediaPreview(url, ip)
+          if (preview) {
+            embeddedUrls.push({
+              url,
+              preview,
+              position: findUrlPosition(body.content, url),
+            })
+          }
+        } catch (error) {
+          // Log error but don't fail the whole post
+          console.warn(`Failed to fetch preview for ${url}:`, error)
+        }
+      }
+    }
+
     return repo.createNative({
       authorId: body.authorId,
       content: body.content,
       title: body.title,
       topics: body.topics,
       groupId: body.groupId,
+      embeddedUrls: embeddedUrls && embeddedUrls.length > 0 ? embeddedUrls : undefined,
     })
   } else {
     if (!body.sourceUrl || !body.preview) {
