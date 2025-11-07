@@ -14,7 +14,7 @@ import type {
   MemberMemory,
 } from '@togetheros/types';
 import type { MemoryRepo } from './MemoryRepo';
-import { query } from '../../../../../../lib/db';
+import { query } from '@/lib/db';
 
 export class PostgresMemoryRepo implements MemoryRepo {
   // ===========================

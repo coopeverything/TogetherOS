@@ -4,7 +4,7 @@
 import type { Post as PostType, MediaPreview, EmbeddedUrl } from '@togetheros/types'
 import type { PostRepo, CreateNativePostInput, CreateImportPostInput, PostFilters } from './PostRepo'
 import { Post } from '../entities/Post'
-import { query } from '../../../../../../lib/db'
+import { query } from '@/lib/db'
 
 export class PostgresPostRepo implements PostRepo {
   /**

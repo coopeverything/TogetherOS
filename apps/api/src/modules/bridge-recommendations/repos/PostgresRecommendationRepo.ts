@@ -8,7 +8,7 @@ import type {
   RecommendationRepo,
   RecommendationFilters,
 } from './RecommendationRepo';
-import { query } from '../../../../../../lib/db';
+import { query } from '@/lib/db';
 
 export class PostgresRecommendationRepo implements RecommendationRepo {
   async saveRecommendations(recommendations: Recommendation[]): Promise<void> {

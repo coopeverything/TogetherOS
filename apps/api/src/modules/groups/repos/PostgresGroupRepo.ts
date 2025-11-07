@@ -9,7 +9,7 @@ import type {
   UpdateGroupInput,
 } from '@togetheros/types/groups'
 import { Group } from '../entities/Group'
-import { query } from '../../../../../../lib/db'
+import { query } from '@/lib/db'
 
 /**
  * PostgreSQL group repository

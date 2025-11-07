@@ -3,7 +3,7 @@
  * Detects similar proposals using OpenAI embeddings and pgvector
  */
 
-import { query } from '../../../../../lib/db';
+import { query } from '@/lib/db';
 
 export interface SimilarProposal {
   id: string;

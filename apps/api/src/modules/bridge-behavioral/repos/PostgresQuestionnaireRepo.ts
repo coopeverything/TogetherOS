@@ -9,7 +9,7 @@ import type {
   QuestionnaireType,
 } from '@togetheros/types';
 import type { QuestionnaireRepo } from './QuestionnaireRepo';
-import { query } from '../../../../../../lib/db';
+import { query } from '@/lib/db';
 
 export class PostgresQuestionnaireRepo implements QuestionnaireRepo {
   async getAllQuestionnaires(): Promise<Questionnaire[]> {

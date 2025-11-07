@@ -3,7 +3,7 @@
  * Manages user onboarding flow with step sequencing and completion tracking
  */
 
-import { query } from '../../../../../lib/db';
+import { query } from '@/lib/db';
 
 export interface OnboardingProgress {
   userId: string;
