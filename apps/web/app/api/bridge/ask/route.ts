@@ -18,6 +18,7 @@ import {
 import { fetchUserContext, fetchCityContext } from '../../../../lib/bridge/context-service';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec } from '@togetheros/types';
+import { getCurrentUser } from '@/lib/auth/middleware';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
@@ -80,7 +81,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const question = body.question?.trim();
     const conversationHistory = body.conversationHistory || []; // Array of {role, content}
-    // TODO: Add userId support with proper authentication (see PR #200 Codex P1 comment)
+
+    // Get authenticated user (optional - Bridge works for both authenticated and anonymous users)
+    const user = await getCurrentUser(request);
 
     // Validate input - 204 for empty
     if (!question || question.length === 0) {
@@ -143,11 +146,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch user and city context - DISABLED until authentication is implemented
-    // TODO: Re-enable after adding session-based authentication (Phase 1: Context Foundation)
-    const userContext = null;
-    const cityContext = null;
+    // Fetch user and city context (only for authenticated users)
+    let userContext = null;
+    let cityContext = null;
     const suggestedActivities: ActivityRec[] = [];
+
+    if (user) {
+      try {
+        // Fetch user context with personalized interests
+        userContext = await fetchUserContext({ userId: user.id });
+
+        // Fetch city context if user has location data
+        if (userContext.city && userContext.region) {
+          cityContext = await fetchCityContext({
+            city: userContext.city,
+            region: userContext.region,
+          });
+        }
+      } catch (error) {
+        console.warn('Failed to fetch user/city context, continuing without it:', error);
+        // Continue without context - Bridge still works for anonymous users
+      }
+    }
 
     // Get relevant documentation context (RAG)
     const index = getDocsIndex();
@@ -157,9 +177,35 @@ export async function POST(request: NextRequest) {
     // Build enhanced system prompt with context
     let enhancedSystemPrompt = BRIDGE_SYSTEM_PROMPT;
 
-    // User/city context temporarily disabled (P1 security fix)
-    // TODO: Re-enable after implementing session-based authentication
-    // See: Phase 1 (Context Foundation) in bridge recommendations spec
+    // Add user context (personalization) if authenticated
+    if (userContext) {
+      const interests = [
+        ...userContext.explicitInterests,
+        ...userContext.implicitInterests.slice(0, 3).map(i => i.topic)
+      ].slice(0, 5);
+
+      enhancedSystemPrompt += `
+
+User context (for personalization):
+- Location: ${userContext.city}, ${userContext.region}
+- Interests: ${interests.join(', ')}
+- Engagement level: ${userContext.engagementScore}/100
+- Active groups: ${userContext.groupMemberships.length}
+
+Use this context to provide more relevant, personalized guidance.`;
+    }
+
+    // Add city context (local opportunities) if available
+    if (cityContext && cityContext.activeGroups.length > 0) {
+      const topGroups = cityContext.activeGroups.slice(0, 3);
+      enhancedSystemPrompt += `
+
+Local context (${cityContext.city}):
+- Active groups: ${topGroups.map(g => g.name).join(', ')}
+- Trending topics: ${cityContext.trendingTopics.slice(0, 5).join(', ')}
+
+Mention relevant local groups or events when appropriate.`;
+    }
 
     // Add documentation context (RAG)
     if (context) {
