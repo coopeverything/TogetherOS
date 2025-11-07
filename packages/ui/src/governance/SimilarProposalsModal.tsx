@@ -137,14 +137,14 @@ export function SimilarProposalsModal({
                   evidence: [],
                   options: [],
                   positions: [],
-                  deliberationOpenedAt: null,
-                  votingOpenedAt: null,
-                  decidedAt: null,
-                  deliveryStartedAt: null,
-                  reviewedAt: null,
-                  archivedAt: null,
+                  deliberationOpenedAt: undefined,
+                  votingOpenedAt: undefined,
+                  decidedAt: undefined,
+                  deliveryStartedAt: undefined,
+                  reviewedAt: undefined,
+                  archivedAt: undefined,
                   metadata: {},
-                  deletedAt: null,
+                  deletedAt: undefined,
                 }}
                 clickable={true}
               />
