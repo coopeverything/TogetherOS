@@ -15,3 +15,6 @@ export type { ProposalViewProps } from './ProposalView'
 
 export { ProposalForm } from './ProposalForm'
 export type { ProposalFormProps, ProposalFormData } from './ProposalForm'
+
+export { SimilarProposalsModal } from './SimilarProposalsModal'
+export type { SimilarProposalsModalProps, SimilarProposal } from './SimilarProposalsModal'
