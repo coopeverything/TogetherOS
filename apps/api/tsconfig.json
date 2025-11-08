@@ -14,7 +14,7 @@
       "@togetheros/validators/*": ["../../packages/validators/src/*"]
     }
   },
-  "include": ["src/**/*", "src/**/*.json", "../../lib/**/*"],
+  "include": ["src/**/*", "src/**/*.json"],
   "references": [
     { "path": "../../packages/types" },
     { "path": "../../packages/validators" }
