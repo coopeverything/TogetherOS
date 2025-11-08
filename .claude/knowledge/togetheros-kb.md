@@ -267,6 +267,91 @@ git fetch origin <branch-name>
 
 ---
 
+## TypeScript Architecture & Patterns
+
+### Critical Rules (Non-Negotiable)
+
+1. **Browser APIs Must Stay in apps/web/**
+   - ❌ NO localStorage, window, document, navigator in `apps/api/`
+   - ✅ Client-side repos belong in `apps/web/lib/repos/`
+   - **Why:** Server code can't access browser globals; TypeScript will error
+   - **Fix if violated:** Move browser-dependent code to correct workspace
+
+2. **Always Use `export type` for Type-Only Exports**
+   - ❌ `export { InterfaceName }` (fails with isolatedModules)
+   - ✅ `export type { InterfaceName }` (correct syntax)
+   - **Why:** Required by tsconfig `isolatedModules: true`
+   - **Applies to:** interfaces, type aliases, generic types
+
+3. **Path Alias Limitations (apps/api)**
+   - `@/lib/db` imports reference files outside `rootDir`
+   - **Status:** 2 TypeScript errors remain as accepted limitations
+   - **Runtime:** Works correctly (path alias resolves at runtime)
+   - **Future fix:** Create `@togetheros/db` package for proper sharing
+   - **For now:** Document accepted errors, don't try to fix them
+
+### Configuration Requirements
+
+**Must be set in all `tsconfig.json` files:**
+- ✅ `moduleResolution: "bundler"` (not "node16" or "node")
+- ✅ `resolveJsonModule: true` (for .json imports)
+- ✅ `downlevelIteration: true` (for Map/Set iterations)
+- ✅ `isolatedModules: true` (Next.js requirement)
+
+### Common Type Import Errors
+
+**Error Pattern:** `Cannot find name 'window'` or `Cannot find name 'localStorage'`
+- **Root Cause:** Browser-only code in server files
+- **Solution:** Move file to `apps/web/lib/repos/`
+- **Symptom:** File uses browser APIs but is in `apps/api/`
+
+**Error Pattern:** `Type 'X' is not assignable to type 'boolean'`
+- **Root Cause:** Incorrect type annotation in function parameter
+- **Solution:** Use proper type imports, add type assertions with `as` if needed
+- **Example:** `(flag: ConsentFlags) => flag[key]` needs `as boolean`
+
+**Error Pattern:** `Cannot find module '@/lib/repos/LocalStorageGroupRepo'`
+- **Root Cause:** Path mapping in `tsconfig.json` points to wrong location
+- **Solution:** Verify `@/lib/*` maps to correct directory in each workspace
+- **Check:** `apps/web/tsconfig.json` uses `"@/lib/*": ["./lib/*"]`
+
+### Anti-Patterns to Avoid
+
+❌ **Don't put browser-only code in server modules**
+- Examples: localStorage, window, document, navigator, DOM APIs
+- Cost: 6+ TypeScript errors per violation
+
+❌ **Don't use regular export for interfaces**
+- Wrong: `export { IUserRepo }`
+- Right: `export type { IUserRepo }`
+- Cost: Build fails with isolatedModules
+
+❌ **Don't use `moduleResolution: "node16"` in Next.js**
+- Causes 50+ cascading errors
+- Must use: `"bundler"`
+
+❌ **Don't try to fix path resolution errors by changing rootDir**
+- These are TypeScript limitations, not configuration issues
+- Accept the errors or create proper packages
+
+❌ **Don't ignore TypeScript errors without documenting**
+- Always explain why error is accepted in `docs/dev/tech-debt.md`
+- Include runtime behavior (does it work or not?)
+
+### Session Reference: 2025-11-08 TypeScript Error Fix
+
+**Starting State:** 15 errors (100+ initially)
+**Final State:** 2 accepted limitations
+**Key Fixes:**
+1. Moved LocalStorageGroupRepo from apps/api to apps/web (6 errors fixed)
+2. Fixed DecisionLoop type imports and function signatures (7 errors fixed)
+3. Updated path mappings in apps/web/tsconfig.json (import resolution fixed)
+4. Documented 2 lib/db errors as known limitations
+
+**Lesson Learned:** Browser API detection requires checking file location first, not just error messages.
+
+---
+
 ## Related KB Files
 
 - [Tech Stack Details](./tech-stack.md) — Framework versions, dependencies, tooling
