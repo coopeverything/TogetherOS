@@ -9,6 +9,7 @@
 4. **Fix one red check at a time** — Don't stack unrelated changes
 5. **Docs-first** — Any behavior/config change must update relevant docs
 6. **Proof lines required** — Every PR body includes validation output
+7. **Type-check before commit** — Run `npx tsc --noEmit` on all TypeScript changes
 
 ---
 

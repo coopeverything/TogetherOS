@@ -81,6 +81,7 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 
 **Proof lines for yolo PRs:**
 - `TESTS=OK` - REQUIRED (matches CI validation)
+- `TYPECHECK=OK` - REQUIRED for TypeScript changes (run `npx tsc --noEmit`)
 - `LINT=OK` - Optional (run `./scripts/validate.sh` locally for best practices)
 - `VALIDATORS=GREEN`, `DOCS=OK` - Optional
 
