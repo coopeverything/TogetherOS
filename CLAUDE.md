@@ -9,6 +9,14 @@
 @.claude/knowledge/togetheros-kb.md
 @.claude/knowledge/ci-cd-discipline.md
 
+## Mandatory Workflows
+
+**TypeScript Verification** (REQUIRED for ALL TypeScript code):
+- See: `.claude/workflows/typescript-verification.md`
+- Pre-flight checklist BEFORE writing code
+- Post-write verification AFTER writing code
+- Prevents 90%+ of TypeScript errors through verification-first approach
+
 ---
 
 ## Autonomy & Proactivity
