@@ -9,6 +9,5 @@
  *
  * @see docs/modules/bridge.md for module specification
  */
-
 export * from './repos';
 export * from './services';

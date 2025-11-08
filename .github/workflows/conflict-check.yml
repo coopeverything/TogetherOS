@@ -1,0 +1,218 @@
+---
+name: Conflict Detection
+
+on:
+  push:
+    branches: [yolo]
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  detect-conflicts:
+    name: Check for merge conflicts
+    runs-on: ubuntu-latest
+    # Skip if this is a changelog update to avoid infinite loops
+    if: ${{ !contains(github.event.head_commit.message, 'chore(changelog):') }}
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect potential conflicts
+        id: conflict_check
+        run: |
+          # Fetch the target branch
+          git fetch origin yolo
+
+          # Try to merge yolo into current branch (dry-run)
+          echo "Testing merge with yolo branch..."
+
+          # Use git merge-tree to check for conflicts without actually merging
+          # This is safer than attempting a real merge
+          BASE=$(git merge-base HEAD origin/yolo)
+          CONFLICTS=$(git merge-tree "$BASE" HEAD origin/yolo | grep -E '^<<<<<<< |^======= |^>>>>>>> ' || true)
+
+          if [ -n "$CONFLICTS" ]; then
+            echo "has_conflicts=true" >> $GITHUB_OUTPUT
+
+            # Extract conflicted file paths
+            CONFLICTED_FILES=$(git merge-tree "$BASE" HEAD origin/yolo | grep -B1 '^<<<<<<< ' | grep '^diff' | cut -d' ' -f3 | sort -u || true)
+            echo "conflicted_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CONFLICTED_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+
+            # Count conflicts
+            CONFLICT_COUNT=$(echo "$CONFLICTED_FILES" | wc -l)
+            echo "conflict_count=$CONFLICT_COUNT" >> $GITHUB_OUTPUT
+
+            echo "⚠️  Detected $CONFLICT_COUNT file(s) with merge conflicts"
+          else
+            echo "has_conflicts=false" >> $GITHUB_OUTPUT
+            echo "conflict_count=0" >> $GITHUB_OUTPUT
+            echo "✅ No merge conflicts detected"
+          fi
+
+      - name: Check file overlap with open PRs
+        if: github.event_name == 'pull_request'
+        id: overlap_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get files modified in this PR
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PR_FILES=$(gh pr view $PR_NUMBER --json files --jq '.files[].path' | sort)
+
+          # Get open PRs (excluding this one)
+          OPEN_PRS=$(gh pr list --state open --json number,title,files --jq '.[] | select(.number != '"$PR_NUMBER"')')
+
+          # Check for overlaps
+          OVERLAPS=""
+          if [ -n "$OPEN_PRS" ]; then
+            echo "$OPEN_PRS" | while read -r pr_data; do
+              PR_NUM=$(echo "$pr_data" | jq -r '.number')
+              PR_TITLE=$(echo "$pr_data" | jq -r '.title')
+              OTHER_FILES=$(echo "$pr_data" | jq -r '.files[].path' | sort)
+
+              # Find common files
+              COMMON=$(comm -12 <(echo "$PR_FILES") <(echo "$OTHER_FILES") || true)
+
+              if [ -n "$COMMON" ]; then
+                FILE_COUNT=$(echo "$COMMON" | wc -l)
+                echo "⚠️  PR #$PR_NUM ($PR_TITLE) modifies $FILE_COUNT overlapping file(s)"
+                OVERLAPS="${OVERLAPS}PR #$PR_NUM: $COMMON\n"
+              fi
+            done
+          fi
+
+          if [ -n "$OVERLAPS" ]; then
+            echo "has_overlaps=true" >> $GITHUB_OUTPUT
+            echo "overlapping_prs<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$OVERLAPS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "has_overlaps=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Label PR if conflicts detected
+        if: |
+          github.event_name == 'pull_request' &&
+          steps.conflict_check.outputs.has_conflicts == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Add conflict label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.pull_request.number }},
+              labels: ['has-conflict']
+            });
+
+      - name: Remove conflict label if resolved
+        if: |
+          github.event_name == 'pull_request' &&
+          steps.conflict_check.outputs.has_conflicts == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Remove conflict label if present
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: ${{ github.event.pull_request.number }},
+                name: 'has-conflict'
+              });
+            } catch (error) {
+              // Label might not exist, that's okay
+              console.log('No conflict label to remove');
+            }
+
+      - name: Comment on PR with conflict details
+        if: |
+          github.event_name == 'pull_request' &&
+          (steps.conflict_check.outputs.has_conflicts == 'true' ||
+           steps.overlap_check.outputs.has_overlaps == 'true')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const hasConflicts = '${{ steps.conflict_check.outputs.has_conflicts }}' === 'true';
+            const hasOverlaps = '${{ steps.overlap_check.outputs.has_overlaps }}' === 'true';
+            const conflictCount = ${{ steps.conflict_check.outputs.conflict_count || 0 }};
+            const conflictedFiles = `${{ steps.conflict_check.outputs.conflicted_files }}`;
+            const overlappingPRs = `${{ steps.overlap_check.outputs.overlapping_prs }}`;
+
+            let comment = '## 🔍 Merge Conflict Analysis\n\n';
+
+            if (hasConflicts) {
+              comment += `### ⚠️ Merge Conflicts Detected\n\n`;
+              comment += `This PR will have **${conflictCount} merge conflict(s)** with the \`yolo\` branch.\n\n`;
+
+              if (conflictedFiles) {
+                comment += '**Conflicted files:**\n';
+                conflictedFiles.split('\n').filter(f => f).forEach(file => {
+                  comment += `- \`${file}\`\n`;
+                });
+                comment += '\n';
+              }
+
+              comment += '**To resolve:**\n';
+              comment += '1. Pull latest `yolo` branch: `git pull origin yolo`\n';
+              comment += '2. Resolve conflicts in your editor\n';
+              comment += '3. Commit and push the resolution\n\n';
+            } else {
+              comment += '### ✅ No Merge Conflicts\n\n';
+              comment += 'This PR can be merged cleanly with the `yolo` branch.\n\n';
+            }
+
+            if (hasOverlaps) {
+              comment += '### 📊 File Overlap Detection\n\n';
+              comment += 'Other open PRs modify the same files:\n\n';
+              comment += overlappingPRs;
+              comment += '\n**Note:** File overlap doesn\'t guarantee conflicts, but merging in the right order can prevent them.\n';
+            }
+
+            comment += '\n---\n';
+            comment += '*This check runs automatically on every push. The pre-commit hook should prevent most export conflicts.*';
+
+            // Find and update existing comment, or create new one
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.pull_request.number }}
+            });
+
+            const botComment = comments.find(c =>
+              c.user.login === 'github-actions[bot]' &&
+              c.body.includes('Merge Conflict Analysis')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: ${{ github.event.pull_request.number }},
+                body: comment
+              });
+            }
+
+      - name: Set job status
+        if: steps.conflict_check.outputs.has_conflicts == 'true'
+        run: |
+          echo "::warning::This PR has merge conflicts with yolo branch"
+          # Don't fail the job, just warn
+          exit 0
