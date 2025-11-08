@@ -1,0 +1,226 @@
+---
+name: Update Changelog Per Feature
+
+on:
+  push:
+    branches:
+      - yolo
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - '.github/workflows/changelog-per-feature.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-changelog:
+    name: Log deployment to changelog
+    runs-on: ubuntu-latest
+    # Skip if commit message indicates it's a changelog update
+    if: ${{ !contains(github.event.head_commit.message, 'chore(changelog):') }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get PR info from commit
+        id: pr_info
+        run: |
+          # Extract PR number from commit message if present
+          PR_NUMBER=$(echo "${{ github.event.head_commit.message }}" | grep -oP '#\K\d+' | head -1 || echo "")
+          echo "pr_number=${PR_NUMBER}" >> $GITHUB_OUTPUT
+
+          # Get timestamp in local timezone format
+          TIMESTAMP=$(TZ=America/New_York date '+%H:%M')
+          echo "timestamp=${TIMESTAMP}" >> $GITHUB_OUTPUT
+
+          # Get date for section header
+          DATE=$(TZ=America/New_York date '+%Y-%m-%d')
+          echo "date=${DATE}" >> $GITHUB_OUTPUT
+
+          # Clean commit message for changelog entry
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -1)
+          echo "message=${COMMIT_MSG}" >> $GITHUB_OUTPUT
+
+          # Extract module from conventional commit format
+          MODULE=$(echo "${COMMIT_MSG}" | grep -oP '^\w+\(\K[^)]+' || echo "general")
+          echo "module=${MODULE}" >> $GITHUB_OUTPUT
+
+      - name: Check for merge conflicts
+        id: conflicts
+        run: |
+          # Check if any files were modified by multiple commits in last hour
+          CONFLICTS=""
+          RECENT_COMMITS=$(git log --oneline --since="1 hour ago" --pretty=format:"%H")
+
+          if [ $(echo "$RECENT_COMMITS" | wc -l) -gt 1 ]; then
+            # Get files from current commit
+            CURRENT_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+
+            # Check previous commits for same files
+            for commit in $(echo "$RECENT_COMMITS" | tail -n +2); do
+              PREV_FILES=$(git diff-tree --no-commit-id --name-only -r $commit 2>/dev/null || echo "")
+              for file in $CURRENT_FILES; do
+                if echo "$PREV_FILES" | grep -q "^$file$"; then
+                  CONFLICTS="${CONFLICTS}${file} "
+                fi
+              done
+            done
+          fi
+
+          echo "conflicts=${CONFLICTS}" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG.md
+        run: |
+          DATE="${{ steps.pr_info.outputs.date }}"
+          TIME="${{ steps.pr_info.outputs.timestamp }}"
+          MSG="${{ steps.pr_info.outputs.message }}"
+          PR="${{ steps.pr_info.outputs.pr_number }}"
+          MODULE="${{ steps.pr_info.outputs.module }}"
+          CONFLICTS="${{ steps.conflicts.outputs.conflicts }}"
+
+          # Create PR link if PR number exists
+          if [ -n "$PR" ]; then
+            PR_LINK=" ([#${PR}](https://github.com/coopeverything/TogetherOS/pull/${PR}))"
+          else
+            PR_LINK=""
+          fi
+
+          # Read current changelog
+          if [ -f CHANGELOG.md ]; then
+            CHANGELOG_CONTENT=$(cat CHANGELOG.md)
+          else
+            CHANGELOG_CONTENT=""
+          fi
+
+          # Check if today's section exists
+          if ! echo "$CHANGELOG_CONTENT" | grep -q "## \[Production\] - ${DATE}"; then
+            # Create new daily section
+            NEW_SECTION="## [Production] - ${DATE}
+
+### Live Deployments (Auto-updating)
+
+${TIME} - ${MSG}${PR_LINK} ✅"
+
+            # Add conflicts section if needed
+            if [ -n "$CONFLICTS" ]; then
+              NEW_SECTION="${NEW_SECTION}
+
+### Conflicts Detected
+${TIME} - Files with parallel modifications: ${CONFLICTS}
+  - Review these files for potential feature loss"
+            fi
+
+            # Insert after header
+            if echo "$CHANGELOG_CONTENT" | grep -q "^## \["; then
+              # Insert before first existing dated section
+              echo "$CHANGELOG_CONTENT" | awk -v section="$NEW_SECTION" '
+                /^## \[Production\]|^## \[Unreleased\]/ && !printed {
+                  print section
+                  print ""
+                  printed = 1
+                }
+                { print }
+              ' > CHANGELOG.md
+            else
+              # Add at end if no sections exist
+              echo -e "${CHANGELOG_CONTENT}\n\n${NEW_SECTION}" > CHANGELOG.md
+            fi
+          else
+            # Append to existing daily section
+            # Find the line number of today's section
+            SECTION_LINE=$(grep -n "## \[Production\] - ${DATE}" CHANGELOG.md | cut -d: -f1)
+
+            # Find next section or end of file
+            NEXT_SECTION=$(awk "NR>${SECTION_LINE} && /^## \[/ {print NR; exit}" CHANGELOG.md)
+
+            if [ -z "$NEXT_SECTION" ]; then
+              # Append to end of deployments list
+              if grep -q "^### Conflicts Detected" CHANGELOG.md; then
+                # Insert before conflicts section
+                awk -v time="$TIME" -v msg="$MSG" -v pr="$PR_LINK" '
+                  /^### Conflicts Detected/ {
+                    print time " - " msg pr " ✅"
+                    print ""
+                  }
+                  { print }
+                ' CHANGELOG.md > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
+              else
+                # Just append to deployments
+                awk -v date="$DATE" -v time="$TIME" -v msg="$MSG" -v pr="$PR_LINK" '
+                  /^## \[Production\] - '"$DATE"'/ {
+                    in_section = 1
+                  }
+                  in_section && /^### Live Deployments/ {
+                    in_deployments = 1
+                  }
+                  in_section && in_deployments && /^$/ {
+                    print time " - " msg pr " ✅"
+                    in_deployments = 0
+                  }
+                  { print }
+                ' CHANGELOG.md > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
+              fi
+            fi
+
+            # Add conflicts if detected and section doesn't exist
+            if [ -n "$CONFLICTS" ] && ! grep -q "^### Conflicts Detected" CHANGELOG.md; then
+              awk -v date="$DATE" -v time="$TIME" -v conflicts="$CONFLICTS" '
+                /^## \[Production\] - '"$DATE"'/ {
+                  in_section = 1
+                }
+                in_section && /^## \[/ {
+                  print "### Conflicts Detected"
+                  print time " - Files with parallel modifications: " conflicts
+                  print "  - Review these files for potential feature loss"
+                  print ""
+                  in_section = 0
+                }
+                { print }
+                END {
+                  if (in_section) {
+                    print ""
+                    print "### Conflicts Detected"
+                    print time " - Files with parallel modifications: " conflicts
+                    print "  - Review these files for potential feature loss"
+                  }
+                }
+              ' CHANGELOG.md > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
+            fi
+          fi
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if there are changes
+          if git diff --quiet CHANGELOG.md; then
+            echo "No changes to CHANGELOG.md"
+          else
+            git add CHANGELOG.md
+            git commit -m "chore(changelog): log deployment ${{ steps.pr_info.outputs.pr_number && '#' }}${{ steps.pr_info.outputs.pr_number }}"
+
+            # Push with retry logic
+            max_retries=3
+            retry_count=0
+            while [ $retry_count -lt $max_retries ]; do
+              if git push origin yolo; then
+                echo "Successfully pushed changelog update"
+                break
+              else
+                retry_count=$((retry_count + 1))
+                if [ $retry_count -lt $max_retries ]; then
+                  echo "Push failed, retrying in 5 seconds... (attempt $retry_count of $max_retries)"
+                  sleep 5
+                  git pull origin yolo --rebase
+                else
+                  echo "Failed to push after $max_retries attempts"
+                  exit 1
+                fi
+              fi
+            done
+          fi

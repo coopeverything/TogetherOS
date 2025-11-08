@@ -302,6 +302,31 @@ System may be prompting even when operation is in allow list
 
 ---
 
+## Development Reality Check
+
+**Team Composition:** 1 operator (no coding knowledge) + Claude in yolo mode
+**Human developers:** ZERO
+**Deployment frequency:** 2-3 major features per DAY (not per week)
+**Feature velocity:** Multiple features per HOUR
+**Merge conflicts:** Frequent due to parallel feature development
+**Implementation speed:** Hours, not weeks
+
+### Actual Development Metrics
+| What | Frequency | Notes |
+|------|-----------|-------|
+| Features shipped | 8-10/day | Each PR = production deployment |
+| Modules completed | 1-2/day | From 0% to production-ready |
+| Parallel conflicts | 2-3/day | Operator initiates overlapping work |
+| Deployments | Every merge | Auto-deploy to production on yolo |
+
+### Why Per-Feature Changelog Matters
+- Track what actually ships (not just what we intend)
+- Identify features lost in merge conflicts
+- Real-time deployment history for debugging
+- See patterns in parallel development issues
+
+---
+
 ## Time Estimation Guidelines
 
 **Context:** TogetherOS development = just the operator + Claude in yolo mode (no human devs)
