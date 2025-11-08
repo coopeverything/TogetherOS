@@ -15,6 +15,7 @@ import type {
   LearnPhase,
   DecisionCycle,
   ConsentFlags,
+  EpisodicMemory,
 } from '@togetheros/types';
 
 import type { MemberStateRepo, MemoryRepo, DecisionLoopRepo } from '../repos';
@@ -527,7 +528,7 @@ export class DecisionLoop {
     };
 
     const requiredFlag = consentMap[actionType];
-    return requiredFlag ? consentFlags[requiredFlag] : false;
+    return requiredFlag ? (consentFlags[requiredFlag] as boolean) : false;
   }
 
   private scoreAction(
@@ -635,7 +636,7 @@ export class DecisionLoop {
     return 'neutral';
   }
 
-  private calculateCompletionRate(events: typeof import('@togetheros/types').EpisodicMemory.prototype[]): number {
+  private calculateCompletionRate(events: EpisodicMemory[]): number {
     const accepted = events.filter((e) => e.event === 'recommendation_accepted').length;
     const completed = events.filter((e) => e.event === 'action_completed').length;
 
@@ -643,7 +644,7 @@ export class DecisionLoop {
     return completed / accepted;
   }
 
-  private calculateTimeSinceLastAction(events: typeof import('@togetheros/types').EpisodicMemory.prototype[]): number {
+  private calculateTimeSinceLastAction(events: EpisodicMemory[]): number {
     const lastAction = events.find(
       (e) => e.event === 'action_completed' || e.event === 'recommendation_accepted'
     );
@@ -656,7 +657,7 @@ export class DecisionLoop {
     return Date.now() - new Date(sessionStartedAt).getTime();
   }
 
-  private countRecentQuestions(events: typeof import('@togetheros/types').EpisodicMemory.prototype[]): number {
+  private countRecentQuestions(events: EpisodicMemory[]): number {
     return events.filter((e) => e.event === 'question_asked').length;
   }
 }
