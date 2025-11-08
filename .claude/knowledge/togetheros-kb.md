@@ -292,11 +292,40 @@ git fetch origin <branch-name>
 
 ### Configuration Requirements
 
+**TypeScript Version:** 5.9.3 (latest stable as of January 2025)
+
 **Must be set in all `tsconfig.json` files:**
 - ✅ `moduleResolution: "bundler"` (not "node16" or "node")
 - ✅ `resolveJsonModule: true` (for .json imports)
 - ✅ `downlevelIteration: true` (for Map/Set iterations)
 - ✅ `isolatedModules: true` (Next.js requirement)
+
+### TypeScript Error Prevention Workflow (CRITICAL)
+
+**BEFORE writing ANY TypeScript code:**
+1. **Read existing patterns** - Search for similar code in the codebase first
+2. **Verify workspace location** - Check if browser APIs are needed (apps/web vs apps/api)
+3. **Check type definitions** - Read the actual type files before assuming types
+4. **Run type check** - Execute `npx tsc --noEmit` before committing
+
+**AFTER writing TypeScript code:**
+1. **Type check** - Run `npx tsc --noEmit` (REQUIRED)
+2. **Review errors** - Fix ALL type errors before committing
+3. **Add proof line** - Include `TYPECHECK=OK` in PR description
+4. **Let bots review** - Wait for Copilot/Codex to catch remaining issues
+
+**Common Mistakes to Avoid:**
+- ❌ Assuming types without checking actual definitions
+- ❌ Copying patterns from memory instead of reading existing code
+- ❌ Using browser APIs in server code (apps/api)
+- ❌ Committing without running `tsc --noEmit`
+- ❌ Ignoring type errors "because runtime works"
+
+**Why This Matters:**
+- TypeScript errors accumulate and block deployments
+- Runtime success ≠ type safety
+- Bot reviews catch issues AFTER commit (waste time)
+- Each TS error fix requires new PR + review cycle
 
 ### Common Type Import Errors
 

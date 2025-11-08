@@ -102,7 +102,8 @@ export async function buildUserContextFromDB(
 
   // Query 4: Get user activity metrics
   const activityResult = await query<{
-    action_count: number;
+    post_count: number;
+    comment_count: number;
   }>(
     `
     SELECT
@@ -115,8 +116,8 @@ export async function buildUserContextFromDB(
     [userId]
   );
 
-  const postsCount = Number(activityResult.rows[0]?.action_count) || 0;
-  const commentsCount = 0; // Would need separate query if tracked differently
+  const postsCount = Number(activityResult.rows[0]?.post_count) || 0;
+  const commentsCount = Number(activityResult.rows[0]?.comment_count) || 0;
 
   // Calculate engagement score (0-100)
   const daysActive = user.last_seen_at
