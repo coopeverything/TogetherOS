@@ -14,6 +14,7 @@ import type {
   ActPhase,
   LearnPhase,
   DecisionCycle,
+  ConsentFlags,
 } from '@togetheros/types';
 
 import type { MemberStateRepo, MemoryRepo, DecisionLoopRepo } from '../repos';
@@ -339,7 +340,7 @@ export class DecisionLoop {
     ).length;
 
     // Calculate session metrics
-    const sessionEvents = recentEvents.filter((e) => e.sessionId === context.sessionId);
+    const sessionEvents = recentEvents.filter((e) => e.context.sessionId === context.sessionId);
     const sessionDuration = this.calculateSessionDuration(memory.riskProfile.sessionStartedAt);
     const questionsAsked = sessionEvents.filter((e) => e.event === 'question_asked').length;
     const recommendationsViewed = sessionEvents.filter(
@@ -484,12 +485,12 @@ export class DecisionLoop {
 
       case 'stalled':
         actions.push({
-          type: 'show_recommendation',
+          type: 'offer_recommendation',
           rationale: 'Member is stuck, provide clear next step',
           expectedOutcome: 'Member takes action',
         });
         actions.push({
-          type: 'send_nudge',
+          type: 'show_ethics_nudge',
           rationale: 'Member needs encouragement',
           expectedOutcome: 'Member re-engages',
         });
@@ -512,7 +513,7 @@ export class DecisionLoop {
     return actions;
   }
 
-  private checkConsent(actionType: string, consentFlags: typeof import('@togetheros/types').ConsentFlags.prototype): boolean {
+  private checkConsent(actionType: string, consentFlags: ConsentFlags): boolean {
     // Map action types to consent flags
     const consentMap: Record<string, keyof typeof consentFlags> = {
       ask_question: 'canSuggestUnasked',

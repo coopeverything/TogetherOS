@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { MemberDirectory, type Member } from '@togetheros/ui/groups/MemberDirectory'
-import { LocalStorageGroupRepo } from '../../../../api/src/modules/groups/repos/LocalStorageGroupRepo'
+import { LocalStorageGroupRepo } from '@/lib/repos/LocalStorageGroupRepo'
 import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules/groups/fixtures'
 
 export default function GroupDetailPage() {
