@@ -95,6 +95,24 @@ ls -la path/to/module.ts
 grep "^export" path/to/module.ts
 ```
 
+**CRITICAL: Verify path alias mapping** (prevents import resolution failures):
+```bash
+# If using path alias like @/lib/*, verify it maps to correct location
+
+# Example: Importing from '@/lib/repos/Foo'
+# 1. Check where the file actually is
+ls -la apps/web/lib/repos/Foo.ts
+
+# 2. Check what @/lib/* maps to in tsconfig.json
+grep -A2 '"@/lib' apps/web/tsconfig.json
+# Output: "@/lib/*": ["../../lib/*"]  ← Maps to ROOT lib/, not apps/web/lib/
+
+# 3. If mismatch, use correct import path:
+#    - ✅ Relative: '../lib/repos/Foo'
+#    - ✅ Absolute workspace: 'apps/web/lib/repos/Foo'
+#    - ❌ Wrong alias: '@/lib/repos/Foo' (resolves to wrong location)
+```
+
 ---
 
 ### Step 4: Check TypeScript 5.9 Requirements (15 seconds)
@@ -271,6 +289,37 @@ export type { User }; // ✅ Correct for TS 5.0+
 
 ---
 
+### Mistake 5: Wrong Path Alias Resolution
+**WRONG**:
+```typescript
+// File: apps/web/app/groups/page.tsx
+// Trying to import from apps/web/lib/repos/LocalStorageGroupRepo.ts
+import { LocalStorageGroupRepo } from '@/lib/repos/LocalStorageGroupRepo'
+// ❌ FAILS: @/lib/* maps to ../../lib/* (root lib/), not ./lib/* (apps/web/lib/)
+```
+
+**CORRECT**:
+```typescript
+// Option 1: Check tsconfig path mapping first
+// grep '"@/lib' apps/web/tsconfig.json
+// → "@/lib/*": ["../../lib/*"]  ← Points to ROOT lib/, not apps/web/lib/
+
+// Option 2: Use relative import (ALWAYS WORKS)
+import { LocalStorageGroupRepo } from '../../lib/repos/LocalStorageGroupRepo'
+// ✅ WORKS: Relative path, no alias confusion
+
+// Option 3: If file should be in root lib/, MOVE IT
+// mv apps/web/lib/repos/Foo.ts lib/repos/Foo.ts
+// Then @/lib/repos/Foo works correctly
+```
+
+**Prevention**:
+- Always verify path alias mapping in tsconfig.json BEFORE using aliases
+- When in doubt, use relative imports (./../../) - they always work
+- Test import: Run `npx tsc --noEmit` after adding import
+
+---
+
 ## Integration with PR Workflow
 
 **Add to PR body** (REQUIRED for TypeScript changes):
@@ -294,6 +343,7 @@ BEFORE writing TypeScript:
 ☐ Check workspace (server vs client)
 ☐ Verify data shape (test SQL, check API response)
 ☐ Verify type exists (grep for export)
+☐ Verify path alias mapping (check tsconfig.json)
 ☐ Read similar existing code
 ☐ Check TS 5.9 syntax requirements
 

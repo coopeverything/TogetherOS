@@ -4,8 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { MemberDirectory, type Member } from '@togetheros/ui/groups/MemberDirectory'
-import { LocalStorageGroupRepo } from '@/lib/repos/LocalStorageGroupRepo'
+import { LocalStorageGroupRepo } from '../../../lib/repos/LocalStorageGroupRepo'
 import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules/groups/fixtures'
+import type { Group } from '@togetheros/types/groups'
 
 export default function GroupDetailPage() {
   const params = useParams()
@@ -18,7 +19,7 @@ export default function GroupDetailPage() {
   const allMembers = getFixtureMembers()
 
   // Find group
-  const group = repo.getAll().find((g) => g.id === id)
+  const group = repo.getAll().find((g: Group) => g.id === id)
 
   if (!group) {
     return (
@@ -39,8 +40,8 @@ export default function GroupDetailPage() {
 
   // Get group members
   const groupMembers = group.members
-    .map((memberId) => allMembers.find((m) => m.id === memberId))
-    .filter((m): m is typeof allMembers[0] => m !== undefined)
+    .map((memberId: string) => allMembers.find((m: Member) => m.id === memberId))
+    .filter((m): m is Member => m !== undefined)
 
   const handleJoinLeave = async () => {
     setIsJoining(true)
@@ -73,7 +74,7 @@ export default function GroupDetailPage() {
               <span className="text-orange-800 font-bold text-2xl">
                 {group.name
                   .split(' ')
-                  .map((word) => word[0])
+                  .map((word: string) => word[0])
                   .join('')
                   .toUpperCase()
                   .slice(0, 2)}

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CreateGroupForm, type CreateGroupFormData } from '@togetheros/ui/groups/CreateGroupForm'
-import { LocalStorageGroupRepo } from '@/lib/repos/LocalStorageGroupRepo'
+import { LocalStorageGroupRepo } from '../../../lib/repos/LocalStorageGroupRepo'
 import { getFixtureGroups } from '../../../../api/src/modules/groups/fixtures'
 import { NominatimService } from '../../../../api/src/modules/geo/services/NominatimService'
 

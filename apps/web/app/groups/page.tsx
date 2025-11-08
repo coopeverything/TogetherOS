@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { GroupList } from '@togetheros/ui/groups'
-import { LocalStorageGroupRepo } from '@/lib/repos/LocalStorageGroupRepo'
+import { LocalStorageGroupRepo } from '../../lib/repos/LocalStorageGroupRepo'
 import { getFixtureGroups } from '../../../api/src/modules/groups/fixtures'
 
 export default function GroupsPage() {
