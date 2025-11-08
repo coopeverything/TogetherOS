@@ -15,7 +15,6 @@ const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000)
 const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000)
 const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 const twoDaysAgo = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000)
-
 export const samplePosts: Post[] = [
   // Native posts
   {

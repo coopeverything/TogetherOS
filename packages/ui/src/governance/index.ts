@@ -3,18 +3,13 @@
  *
  * Exports all governance-related UI components
  */
-
-export { ProposalCard } from './ProposalCard'
 export type { ProposalCardProps } from './ProposalCard'
-
-export { ProposalList } from './ProposalList'
+export { ProposalCard } from './ProposalCard'
 export type { ProposalListProps } from './ProposalList'
-
-export { ProposalView } from './ProposalView'
+export { ProposalList } from './ProposalList'
 export type { ProposalViewProps } from './ProposalView'
-
-export { ProposalForm } from './ProposalForm'
+export { ProposalView } from './ProposalView'
 export type { ProposalFormProps, ProposalFormData } from './ProposalForm'
-
-export { SimilarProposalsModal } from './SimilarProposalsModal'
+export { ProposalForm } from './ProposalForm'
 export type { SimilarProposalsModalProps, SimilarProposal } from './SimilarProposalsModal'
+export { SimilarProposalsModal } from './SimilarProposalsModal'

@@ -2,7 +2,6 @@
 // Sample training examples for development/testing
 
 import type { BridgeTrainingExample } from '@togetheros/types'
-
 export const sampleTrainingExamples: BridgeTrainingExample[] = [
   {
     id: 'example_1',
