@@ -47,11 +47,34 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - **progress**: Estimated progress increase percentage (e.g., "10" or "+10", default: auto-calculate based on work)
 - **skip_progress**: Set to "true" to skip progress tracking (default: false)
 
+## Device Detection & Adaptation
+
+**Automatically detects environment and adapts workflow:**
+
+| Step | PC | Tablet (Termux) |
+|------|-----|-----------------|
+| Install | `npm ci` | `npm ci` (same) |
+| Typecheck | `npm run typecheck` | `npm run typecheck` (faster priority) |
+| Build | `npm run build` | `npm run build` (same, slower) |
+| Dev server | `npm run dev` (skip for docs) | ❌ Skip (no local DB, use remote VPS) |
+| Validation | `./scripts/validate.sh` | `./scripts/validate.sh` (same) |
+| Branch | `feature/...` | `feature/...` (same) |
+
+**Auto-detection:** Checks if path contains `/data/data/com.termux` or environment variable `TERMUX_VERSION` is set.
+
+**Tablet Constraints Handled:**
+- No `npm run dev` with live database
+- Build retry strategy allows for slower performance (2s, 4s, 8s timeouts)
+- Uses `.env.local` with remote VPS database (configured automatically)
+- Smaller commits recommended (faster git operations)
+
 ## Workflow Steps
 
 ### 1. Preparation
 - Ensure repo is on `yolo` branch and up to date
+- Detect device (PC vs Tablet/Termux)
 - Create feature branch: `feature/{module}-{slice}`
+- **On Tablet:** Verify `.env.local` exists and points to remote VPS database
 
 ### 2. Implementation (Test as You Go)
 - Apply scoped edits described in the `scope` parameter
