@@ -81,7 +81,13 @@ export async function buildUserContextFromDB(
   }
 
   // Query 3: Get support points allocations to understand user priorities
-  let supportPointsAllocated = [];
+  let supportPointsAllocated: Array<{
+    targetType: 'post' | 'idea' | 'project';
+    targetId: string;
+    targetTopic: undefined;
+    points: number;
+    allocatedAt: Date;
+  }> = [];
   try {
     const spResult = await query<{
       target_type: string;
