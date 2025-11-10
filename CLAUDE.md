@@ -287,12 +287,43 @@ System may be prompting even when operation is in allow list
 
 ---
 
+## Device Context
+
+**Detect your environment:**
+- **PC (Windows/Mac/Linux):** Full IDE, local database, Docker → use `yolo1` for complete features
+- **Tablet (Android Termux):** nano/vim editor, remote DB, no Docker → use `yolo1` for docs/types/fixes
+
+**Device Capabilities:**
+
+| Task | PC | Tablet |
+|------|-----|---------|
+| Code editing | ✅ Full IDE | ✅ nano/vim |
+| npm build | ✅ Full | ✅ Full |
+| npm dev | ✅ With DB | ❌ No local DB |
+| Docker | ✅ Yes | ❌ No |
+| Git ops | ✅ Yes | ✅ Yes |
+| PR creation | ✅ Yes | ✅ Yes |
+| Database work | ✅ Local | ❌ Remote VPS only |
+
+**Tablet-Specific Adjustments:**
+- Skip `npm run dev` commands (no local database)
+- Use `npm run typecheck` + `npm run build` instead
+- Work on docs, types, and shell scripts
+- Use simple test-driven approach (commit frequently)
+
+**Cross-Device:** Always pull before starting a session to avoid conflicts. See `docs/_device-notes/CROSS_DEVICE_WORKFLOW.md`
+
+**Setup Help:** See `docs/_device-notes/TERMUX_SETUP.md` for tablet configuration
+
+---
+
 ## Communication Style
 
 - ✅ Concise, direct, technical
 - ✅ Use code blocks and examples
 - ✅ Show file paths with line numbers (file.ts:123)
 - ✅ Status updates via TodoWrite
+- ✅ On tablet: acknowledge slower performance, use smaller commits
 - ❌ Don't ask obvious questions
 - ❌ Don't over-explain unless asked
 - ❌ Don't use emojis (unless user uses them)
