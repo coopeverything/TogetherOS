@@ -9,6 +9,8 @@ import type {
   QuestionnaireType,
 } from '@togetheros/types';
 import type { QuestionnaireRepo } from './QuestionnaireRepo';
+// @ts-ignore - TS6059/TS6307: lib/db path alias outside apps/api rootDir (CI only)
+// Runtime works correctly. Proper fix: Create @togetheros/db package (see docs/dev/tech-debt.md)
 import { query } from '@/lib/db';
 
 export class PostgresQuestionnaireRepo implements QuestionnaireRepo {

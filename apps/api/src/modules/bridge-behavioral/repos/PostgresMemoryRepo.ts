@@ -14,6 +14,8 @@ import type {
   MemberMemory,
 } from '@togetheros/types';
 import type { MemoryRepo } from './MemoryRepo';
+// @ts-ignore - TS6059/TS6307: lib/db path alias outside apps/api rootDir (CI only)
+// Runtime works correctly. Proper fix: Create @togetheros/db package (see docs/dev/tech-debt.md)
 import { query } from '@/lib/db';
 
 export class PostgresMemoryRepo implements MemoryRepo {
