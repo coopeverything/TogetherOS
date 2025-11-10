@@ -50,74 +50,93 @@ export async function buildUserContextFromDB(
   const user = userResult.rows[0];
 
   // Query 2: Get implicit interests from user_interests table
-  const interestsResult = await query<{
-    topic: string;
-    interest_score: number;
-    engagement_count: number;
-    last_engaged: Date;
-    trend: 'rising' | 'stable' | 'declining';
-  }>(
-    `
-    SELECT topic, interest_score, engagement_count, last_engaged, trend
-    FROM user_interests
-    WHERE user_id = $1
-    ORDER BY interest_score DESC
-    LIMIT 20
-    `,
-    [userId]
-  );
+  let implicitInterests: InterestScore[] = [];
+  try {
+    const interestsResult = await query<{
+      topic: string;
+      interest_score: number;
+      engagement_count: number;
+      last_engaged: Date;
+      trend: 'rising' | 'stable' | 'declining';
+    }>(
+      `
+      SELECT topic, interest_score, engagement_count, last_engaged, trend
+      FROM user_interests
+      WHERE user_id = $1
+      ORDER BY interest_score DESC
+      LIMIT 20
+      `,
+      [userId]
+    );
 
-  const implicitInterests: InterestScore[] = interestsResult.rows.map((row: any) => ({
-    topic: row.topic,
-    score: Math.round(row.interest_score * 100), // Convert 0-1 to 0-100
-    derivedFrom: 'post', // Simplified - actual source tracked in interest_events
-    lastUpdated: row.last_engaged,
-  }));
+    implicitInterests = interestsResult.rows.map((row: any) => ({
+      topic: row.topic,
+      score: Math.round(row.interest_score * 100), // Convert 0-1 to 0-100
+      derivedFrom: 'post', // Simplified - actual source tracked in interest_events
+      lastUpdated: row.last_engaged,
+    }));
+  } catch (err) {
+    // user_interests table doesn't exist or has no data - continue with empty array
+    console.warn('Failed to fetch user interests, continuing without them:', err);
+  }
 
   // Query 3: Get support points allocations to understand user priorities
-  const spResult = await query<{
-    target_type: string;
-    target_id: string;
-    amount: number;
-    created_at: Date;
-  }>(
-    `
-    SELECT target_type, target_id, amount, created_at
-    FROM support_points_transactions
-    WHERE member_id = $1
-      AND type = 'allocate'
-    ORDER BY created_at DESC
-    LIMIT 10
-    `,
-    [userId]
-  );
+  let supportPointsAllocated = [];
+  try {
+    const spResult = await query<{
+      target_type: string;
+      target_id: string;
+      amount: number;
+      created_at: Date;
+    }>(
+      `
+      SELECT target_type, target_id, amount, created_at
+      FROM support_points_transactions
+      WHERE member_id = $1
+        AND type = 'allocate'
+      ORDER BY created_at DESC
+      LIMIT 10
+      `,
+      [userId]
+    );
 
-  const supportPointsAllocated = spResult.rows.map((row: any) => ({
-    targetType: row.target_type as 'post' | 'idea' | 'project',
-    targetId: row.target_id,
-    targetTopic: undefined, // Would need to join to target entity
-    points: row.amount,
-    allocatedAt: row.created_at,
-  }));
+    supportPointsAllocated = spResult.rows.map((row: any) => ({
+      targetType: row.target_type as 'post' | 'idea' | 'project',
+      targetId: row.target_id,
+      targetTopic: undefined, // Would need to join to target entity
+      points: row.amount,
+      allocatedAt: row.created_at,
+    }));
+  } catch (err) {
+    // support_points_transactions table doesn't exist yet - continue with empty array
+    console.warn('Failed to fetch support points, continuing without them:', err);
+  }
 
   // Query 4: Get user activity metrics
-  const activityResult = await query<{
-    post_count: number;
-    comment_count: number;
-  }>(
-    `
-    SELECT
-      COUNT(*) FILTER (WHERE action LIKE 'post%') as post_count,
-      COUNT(*) FILTER (WHERE action LIKE 'comment%') as comment_count
-    FROM user_activity
-    WHERE user_id = $1
-      AND created_at > NOW() - INTERVAL '90 days'
-    `,
-    [userId]
-  );
+  let postsCount = 0;
+  let commentsCount = 0;
+  try {
+    const activityResult = await query<{
+      post_count: number;
+      comment_count: number;
+    }>(
+      `
+      SELECT
+        COUNT(*) FILTER (WHERE action LIKE 'post%') as post_count,
+        COUNT(*) FILTER (WHERE action LIKE 'comment%') as comment_count
+      FROM user_activity
+      WHERE user_id = $1
+        AND created_at > NOW() - INTERVAL '90 days'
+      `,
+      [userId]
+    );
 
-  const postsCount = Number(activityResult.rows[0]?.post_count) || 0;
-  const commentsCount = Number(activityResult.rows[0]?.comment_count) || 0;
+    postsCount = Number(activityResult.rows[0]?.post_count) || 0;
+    commentsCount = Number(activityResult.rows[0]?.comment_count) || 0;
+  } catch (err) {
+    // user_activity table doesn't exist or query failed - continue with zeros
+    console.warn('Failed to fetch user activity, continuing with zeros:', err);
+  }
 
   // Calculate engagement score (0-100)
   const daysActive = user.last_seen_at
@@ -184,31 +203,38 @@ export async function buildCityContextFromDB(
   const totalCityUsers = Number(cityUsersResult.rows[0]?.user_count) || 0;
 
   // Query 2: Get trending topics in this city (from user_interests)
-  const trendingResult = await query<{
-    topic: string;
-    user_count: number;
-    avg_score: number;
-  }>(
-    `
-    SELECT
-      ui.topic,
-      COUNT(DISTINCT ui.user_id) as user_count,
-      AVG(ui.interest_score) as avg_score
-    FROM user_interests ui
-    JOIN users u ON ui.user_id = u.id
-    WHERE u.city ILIKE $1
-      AND u.state ILIKE $2
-      AND u.deleted_at IS NULL
-      AND ui.last_engaged > NOW() - INTERVAL '30 days'
-    GROUP BY ui.topic
-    ORDER BY user_count DESC, avg_score DESC
-    LIMIT 10
-    `,
-    [city, region]
-  );
+  let trendingTopics: string[] = [];
+  let popularInterests: string[] = [];
+  try {
+    const trendingResult = await query<{
+      topic: string;
+      user_count: number;
+      avg_score: number;
+    }>(
+      `
+      SELECT
+        ui.topic,
+        COUNT(DISTINCT ui.user_id) as user_count,
+        AVG(ui.interest_score) as avg_score
+      FROM user_interests ui
+      JOIN users u ON ui.user_id = u.id
+      WHERE u.city ILIKE $1
+        AND u.state ILIKE $2
+        AND u.deleted_at IS NULL
+        AND ui.last_engaged > NOW() - INTERVAL '30 days'
+      GROUP BY ui.topic
+      ORDER BY user_count DESC, avg_score DESC
+      LIMIT 10
+      `,
+      [city, region]
+    );
 
-  const trendingTopics = trendingResult.rows.map((r: any) => r.topic);
-  const popularInterests = trendingResult.rows.slice(0, 5).map((r: any) => r.topic);
+    trendingTopics = trendingResult.rows.map((r: any) => r.topic);
+    popularInterests = trendingResult.rows.slice(0, 5).map((r: any) => r.topic);
+  } catch (err) {
+    // user_interests table doesn't exist or has no data - continue with empty arrays
+    console.warn('Failed to fetch city trending topics, continuing without them:', err);
+  }
 
   // Query 3: Calculate growth rate (users who joined in last 30 days)
   const growthResult = await query<{
