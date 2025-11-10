@@ -150,7 +150,7 @@ export class InMemoryBridgeTrainingRepo implements BridgeTrainingRepo {
   }
 
   async findSimilar(
-    query: string,
+    searchQuery: string,
     options?: {
       status?: 'approved' | 'reviewed' | 'pending';
       minQualityScore?: number;
@@ -161,7 +161,7 @@ export class InMemoryBridgeTrainingRepo implements BridgeTrainingRepo {
     const minQualityScore = options?.minQualityScore || 80;
     const limit = options?.limit || 3;
 
-    const queryLower = query.toLowerCase();
+    const queryLower = searchQuery.toLowerCase();
 
     let items = Array.from(this.examples.values())
       .filter((ex) => !ex.deletedAt)

@@ -42,7 +42,7 @@ export interface BridgeTrainingRepo {
    * Returns approved examples with high quality scores, ordered by relevance
    */
   findSimilar(
-    query: string,
+    searchQuery: string,
     options?: {
       status?: 'approved' | 'reviewed' | 'pending';
       minQualityScore?: number;

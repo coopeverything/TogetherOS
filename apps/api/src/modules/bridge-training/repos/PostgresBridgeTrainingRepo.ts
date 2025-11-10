@@ -264,7 +264,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
   }
 
   async findSimilar(
-    query: string,
+    searchQuery: string,
     options?: {
       status?: 'approved' | 'reviewed' | 'pending';
       minQualityScore?: number;
@@ -289,7 +289,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
          )
        ORDER BY quality_score DESC, created_at DESC
        LIMIT $4`,
-      [status, minQualityScore, `%${query}%`, limit]
+      [status, minQualityScore, `%${searchQuery}%`, limit]
     );
 
     return result.rows.map((row: any) => this.mapRowToExample(row));
