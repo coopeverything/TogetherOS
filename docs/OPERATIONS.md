@@ -103,5 +103,53 @@ Relevant docs updated
 
 CI green where applicable
 
+## 10) Device-Specific Workflows
+
+TogetherOS can be developed on different devices with varying capabilities:
+
+### PC (Windows/Mac/Linux)
+- ✅ Full development environment
+- ✅ Local PostgreSQL database
+- ✅ Docker support
+- ✅ `npm run dev` with live reload
+- ✅ Full IDE (VS Code, etc.)
+- ✅ All scripts and tools
+
+**Standard workflow:**
+```bash
+git checkout -b feature/module-description
+# Full development with npm run dev, database, tests
+npm run build && npm run dev
+# Create PR when ready
+```
+
+### Tablet (Android Termux)
+- ✅ Code editing (nano/vim)
+- ✅ Git operations
+- ✅ npm build & typecheck
+- ✅ PR creation via GitHub CLI
+- ❌ Local PostgreSQL database (uses remote VPS instead)
+- ❌ Docker
+- ❌ Full IDE
+
+**Recommended use:**
+- Documentation updates
+- TypeScript type definitions
+- Quick bug fixes
+- PR reviews & management
+- When away from desk
+
+**See:** `docs/_device-notes/TERMUX_SETUP.md` for tablet setup and `docs/_device-notes/CROSS_DEVICE_WORKFLOW.md` for coordinating work across devices.
+
+### Hybrid Workflow
+For features developed across multiple devices:
+1. PC: Initial feature implementation
+2. Tablet: Documentation & types
+3. PC: Final review & merge
+
+**Key rule:** Always `git pull` before starting on a new device to avoid conflicts.
+
+**Details:** See `docs/_device-notes/CROSS_DEVICE_WORKFLOW.md`
+
 — End of OPERATIONS —
 
