@@ -469,12 +469,16 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
   }
 
   async delete(exampleId: string, userId: string): Promise<void> {
+    // For MVP: deleted_by is nullable since auth is not implemented yet
+    // When userId is not a valid UUID (e.g., "admin_1"), set deleted_by to NULL
+    const isValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
+
     await query(
       `UPDATE bridge_training_examples
        SET deleted_at = NOW(),
            deleted_by = $1
        WHERE id = $2`,
-      [userId, exampleId]
+      [isValidUuid ? userId : null, exampleId]
     )
   }
 }
