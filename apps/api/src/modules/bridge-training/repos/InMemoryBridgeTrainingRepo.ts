@@ -4,6 +4,7 @@
 import type {
   BridgeTrainingExample,
   CreateTrainingExampleInput,
+  UpdateTrainingExampleInput,
   RateBridgeResponseInput,
   ProvideIdealResponseInput,
   TrainingExampleFilters,
@@ -49,6 +50,38 @@ export class InMemoryBridgeTrainingRepo implements BridgeTrainingRepo {
 
   async findById(id: string): Promise<BridgeTrainingExample | null> {
     return this.examples.get(id) || null
+  }
+
+  async update(
+    input: UpdateTrainingExampleInput,
+    userId: string
+  ): Promise<BridgeTrainingExample | null> {
+    const example = this.examples.get(input.exampleId);
+    if (!example || example.deletedAt) return null;
+
+    // Apply partial updates
+    if (input.question !== undefined) {
+      example.question = input.question;
+    }
+    if (input.bridgeResponse !== undefined) {
+      example.bridgeResponse = input.bridgeResponse;
+    }
+    if (input.idealResponse !== undefined) {
+      example.idealResponse = input.idealResponse;
+    }
+    if (input.helpfulnessRating !== undefined) {
+      example.helpfulnessRating = input.helpfulnessRating;
+    }
+    if (input.accuracyRating !== undefined) {
+      example.accuracyRating = input.accuracyRating;
+    }
+    if (input.toneRating !== undefined) {
+      example.toneRating = input.toneRating;
+    }
+
+    example.updatedAt = new Date();
+
+    return example;
   }
 
   async list(filters: TrainingExampleFilters = {}): Promise<PaginatedTrainingExamples> {
@@ -114,6 +147,41 @@ export class InMemoryBridgeTrainingRepo implements BridgeTrainingRepo {
       pageSize,
       totalPages,
     }
+  }
+
+  async findSimilar(
+    query: string,
+    options?: {
+      status?: 'approved' | 'reviewed' | 'pending';
+      minQualityScore?: number;
+      limit?: number;
+    }
+  ): Promise<BridgeTrainingExample[]> {
+    const status = options?.status || 'approved';
+    const minQualityScore = options?.minQualityScore || 80;
+    const limit = options?.limit || 3;
+
+    const queryLower = query.toLowerCase();
+
+    let items = Array.from(this.examples.values())
+      .filter((ex) => !ex.deletedAt)
+      .filter((ex) => ex.trainingStatus === status)
+      .filter((ex) => (ex.qualityScore ?? 0) >= minQualityScore)
+      .filter(
+        (ex) =>
+          ex.question.toLowerCase().includes(queryLower) ||
+          ex.bridgeResponse.toLowerCase().includes(queryLower) ||
+          ex.idealResponse?.toLowerCase().includes(queryLower)
+      );
+
+    // Sort by quality score descending, then by creation date descending
+    items.sort((a, b) => {
+      const qualityDiff = (b.qualityScore ?? 0) - (a.qualityScore ?? 0);
+      if (qualityDiff !== 0) return qualityDiff;
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+
+    return items.slice(0, limit);
   }
 
   async rateResponse(

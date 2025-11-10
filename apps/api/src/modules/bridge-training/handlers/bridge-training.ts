@@ -4,6 +4,7 @@
 import type {
   BridgeTrainingExample,
   CreateTrainingExampleInput,
+  UpdateTrainingExampleInput,
   RateBridgeResponseInput,
   ProvideIdealResponseInput,
   TrainingExampleFilters,
@@ -46,6 +47,18 @@ export async function createTrainingExample(
 export async function getTrainingExample(id: string): Promise<BridgeTrainingExample | null> {
   const repo = getTrainingRepo()
   return repo.findById(id)
+}
+
+/**
+ * PATCH /api/bridge-training/examples/:id
+ * Update training example (partial update)
+ */
+export async function updateTrainingExample(
+  input: UpdateTrainingExampleInput,
+  userId: string
+): Promise<BridgeTrainingExample | null> {
+  const repo = getTrainingRepo()
+  return repo.update(input, userId)
 }
 
 /**

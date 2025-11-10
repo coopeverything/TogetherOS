@@ -13,6 +13,7 @@
 import { useState, useEffect } from 'react';
 import { ConversationTrainingForm } from '@togetheros/ui';
 import type { BridgeTrainingExample } from '@togetheros/types';
+import { useToast } from '@/components/ui/toast';
 
 type TabView = 'train' | 'data';
 type SortField = 'createdAt' | 'qualityScore' | 'helpfulnessRating' | 'accuracyRating' | 'toneRating';
@@ -20,6 +21,7 @@ type SortDirection = 'asc' | 'desc';
 type FilterStatus = 'all' | 'pending' | 'reviewed' | 'approved' | 'rejected';
 
 export default function BridgeAdminPage() {
+  const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState<TabView>('train');
   const [conversationCount, setConversationCount] = useState(0);
   const [successMessage, setSuccessMessage] = useState('');
@@ -31,17 +33,23 @@ export default function BridgeAdminPage() {
   const [error, setError] = useState('');
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editFormData, setEditFormData] = useState<{
+    question: string;
+    bridgeResponse: string;
+    idealResponse: string;
+    helpfulnessRating: number;
+    accuracyRating: number;
+    toneRating: number;
+  } | null>(null);
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>('createdAt');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
-  // Fetch training examples when switching to data tab
+  // Fetch training examples on mount (not just when switching to data tab)
   useEffect(() => {
-    if (activeTab === 'data') {
-      fetchExamples();
-    }
-  }, [activeTab]);
+    fetchExamples();
+  }, []);
 
   // Apply filters and sorting
   useEffect(() => {
@@ -211,7 +219,7 @@ export default function BridgeAdminPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this training example?')) return;
+    if (!confirm('Delete this training example? This action cannot be undone.')) return;
 
     try {
       const response = await fetch(`/api/bridge-training/examples/${id}`, {
@@ -222,8 +230,70 @@ export default function BridgeAdminPage() {
 
       setExamples(examples.filter((ex) => ex.id !== id));
       if (expandedRowId === id) setExpandedRowId(null);
+
+      addToast({
+        description: 'Training example deleted successfully',
+        variant: 'success',
+        duration: 3000,
+      });
     } catch (err: any) {
-      alert(err.message || 'Failed to delete');
+      addToast({
+        description: err.message || 'Failed to delete training example',
+        variant: 'danger',
+        duration: 5000,
+      });
+    }
+  };
+
+  const handleStartEdit = (example: BridgeTrainingExample) => {
+    setEditingId(example.id);
+    setEditFormData({
+      question: example.question,
+      bridgeResponse: example.bridgeResponse,
+      idealResponse: example.idealResponse || '',
+      helpfulnessRating: example.helpfulnessRating || 3,
+      accuracyRating: example.accuracyRating || 3,
+      toneRating: example.toneRating || 3,
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditFormData(null);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingId || !editFormData) return;
+
+    try {
+      const response = await fetch(`/api/bridge-training/examples/${editingId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editFormData),
+      });
+
+      if (!response.ok) throw new Error('Failed to update');
+
+      const { example } = await response.json();
+
+      // Update local state
+      setExamples(examples.map((ex) => (ex.id === editingId ? example : ex)));
+
+      // Clear edit state
+      setEditingId(null);
+      setEditFormData(null);
+
+      addToast({
+        description: 'Training example updated successfully',
+        variant: 'success',
+        duration: 3000,
+      });
+    } catch (err: any) {
+      addToast({
+        description: err.message || 'Failed to update training example',
+        variant: 'danger',
+        duration: 5000,
+      });
     }
   };
 
@@ -725,7 +795,7 @@ export default function BridgeAdminPage() {
                               </>
                             )}
                             <button
-                              onClick={() => setEditingId(isEditing ? null : example.id)}
+                              onClick={() => isEditing ? handleCancelEdit() : handleStartEdit(example)}
                               style={{
                                 padding: '0.375rem 0.75rem',
                                 fontSize: '0.8125rem',
@@ -755,19 +825,168 @@ export default function BridgeAdminPage() {
                             </button>
                           </div>
 
-                          {/* Edit mode placeholder */}
-                          {isEditing && (
+                          {/* Edit form */}
+                          {isEditing && editFormData && (
                             <div
                               style={{
                                 marginTop: '0.75rem',
-                                padding: '0.75rem',
-                                background: 'var(--bg-2)',
+                                padding: '1rem',
+                                background: 'var(--bg-1)',
                                 borderRadius: '0.5rem',
-                                fontSize: '0.8125rem',
-                                color: 'var(--ink-700)',
+                                border: '1px solid var(--border)',
                               }}
                             >
-                              Edit functionality coming soon (update question, response, ratings, ideal response)
+                              <div style={{ marginBottom: '0.75rem' }}>
+                                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                  Question
+                                </label>
+                                <textarea
+                                  value={editFormData.question}
+                                  onChange={(e) => setEditFormData({ ...editFormData, question: e.target.value })}
+                                  style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    fontSize: '0.875rem',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: '0.25rem',
+                                    fontFamily: 'inherit',
+                                    resize: 'vertical',
+                                    minHeight: '4rem',
+                                  }}
+                                />
+                              </div>
+
+                              <div style={{ marginBottom: '0.75rem' }}>
+                                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                  Bridge Response
+                                </label>
+                                <textarea
+                                  value={editFormData.bridgeResponse}
+                                  onChange={(e) => setEditFormData({ ...editFormData, bridgeResponse: e.target.value })}
+                                  style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    fontSize: '0.875rem',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: '0.25rem',
+                                    fontFamily: 'inherit',
+                                    resize: 'vertical',
+                                    minHeight: '6rem',
+                                  }}
+                                />
+                              </div>
+
+                              <div style={{ marginBottom: '0.75rem' }}>
+                                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                  Ideal Response
+                                </label>
+                                <textarea
+                                  value={editFormData.idealResponse}
+                                  onChange={(e) => setEditFormData({ ...editFormData, idealResponse: e.target.value })}
+                                  style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    fontSize: '0.875rem',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: '0.25rem',
+                                    fontFamily: 'inherit',
+                                    resize: 'vertical',
+                                    minHeight: '6rem',
+                                  }}
+                                />
+                              </div>
+
+                              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                                <div>
+                                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                    Helpfulness (1-5)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="5"
+                                    value={editFormData.helpfulnessRating}
+                                    onChange={(e) => setEditFormData({ ...editFormData, helpfulnessRating: parseInt(e.target.value) })}
+                                    style={{
+                                      width: '100%',
+                                      padding: '0.5rem',
+                                      fontSize: '0.875rem',
+                                      border: '1px solid var(--border)',
+                                      borderRadius: '0.25rem',
+                                    }}
+                                  />
+                                </div>
+                                <div>
+                                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                    Accuracy (1-5)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="5"
+                                    value={editFormData.accuracyRating}
+                                    onChange={(e) => setEditFormData({ ...editFormData, accuracyRating: parseInt(e.target.value) })}
+                                    style={{
+                                      width: '100%',
+                                      padding: '0.5rem',
+                                      fontSize: '0.875rem',
+                                      border: '1px solid var(--border)',
+                                      borderRadius: '0.25rem',
+                                    }}
+                                  />
+                                </div>
+                                <div>
+                                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+                                    Tone (1-5)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="5"
+                                    value={editFormData.toneRating}
+                                    onChange={(e) => setEditFormData({ ...editFormData, toneRating: parseInt(e.target.value) })}
+                                    style={{
+                                      width: '100%',
+                                      padding: '0.5rem',
+                                      fontSize: '0.875rem',
+                                      border: '1px solid var(--border)',
+                                      borderRadius: '0.25rem',
+                                    }}
+                                  />
+                                </div>
+                              </div>
+
+                              <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                                <button
+                                  onClick={handleCancelEdit}
+                                  style={{
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '0.875rem',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: '0.25rem',
+                                    background: 'var(--bg-2)',
+                                    color: 'var(--ink-700)',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  onClick={handleSaveEdit}
+                                  style={{
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '0.875rem',
+                                    border: 'none',
+                                    borderRadius: '0.25rem',
+                                    background: 'var(--brand-500)',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    fontWeight: 600,
+                                  }}
+                                >
+                                  Save Changes
+                                </button>
+                              </div>
                             </div>
                           )}
                         </div>

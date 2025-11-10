@@ -144,6 +144,16 @@ export interface CreateTrainingExampleInput {
   bridgeResponseTimeMs?: number
 }
 
+export interface UpdateTrainingExampleInput {
+  exampleId: string
+  question?: string
+  bridgeResponse?: string
+  idealResponse?: string
+  helpfulnessRating?: number // 1-5
+  accuracyRating?: number // 1-5
+  toneRating?: number // 1-5
+}
+
 export interface RateBridgeResponseInput {
   exampleId: string
   helpfulnessRating: number // 1-5

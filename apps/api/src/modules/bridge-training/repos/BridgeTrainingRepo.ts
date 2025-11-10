@@ -4,6 +4,7 @@
 import type {
   BridgeTrainingExample,
   CreateTrainingExampleInput,
+  UpdateTrainingExampleInput,
   RateBridgeResponseInput,
   ProvideIdealResponseInput,
   TrainingExampleFilters,
@@ -27,9 +28,27 @@ export interface BridgeTrainingRepo {
   findById(id: string): Promise<BridgeTrainingExample | null>
 
   /**
+   * Update a training example (partial update)
+   */
+  update(input: UpdateTrainingExampleInput, userId: string): Promise<BridgeTrainingExample | null>
+
+  /**
    * List training examples with filters and pagination
    */
   list(filters?: TrainingExampleFilters): Promise<PaginatedTrainingExamples>
+
+  /**
+   * Find similar training examples (for RAG in Q&A flow)
+   * Returns approved examples with high quality scores, ordered by relevance
+   */
+  findSimilar(
+    query: string,
+    options?: {
+      status?: 'approved' | 'reviewed' | 'pending';
+      minQualityScore?: number;
+      limit?: number;
+    }
+  ): Promise<BridgeTrainingExample[]>
 
   /**
    * Rate a Bridge response (helpfulness, accuracy, tone)

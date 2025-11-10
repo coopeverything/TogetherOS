@@ -19,6 +19,7 @@ import { fetchUserContext, fetchCityContext } from '../../../../lib/bridge/conte
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
+import { PostgresBridgeTrainingRepo } from '../../../../apps/api/src/modules/bridge-training/repos/PostgresBridgeTrainingRepo';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
@@ -216,6 +217,32 @@ Use the following documentation to inform your answer:
 ${context}
 
 Cite sources when relevant using the format [Source: title].`;
+    }
+
+    // Fetch relevant training examples (RAG for training data)
+    try {
+      const trainingRepo = new PostgresBridgeTrainingRepo();
+      const relevantTrainingExamples = await trainingRepo.findSimilar(question, {
+        status: 'approved',
+        minQualityScore: 80,
+        limit: 3,
+      });
+
+      if (relevantTrainingExamples.length > 0) {
+        enhancedSystemPrompt += `
+
+Similar questions from training data (use ideal responses as guidance):
+
+${relevantTrainingExamples.map((ex, idx) => `
+${idx + 1}. Q: ${ex.question}
+   Ideal response: ${ex.idealResponse || ex.bridgeResponse}
+`).join('\n')}
+
+Use these examples to inform your answer style and content, but personalize based on the current question.`;
+      }
+    } catch (error) {
+      console.warn('Failed to fetch training examples, continuing without them:', error);
+      // Continue without training data - Bridge still works
     }
 
     // Build messages array with conversation history

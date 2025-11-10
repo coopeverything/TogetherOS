@@ -4,6 +4,7 @@
 import type {
   BridgeTrainingExample,
   CreateTrainingExampleInput,
+  UpdateTrainingExampleInput,
   RateBridgeResponseInput,
   ProvideIdealResponseInput,
   TrainingExampleFilters,
@@ -102,6 +103,74 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     return this.mapRowToExample(result.rows[0])
   }
 
+  async update(
+    input: UpdateTrainingExampleInput,
+    userId: string
+  ): Promise<BridgeTrainingExample | null> {
+    const updates: string[] = [];
+    const params: any[] = [];
+    let paramIndex = 1;
+
+    // Build dynamic UPDATE clause
+    if (input.question !== undefined) {
+      updates.push(`question = $${paramIndex}`);
+      params.push(input.question);
+      paramIndex++;
+    }
+
+    if (input.bridgeResponse !== undefined) {
+      updates.push(`bridge_response = $${paramIndex}`);
+      params.push(input.bridgeResponse);
+      paramIndex++;
+    }
+
+    if (input.idealResponse !== undefined) {
+      updates.push(`ideal_response = $${paramIndex}`);
+      params.push(input.idealResponse);
+      paramIndex++;
+    }
+
+    if (input.helpfulnessRating !== undefined) {
+      updates.push(`helpfulness_rating = $${paramIndex}`);
+      params.push(input.helpfulnessRating);
+      paramIndex++;
+    }
+
+    if (input.accuracyRating !== undefined) {
+      updates.push(`accuracy_rating = $${paramIndex}`);
+      params.push(input.accuracyRating);
+      paramIndex++;
+    }
+
+    if (input.toneRating !== undefined) {
+      updates.push(`tone_rating = $${paramIndex}`);
+      params.push(input.toneRating);
+      paramIndex++;
+    }
+
+    if (updates.length === 0) {
+      // No fields to update
+      return this.findById(input.exampleId);
+    }
+
+    // Always update updated_at
+    updates.push(`updated_at = NOW()`);
+
+    const result = await query<any>(
+      `UPDATE bridge_training_examples
+       SET ${updates.join(', ')}
+       WHERE id = $${paramIndex} AND deleted_at IS NULL
+       RETURNING *`,
+      [...params, input.exampleId]
+    );
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return this.mapRowToExample(result.rows[0]);
+  }
+
   async list(filters: TrainingExampleFilters = {}): Promise<PaginatedTrainingExamples> {
     const conditions: string[] = ['deleted_at IS NULL']
     const params: any[] = []
@@ -192,6 +261,38 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
       pageSize,
       totalPages,
     }
+  }
+
+  async findSimilar(
+    query: string,
+    options?: {
+      status?: 'approved' | 'reviewed' | 'pending';
+      minQualityScore?: number;
+      limit?: number;
+    }
+  ): Promise<BridgeTrainingExample[]> {
+    const status = options?.status || 'approved';
+    const minQualityScore = options?.minQualityScore || 80;
+    const limit = options?.limit || 3;
+
+    // Use PostgreSQL full-text search for keyword matching
+    // Future improvement: Use embeddings for semantic search
+    const result = await query<any>(
+      `SELECT * FROM bridge_training_examples
+       WHERE training_status = $1
+         AND quality_score >= $2
+         AND deleted_at IS NULL
+         AND (
+           question ILIKE $3
+           OR bridge_response ILIKE $3
+           OR ideal_response ILIKE $3
+         )
+       ORDER BY quality_score DESC, created_at DESC
+       LIMIT $4`,
+      [status, minQualityScore, `%${query}%`, limit]
+    );
+
+    return result.rows.map((row) => this.mapRowToExample(row));
   }
 
   async rateResponse(
