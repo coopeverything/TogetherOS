@@ -292,7 +292,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
       [status, minQualityScore, `%${query}%`, limit]
     );
 
-    return result.rows.map((row) => this.mapRowToExample(row));
+    return result.rows.map((row: any) => this.mapRowToExample(row));
   }
 
   async rateResponse(

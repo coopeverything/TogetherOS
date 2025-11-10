@@ -17,9 +17,9 @@ import {
 } from '@/lib/bridge/docs-indexer';
 import { fetchUserContext, fetchCityContext } from '../../../../lib/bridge/context-service';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
-import type { ActivityRecommendation as ActivityRec } from '@togetheros/types';
+import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
-import { PostgresBridgeTrainingRepo } from '../../../../apps/api/src/modules/bridge-training/repos/PostgresBridgeTrainingRepo';
+import { PostgresBridgeTrainingRepo } from '../../../../api/src/modules/bridge-training/repos/PostgresBridgeTrainingRepo';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
@@ -233,7 +233,7 @@ Cite sources when relevant using the format [Source: title].`;
 
 Similar questions from training data (use ideal responses as guidance):
 
-${relevantTrainingExamples.map((ex, idx) => `
+${relevantTrainingExamples.map((ex: BridgeTrainingExample, idx: number) => `
 ${idx + 1}. Q: ${ex.question}
    Ideal response: ${ex.idealResponse || ex.bridgeResponse}
 `).join('\n')}
