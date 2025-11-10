@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   test:
-    name: Run tests
+    name: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,6 +26,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build TypeScript packages
+        run: npm run build:packages
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
 
       - name: Run tests
         run: npm test

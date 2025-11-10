@@ -40,6 +40,19 @@ OPENAI_API_KEY=sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz
 
 ### Optional Variables
 
+#### `BRIDGE_DOCS_PATH`
+**Default**: Auto-detected based on `NODE_ENV`
+- Development: `<repo-root>/docs` (monorepo structure)
+- Production: `<process.cwd()>/docs` (deployed structure)
+
+**Purpose**: Path to documentation directory for RAG (Retrieval-Augmented Generation)
+**When to set**: Only if your deployment has non-standard directory structure
+
+**Example**:
+```bash
+BRIDGE_DOCS_PATH=/var/www/togetheros/docs
+```
+
 #### `BRIDGE_RATE_LIMIT_PER_HOUR`
 **Default**: `30`
 **Purpose**: Maximum requests per hour per IP address
@@ -152,6 +165,62 @@ OPENAI_API_KEY=invalid npm run dev
 ```
 
 ## Production Deployment
+
+### VPS Deployment (coopeverything.org)
+
+**Current deployment**: VPS at 72.60.27.167 (coopeverything.org)
+
+**Setup steps**:
+
+1. **SSH into VPS**:
+   ```bash
+   ssh root@72.60.27.167
+   # or
+   ssh root@coopeverything.org
+   ```
+
+2. **Navigate to deployment directory**:
+   ```bash
+   cd /var/www/togetheros
+   ```
+
+3. **Add/update `.env` file**:
+   ```bash
+   nano .env
+   ```
+
+   Add the following required variables:
+   ```bash
+   OPENAI_API_KEY=sk-proj-[your-key]
+   NODE_ENV=production
+   BRIDGE_ENV=production
+   BRIDGE_RATE_LIMIT_PER_HOUR=20
+   ```
+
+4. **Restart the application**:
+   ```bash
+   pm2 restart togetheros
+   ```
+
+5. **Verify Bridge is working**:
+   ```bash
+   curl -X POST https://coopeverything.org/api/bridge/ask \
+     -H "Content-Type: application/json" \
+     -d '{"question":"What is TogetherOS?"}'
+   ```
+
+   Should return a streaming response (not `{"error":"Service not configured"}`).
+
+6. **Monitor logs**:
+   ```bash
+   pm2 logs togetheros
+   # Look for: "[Bridge] Indexed N documents from /var/www/togetheros/docs"
+   ```
+
+**Troubleshooting VPS deployment**:
+- If API still returns 401 after adding key: Restart PM2 (`pm2 restart togetheros`)
+- If docs not indexing: Check `/var/www/togetheros/docs` exists
+- If PATH issues: Set `BRIDGE_DOCS_PATH=/var/www/togetheros/docs` explicitly
 
 ### Additional Considerations
 

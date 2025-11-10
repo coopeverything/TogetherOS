@@ -4,16 +4,18 @@
 
 ### The Rules
 1. **One tiny change per PR** — Smallest shippable increment only
-2. **Full files for YAML/JSON** — No partial patches
-3. **Fix one red check at a time** — Don't stack unrelated changes
-4. **Docs-first** — Any behavior/config change must update relevant docs
-5. **Proof lines required** — Every PR body includes validation output
+2. **All PRs require bot review** — Copilot must review all code before merge
+3. **Full files for YAML/JSON** — No partial patches
+4. **Fix one red check at a time** — Don't stack unrelated changes
+5. **Docs-first** — Any behavior/config change must update relevant docs
+6. **Proof lines required** — Every PR body includes validation output
+7. **Type-check before commit** — Run `npx tsc --noEmit` on all TypeScript changes
 
 ---
 
 ## Required Checks (Gate to Merge)
 
-### ci/lint (Always Required)
+### ci/lint (Required for main PRs)
 **Purpose:** Validate all GitHub workflow YAML
 
 **Tools:**
@@ -27,7 +29,12 @@ PROOF: ACTIONLINT=OK
 PROOF: LINT=OK
 ```
 
-**Branch Protection:** ✅ **ci/lint** always required
+**Branch Protection:**
+- ✅ **main branch:** ci/lint REQUIRED (enforced by CI)
+- ⚠️  **yolo branch:** ci/lint does NOT run (fast iteration mode)
+  - Developers run `./scripts/validate.sh` locally
+  - Danger.js requires `TESTS=OK` for yolo PRs (not `LINT=OK`)
+  - Lint validation happens when syncing to main branch
 
 ---
 
@@ -73,6 +80,58 @@ PROOF: SMOKE=OK
 
 ---
 
+### Security Checks (Automated via Danger.js)
+
+**Purpose:** Verify no P1 security alerts exist in modified files
+
+**Tool:** GitHub CodeQL code scanning + Danger.js enforcement
+
+**Enforcement:** Danger.js automatically blocks merge if P1 alerts exist in modified files
+
+**Check Logic:**
+1. Danger.js fetches all open P1 (error severity) CodeQL alerts
+2. Cross-references with files modified by the PR
+3. **Blocks merge** if any P1 alerts found in modified files
+4. Allows merge if P1 alerts only in unmodified files (informational)
+
+**Manual Check Command:**
+```bash
+gh api repos/coopeverything/TogetherOS/code-scanning/alerts \
+  --jq '[.[] | select(.state == "open" and .rule.severity == "error")] | length'
+```
+
+**Proof Lines (Optional):**
+```
+SECURITY=OK (0 P1 alerts in modified files)
+# or
+SECURITY=WARN (X P1 alerts exist, but not in modified files)
+```
+
+**When Danger.js BLOCKS merge:**
+- ❌ P1 alert exists in file modified by this PR
+- Example: PR modifies `apps/api/route.ts` which has log injection alert
+
+**When Danger.js ALLOWS merge:**
+- ✅ P1 alert exists in file NOT modified by this PR (informational only)
+- ✅ P2/P3 alerts (warnings/notes) - informational only
+
+**If Blocked:**
+1. View alert link in Danger.js PR comment
+2. Fix the vulnerability in the modified file
+3. Push update (Danger.js will re-check automatically)
+4. Merge when clear
+
+**View alerts:** https://github.com/coopeverything/TogetherOS/security/code-scanning
+
+**Alert Severity Levels:**
+- **Error (P1)** — Critical vulnerabilities (SQL injection, XSS, auth bypass, log injection) - MUST FIX
+- **Warning (P2)** — Medium-severity issues (incomplete validation, race conditions) - SHOULD FIX
+- **Note (P3)** — Code quality issues (unused variables, style) - CAN DEFER
+
+**Enforcement:** Automated (Danger.js check is required, runs on every PR)
+
+---
+
 ## When Workflows Run
 
 ### Pull Request → main
@@ -90,23 +149,33 @@ PROOF: SMOKE=OK
 
 ## PR Body Convention
 
-### Required Proof Lines (Human-Visible)
-Every PR description must include:
+### Required Proof Lines (Two-Tier System)
+
+**Proof lines differ by target branch:**
+
+**For PRs targeting yolo branch:**
+```
+Category: <one of the 8 canonical Cooperation Paths>
+Keywords: comma, separated, words
+
+TESTS=OK
+```
+
+**Optional for yolo (recommended):**
+```
+LINT=OK
+VALIDATORS=GREEN
+DOCS=OK
+```
+
+**For PRs targeting main branch:**
 ```
 Category: <one of the 8 canonical Cooperation Paths>
 Keywords: comma, separated, words
 
 LINT=OK
-SMOKE=OK (or VALIDATORS=GREEN)
-```
-
-**For docs-only PRs:**
-```
-Category: Cooperative Technology
-Keywords: documentation, ci, playbook
-
-DOCS=OK
-LINT=OK
+SMOKE=OK
+TESTS=OK
 ```
 
 **For CI/docs or infra changes:**
@@ -494,9 +563,224 @@ If you add a keyword:
 
 ---
 
+## Automated PR Workflow (New Process)
+
+### Overview
+
+As of 2025-01-11, all code must go through automated PR review before merging to `yolo`. This ensures quality gates are met and prevents large, unreviewed code dumps.
+
+### Required Flow
+
+```
+feature branch → PR → Copilot review → fix issues → tests pass → merge → deploy
+```
+
+**No direct pushes to yolo allowed** (except emergency hotfixes with explicit approval).
+
+### Using auto-pr-merge Skill
+
+See `.claude/skills/auto-pr-merge.md` for complete documentation.
+
+**Quick start:**
+```bash
+# 1. Implement feature
+git checkout -b feature/my-change
+# ... make changes ...
+
+# 2. Push and create PR
+git push -u origin feature/my-change
+gh pr create --base yolo --title "..." --body "..."
+
+# 3. Wait for Copilot review (30-60 seconds)
+sleep 60
+
+# 4. Check for feedback
+gh pr view <num> --json reviews,comments
+
+# 5. Address all Copilot comments
+# ... fix issues ...
+git push origin feature/my-change
+
+# 6. Merge when approved and tests pass
+gh pr merge <num> --squash --delete-branch
+```
+
+### Quality Gates
+
+**PR will NOT auto-merge if:**
+- ❌ Copilot requested changes
+- ❌ Tests failing
+- ❌ >500 lines changed (split into smaller PRs)
+- ❌ Codex P1 (critical) issues unfixed
+
+**PR can merge when:**
+- ✅ Copilot approved OR no blocking reviews
+- ✅ Codex reviewed (no unfixed P1 issues)
+- ✅ All status checks pass
+- ✅ Change is <500 lines
+- ✅ Human approval NOT REQUIRED (bot reviews sufficient)
+
+### Dual-Bot Review Integration
+
+**Two bots review EVERY PR (both required):**
+
+#### Bot 1: Codex (`chatgpt-codex-connector`) - PRIMARY
+**What Codex checks:**
+- Security vulnerabilities (SQL injection, XSS, eval, auth issues)
+- Type safety & correctness
+- Performance problems
+- Code quality & best practices
+- Architecture & design patterns
+
+**Priority levels:**
+- **P1 (Critical)**: BLOCKS MERGE - Must fix
+- **P2 (Important)**: Should fix before merge
+- **P3 (Nice-to-have)**: Can defer
+
+**Manual trigger:**
+```bash
+gh pr comment <PR#> --body "@codex review"
+```
+
+#### Bot 2: Copilot SWE Agent (`copilot-swe-agent`) - SECONDARY
+**What Copilot SWE Agent does:**
+- Creates **separate sub-PR** with suggested fixes (NOT inline review)
+- Suggests improvements for:
+  - Security vulnerabilities
+  - Performance issues (render optimization, memoization)
+  - Type safety (any usage, unsafe casts, null checks)
+  - Code quality (unused variables, error handling, accessibility)
+  - Best practices (React patterns, async/await)
+
+**Output format:**
+- **Sub-PR** on branch `copilot/sub-pr-{parent-pr-number}`
+- Contains actual code changes, not just comments
+- Must be evaluated BEFORE merging parent PR
+
+**Manual trigger:**
+```bash
+gh pr comment <PR#> --body "@copilot review"
+
+# Then check for sub-PR (wait 2-5 minutes):
+SUB_PR=$(gh pr list --author "app/copilot-swe-agent" \
+  --search "sub-pr-<PR#>" --json number --jq '.[0].number // empty')
+```
+
+**Handling sub-PRs:**
+1. **Cherry-pick** useful changes to parent PR branch
+2. **Note** for later if not urgent
+3. **Close** sub-PR after evaluating (don't let it orphan)
+
+### Merge Requirements (Dual-Bot Gate)
+
+**PR can ONLY merge if:**
+- ✅ Tests pass
+- ✅ Codex reviewed (NO P1 issues unfixed)
+- ✅ Copilot sub-PR evaluated (changes cherry-picked or noted)
+- ✅ Sub-PR closed with explanation
+
+**Branch Protection (yolo branch):**
+- ✅ Required: Test status check must pass
+- ✅ Required: Bot reviews (Codex + Copilot)
+- ❌ NOT required: Human approval (removed 2025-11-02)
+
+**Codex can block:**
+- ❌ Codex P1 issue → Cannot merge until fixed
+
+**Copilot sub-PR workflow:**
+- ⚠️  Check for sub-PR before merging parent
+- ⚠️  Evaluate changes, cherry-pick if useful
+- ⚠️  Close sub-PR to avoid orphaning
+
+**Wait time:** 5 minutes after opening PR + 2-5 minutes for sub-PR creation
+
+### Example: Full Workflow
+
+```bash
+# Feature: Add user avatar upload
+
+# 1. Create branch
+git checkout yolo
+git checkout -b feature/user-avatar-upload
+
+# 2. Implement (small change)
+# - Add avatar field to User entity
+# - Add upload endpoint
+# - Add UI component
+
+git add lib/db/users.ts apps/api/src/modules/profiles/handlers/avatar.ts
+git commit -m "feat(profiles): add avatar upload endpoint"
+
+git push -u origin feature/user-avatar-upload
+
+# 3. Create PR
+gh pr create --base yolo \
+  --title "feat(profiles): Add user avatar upload" \
+  --body "Implements avatar upload via file or URL.
+
+Category: Cooperative Technology
+Keywords: profiles, avatar, upload, UX
+
+Waiting for Copilot review..."
+
+# 4. Get PR number
+PR=$(gh pr list --head feature/user-avatar-upload --json number --jq '.[0].number')
+
+# 5. Wait for Copilot
+sleep 60
+
+# 6. Check feedback
+gh api repos/coopeverything/TogetherOS/pulls/$PR/comments \
+  --jq '.[] | select(.user.login | contains("copilot")) | {file: .path, line: .line, issue: .body}'
+
+# Example output:
+# {
+#   "file": "apps/api/src/modules/profiles/handlers/avatar.ts",
+#   "line": 15,
+#   "issue": "Missing file size validation. Add check for max 5MB upload."
+# }
+
+# 7. Fix issue
+# Edit file to add size validation
+git add apps/api/src/modules/profiles/handlers/avatar.ts
+git commit -m "fix(profiles): add 5MB file size limit (Copilot feedback)"
+git push origin feature/user-avatar-upload
+
+# 8. Verify tests pass
+gh pr checks $PR --watch
+
+# 9. Merge
+gh pr merge $PR --squash --delete-branch
+
+# 10. Monitor deployment
+gh run watch $(gh run list --workflow=auto-deploy-production --limit 1 --json databaseId --jq '.[0].databaseId')
+```
+
+### Safety & Rollback
+
+If deployed code causes issues:
+
+```bash
+# Option 1: Revert via git
+git checkout yolo
+git revert <bad-commit-sha>
+git push origin yolo
+# Auto-deploy will deploy the revert
+
+# Option 2: Manual VPS rollback
+ssh root@72.60.27.167
+cd /var/www/togetheros
+git reset --hard <previous-good-commit>
+npm run build
+pm2 restart togetheros
+```
+
+---
+
 ## Related KB Files
 
 - [Main KB](./togetheros-kb.md) — Core principles, workflow
 - [Tech Stack](./tech-stack.md) — Tools, versions, dependencies
 - [Architecture](./architecture.md) — Code structure, patterns
 - [Cooperation Paths](./cooperation-paths.md) — Path labels and taxonomy
+- [Auto-PR-Merge Skill](../../.claude/skills/auto-pr-merge.md) — Complete automation workflow

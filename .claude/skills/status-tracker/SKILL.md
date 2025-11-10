@@ -31,20 +31,30 @@ This skill manages all progress tracking, status updates, and Notion memory for 
 
 ## Workflow Steps
 
-### 0. Session Memory (Notion)
+### 0. Session Memory (Notion) - **RECOMMENDED**
+
+**When:** At session start and end (especially for complex work or yolo1 workflows)
 
 **Flow:**
-- Start: Create page in "Claude Memory" → `10/30/25 14:30`
-- During: Update on achievements/discoveries (continuous, not end-dump)
-- End: Finalize status, next steps, branch/commit
-- Cleanup: Keep 3 most recent, delete oldest when adding #4
+- **Start:** Create page in "Claude Memory" → `Nov 10, 25 14:30 - Session`
+- **During:** Update on achievements/discoveries (continuous, not end-dump)
+- **End:** Finalize with summary, rename title with theme
+- **Cleanup:** Keep 6 most recent, archive oldest when adding #7
+
+**Quick Start:**
+```
+Use Notion API: mcp__notion__API-post-page
+Parent page ID: 296d133a-246e-80a6-a870-c0d163e9c826
+Title: "Nov 10, 25 14:30 - Session"
+```
 
 **Format:**
 ```
-# Session: 10/30/25 14:30
+# Session: Nov 10, 25 14:30
 
 ## Work Completed
 - [achievements]
+- Example: "Created test page at /test/profiles with component showcase"
 
 ## Discoveries
 - [findings, decisions, blockers]
@@ -54,6 +64,11 @@ Branch: [name] | Commit: [hash] | Build: [status]
 
 ## Next Steps
 - [2-3 actions]
+```
+
+**At session end, update title:**
+```
+"Nov 10, 25 14:30 - {module} {feature} implementation"
 ```
 
 ### 1. Progress Tracking During Implementation
@@ -148,12 +163,14 @@ progress:bridge=+10
 
 **Note:** This only creates the WIP marker. Actual code sync (Phase 2) happens when user approves after production validation.
 
-### 6. Notion Memory Updates
+### 6. Notion Memory Updates - **RECOMMENDED FOR ALL YOLO1 WORKFLOWS**
 
 **When to Update Notion:**
+- **Session start** (create page)
+- During implementation (append updates)
 - After PR creation
 - Major milestone completion
-- Session handoff point
+- **Session end** (finalize summary)
 - User requests it
 
 **Quick Handoff Page:**
@@ -163,10 +180,15 @@ progress:bridge=+10
 - Keep it minimal: 10-15 lines total, easy to scan
 
 **Detailed Session Pages:**
-- Create with date format: `10/30/25 14:30`
+- Create with date format: `Nov 10, 25 14:30`
 - Update continuously during session (not end-dump)
-- Keep only 3 most recent
-- Delete oldest when adding #4
+- Keep only 6 most recent
+- Archive oldest when adding #7
+
+**Integration with yolo1:**
+- Step 0: Create session page at workflow start
+- Step 13: Finalize session page after deployment
+- See yolo1 skill for exact API call examples
 
 **⚠️ Notion API Version Notice:**
 - Current MCP server may use pre-2025-09-03 API version
@@ -276,7 +298,7 @@ Action: Add progress marker to PR body, update next steps
 1. **Never decrease progress** - Only increment or set higher values
 2. **Keep progress realistic** - Small features = 5-10%, major features = 15-20%
 3. **Update next steps synchronously** - Do it during implementation, not after
-4. **Notion cleanup** - Always maintain exactly 3 session pages
+4. **Notion cleanup** - Always maintain exactly 6 session pages
 5. **Progress markers must be exact syntax** - `progress:module=+X` (no spaces around `=`)
 
 ## Troubleshooting
@@ -295,6 +317,14 @@ Action: Add progress marker to PR body, update next steps
 - Verify Notion API connection in MCP settings
 - Check "Claude Memory" parent page exists
 - Ensure proper permissions for page creation
+
+**Notion UUID validation error?**
+- **Symptom**: `"path.block_id should be a valid uuid, instead was \"29fd133a-246e-811db872-eccf65334c38\""`
+- **Cause**: Claude Code internal bug (issue #5504) - occasionally corrupts UUIDs by removing one dash
+- **Pattern**: Dash removed at position 18 (e.g., `811d-b872` becomes `811db872`)
+- **Fix**: Simply retry the operation with the original correct UUID - second attempt usually succeeds
+- **Not our bug**: This is a Claude Code serialization issue, not our code or the MCP server
+- **Status**: No workaround needed beyond manual retry - track as known issue
 
 ## Reference
 

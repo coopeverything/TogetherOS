@@ -377,7 +377,8 @@ Each core module has its own top-level route:
 /bridge          - AI assistant interface
 /profile         - User profile
 /groups          - Groups and organizations
-/forum           - Discussion forums
+/feed            - Social media feed with reactions and topic filtering
+/forum           - Discussion forums and deliberation
 /proposals       - Governance proposals
 /economy         - Social economy features
 /search          - Search and discovery
@@ -587,13 +588,14 @@ These routes are currently implemented in TogetherOS:
 /design              - Design system showcase
 /status              - System status
 
-# Module placeholders (UI only, no functionality)
-/groups              - Groups & Organizations
-/forum               - Forum & Deliberation
-/proposals           - Proposals & Decisions
-/economy             - Social Economy
-/search              - Search & Discovery
-/notifications       - Notifications & Inbox
+# Module routes
+/groups              - Groups & Organizations (100% complete)
+/feed                - Feed UI with multi-dimensional reactions (Phase 1: 20% complete)
+/forum               - Forum & Deliberation (placeholder, deliberation flows from Feed)
+/proposals           - Proposals & Decisions (placeholder)
+/economy             - Social Economy (placeholder)
+/search              - Search & Discovery (placeholder)
+/notifications       - Notifications & Inbox (placeholder)
 
 # API routes
 /api/auth/login      - Login endpoint

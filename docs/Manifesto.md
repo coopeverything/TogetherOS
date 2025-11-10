@@ -48,9 +48,12 @@ Gamification through challenges, rewards, and real-life growing positive outcome
 
 Status is built and displayed on members’ profiles — not for what they own or whom they topple, but for what they have contributed.
 
-## Forum, Decisions, and Delivery
-- **Issue Pipeline:** Present → Prioritize → Research → Form positions → Deliberate → Vote → Act → Review → **Legislate/Amend** → Monitor → Iterate. All laws and policies are revisitable via a standing feedback loop.  
-- **Safeguards:** Public logs, minority-position preservation, cooling-off periods, and delivery reports tied to proposals.  
+## Feed, Forum, Decisions, and Delivery
+
+**Feed → Forum Pipeline:** Members discover issues through a social media-style feed (with imported content from Instagram, TikTok, X, Facebook). Multi-dimensional reactions (care, insightful, agree, act) replace binary likes. When posts gain traction, discussions flow into structured Forum threads with deliberation tools. Bridge AI profiles interests privately and surfaces anonymous community statistics publicly, guiding topics toward proposals and collective action.
+
+- **Issue Pipeline:** Present → Prioritize → Research → Form positions → Deliberate → Vote → Act → Review → **Legislate/Amend** → Monitor → Iterate. All laws and policies are revisitable via a standing feedback loop.
+- **Safeguards:** Public logs, minority-position preservation, cooling-off periods, and delivery reports tied to proposals.
 - **Federation:** Local decisions stand locally; shared protocols enable inter-city and global coordination.
 
 ## From Scarcity to Prosperity — Practical Intent

@@ -32,3 +32,4 @@ OS = Operating System (not “open source”). TogetherOS is a cooperation-first
 - **Vision:** [docs/Manifesto.md](docs/Manifesto.md)
 - **CI Playbook:** [docs/CI/Actions_Playbook.md](docs/CI/Actions_Playbook.md)
 - **Index:** [docs/index.md](docs/index.md)
+# Deployment test - trigger workflow after HEREDOC fix

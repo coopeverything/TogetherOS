@@ -122,8 +122,12 @@ export default function SignupPage() {
           </div>
 
           <div className={styles.oauthButtons}>
-            <button type="button" className={styles.oauthButton} disabled>
-              Google <span className={styles.comingSoon}>(soon)</span>
+            <button
+              type="button"
+              className={styles.oauthButton}
+              onClick={() => window.location.href = '/api/auth/google'}
+            >
+              Google
             </button>
             <button type="button" className={styles.oauthButton} disabled>
               Facebook <span className={styles.comingSoon}>(soon)</span>

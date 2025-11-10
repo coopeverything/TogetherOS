@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# TogetherOS Pre-Commit Hook
+# Prevents committing build artifacts and generated files
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+echo -e "${GREEN}Running pre-commit checks...${NC}"
+
+# Check 1: Prevent next-env.d.ts with build artifact imports
+if git diff --cached --name-only | grep -q "apps/web/next-env.d.ts"; then
+  if git diff --cached apps/web/next-env.d.ts | grep -q "\.next/types"; then
+    echo -e "${RED}❌ ERROR: next-env.d.ts contains build artifact imports${NC}"
+    echo ""
+    echo "Found import of .next/types/routes.d.ts in next-env.d.ts"
+    echo "This breaks fresh checkouts and violates Next.js guidelines."
+    echo ""
+    echo "To fix:"
+    echo "  git checkout apps/web/next-env.d.ts"
+    echo "  git add apps/web/next-env.d.ts"
+    echo ""
+    exit 1
+  fi
+fi
+
+# Check 2: Warn about .next directory artifacts
+if git diff --cached --name-only | grep -q "^\.next/"; then
+  echo -e "${YELLOW}⚠️  WARNING: Attempting to commit .next/ directory${NC}"
+  echo ""
+  echo ".next/ is a build artifact directory and should not be committed."
+  echo "Make sure .next/ is in .gitignore"
+  echo ""
+  echo "To abort commit: Ctrl+C"
+  echo "To continue anyway: Press Enter"
+  read -r
+fi
+
+# Check 3: Warn about node_modules
+if git diff --cached --name-only | grep -q "node_modules/"; then
+  echo -e "${YELLOW}⚠️  WARNING: Attempting to commit node_modules/${NC}"
+  echo ""
+  echo "node_modules/ should not be committed (dependencies should be in package.json)"
+  echo ""
+  echo "To abort commit: Ctrl+C"
+  echo "To continue anyway: Press Enter"
+  read -r
+fi
+
+# Check 4: Check for common secrets patterns (basic check)
+if git diff --cached --diff-filter=ACM | grep -iE "API_KEY|SECRET_KEY|PASSWORD.*=|TOKEN.*="; then
+  echo -e "${YELLOW}⚠️  WARNING: Potential secret detected in staged changes${NC}"
+  echo ""
+  echo "Found potential secret patterns in your changes."
+  echo "Review carefully to ensure no actual secrets are being committed."
+  echo ""
+  echo "To abort commit: Ctrl+C"
+  echo "To continue anyway: Press Enter"
+  read -r
+fi
+
+echo -e "${GREEN}✓ Pre-commit checks passed${NC}"
+exit 0

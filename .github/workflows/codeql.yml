@@ -1,0 +1,79 @@
+---
+name: "CodeQL Security Scan"
+
+on:
+  push:
+    branches: [main, yolo]
+  pull_request:
+    branches: [main, yolo]
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly on Mondays at 6 AM UTC
+
+jobs:
+  analyze:
+    name: Analyze Code
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript, typescript]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended,security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+
+      - name: Check for New P1 Alerts
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Checking for NEW critical alerts introduced by this PR..."
+
+          # Get base branch (main or yolo)
+          BASE_REF="${{ github.base_ref }}"
+
+          # Get current commit
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          # Fetch all open P1 alerts for current branch
+          CURRENT_ALERTS=$(gh api repos/${{ github.repository }}/code-scanning/alerts \
+            --jq '[.[] | select(.state == "open" and .rule.severity == "error" and .most_recent_instance.ref == "refs/heads/${{ github.head_ref }}") | .rule.id] | unique | sort')
+
+          # Fetch all open P1 alerts for base branch
+          BASE_ALERTS=$(gh api repos/${{ github.repository }}/code-scanning/alerts \
+            --jq '[.[] | select(.state == "open" and .rule.severity == "error" and .most_recent_instance.ref == "refs/heads/'"$BASE_REF"'") | .rule.id] | unique | sort')
+
+          # Find new alerts (present in current but not in base)
+          NEW_ALERTS=$(comm -13 <(echo "$BASE_ALERTS") <(echo "$CURRENT_ALERTS"))
+
+          # Check if there are actual new alerts (not empty, not just "[]")
+          if [ -n "$NEW_ALERTS" ] && [ "$NEW_ALERTS" != "" ] && [ "$NEW_ALERTS" != "[]" ]; then
+            echo "❌ NEW P1 (critical) alerts detected:"
+            echo "$NEW_ALERTS"
+            echo ""
+            echo "Please review and fix these critical security issues before merging."
+            echo "View alerts: https://github.com/${{ github.repository }}/security/code-scanning"
+            exit 1
+          else
+            echo "✅ No new P1 alerts introduced by this PR"
+            echo "Existing alerts (if any) are documented as false positives"
+          fi

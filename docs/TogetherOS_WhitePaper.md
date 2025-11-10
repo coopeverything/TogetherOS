@@ -116,9 +116,9 @@
 <h2>6) Modules (Feature Inventory)</h2>
 
 <ul>
-  <li><strong>Forum &amp; Decision Pipeline:</strong> Evidence bundles, option trees, positions, RCV/approval/consent votes, objection handling, minority reports, audits.</li>
+  <li><strong>Feed &amp; Forum Pipeline:</strong> Social media feed with imported content (Instagram, TikTok, X, Facebook) and multi-dimensional reactions (care, insightful, agree, act) → structured discussion threads with evidence bundles, option trees, positions, RCV/approval/consent votes, objection handling, minority reports, audits.</li>
   <li><strong>Initiatives &amp; Delivery:</strong> Task graphs, owners, estimates, reviews, proof lines, public dashboards.</li>
-  <li><strong>Community Features:</strong> Social feed, events, mutual-aid classifieds, skill exchange, mobility/couch-surfing, friendships and relationship tools.</li>
+  <li><strong>Community Features:</strong> Feed-based discovery, events, mutual-aid classifieds, skill exchange, mobility/couch-surfing, friendships and relationship tools.</li>
   <li><strong>Economy Tools:</strong> Support Points, time-bank ledger, pooled funds, donations/dues, collective purchasing flows, SH currency bridge.</li>
   <li><strong>Onboarding &amp; Reputation:</strong> Archetype profiles, capability unlocks, badges; transparent contribution history.</li>
   <li><strong>Federation:</strong> Inter-group sync, cross-pollinated proposals, shared execution; local autonomy by default.</li>

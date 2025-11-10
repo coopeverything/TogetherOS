@@ -14,6 +14,7 @@ TogetherOS/
 │   │   │   ├── (platform)/     # Main app routes
 │   │   │   │   ├── governance/
 │   │   │   │   ├── bridge/
+│   │   │   │   ├── feed/
 │   │   │   │   ├── forum/
 │   │   │   │   ├── profiles/
 │   │   │   │   └── groups/
@@ -34,6 +35,7 @@ TogetherOS/
 │   │   │   │   │   ├── handlers/
 │   │   │   │   │   └── fixtures/
 │   │   │   │   ├── bridge/
+│   │   │   │   ├── feed/
 │   │   │   │   ├── profiles/
 │   │   │   │   └── groups/
 │   │   │   ├── lib/

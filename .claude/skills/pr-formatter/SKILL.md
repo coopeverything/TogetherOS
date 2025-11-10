@@ -159,18 +159,69 @@ gh pr create --base yolo --head feature-branch --title "[Title]" --body "[Format
 - Other automated reviewers
 
 **Process:**
-1. After PR created, wait ~30 seconds for AI reviewers to analyze
-2. Check for comments: `gh pr view <PR#> --comments`
-3. Review all Copilot/Codex suggestions
-4. Address each comment:
-   - If valid concern: Fix the issue, commit, push
-   - If false positive: Reply explaining why it's not an issue
-5. Repeat until all AI reviewers are satisfied
-6. Wait for all checks to turn green
+1. After PR created, wait ~60 seconds for AI reviewers to analyze (Codex + Copilot)
+2. **Check for inline code comments** (use multiple API endpoints):
+   ```bash
+   # CRITICAL: Check Codex inline review comments (try multiple endpoints)
+
+   # Endpoint 1: Pull request comments
+   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
+     --jq '.[] | select(.user.login == "chatgpt-codex-connector") | {file: .path, line: .line, body: .body}'
+
+   # Endpoint 2: Pull request reviews
+   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/reviews \
+     --jq '.[] | select(.user.login == "chatgpt-codex-connector")'
+
+   # Endpoint 3: Issue comments (general PR comments)
+   gh api repos/coopeverything/TogetherOS/issues/<PR#>/comments \
+     --jq '.[] | select(.user.login == "chatgpt-codex-connector")'
+
+   # Check Copilot inline comments (all endpoints)
+   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
+     --jq '.[] | select(.user.login | contains("copilot")) | {file: .path, line: .line, body: .body}'
+
+   gh api repos/coopeverything/TogetherOS/pulls/<PR#>/reviews \
+     --jq '.[] | select(.user.login | contains("copilot"))'
+   ```
+3. **MANDATORY: Always verify on web UI** (not just when API returns empty):
+   ```bash
+   gh pr view <PR#> --web
+   ```
+   **Verification checklist:**
+   - [ ] Open "Files Changed" tab
+   - [ ] Scroll through EVERY changed file
+   - [ ] Look for comment badges/icons on line numbers
+   - [ ] Read ALL inline comments (not just review summary)
+   - [ ] Confirm P1 issues identified in API queries match web UI
+   - [ ] Look for comments that API might have missed
+
+   **CRITICAL:** GitHub API sometimes returns empty results even when comments exist. Web UI inspection is REQUIRED for every PR, not optional.
+4. **Categorize feedback by priority**:
+   - **P1 (Critical)**: MUST fix - security, build artifacts, breaking changes
+   - **P2 (Important)**: SHOULD fix - code quality, performance, best practices
+   - **P3 (Nice-to-have)**: CAN defer - style, minor suggestions
+5. **Fix all P1 issues before proceeding**:
+   - Read the issue carefully
+   - Fix the code
+   - Commit: `git commit -m "fix: address Codex P1 - [description]"`
+   - Push to update PR
+   - Wait for re-review
+6. Check for Copilot sub-PRs:
+   ```bash
+   gh pr list --author "app/copilot-swe-agent" --search "sub-pr-<PR#>"
+   ```
+7. Repeat until all AI reviewers satisfied and checks green
 
 **Commands:**
 ```bash
-# View PR comments
+# Check inline comments (preferred method)
+gh api repos/coopeverything/TogetherOS/pulls/<PR#>/comments \
+  --jq '.[] | select(.user.login == "chatgpt-codex-connector" or (.user.login | contains("copilot")))'
+
+# View PR on web if API queries fail
+gh pr view <PR#> --web
+
+# Check general PR comments
 gh pr view <PR#> --comments
 
 # Check CI status
@@ -180,7 +231,7 @@ gh pr checks <PR#>
 gh run view <run-id> --log-failed
 
 # After fixing issues
-git add . && git commit -m "fix: address Copilot feedback"
+git add . && git commit -m "fix: address Codex P1 - [specific issue]"
 git push
 ```
 

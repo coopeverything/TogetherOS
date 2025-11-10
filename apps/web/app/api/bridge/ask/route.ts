@@ -15,12 +15,36 @@ import {
   getSources,
   type DocEntry,
 } from '@/lib/bridge/docs-indexer';
+import { fetchUserContext, fetchCityContext } from '../../../../lib/bridge/context-service';
+import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
+import type { ActivityRecommendation as ActivityRec } from '@togetheros/types';
+import { getCurrentUser } from '@/lib/auth/middleware';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const BRIDGE_SYSTEM_PROMPT = `You are Bridge, the assistant of TogetherOS. Speak plainly, avoid jargon, and emphasize cooperation, empathy, and human decision-making. Answer only what was asked. Prefer concrete examples over abstractions and be concise.`;
+const BRIDGE_SYSTEM_PROMPT = `You are Bridge, the assistant of TogetherOS. Your role is to guide people through cooperation, not just answer questions directly.
+
+When someone asks you a question:
+1. First, ask clarifying questions to understand their situation better
+2. Guide them step-by-step through their options
+3. Help them think through what actions they can take
+4. Be conversational, empathetic, and encouraging
+
+For example:
+- If someone asks "What can 15 people do?" → Ask: "Are you already in contact with them?"
+- If they say "No" → Suggest: "Would you like to reach out to them? 15 people make a nice number for a meeting..."
+- If they say "Yes" → Ask: "Have you organized a meeting yet?"
+
+Speak plainly, avoid jargon, emphasize cooperation and empathy. Be concise and use concrete examples.
+
+**FORMATTING GUIDELINES:**
+- Use ### for section headings when structuring your response
+- Use - or * for bullet lists when presenting options or steps
+- Use **bold** for emphasis on key terms or important concepts
+- Make links clickable by using [descriptive text](URL) format
+- Structure complex answers with clear sections and lists for readability`;
 
 // Cache the document index in memory
 let docsIndex: DocEntry[] | null = null;
@@ -29,9 +53,14 @@ function getDocsIndex(): DocEntry[] {
   if (!docsIndex) {
     try {
       // Build index from /docs directory
-      const docsPath = join(process.cwd(), '..', '..', 'docs');
+      // Use environment variable or intelligent fallbacks based on deployment context
+      const docsPath = process.env.BRIDGE_DOCS_PATH ||
+        (process.env.NODE_ENV === 'production'
+          ? join(process.cwd(), 'docs')  // Production: docs at root level
+          : join(process.cwd(), '..', '..', 'docs'));  // Development: monorepo structure
+
       docsIndex = buildIndex(docsPath);
-      console.log(`[Bridge] Indexed ${docsIndex.length} documents`);
+      console.log(`[Bridge] Indexed ${docsIndex.length} documents from ${docsPath}`);
     } catch (error) {
       console.error('[Bridge] Error building docs index:', error);
       docsIndex = [];
@@ -51,6 +80,10 @@ export async function POST(request: NextRequest) {
     // Parse request body
     const body = await request.json().catch(() => ({}));
     const question = body.question?.trim();
+    const conversationHistory = body.conversationHistory || []; // Array of {role, content}
+
+    // Get authenticated user (optional - Bridge works for both authenticated and anonymous users)
+    const user = await getCurrentUser(request);
 
     // Validate input - 204 for empty
     if (!question || question.length === 0) {
@@ -65,16 +98,17 @@ export async function POST(request: NextRequest) {
 
     // Check API key - 401 for missing/invalid
     if (!OPENAI_API_KEY) {
+      console.error('[Bridge] OPENAI_API_KEY environment variable is not set. Please configure it in your .env file.');
       logBridgeAction({
         action: 'error',
         ip_hash: ipHash,
         q_len: question.length,
         status: 401,
-        error: 'API key not configured',
+        error: 'OPENAI_API_KEY not configured',
         latency_ms: Date.now() - startTime,
       });
       return NextResponse.json(
-        { error: 'Service not configured' },
+        { error: 'Service not configured. Please contact the administrator.' },
         { status: 401 }
       );
     }
@@ -112,21 +146,84 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Fetch user and city context (only for authenticated users)
+    let userContext = null;
+    let cityContext = null;
+    const suggestedActivities: ActivityRec[] = [];
+
+    if (user) {
+      try {
+        // Fetch user context with personalized interests
+        userContext = await fetchUserContext({ userId: user.id });
+
+        // Fetch city context if user has location data
+        if (userContext.city && userContext.region) {
+          cityContext = await fetchCityContext({
+            city: userContext.city,
+            region: userContext.region,
+          });
+        }
+      } catch (error) {
+        console.warn('Failed to fetch user/city context, continuing without it:', error);
+        // Continue without context - Bridge still works for anonymous users
+      }
+    }
+
     // Get relevant documentation context (RAG)
     const index = getDocsIndex();
     const context = getRelevantExcerpts(index, question, 1500);
     const sources = getSources(index, question, 3);
 
     // Build enhanced system prompt with context
-    const enhancedSystemPrompt = context
-      ? `${BRIDGE_SYSTEM_PROMPT}
+    let enhancedSystemPrompt = BRIDGE_SYSTEM_PROMPT;
+
+    // Add user context (personalization) if authenticated
+    if (userContext) {
+      const interests = [
+        ...userContext.explicitInterests,
+        ...userContext.implicitInterests.slice(0, 3).map(i => i.topic)
+      ].slice(0, 5);
+
+      enhancedSystemPrompt += `
+
+User context (for personalization):
+- Location: ${userContext.city}, ${userContext.region}
+- Interests: ${interests.join(', ')}
+- Engagement level: ${userContext.engagementScore}/100
+- Active groups: ${userContext.groupMemberships.length}
+
+Use this context to provide more relevant, personalized guidance.`;
+    }
+
+    // Add city context (local opportunities) if available
+    if (cityContext && cityContext.activeGroups.length > 0) {
+      const topGroups = cityContext.activeGroups.slice(0, 3);
+      enhancedSystemPrompt += `
+
+Local context (${cityContext.city}):
+- Active groups: ${topGroups.map(g => g.name).join(', ')}
+- Trending topics: ${cityContext.trendingTopics.slice(0, 5).join(', ')}
+
+Mention relevant local groups or events when appropriate.`;
+    }
+
+    // Add documentation context (RAG)
+    if (context) {
+      enhancedSystemPrompt += `
 
 Use the following documentation to inform your answer:
 
 ${context}
 
-Cite sources when relevant using the format [Source: title].`
-      : BRIDGE_SYSTEM_PROMPT;
+Cite sources when relevant using the format [Source: title].`;
+    }
+
+    // Build messages array with conversation history
+    const messages = [
+      { role: 'system', content: enhancedSystemPrompt },
+      ...conversationHistory, // Previous messages in the conversation
+      { role: 'user', content: question }, // Current question
+    ];
 
     // Call OpenAI API with streaming
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -137,10 +234,7 @@ Cite sources when relevant using the format [Source: title].`
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
-        messages: [
-          { role: 'system', content: enhancedSystemPrompt },
-          { role: 'user', content: question },
-        ],
+        messages,
         stream: true,
         max_tokens: 500,
         temperature: 0.7,
@@ -230,10 +324,10 @@ Cite sources when relevant using the format [Source: title].`
             }
           }
 
-          // Append sources at the end
+          // Append sources at the end with structured formatting
           if (sources.length > 0) {
-            const sourcesText = '\n\n---\n\n**Sources:**\n' +
-              sources.map(s => `- [${s.title}](https://github.com/coopeverything/TogetherOS/blob/main/docs/${s.path})`).join('\n');
+            const sourcesText = '\n\n---\n\n### Sources\n\n' +
+              sources.map(s => `- [${s.title}](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/${s.path})`).join('\n');
             controller.enqueue(encoder.encode(sourcesText));
           }
         } catch (error) {

@@ -1,6 +1,6 @@
 # Auto-Deploy Production Setup
 
-**Last Updated:** 2025-10-30
+**Last Updated:** 2025-11-06
 
 This guide explains how to set up automatic deployment from the `yolo` branch to production (coopeverything.org).
 
@@ -21,11 +21,15 @@ SSH into VPS
     ↓
 Run deployment:
   1. git pull origin yolo
-  2. npm install
-  3. npm run build
-  4. pm2 restart togetheros
+  2. Run database migrations (automatic)
+  3. npm install
+  4. npm run build
+  5. pm2 restart togetheros
     ↓
-Verify deployment
+Verify deployment health:
+  - PM2 status check
+  - /api/health endpoint
+  - Homepage & signup page tests
     ↓
 ✅ Live at coopeverything.org
 ```
@@ -307,13 +311,59 @@ on:
 
 ---
 
+## Database Migrations
+
+### How They Work
+
+Migrations run automatically on every deployment:
+
+1. **Loads credentials** from `/var/www/togetheros/.env`
+2. **Connects** using `DATABASE_URL` (togetheros_app user)
+3. **Runs** `scripts/run-migrations.sh`
+4. **Tracks** applied migrations in `schema_migrations` table
+5. **Skips** already-applied migrations (idempotent)
+
+**Graceful failure:** If migrations fail, deployment continues. Health checks determine success.
+
+### Manual Migration Run
+
+```bash
+# SSH into production
+ssh root@72.60.27.167
+
+# Navigate to project
+cd /var/www/togetheros
+
+# Load database credentials and run migrations
+export $(grep DATABASE_URL .env | xargs)
+bash scripts/run-migrations.sh
+```
+
+### Migration Troubleshooting
+
+**Migration fails with "Cannot connect to database":**
+- Check `.env` file exists and has valid `DATABASE_URL`
+- Verify PostgreSQL is running: `systemctl status postgresql`
+- Test connection: `psql $DATABASE_URL -c '\q'`
+
+**Migration fails with "permission denied":**
+- App user needs `GRANT CREATE ON SCHEMA public`
+- Contact DB admin or use superuser for schema changes
+
+**View migration status:**
+```bash
+psql $DATABASE_URL -c "SELECT filename, applied_at FROM schema_migrations ORDER BY applied_at DESC LIMIT 10;"
+```
+
+---
+
 ## Future Improvements
 
 - [ ] Add automated tests before deployment
 - [ ] Add Slack/Discord notifications on deploy
-- [ ] Add database migration step
-- [ ] Add health check after deployment
-- [ ] Add automatic rollback on health check failure
+- [x] Add database migration step (✅ Implemented 2025-11-06)
+- [x] Add health check after deployment (✅ Implemented 2025-11-06)
+- [x] Add automatic rollback on health check failure (✅ Implemented 2025-11-06)
 - [ ] Create staging environment for testing
 - [ ] Add deployment metrics/analytics
 

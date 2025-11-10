@@ -87,7 +87,7 @@ interface GroupMembership {
 
 ### Thematic Groups
 - **Interest-based:** Topic, skill, or cause
-- **Virtual-first:** Can span locations
+- **Virtual-first:** Can span locations accross the globe
 - **Focused collaboration:** Specific projects or learning
 - **Example:** "Open Source Educators", "Climate Adaptation Network"
 
@@ -95,7 +95,7 @@ interface GroupMembership {
 - **Cross-instance:** Connect groups across TogetherOS instances
 - **Shared proposals:** Coordinate multi-group initiatives
 - **Decentralized governance:** Each group maintains autonomy
-- **Example:** "@coop-housing@boston.togetheros.org ↔ @housing@portland.togetheros.org"
+- **Example:** "@coop-housing@boston.coopeverything.org ↔ @housing@portland.coopeverything.org"
 
 ---
 
@@ -442,7 +442,7 @@ export const groupsRouter = router({
 ```
 
 **Examples:**
-- `@boston-coop@togetheros.org`
+- `@boston-coop@coopeverything.org`
 - `@housing-alliance@coops.boston.ma.us`
 
 ### Federated Operations
@@ -522,6 +522,7 @@ interface FederatedGroupSync {
 - **Events:** Group events calendar
 - **Social Economy:** Shared resource pools
 - **Forum:** Group discussions
+- **Gamification:** Milestone tracking, growth progress bars, invitation rewards (see `docs/modules/gamification.md`)
 
 ---
 
@@ -566,6 +567,7 @@ interface FederatedGroupSync {
 - [Cooperation Paths](../cooperation-paths.md) — Community Connection taxonomy
 - [Governance Module](./governance.md) — Group-scoped proposals
 - [Social Economy](./social-economy.md) — Shared resource coordination
+- [Gamification Module](./gamification.md) — Local community growth tracking, milestones, invitation rewards
 
 ---
 

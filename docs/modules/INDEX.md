@@ -13,7 +13,9 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Identity & Auth](./auth.md)
 - [Profiles](./profiles.md)
 - [Groups & Orgs](./groups.md)
-- [Forum / Deliberation](./forum.md)
+- [Feed](./feed.md) — Social media feed with imported content, multi-dimensional reactions, and discussion initiation (Phase 1: 20% complete)
+- [Gamification](./gamification.md) — Local community growth tracking, milestone celebrations, invitation rewards (15% complete — spec only)
+- [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation (Feed discussions flow here)
 - [Proposals & Decisions (Governance)](../../governance.md)
 - [Social Economy Primitives](modules/social-economy.md)
 - [Support Points & Reputation](./reputation.md)
@@ -25,6 +27,9 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Docs Site Hooks](./docs-hooks.md)
 - [Observability](./observability.md)
 - [Security & Privacy](./security.md)
+- [Admin Accountability](./admin-accountability.md) — Decision implementation tracking with cooperative safeguards (0% — spec only)
+- [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP → SP exchange (0% — spec only)
+- [Moderation Transparency](./moderation-transparency.md) — Quality-scored moderation with RP incentives (0% — spec only)
 
 ## Knowledge Base (Comprehensive Specs)
 

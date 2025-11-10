@@ -81,43 +81,111 @@ jobs:
           SSH_HOST: ${{ secrets.VPS_HOST }}
           SSH_USER: ${{ secrets.VPS_USER }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} << 'ENDSSH'
-            set -e
+          set +e
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} bash -s << 'ENDSSH'
+            set -exuo pipefail
             echo "🚀 Starting deployment..."
 
             cd /var/www/togetheros
 
             echo "→ Pulling latest code from yolo..."
-            git fetch origin yolo
-            git reset --hard origin/yolo
+            git fetch origin yolo 2>&1
+            git reset --hard origin/yolo 2>&1
+
+            echo "→ Running database migrations..."
+            set +e
+            # Load DATABASE_URL from .env for migrations
+            export $(grep -v '^#' .env | grep DATABASE_URL | xargs)
+            bash scripts/run-migrations.sh 2>&1
+            MIGRATION_EXIT=$?
+            set -e
+            if [ $MIGRATION_EXIT -ne 0 ]; then
+              echo "⚠️  Migration failed (exit code: $MIGRATION_EXIT), continuing with deployment..."
+              echo "Database may need manual intervention"
+            fi
 
             echo "→ Installing dependencies..."
-            npm install --production=false
+            npm install --production=false 2>&1 | tail -20
 
             echo "→ Building TypeScript packages..."
-            npm run build:packages
+            npm run build:packages 2>&1 | tail -10
 
             echo "→ Cleaning previous build..."
             cd apps/web
             rm -rf .next
+            echo "✓ .next directory removed"
 
             echo "→ Building application..."
-            npm run build
+            npm run build 2>&1 || {
+              echo "❌ Build failed!"
+              exit 1
+            }
+            echo "✓ Build complete"
 
             echo "→ Restarting PM2..."
-            pm2 restart togetheros || pm2 start ecosystem.config.js
+            pm2 restart togetheros 2>&1 || pm2 start ecosystem.config.js 2>&1
+            pm2 status togetheros 2>&1
 
             echo "✅ Deployment complete!"
             echo "Visit: https://coopeverything.org"
           ENDSSH
+          SSH_EXIT=$?
+          set -e
 
-      - name: Verify deployment
+          if [ $SSH_EXIT -ne 0 ]; then
+            echo "⚠️  SSH deployment script returned exit code $SSH_EXIT"
+            echo "Deployment may have encountered issues - health checks will verify"
+          fi
+
+      - name: Verify deployment health
         env:
           SSH_HOST: ${{ secrets.VPS_HOST }}
           SSH_USER: ${{ secrets.VPS_USER }}
         run: |
-          sleep 5
-          ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "pm2 status togetheros"
+          echo "⏳ Waiting for application to stabilize..."
+          sleep 15
+
+          echo "🔍 Checking PM2 status..."
+          PM2_STATUS=$(ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "pm2 status togetheros | grep togetheros | grep -c online" || echo "0")
+
+          if [ "$PM2_STATUS" -eq "0" ]; then
+            echo "❌ PM2 process not running, initiating rollback..."
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && echo '→ Rolling back to previous commit...' && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            exit 1
+          fi
+
+          echo "🏥 Checking /api/health endpoint..."
+          HEALTH_STATUS=$(curl -sf https://coopeverything.org/api/health | jq -r '.status' || echo "error")
+
+          if [ "$HEALTH_STATUS" != "ok" ] && [ "$HEALTH_STATUS" != "degraded" ]; then
+            echo "❌ Health check failed (status: $HEALTH_STATUS), initiating rollback..."
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && echo '→ Rolling back to previous commit...' && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros && echo '→ Rollback complete, waiting for recovery...' && sleep 10"
+
+            # Verify rollback succeeded
+            ROLLBACK_HEALTH=$(curl -sf https://coopeverything.org/api/health | jq -r '.status' || echo "error")
+            if [ "$ROLLBACK_HEALTH" == "ok" ] || [ "$ROLLBACK_HEALTH" == "degraded" ]; then
+              echo "✅ Rollback successful, previous version restored"
+            else
+              echo "🚨 CRITICAL: Rollback failed, manual intervention required"
+            fi
+            exit 1
+          fi
+
+          echo "🧪 Testing critical endpoints..."
+          curl -f https://coopeverything.org/ || {
+            echo "❌ Homepage failed, initiating rollback..."
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            exit 1
+          }
+
+          curl -f https://coopeverything.org/signup || {
+            echo "❌ Signup page failed, initiating rollback..."
+            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            exit 1
+          }
+
+          echo "✅ All health checks passed!"
+          echo "HEALTH_STATUS=$HEALTH_STATUS"
 
       - name: Cleanup SSH key
         if: always()

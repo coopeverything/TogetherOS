@@ -31,7 +31,7 @@ export class Group {
     type: GroupTypeEnum
     description?: string
     location?: string
-    creatorId: string
+    creatorId?: string
   }): Group {
     const now = new Date()
 
@@ -43,7 +43,7 @@ export class Group {
       type: input.type,
       description: input.description,
       location: input.location,
-      members: [input.creatorId],
+      members: input.creatorId ? [input.creatorId] : [],
       createdAt: now,
       updatedAt: now,
     })
@@ -180,10 +180,10 @@ export class Group {
   }
 
   /**
-   * Check if group is federated
+   * Check if group is global (formerly federated)
    */
-  get isFederated(): boolean {
-    return this.type === 'federated'
+  get isGlobal(): boolean {
+    return this.type === 'global'
   }
 
   /**

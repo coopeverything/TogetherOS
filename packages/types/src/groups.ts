@@ -4,7 +4,20 @@
 /**
  * Group type classifications
  */
-export type GroupType = 'local' | 'thematic' | 'federated'
+export type GroupType = 'local' | 'national' | 'global'
+
+/**
+ * Cooperation Path categories (one of 8 core paths)
+ */
+export type CooperationPath =
+  | 'Collaborative Education'
+  | 'Social Economy'
+  | 'Common Wellbeing'
+  | 'Cooperative Technology'
+  | 'Collective Governance'
+  | 'Community Connection'
+  | 'Collaborative Media & Culture'
+  | 'Common Planet'
 
 /**
  * Member role within a group
@@ -41,6 +54,33 @@ export interface Group {
 
   /** Array of member IDs */
   members: string[]
+
+  /** Custom searchable tags (0-5 tags) */
+  tags?: string[]
+
+  /** Required cooperation path (one of 8 paths, optional for city groups) */
+  cooperationPath?: CooperationPath
+
+  /** Whether this is an auto-created city group */
+  isCityGroup?: boolean
+
+  /** Number of moderators (first 5 members for city groups) */
+  moderatorCount?: number
+
+  /** User who created the group (null for system-created city groups) */
+  creatorId?: string
+
+  /** Geocoded city name (for city groups) */
+  geocodedCity?: string
+
+  /** Geocoded state (for city groups) */
+  geocodedState?: string
+
+  /** Latitude coordinate */
+  latitude?: number
+
+  /** Longitude coordinate */
+  longitude?: number
 
   /** When group was created */
   createdAt: Date
@@ -142,8 +182,26 @@ export interface GroupFilters {
   /** Filter by group type */
   type?: GroupType
 
+  /** Filter by cooperation path */
+  cooperationPath?: CooperationPath
+
+  /** Filter by tags (match any of these tags) */
+  tags?: string[]
+
   /** Filter by location (partial match) */
   location?: string
+
+  /** Filter by city (exact match) */
+  city?: string
+
+  /** Filter by state */
+  state?: string
+
+  /** Exclude city groups */
+  excludeCityGroups?: boolean
+
+  /** Only city groups */
+  onlyCityGroups?: boolean
 
   /** Filter by member count range */
   memberCount?: {
@@ -183,8 +241,29 @@ export interface CreateGroupInput {
   /** Optional location (required for local groups) */
   location?: string
 
-  /** Initial member ID (creator) */
-  creatorId: string
+  /** Custom tags (0-5 tags) */
+  tags?: string[]
+
+  /** Required cooperation path (defaults to "Community Connection" for city groups) */
+  cooperationPath?: CooperationPath
+
+  /** Whether this is a city group (system-created only) */
+  isCityGroup?: boolean
+
+  /** Initial member ID (creator, null for city groups) */
+  creatorId?: string
+
+  /** Geocoded city (for city groups) */
+  geocodedCity?: string
+
+  /** Geocoded state (for city groups) */
+  geocodedState?: string
+
+  /** Latitude (for city groups) */
+  latitude?: number
+
+  /** Longitude (for city groups) */
+  longitude?: number
 }
 
 /**
@@ -239,6 +318,48 @@ export interface GroupStats {
 
   /** Last time stats were calculated */
   calculatedAt: Date
+}
+
+/**
+ * Group moderator assignment
+ * First 5 members of city groups become moderators
+ */
+export interface GroupModerator {
+  /** Unique identifier (UUID v4) */
+  id: string
+
+  /** Group ID */
+  groupId: string
+
+  /** User ID */
+  userId: string
+
+  /** When moderator status was granted */
+  grantedAt: Date
+
+  /** Who granted moderator status ('system' or user ID) */
+  grantedBy: string
+}
+
+/**
+ * Group member tracking
+ * Replaces members JSONB array for better querying
+ */
+export interface GroupMember {
+  /** Unique identifier (UUID v4) */
+  id: string
+
+  /** Group ID */
+  groupId: string
+
+  /** User ID */
+  userId: string
+
+  /** When user joined the group */
+  joinedAt: Date
+
+  /** Membership status */
+  status: 'active' | 'inactive' | 'left'
 }
 
 /**

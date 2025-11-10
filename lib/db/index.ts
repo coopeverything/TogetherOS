@@ -5,16 +5,26 @@
 
 import { Pool, QueryResult, QueryResultRow } from 'pg';
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  database: process.env.DB_NAME || 'togetheros',
-  user: process.env.DB_USER || 'togetheros_app',
-  password: process.env.DB_PASSWORD || 'togetheros2025_secure_pw',
-  max: 20, // Maximum pool size
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+// Support both DATABASE_URL (production) and individual env vars (development)
+const poolConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
+    }
+  : {
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '5432'),
+      database: process.env.DB_NAME || 'togetheros',
+      user: process.env.DB_USER || 'togetheros_app',
+      password: process.env.DB_PASSWORD || 'togetheros2025_secure_pw',
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
+    };
+
+const pool = new Pool(poolConfig);
 
 // Test connection on startup
 pool.on('error', (err) => {
@@ -59,4 +69,7 @@ export async function close() {
   await pool.end();
 }
 
-export default { query, getClient, close };
+// Export pool for health checks
+export { pool };
+
+export default { query, getClient, close, pool };

@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import { GroupList } from '@togetheros/ui/groups'
+import { LocalStorageGroupRepo } from '../../lib/repos/LocalStorageGroupRepo'
 import { getFixtureGroups } from '../../../api/src/modules/groups/fixtures'
 
 export default function GroupsPage() {
-  // Load fixture data (in production, this would be fetched from API)
-  const groups = getFixtureGroups()
+  // Load groups from localStorage (includes fixtures + user-created groups)
+  const repo = new LocalStorageGroupRepo(getFixtureGroups())
+  const groups = repo.getAll()
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

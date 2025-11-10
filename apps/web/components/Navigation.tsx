@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-const navItems = [
+const baseNavItems = [
   { href: '/', label: 'Home' },
   { href: '/dashboard', label: 'Dashboard' },
+  { href: '/feed', label: 'Feed' },
   { href: '/groups', label: 'Groups' },
   { href: '/forum', label: 'Forum' },
   { href: '/proposals', label: 'Proposals' },
@@ -18,6 +19,25 @@ const navItems = [
 export default function Navigation() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  // Fetch user auth state to determine if admin
+  useEffect(() => {
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.user?.is_admin) {
+          setIsAdmin(true)
+        }
+      })
+      .catch(() => {}) // Silently fail if not logged in
+  }, [])
+
+  // Add Admin link for admin users
+  const navItems = [
+    ...baseNavItems,
+    ...(isAdmin ? [{ href: '/admin', label: 'Admin' }] : []),
+  ]
 
   const isActive = (href: string) => {
     if (href === '/') {

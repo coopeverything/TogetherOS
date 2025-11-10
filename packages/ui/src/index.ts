@@ -3,5 +3,10 @@
 
 // Re-export all component modules
 export * from './bridge'
+export * from './bridge-training'
+export * from './feed'
+export * from './governance'
 export * from './groups'
+export * from './notifications'
 export * from './profiles'
+export * from './recommendations'

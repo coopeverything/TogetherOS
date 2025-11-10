@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { PublicProfileClient } from './PublicProfileClient';
+import { findUserByUsername } from '@/lib/db/users';
 
 interface User {
   id: string;
@@ -19,17 +20,29 @@ interface User {
 
 async function getPublicProfile(username: string): Promise<User | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/profile/${username}`, {
-      cache: 'no-store',
-    });
+    // Use direct database access instead of HTTP fetch (Server Component pattern)
+    const user = await findUserByUsername(username, true);
 
-    if (!response.ok) {
+    if (!user) {
       return null;
     }
 
-    const data = await response.json();
-    return data.user;
+    // Return only public profile fields
+    return {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      bio: user.bio,
+      avatar_url: user.avatar_url,
+      city: user.city,
+      state: user.state,
+      country: user.country,
+      paths: user.paths,
+      skills: user.skills,
+      can_offer: user.can_offer,
+      seeking_help: user.seeking_help,
+      created_at: user.created_at?.toISOString(),
+    };
   } catch (error) {
     console.error('Failed to fetch public profile:', error);
     return null;
@@ -39,9 +52,10 @@ async function getPublicProfile(username: string): Promise<User | null> {
 export default async function PublicProfilePage({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
-  const user = await getPublicProfile(params.username);
+  const { username } = await params;
+  const user = await getPublicProfile(username);
 
   if (!user) {
     notFound();

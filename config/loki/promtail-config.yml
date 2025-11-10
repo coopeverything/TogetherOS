@@ -1,0 +1,103 @@
+---
+# Promtail Configuration for TogetherOS
+# Ships NDJSON logs to Loki
+
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  # Bridge logs
+  - job_name: bridge-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: bridge
+          __path__: /var/log/togetheros/bridge/*.ndjson
+    pipeline_stages:
+      - json:
+          expressions:
+            id: id
+            ts: ts
+            action: action
+            latency_ms: latency_ms
+            status: status
+      - labels:
+          action:
+          status:
+      - timestamp:
+          source: ts
+          format: RFC3339
+
+  # Error logs
+  - job_name: error-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: errors
+          __path__: /var/log/togetheros/errors/*.ndjson
+    pipeline_stages:
+      - json:
+          expressions:
+            id: id
+            ts: ts
+            severity: severity
+            message: message
+      - labels:
+          severity:
+      - timestamp:
+          source: ts
+          format: RFC3339
+
+  # Performance logs
+  - job_name: perf-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: performance
+          __path__: /var/log/togetheros/perf/*.ndjson
+    pipeline_stages:
+      - json:
+          expressions:
+            id: id
+            ts: ts
+            path: path
+            method: method
+            latency_ms: latency_ms
+            status: status
+      - labels:
+          path:
+          method:
+          status:
+      - timestamp:
+          source: ts
+          format: RFC3339
+
+  # Security logs
+  - job_name: security-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: security
+          __path__: /var/log/togetheros/auth/*.ndjson
+    pipeline_stages:
+      - json:
+          expressions:
+            id: id
+            timestamp: timestamp
+            event_type: event_type
+      - labels:
+          event_type:
+      - timestamp:
+          source: timestamp
+          format: RFC3339

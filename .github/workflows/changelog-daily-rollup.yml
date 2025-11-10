@@ -1,0 +1,259 @@
+---
+name: Daily Changelog Summary
+
+on:
+  schedule:
+    # Run at 23:59 UTC daily (7:59 PM EST)
+    - cron: '59 23 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Date to summarize (YYYY-MM-DD format)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  daily-summary:
+    name: Generate daily deployment summary
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set date
+        id: date
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE="${{ github.event.inputs.date }}"
+          else
+            DATE=$(date '+%Y-%m-%d')
+          fi
+          echo "date=${DATE}" >> $GITHUB_OUTPUT
+
+          # Format for display
+          DISPLAY_DATE=$(date -d "${DATE}" '+%B %d, %Y' 2>/dev/null || echo "${DATE}")
+          echo "display_date=${DISPLAY_DATE}" >> $GITHUB_OUTPUT
+
+      - name: Analyze deployments
+        id: analyze
+        run: |
+          DATE="${{ steps.date.outputs.date }}"
+
+          # Count commits (deployments) for the day
+          DEPLOYMENT_COUNT=$(git log --since="${DATE} 00:00:00" --until="${DATE} 23:59:59" --oneline | wc -l)
+          echo "deployment_count=${DEPLOYMENT_COUNT}" >> $GITHUB_OUTPUT
+
+          # Get feature commits
+          FEATURES=$(git log --since="${DATE} 00:00:00" --until="${DATE} 23:59:59" --grep="^feat" --pretty=format:"- %s" || echo "")
+          echo "features<<EOF" >> $GITHUB_OUTPUT
+          echo "$FEATURES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Get bug fixes
+          FIXES=$(git log --since="${DATE} 00:00:00" --until="${DATE} 23:59:59" --grep="^fix" --pretty=format:"- %s" || echo "")
+          echo "fixes<<EOF" >> $GITHUB_OUTPUT
+          echo "$FIXES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Count by module
+          MODULES=$(git log --since="${DATE} 00:00:00" --until="${DATE} 23:59:59" --pretty=format:"%s" | \
+            grep -oP '^\w+\(\K[^)]+' | sort | uniq -c | sort -rn | \
+            awk '{printf "  - %s: %d changes\n", $2, $1}' || echo "")
+          echo "modules<<EOF" >> $GITHUB_OUTPUT
+          echo "$MODULES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Check for conflicts
+        id: conflicts
+        run: |
+          DATE="${{ steps.date.outputs.date }}"
+
+          # Run conflict detection script
+          if [ -f scripts/detect-merge-conflicts.sh ]; then
+            CONFLICT_OUTPUT=$(bash scripts/detect-merge-conflicts.sh "$DATE" 2>&1 || true)
+
+            # Extract conflict count
+            if echo "$CONFLICT_OUTPUT" | grep -q "Total conflicts detected:"; then
+              CONFLICT_COUNT=$(echo "$CONFLICT_OUTPUT" | grep "Total conflicts detected:" | grep -oP '\d+')
+            else
+              CONFLICT_COUNT=0
+            fi
+
+            # Extract conflicted files
+            CONFLICTED_FILES=$(echo "$CONFLICT_OUTPUT" | grep "^⚠" | sed 's/^⚠ //' || echo "")
+
+            echo "count=${CONFLICT_COUNT}" >> $GITHUB_OUTPUT
+            echo "files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CONFLICTED_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "count=0" >> $GITHUB_OUTPUT
+            echo "files=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create summary markdown
+        id: summary
+        run: |
+          DATE="${{ steps.date.outputs.date }}"
+          DISPLAY_DATE="${{ steps.date.outputs.display_date }}"
+          DEPLOYMENTS="${{ steps.analyze.outputs.deployment_count }}"
+          CONFLICTS="${{ steps.conflicts.outputs.count }}"
+
+          # Create archive directory
+          mkdir -p changelog/daily
+
+          # Generate summary
+          cat > "changelog/daily/${DATE}.md" << 'SUMMARY'
+          # Deployment Summary - ${{ steps.date.outputs.display_date }}
+
+          ## Overview
+          - **Total Deployments:** ${{ steps.analyze.outputs.deployment_count }}
+          - **Merge Conflicts:** ${{ steps.conflicts.outputs.count }}
+          - **Status:** ${{ steps.analyze.outputs.deployment_count > 0 && '✅ Active' || '⚠️ No Deployments' }}
+
+          ## Features Shipped
+          ${{ steps.analyze.outputs.features || 'No features deployed today' }}
+
+          ## Bug Fixes
+          ${{ steps.analyze.outputs.fixes || 'No bug fixes deployed today' }}
+
+          ## Module Activity
+          ${{ steps.analyze.outputs.modules || 'No module changes recorded' }}
+
+          ## Conflicts & Issues
+          SUMMARY
+
+          if [ "$CONFLICTS" -gt 0 ]; then
+            cat >> "changelog/daily/${DATE}.md" << 'CONFLICTS'
+          **⚠️ Files with parallel modifications:**
+          ${{ steps.conflicts.outputs.files }}
+
+          These files were modified by multiple PRs today and may have lost functionality.
+          Review carefully for missing features.
+          CONFLICTS
+          else
+            echo "✅ No merge conflicts detected - all features deployed cleanly" >> "changelog/daily/${DATE}.md"
+          fi
+
+          # Add metrics
+          cat >> "changelog/daily/${DATE}.md" << 'METRICS'
+
+          ---
+
+          ## Velocity Metrics
+          - **Deployments per hour:** $(( $DEPLOYMENTS / 24 ))
+          - **Average time between deployments:** $(( 1440 / ($DEPLOYMENTS + 1) )) minutes
+          - **Conflict rate:** $(( $CONFLICTS * 100 / ($DEPLOYMENTS + 1) ))%
+
+          ---
+
+          *Generated automatically by GitHub Actions at $(date -u '+%Y-%m-%d %H:%M:%S UTC')*
+          METRICS
+
+          # Output summary for GitHub issue
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          cat "changelog/daily/${DATE}.md" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update main CHANGELOG
+        run: |
+          DATE="${{ steps.date.outputs.date }}"
+          DISPLAY_DATE="${{ steps.date.outputs.display_date }}"
+          DEPLOYMENTS="${{ steps.analyze.outputs.deployment_count }}"
+          CONFLICTS="${{ steps.conflicts.outputs.count }}"
+
+          # Add daily summary link to main CHANGELOG
+          if [ -f CHANGELOG.md ] && grep -q "## \[Production\] - ${DATE}" CHANGELOG.md; then
+            # Find the section and add summary
+            awk -v date="${DATE}" -v display="${DISPLAY_DATE}" -v deps="${DEPLOYMENTS}" -v confs="${CONFLICTS}" '
+              /^## \[Production\] - '"$DATE"'/ {
+                print
+                print ""
+                print "### Daily Summary"
+                print "- **Total Deployments:** " deps
+                print "- **Conflicts Detected:** " confs
+                print "- [Full Report](changelog/daily/'"$DATE"'.md)"
+                printed = 1
+                next
+              }
+              printed && /^### Daily Summary/ {
+                # Skip if already added
+                skip = 1
+              }
+              skip && /^### / && !/^### Daily Summary/ {
+                skip = 0
+              }
+              !skip { print }
+            ' CHANGELOG.md > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
+          fi
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Add files
+          git add changelog/daily/*.md CHANGELOG.md
+
+          # Check for changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(changelog): daily summary for ${{ steps.date.outputs.date }}"
+
+            # Push with retry
+            max_retries=3
+            retry_count=0
+            while [ $retry_count -lt $max_retries ]; do
+              if git push origin yolo; then
+                echo "Successfully pushed daily summary"
+                break
+              else
+                retry_count=$((retry_count + 1))
+                if [ $retry_count -lt $max_retries ]; then
+                  echo "Push failed, retrying... (attempt $retry_count of $max_retries)"
+                  sleep 5
+                  git pull origin yolo --rebase
+                else
+                  echo "Failed to push after $max_retries attempts"
+                  exit 1
+                fi
+              fi
+            done
+          fi
+
+      - name: Create GitHub issue for high conflict days
+        if: steps.conflicts.outputs.count > 2
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = '${{ steps.date.outputs.date }}';
+            const conflicts = ${{ steps.conflicts.outputs.count }};
+            const summary = `${{ steps.summary.outputs.summary }}`;
+
+            // Create issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `⚠️ High Conflict Day: ${conflicts} conflicts on ${date}`,
+              body: summary,
+              labels: ['technical-debt', 'merge-conflicts', 'automated']
+            });
+
+            console.log(`Created issue for ${conflicts} conflicts on ${date}`);
+
+      - name: Output summary
+        run: |
+          echo "## Daily Deployment Summary - ${{ steps.date.outputs.display_date }}"
+          echo ""
+          echo "📊 **Deployments:** ${{ steps.analyze.outputs.deployment_count }}"
+          echo "⚠️ **Conflicts:** ${{ steps.conflicts.outputs.count }}"
+          echo ""
+          echo "Full report saved to: changelog/daily/${{ steps.date.outputs.date }}.md"

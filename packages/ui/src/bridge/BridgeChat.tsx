@@ -9,6 +9,7 @@
 
 import { useState, FormEvent } from 'react';
 import styles from './BridgeChat.module.css';
+import { renderMarkdown } from './markdown-renderer';
 
 export interface BridgeChatProps {
   /** Optional CSS class name for styling */
@@ -16,51 +17,6 @@ export interface BridgeChatProps {
 }
 
 type ChatState = 'idle' | 'loading' | 'streaming' | 'error' | 'rate-limited';
-
-/**
- * Convert markdown links to HTML
- * Parses [text](url) format into clickable <a> tags
- */
-function renderMarkdownLinks(text: string): JSX.Element[] {
-  const parts: JSX.Element[] = [];
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  let lastIndex = 0;
-  let match;
-  let key = 0;
-
-  while ((match = linkRegex.exec(text)) !== null) {
-    // Add text before the link
-    if (match.index > lastIndex) {
-      parts.push(
-        <span key={`text-${key++}`}>{text.slice(lastIndex, match.index)}</span>
-      );
-    }
-
-    // Add the link
-    const linkText = match[1];
-    const url = match[2];
-    parts.push(
-      <a
-        key={`link-${key++}`}
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles['bridge-link']}
-      >
-        {linkText}
-      </a>
-    );
-
-    lastIndex = match.index + match[0].length;
-  }
-
-  // Add remaining text
-  if (lastIndex < text.length) {
-    parts.push(<span key={`text-${key++}`}>{text.slice(lastIndex)}</span>);
-  }
-
-  return parts.length > 0 ? parts : [<span key="default">{text}</span>];
-}
 
 export function BridgeChat({ className }: BridgeChatProps) {
   const [question, setQuestion] = useState('');
@@ -177,11 +133,13 @@ export function BridgeChat({ className }: BridgeChatProps) {
 
         {answer && (
           <div className={styles['bridge-output']} role="region" aria-live="polite">
-            {answer.split('\n').map((line, idx) => (
-              <div key={idx}>
-                {renderMarkdownLinks(line)}
-              </div>
-            ))}
+            {renderMarkdown(answer, {
+              linkClassName: styles['bridge-link'],
+              headingClassName: styles['bridge-heading'],
+              paragraphClassName: styles['bridge-paragraph'],
+              listClassName: styles['bridge-list'],
+              sourceClassName: styles['bridge-source-link'],
+            })}
           </div>
         )}
 
