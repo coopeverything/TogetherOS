@@ -180,4 +180,80 @@ import { query } from '@/lib/db';
 
 ## Resolved Items
 
-_No resolved items yet._
+### Bridge User Context - Database Table Fallback (RESOLVED - 2025-11-10)
+
+**Status:** Resolved
+**Severity:** Medium (affected user experience)
+**Resolved By:** PR [#266](https://github.com/coopeverything/TogetherOS/pull/266), [#267](https://github.com/coopeverything/TogetherOS/pull/267)
+**Date Resolved:** 2025-11-10
+
+**Problem:**
+Bridge AI assistant was returning mock data ("Portland, Oregon") instead of real user data ("Los Angeles, California") when users were logged in. This occurred because `buildUserContextFromDB()` was failing when querying the `support_points_transactions` table, which doesn't exist yet in the production database.
+
+**Impact:**
+- Users saw incorrect location data in Bridge responses
+- Personalization features were non-functional
+- System fell back to hardcoded mock context
+
+**Root Cause:**
+`apps/web/lib/bridge/context-service-db.ts` performed 4 database queries to build user context:
+1. Query 1: `users` table (critical) ✅ exists
+2. Query 2: `user_interests` table ⚠️ exists but empty
+3. Query 3: `support_points_transactions` table ❌ doesn't exist
+4. Query 4: `user_activity` table ✅ exists
+
+When Query 3 failed, the entire function threw an error, triggering fallback to mock data in `context-service.ts`.
+
+**Solution:**
+Wrapped non-critical queries (2-4) in try-catch blocks:
+- Queries that fail now return empty arrays/zeros instead of throwing
+- Critical Query 1 (users table) kept unwrapped to fail fast if broken
+- Functions now gracefully degrade with partial data
+
+**Code Changes:**
+```typescript
+// Before (Query 3):
+const spResult = await query<{...}>(`SELECT ... FROM support_points_transactions ...`);
+const supportPointsAllocated = spResult.rows.map(...);
+
+// After (Query 3):
+let supportPointsAllocated: Array<{...}> = [];
+try {
+  const spResult = await query<{...}>(`SELECT ... FROM support_points_transactions ...`);
+  supportPointsAllocated = spResult.rows.map(...);
+} catch (err) {
+  console.warn('Failed to fetch support points, continuing without them:', err);
+}
+```
+
+Applied same pattern to:
+- Query 2: user_interests (user implicit interests)
+- Query 4: user_activity (posts/comments count)
+- City context Query 2: user_interests trending topics
+
+**Result:**
+✅ Bridge now returns real user data from `users` table
+✅ Graceful degradation when optional tables missing
+✅ No more fallback to mock context for authenticated users
+✅ System works with incomplete database schema (MVP-friendly)
+
+**Testing:**
+- Logged in as g.rodafinos@gmail.com (Los Angeles, California)
+- Asked Bridge "What is my city?"
+- Response: "Los Angeles, California" (correct) ✅
+- No errors in production logs
+
+**Files Modified:**
+- `apps/web/lib/bridge/context-service-db.ts` (or `lib/bridge/context-service-db.ts`)
+  - Added try-catch to 5 database queries
+  - Added explicit type annotation for `supportPointsAllocated`
+
+**Lessons Learned:**
+1. **Graceful degradation over fail-fast** for non-critical features in MVP
+2. **Database schema evolution** requires defensive querying
+3. **Type annotations matter** for complex array initializations (TS7034)
+4. **Local build issues** (WSL file locking) don't prevent CI deployment
+
+**Related:**
+- Commits: `52da737`, `10ea89f`
+- Deployment: Run #19246226834 (success)
