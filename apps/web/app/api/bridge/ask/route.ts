@@ -187,13 +187,14 @@ export async function POST(request: NextRequest) {
 
       enhancedSystemPrompt += `
 
-User context (for personalization):
-- Location: ${userContext.city}, ${userContext.region}
-- Interests: ${interests.join(', ')}
-- Engagement level: ${userContext.engagementScore}/100
-- Active groups: ${userContext.groupMemberships.length}
+**IMPORTANT - USER PROFILE:**
+The user you're talking to lives in ${userContext.city}, ${userContext.region}. You KNOW their location - do NOT ask them where they live.
 
-Use this context to provide more relevant, personalized guidance.`;
+Their interests include: ${interests.join(', ')}
+Engagement level: ${userContext.engagementScore}/100
+Active groups: ${userContext.groupMemberships.length}
+
+When they ask about "my city" or local opportunities, they mean ${userContext.city}, ${userContext.region}. Reference their location and interests naturally in your responses.`;
     }
 
     // Add city context (local opportunities) if available
