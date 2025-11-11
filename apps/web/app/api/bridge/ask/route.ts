@@ -236,21 +236,20 @@ Cite sources when relevant using the format [Source: title].`;
         console.log('[Bridge Training] Adding to prompt:', relevantTrainingExamples.map(ex => ex.question));
         enhancedSystemPrompt += `
 
-**IMPORTANT - REVIEWED TRAINING EXAMPLES:**
-The following are examples of how you SHOULD answer similar questions. These are reviewed and approved responses that represent the desired answer quality, style, and content.
+**TRAINING EXAMPLES - Learn from these approved responses:**
 
 ${relevantTrainingExamples.map((ex: BridgeTrainingExample, idx: number) => `
 Example ${idx + 1}:
-Question: ${ex.question}
-Approved Answer: ${ex.idealResponse || ex.bridgeResponse}
----
+Q: ${ex.question}
+Approved response style: ${ex.idealResponse || ex.bridgeResponse}
 `).join('\n')}
 
-When the user's question is similar to any of these examples, you MUST:
-1. Follow the same style and approach shown in the approved answer
-2. Include similar key information and recommendations
-3. Match the tone and level of specificity
-4. Adapt the content to the user's specific context while maintaining the core guidance`;
+When answering similar questions:
+- Use these examples as templates for style, tone, and level of detail
+- Extract the key approach and recommendations shown
+- DO NOT copy the exact text - instead, understand the pattern and apply it freshly
+- Personalize your response based on the user's specific situation
+- Maintain the same helpful, concrete, action-oriented tone`;
       }
     } catch (error) {
       console.error('[Bridge Training] Failed to fetch training examples:', error);
