@@ -14,6 +14,7 @@ import { BridgeTrainingForm } from '@togetheros/ui';
 export default function BridgeTrainPage() {
   const [successMessage, setSuccessMessage] = useState('');
   const [exampleCount, setExampleCount] = useState(0);
+  const [lastSavedId, setLastSavedId] = useState<string | null>(null);
 
   const handleSubmit = async (data: {
     question: string;
@@ -47,6 +48,7 @@ export default function BridgeTrainPage() {
 
       const { example } = await createResponse.json();
       console.log('[Bridge Training] Example created:', example.id);
+      setLastSavedId(example.id); // Store for display
 
       // Rate the response
       const rateResponse = await fetch(`/api/bridge-training/examples/${example.id}/rate`, {
@@ -154,7 +156,24 @@ export default function BridgeTrainPage() {
               fontSize: '0.875rem',
             }}
           >
-            {successMessage}
+            <div style={{ marginBottom: '0.5rem' }}>{successMessage}</div>
+            {lastSavedId && (
+              <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem', fontSize: '0.8125rem' }}>
+                <a
+                  href="/admin/bridge"
+                  style={{
+                    color: 'var(--success)',
+                    fontWeight: 600,
+                    textDecoration: 'underline',
+                  }}
+                >
+                  View All Training Data →
+                </a>
+                <span style={{ color: 'var(--success)', opacity: 0.7 }}>
+                  (Example ID: {lastSavedId.substring(0, 8)}...)
+                </span>
+              </div>
+            )}
           </div>
         )}
 

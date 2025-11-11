@@ -215,6 +215,9 @@ export default function BridgeAdminPage() {
         );
       }
 
+      // Refresh training examples list
+      await fetchExamples();
+
       setTimeout(() => setSuccessMessage(''), 5000);
     } catch (error: any) {
       throw new Error(error.message || 'Failed to save conversation');
