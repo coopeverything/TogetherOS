@@ -22,6 +22,11 @@ export default function BridgeTrainPage() {
     idealResponse?: string; // Optional when ratings are high
   }) => {
     try {
+      console.log('[Bridge Training] Starting submission...', {
+        hasIdealResponse: !!data.idealResponse,
+        ratings: data.ratings,
+      });
+
       // Create training example
       const createResponse = await fetch('/api/bridge-training/examples', {
         method: 'POST',
@@ -36,10 +41,12 @@ export default function BridgeTrainPage() {
 
       if (!createResponse.ok) {
         const errorData = await createResponse.json();
+        console.error('[Bridge Training] Create failed:', errorData);
         throw new Error(errorData.error || 'Failed to create training example');
       }
 
       const { example } = await createResponse.json();
+      console.log('[Bridge Training] Example created:', example.id);
 
       // Rate the response
       const rateResponse = await fetch(`/api/bridge-training/examples/${example.id}/rate`, {
@@ -53,11 +60,14 @@ export default function BridgeTrainPage() {
       });
 
       if (!rateResponse.ok) {
+        console.error('[Bridge Training] Rate failed');
         throw new Error('Failed to rate example');
       }
+      console.log('[Bridge Training] Example rated');
 
       // Provide ideal response (only if provided)
       if (data.idealResponse) {
+        console.log('[Bridge Training] Saving ideal response...');
         const idealResponse = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -67,20 +77,30 @@ export default function BridgeTrainPage() {
         });
 
         if (!idealResponse.ok) {
+          console.error('[Bridge Training] Ideal response save failed');
           throw new Error('Failed to save ideal response');
         }
+        console.log('[Bridge Training] Ideal response saved');
+      } else {
+        console.log('[Bridge Training] Skipping ideal response (high quality rating)');
       }
 
       setExampleCount(exampleCount + 1);
-      setSuccessMessage(
-        `Training example saved! Quality score: ${Math.round(
-          ((data.ratings.helpfulness + data.ratings.accuracy + data.ratings.tone) * 100) / 15
-        )}/100`
+      const qualityScore = Math.round(
+        ((data.ratings.helpfulness + data.ratings.accuracy + data.ratings.tone) * 100) / 15
       );
+
+      const message = data.idealResponse
+        ? `Training example saved! Quality score: ${qualityScore}/100`
+        : `Training example approved as-is! Quality score: ${qualityScore}/100 (no ideal answer needed)`;
+
+      setSuccessMessage(message);
+      console.log('[Bridge Training] Success:', message);
 
       // Clear success message after 5 seconds
       setTimeout(() => setSuccessMessage(''), 5000);
     } catch (error: any) {
+      console.error('[Bridge Training] Error:', error);
       throw new Error(error.message || 'Failed to save training example');
     }
   };
