@@ -26,7 +26,7 @@ interface Message {
 interface MessageRating {
   messageIndex: number; // Index in messages array
   qualityScore: number;
-  idealResponse: string;
+  idealResponse?: string; // Optional when quality score is high
 }
 
 export interface ConversationTrainingFormProps {
@@ -153,8 +153,12 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
       return;
     }
 
-    if (!currentIdealResponse.trim()) {
-      setError('Please provide an ideal response');
+    // Check if rating is high quality (4+ stars)
+    const isHighQuality = currentRating >= 4;
+
+    // Require ideal response only if rating is not high quality
+    if (!currentIdealResponse.trim() && !isHighQuality) {
+      setError('Please provide an ideal response (or rate 4+ stars to approve as-is)');
       return;
     }
 
@@ -162,7 +166,7 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
     const newRating: MessageRating = {
       messageIndex: ratingMessageIndex,
       qualityScore: currentRating,
-      idealResponse: currentIdealResponse.trim(),
+      idealResponse: currentIdealResponse.trim() || undefined,
     };
 
     // Update or add rating
@@ -332,14 +336,34 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
                   />
                 </div>
 
+                {currentRating >= 4 && (
+                  <div
+                    style={{
+                      background: 'var(--success-bg, #d1fae5)',
+                      color: 'var(--success, #065f46)',
+                      padding: '0.75rem',
+                      borderRadius: '0.5rem',
+                      marginBottom: '1rem',
+                      fontSize: '0.875rem',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    ✓ High quality response (4+ stars). You can approve this as-is without providing an ideal answer.
+                  </div>
+                )}
+
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 600, color: 'var(--ink-700)', marginBottom: '0.5rem' }}>
-                    Your Ideal Response
+                    Your Ideal Response {currentRating >= 4 && '(Optional)'}
                   </label>
                   <textarea
                     value={currentIdealResponse}
                     onChange={(e) => setCurrentIdealResponse(e.target.value)}
-                    placeholder="Write how Bridge should have responded..."
+                    placeholder={
+                      currentRating >= 4
+                        ? 'Optional: Write an improved answer, or leave blank to approve as-is...'
+                        : 'Write how Bridge should have responded...'
+                    }
                     rows={4}
                     style={{
                       width: '100%',
@@ -372,18 +396,25 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                   <button
                     onClick={handleSubmitRating}
+                    disabled={currentRating === 0 || (!currentIdealResponse.trim() && currentRating < 4)}
                     style={{
                       padding: '0.625rem 1.25rem',
-                      background: 'var(--brand-600)',
+                      background:
+                        currentRating === 0 || (!currentIdealResponse.trim() && currentRating < 4)
+                          ? 'var(--ink-400)'
+                          : 'var(--brand-600)',
                       color: 'white',
                       border: 'none',
                       borderRadius: '0.5rem',
                       fontWeight: 600,
-                      cursor: 'pointer',
+                      cursor:
+                        currentRating === 0 || (!currentIdealResponse.trim() && currentRating < 4)
+                          ? 'not-allowed'
+                          : 'pointer',
                       fontSize: '0.875rem',
                     }}
                   >
-                    Save Rating
+                    {!currentIdealResponse.trim() && currentRating >= 4 ? 'Approve As-Is' : 'Save Rating'}
                   </button>
                   <button
                     onClick={handleCancelRating}

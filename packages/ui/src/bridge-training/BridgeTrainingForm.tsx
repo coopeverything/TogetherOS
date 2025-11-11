@@ -27,7 +27,7 @@ export interface BridgeTrainingFormProps {
     question: string;
     bridgeResponse: string;
     ratings: Ratings;
-    idealResponse: string;
+    idealResponse?: string; // Optional when ratings are high
   }) => Promise<void>;
 }
 
@@ -106,8 +106,12 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
 
   // Step 3: Provide ideal response and save
   const handleSaveTrainingExample = async () => {
-    if (!idealResponse.trim()) {
-      setError('Please provide an ideal response');
+    // Check if all ratings are high quality (4+ stars)
+    const isHighQuality = ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4;
+
+    // Require ideal response only if ratings are not high quality
+    if (!idealResponse.trim() && !isHighQuality) {
+      setError('Please provide an ideal response (or rate all dimensions as 4+ stars to approve as-is)');
       return;
     }
 
@@ -120,7 +124,7 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
           question,
           bridgeResponse,
           ratings,
-          idealResponse: idealResponse.trim(),
+          idealResponse: idealResponse.trim() || undefined,
         });
       }
 
@@ -378,6 +382,23 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             Write how Bridge should have answered this question. This will be used to train the AI.
           </p>
 
+          {ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4 && (
+            <div
+              style={{
+                background: 'var(--success-bg, #d1fae5)',
+                color: 'var(--success, #065f46)',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                marginBottom: '1rem',
+                fontSize: '0.875rem',
+                lineHeight: 1.6,
+              }}
+            >
+              ✓ High quality response (all ratings 4+ stars). You can approve this as-is without providing an ideal
+              answer.
+            </div>
+          )}
+
           <div
             style={{
               background: 'var(--bg-2)',
@@ -406,12 +427,16 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
                 marginBottom: '0.5rem',
               }}
             >
-              Ideal Response
+              Ideal Response {ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4 && '(Optional)'}
             </label>
             <textarea
               value={idealResponse}
               onChange={(e) => setIdealResponse(e.target.value)}
-              placeholder="Write the ideal answer Bridge should provide..."
+              placeholder={
+                ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4
+                  ? 'Optional: Write an improved answer, or leave blank to approve as-is...'
+                  : 'Write the ideal answer Bridge should provide...'
+              }
               rows={8}
               style={{
                 width: '100%',
@@ -461,19 +486,40 @@ export function BridgeTrainingForm({ onSubmit }: BridgeTrainingFormProps) {
             </button>
             <button
               onClick={handleSaveTrainingExample}
-              disabled={isSaving || !idealResponse.trim()}
+              disabled={
+                isSaving ||
+                (!idealResponse.trim() &&
+                  !(ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4))
+              }
               style={{
-                background: isSaving || !idealResponse.trim() ? 'var(--ink-400)' : 'var(--brand-600)',
+                background:
+                  isSaving ||
+                  (!idealResponse.trim() &&
+                    !(ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4))
+                    ? 'var(--ink-400)'
+                    : 'var(--brand-600)',
                 color: 'white',
                 padding: '0.5rem 1rem',
                 fontSize: '0.875rem',
                 borderRadius: '0.5rem',
                 border: 'none',
                 fontWeight: 600,
-                cursor: isSaving || !idealResponse.trim() ? 'not-allowed' : 'pointer',
+                cursor:
+                  isSaving ||
+                  (!idealResponse.trim() &&
+                    !(ratings.helpfulness >= 4 && ratings.accuracy >= 4 && ratings.tone >= 4))
+                    ? 'not-allowed'
+                    : 'pointer',
               }}
             >
-              {isSaving ? 'Saving...' : 'Save Training Example'}
+              {isSaving
+                ? 'Saving...'
+                : !idealResponse.trim() &&
+                    ratings.helpfulness >= 4 &&
+                    ratings.accuracy >= 4 &&
+                    ratings.tone >= 4
+                  ? 'Approve As-Is'
+                  : 'Save Training Example'}
             </button>
           </div>
         </div>
