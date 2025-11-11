@@ -339,7 +339,7 @@ When answering similar questions:
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini',
         messages,
         stream: true,
         max_tokens: 500,
