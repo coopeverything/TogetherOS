@@ -220,11 +220,12 @@ Cite sources when relevant using the format [Source: title].`;
     }
 
     // Fetch relevant training examples (RAG for training data)
+    // Uses reviewed OR approved examples with ideal responses
     try {
       const trainingRepo = new PostgresBridgeTrainingRepo();
       const relevantTrainingExamples = await trainingRepo.findSimilar(question, {
-        status: 'approved',
-        minQualityScore: 80,
+        status: 'reviewed', // Accepts 'reviewed' or 'approved' examples
+        minQualityScore: 1, // Very low threshold - if you wrote an ideal response, we use it
         limit: 3,
       });
 
