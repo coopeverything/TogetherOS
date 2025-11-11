@@ -117,7 +117,7 @@ export default function BridgeAdminPage() {
 
   const handleTrainingSubmit = async (data: {
     messages: { role: 'user' | 'assistant'; content: string }[];
-    ratings: { messageIndex: number; qualityScore: number; idealResponse: string }[];
+    ratings: { messageIndex: number; qualityScore: number; idealResponse?: string }[]; // Optional when quality is high
   }) => {
     try {
       let savedCount = 0;
@@ -176,18 +176,21 @@ export default function BridgeAdminPage() {
             continue;
           }
 
-          const idealResponse = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({
-              idealResponse: rating.idealResponse,
-            }),
-          });
+          // Only save ideal response if provided
+          if (rating.idealResponse) {
+            const idealResponse = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({
+                idealResponse: rating.idealResponse,
+              }),
+            });
 
-          if (!idealResponse.ok) {
-            errors.push(`Failed to save ideal response at index ${rating.messageIndex}`);
-            continue;
+            if (!idealResponse.ok) {
+              errors.push(`Failed to save ideal response at index ${rating.messageIndex}`);
+              continue;
+            }
           }
 
           savedCount++;

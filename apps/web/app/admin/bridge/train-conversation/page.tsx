@@ -17,7 +17,7 @@ export default function BridgeConversationTrainPage() {
 
   const handleSubmit = async (data: {
     messages: { role: 'user' | 'assistant'; content: string }[];
-    ratings: { messageIndex: number; qualityScore: number; idealResponse: string }[];
+    ratings: { messageIndex: number; qualityScore: number; idealResponse?: string }[]; // Optional when quality is high
   }) => {
     try {
       // Save each rated Bridge response as a training example
@@ -81,19 +81,21 @@ export default function BridgeConversationTrainPage() {
             continue;
           }
 
-          // Step 3: Provide ideal response
-          const idealResponseResult = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({
-              idealResponse: rating.idealResponse,
-            })
-          });
+          // Step 3: Provide ideal response (only if provided)
+          if (rating.idealResponse) {
+            const idealResponseResult = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({
+                idealResponse: rating.idealResponse,
+              })
+            });
 
-          if (!idealResponseResult.ok) {
-            errors.push(`Failed to save ideal response at index ${rating.messageIndex}`);
-            continue;
+            if (!idealResponseResult.ok) {
+              errors.push(`Failed to save ideal response at index ${rating.messageIndex}`);
+              continue;
+            }
           }
 
           savedCount++;

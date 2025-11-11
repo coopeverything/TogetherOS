@@ -19,7 +19,7 @@ export default function BridgeTrainPage() {
     question: string;
     bridgeResponse: string;
     ratings: { helpfulness: number; accuracy: number; tone: number };
-    idealResponse: string;
+    idealResponse?: string; // Optional when ratings are high
   }) => {
     try {
       // Create training example
@@ -56,17 +56,19 @@ export default function BridgeTrainPage() {
         throw new Error('Failed to rate example');
       }
 
-      // Provide ideal response
-      const idealResponse = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          idealResponse: data.idealResponse,
-        }),
-      });
+      // Provide ideal response (only if provided)
+      if (data.idealResponse) {
+        const idealResponse = await fetch(`/api/bridge-training/examples/${example.id}/ideal`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            idealResponse: data.idealResponse,
+          }),
+        });
 
-      if (!idealResponse.ok) {
-        throw new Error('Failed to save ideal response');
+        if (!idealResponse.ok) {
+          throw new Error('Failed to save ideal response');
+        }
       }
 
       setExampleCount(exampleCount + 1);
