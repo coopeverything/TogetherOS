@@ -136,7 +136,7 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
     const existingRating = ratings.find(r => r.messageIndex === messageIndex);
     if (existingRating) {
       setCurrentRating(existingRating.qualityScore);
-      setCurrentIdealResponse(existingRating.idealResponse);
+      setCurrentIdealResponse(existingRating.idealResponse || '');
     } else {
       setCurrentRating(0);
       setCurrentIdealResponse('');
