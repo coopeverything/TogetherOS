@@ -220,12 +220,13 @@ Cite sources when relevant using the format [Source: title].`;
     }
 
     // Fetch relevant training examples (RAG for training data)
-    // Uses reviewed OR approved examples with ideal responses
+    // Uses reviewed examples that have ideal responses
+    // Note: Ratings measure Bridge's ORIGINAL answer quality, not the ideal response
+    // Low ratings mean Bridge needs to learn from the ideal response!
     try {
       const trainingRepo = new PostgresBridgeTrainingRepo();
       const relevantTrainingExamples = await trainingRepo.findSimilar(question, {
         status: 'reviewed', // Accepts 'reviewed' or 'approved' examples
-        minQualityScore: 1, // Very low threshold - if you wrote an ideal response, we use it
         limit: 3,
       });
 

@@ -272,24 +272,28 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     }
   ): Promise<BridgeTrainingExample[]> {
     const status = options?.status || 'approved';
-    const minQualityScore = options?.minQualityScore || 80;
     const limit = options?.limit || 3;
 
     // Use PostgreSQL full-text search for keyword matching
     // Future improvement: Use embeddings for semantic search
+    //
+    // Note: quality_score rates Bridge's ORIGINAL answer, not the ideal response
+    // So we DON'T filter by quality_score - low scores mean we SHOULD learn from ideal response!
+    // We only require that an ideal_response exists
     const result = await query<any>(
       `SELECT * FROM bridge_training_examples
        WHERE training_status = $1
-         AND quality_score >= $2
          AND deleted_at IS NULL
+         AND ideal_response IS NOT NULL
+         AND ideal_response != ''
          AND (
-           question ILIKE $3
-           OR bridge_response ILIKE $3
-           OR ideal_response ILIKE $3
+           question ILIKE $2
+           OR bridge_response ILIKE $2
+           OR ideal_response ILIKE $2
          )
-       ORDER BY quality_score DESC, created_at DESC
-       LIMIT $4`,
-      [status, minQualityScore, `%${searchQuery}%`, limit]
+       ORDER BY created_at DESC
+       LIMIT $3`,
+      [status, `%${searchQuery}%`, limit]
     );
 
     return result.rows.map((row: any) => this.mapRowToExample(row));

@@ -158,15 +158,17 @@ export class InMemoryBridgeTrainingRepo implements BridgeTrainingRepo {
     }
   ): Promise<BridgeTrainingExample[]> {
     const status = options?.status || 'approved';
-    const minQualityScore = options?.minQualityScore || 80;
     const limit = options?.limit || 3;
 
     const queryLower = searchQuery.toLowerCase();
 
+    // Note: quality_score rates Bridge's ORIGINAL answer, not the ideal response
+    // So we DON'T filter by quality_score - low scores mean we SHOULD learn from ideal response!
+    // We only require that an ideal_response exists
     let items = Array.from(this.examples.values())
       .filter((ex) => !ex.deletedAt)
       .filter((ex) => ex.trainingStatus === status)
-      .filter((ex) => (ex.qualityScore ?? 0) >= minQualityScore)
+      .filter((ex) => ex.idealResponse && ex.idealResponse.trim() !== '')
       .filter(
         (ex) =>
           ex.question.toLowerCase().includes(queryLower) ||
@@ -174,10 +176,8 @@ export class InMemoryBridgeTrainingRepo implements BridgeTrainingRepo {
           ex.idealResponse?.toLowerCase().includes(queryLower)
       );
 
-    // Sort by quality score descending, then by creation date descending
+    // Sort by creation date descending (most recent first)
     items.sort((a, b) => {
-      const qualityDiff = (b.qualityScore ?? 0) - (a.qualityScore ?? 0);
-      if (qualityDiff !== 0) return qualityDiff;
       return b.createdAt.getTime() - a.createdAt.getTime();
     });
 
