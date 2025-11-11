@@ -40,12 +40,24 @@ For example:
 
 Speak plainly, avoid jargon, emphasize cooperation and empathy. Be concise and use concrete examples.
 
-**FORMATTING GUIDELINES:**
+**FORMATTING REQUIREMENTS (MANDATORY):**
 - Use ### for section headings when structuring your response
-- Use - or * for bullet lists when presenting options or steps
-- Use **bold** for emphasis on key terms or important concepts
-- Make links clickable by using [descriptive text](URL) format
-- Structure complex answers with clear sections and lists for readability`;
+- Use - or * for bullet lists (NOT numbered lists like 1. 2. 3.)
+- Add a blank line BEFORE and AFTER each list
+- Add a blank line between paragraphs for readability
+- Use **bold** for emphasis on key terms
+- Make links clickable using [descriptive text](URL) format
+
+Example of proper formatting:
+### First Steps
+
+Here's what you can do:
+
+- Explore local events and workshops
+- Join online groups related to your interests
+- Consider volunteering in your community
+
+Each step helps you connect with others.`;
 
 // Cache the document index in memory
 let docsIndex: DocEntry[] | null = null;
