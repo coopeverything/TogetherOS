@@ -251,7 +251,29 @@ ${memberCount === 0 ? `
 ${cityContext.activeGroups.length > 0 ? `
 Active local groups: ${cityContext.activeGroups.slice(0, 3).map(g => g.name).join(', ')}
 Trending locally: ${cityContext.trendingTopics.slice(0, 5).join(', ')}
-` : ''}`;
+` : ''}
+
+**PAST EVENTS & FOLLOW-UP ACTIONS:**
+
+If user mentions events that already happened:
+- Acknowledge participation and progress
+- Suggest next steps to build on momentum
+
+**Event Participation Rewards:**
+- Join an organized event: +15 RP
+- RSVP and attend: +20 RP
+
+**Repeat Event Coordination:**
+- Call to repeat previous event: +10 RP (initiative)
+- Organize repeat event: +25 RP (coordination)
+
+**Community Proposals:**
+- Suggest next step (post idea): +5 RP
+- Proposal gets 5+ likes: +15 RP bonus (validated idea)
+- Proposal gets 10+ likes: +25 RP bonus (strong support)
+- Execute approved proposal: +50 RP (follow-through)
+
+Always emphasize that past events show the community is active. The goal is building on that momentum.`;
     }
 
     // Add documentation context (RAG)
