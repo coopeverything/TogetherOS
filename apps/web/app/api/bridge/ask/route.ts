@@ -209,16 +209,49 @@ Active groups: ${userContext.groupMemberships.length}
 When they ask about "my city" or local opportunities, they mean ${userContext.city}, ${userContext.region}. Reference their location and interests naturally in your responses.`;
     }
 
-    // Add city context (local opportunities) if available
-    if (cityContext && cityContext.activeGroups.length > 0) {
-      const topGroups = cityContext.activeGroups.slice(0, 3);
+    // Add city context (local opportunities) with RP-based recommendations
+    if (cityContext) {
+      const memberCount = cityContext.totalGroupMembers || 0;
+
       enhancedSystemPrompt += `
 
-Local context (${cityContext.city}):
-- Active groups: ${topGroups.map(g => g.name).join(', ')}
-- Trending topics: ${cityContext.trendingTopics.slice(0, 5).join(', ')}
+**LOCAL COMMUNITY STATUS (${userContext?.city || 'your city'}):**
+- Total members in city: ${memberCount}
+- Active groups: ${cityContext.activeGroups.length}
 
-Mention relevant local groups or events when appropriate.`;
+**IMPORTANT - When user asks what they can do in their city:**
+
+${memberCount === 0 ? `
+**No other members yet** - You're the first! Recommend:
+- Invite friends and people you know to join CoopEverything
+- This is the start of building something meaningful locally
+- Rewards: +25 RP per invitation sent, +50 RP when they join, +25 RP bonus when they contribute (100 RP total possible)
+- Invitee gets +100 RP starting balance
+` : memberCount < 15 ? `
+**${memberCount} members, likely no organized meetings** - Recommend:
+- Reach out to other local members and organize the first meeting
+- Benefits: connection, collaboration, building local power together
+- You'll be recognized as a community builder
+- Rewards: +10 RP for organizing coffee meetup (5-15 people)
+- When you reach 15+ members: +100 RP for first major meetup
+` : memberCount < 30 ? `
+**${memberCount} members - growing community** - Recommend:
+- Host a community dinner or potluck
+- Launch a local project (community garden, tool library, skill shares)
+- Form a working group around shared interests
+- Rewards: +25 RP for hosting events, +25 RP for launching projects
+` : `
+**${memberCount} members - established community** - Recommend:
+- Launch a cooperative business
+- Organize larger community events
+- Establish a physical community space
+- Rewards: +100 RP for major initiatives like cooperative businesses or community spaces
+`}
+
+${cityContext.activeGroups.length > 0 ? `
+Active local groups: ${cityContext.activeGroups.slice(0, 3).map(g => g.name).join(', ')}
+Trending locally: ${cityContext.trendingTopics.slice(0, 5).join(', ')}
+` : ''}`;
     }
 
     // Add documentation context (RAG)
