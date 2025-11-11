@@ -274,6 +274,19 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     const status = options?.status || 'approved';
     const limit = options?.limit || 3;
 
+    // Extract keywords from search query (remove common words, split on spaces)
+    const commonWords = ['what', 'how', 'can', 'could', 'should', 'would', 'do', 'does', 'is', 'are', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'my', 'i'];
+    const keywords = searchQuery
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(word => word.length > 2 && !commonWords.includes(word))
+      .slice(0, 5); // Take top 5 keywords
+
+    // If no keywords extracted, fall back to full query
+    const searchPattern = keywords.length > 0
+      ? `%(${keywords.join('|')})%`
+      : `%${searchQuery}%`;
+
     // Use PostgreSQL full-text search for keyword matching
     // Future improvement: Use embeddings for semantic search
     //
@@ -287,13 +300,13 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
          AND ideal_response IS NOT NULL
          AND ideal_response != ''
          AND (
-           question ILIKE $2
-           OR bridge_response ILIKE $2
-           OR ideal_response ILIKE $2
+           question ~* $2
+           OR bridge_response ~* $2
+           OR ideal_response ~* $2
          )
        ORDER BY created_at DESC
        LIMIT $3`,
-      [status, `%${searchQuery}%`, limit]
+      [status, searchPattern, limit]
     );
 
     return result.rows.map((row: any) => this.mapRowToExample(row));

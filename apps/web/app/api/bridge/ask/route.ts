@@ -362,12 +362,9 @@ When answering similar questions:
             }
           }
 
-          // Append sources at the end with structured formatting
-          if (sources.length > 0) {
-            const sourcesText = '\n\n---\n\n### Sources\n\n' +
-              sources.map(s => `- [${s.title}](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/${s.path})`).join('\n');
-            controller.enqueue(encoder.encode(sourcesText));
-          }
+          // Note: Sources disabled in conversation mode to prevent duplication
+          // Sources are already available in the training examples and docs context
+          // Future: Add sources per-message in a structured way if needed
         } catch (error) {
           console.error('Stream error:', error);
         } finally {
