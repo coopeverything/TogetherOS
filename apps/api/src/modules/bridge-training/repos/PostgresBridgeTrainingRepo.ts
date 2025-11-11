@@ -282,10 +282,11 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
       .filter(word => word.length > 2 && !commonWords.includes(word))
       .slice(0, 5); // Take top 5 keywords
 
-    // If no keywords extracted, fall back to full query
+    // Build PostgreSQL regex pattern (not LIKE pattern)
+    // Regex: (city|angeles|community) matches any of the keywords
     const searchPattern = keywords.length > 0
-      ? `%(${keywords.join('|')})%`
-      : `%${searchQuery}%`;
+      ? `(${keywords.join('|')})`
+      : searchQuery;
 
     // Use PostgreSQL full-text search for keyword matching
     // Future improvement: Use embeddings for semantic search
