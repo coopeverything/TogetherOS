@@ -224,13 +224,16 @@ Cite sources when relevant using the format [Source: title].`;
     // Note: Ratings measure Bridge's ORIGINAL answer quality, not the ideal response
     // Low ratings mean Bridge needs to learn from the ideal response!
     try {
+      console.log('[Bridge Training] Searching for examples with question:', question);
       const trainingRepo = new PostgresBridgeTrainingRepo();
       const relevantTrainingExamples = await trainingRepo.findSimilar(question, {
         status: 'reviewed', // Accepts 'reviewed' or 'approved' examples
         limit: 3,
       });
+      console.log('[Bridge Training] Found examples:', relevantTrainingExamples.length);
 
       if (relevantTrainingExamples.length > 0) {
+        console.log('[Bridge Training] Adding to prompt:', relevantTrainingExamples.map(ex => ex.question));
         enhancedSystemPrompt += `
 
 Similar questions from training data (use ideal responses as guidance):
@@ -243,7 +246,7 @@ ${idx + 1}. Q: ${ex.question}
 Use these examples to inform your answer style and content, but personalize based on the current question.`;
       }
     } catch (error) {
-      console.warn('Failed to fetch training examples, continuing without them:', error);
+      console.error('[Bridge Training] Failed to fetch training examples:', error);
       // Continue without training data - Bridge still works
     }
 
