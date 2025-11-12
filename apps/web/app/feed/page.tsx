@@ -7,8 +7,8 @@
 
 import { useState, useEffect } from 'react'
 import { PostList, PostComposerUnified, GroupGrowthTracker, InvitationModal, type CreatePostData, type InvitationData } from '@togetheros/ui'
+import { AVAILABLE_TOPICS } from '@togetheros/types'
 import type { Post, ReactionType } from '@togetheros/types'
-import { AVAILABLE_TOPICS } from '../../../../api/src/services/bridge/TopicIntelligence'
 
 interface AuthorInfo {
   id: string

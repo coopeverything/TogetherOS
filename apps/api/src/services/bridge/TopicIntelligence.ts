@@ -3,6 +3,7 @@
 // Phase 3: Uses keyword matching (MVP), will be enhanced with AI/embeddings later
 
 import type { Post, DiscussionThread } from '@togetheros/types'
+import { AVAILABLE_TOPICS } from '@togetheros/types'
 
 /**
  * Topic suggestion result
@@ -30,54 +31,6 @@ export interface SimilarThread {
   similarity: number  // 0-1
   matchedKeywords: string[]
 }
-
-/**
- * Available topics in TogetherOS
- * From the 8 Cooperation Paths + common subtopics
- */
-export const AVAILABLE_TOPICS = [
-  // Core Cooperation Paths
-  'Collaborative Education',
-  'Social Economy',
-  'Common Wellbeing',
-  'Cooperative Technology',
-  'Collective Governance',
-  'Community Connection',
-  'Collaborative Media & Culture',
-  'Common Planet',
-
-  // Common subtopics
-  'Housing',
-  'Climate',
-  'Healthcare',
-  'Food Systems',
-  'Transportation',
-  'Energy',
-  'Water',
-  'Waste & Recycling',
-  'Education',
-  'Childcare',
-  'Elder Care',
-  'Mental Health',
-  'Local Currency',
-  'Timebanking',
-  'Mutual Aid',
-  'Cooperative Business',
-  'Worker Ownership',
-  'Land Trusts',
-  'Commons',
-  'Direct Democracy',
-  'Participatory Budgeting',
-  'Conflict Resolution',
-  'Restorative Justice',
-  'Arts & Culture',
-  'Media Literacy',
-  'Storytelling',
-  'Public Space',
-  'Community Gardens',
-  'Tool Libraries',
-  'Skill Sharing',
-]
 
 /**
  * Topic keywords for matching
