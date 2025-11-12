@@ -5,7 +5,7 @@
  * Available topics in TogetherOS
  * From the 8 Cooperation Paths + common subtopics
  */
-export const AVAILABLE_TOPICS = [
+export const AVAILABLE_TOPICS: string[] = [
   // Core Cooperation Paths
   'Collaborative Education',
   'Social Economy',
@@ -47,6 +47,4 @@ export const AVAILABLE_TOPICS = [
   'Community Gardens',
   'Tool Libraries',
   'Skill Sharing',
-] as const
-
-export type Topic = typeof AVAILABLE_TOPICS[number]
+]

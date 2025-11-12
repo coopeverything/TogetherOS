@@ -550,7 +550,7 @@ export default function FeedTestPage() {
                     >
                       All Topics
                     </button>
-                    {AVAILABLE_TOPICS.map((topic) => (
+                    {AVAILABLE_TOPICS.map((topic: string) => (
                       <button
                         key={topic}
                         onClick={() => setSelectedTopic(topic)}
