@@ -49,9 +49,10 @@ export function detectPlatform(url: string): string {
 
 /**
  * oEmbed endpoint mapping
+ * Note: Instagram oEmbed requires Facebook access token, so it's disabled
  */
 const OEMBED_ENDPOINTS: Record<string, string> = {
-  instagram: 'https://graph.facebook.com/v18.0/instagram_oembed',
+  // instagram: 'https://graph.facebook.com/v18.0/instagram_oembed', // Requires FB access token
   tiktok: 'https://www.tiktok.com/oembed',
   twitter: 'https://publish.twitter.com/oembed',
   youtube: 'https://www.youtube.com/oembed',
@@ -123,46 +124,84 @@ async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPr
     // HTTPS-only, hostname allowlist, internal network blocking, no redirects, rate limiting.
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'TogetherOS/1.0',
+        'User-Agent': 'Mozilla/5.0 (compatible; TogetherOS/1.0; +https://coopeverything.org)',
       },
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(8000), // Increased from 5s to 8s
       redirect: 'manual', // Prevent automatic redirects (SSRF protection)
     })
 
     // Check for redirects and block them
     if (response.status >= 300 && response.status < 400) {
+      console.warn(`Open Graph: Redirect blocked for ${url}`)
       throw new Error('Redirects are not allowed for security reasons')
     }
 
     if (!response.ok) {
+      console.warn(`Open Graph: HTTP ${response.status} for ${url}`)
       throw new Error(`HTTP ${response.status}`)
     }
 
     const html = await response.text()
 
-    // Extract Open Graph tags
-    const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)
-    const ogDescription = html.match(/<meta property="og:description" content="([^"]*)"/)
-    const ogImage = html.match(/<meta property="og:image" content="([^"]*)"/)
-    const ogSiteName = html.match(/<meta property="og:site_name" content="([^"]*)"/)
+    // Log HTML length for debugging
+    console.log(`Open Graph: Fetched ${html.length} bytes from ${url}`)
 
-    // Fallback to regular meta tags
-    const title = ogTitle?.[1] || html.match(/<title>([^<]*)<\/title>/)?.[1] || 'Untitled'
-    const description = ogDescription?.[1] || html.match(/<meta name="description" content="([^"]*)">/)?.[1]
-    const thumbnail = ogImage?.[1]
+    // Extract Open Graph tags with more flexible regex (handles both " and ')
+    const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']*)["']/i)
+    const ogDescription = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']*)["']/i)
+    const ogImage = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']*)["']/i)
+    const ogSiteName = html.match(/<meta\s+property=["']og:site_name["']\s+content=["']([^"']*)["']/i)
+
+    // Also try Twitter Card tags as fallback
+    const twitterTitle = html.match(/<meta\s+name=["']twitter:title["']\s+content=["']([^"']*)["']/i)
+    const twitterDescription = html.match(/<meta\s+name=["']twitter:description["']\s+content=["']([^"']*)["']/i)
+    const twitterImage = html.match(/<meta\s+name=["']twitter:image["']\s+content=["']([^"']*)["']/i)
+
+    // Fallback to regular meta tags and title
+    const pageTitle = html.match(/<title>([^<]*)<\/title>/i)
+    const metaDescription = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)
+
+    const title = ogTitle?.[1] || twitterTitle?.[1] || pageTitle?.[1] || 'Untitled'
+    const description = ogDescription?.[1] || twitterDescription?.[1] || metaDescription?.[1]
+    const thumbnail = ogImage?.[1] || twitterImage?.[1]
     const siteName = ogSiteName?.[1]
 
+    // Decode HTML entities in title
+    const decodedTitle = title
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'")
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .trim()
+
+    const decodedDescription = description
+      ?.replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'")
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&#039;/g, "'")
+      .trim()
+
+    console.log(`Open Graph: Parsed preview for ${url}:`, {
+      title: decodedTitle,
+      hasDescription: !!decodedDescription,
+      hasThumbnail: !!thumbnail,
+      platform,
+    })
+
     return {
-      title: title.trim(),
-      description: description?.trim(),
+      title: decodedTitle,
+      description: decodedDescription,
       thumbnailUrl: thumbnail,
       authorName: siteName,
       platform,
       fetchedAt: new Date(),
     }
   } catch (error) {
-    console.warn('Open Graph fetch failed:', error)
-    throw new Error('Failed to fetch link preview')
+    console.error(`Open Graph fetch failed for ${url}:`, error)
+    throw new Error(`Failed to fetch link preview: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
 }
 
