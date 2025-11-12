@@ -17,6 +17,9 @@ export interface PostCardProps {
   /** Author name (from user data) */
   authorName: string
 
+  /** Current user ID (for showing edit/delete buttons) */
+  currentUserId?: string
+
   /** Reaction counts by type */
   reactionCounts?: {
     care: number
@@ -41,6 +44,12 @@ export interface PostCardProps {
 
   /** Callback when "Show related" clicked (Phase 3: Bridge intelligence) */
   onShowRelated?: (postId: string) => void
+
+  /** Callback when delete button clicked */
+  onDelete?: (postId: string) => void
+
+  /** Callback when edit button clicked */
+  onEdit?: (postId: string) => void
 
   /** Optional CSS class name */
   className?: string

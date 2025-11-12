@@ -215,3 +215,68 @@ export async function getUserReactions(
     .filter((r) => r.userId === userId)
     .map((r) => r.type)
 }
+
+/**
+ * DELETE /api/feed/:id
+ * Delete a post (owner only)
+ * Returns: { deleted: boolean }
+ */
+export async function deletePost(
+  postId: string,
+  userId: string
+): Promise<{ deleted: boolean }> {
+  const repo = getPostRepo()
+
+  // Get post to verify it exists and check ownership
+  const post = await repo.findById(postId)
+  if (!post) {
+    throw new Error(`Post ${postId} not found`)
+  }
+
+  // Verify ownership
+  if (post.authorId !== userId) {
+    throw new Error('You can only delete your own posts')
+  }
+
+  // Delete post
+  await repo.delete(postId)
+
+  // Clean up reactions
+  reactions.delete(postId)
+
+  return { deleted: true }
+}
+
+/**
+ * PATCH /api/feed/:id
+ * Update a post (owner only)
+ * Body: { title?: string, content?: string, topics?: string[] }
+ * Returns: Updated post
+ */
+export async function updatePost(
+  postId: string,
+  userId: string,
+  updates: { title?: string; content?: string; topics?: string[] }
+): Promise<Post> {
+  const repo = getPostRepo()
+
+  // Get post to verify it exists and check ownership
+  const post = await repo.findById(postId)
+  if (!post) {
+    throw new Error(`Post ${postId} not found`)
+  }
+
+  // Verify ownership
+  if (post.authorId !== userId) {
+    throw new Error('You can only edit your own posts')
+  }
+
+  // Only allow updating specific fields
+  const allowedUpdates: any = {}
+  if (updates.title !== undefined) allowedUpdates.title = updates.title
+  if (updates.content !== undefined) allowedUpdates.content = updates.content
+  if (updates.topics !== undefined) allowedUpdates.topics = updates.topics
+
+  // Update post
+  return repo.update(postId, allowedUpdates)
+}

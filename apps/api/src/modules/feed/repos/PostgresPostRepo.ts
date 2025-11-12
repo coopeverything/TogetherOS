@@ -233,6 +233,56 @@ export class PostgresPostRepo implements PostRepo {
   }
 
   /**
+   * Update post
+   */
+  async update(id: string, updates: Partial<{
+    title: string
+    content: string
+    topics: string[]
+  }>): Promise<PostType> {
+    const setClauses: string[] = []
+    const params: any[] = []
+    let paramIndex = 1
+
+    if (updates.title !== undefined) {
+      setClauses.push(`title = $${paramIndex}`)
+      params.push(updates.title)
+      paramIndex++
+    }
+
+    if (updates.content !== undefined) {
+      setClauses.push(`content = $${paramIndex}`)
+      params.push(updates.content)
+      paramIndex++
+    }
+
+    if (updates.topics !== undefined) {
+      setClauses.push(`topics = $${paramIndex}`)
+      params.push(updates.topics)
+      paramIndex++
+    }
+
+    // Always update updated_at timestamp
+    setClauses.push(`updated_at = $${paramIndex}`)
+    params.push(new Date())
+    paramIndex++
+
+    // Add post ID as last parameter
+    params.push(id)
+
+    const result = await query<any>(
+      `UPDATE posts SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`,
+      params
+    )
+
+    if (result.rows.length === 0) {
+      throw new Error(`Post ${id} not found`)
+    }
+
+    return this.mapRowToPost(result.rows[0])
+  }
+
+  /**
    * Delete post
    */
   async delete(id: string): Promise<void> {
