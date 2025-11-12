@@ -50,10 +50,12 @@ function getStatusBadgeColor(status: ProposalStatus): string {
 
 /**
  * Format date for display
+ * Handles both Date objects and ISO date strings
  */
-function formatDate(date: Date): string {
+function formatDate(date: Date | string): string {
   const now = new Date()
-  const diff = now.getTime() - new Date(date).getTime()
+  const dateObj = typeof date === 'string' ? new Date(date) : date
+  const diff = now.getTime() - dateObj.getTime()
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
   if (days === 0) {
@@ -63,7 +65,7 @@ function formatDate(date: Date): string {
   } else if (days < 7) {
     return `${days} days ago`
   } else {
-    return new Date(date).toLocaleDateString()
+    return dateObj.toLocaleDateString()
   }
 }
 
