@@ -6,16 +6,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PostList, PostComposer, GroupGrowthTracker, InvitationModal, type CreatePostData, type InvitationData } from '@togetheros/ui'
+import { PostList, PostComposerUnified, GroupGrowthTracker, InvitationModal, type CreatePostData, type InvitationData } from '@togetheros/ui'
 import type { Post, ReactionType } from '@togetheros/types'
+import { AVAILABLE_TOPICS } from '../../../../api/src/services/bridge/TopicIntelligence'
 
-// Mock author names (matching UUIDs from fixtures)
-const authorNames: Record<string, string> = {
-  '00000000-0000-0000-0000-000000000001': 'Alice Cooper',
-  '00000000-0000-0000-0000-000000000002': 'Bob Martinez',
-  '00000000-0000-0000-0000-000000000003': 'Carol Chen',
-  '00000000-0000-0000-0000-000000000004': 'Dave Wilson',
+interface AuthorInfo {
+  id: string
+  name?: string
+  city?: string
+  avatar_url?: string
 }
+
+// Author info cache (populated from API responses)
+const authorInfoCache = new Map<string, AuthorInfo>()
 
 export default function FeedPage() {
   const [posts, setPosts] = useState<Post[]>([])
@@ -23,11 +26,11 @@ export default function FeedPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [selectedTopic, setSelectedTopic] = useState<string | undefined>()
-  const [topics, setTopics] = useState<string[]>([])
   const [reactionCounts] = useState<Record<string, any>>({})
   const [userReactions, setUserReactions] = useState<Record<string, ReactionType>>({})
   const [composerOpen, setComposerOpen] = useState(false)
   const [inviteModalOpen, setInviteModalOpen] = useState(false)
+  const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
 
   // Load posts
   useEffect(() => {
@@ -60,12 +63,24 @@ export default function FeedPage() {
         if (!abortController.signal.aborted) {
           setPosts(data.posts || [])
 
-          // Extract unique topics from all posts
-          const topicsSet = new Set<string>()
-          ;(data.posts || []).forEach((post: Post) => {
-            post.topics.forEach((topic) => topicsSet.add(topic))
-          })
-          setTopics(Array.from(topicsSet))
+          // Build author names map from author info in posts
+          if (data.posts) {
+            const names: Record<string, string> = {}
+            data.posts.forEach((post: any) => {
+              if (post.authorInfo) {
+                // Cache author info
+                authorInfoCache.set(post.authorId, post.authorInfo)
+
+                // Build display name (name + city if available)
+                let displayName = post.authorInfo.name || 'Anonymous'
+                if (post.authorInfo.city) {
+                  displayName += ` • ${post.authorInfo.city}`
+                }
+                names[post.authorId] = displayName
+              }
+            })
+            setAuthorNames(names)
+          }
         }
       } catch (err) {
         // Ignore abort errors
@@ -144,12 +159,21 @@ export default function FeedPage() {
         const listData = await listResponse.json()
         setPosts(listData.posts || [])
 
-        // Update topics
-        const topicsSet = new Set<string>()
-        ;(listData.posts || []).forEach((post: Post) => {
-          post.topics.forEach((topic) => topicsSet.add(topic))
-        })
-        setTopics(Array.from(topicsSet))
+        // Update author names
+        if (listData.posts) {
+          const names: Record<string, string> = {}
+          listData.posts.forEach((post: any) => {
+            if (post.authorInfo) {
+              authorInfoCache.set(post.authorId, post.authorInfo)
+              let displayName = post.authorInfo.name || 'Anonymous'
+              if (post.authorInfo.city) {
+                displayName += ` • ${post.authorInfo.city}`
+              }
+              names[post.authorId] = displayName
+            }
+          })
+          setAuthorNames(names)
+        }
       }
     } catch (err) {
       console.error('Failed to create post:', err)
@@ -210,33 +234,6 @@ export default function FeedPage() {
                   </p>
                 </div>
               )}
-
-              {/* Topic filters */}
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                <button
-                  onClick={() => setSelectedTopic(undefined)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                    !selectedTopic
-                      ? 'bg-orange-600 text-white'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  All Topics
-                </button>
-                {topics.map((topic) => (
-                  <button
-                    key={topic}
-                    onClick={() => setSelectedTopic(topic)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                      selectedTopic === topic
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    {topic}
-                  </button>
-                ))}
-              </div>
             </div>
 
             {/* Feed */}
@@ -275,11 +272,11 @@ export default function FeedPage() {
         </div>
 
         {/* Post Composer Modal */}
-        <PostComposer
+        <PostComposerUnified
           isOpen={composerOpen}
           onClose={() => setComposerOpen(false)}
           onSubmit={handleCreatePost}
-          topics={topics}
+          topics={AVAILABLE_TOPICS}
         />
 
         {/* Invitation Modal */}

@@ -84,11 +84,6 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
       return
     }
 
-    if (selectedTopics.length === 0) {
-      alert('Please select at least one topic')
-      return
-    }
-
     setIsSubmitting(true)
 
     try {
@@ -304,9 +299,9 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
             {/* Topic selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Topics <span className="text-red-500">*</span> (1-5)
+                Topics (optional, up to 5)
               </label>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
                 {availableTopics.map((topic) => (
                   <button
                     key={topic}
@@ -323,7 +318,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                 ))}
               </div>
               <p className="text-xs text-gray-500 mt-2">
-                Selected: {selectedTopics.length}/5
+                Selected: {selectedTopics.length}/5 • Topics help others discover your post
               </p>
             </div>
           </div>
