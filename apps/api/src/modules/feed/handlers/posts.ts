@@ -75,9 +75,10 @@ export async function createPost(body: {
       throw new Error('Native posts require content')
     }
 
-    // Auto-detect social media URLs in content
+    // Auto-detect social media URLs in content and title
     let embeddedUrls: EmbeddedUrl[] | undefined
-    const urls = extractUrls(body.content)
+    const allText = [body.title, body.content].filter(Boolean).join(' ')
+    const urls = extractUrls(allText)
     const socialMediaUrls = filterSocialMediaUrls(urls)
 
     if (socialMediaUrls.length > 0) {
@@ -89,10 +90,16 @@ export async function createPost(body: {
         try {
           const preview = await fetchSocialMediaPreview(url, ip)
           if (preview) {
+            // Find position in title first, then content
+            let position = body.title ? findUrlPosition(body.title, url) : -1
+            if (position === -1 && body.content) {
+              position = findUrlPosition(body.content, url)
+            }
+
             embeddedUrls.push({
               url,
               preview,
-              position: findUrlPosition(body.content, url),
+              position,
             })
           }
         } catch (error) {
