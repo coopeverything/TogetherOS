@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { listPosts, createPost } from '../../../../api/src/modules/feed/handlers/posts'
 import { fetchSocialMediaPreview } from '../../../../api/src/services/socialMediaFetcher'
 import { getCurrentUser } from '@/lib/auth/middleware'
+import { findUserById } from '@/lib/db/users'
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,7 +24,27 @@ export async function GET(request: NextRequest) {
     }
 
     const result = await listPosts(filters)
-    return NextResponse.json(result)
+
+    // Enrich posts with author information
+    const postsWithAuthorInfo = await Promise.all(
+      result.posts.map(async (post) => {
+        const author = await findUserById(post.authorId)
+        return {
+          ...post,
+          authorInfo: author ? {
+            id: author.id,
+            name: author.name,
+            city: author.city,
+            avatar_url: author.avatar_url,
+          } : null
+        }
+      })
+    )
+
+    return NextResponse.json({
+      ...result,
+      posts: postsWithAuthorInfo
+    })
   } catch (error) {
     console.error('GET /api/feed error:', error)
     return NextResponse.json(
