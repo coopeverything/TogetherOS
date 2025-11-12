@@ -60,17 +60,19 @@ function getNotificationColor(type: NotificationType): string {
 
 /**
  * Format timestamp for display
+ * Handles both Date objects and ISO date strings
  */
-function formatTimeAgo(date: Date): string {
+function formatTimeAgo(date: Date | string): string {
   const now = new Date()
-  const diffMs = now.getTime() - new Date(date).getTime()
+  const dateObj = typeof date === 'string' ? new Date(date) : date
+  const diffMs = now.getTime() - dateObj.getTime()
   const diffMins = Math.floor(diffMs / 60000)
   const diffHours = Math.floor(diffMs / 3600000)
 
   if (diffMins < 1) return 'Just now'
   if (diffMins < 60) return `${diffMins}m ago`
   if (diffHours < 24) return `${diffHours}h ago`
-  return new Date(date).toLocaleDateString()
+  return dateObj.toLocaleDateString()
 }
 
 export function NotificationToast({

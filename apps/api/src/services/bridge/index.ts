@@ -5,5 +5,5 @@
 // Server-only services (OnboardingService, SimilarityDetector) must be imported directly
 // to avoid bundling server dependencies (pg, etc.) into client bundles
 export type { TopicSuggestion, SimilarPost, SimilarThread } from './TopicIntelligence'
-export { TopicIntelligence } from './TopicIntelligence'
 export { AVAILABLE_TOPICS } from '@togetheros/types'
+export { TopicIntelligence } from './TopicIntelligence'
