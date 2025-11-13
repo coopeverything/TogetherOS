@@ -96,6 +96,7 @@ function getPlatformColor(type: string): string {
 export function PostCard({
   post,
   authorName,
+  currentUserId,
   reactionCounts = {
     care: 0,
     insightful: 0,
@@ -109,6 +110,8 @@ export function PostCard({
   onDiscuss,
   onTopicClick,
   onShowRelated,
+  onDelete,
+  onEdit,
   className = '',
 }: PostCardProps) {
   const platformColor = getPlatformColor(post.type)
@@ -224,6 +227,34 @@ export function PostCard({
 
       {/* Actions */}
       <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
+        {/* Edit/Delete buttons (owner only) */}
+        {currentUserId && currentUserId === post.authorId && (
+          <div className="flex gap-1">
+            {onEdit && (
+              <button
+                onClick={() => onEdit(post.id)}
+                className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
+                title="Edit post"
+              >
+                ✏️ Edit
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={() => {
+                  if (confirm('Are you sure you want to delete this post?')) {
+                    onDelete(post.id)
+                  }
+                }}
+                className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+                title="Delete post"
+              >
+                🗑️ Delete
+              </button>
+            )}
+          </div>
+        )}
+
         {/* Reaction buttons */}
         <div className="flex gap-1">
           {(['care', 'insightful', 'agree', 'act'] as ReactionType[]).map((type) => (

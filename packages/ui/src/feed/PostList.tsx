@@ -29,6 +29,9 @@ export interface PostListProps {
   /** Current user's reactions by post ID */
   userReactions?: Record<string, ReactionType>
 
+  /** Current user ID (for showing edit/delete buttons) */
+  currentUserId?: string
+
   /** Loading state */
   loading?: boolean
 
@@ -37,6 +40,12 @@ export interface PostListProps {
 
   /** Callback when discuss button clicked */
   onDiscuss?: (postId: string) => void
+
+  /** Callback when delete button clicked */
+  onDelete?: (postId: string) => void
+
+  /** Callback when edit button clicked */
+  onEdit?: (postId: string) => void
 
   /** Callback to load more (for infinite scroll) */
   onLoadMore?: () => void
@@ -53,9 +62,12 @@ export function PostList({
   authorNames,
   reactionCounts = {},
   userReactions = {},
+  currentUserId,
   loading = false,
   onReact,
   onDiscuss,
+  onDelete,
+  onEdit,
   onLoadMore,
   hasMore = false,
   className = '',
@@ -81,8 +93,11 @@ export function PostList({
           authorName={authorNames[post.authorId] || 'Unknown'}
           reactionCounts={reactionCounts[post.id]}
           userReaction={userReactions[post.id]}
+          currentUserId={currentUserId}
           onReact={onReact}
           onDiscuss={onDiscuss}
+          onDelete={onDelete}
+          onEdit={onEdit}
         />
       ))}
 

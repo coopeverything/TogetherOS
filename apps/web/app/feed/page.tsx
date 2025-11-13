@@ -31,6 +31,23 @@ export default function FeedPage() {
   const [composerOpen, setComposerOpen] = useState(false)
   const [inviteModalOpen, setInviteModalOpen] = useState(false)
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
+  const [currentUserId, setCurrentUserId] = useState<string | undefined>()
+
+  // Load current user
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const response = await fetch('/api/auth/me')
+        if (response.ok) {
+          const data = await response.json()
+          setCurrentUserId(data.user?.id)
+        }
+      } catch (err) {
+        console.error('Failed to load current user:', err)
+      }
+    }
+    loadUser()
+  }, [])
 
   // Load posts
   useEffect(() => {
@@ -201,6 +218,32 @@ export default function FeedPage() {
     }
   }
 
+  // Handle delete post
+  const handleDelete = async (postId: string) => {
+    try {
+      const response = await fetch(`/api/feed/${postId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to delete post')
+      }
+
+      // Remove post from UI
+      setPosts(posts.filter(p => p.id !== postId))
+    } catch (err) {
+      console.error('Failed to delete post:', err)
+      alert(err instanceof Error ? err.message : 'Failed to delete post')
+    }
+  }
+
+  // Handle edit post
+  const handleEdit = async (postId: string) => {
+    alert('Edit functionality coming soon!')
+    // TODO: Open edit modal with post data
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -243,8 +286,11 @@ export default function FeedPage() {
               reactionCounts={reactionCounts}
               userReactions={userReactions}
               loading={loading}
+              currentUserId={currentUserId}
               onReact={handleReact}
               onDiscuss={handleDiscuss}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
             />
 
             {/* Info banner */}
