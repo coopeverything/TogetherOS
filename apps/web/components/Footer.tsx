@@ -112,9 +112,20 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="mt-8 pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm">
-              © {currentYear} TogetherOS. Built with cooperation and care.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <p className="text-gray-500 text-sm">
+                © {currentYear} TogetherOS. Built with cooperation and care.
+              </p>
+              <div className="flex space-x-4 text-sm">
+                <Link href="/privacy" className="text-gray-500 hover:text-orange-600">
+                  Privacy
+                </Link>
+                <span className="text-gray-300">|</span>
+                <Link href="/terms" className="text-gray-500 hover:text-orange-600">
+                  Terms
+                </Link>
+              </div>
+            </div>
             <div className="mt-4 md:mt-0 flex space-x-6">
               <a
                 href="https://github.com/coopeverything/TogetherOS"
