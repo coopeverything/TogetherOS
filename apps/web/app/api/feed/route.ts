@@ -7,6 +7,13 @@ import { listPosts, createPost } from '../../../../api/src/modules/feed/handlers
 import { fetchSocialMediaPreview } from '../../../../api/src/services/socialMediaFetcher'
 import { getCurrentUser } from '@/lib/auth/middleware'
 import { findUserById } from '@/lib/db/users'
+import { checkRateLimit } from '../../../../../lib/bridge/rate-limiter'
+import { hashIp, getClientIp } from '@/lib/bridge/logger'
+import { createNativePostSchema, createImportPostSchema } from '@togetheros/validators/feed'
+import { z } from 'zod'
+
+const FEED_RATE_LIMIT_MAX = parseInt(process.env.FEED_RATE_LIMIT_PER_HOUR || '50', 10)
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour in ms
 
 export async function GET(request: NextRequest) {
   try {
@@ -55,7 +62,38 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+
   try {
+    // Get client IP for rate limiting
+    const clientIp = getClientIp(request)
+    const ipHash = hashIp(clientIp)
+
+    // Rate limiting check
+    const rateLimit = checkRateLimit(ipHash, {
+      maxRequests: FEED_RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW,
+    })
+
+    if (!rateLimit.allowed) {
+      const resetInSeconds = Math.ceil((rateLimit.resetAt - Date.now()) / 1000)
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: `Please wait ${resetInSeconds} seconds before trying again`,
+          resetAt: rateLimit.resetAt,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': FEED_RATE_LIMIT_MAX.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetAt.toString(),
+          },
+        }
+      )
+    }
+
     // Require authentication
     const user = await getCurrentUser(request)
     if (!user) {
@@ -65,21 +103,65 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const body = await request.json()
+    // Parse and validate request body
+    const body = await request.json().catch(() => ({}))
 
-    // Set author from authenticated user
-    body.authorId = user.id
+    // Determine post type and validate with appropriate schema
+    let validatedData: z.infer<typeof createNativePostSchema> | z.infer<typeof createImportPostSchema>
 
-    // Pass IP for rate limiting
-    body.ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '127.0.0.1'
-
-    // Fetch preview if this is an import post and preview not provided
-    if (body.type === 'import' && body.sourceUrl && !body.preview) {
-      body.preview = await fetchSocialMediaPreview(body.sourceUrl, body.ip)
+    if (body.sourceUrl) {
+      // Import post (has sourceUrl)
+      const result = createImportPostSchema.safeParse(body)
+      if (!result.success) {
+        return NextResponse.json(
+          {
+            error: 'Validation failed',
+            details: result.error.format()
+          },
+          { status: 400 }
+        )
+      }
+      validatedData = result.data
+    } else {
+      // Native post (has content/title)
+      const result = createNativePostSchema.safeParse(body)
+      if (!result.success) {
+        return NextResponse.json(
+          {
+            error: 'Validation failed',
+            details: result.error.format()
+          },
+          { status: 400 }
+        )
+      }
+      validatedData = result.data
     }
 
-    const post = await createPost(body)
-    return NextResponse.json({ post }, { status: 201 })
+    // Build post data with author and IP
+    let postData: any = {
+      ...validatedData,
+      authorId: user.id,
+      ip: clientIp,
+    }
+
+    // Fetch preview if this is an import post and preview not provided
+    if ('sourceUrl' in validatedData && validatedData.sourceUrl && !body.preview) {
+      postData.preview = await fetchSocialMediaPreview(validatedData.sourceUrl, clientIp)
+    }
+
+    const post = await createPost(postData)
+
+    return NextResponse.json(
+      { post },
+      {
+        status: 201,
+        headers: {
+          'X-RateLimit-Limit': FEED_RATE_LIMIT_MAX.toString(),
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': rateLimit.resetAt.toString(),
+        },
+      }
+    )
   } catch (error: any) {
     console.error('POST /api/feed error:', error)
     return NextResponse.json(

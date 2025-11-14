@@ -24,6 +24,9 @@ describe('BridgeChat', () => {
   beforeEach(() => {
     // Reset fetch mock before each test
     global.fetch = vi.fn()
+
+    // Mock scrollIntoView (not available in JSDOM/test environment)
+    Element.prototype.scrollIntoView = vi.fn()
   })
 
   describe('rendering', () => {
@@ -101,7 +104,7 @@ describe('BridgeChat', () => {
         expect.objectContaining({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: 'What is TogetherOS?' }),
+          body: JSON.stringify({ question: 'What is TogetherOS?', conversationHistory: [] }),
         })
       )
     })
