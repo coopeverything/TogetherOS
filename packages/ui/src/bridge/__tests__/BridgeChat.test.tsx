@@ -24,6 +24,9 @@ describe('BridgeChat', () => {
   beforeEach(() => {
     // Reset fetch mock before each test
     global.fetch = vi.fn()
+
+    // Mock scrollIntoView (not available in JSDOM/test environment)
+    Element.prototype.scrollIntoView = vi.fn()
   })
 
   describe('rendering', () => {
