@@ -352,10 +352,10 @@ export default function DashboardTestPage() {
                         </div>
                         <p className="text-gray-700 mb-4">{post.summary}</p>
                         <div className="flex items-center gap-4 text-sm text-gray-500">
-                          <span>❤️ {post.reactions.care}</span>
-                          <span>💡 {post.reactions.insightful}</span>
-                          <span>✓ {post.reactions.agree}</span>
-                          <span>⚡ {post.reactions.act}</span>
+                          <span>❤️ {post.reactions?.care}</span>
+                          <span>💡 {post.reactions?.insightful}</span>
+                          <span>✓ {post.reactions?.agree}</span>
+                          <span>⚡ {post.reactions?.act}</span>
                           <button className="text-blue-600 hover:text-blue-700">
                             💬 Discuss ({post.discussionCount})
                           </button>
@@ -581,7 +581,7 @@ export default function DashboardTestPage() {
       </div>
 
       {/* Bridge Chat (Floating) */}
-      <BridgeChat />
+      <BridgeChatWidget />
     </div>
   )
 }
