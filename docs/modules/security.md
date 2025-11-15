@@ -478,7 +478,7 @@ tail logs/bridge/actions-$(date +%Y-%m-%d).ndjson
 - [Error Catching](../ERROR_CATCHING.md) - Complete security strategy
 - [Monitoring Setup](../ops/MONITORING.md) - Sentry, UptimeRobot
 - [Auth Module](./auth.md) - Authentication, JWT
-- [CI/CD Discipline](../../.claude/knowledge/ci-cd-discipline.md) - Deployment security
+- [CI/CD Discipline](https://github.com/coopeverything/TogetherOS/blob/main/.claude/knowledge/ci-cd-discipline.md) - Deployment security
 
 ---
 

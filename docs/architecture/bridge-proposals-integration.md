@@ -923,9 +923,9 @@ When implementing Bridge integration:
 
 - [Governance Module Spec](../modules/governance.md)
 - [Bridge Module Spec](../modules/bridge.md)
-- [Support Points Integration](../modules/support-points.md)
+- Support Points Integration (coming soon)
 - [Data Models](../data-models.md)
-- [API Conventions](./api-conventions.md)
+- API Conventions (coming soon)
 
 ---
 

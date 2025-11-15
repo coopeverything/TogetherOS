@@ -425,7 +425,7 @@ beforeSend(event) {
 - [Monitoring Setup](../ops/MONITORING.md) - Sentry, UptimeRobot, runbooks
 - [Manual Setup Guide](../ops/MANUAL_SETUP.md) - Step-by-step configuration
 - [Security Module](./security.md) - CodeQL, Dependabot, privacy
-- [CI/CD Discipline](../../.claude/knowledge/ci-cd-discipline.md) - Deployment workflow
+- [CI/CD Discipline](https://github.com/coopeverything/TogetherOS/blob/main/.claude/knowledge/ci-cd-discipline.md) - Deployment workflow
 
 ---
 

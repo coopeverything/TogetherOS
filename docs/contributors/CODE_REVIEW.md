@@ -332,8 +332,8 @@ If review is taking too long:
 
 - [GETTING_STARTED.md](GETTING_STARTED.md) - Setup guide
 - [WORKFLOW.md](WORKFLOW.md) - Git workflow
-- [docs/architecture.md](.architecture.md) - Technical design
-- [docs/cooperation-paths.md](.cooperation-paths.md) - Project taxonomy
+- [docs/architecture.md](../architecture.md) - Technical design
+- [docs/cooperation-paths.md](../cooperation-paths.md) - Project taxonomy
 
 ---
 

@@ -770,7 +770,7 @@ Before deploying Governance module to production:
 - [Governance Module Spec](../modules/governance.md) - Complete requirements
 - [Bridge-Proposals Integration](./bridge-proposals-integration.md) - Future AI features
 - [TogetherOS Architecture](../TogetherOS_WhitePaper.md) - System-wide patterns
-- [CI/CD Discipline](../.claude/knowledge/ci-cd-discipline.md) - Deployment workflows
+- [CI/CD Discipline](https://github.com/coopeverything/TogetherOS/blob/main/.claude/knowledge/ci-cd-discipline.md) - Deployment workflows
 
 ---
 

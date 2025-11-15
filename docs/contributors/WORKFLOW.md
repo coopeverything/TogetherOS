@@ -201,7 +201,7 @@ Every PR must be tagged with ONE of these paths:
 7. **Collaborative Media & Culture** - Storytelling, archives, media
 8. **Common Planet** - Regeneration, sustainability, climate resilience
 
-See [docs/cooperation-paths.md](.cooperation-paths.md) for details.
+See [docs/cooperation-paths.md](../cooperation-paths.md) for details.
 
 ## Common Tasks
 
@@ -317,6 +317,6 @@ git push
 
 - [GETTING_STARTED.md](GETTING_STARTED.md) - Setup and first contribution
 - [CODE_REVIEW.md](CODE_REVIEW.md) - Review process and expectations
-- [docs/architecture.md](.architecture.md) - Technical architecture
-- [docs/tech-stack.md](.tech-stack.md) - Frameworks and tools
-- [docs/cooperation-paths.md](.cooperation-paths.md) - Project taxonomy
+- [docs/architecture.md](../architecture.md) - Technical architecture
+- [docs/tech-stack.md](../tech-stack.md) - Frameworks and tools
+- [docs/cooperation-paths.md](../cooperation-paths.md) - Project taxonomy

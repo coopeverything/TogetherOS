@@ -403,8 +403,8 @@ See `docs/ops/MONITORING.md` - Section 8: Runbooks
 ## Related Documentation
 
 - [Monitoring Setup](./ops/MONITORING.md) - UptimeRobot, Sentry, health checks
-- [CI/CD Discipline](../.claude/knowledge/ci-cd-discipline.md) - Proof lines, workflows
-- [Security Policy](../SECURITY.md) - Vulnerability reporting
+- [CI/CD Discipline](https://github.com/coopeverything/TogetherOS/blob/main/.claude/knowledge/ci-cd-discipline.md) - Proof lines, workflows
+- [Security Policy](https://github.com/coopeverything/TogetherOS/blob/main/SECURITY.md) - Vulnerability reporting
 - [Operations Playbook](./OPERATIONS.md) - Contributor workflow
 
 ---

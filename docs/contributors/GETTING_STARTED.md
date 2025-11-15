@@ -102,12 +102,12 @@ git push -u origin feature/your-change-name
 ## Need Help?
 
 - **Documentation:** Check `/docs` directory
-- **Architecture:** [docs/architecture.md](.architecture.md)
+- **Architecture:** [docs/architecture.md](../architecture.md)
 - **Workflow Details:** [WORKFLOW.md](WORKFLOW.md)
 - **Questions:** Open a discussion on GitHub
 
 ## Next Steps
 
 - Read [WORKFLOW.md](WORKFLOW.md) for detailed git workflow
-- Review [docs/cooperation-paths.md](.cooperation-paths.md) for project taxonomy
+- Review [docs/cooperation-paths.md](../cooperation-paths.md) for project taxonomy
 - Check [docs/modules/](../modules/) for module specifications

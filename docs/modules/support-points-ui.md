@@ -873,8 +873,8 @@ export const adminEconomyRouter = router({
 
 ## Related Documentation
 
-- [Reputation Module](./reputation.md) — Backend (45% complete)
+- Reputation Module (coming soon) — Backend (45% complete)
 - [Gamification Module](./gamification.md) — RP earning system
 - [Governance Module](./governance.md) — Proposal prioritization
 - [Admin Accountability Module](./admin-accountability.md) — Exchange rate governance
-- [Social Economy](../architecture/social-economy.md) — Economic principles
+- Social Economy (coming soon) — Economic principles
