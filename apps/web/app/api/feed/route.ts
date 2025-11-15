@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { listPosts, createPost } from '../../../../api/src/modules/feed/handlers/posts'
 import { fetchSocialMediaPreview } from '../../../../api/src/services/socialMediaFetcher'
 import { getCurrentUser } from '@/lib/auth/middleware'
-import { findUserById } from '@/lib/db/users'
+import { findUserById, findUsersByIds } from '@/lib/db/users'
 import { checkRateLimit } from '../../../../../lib/bridge/rate-limiter'
 import { hashIp, getClientIp } from '@/lib/bridge/logger'
 import { createNativePostSchema, createImportPostSchema } from '@togetheros/validators/feed'
@@ -32,21 +32,22 @@ export async function GET(request: NextRequest) {
 
     const result = await listPosts(filters)
 
-    // Enrich posts with author information
-    const postsWithAuthorInfo = await Promise.all(
-      result.posts.map(async (post) => {
-        const author = await findUserById(post.authorId)
-        return {
-          ...post,
-          authorInfo: author ? {
-            id: author.id,
-            name: author.name,
-            city: author.city,
-            avatar_url: author.avatar_url,
-          } : null
-        }
-      })
-    )
+    // Enrich posts with author information (batch fetch to prevent N+1 queries)
+    const authorIds = result.posts.map(post => post.authorId)
+    const authorsMap = await findUsersByIds(authorIds)
+
+    const postsWithAuthorInfo = result.posts.map(post => {
+      const author = authorsMap.get(post.authorId)
+      return {
+        ...post,
+        authorInfo: author ? {
+          id: author.id,
+          name: author.name,
+          city: author.city,
+          avatar_url: author.avatar_url,
+        } : null
+      }
+    })
 
     return NextResponse.json({
       ...result,

@@ -90,6 +90,31 @@ export async function findUserById(id: string): Promise<User | null> {
 }
 
 /**
+ * Find multiple users by IDs (batch fetch to prevent N+1 queries)
+ */
+export async function findUsersByIds(ids: string[]): Promise<Map<string, User>> {
+  if (ids.length === 0) {
+    return new Map();
+  }
+
+  // Remove duplicates
+  const uniqueIds = [...new Set(ids)];
+
+  const result = await query<User>(
+    'SELECT * FROM users WHERE id = ANY($1) AND deleted_at IS NULL',
+    [uniqueIds]
+  );
+
+  // Create a map for O(1) lookups
+  const userMap = new Map<string, User>();
+  result.rows.forEach((user) => {
+    userMap.set(user.id, user);
+  });
+
+  return userMap;
+}
+
+/**
  * Find user by username
  * @param username - Username to search for
  * @param checkVisibility - If true, only return users with public profiles
