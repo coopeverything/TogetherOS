@@ -49,6 +49,14 @@ export async function generateMetadata({ params }: DocsPageProps): Promise<Metad
 
 export default async function DocsPage({ params }: DocsPageProps) {
   const { slug } = await params
+
+  // Special handling for modules INDEX - use custom component
+  if (slug.length === 2 && slug[0] === 'modules' && slug[1] === 'INDEX') {
+    // Import and render the custom modules index page
+    const ModulesIndexPage = (await import('../modules/INDEX/page')).default
+    return <ModulesIndexPage />
+  }
+
   const doc = await getDocContent(slug)
 
   if (!doc) {
