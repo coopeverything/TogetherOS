@@ -1,5 +1,5 @@
 /**
- * BridgeChat Component
+ * BridgeChatWidget Component
  *
  * Expandable AI chat interface (bottom-right corner).
  * Provides conversational assistance for dashboard actions.
@@ -9,12 +9,12 @@
 
 import { useState } from 'react'
 
-export interface BridgeChatProps {
+export interface BridgeChatWidgetProps {
   /** Optional CSS class */
   className?: string
 }
 
-export function BridgeChat({ className = '' }: BridgeChatProps) {
+export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
     {

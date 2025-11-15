@@ -3,8 +3,7 @@
  *
  * Reusable components for dashboard layouts
  */
-
-export * from './SampleBadge'
-export * from './CompactMetrics'
+export * from './BridgeChat' // BridgeChatWidget
 export * from './CollapsibleModule'
-export * from './BridgeChat'
+export * from './CompactMetrics'
+export * from './SampleBadge'

@@ -18,7 +18,7 @@ import {
   SampleContainer,
   CompactMetrics,
   CollapsibleModule,
-  BridgeChat,
+  BridgeChatWidget,
 } from '@togetheros/ui/dashboard'
 
 export default function DashboardTestPage() {
