@@ -1,8 +1,8 @@
 /**
  * SampleBadge Component
  *
- * Visual indicator for placeholder/demo data in test pages.
- * Uses diagonal stripe pattern to clearly mark fictional content.
+ * Subtle visual indicator for placeholder/demo data in test pages.
+ * Uses a minimal badge to mark fictional content.
  */
 
 'use client'
@@ -38,12 +38,7 @@ export function SampleBadge({
 }: SampleBadgeProps) {
   return (
     <div
-      className={`absolute ${positionClasses[position]} ${sizeClasses[size]} font-bold tracking-wider z-10`}
-      style={{
-        background: 'repeating-linear-gradient(45deg, #000, #000 10px, #fff 10px, #fff 20px)',
-        color: '#fff',
-        textShadow: '0 0 2px #000',
-      }}
+      className={`absolute ${positionClasses[position]} ${sizeClasses[size]} font-medium tracking-wide z-10 bg-gray-100 text-gray-500 rounded opacity-60 border border-gray-300`}
     >
       {label}
     </div>
