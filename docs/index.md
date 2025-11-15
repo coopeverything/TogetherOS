@@ -17,27 +17,27 @@ This page lists the **canonical docs**. If you rename or add a doc, update this 
 ## Status & Planning
 
 - Public status explainer: [STATUS_v2.md](./STATUS_v2.md)
-- Progress changelog: [STATUS/progress-log.md](../STATUS/progress-log.md)
+- Progress changelog: [progress-log.md](https://github.com/coopeverything/TogetherOS/blob/main/STATUS/progress-log.md)
 - Tech roadmap: [roadmap/TECH_ROADMAP.md](./roadmap/TECH_ROADMAP.md)
 
 ## Knowledge Base (Detailed Specs)
 
 For comprehensive implementation guides, architecture patterns, and module specifications, see:
 
-- [Main Knowledge Base](../.claude/knowledge/togetheros-kb.md) — Core identity, workflow, and principles
-- [Tech Stack](.tech-stack.md) — Framework versions, dependencies, tooling
-- [Architecture Patterns](.architecture.md) — Data models, API contracts, monorepo structure
-- [Bridge Module](../modules/bridge.md) — Complete AI assistant specification
-- [Governance Module](../modules/governance.md) — Proposals & decisions implementation
-- [Social Economy](../modules/social-economy.md) — Support Points, timebanking, Social Horizon currency
-- [Cooperation Paths](.cooperation-paths.md) — Full taxonomy with subcategories
-- [CI/CD Discipline](../.claude/knowledge/ci-cd-discipline.md) — Proof lines, validation workflows
-- [Data Models](.data-models.md) — Core entities and relationships
+- [Main Knowledge Base](https://github.com/coopeverything/TogetherOS/blob/main/.claude/knowledge/togetheros-kb.md) — Core identity, workflow, and principles
+- [Tech Stack](./tech-stack.md) — Framework versions, dependencies, tooling
+- [Architecture Patterns](./architecture.md) — Data models, API contracts, monorepo structure
+- [Bridge Module](./modules/bridge.md) — Complete AI assistant specification
+- [Governance Module](./modules/governance.md) — Proposals & decisions implementation
+- [Social Economy](./modules/social-economy.md) — Support Points, timebanking, Social Horizon currency
+- [Cooperation Paths](./cooperation-paths.md) — Full taxonomy with subcategories
+- [CI/CD Discipline](https://github.com/coopeverything/TogetherOS/blob/main/.claude/knowledge/ci-cd-discipline.md) — Proof lines, validation workflows
+- [Data Models](./data-models.md) — Core entities and relationships
 
 ## Contributor Hubs
 
 - Discussions landing: https://github.com/coopeverything/TogetherOS/discussions/88
-- Repository README: [../README.md](../README.md)
+- Repository README: [README.md](https://github.com/coopeverything/TogetherOS/blob/main/README.md)
 - Modules Hub: [modules/INDEX.md](./modules/INDEX.md)
 
 ## 8 Paths (quick reference)

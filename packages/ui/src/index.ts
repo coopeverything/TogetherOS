@@ -5,6 +5,7 @@
 export * from './bridge'
 export * from './bridge-training'
 export * from './dashboard'
+export * from './docs'
 export * from './feed'
 export * from './governance'
 export * from './groups'
