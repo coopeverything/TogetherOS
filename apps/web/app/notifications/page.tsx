@@ -148,7 +148,7 @@ export default function NotificationsPage() {
         <h2 className="text-xl font-semibold text-blue-900 mb-3">For Developers</h2>
         <p className="text-blue-800 mb-3">
           Module spec: <a
-            href="https://github.com/coopeverything/TogetherOS/blob/main/docs/modules/notifications.md"
+            href="https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/notifications.md"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 underline font-medium hover:text-blue-600"
