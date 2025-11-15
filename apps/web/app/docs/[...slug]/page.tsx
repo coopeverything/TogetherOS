@@ -12,21 +12,30 @@ interface DocsPageProps {
 
 async function getDocContent(slug: string[]) {
   try {
-    // Build file path from slug
-    const filePath = join(process.cwd(), '..', '..', 'docs', ...slug) + '.md'
+    // Build file path from slug (production cwd is monorepo root)
+    const filePath = join(process.cwd(), 'docs', ...slug) + '.md'
+
+    console.log('[Docs] Attempting to read:', filePath)
 
     // Read markdown file
     const content = readFileSync(filePath, 'utf-8')
 
     // Convert to HTML
-    const html = marked(content)
+    const html = await marked(content)
 
     // Extract title from first H1 or use filename
     const titleMatch = content.match(/^#\s+(.+)$/m)
     const title = titleMatch ? titleMatch[1] : slug[slug.length - 1]
 
+    console.log('[Docs] Successfully loaded:', slug.join('/'))
+
     return { html, title }
   } catch (error) {
+    console.error('[Docs] Failed to load documentation:', {
+      slug: slug.join('/'),
+      error: error instanceof Error ? error.message : String(error),
+      cwd: process.cwd(),
+    })
     return null
   }
 }
