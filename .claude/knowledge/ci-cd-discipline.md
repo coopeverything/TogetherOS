@@ -89,9 +89,10 @@ git push origin yolo
 - ✅ Changes must not break production
 - ✅ TypeScript must compile (build succeeds)
 - ✅ No P1 CodeQL security alerts in modified files
+- ✅ Proof line: `TESTS=OK` in PR description (Danger.js enforces this)
 
 **RECOMMENDED (best practice):**
-- Proof line: `TESTS=OK` in commit/PR description
+- Proof line: `TYPECHECK=OK` in PR description
 - Run `./scripts/validate.sh` for critical code
 - Create PR for features requiring bot feedback
 - Document breaking changes in CHANGELOG.md
@@ -129,13 +130,17 @@ git push origin yolo
 - Security-sensitive code (want Codex security review)
 - Want deployment verification before merge
 
-**PR process:**
+**PR process (REQUIRED - complete ALL steps):**
 1. Push feature branch
-2. Create PR to yolo (not main)
-3. Wait for bot reviews (~5 min)
-4. Fix P1 issues if any
-5. Merge when checks pass
-6. Monitor auto-deploy
+2. Create PR to yolo (not main) with `TESTS=OK` proof line
+3. **WAIT 5 minutes** for bot reviews to start
+4. Check CI status: `gh pr checks <PR#>`
+5. Check for Codex P1 issues: `gh pr view <PR#> --json reviews`
+6. Check for Copilot sub-PRs: `gh pr list --author "app/copilot-swe-agent" --search "<PR#>"`
+7. Fix any P1 issues immediately
+8. **MERGE when ALL checks pass:** `gh pr merge <PR#> --squash --delete-branch`
+9. Monitor auto-deploy: `gh run watch`
+10. Verify deployment health before moving to next task
 
 ### Proof Lines (Recommended)
 
