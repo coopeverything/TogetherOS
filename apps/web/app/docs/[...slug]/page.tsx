@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { marked } from 'marked'
@@ -50,11 +50,9 @@ export async function generateMetadata({ params }: DocsPageProps): Promise<Metad
 export default async function DocsPage({ params }: DocsPageProps) {
   const { slug } = await params
 
-  // Special handling for modules INDEX - use custom component
+  // Redirect modules INDEX to standalone modules page
   if (slug.length === 2 && slug[0] === 'modules' && slug[1] === 'INDEX') {
-    // Import and render the custom modules index page
-    const ModulesIndexPage = (await import('../modules/INDEX/page')).default
-    return <ModulesIndexPage />
+    redirect('/modules')
   }
 
   const doc = await getDocContent(slug)

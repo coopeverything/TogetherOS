@@ -38,7 +38,7 @@ For comprehensive implementation guides, architecture patterns, and module speci
 
 - Discussions landing: https://github.com/coopeverything/TogetherOS/discussions/88
 - Repository README: [README.md](https://github.com/coopeverything/TogetherOS/blob/main/README.md)
-- Modules Hub: [modules/INDEX.md](./modules/INDEX.md)
+- Modules Hub: [Interactive Modules Hub](https://www.coopeverything.org/modules) | [Markdown INDEX](./modules/INDEX.md)
 
 ## 8 Paths (quick reference)
 
