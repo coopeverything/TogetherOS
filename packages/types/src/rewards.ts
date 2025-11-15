@@ -152,3 +152,407 @@ export const SP_WEIGHTS: Record<RewardEventType, number> = {
   group_joined: 3,          // Joining an existing group
   city_group_joined: 0,     // Joining city group (no reward)
 }
+
+// ==================================================
+// Ledger 2: Reward Points (RP)
+// ==================================================
+
+/**
+ * RP transaction types
+ */
+export type RPTransactionType =
+  | 'earn_contribution'  // Earned from contribution event
+  | 'earn_dues'          // Earned from monthly membership fee
+  | 'earn_donation'      // Earned from one-off donation
+  | 'spend_tbc'          // Spent converting to TBC
+  | 'spend_sh'           // Spent purchasing SH in event
+  | 'spend_perk'         // Spent on perk (priority seat, raffle, etc.)
+
+/**
+ * Reward Points balance (per member)
+ */
+export interface RewardPointsBalance {
+  memberId: string
+  totalEarned: number
+  available: number
+  spentOnTBC: number
+  spentOnSH: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Reward Points transaction
+ */
+export interface RewardPointsTransaction {
+  id: string
+  memberId: string
+  type: RPTransactionType
+  amount: number
+  source?: string  // 'pr_merged', 'monthly_dues', 'donation_campaign_X'
+  metadata?: Record<string, unknown>
+  createdAt: Date
+}
+
+/**
+ * RP earning rule (configurable via governance)
+ */
+export interface RPEarningRule {
+  id: string
+  eventType: string  // Same as RewardEventType
+  rpAmount: number
+  minThreshold?: Record<string, unknown>
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * RP → TBC conversion
+ */
+export interface RPToTBCConversion {
+  id: string
+  memberId: string
+  rpSpent: number
+  tbcReceived: number
+  conversionMonth: string  // YYYY-MM-DD format
+  rateUsed: number  // RP per 1 TBC
+  createdAt: Date
+}
+
+// ==================================================
+// Ledger 3: Timebank Credits (TBC)
+// ==================================================
+
+/**
+ * Timebank transaction status
+ */
+export type TimebankTransactionStatus =
+  | 'pending'    // Awaiting receiver confirmation
+  | 'confirmed'  // Both parties confirmed
+  | 'disputed'   // Under dispute resolution
+  | 'resolved'   // Dispute resolved
+
+/**
+ * Timebank account balance
+ */
+export interface TimebankAccount {
+  memberId: string
+  balance: number
+  totalEarned: number
+  totalSpent: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Timebank service transaction
+ */
+export interface TimebankTransaction {
+  id: string
+  providerId: string
+  receiverId: string
+  serviceId?: string
+  serviceDescription: string
+  tbcCost: number
+  hourlyRate?: number  // TBC per hour (1-3 typically)
+  hoursProvided?: number
+  status: TimebankTransactionStatus
+  confirmedAt?: Date
+  metadata?: Record<string, unknown>
+  createdAt: Date
+}
+
+/**
+ * Timebank service offering
+ */
+export interface TimebankService {
+  id: string
+  memberId: string
+  serviceType: string  // 'tutoring', 'massage', 'repair', etc.
+  title: string
+  description?: string
+  tbcPerHour: number  // Pricing (1-3 typically)
+  availability?: string
+  locationPreference?: 'remote' | 'in_person' | 'both'
+  cityId?: string
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+// ==================================================
+// Ledger 4: Social Horizon (SH)
+// ==================================================
+
+/**
+ * SH transaction types
+ */
+export type SHTransactionType =
+  | 'issuance'       // Allocated in issuance cycle
+  | 'rp_purchase'    // Purchased with RP in event
+  | 'money_purchase' // Purchased with money in campaign
+  | 'dividend'       // Dividend received
+  | 'transfer'       // P2P transfer (if allowed)
+
+/**
+ * SH purchase event status
+ */
+export type SHPurchaseEventStatus =
+  | 'pending'  // Not yet started
+  | 'active'   // Currently open for purchases
+  | 'closed'   // Ended
+
+/**
+ * Social Horizon wallet balance
+ */
+export interface SocialHorizonWallet {
+  memberId: string
+  shBalance: number
+  totalIssued: number
+  totalTransferred: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * SH issuance cycle
+ */
+export interface SHIssuanceCycle {
+  id: string
+  cycleName: string  // 'Q1 2025', 'Q2 2025'
+  issuanceDate: string  // YYYY-MM-DD
+  totalSHIssued: number
+  contributionAllocated: number  // Portion for contribution-based (80%)
+  purchaseAllocated: number      // Portion for purchase events (20%)
+  formulaUsed?: string
+  metadata?: Record<string, unknown>
+  createdAt: Date
+}
+
+/**
+ * SH allocation (per cycle, per member)
+ */
+export interface SHAllocation {
+  id: string
+  cycleId: string
+  memberId: string
+  shAmount: number
+  basis: 'contribution' | 'timebank_activity' | 'rp_purchase' | 'money_purchase'
+  calculationDetails?: Record<string, unknown>
+  createdAt: Date
+}
+
+/**
+ * SH purchase event (rare, capped)
+ */
+export interface SHPurchaseEvent {
+  id: string
+  eventName: string
+  cycleId?: string
+  startDate: Date
+  endDate: Date
+  rpPerSH?: number      // RP cost per 1 SH
+  moneyPerSH?: number   // USD cost per 1 SH
+  shCapPerPerson: number  // Max SH per member
+  globalSHCap: number     // Total SH available
+  shDistributed: number   // How much distributed so far
+  fiscalRegularityRequired: boolean
+  status: SHPurchaseEventStatus
+  metadata?: Record<string, unknown>
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * SH transaction
+ */
+export interface SHTransaction {
+  id: string
+  fromWallet?: string  // NULL for issuance
+  toWallet?: string    // NULL for burns
+  amount: number
+  transactionType: SHTransactionType
+  eventId?: string
+  cycleId?: string
+  metadata?: Record<string, unknown>
+  createdAt: Date
+}
+
+// ==================================================
+// Budget Tracking
+// ==================================================
+
+/**
+ * Global budget fund types
+ */
+export type GlobalBudgetFundType =
+  | 'infra'         // Infrastructure (servers, tools)
+  | 'legal'         // Legal, compliance
+  | 'platform_team' // Core contributors
+  | 'solidarity'    // Bootstrap grants, crisis support
+
+/**
+ * City budget fund types
+ */
+export type CityBudgetFundType =
+  | 'local'  // Recurring costs, meetups, outreach
+  | 'event'  // Specific events and campaigns
+
+/**
+ * Donor badge tier
+ */
+export type DonorTier = 'bronze' | 'silver' | 'gold' | 'platinum'
+
+/**
+ * Global budget
+ */
+export interface GlobalBudget {
+  id: string
+  fundType: GlobalBudgetFundType
+  balanceUSD: number
+  totalAllocatedUSD: number
+  totalSpentUSD: number
+  currency: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * City budget
+ */
+export interface CityBudget {
+  id: string
+  cityId: string
+  fundType: CityBudgetFundType
+  balanceUSD: number
+  totalAllocatedUSD: number
+  totalSpentUSD: number
+  currency: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Membership fee record
+ */
+export interface MembershipFee {
+  id: string
+  memberId: string
+  paymentDate: string  // YYYY-MM-DD
+  amountUSD: number
+  currency: string
+  rpGranted: number
+  allocationSplit: Record<string, number>  // {"global_infra": 0.5, "local_city": 0.3, "solidarity": 0.2}
+  paymentMethod?: string
+  metadata?: Record<string, unknown>
+  createdAt: Date
+}
+
+/**
+ * Donation record
+ */
+export interface Donation {
+  id: string
+  donorId?: string  // NULL if anonymous
+  amountUSD: number
+  currency: string
+  rpGranted?: number  // NULL if donor not a member
+  campaignId?: string
+  tier?: DonorTier
+  allocationSplit: Record<string, number>
+  paymentMethod?: string
+  metadata?: Record<string, unknown>
+  createdAt: Date
+}
+
+// ==================================================
+// Input Types
+// ==================================================
+
+/**
+ * Input for earning RP from contribution
+ */
+export interface EarnRPFromContributionInput {
+  memberId: string
+  eventType: RewardEventType
+  rpAmount: number
+  source: string
+  metadata?: Record<string, unknown>
+}
+
+/**
+ * Input for converting RP to TBC
+ */
+export interface ConvertRPToTBCInput {
+  memberId: string
+  rpAmount: number
+  conversionMonth: string  // YYYY-MM-DD
+}
+
+/**
+ * Input for creating timebank transaction
+ */
+export interface CreateTimebankTransactionInput {
+  providerId: string
+  receiverId: string
+  serviceId?: string
+  serviceDescription: string
+  tbcCost: number
+  hourlyRate?: number
+  hoursProvided?: number
+  metadata?: Record<string, unknown>
+}
+
+/**
+ * Input for creating timebank service
+ */
+export interface CreateTimebankServiceInput {
+  memberId: string
+  serviceType: string
+  title: string
+  description?: string
+  tbcPerHour: number
+  availability?: string
+  locationPreference?: 'remote' | 'in_person' | 'both'
+  cityId?: string
+}
+
+/**
+ * Input for purchasing SH with RP
+ */
+export interface PurchaseSHWithRPInput {
+  memberId: string
+  eventId: string
+  rpAmount: number
+  shAmount: number
+}
+
+/**
+ * Input for recording membership fee
+ */
+export interface RecordMembershipFeeInput {
+  memberId: string
+  paymentDate: string
+  amountUSD: number
+  currency: string
+  rpGranted: number
+  allocationSplit: Record<string, number>
+  paymentMethod?: string
+  metadata?: Record<string, unknown>
+}
+
+/**
+ * Input for recording donation
+ */
+export interface RecordDonationInput {
+  donorId?: string
+  amountUSD: number
+  currency: string
+  rpGranted?: number
+  campaignId?: string
+  tier?: DonorTier
+  allocationSplit: Record<string, number>
+  paymentMethod?: string
+  metadata?: Record<string, unknown>
+}
