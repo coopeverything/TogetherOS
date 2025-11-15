@@ -1,5 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { marked } from 'marked'
 import type { Metadata } from 'next'
@@ -12,10 +12,32 @@ interface DocsPageProps {
 
 async function getDocContent(slug: string[]) {
   try {
-    // Build file path from slug (production cwd is monorepo root)
-    const filePath = join(process.cwd(), 'docs', ...slug) + '.md'
+    const cwd = process.cwd()
 
-    console.log('[Docs] Attempting to read:', filePath)
+    // Try multiple possible paths (handles both dev and production)
+    const possiblePaths = [
+      join(cwd, '..', '..', 'docs', ...slug) + '.md', // From apps/web (production)
+      join(cwd, 'docs', ...slug) + '.md', // From monorepo root (dev/build)
+    ]
+
+    let filePath: string | null = null
+    for (const path of possiblePaths) {
+      if (existsSync(path)) {
+        filePath = path
+        break
+      }
+    }
+
+    if (!filePath) {
+      console.error('[Docs] File not found. Tried paths:', {
+        slug: slug.join('/'),
+        cwd,
+        paths: possiblePaths,
+      })
+      return null
+    }
+
+    console.log('[Docs] Reading:', filePath)
 
     // Read markdown file
     const content = readFileSync(filePath, 'utf-8')
