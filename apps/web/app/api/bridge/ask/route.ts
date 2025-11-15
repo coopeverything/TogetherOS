@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { join } from 'path';
+import { readFileSync } from 'fs';
 import { checkRateLimit } from '@/lib/bridge/rate-limiter';
 import { logBridgeAction, getClientIp, hashIp } from '@/lib/bridge/logger';
 import {
@@ -20,44 +21,30 @@ import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
 import { PostgresBridgeTrainingRepo } from '../../../../../api/src/modules/bridge-training/repos/PostgresBridgeTrainingRepo';
+import { sanitizeBridgeRequest } from '../../../../lib/bridge/input-sanitizer';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const BRIDGE_SYSTEM_PROMPT = `You are Bridge, the assistant of TogetherOS. Your role is to guide people through cooperation, not just answer questions directly.
 
-When someone asks you a question:
-1. First, ask clarifying questions to understand their situation better
-2. Guide them step-by-step through their options
-3. Help them think through what actions they can take
-4. Be conversational, empathetic, and encouraging
+// Load system prompt from external markdown file
+let BRIDGE_SYSTEM_PROMPT: string | null = null;
 
-For example:
-- If someone asks "What can 15 people do?" → Ask: "Are you already in contact with them?"
-- If they say "No" → Suggest: "Would you like to reach out to them? 15 people make a nice number for a meeting..."
-- If they say "Yes" → Ask: "Have you organized a meeting yet?"
-
-Speak plainly, avoid jargon, emphasize cooperation and empathy. Be concise and use concrete examples.
-
-**FORMATTING REQUIREMENTS (MANDATORY):**
-- Use ### for section headings when structuring your response
-- Use - or * for bullet lists (NOT numbered lists like 1. 2. 3.)
-- Add a blank line BEFORE and AFTER each list
-- Add a blank line between paragraphs for readability
-- Use **bold** for emphasis on key terms
-- Make links clickable using [descriptive text](URL) format
-
-Example of proper formatting:
-### First Steps
-
-Here's what you can do:
-
-- Explore local events and workshops
-- Join online groups related to your interests
-- Consider volunteering in your community
-
-Each step helps you connect with others.`;
+function getSystemPrompt(): string {
+  if (!BRIDGE_SYSTEM_PROMPT) {
+    try {
+      const promptPath = join(process.cwd(), 'apps', 'web', 'lib', 'bridge', 'system-prompt.md');
+      BRIDGE_SYSTEM_PROMPT = readFileSync(promptPath, 'utf-8');
+      console.log('[Bridge] Loaded system prompt from file');
+    } catch (error) {
+      console.error('[Bridge] Error loading system prompt:', error);
+      // Fallback to basic prompt if file not found
+      BRIDGE_SYSTEM_PROMPT = 'You are Bridge, the assistant of TogetherOS. Your role is to guide people through cooperation. Be conversational, empathetic, and encouraging.';
+    }
+  }
+  return BRIDGE_SYSTEM_PROMPT;
+}
 
 // Cache the document index in memory
 let docsIndex: DocEntry[] | null = null;
@@ -92,22 +79,29 @@ export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body = await request.json().catch(() => ({}));
-    const question = body.question?.trim();
-    const conversationHistory = body.conversationHistory || []; // Array of {role, content}
 
-    // Get authenticated user (optional - Bridge works for both authenticated and anonymous users)
-    const user = await getCurrentUser(request);
+    // Sanitize and validate input
+    const sanitizationResult = sanitizeBridgeRequest(body);
 
-    // Validate input - 204 for empty
-    if (!question || question.length === 0) {
+    if (!sanitizationResult.isValid) {
       logBridgeAction({
         action: 'error',
         ip_hash: ipHash,
-        status: 204,
+        status: 400,
+        error: sanitizationResult.error || 'Invalid input',
         latency_ms: Date.now() - startTime,
       });
-      return new NextResponse(null, { status: 204 });
+      return NextResponse.json(
+        { error: sanitizationResult.error || 'Invalid input' },
+        { status: 400 }
+      );
     }
+
+    const question = sanitizationResult.question!;
+    const conversationHistory = sanitizationResult.conversationHistory!;
+
+    // Get authenticated user (optional - Bridge works for both authenticated and anonymous users)
+    const user = await getCurrentUser(request);
 
     // Check API key - 401 for missing/invalid
     if (!OPENAI_API_KEY) {
@@ -188,7 +182,7 @@ export async function POST(request: NextRequest) {
     const sources = getSources(index, question, 3);
 
     // Build enhanced system prompt with context
-    let enhancedSystemPrompt = BRIDGE_SYSTEM_PROMPT;
+    let enhancedSystemPrompt = getSystemPrompt();
 
     // Add user context (personalization) if authenticated
     if (userContext) {
