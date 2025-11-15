@@ -65,13 +65,13 @@ All contribution domains will eventually generate reward events:
 ## Reward Mechanics
 
 ### 1. Support Points (SP)
-**Purpose:** Quantitative acknowledgment of contribution
+**Purpose:** Governance energy - determines which proposals reach the decision pipeline
 
 **How They Work:**
-- Earned through verified actions (PR merges, proposals, facilitation)
-- Increase visibility and unlock privileges
-- Enable participation in collective decisions
-- Partially convertible to timebank credits or Social Horizon
+- Earned ONLY through non-monetary contribution events (PR merges, proposals, facilitation, care work)
+- Allocated to proposals to signal priority (max 10 SP per proposal per person)
+- Enable agenda-setting (not voting weight - votes remain one person = one vote)
+- **NEVER convertible** to RP, TBC, SH, or money (strict anti-plutocracy invariant)
 
 **Example Weights (Phase A):**
 ```typescript
@@ -100,42 +100,90 @@ const SP_WEIGHTS = {
 
 **Visibility:** Publicly displayed on profiles, portable across projects
 
-### 3. Timebank Credits (Future)
-- Barter units exchangeable for help/mentorship within network
-- Support Points partially convertible (e.g., 100 SP → 1 hour credit)
-
-### 4. Reward Points (RP)
-**Purpose:** Gamification-specific points earned through community growth actions
+### 3. Reward Points (RP)
+**Purpose:** "The commons owes you something" - real-world claims from contributions and financial support
 
 **How They Work:**
-- Earned through specific gamified actions (inviting members, organizing meetups, launching initiatives)
-- Used to unlock progression badges and celebrate community milestones
-- Distinct from Support Points (different purpose and mechanics)
+- Earned through verified contributions (same events that grant SP, but different weights)
+- Earned through membership dues (fixed RP per paid month)
+- Earned through one-off donations (minimum grants enough RP for 1 Timebank Credit)
+- Convertible to Timebank Credits (TBC) under monthly throttling rules
+- Can be used in occasional Social Horizon (SH) purchase events (with strict caps)
+- Unlock perks and benefits (priority event seats, raffles, retreat slots)
 
 **Distinction from Support Points:**
 
 | Aspect | Support Points (SP) | Reward Points (RP) |
 |--------|---------------------|-------------------|
-| **Purpose** | Signal priorities, measure contribution across all domains | Incentivize specific community growth actions |
-| **How Earned** | Verified contributions (PRs, proposals, facilitation, care work) | Gamified actions (invitations, meetup organization, milestone achievements) |
-| **How Used** | Allocated to proposals (max 10 per idea), convertible to timebank/Social Horizon | Unlock badges, progression in skill trees |
-| **Reclaimed** | Yes, when proposals close | No, permanently earned |
-| **Initial Allocation** | 100 SP per member | 100 RP starting balance (if invited) |
-| **Module** | Social Economy, Rewards | Gamification |
+| **Purpose** | Governance energy - prioritize proposals | Economic claims - real-world benefits |
+| **Sources** | ONLY from non-monetary contributions | Contributions + membership dues + donations |
+| **How Used** | Allocate to proposals (agenda-setting) | Convert to TBC, SH purchase events, perks |
+| **Reclaimed** | Yes, when proposals close | No, consumed when spent |
+| **Convertible To** | NEVER converts to RP or money | Converts to TBC (throttled), SH (rare events) |
+| **Governance Power** | Controls agenda (what gets voted on) | NEVER grants voting power (one person = one vote) |
+| **Anti-Plutocracy** | Cannot be bought with money/RP | Can be earned from dues/donations (tangible benefit) |
 
-**Example RP Actions:**
-- Send invitation: +25 RP
-- Invitee joins: +50 RP
-- Organize first meetup (15+ members): +100 RP
-- Launch working group (50+ members): +150 RP
-- Mentor new group (100+ members): +200 RP
+**Key Invariant:** Money and RP are **never** Support Points. SP comes only from non-monetary contribution events.
 
-See `docs/modules/gamification.md` for complete RP system specification.
+**Example RP Sources:**
+- PR merged (medium): +50 RP (also grants 10 SP)
+- Monthly dues paid ($10): +100 RP (grants 0 SP)
+- Donation ($20): +200 RP (grants 0 SP, enough for 2 TBC)
+- Facilitation session: +75 RP (also grants 15 SP)
 
-### 5. Social Horizon Fractions (Future)
-- Cooperative currency for lasting value creation
-- Distributed with anti-speculation safeguards
-- Tied to verified community benefit
+**Example RP Uses:**
+- Convert 100 RP → 1 TBC (once per month, throttled)
+- Purchase 1 SH for 100 RP during special event (rare, capped)
+- Unlock priority seat at cooperative retreat
+
+**See:** `docs/guides/4-ledger-system.md` for complete economic system specification.
+
+### 4. Timebank Credits (TBC)
+**Purpose:** Time-based service exchange currency with flexible specialist pricing
+
+**How They Work:**
+- 1 TBC = 1 hour of standard service (default reference)
+- Specialists can price services at 1, 2, or 3 TBC per hour based on expertise
+- Earned by providing services to other members
+- Earned by converting RP (monthly throttling: e.g., 100 RP → 1 TBC per month)
+- Spent to request services (massage, tutoring, medical consult, child care, etc.)
+
+**Pricing Flexibility:**
+| Service Type | TBC per Hour | Example |
+|--------------|--------------|---------|
+| Basic task | 1 TBC | Tutoring, errands, basic repair |
+| Skilled service | 2 TBC | Massage therapy, specialized repair |
+| Professional | 3 TBC | Medical consult, advanced therapy |
+
+**Key Properties:**
+- Transferable via service exchange (not direct P2P transfer)
+- RP→TBC conversion rate is fixed and universal
+- Service pricing is flexible by provider agreement
+- Monthly conversion throttling prevents point farming
+
+**See:** `docs/guides/4-ledger-system.md` for complete TBC specification.
+
+### 5. Social Horizon (SH) Fractions
+**Purpose:** Long-term cooperative asset shares in the commons' future surplus
+
+**How They Work:**
+- Allocated primarily through periodic issuance cycles (based on contribution/timebank activity)
+- Occasionally available for purchase via RP or money (tightly controlled events)
+- Generate dividends from cooperative treasury and social economy profits
+- Anti-whale safeguards prevent concentration
+
+**Anti-Whale Rules:**
+- Only fiscally regular members (dues up-to-date) can participate in purchase events
+- Per-person cap on SH acquired per event (e.g., max 5 SH or 2% of cycle issuance)
+- Global cap on SH distributed via RP/money per cycle (e.g., 10-20% of issuance)
+- RP spent on SH is burned (cannot also convert to TBC)
+- Velocity dampers limit acquisition speed
+
+**Distribution:**
+- 80% of each issuance cycle → contribution-based allocation (formulas)
+- 20% of each issuance cycle → optional purchase events (capped)
+
+**See:** `docs/guides/4-ledger-system.md` for complete SH specification and anti-plutocracy safeguards.
 
 ---
 
