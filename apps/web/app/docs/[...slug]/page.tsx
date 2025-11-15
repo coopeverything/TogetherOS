@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { readFileSync, existsSync } from 'fs'
-import { join } from 'path'
+import { join, dirname } from 'path'
 import { marked } from 'marked'
 import type { Metadata } from 'next'
 
@@ -8,6 +8,71 @@ interface DocsPageProps {
   params: Promise<{
     slug: string[]
   }>
+}
+
+// Custom renderer to fix markdown links
+function createCustomRenderer(currentSlug: string[]) {
+  const renderer = new marked.Renderer()
+
+  // Override link rendering to transform .md links to proper routes
+  renderer.link = function({ href, title, tokens }) {
+    // Get the text content from tokens
+    const text = tokens?.map(t => 'text' in t ? t.text : '').join('') || ''
+
+    // Handle external links (http/https)
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer"${title ? ` title="${title}"` : ''}>${text}</a>`
+    }
+
+    // Handle mailto links
+    if (href.startsWith('mailto:')) {
+      return `<a href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`
+    }
+
+    // Handle anchor links
+    if (href.startsWith('#')) {
+      return `<a href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`
+    }
+
+    // Transform relative markdown links
+    let transformedHref = href
+
+    // Remove .md extension
+    if (transformedHref.endsWith('.md')) {
+      transformedHref = transformedHref.slice(0, -3)
+    }
+
+    // Handle relative paths
+    if (transformedHref.startsWith('../')) {
+      // Go up one directory level
+      const basePath = [...currentSlug.slice(0, -1)]
+      transformedHref = transformedHref.replace(/^\.\.\//, '')
+
+      // Continue removing ../ and adjusting path
+      while (transformedHref.startsWith('../')) {
+        basePath.pop()
+        transformedHref = transformedHref.replace(/^\.\.\//, '')
+      }
+
+      transformedHref = '/docs/' + (basePath.length > 0 ? basePath.join('/') + '/' : '') + transformedHref
+    } else if (transformedHref.startsWith('./')) {
+      // Same directory
+      transformedHref = transformedHref.replace(/^\.\//, '')
+      const basePath = currentSlug.slice(0, -1)
+      transformedHref = '/docs/' + (basePath.length > 0 ? basePath.join('/') + '/' : '') + transformedHref
+    } else if (!transformedHref.startsWith('/')) {
+      // Relative path without ./ prefix
+      const basePath = currentSlug.slice(0, -1)
+      transformedHref = '/docs/' + (basePath.length > 0 ? basePath.join('/') + '/' : '') + transformedHref
+    }
+
+    // Clean up any double slashes
+    transformedHref = transformedHref.replace(/\/+/g, '/')
+
+    return `<a href="${transformedHref}"${title ? ` title="${title}"` : ''}>${text}</a>`
+  }
+
+  return renderer
 }
 
 async function getDocContent(slug: string[]) {
@@ -42,8 +107,12 @@ async function getDocContent(slug: string[]) {
     // Read markdown file
     const content = readFileSync(filePath, 'utf-8')
 
-    // Convert to HTML
-    const html = await marked(content)
+    // Convert to HTML with custom renderer
+    const html = await marked(content, {
+      renderer: createCustomRenderer(slug),
+      gfm: true,
+      breaks: true,
+    })
 
     // Extract title from first H1 or use filename
     const titleMatch = content.match(/^#\s+(.+)$/m)
