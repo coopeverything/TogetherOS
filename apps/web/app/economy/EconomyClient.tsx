@@ -31,6 +31,11 @@ export default function EconomyClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Sample data for demonstration (will be replaced with real API calls)
+  const sampleRewardPoints = { earned: 450, available: 250, spentTBC: 100, spentSH: 100 };
+  const sampleTimebank = { balance: 3.5, earned: 8, spent: 4.5 };
+  const sampleSocialHorizon = { balance: 12, issued: 10, purchased: 2 };
+
   useEffect(() => {
     loadData();
   }, []);
@@ -93,45 +98,97 @@ export default function EconomyClient() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-4xl font-bold text-gray-900">Social Economy</h1>
+          <h1 className="text-4xl font-bold text-gray-900">4-Ledger Economic System</h1>
           <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
             Active
           </span>
         </div>
         <p className="text-lg text-gray-600 max-w-3xl">
-          Participate in the cooperative economy through Support Points allocation, timebanking, and mutual aid.
+          A comprehensive cooperative economy with four interlinked ledgers: Support Points (governance), Reward Points (economic claims), Timebank Credits (mutual aid), and Social Horizon (cooperative currency).
         </p>
       </div>
 
       {/* Balance Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Support Points Balance */}
-        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white">
-          <h3 className="text-sm font-medium opacity-90 mb-1">Support Points</h3>
-          <div className="flex items-baseline gap-2">
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-medium opacity-90">Support Points</h3>
+            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">SP</span>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{balance?.available || 0}</p>
             <p className="text-lg opacity-75">/ {balance?.total || 0}</p>
           </div>
-          <p className="text-sm opacity-75 mt-2">Available to allocate</p>
+          <p className="text-sm opacity-75 mb-1">Available to allocate</p>
           {balance && balance.allocated > 0 && (
-            <p className="text-sm opacity-90 mt-1">
+            <p className="text-xs opacity-90 mt-1">
               {balance.allocated} allocated to proposals
             </p>
           )}
+          <div className="mt-4 pt-4 border-t border-white border-opacity-20">
+            <p className="text-xs opacity-75">Governance power • Non-convertible</p>
+          </div>
         </div>
 
-        {/* Timebank (Coming Soon) */}
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white opacity-60">
-          <h3 className="text-sm font-medium opacity-90 mb-1">Timebank Balance</h3>
-          <p className="text-5xl font-bold">—</p>
-          <p className="text-sm opacity-75 mt-2">Coming soon</p>
+        {/* Reward Points */}
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-medium opacity-90">Reward Points</h3>
+            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">RP</span>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <p className="text-5xl font-bold">{sampleRewardPoints.available}</p>
+            <p className="text-lg opacity-75">/ {sampleRewardPoints.earned}</p>
+          </div>
+          <p className="text-sm opacity-75 mb-1">Available to convert or spend</p>
+          <div className="text-xs opacity-90 space-y-1">
+            <p>• {sampleRewardPoints.spentTBC} RP → TBC conversions</p>
+            <p>• {sampleRewardPoints.spentSH} RP → SH purchases</p>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white border-opacity-20">
+            <p className="text-xs opacity-75">Economic claims • Convertible</p>
+          </div>
         </div>
 
-        {/* Social Horizon (Coming Soon) */}
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white opacity-60">
-          <h3 className="text-sm font-medium opacity-90 mb-1">Social Horizon</h3>
-          <p className="text-5xl font-bold">—</p>
-          <p className="text-sm opacity-75 mt-2">Coming soon</p>
+        {/* Timebank Credits */}
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-medium opacity-90">Timebank Credits</h3>
+            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">TBC</span>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <p className="text-5xl font-bold">{sampleTimebank.balance}</p>
+            <p className="text-lg opacity-75">TBC</p>
+          </div>
+          <p className="text-sm opacity-75 mb-1">Available for service exchange</p>
+          <div className="text-xs opacity-90 space-y-1">
+            <p>• {sampleTimebank.earned} TBC earned (services provided)</p>
+            <p>• {sampleTimebank.spent} TBC spent (services received)</p>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white border-opacity-20">
+            <p className="text-xs opacity-75">Mutual aid • 1-3 TBC/hour</p>
+          </div>
+        </div>
+
+        {/* Social Horizon */}
+        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-medium opacity-90">Social Horizon</h3>
+            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">SH</span>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <p className="text-5xl font-bold">{sampleSocialHorizon.balance}</p>
+            <p className="text-lg opacity-75">SH</p>
+          </div>
+          <p className="text-sm opacity-75 mb-1">Cooperative currency balance</p>
+          <div className="text-xs opacity-90 space-y-1">
+            <p>• {sampleSocialHorizon.issued} SH issued (from contributions)</p>
+            <p>• {sampleSocialHorizon.purchased} SH purchased (with RP)</p>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white border-opacity-20">
+            <p className="text-xs opacity-75">Value exchange • Anti-whale caps</p>
+          </div>
         </div>
       </div>
 
@@ -205,23 +262,162 @@ export default function EconomyClient() {
         </div>
       </div>
 
-      {/* Help Text */}
-      <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h3 className="font-semibold text-blue-900 mb-2">About Support Points</h3>
-        <div className="text-sm text-blue-800 space-y-2">
-          <p>
-            <strong>Support Points (SP)</strong> are non-transferable points you use to signal which proposals and initiatives matter to you.
-          </p>
-          <ul className="list-disc list-inside space-y-1 ml-2">
-            <li>Everyone starts with <strong>100 SP</strong></li>
-            <li>Allocate up to <strong>10 SP per proposal</strong> (prevents whale behavior)</li>
-            <li>Earn more SP by contributing (code, docs, facilitation, mutual aid)</li>
-            <li>Reclaim SP when proposals close or get cancelled</li>
-            <li>Your allocation history is public (transparency)</li>
-          </ul>
-          <p className="mt-3">
-            <strong>Coming soon:</strong> Timebanking (hour-for-hour exchange) and Social Horizon currency (cooperative value exchange)
-          </p>
+      {/* Comprehensive Specification */}
+      <div className="mt-8 space-y-6">
+        <h2 className="text-3xl font-bold text-gray-900">4-Ledger System Specification</h2>
+
+        {/* Core Invariants */}
+        <div className="bg-red-50 border-2 border-red-300 rounded-lg p-6">
+          <h3 className="text-xl font-semibold text-red-900 mb-3">Core Anti-Plutocracy Invariants</h3>
+          <div className="space-y-3 text-sm text-red-800">
+            <div className="flex gap-3">
+              <span className="font-bold text-red-600">1.</span>
+              <p><strong>Money/RP ≠ SP:</strong> Governance power (SP) ONLY comes from non-monetary contributions. You cannot buy influence.</p>
+            </div>
+            <div className="flex gap-3">
+              <span className="font-bold text-red-600">2.</span>
+              <p><strong>One Person, One Vote:</strong> SP controls agenda (which proposals get considered), NOT vote weight. Every member has equal vote power.</p>
+            </div>
+            <div className="flex gap-3">
+              <span className="font-bold text-red-600">3.</span>
+              <p><strong>Support ≠ Reward:</strong> Separate ledgers for governance (SP) vs. economy (RP, TBC, SH). No conversion between SP and other currencies.</p>
+            </div>
+            <div className="flex gap-3">
+              <span className="font-bold text-red-600">4.</span>
+              <p><strong>No Buying Big:</strong> Per-person and global caps on SH acquisition prevent wealth concentration. RP burns on SH purchase (cannot recycle).</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Ledger Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Support Points */}
+          <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-orange-900 mb-3">Support Points (SP)</h3>
+            <div className="text-sm text-orange-800 space-y-2">
+              <p><strong>Purpose:</strong> Governance power and agenda control</p>
+              <p><strong>Sources:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Initial grant: 100 SP</li>
+                <li>Contributions: Code, docs, facilitation, mutual aid</li>
+                <li>Never from money or RP</li>
+              </ul>
+              <p><strong>Uses:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Allocate to proposals (10 SP max per proposal)</li>
+                <li>Reclaimed when proposal closes</li>
+                <li>NEVER convertible to RP, TBC, SH, or money</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Reward Points */}
+          <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-purple-900 mb-3">Reward Points (RP)</h3>
+            <div className="text-sm text-purple-800 space-y-2">
+              <p><strong>Purpose:</strong> "The commons owes you something" - economic claims</p>
+              <p><strong>Sources:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Monthly dues: 100 RP/month</li>
+                <li>Donations: 200 RP minimum</li>
+                <li>Contributions: Same events as SP, different weights</li>
+              </ul>
+              <p><strong>Uses:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Convert to TBC (100 RP = 1 TBC, max 1 TBC/month)</li>
+                <li>Purchase SH in rare events (strict caps, RP burns)</li>
+                <li>Unlock perks (priority seats, raffles)</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Timebank Credits */}
+          <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-blue-900 mb-3">Timebank Credits (TBC)</h3>
+            <div className="text-sm text-blue-800 space-y-2">
+              <p><strong>Purpose:</strong> Mutual aid and service exchange</p>
+              <p><strong>Sources:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Providing services (1-3 TBC/hour)</li>
+                <li>Converting RP (100 RP = 1 TBC, monthly cap)</li>
+                <li>Initial grant: 1 TBC</li>
+              </ul>
+              <p><strong>Uses:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Request services from members</li>
+                <li>Flexible pricing: 1 TBC (basic) to 3 TBC (specialized)</li>
+                <li>Balanced exchange encouraged</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Social Horizon */}
+          <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-green-900 mb-3">Social Horizon (SH)</h3>
+            <div className="text-sm text-green-800 space-y-2">
+              <p><strong>Purpose:</strong> Cooperative currency for local value exchange</p>
+              <p><strong>Sources:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Issued to members based on contributions</li>
+                <li>Purchased with RP during rare events (RP burns)</li>
+              </ul>
+              <p><strong>Anti-Whale Rules:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Per-person cap: ~50 SH per event</li>
+                <li>Global cap per event (prevents hoarding)</li>
+                <li>Fiscal regularity required (consistent membership)</li>
+                <li>RP burns on purchase (cannot recycle)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Budget & Financial Flows */}
+        <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Budget & Financial Flows</h3>
+          <div className="text-sm text-gray-700 space-y-2">
+            <p><strong>Monthly Membership Dues ($1/month):</strong></p>
+            <ul className="list-disc list-inside ml-2 space-y-1">
+              <li>Member receives: 100 RP</li>
+              <li>Allocated to global budgets (Ops, Dev, Mutual Aid, Legal)</li>
+            </ul>
+            <p className="mt-3"><strong>Donations (any amount, min $2):</strong></p>
+            <ul className="list-disc list-inside ml-2 space-y-1">
+              <li>Donor receives: 200 RP + bonus for larger amounts</li>
+              <li>Allocated to global budgets or specific campaigns</li>
+            </ul>
+            <p className="mt-3"><strong>RP → TBC Conversion (100 RP = 1 TBC):</strong></p>
+            <ul className="list-disc list-inside ml-2 space-y-1">
+              <li>Monthly throttling: Max 1 TBC per member per month</li>
+              <li>Prevents point farming while allowing access to mutual aid</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Implementation Status */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-blue-900 mb-3">Implementation Status</h3>
+          <div className="space-y-2 text-sm text-blue-800">
+            <div className="flex items-center gap-2">
+              <span className="text-green-600 font-bold">✓</span>
+              <span>Database schema with 12 tables (migration 023)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-green-600 font-bold">✓</span>
+              <span>TypeScript types for all 4 ledgers</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-green-600 font-bold">✓</span>
+              <span>Backend functions for RP, TBC, SH, and budgets</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-yellow-600 font-bold">⟳</span>
+              <span>API endpoints and UI integration (in progress)</span>
+            </div>
+            <p className="mt-4 text-xs opacity-75">
+              Full specification: <a href="/docs/guides/4-ledger-system.md" className="underline">docs/guides/4-ledger-system.md</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
