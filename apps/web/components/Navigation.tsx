@@ -12,7 +12,15 @@ const baseNavItems = [
   { href: '/forum', label: 'Forum' },
   { href: '/proposals', label: 'Proposals' },
   { href: '/economy', label: 'Economy' },
-  { href: '/search', label: 'Search' },
+  {
+    href: '/search',
+    label: 'Search',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    )
+  },
   { href: '/bridge', label: 'Bridge' },
 ]
 
@@ -84,8 +92,10 @@ export default function Navigation() {
                     ? 'bg-orange-100 text-orange-700'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                 }`}
+                aria-label={item.icon ? item.label : undefined}
+                title={item.icon ? item.label : undefined}
               >
-                {item.label}
+                {item.icon || item.label}
               </Link>
             ))}
           </div>
@@ -176,13 +186,14 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
+                {item.icon}
                 {item.label}
               </Link>
             ))}
