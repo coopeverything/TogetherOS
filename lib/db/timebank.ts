@@ -1,7 +1,7 @@
 // lib/db/timebank.ts
 // Timebank Credits (TBC) database functions
 
-import { db } from './index'
+import db from './index'
 import type {
   TimebankAccount,
   TimebankTransaction,
@@ -45,7 +45,7 @@ export async function createTimebankTransaction(
     metadata,
   } = input
 
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')
@@ -100,7 +100,7 @@ export async function createTimebankTransaction(
 export async function confirmTimebankTransaction(
   transactionId: string
 ): Promise<TimebankTransaction> {
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')

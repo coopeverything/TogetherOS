@@ -1,7 +1,7 @@
 // lib/db/budgets.ts
 // Budget tracking database functions
 
-import { db } from './index'
+import db from './index'
 import type {
   GlobalBudget,
   MembershipFee,
@@ -42,7 +42,7 @@ export async function recordMembershipFee(
     metadata,
   } = input
 
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')
@@ -131,7 +131,7 @@ export async function recordDonation(
     metadata,
   } = input
 
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')
