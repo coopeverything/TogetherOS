@@ -19,9 +19,48 @@ Enable members to:
 - Allocate Support Points to proposals (max 10 per proposal)
 - Track SP allocation history and reclaim from closed proposals
 - View Reward Points earnings with action descriptions
-- Convert Reward Points to Support Points at configurable rates
 - Monitor badge unlock progress and skill tree advancement
 - (Admin) Track SP/RP circulation and allocation patterns
+
+**Note:** RP → SP conversion is NOT part of this module (violates anti-plutocracy invariant).
+
+---
+
+## Anti-Plutocracy Invariant (Critical)
+
+**TogetherOS enforces strict separation between governance power and economic benefits.**
+
+### The Invariant
+
+**Support Points (SP) and Reward Points (RP) NEVER intermix.**
+
+| Aspect | Support Points (SP) | Reward Points (RP) |
+|--------|---------------------|-------------------|
+| **Purpose** | Governance energy (prioritize proposals) | Economic claims (real-world benefits) |
+| **Sources** | ONLY non-monetary contributions | Contributions + dues + donations |
+| **How Used** | Allocate to proposals (agenda-setting) | Convert to TBC, SH purchase events, perks |
+| **Reclaimed** | Yes, when proposals close | No, consumed when spent |
+| **Convertible To** | NEVER converts to RP or money | Converts to TBC (throttled), SH (rare events) |
+| **Governance Power** | Controls agenda (what gets voted on) | NEVER grants voting power |
+
+### Why This Matters
+
+**Prevents plutocracy:**
+- Money/donations → RP ✅ (tangible benefit for financial support)
+- Money/donations → SP ❌ (prevents buying governance influence)
+- RP → SP conversion ❌ (would allow indirect governance purchase)
+
+**Key Quote (docs/guides/4-ledger-system.md:26):**
+> "Money and Reward Points Are Never Support Points. SP comes ONLY from non-monetary contribution events. Why: Prevents buying governance influence."
+
+### For Developers
+
+**This module implements SP wallet UI only.**
+- RP wallet UI exists separately (displays earnings, badges)
+- RP → TBC conversion belongs in timebank module
+- **RP → SP conversion must NEVER be implemented** (violates core invariant)
+
+See `docs/guides/4-ledger-system.md` for complete 4-ledger economic system specification.
 
 ---
 
@@ -162,33 +201,18 @@ interface RPTransaction {
 }
 ```
 
-### RPExchangeTransaction
+### Note on Reward Points (RP)
 
-```typescript
-interface RPExchangeTransaction {
-  id: string                      // UUID
-  memberId: string
-  rp_amount: number               // RP deducted
-  sp_amount: number               // SP credited
-  exchange_rate: number           // Rate at time of conversion
-  timestamp: Date
-  reversible: false               // Always irreversible
-}
-```
+**IMPORTANT:** RP and SP are strictly separate ledgers (anti-plutocracy invariant).
 
-### ExchangeRateHistory
+- **SP (Support Points)** = Governance energy (agenda-setting, prioritization)
+- **RP (Reward Points)** = Economic claims (convert to TBC, SH purchase events)
 
-```typescript
-interface ExchangeRateHistory {
-  id: string                      // UUID
-  old_rate: number
-  new_rate: number
-  changedBy: string               // Admin member ID
-  changedAt: Date
-  decisionId: string              // Links to governance decision
-  rationale: string               // Why rate changed
-}
-```
+**RP → SP conversion is NOT ALLOWED** (prevents buying governance influence).
+
+For RP conversion capabilities, see:
+- `docs/guides/4-ledger-system.md` (complete economic system)
+- Future timebank module (RP → TBC conversion)
 
 ---
 
@@ -272,64 +296,7 @@ interface ExchangeRateHistory {
 
 ---
 
-### Phase 3: RP → SP Exchange Interface (0% - SPEC ONLY)
-
-#### Features:
-- Exchange interface at `/economy/exchange`
-- Shows current exchange rate (e.g., "10 RP = 1 SP")
-- Input field: "Convert [X] RP → [X/10] SP"
-- Real-time calculation display
-- Conversion history table (past 30 days)
-- Warning: "This conversion is irreversible"
-
-#### Exchange Flow:
-1. Member navigates to `/economy/exchange`
-2. Sees current rate: "10:1 (last updated Jan 5 by assembly decision)"
-3. Enters amount: "100 RP"
-4. System calculates: "= 10 SP"
-5. Confirms: "Are you sure? This cannot be undone."
-6. Member clicks "Convert"
-7. System:
-   - Deducts 100 RP from RP balance
-   - Credits 10 SP to SP balance
-   - Creates `RPExchangeTransaction`
-   - Logs to NDJSON audit trail
-8. Success message: "Converted 100 RP → 10 SP"
-9. New balances displayed
-
-#### Conversion History Table:
-- Columns: Date, RP Converted, SP Received, Rate
-- Example:
-  - "Jan 10 | 100 RP | 10 SP | 10:1"
-  - "Dec 28 | 50 RP | 5 SP | 10:1"
-
-#### UI Components:
-- `ExchangeRateDisplay` — Current rate with last updated date
-- `ConversionCalculator` — Input with real-time calculation
-- `ConversionHistory` — Past exchanges table
-- `ExchangeConfirmationModal` — Warning + confirm button
-
-#### UI Routes:
-- `/economy/exchange` — Exchange interface
-- `/economy/exchange/history` — Full conversion history
-
-#### Validation Rules:
-- Member must have sufficient RP balance
-- Minimum conversion: 10 RP (prevents spam)
-- Maximum conversion per day: 1000 RP (fraud prevention)
-- Rate-limiting: 1 conversion per 5 minutes
-
-#### Implementation:
-- [ ] `ExchangeRateDisplay` component
-- [ ] `ConversionCalculator` with validation
-- [ ] `ConversionHistory` table
-- [ ] Confirmation modal with irreversibility warning
-- [ ] Rate-limiting middleware
-- [ ] Fraud detection alerts (for admins)
-
----
-
-### Phase 4: Admin SP/RP Tracking Panels (0% - SPEC ONLY)
+### Phase 3: Admin SP/RP Tracking Panels (0% - SPEC ONLY)
 
 #### Admin SP Panel (`/admin/support-points`):
 
@@ -372,35 +339,14 @@ interface ExchangeRateHistory {
 
 **Access Control:** Coordinators and admins only
 
-#### Admin Exchange Config (`/admin/economy`):
-
-**Features:**
-- Current exchange rate display
-- "Change Exchange Rate" button → Opens proposal flow
-  - Pre-fills proposal template
-  - Links to governance module for voting
-  - After approval → Admin implements via settings panel (see Admin Accountability module)
-- Exchange rate history table:
-  - Columns: Old Rate, New Rate, Changed By, Decision ID, Date
-  - Example: "5:1 → 10:1 | Alice | Proposal #89 | Jan 1"
-- Exchange activity chart (conversions per week)
-- Fraud alerts dashboard:
-  - Members exceeding daily limits
-  - Suspicious rapid conversions
-  - Coordinated exchange patterns (multi-account)
-
-**UI Route:** `/admin/economy`
-
-**Access Control:** Coordinators and admins only
-
 #### Implementation:
 - [ ] Admin SP panel with aggregate queries
 - [ ] Top allocators ranking algorithm
 - [ ] Admin RP panel with earning breakdown
-- [ ] Exchange rate configuration UI
-- [ ] Fraud detection algorithm
-- [ ] Alert notification system
+- [ ] RP earning source breakdown visualization
 - [ ] Export functionality (CSV/JSON)
+
+**Note:** RP conversion features (RP → TBC) belong in the timebank module, not here.
 
 ---
 
@@ -430,89 +376,6 @@ interface ExchangeRateHistory {
 
 ---
 
-### Journey 2: Member Converts RP to SP
-
-**Actor:** Bob, active community member (has 500 RP from organizing meetups)
-
-**Steps:**
-1. Navigate to `/economy/exchange`
-2. See current rate: "10 RP = 1 SP (last updated Jan 5)"
-3. See current balances:
-   - RP: 500
-   - SP: 100 (50 available, 50 allocated)
-4. Enter conversion amount: "100 RP"
-5. Calculator shows: "= 10 SP"
-6. Click "Convert"
-7. Warning modal: "This is irreversible. Convert 100 RP → 10 SP?"
-8. Click "Confirm"
-9. System:
-   - Deducts 100 RP (500 → 400)
-   - Credits 10 SP (100 → 110, available: 60)
-   - Creates `RPExchangeTransaction`
-   - Logs to audit trail
-10. Success message: "Converted 100 RP → 10 SP"
-11. New balances displayed
-
-**Outcome:** Bob has more SP for proposal prioritization
-
----
-
-### Journey 3: Admin Changes Exchange Rate
-
-**Actor:** Carol, group admin (after assembly vote)
-
-**Steps:**
-1. Assembly voted (Proposal #120): "Change RP→SP rate from 10:1 to 20:1"
-   - Rationale: "RP too easy to earn, devalues SP governance influence"
-   - Result: 68% approval
-2. Carol receives notification: "Implement decision: Change exchange rate"
-3. Navigate to `/admin/economy`
-4. Click "Change Exchange Rate"
-5. See current rate: 10:1
-6. Enter new rate: 20:1
-7. Enter decision ID: "uuid-of-proposal-120"
-8. Enter rationale (from proposal): "Rebalance governance influence"
-9. Click "Apply Change"
-10. System:
-    - Updates exchange rate
-    - Creates `ExchangeRateHistory` record
-    - Logs to implementation audit trail (Admin Accountability module)
-11. Success message: "Exchange rate updated to 20:1"
-12. All members notified: "Exchange rate changed to 20:1 (effective immediately)"
-
-**Outcome:** Future conversions use 20:1 rate, governance influence rebalanced
-
----
-
-### Journey 4: Admin Detects Suspicious Conversion Pattern
-
-**Actor:** Dave, platform admin (monitoring fraud alerts)
-
-**Steps:**
-1. Navigate to `/admin/economy`
-2. See fraud alert: "⚠ User 'eve@example.com' converted 5000 RP → 250 SP in 24 hours"
-3. Click alert → View details:
-   - 10 conversions (maximum allowed per day: 1000 RP total)
-   - Alert triggered because total > fraud threshold
-4. Dave investigates:
-   - Check Eve's RP earning history
-   - See: 5000 RP earned in 2 days from "invitation_sent" (500 invitations!)
-   - Likely bot or exploit
-5. Dave takes action:
-   - Navigate to `/admin/users/[eve-id]`
-   - Click "Suspend Account"
-   - Enter reason: "Suspicious RP earning pattern, possible exploit"
-   - Click "Suspend"
-6. System:
-   - Revokes Eve's session
-   - Freezes RP/SP balances
-   - Creates audit log entry
-7. Dave reviews invitation system for exploit
-
-**Outcome:** Fraud detected and contained, system integrity maintained
-
----
-
 ## Validation Rules
 
 ### SP Allocation
@@ -538,43 +401,6 @@ export const allocateSPSchema = z.object({
   return !existing || existing.status === 'reclaimed'
 }, {
   message: 'Already allocated to this proposal',
-})
-```
-
-### RP → SP Exchange
-
-```typescript
-export const exchangeRPSchema = z.object({
-  rp_amount: z.number()
-    .int()
-    .min(10, 'Minimum conversion: 10 RP')
-    .max(1000, 'Maximum conversion per day: 1000 RP'),
-}).refine(async (data) => {
-  // Check if member has sufficient RP balance
-  const wallet = await getRPWallet(memberId)
-  return wallet.balance >= data.rp_amount
-}, {
-  message: 'Insufficient RP balance',
-}).refine(async (data) => {
-  // Check daily conversion limit
-  const today_conversions = await getTodayConversions(memberId)
-  const total_today = today_conversions.reduce((sum, c) => sum + c.rp_amount, 0)
-  return (total_today + data.rp_amount) <= 1000
-}, {
-  message: 'Daily conversion limit exceeded (1000 RP max)',
-})
-```
-
-### Exchange Rate Change (Admin)
-
-```typescript
-export const changeExchangeRateSchema = z.object({
-  new_rate: z.number()
-    .positive()
-    .min(1, 'Rate must be at least 1:1')
-    .max(100, 'Rate cannot exceed 100:1'),
-  decisionId: z.string().uuid({ message: 'Assembly decision required' }),
-  rationale: z.string().min(10).max(500),
 })
 ```
 
@@ -648,45 +474,8 @@ export const rewardPointsUIRouter = router({
       }
     }),
 
-  // Convert RP to SP
-  convertRPtoSP: protectedProcedure
-    .input(exchangeRPSchema)
-    .mutation(async ({ input, ctx }) => {
-      const rate = await ctx.repos.exchangeRates.getCurrent()
-      const sp_amount = Math.floor(input.rp_amount / rate.value)
-
-      // Deduct RP
-      await ctx.repos.rewardPoints.deduct({
-        memberId: ctx.session.userId,
-        amount: input.rp_amount,
-        reason: 'exchange',
-      })
-
-      // Credit SP
-      await ctx.repos.supportPoints.credit({
-        memberId: ctx.session.userId,
-        amount: sp_amount,
-        sourceType: 'rp_exchange',
-      })
-
-      // Log exchange
-      await ctx.repos.rpExchanges.create({
-        memberId: ctx.session.userId,
-        rp_amount: input.rp_amount,
-        sp_amount,
-        exchange_rate: rate.value,
-        timestamp: new Date(),
-      })
-
-      return { rp_deducted: input.rp_amount, sp_credited: sp_amount }
-    }),
-
-  // Get conversion history
-  getConversionHistory: protectedProcedure
-    .input(z.object({ limit: z.number().default(30) }))
-    .query(async ({ input, ctx }) => {
-      return await ctx.repos.rpExchanges.getHistory(ctx.session.userId, { limit: input.limit })
-    }),
+  // Note: RP → TBC conversion belongs in timebank module
+  // RP → SP conversion is NOT ALLOWED (anti-plutocracy invariant)
 })
 
 // apps/api/src/trpc/routers/admin-economy.ts
@@ -715,38 +504,7 @@ export const adminEconomyRouter = router({
       return { stats, topEarners, earningBreakdown }
     }),
 
-  // Change exchange rate (requires decision)
-  changeExchangeRate: protectedProcedure
-    .input(changeExchangeRateSchema)
-    .mutation(async ({ input, ctx }) => {
-      await ctx.services.auth.requireRole(['admin'])
-
-      const oldRate = await ctx.repos.exchangeRates.getCurrent()
-
-      await ctx.repos.exchangeRates.update(input.new_rate)
-
-      await ctx.repos.exchangeRateHistory.create({
-        old_rate: oldRate.value,
-        new_rate: input.new_rate,
-        changedBy: ctx.session.userId,
-        changedAt: new Date(),
-        decisionId: input.decisionId,
-        rationale: input.rationale,
-      })
-
-      return { success: true, new_rate: input.new_rate }
-    }),
-
-  // Get fraud alerts
-  getFraudAlerts: protectedProcedure
-    .query(async ({ ctx }) => {
-      await ctx.services.auth.requireRole(['admin'])
-
-      return await ctx.services.fraudDetection.getAlerts({
-        types: ['excessive_conversion', 'rapid_earning', 'coordinated_exchange'],
-        status: 'unresolved',
-      })
-    }),
+  // Note: RP conversion and fraud detection belong in timebank module
 })
 ```
 
@@ -820,19 +578,11 @@ export const adminEconomyRouter = router({
 - [ ] `BadgeProgressCard` component
 - [ ] Badge unlock notifications
 
-### Month 4: RP → SP Exchange
-- [ ] `ExchangeRateDisplay` component
-- [ ] `ConversionCalculator` with validation
-- [ ] `ConversionHistory` table
-- [ ] Rate-limiting middleware
-- [ ] Fraud detection algorithm
-
-### Month 5: Admin Panels
+### Month 4: Admin Panels
 - [ ] Admin SP tracking panel
 - [ ] Admin RP tracking panel
-- [ ] Exchange rate configuration UI
-- [ ] Fraud alerts dashboard
-- [ ] Export functionality
+- [ ] RP earning breakdown visualization
+- [ ] Export functionality (CSV/JSON)
 
 ---
 
@@ -840,13 +590,13 @@ export const adminEconomyRouter = router({
 
 ### Engagement
 - **SP allocation rate:** >60% of members allocate SP to at least 1 proposal per month
-- **RP conversion rate:** 10-20% of earned RP converted to SP (indicates healthy exchange)
+- **RP earning diversity:** >50% of RP earned through non-invitation actions
 - **Proposal prioritization:** High-SP proposals 2x more likely to get implemented
 
 ### System Health
-- **Fraud detection rate:** <1% of conversions flagged as suspicious
-- **Exchange rate stability:** Changes <2x per year (indicates balanced system)
 - **Badge unlock rate:** >40% of members unlock at least 1 badge
+- **RP earnings consistency:** Stable earning patterns without spikes
+- **SP reclaim rate:** >80% of allocated SP eventually reclaimed (proposals closing properly)
 
 ### Equity
 - **SP distribution:** Gini coefficient <0.4 (fairly distributed)
@@ -865,9 +615,9 @@ export const adminEconomyRouter = router({
 - Mobile wallet app (iOS/Android)
 
 ### Phase 7: Federation
-- Cross-instance SP/RP tracking
-- Federated exchange rates (different rates per instance)
-- Reputation portability (export/import SP/RP between instances)
+- Cross-instance SP/RP tracking (read-only, for reputation display)
+- Reputation portability (export/import SP/RP balances between instances)
+- Note: Each instance maintains strict SP/RP separation (anti-plutocracy invariant)
 
 ---
 
