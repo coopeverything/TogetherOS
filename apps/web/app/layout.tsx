@@ -1,5 +1,5 @@
 /**
- * Root Layout for TogetherOS
+ * Root Layout for Coopeverything
  *
  * This is the top-level layout that wraps all pages in the application.
  */
@@ -11,8 +11,8 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'TogetherOS',
-  description: 'A cooperative operating system for collective action',
+  title: 'Coopeverything',
+  description: 'A cooperative project helping people work together to improve their lives and communities',
 };
 
 export default function RootLayout({

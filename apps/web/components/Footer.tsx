@@ -104,7 +104,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center gap-4">
               <p className="text-gray-500 text-sm">
-                © {currentYear} TogetherOS. Built with cooperation and care.
+                © {currentYear} Coopeverything. Powered by TogetherOS.
               </p>
               <div className="flex space-x-4 text-sm">
                 <Link href="/privacy" className="text-gray-500 hover:text-orange-600">
