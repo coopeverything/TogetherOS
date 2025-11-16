@@ -161,13 +161,13 @@ export default function EconomyClient() {
             <p className="text-5xl font-bold">{sampleTimebank.balance}</p>
             <p className="text-lg opacity-75">TBC</p>
           </div>
-          <p className="text-sm opacity-75 mb-1">Available for service exchange</p>
+          <p className="text-sm opacity-75 mb-1">Available for exchange</p>
           <div className="text-xs opacity-90 space-y-1">
-            <p>• {sampleTimebank.earned} TBC earned (services provided)</p>
-            <p>• {sampleTimebank.spent} TBC spent (services received)</p>
+            <p>• {sampleTimebank.earned} TBC earned (goods & services sold)</p>
+            <p>• {sampleTimebank.spent} TBC spent (goods & services bought)</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-xs opacity-75">Mutual aid • 1-3 TBC/hour</p>
+            <p className="text-xs opacity-75">Bartering economy • 1-3 TBC/hour</p>
           </div>
         </div>
 
@@ -181,13 +181,13 @@ export default function EconomyClient() {
             <p className="text-5xl font-bold">{sampleSocialHorizon.balance}</p>
             <p className="text-lg opacity-75">SH</p>
           </div>
-          <p className="text-sm opacity-75 mb-1">Cooperative currency balance</p>
+          <p className="text-sm opacity-75 mb-1">Social capital & retirement savings</p>
           <div className="text-xs opacity-90 space-y-1">
             <p>• {sampleSocialHorizon.issued} SH issued (from contributions)</p>
             <p>• {sampleSocialHorizon.purchased} SH purchased (with RP)</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-xs opacity-75">Value exchange • Anti-whale caps</p>
+            <p className="text-xs opacity-75">Stable local currency • Anti-inflation</p>
           </div>
         </div>
       </div>
@@ -335,18 +335,23 @@ export default function EconomyClient() {
           <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-blue-900 mb-3">Timebank Credits (TBC)</h3>
             <div className="text-sm text-blue-800 space-y-2">
-              <p><strong>Purpose:</strong> Mutual aid and service exchange</p>
+              <p><strong>Purpose:</strong> Bartering economy for goods and services exchange</p>
+              <p><strong>What You Can Barter:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Services: Tutoring, repair, design, consulting (1-3 TBC/hour)</li>
+                <li>Goods: Cooked meals, produce, art, crafts</li>
+                <li>Skills: Teaching, facilitation, mentorship</li>
+              </ul>
+              <p><strong>NOT Timebanking:</strong></p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Mutual aid (free support based on solidarity/empathy)</li>
+                <li>Gifts and voluntary contributions</li>
+              </ul>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
-                <li>Providing services (1-3 TBC/hour)</li>
-                <li>Converting RP (100 RP = 1 TBC, monthly cap)</li>
+                <li>Selling goods or services to members</li>
+                <li>Converting RP (100 RP = 1 TBC, max 1 TBC/month)</li>
                 <li>Initial grant: 1 TBC</li>
-              </ul>
-              <p><strong>Uses:</strong></p>
-              <ul className="list-disc list-inside ml-2 space-y-1">
-                <li>Request services from members</li>
-                <li>Flexible pricing: 1 TBC (basic) to 3 TBC (specialized)</li>
-                <li>Balanced exchange encouraged</li>
               </ul>
             </div>
           </div>
@@ -355,7 +360,13 @@ export default function EconomyClient() {
           <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-green-900 mb-3">Social Horizon (SH)</h3>
             <div className="text-sm text-green-800 space-y-2">
-              <p><strong>Purpose:</strong> Cooperative currency for local value exchange</p>
+              <p><strong>Purpose:</strong> Multi-purpose cooperative currency</p>
+              <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Local and national value exchange</li>
+                <li>Social capital building</li>
+                <li>Retirement savings (future)</li>
+                <li>Stable, trusted, non-inflated currency</li>
+              </ul>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
                 <li>Issued to members based on contributions</li>
