@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Comprehensive overview of all TogetherOS platform modules',
 }
 
-const GITHUB_BASE = 'https://github.com/coopeverything/TogetherOS/blob/main'
+const GITHUB_BASE = 'https://github.com/coopeverything/TogetherOS/blob/yolo'
 
 interface Module {
   title: string
