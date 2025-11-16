@@ -82,7 +82,7 @@ const modules: Module[] = [
   {
     title: 'Social Economy Primitives',
     description:
-      'Cooperative economic tools including Support Points (member prioritization), timebanking (hour-for-hour exchange), and Social Horizon currency (local value retention). Enables communities to redirect surplus back to members, track mutual aid, and build fair social economies without extractive capitalism.',
+      'Cooperative economic tools including Support Points (member prioritization), timebanking (services and goods bartering with hour-for-hour exchange), and Social Horizon currency (local value retention). Enables communities to redirect surplus back to members and build fair social economies without extractive capitalism. Note: Mutual aid (free solidarity-based support) is tracked separately.',
     progress: 20,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/social-economy.md`,
