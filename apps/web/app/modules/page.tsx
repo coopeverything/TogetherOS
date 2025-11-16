@@ -76,7 +76,7 @@ const modules: Module[] = [
     progress: 15,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/gamification.md`,
-    docsPath: '/docs/modules/gamification`,
+    docsPath: '/docs/modules/gamification',
     category: 'Community Connection',
   },
   {
