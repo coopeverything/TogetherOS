@@ -2,8 +2,8 @@ import { ModuleCard } from '@togetheros/ui/docs/ModuleCard'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Modules Hub | TogetherOS Docs',
-  description: 'Comprehensive overview of all TogetherOS platform modules',
+  title: 'Modules Hub | Coopeverything Docs',
+  description: 'Comprehensive overview of all Coopeverything platform modules',
 }
 
 const GITHUB_BASE = 'https://github.com/coopeverything/TogetherOS/blob/yolo'
@@ -82,8 +82,8 @@ const modules: Module[] = [
   {
     title: 'Social Economy Primitives',
     description:
-      'Cooperative economic tools including Support Points (member prioritization), timebanking (services and goods bartering with hour-for-hour exchange), and Social Horizon currency (local value retention). Enables communities to redirect surplus back to members and build fair social economies without extractive capitalism. Note: Mutual aid (free solidarity-based support) is tracked separately.',
-    progress: 20,
+      '4-ledger cooperative economic system with anti-plutocracy safeguards: Support Points (SP) for governance power, Reward Points (RP) for economic claims, Timebank Credits (TBC) for bartering goods/services, and Social Horizon (SH) for stable local currency. Core invariant: Money/RP can NEVER become SP - governance power only from contributions. Enables fair social economy without wealth buying influence.',
+    progress: 35,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/social-economy.md`,
     docsPath: '/docs/modules/social-economy',
@@ -92,8 +92,8 @@ const modules: Module[] = [
   {
     title: 'Rewards & Recognition',
     description:
-      'Tracks member contributions and distributes Reward Points (RP) fairly. RP can be converted to Support Points or used to boost proposals. Designed to recognize effort without creating hierarchies. Integrates with governance, feed, and forum modules to reward diverse forms of participation.',
-    progress: 25,
+      'Tracks member contributions and distributes Reward Points (RP) fairly for economic claims. RP represents "the commons owes you something" and can be converted to Timebank Credits (TBC) or used to purchase Social Horizon (SH) during rare events (with strict anti-whale caps). NEVER converts to Support Points - SP only from contributions, never from money or RP. Designed to recognize effort without creating hierarchies.',
+    progress: 30,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/rewards.md`,
     docsPath: '/docs/modules/rewards',
@@ -102,8 +102,8 @@ const modules: Module[] = [
   {
     title: 'Support Points UI',
     description:
-      'Member-facing interface for allocating Support Points (SP) to proposals and exchanging Reward Points for SP. Shows current SP balance, allocation history, and impact of contributions. Enables democratic prioritization where members vote with finite resources.',
-    progress: 0,
+      'Member-facing interface for allocating Support Points (SP) to proposals. Shows current SP balance, allocation history, and impact of contributions. Enables democratic prioritization where members vote with finite resources. SP comes ONLY from contributions (code, docs, facilitation, mutual aid), never from money or Reward Points - this is a core anti-plutocracy safeguard.',
+    progress: 5,
     status: 'planned',
     repoPath: `${GITHUB_BASE}/docs/modules/support-points-ui.md`,
     docsPath: '/docs/modules/support-points-ui',
@@ -206,7 +206,7 @@ const modules: Module[] = [
   {
     title: 'Onboarding Experience',
     description:
-      'Guided introduction to TogetherOS principles and features. Interactive tutorials for key workflows (creating proposals, joining groups, allocating Support Points). Helps new members understand cooperation-first values and platform capabilities.',
+      'Guided introduction to Coopeverything principles and features. Interactive tutorials for key workflows (creating proposals, joining groups, allocating Support Points). Helps new members understand cooperation-first values and platform capabilities.',
     progress: 0,
     status: 'planned',
     repoPath: `${GITHUB_BASE}/docs/modules`,
@@ -224,13 +224,13 @@ export default function ModulesIndexPage() {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            TogetherOS Modules Hub
+            Coopeverything Modules Hub
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Comprehensive overview of all platform modules. Each module
-            represents a key capability in the cooperation-first operating
-            system. Click any module to see its description, progress, and
-            links to documentation.
+            represents a key capability powered by TogetherOS, the technology
+            stack enabling cooperation. Click any module to see its description,
+            progress, and links to documentation.
           </p>
         </div>
 
