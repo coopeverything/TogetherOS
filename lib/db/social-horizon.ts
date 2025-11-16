@@ -1,7 +1,7 @@
 // lib/db/social-horizon.ts
 // Social Horizon (SH) database functions
 
-import { db } from './index'
+import db from './index'
 import type {
   SocialHorizonWallet,
   SHPurchaseEvent,
@@ -53,7 +53,7 @@ export async function purchaseSHWithRP(
 ): Promise<void> {
   const { memberId, eventId, rpAmount, shAmount } = input
 
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')
