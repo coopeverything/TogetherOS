@@ -1,7 +1,7 @@
 // lib/db/reward-points.ts
 // Reward Points (RP) database functions
 
-import { db } from './index'
+import db from './index'
 import type {
   RewardPointsBalance,
   RewardPointsTransaction,
@@ -38,7 +38,7 @@ export async function earnRewardPoints(
 ): Promise<RewardPointsTransaction> {
   const { memberId, eventType, rpAmount, source, metadata } = input
 
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')
@@ -90,7 +90,7 @@ export async function convertRPToTBC(
 
   const tbcReceived = rpAmount / CONVERSION_RATE
 
-  const client = await db.connect()
+  const client = await db.getClient()
 
   try {
     await client.query('BEGIN')
