@@ -40,7 +40,7 @@ function getSystemPrompt(): string {
     } catch (error) {
       console.error('[Bridge] Error loading system prompt:', error);
       // Fallback to basic prompt if file not found
-      BRIDGE_SYSTEM_PROMPT = 'You are Bridge, the assistant of TogetherOS. Your role is to guide people through cooperation. Be conversational, empathetic, and encouraging.';
+      BRIDGE_SYSTEM_PROMPT = 'You are Bridge, the assistant of Coopeverything. Your role is to guide people through cooperation. Be conversational, empathetic, and encouraging.';
     }
   }
   return BRIDGE_SYSTEM_PROMPT;
