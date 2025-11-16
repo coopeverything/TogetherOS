@@ -14,18 +14,13 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/docs/Manifesto" className="text-gray-600 hover:text-orange-600">
+                <Link href="/manifesto" className="text-gray-600 hover:text-orange-600">
                   Manifesto
                 </Link>
               </li>
               <li>
-                <Link href="/docs/cooperation-paths" className="text-gray-600 hover:text-orange-600">
+                <Link href="/cooperation-paths" className="text-gray-600 hover:text-orange-600">
                   Cooperation Paths
-                </Link>
-              </li>
-              <li>
-                <Link href="/status" className="text-gray-600 hover:text-orange-600">
-                  Project Status
                 </Link>
               </li>
             </ul>
@@ -38,13 +33,8 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/docs/modules/INDEX" className="text-gray-600 hover:text-orange-600">
+                <Link href="/modules" className="text-gray-600 hover:text-orange-600">
                   Modules
-                </Link>
-              </li>
-              <li>
-                <Link href="/docs/architecture" className="text-gray-600 hover:text-orange-600">
-                  Architecture
                 </Link>
               </li>
               <li>
