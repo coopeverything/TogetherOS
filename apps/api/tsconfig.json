@@ -8,6 +8,7 @@
     "baseUrl": ".",
     "paths": {
       "@/lib/*": ["../../lib/*"],
+      "@togetheros/db": ["../../packages/db/src"],
       "@togetheros/types": ["../../packages/types/src"],
       "@togetheros/types/*": ["../../packages/types/src/*"],
       "@togetheros/validators": ["../../packages/validators/src"],
@@ -16,6 +17,7 @@
   },
   "include": ["src/**/*", "src/**/*.json"],
   "references": [
+    { "path": "../../packages/db" },
     { "path": "../../packages/types" },
     { "path": "../../packages/validators" }
   ]

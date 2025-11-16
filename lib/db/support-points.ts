@@ -3,7 +3,7 @@
  * Handles SP wallet management, allocations, and reward events
  */
 
-import { query } from './index';
+import { query } from '@togetheros/db';
 import type { MemberRewardBalance, RewardEvent, CreateRewardEventInput } from '@togetheros/types/rewards';
 
 export interface SupportPointsBalance {

@@ -1,7 +1,7 @@
 // lib/db/reward-points.ts
 // Reward Points (RP) database functions
 
-import db from './index'
+import db from '@togetheros/db'
 import type {
   RewardPointsBalance,
   RewardPointsTransaction,

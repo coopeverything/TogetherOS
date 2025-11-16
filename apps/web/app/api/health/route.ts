@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { pool } from '@/lib/db';
+import { pool } from '@togetheros/db';
 
 interface HealthCheck {
   status: 'ok' | 'degraded' | 'unhealthy';

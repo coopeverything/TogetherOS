@@ -4,9 +4,7 @@
 import type { Post as PostType, MediaPreview, EmbeddedUrl } from '@togetheros/types'
 import type { PostRepo, CreateNativePostInput, CreateImportPostInput, PostFilters } from './PostRepo'
 import { Post } from '../entities/Post'
-// @ts-ignore - TS6059/TS6307: lib/db path alias outside apps/api rootDir (CI only)
-// Runtime works correctly. Proper fix: Create @togetheros/db package (see docs/dev/tech-debt.md)
-import { query } from '@/lib/db'
+import { query } from '@togetheros/db'
 
 export class PostgresPostRepo implements PostRepo {
   /**

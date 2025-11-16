@@ -3,7 +3,7 @@
  * Generates recommendations in batches for active users
  */
 
-import { query } from '../../../../lib/db';
+import { query } from '@togetheros/db';
 import { fetchUserContext, fetchCityContext } from './context-service';
 import { generateRecommendations } from './recommendation-generator';
 import { PostgresRecommendationRepo } from '../../../api/src/modules/bridge-recommendations/repos/PostgresRecommendationRepo';

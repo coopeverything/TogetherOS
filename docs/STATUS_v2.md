@@ -12,7 +12,7 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 
 | Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
 | --- | --- | ---:| --- | --- |
-| **Monorepo & Scaffolding** | Next.js 14 app (`apps/web`), `packages/ui`, `packages/types`, `packages/validators`, TypeScript project references, build scripts, 6 module placeholder pages, testing infrastructure (Vitest + React Testing Library), comprehensive docs | <!-- progress:scaffold=100 --> 100% | Production-ready ✅ | Phase 1 (nav/footer/errors/loading) ✅, Phase 2 (monorepo config/TS refs) ✅, Phase 3 (testing/docs) ✅ |
+| **Monorepo & Scaffolding** | Next.js 14 app (`apps/web`), `packages/ui`, `packages/types`, `packages/validators`, `packages/db`, TypeScript project references, build scripts, 6 module placeholder pages, testing infrastructure (Vitest + React Testing Library), comprehensive docs | <!-- progress:scaffold=100 --> 100% | Production-ready ✅ | Phase 1 (nav/footer/errors/loading) ✅, Phase 2 (monorepo config/TS refs) ✅, Phase 3 (testing/docs) ✅, Phase 4 (@togetheros/db package) ✅ |
 | **UI System** | Tailwind config, shadcn/ui, design tokens, layout primitives, icons | <!-- progress:ui=100 --> 100% | Production-ready ✅ | 25 components complete with dark mode |
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle), email verification, password reset, Google OAuth | <!-- progress:auth=100 --> 100% | Production-ready ✅ | All features complete with security hardening + OAuth env vars documented |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=100 --> 100% | Production-ready ✅ | All core features complete |
@@ -58,7 +58,7 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 | **CI Lint** | `yamllint`, `actionlint`, path-ignore for .md | <!-- progress:ci-lint=70 --> 70% | Refine linting rules, add more checks |
 | **CI Docs** | `markdownlint-cli2`, `lychee` | <!-- progress:ci-docs=80 --> 80% | Fix remaining doc issues, tighten rules |
 | **CI Smoke** | `scripts/validate.sh` proof lines | <!-- progress:ci-smoke=60 --> 60% | Expand smoke test coverage |
-| **Deploy** | `deploy.yml`, rsync to VPS, compose restart | <!-- progress:deploy=70 --> 70% | Add staging environment, improve automation |
+| **Deploy** | `deploy.yml`, rsync to VPS, compose restart, React 18/19 peer deps support, npm install --legacy-peer-deps CI fix | <!-- progress:deploy=80 --> 80% | Add staging environment |
 | **Secrets** | Names only in repo, values in GH | <!-- progress:secrets=50 --> 50% | Audit all secrets, implement secrets management |
 
 ---

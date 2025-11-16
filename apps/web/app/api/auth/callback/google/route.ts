@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getGoogleTokens, getGoogleProfile, mapGoogleProfileToUser } from '@/lib/auth/oauth/google';
 import { findUserByEmail, createUser, updateUser } from '@/lib/db/users';
 import { createSession } from '@/lib/auth/session';
-import { query } from '@/lib/db';
+import { query } from '@togetheros/db';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
