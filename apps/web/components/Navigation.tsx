@@ -138,13 +138,6 @@ export default function Navigation() {
                 </Link>
               </>
             )}
-
-            <Link
-              href="/status"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700"
-            >
-              Status
-            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -238,13 +231,6 @@ export default function Navigation() {
                 </Link>
               </>
             )}
-            <Link
-              href="/status"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Status
-            </Link>
           </div>
         </div>
       )}
