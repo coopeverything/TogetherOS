@@ -3,7 +3,7 @@
  * Tracks impressions, clicks, actions, and dismissals
  */
 
-import { query } from '../../../../lib/db';
+import { query } from '@togetheros/db';
 
 export type MetricEventType = 'impression' | 'click' | 'action' | 'dismiss';
 

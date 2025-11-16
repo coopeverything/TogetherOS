@@ -9,9 +9,7 @@ import type {
   UpdateGroupInput,
 } from '@togetheros/types/groups'
 import { Group } from '../entities/Group'
-// @ts-ignore - TS6059/TS6307: lib/db path alias outside apps/api rootDir (CI only)
-// Runtime works correctly. Proper fix: Create @togetheros/db package (see docs/dev/tech-debt.md)
-import { query } from '@/lib/db'
+import { query } from '@togetheros/db'
 
 /**
  * PostgreSQL group repository

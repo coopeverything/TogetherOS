@@ -10,7 +10,7 @@ import type {
   FetchCityContextInput,
   InterestScore,
 } from '@togetheros/types';
-import { query } from '../../../../lib/db/index';
+import { query } from '@togetheros/db';
 
 /**
  * Build user context from database queries

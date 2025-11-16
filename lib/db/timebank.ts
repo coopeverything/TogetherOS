@@ -1,7 +1,7 @@
 // lib/db/timebank.ts
 // Timebank Credits (TBC) database functions
 
-import db from './index'
+import db from '@togetheros/db'
 import type {
   TimebankAccount,
   TimebankTransaction,

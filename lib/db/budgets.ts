@@ -1,7 +1,7 @@
 // lib/db/budgets.ts
 // Budget tracking database functions
 
-import db from './index'
+import db from '@togetheros/db'
 import type {
   GlobalBudget,
   MembershipFee,
