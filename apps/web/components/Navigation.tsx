@@ -186,15 +186,21 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium ${
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {item.icon}
-                {item.label}
+                {item.icon ? (
+                  <span className="flex items-center gap-2">
+                    {item.icon}
+                    {item.label}
+                  </span>
+                ) : (
+                  item.label
+                )}
               </Link>
             ))}
             {isLoggedIn ? (
