@@ -1,7 +1,7 @@
 // lib/db/social-horizon.ts
 // Social Horizon (SH) database functions
 
-import db from './index'
+import db from '@togetheros/db'
 import type {
   SocialHorizonWallet,
   SHPurchaseEvent,

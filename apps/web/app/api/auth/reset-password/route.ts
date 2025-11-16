@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyResetToken, markResetTokenUsed } from '@/lib/auth/verification';
 import bcrypt from 'bcryptjs';
-import { query } from '@/lib/db';
+import { query } from '@togetheros/db';
 import { logSecurityEvent, hashIP } from '@/lib/auth/security-logger';
 
 function getClientIP(request: Request): string {

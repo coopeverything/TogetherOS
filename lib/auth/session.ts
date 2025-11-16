@@ -3,7 +3,7 @@
  */
 
 import jwt from 'jsonwebtoken';
-import { query } from '../db';
+import { query } from '@togetheros/db';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'togetheros-default-secret-change-in-production';
 const TOKEN_EXPIRY = '7d'; // 7 days

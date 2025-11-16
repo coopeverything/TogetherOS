@@ -5,7 +5,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { query } from '@/lib/db';
+import { query } from '@togetheros/db';
 import { createPasswordResetToken } from '@/lib/auth/verification';
 import { checkRateLimit } from '@/lib/bridge/rate-limiter';
 import { logSecurityEvent, hashIP, hashEmail } from '@/lib/auth/security-logger';

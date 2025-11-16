@@ -2,7 +2,7 @@
  * User database operations
  */
 
-import { query } from './index';
+import { query } from '@togetheros/db';
 import bcrypt from 'bcryptjs';
 
 export interface User {

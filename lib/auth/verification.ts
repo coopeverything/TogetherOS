@@ -2,7 +2,7 @@
  * Email verification and password reset tokens
  */
 
-import { query } from '../db';
+import { query } from '@togetheros/db';
 import crypto from 'crypto';
 
 const TOKEN_EXPIRY_HOURS = 24; // 24 hours for verification tokens

@@ -9,6 +9,7 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "@togetheros/db": ["../../packages/db/src"],
       "@togetheros/ui": ["../../packages/ui/src"],
       "@togetheros/ui/*": ["../../packages/ui/src/*"],
       "@togetheros/types": ["../../packages/types/src"],
@@ -28,6 +29,7 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../lib/**/*"],
   "exclude": ["node_modules", "**/__tests__", "**/*.test.ts", "**/*.test.tsx"],
   "references": [
+    { "path": "../../packages/db" },
     { "path": "../../packages/types" },
     { "path": "../../packages/ui" },
     { "path": "../../packages/validators" },
