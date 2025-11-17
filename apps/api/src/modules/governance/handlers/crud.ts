@@ -8,6 +8,9 @@ import type {
   UpdateProposalInput,
   ListProposalsFilters,
 } from '@togetheros/validators/governance';
+import { bridgeRatingService } from '../services/BridgeRatingService';
+import { bridgeRatingRepo } from '../repos/InMemoryBridgeRatingRepo';
+import { flagProposal } from './moderationHandlers';
 
 // Initialize repository (MVP: in-memory, will migrate to PostgreSQL)
 const proposalRepo = new InMemoryProposalRepo();
@@ -44,6 +47,26 @@ export async function createProposal(input: CreateProposalInput): Promise<Propos
 
   // Create proposal
   const proposal = await proposalRepo.create(input);
+
+  // Trigger Bridge AI auto-rating (async, don't block proposal creation)
+  bridgeRatingService
+    .rateProposal(proposal)
+    .then((rating) => {
+      if (rating) {
+        bridgeRatingRepo.save(rating).catch((err) => {
+          console.error('[createProposal] Failed to save Bridge rating:', err)
+        })
+
+        // Flag for moderation if AI detected issues
+        if (bridgeRatingService.shouldFlagForModeration(rating)) {
+          flagProposal(proposal.id, 'ai_flagged').catch((err) => {
+            console.error('[createProposal] Failed to flag for moderation:', err)
+          })
+        }
+      }
+    })
+    .catch((err) => console.error('[createProposal] Bridge rating error:', err))
+
   return proposal;
 }
 

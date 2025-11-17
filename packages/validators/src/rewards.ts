@@ -130,6 +130,10 @@ export function getSPWeight(eventType: RewardEventType): number {
     group_created: 15,
     group_joined: 3,
     city_group_joined: 0,
+    proposal_rating_submitted: 2,
+    proposal_rating_quality: 5,
+    proposal_rating_innovative: 3,
+    proposal_highly_rated: 10,
   }
   return weights[eventType]
 }
