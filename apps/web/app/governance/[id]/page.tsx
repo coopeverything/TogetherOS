@@ -9,8 +9,21 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ProposalView, VoteInterface } from '@togetheros/ui/governance'
-import type { Proposal, VoteType, VoteTally } from '@togetheros/types/governance'
+import {
+  ProposalView,
+  VoteInterface,
+  ProposalRatingForm,
+  ProposalRatingDisplay,
+} from '@togetheros/ui/governance'
+import type {
+  Proposal,
+  VoteType,
+  VoteTally,
+  ProposalRating,
+  ProposalRatingAggregate,
+  ClarityRating,
+  ConstructivenessRating,
+} from '@togetheros/types/governance'
 
 export default function ProposalDetailPage() {
   const params = useParams()
@@ -26,6 +39,11 @@ export default function ProposalDetailPage() {
   const [currentVote, setCurrentVote] = useState<VoteType | null>(null)
   const [voteTally, setVoteTally] = useState<VoteTally | null>(null)
   const [loadingVote, setLoadingVote] = useState(false)
+
+  // Rating state
+  const [currentRating, setCurrentRating] = useState<ProposalRating | null>(null)
+  const [ratingAggregate, setRatingAggregate] = useState<ProposalRatingAggregate | null>(null)
+  const [loadingRating, setLoadingRating] = useState(false)
 
   const isAuthor = proposal && currentUserId ? proposal.authorId === currentUserId : false
 
@@ -155,6 +173,74 @@ export default function ProposalDetailPage() {
     }
   }
 
+  // Fetch rating data
+  const fetchRatingData = async () => {
+    try {
+      // Fetch current user's rating (if logged in)
+      if (currentUserId) {
+        const ratingResponse = await fetch(`/api/proposals/${id}/ratings/my-rating`)
+        if (ratingResponse.ok) {
+          const { rating } = await ratingResponse.json()
+          setCurrentRating(rating)
+        }
+      }
+
+      // Fetch rating aggregate (public)
+      const aggregateResponse = await fetch(`/api/proposals/${id}/ratings/aggregate`)
+      if (aggregateResponse.ok) {
+        const { aggregate } = await aggregateResponse.json()
+        setRatingAggregate(aggregate)
+      }
+    } catch (err) {
+      console.error('Error fetching rating data:', err)
+    }
+  }
+
+  // Fetch ratings when proposal is loaded
+  useEffect(() => {
+    if (proposal) {
+      fetchRatingData()
+    }
+  }, [proposal, currentUserId, id])
+
+  // Handle rating submission
+  const handleRating = async (rating: {
+    clarity: ClarityRating
+    importance: number
+    urgency: number
+    isInnovative: boolean
+    constructiveness: ConstructivenessRating
+    feedback?: string
+  }) => {
+    if (!currentUserId) {
+      alert('You must be logged in to rate')
+      return
+    }
+
+    try {
+      setLoadingRating(true)
+
+      const response = await fetch(`/api/proposals/${id}/ratings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rating),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to submit rating: ${response.statusText}`)
+      }
+
+      // Refresh rating data
+      await fetchRatingData()
+    } catch (err: any) {
+      console.error('Error submitting rating:', err)
+      alert(err.message || 'Failed to submit rating')
+      throw err
+    } finally {
+      setLoadingRating(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -201,6 +287,32 @@ export default function ProposalDetailPage() {
         onEdit={isAuthor ? handleEdit : undefined}
         onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
       />
+
+      {/* Rating Section */}
+      <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Rating Display */}
+        {ratingAggregate && (
+          <div className="bg-white rounded-lg border border-gray-200 p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Community Ratings</h2>
+            <ProposalRatingDisplay aggregate={ratingAggregate} />
+          </div>
+        )}
+
+        {/* Rating Form */}
+        {currentUserId && (
+          <div className="bg-white rounded-lg border border-gray-200 p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              {currentRating ? 'Update Your Rating' : 'Rate This Proposal'}
+            </h2>
+            <ProposalRatingForm
+              proposalId={id}
+              currentRating={currentRating}
+              onSubmit={handleRating}
+              disabled={loadingRating}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Voting Interface */}
       {currentUserId && voteTally && (

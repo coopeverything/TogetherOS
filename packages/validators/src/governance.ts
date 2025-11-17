@@ -12,6 +12,8 @@ import type {
   RegulationScopeType,
   ConflictSeverity,
   VoteType,
+  ClarityRating,
+  ConstructivenessRating,
 } from '@togetheros/types/governance'
 
 /**
@@ -485,4 +487,74 @@ export const voteTallySchema = z.object({
   block: z.number().int().min(0),
   thresholdMet: z.boolean(),
   hasBlocks: z.boolean(),
+})
+
+/**
+ * Clarity rating schema (1-3: brown, yellow, green)
+ */
+export const clarityRatingSchema = z.union([z.literal(1), z.literal(2), z.literal(3)])
+
+/**
+ * Constructiveness rating schema (1-3: red, yellow, green)
+ */
+export const constructivenessRatingSchema = z.union([z.literal(1), z.literal(2), z.literal(3)])
+
+/**
+ * Submit rating input schema
+ */
+export const submitRatingSchema = z.object({
+  proposalId: z.string().min(1, 'Proposal ID is required'),
+
+  memberId: z.string().min(1, 'Member ID is required'),
+
+  clarity: clarityRatingSchema,
+
+  importance: z.number().int().min(1).max(5),
+
+  urgency: z.number().int().min(1).max(5),
+
+  isInnovative: z.boolean(),
+
+  constructiveness: constructivenessRatingSchema,
+
+  feedback: z.string()
+    .max(2000, 'Feedback cannot exceed 2000 characters')
+    .optional(),
+})
+
+/**
+ * Type inference from schema
+ */
+export type SubmitRatingInput = z.infer<typeof submitRatingSchema>
+
+/**
+ * Rating aggregate schema
+ */
+export const ratingAggregateSchema = z.object({
+  proposalId: z.string(),
+  totalRatings: z.number().int().min(0),
+  avgClarity: z.number().min(1).max(3),
+  clarityDistribution: z.object({
+    brown: z.number().int().min(0),
+    yellow: z.number().int().min(0),
+    green: z.number().int().min(0),
+  }),
+  avgImportance: z.number().min(1).max(5),
+  avgUrgency: z.number().min(1).max(5),
+  innovativeCount: z.number().int().min(0),
+  innovativePercentage: z.number().min(0).max(1),
+  avgConstructiveness: z.number().min(1).max(3),
+  constructivenessDistribution: z.object({
+    red: z.number().int().min(0),
+    yellow: z.number().int().min(0),
+    green: z.number().int().min(0),
+  }),
+  hasRedFlags: z.boolean(),
+  redFlagCount: z.number().int().min(0),
+  bridgeRating: z.object({
+    clarity: clarityRatingSchema,
+    constructiveness: constructivenessRatingSchema,
+    flaggedForReview: z.boolean(),
+    reasoning: z.string().optional(),
+  }).optional(),
 })
