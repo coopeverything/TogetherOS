@@ -438,3 +438,113 @@ export interface VoteTally {
   /** Whether any blocks exist (blocks prevent approval) */
   hasBlocks: boolean
 }
+
+/**
+ * Clarity rating levels
+ * Visual representation: Brown (1), Yellow (2), Green (3)
+ */
+export type ClarityRating = 1 | 2 | 3
+
+/**
+ * Constructiveness rating levels
+ * Visual representation: Red (1), Yellow (2), Green (3)
+ * Red flags trigger moderation review
+ */
+export type ConstructivenessRating = 1 | 2 | 3
+
+/**
+ * Proposal Rating Entity
+ * Multi-dimensional quality assessment of proposals during deliberation
+ */
+export interface ProposalRating {
+  /** Unique identifier (UUID v4) */
+  id: string
+
+  /** Proposal being rated */
+  proposalId: string
+
+  /** Member who rated */
+  memberId: string
+
+  /** Clarity rating: 1 (brown/unclear), 2 (yellow/somewhat clear), 3 (green/very clear) */
+  clarity: ClarityRating
+
+  /** Importance rating: 1-5 scale (how critical/impactful) */
+  importance: number
+
+  /** Urgency/timeliness rating: 1-5 scale (how time-sensitive) */
+  urgency: number
+
+  /** Great new idea indicator (bulb icon) */
+  isInnovative: boolean
+
+  /** Constructiveness rating: 1 (red/needs moderation), 2 (yellow/somewhat problematic), 3 (green/constructive) */
+  constructiveness: ConstructivenessRating
+
+  /** Optional written feedback explaining ratings */
+  feedback?: string
+
+  /** When rating was submitted */
+  ratedAt: Date
+
+  /** Last update timestamp */
+  updatedAt: Date
+}
+
+/**
+ * Aggregated ratings for a proposal
+ * Statistical summary of all member ratings
+ */
+export interface ProposalRatingAggregate {
+  /** Proposal being rated */
+  proposalId: string
+
+  /** Total number of ratings */
+  totalRatings: number
+
+  /** Average clarity (1-3) */
+  avgClarity: number
+
+  /** Clarity distribution */
+  clarityDistribution: {
+    brown: number
+    yellow: number
+    green: number
+  }
+
+  /** Average importance (1-5) */
+  avgImportance: number
+
+  /** Average urgency (1-5) */
+  avgUrgency: number
+
+  /** Innovation count */
+  innovativeCount: number
+
+  /** Innovation percentage (0-1) */
+  innovativePercentage: number
+
+  /** Average constructiveness (1-3) */
+  avgConstructiveness: number
+
+  /** Constructiveness distribution */
+  constructivenessDistribution: {
+    red: number
+    yellow: number
+    green: number
+  }
+
+  /** Red flag status for moderation */
+  hasRedFlags: boolean
+
+  /** Count of red constructiveness ratings */
+  redFlagCount: number
+
+  /** Bridge AI auto-rating if available */
+  bridgeRating?: {
+    clarity: ClarityRating
+    constructiveness: ConstructivenessRating
+    flaggedForReview: boolean
+    reasoning?: string
+  }
+}
