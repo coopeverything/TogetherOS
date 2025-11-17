@@ -4,7 +4,7 @@
 
 import { NextRequest } from 'next/server';
 import { verifySession } from './session';
-import { findUserById, User } from '../db/users';
+import { findUserById, User } from '@togetheros/db';
 
 /**
  * Get current user from request cookies
