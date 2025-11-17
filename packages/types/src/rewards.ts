@@ -15,6 +15,10 @@ export type RewardEventType =
   | 'group_created'        // Created a new group (not city group)
   | 'group_joined'         // Joined an existing group (not city group)
   | 'city_group_joined'    // Joined auto-created city group (no reward)
+  | 'proposal_rating_submitted'  // Submitted any rating on proposal
+  | 'proposal_rating_quality'    // Submitted high-quality detailed rating
+  | 'proposal_rating_innovative' // Marked proposal as innovative (validated later)
+  | 'proposal_highly_rated'      // Authored proposal that received excellent ratings
 
 /**
  * Domain-specific context for reward events
@@ -25,7 +29,15 @@ export interface EventContext {
   issue_number?: number
   repo?: string
   lines_changed?: number
-  
+
+  // Governance/Rating-specific
+  proposalId?: string
+  ratingId?: string
+  rating_quality_score?: number  // 0-100 calculated quality metric
+  has_feedback?: boolean
+  clarity_rating?: number
+  constructiveness_rating?: number
+
   // Generic metadata
   [key: string]: string | number | boolean | undefined
 }
@@ -134,6 +146,7 @@ export interface CreateRewardEventInput {
   event_type: RewardEventType
   context: EventContext
   source: string
+  dedup_key?: string
   timestamp?: Date
 }
 
@@ -151,6 +164,10 @@ export const SP_WEIGHTS: Record<RewardEventType, number> = {
   group_created: 15,        // Creating a new group
   group_joined: 3,          // Joining an existing group
   city_group_joined: 0,     // Joining city group (no reward)
+  proposal_rating_submitted: 2,   // Basic rating participation
+  proposal_rating_quality: 5,     // High-quality detailed rating
+  proposal_rating_innovative: 3,  // Marked as innovative (bonus to rater if validated)
+  proposal_highly_rated: 10,      // Proposal author bonus for excellent ratings
 }
 
 // ==================================================

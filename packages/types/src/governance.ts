@@ -541,10 +541,124 @@ export interface ProposalRatingAggregate {
   redFlagCount: number
 
   /** Bridge AI auto-rating if available */
-  bridgeRating?: {
-    clarity: ClarityRating
-    constructiveness: ConstructivenessRating
-    flaggedForReview: boolean
-    reasoning?: string
+  bridgeRating?: BridgeProposalRating
+}
+
+/**
+ * Bridge AI Auto-Rating
+ * AI-generated quality assessment for proposals
+ */
+export interface BridgeProposalRating {
+  /** Unique identifier */
+  id: string
+
+  /** Proposal being assessed */
+  proposalId: string
+
+  /** Clarity rating (1=unclear, 2=somewhat clear, 3=very clear) */
+  clarity: ClarityRating
+
+  /** Constructiveness rating (1=needs moderation, 2=some issues, 3=constructive) */
+  constructiveness: ConstructivenessRating
+
+  /** Whether AI flagged content for human moderator review */
+  flaggedForReview: boolean
+
+  /** AI reasoning for ratings */
+  reasoning?: string
+
+  /** Detected issues (if any) */
+  issues?: string[]
+
+  /** Improvement suggestions */
+  suggestions?: string[]
+
+  /** Confidence score (0-1) */
+  confidence?: number
+
+  /** Timestamp of AI assessment */
+  assessedAt: Date
+}
+
+/**
+ * Moderation Review Status
+ */
+export type ModerationStatus = 'pending' | 'approved' | 'rejected' | 'appealed' | 'appeal_approved' | 'appeal_rejected'
+
+/**
+ * Moderation Review
+ * Human moderator review of flagged proposals
+ */
+export interface ModerationReview {
+  /** Unique identifier */
+  id: string
+
+  /** Proposal being reviewed */
+  proposalId: string
+
+  /** Reason for flagging */
+  flagReason: 'ai_flagged' | 'member_red_rating' | 'multiple_concerns' | 'manual_report'
+
+  /** Current review status */
+  status: ModerationStatus
+
+  /** Moderator who reviewed (if assigned) */
+  moderatorId?: string
+
+  /** Moderator's decision notes */
+  moderatorNotes?: string
+
+  /** Action taken */
+  action?: 'no_action' | 'edit_required' | 'hidden' | 'removed'
+
+  /** Whether author was notified */
+  authorNotified: boolean
+
+  /** Appeal text (if appealed) */
+  appealText?: string
+
+  /** Timestamps */
+  flaggedAt: Date
+  reviewedAt?: Date
+  appealedAt?: Date
+  appealReviewedAt?: Date
+}
+
+/**
+ * Moderation Queue Item
+ * Simplified view for moderation queue listing
+ */
+export interface ModerationQueueItem {
+  /** Review ID */
+  id: string
+
+  /** Proposal ID and title */
+  proposalId: string
+  proposalTitle: string
+  proposalAuthorId: string
+
+  /** Flag reason */
+  flagReason: string
+
+  /** Status */
+  status: ModerationStatus
+
+  /** Urgency score (higher = more urgent) */
+  urgencyScore: number
+
+  /** Time in queue */
+  flaggedAt: Date
+
+  /** AI assessment if available */
+  aiAssessment?: {
+    clarity: number
+    constructiveness: number
+    issues: string[]
+  }
+
+  /** Community ratings if available */
+  communityRatings?: {
+    redFlagCount: number
+    totalRatings: number
   }
 }

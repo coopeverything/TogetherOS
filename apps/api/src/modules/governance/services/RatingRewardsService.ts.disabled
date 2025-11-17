@@ -1,0 +1,195 @@
+/**
+ * Rating Rewards Service
+ * Handles SP/RP rewards for proposal rating activities
+ */
+
+import type { ProposalRating } from '../entities/ProposalRating'
+import type { CreateRewardEventInput, RewardEventType } from '@togetheros/types/rewards'
+import { SP_WEIGHTS } from '@togetheros/types/rewards'
+import { createRewardEvent, processRewardEvent } from '../../../../../../lib/db/support-points'
+
+export class RatingRewardsService {
+  /**
+   * Calculate quality score for a rating (0-100)
+   * Used to determine if rating qualifies for quality bonus
+   */
+  private calculateRatingQuality(rating: ProposalRating): number {
+    let score = 0
+
+    // Clarity rating contributes 20 points (green=20, yellow=13, brown=7)
+    const clarityPoints = rating.clarity === 3 ? 20 : rating.clarity === 2 ? 13 : 7
+    score += clarityPoints
+
+    // Constructiveness contributes 20 points (green=20, yellow=13, red=0)
+    const constructivenessPoints =
+      rating.constructiveness === 3 ? 20 : rating.constructiveness === 2 ? 13 : 0
+    score += constructivenessPoints
+
+    // Importance rating contributes 15 points (scale 1-5 → 3-15 points)
+    score += rating.importance * 3
+
+    // Urgency rating contributes 15 points (scale 1-5 → 3-15 points)
+    score += rating.urgency * 3
+
+    // Feedback provided contributes 20 points
+    const feedbackLength = rating.feedback?.trim().length || 0
+    if (feedbackLength >= 200) {
+      score += 20 // Detailed feedback
+    } else if (feedbackLength >= 50) {
+      score += 10 // Brief feedback
+    }
+
+    // Innovation marked contributes 10 points
+    if (rating.isInnovative) {
+      score += 10
+    }
+
+    return Math.min(score, 100)
+  }
+
+  /**
+   * Award SP/RP for submitting a rating
+   * Returns event ID if reward was created, null if duplicate/error
+   */
+  async awardRatingSubmission(
+    proposalId: string,
+    ratingId: string,
+    memberId: string,
+    rating: ProposalRating
+  ): Promise<string | null> {
+    try {
+      const qualityScore = this.calculateRatingQuality(rating)
+
+      // Determine event type based on quality
+      let eventType: RewardEventType
+      if (qualityScore >= 70) {
+        eventType = 'proposal_rating_quality' // High-quality: 5 SP
+      } else {
+        eventType = 'proposal_rating_submitted' // Basic: 2 SP
+      }
+
+      const eventInput: CreateRewardEventInput = {
+        memberId,
+        event_type: eventType,
+        context: {
+          proposalId,
+          ratingId,
+          rating_quality_score: qualityScore,
+          has_feedback: !!rating.feedback,
+          clarity_rating: rating.clarity,
+          constructiveness_rating: rating.constructiveness,
+        },
+        source: 'governance',
+        dedup_key: `rating:${proposalId}:${memberId}`, // One reward per member per proposal
+      }
+
+      const event = await createRewardEvent(eventInput)
+      if (!event) {
+        console.log(`[RatingRewards] Duplicate rating reward prevented for ${memberId} on ${proposalId}`)
+        return null
+      }
+
+      // Process event to award SP
+      await processRewardEvent(event.id)
+
+      console.log(
+        `[RatingRewards] Awarded ${SP_WEIGHTS[eventType]} SP to ${memberId} for rating ${proposalId} (quality: ${qualityScore})`
+      )
+
+      return event.id
+    } catch (error) {
+      console.error('[RatingRewards] Error awarding rating submission:', error)
+      return null
+    }
+  }
+
+  /**
+   * Award bonus SP to member who marked proposal as innovative (if validated by community)
+   * Called when aggregate shows high innovation percentage (>50%)
+   */
+  async awardInnovativeMarker(
+    proposalId: string,
+    memberId: string,
+    ratingId: string
+  ): Promise<string | null> {
+    try {
+      const eventInput: CreateRewardEventInput = {
+        memberId,
+        event_type: 'proposal_rating_innovative',
+        context: {
+          proposalId,
+          ratingId,
+        },
+        source: 'governance',
+        dedup_key: `innovative:${proposalId}:${memberId}`,
+      }
+
+      const event = await createRewardEvent(eventInput)
+      if (!event) {
+        return null
+      }
+
+      await processRewardEvent(event.id)
+
+      console.log(
+        `[RatingRewards] Awarded ${SP_WEIGHTS.proposal_rating_innovative} SP to ${memberId} for validated innovative marker on ${proposalId}`
+      )
+
+      return event.id
+    } catch (error) {
+      console.error('[RatingRewards] Error awarding innovative marker:', error)
+      return null
+    }
+  }
+
+  /**
+   * Award bonus SP to proposal author for receiving excellent ratings
+   * Called when aggregate reaches thresholds (avgClarity >= 2.5, avgConstructiveness >= 2.5, totalRatings >= 5)
+   */
+  async awardHighlyRatedProposal(
+    proposalId: string,
+    authorId: string,
+    avgClarity: number,
+    avgConstructiveness: number,
+    totalRatings: number
+  ): Promise<string | null> {
+    try {
+      // Only award if proposal has enough ratings and meets quality thresholds
+      if (totalRatings < 5 || avgClarity < 2.5 || avgConstructiveness < 2.5) {
+        return null
+      }
+
+      const eventInput: CreateRewardEventInput = {
+        memberId: authorId,
+        event_type: 'proposal_highly_rated',
+        context: {
+          proposalId,
+          avgClarity,
+          avgConstructiveness,
+          totalRatings,
+        },
+        source: 'governance',
+        dedup_key: `highly_rated:${proposalId}`, // One-time bonus per proposal
+      }
+
+      const event = await createRewardEvent(eventInput)
+      if (!event) {
+        return null
+      }
+
+      await processRewardEvent(event.id)
+
+      console.log(
+        `[RatingRewards] Awarded ${SP_WEIGHTS.proposal_highly_rated} SP to ${authorId} for highly rated proposal ${proposalId}`
+      )
+
+      return event.id
+    } catch (error) {
+      console.error('[RatingRewards] Error awarding highly rated proposal:', error)
+      return null
+    }
+  }
+}
+
+// Singleton instance
+export const ratingRewardsService = new RatingRewardsService()
