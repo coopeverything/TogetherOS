@@ -69,6 +69,15 @@ export async function close() {
   await pool.end();
 }
 
+// Export database modules
+export * from './budgets'
+export * from './reward-points'
+export * from './social-horizon'
+export * from './support-points'
+export * from './system-settings'
+export * from './timebank'
+export * from './users'
+
 // Export pool for health checks
 export default { query, getClient, close, pool };
 export { pool };
