@@ -68,11 +68,8 @@ export default function Navigation() {
     }
   }
 
-  // Add Admin link for admin users
-  const navItems = [
-    ...baseNavItems,
-    ...(isAdmin ? [{ href: '/admin', label: 'Admin' }] : []),
-  ]
+  // Admin link is in the user dropdown menu, not main nav
+  const navItems = baseNavItems
 
   const isActive = (href: string) => {
     if (href === '/') {
