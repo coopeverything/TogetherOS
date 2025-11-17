@@ -50,27 +50,11 @@ export default function SignupPage() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Welcome to the beginning of something different.</h1>
+        <h1 className={styles.title}>Welcome to a world of cooperation.</h1>
 
         <p className={styles.intro}>
-          We're building a new way to organize—where cooperation replaces competition,
-          where communities solve their own problems, and where your skills actually matter.
-        </p>
-
-        <p className={styles.callout}>
-          <strong>Start with just your email.</strong> No essays, no commitments.
-          We'll guide you through discovering which cooperation paths resonate with you,
-          and connect you with people doing real work on education, local economy,
-          governance, climate, and more.
-        </p>
-
-        <p className={styles.intro}>
-          Whether you're here to learn, teach, build, organize, or just explore—
-          <strong>there's a place for you.</strong>
-        </p>
-
-        <p className={styles.manifesto}>
-          The system we have isn't working. Let's build the one that does.
+          Join a community built on empowerment through collaboration—where cooperation replaces competition,
+          communities solve their own problems and thrive, and your skills create real change.
         </p>
 
         <form onSubmit={handleSubmit} className={styles.form}>
