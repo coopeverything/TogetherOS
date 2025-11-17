@@ -9,8 +9,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ProposalView } from '@togetheros/ui/governance'
-import type { Proposal } from '@togetheros/types/governance'
+import { ProposalView, VoteInterface } from '@togetheros/ui/governance'
+import type { Proposal, VoteType, VoteTally } from '@togetheros/types/governance'
 
 export default function ProposalDetailPage() {
   const params = useParams()
@@ -21,6 +21,11 @@ export default function ProposalDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+
+  // Voting state
+  const [currentVote, setCurrentVote] = useState<VoteType | null>(null)
+  const [voteTally, setVoteTally] = useState<VoteTally | null>(null)
+  const [loadingVote, setLoadingVote] = useState(false)
 
   const isAuthor = proposal && currentUserId ? proposal.authorId === currentUserId : false
 
@@ -89,6 +94,67 @@ export default function ProposalDetailPage() {
     }
   }
 
+  // Fetch voting data
+  const fetchVoteData = async () => {
+    if (!currentUserId) return
+
+    try {
+      // Fetch current user's vote
+      const voteResponse = await fetch(`/api/proposals/${id}/votes/my-vote`)
+      if (voteResponse.ok) {
+        const { vote } = await voteResponse.json()
+        setCurrentVote(vote?.voteType || null)
+      }
+
+      // Fetch vote tally
+      const tallyResponse = await fetch(`/api/proposals/${id}/votes/tally`)
+      if (tallyResponse.ok) {
+        const { tally } = await tallyResponse.json()
+        setVoteTally(tally)
+      }
+    } catch (err) {
+      console.error('Error fetching vote data:', err)
+    }
+  }
+
+  // Fetch votes when proposal and user are loaded
+  useEffect(() => {
+    if (proposal && currentUserId) {
+      fetchVoteData()
+    }
+  }, [proposal, currentUserId, id])
+
+  // Handle vote submission
+  const handleVote = async (voteType: VoteType, reasoning?: string) => {
+    if (!currentUserId) {
+      alert('You must be logged in to vote')
+      return
+    }
+
+    try {
+      setLoadingVote(true)
+
+      const response = await fetch(`/api/proposals/${id}/votes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ voteType, reasoning }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to cast vote: ${response.statusText}`)
+      }
+
+      // Refresh vote data
+      await fetchVoteData()
+    } catch (err: any) {
+      console.error('Error casting vote:', err)
+      alert(err.message || 'Failed to cast vote')
+      throw err
+    } finally {
+      setLoadingVote(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -135,6 +201,34 @@ export default function ProposalDetailPage() {
         onEdit={isAuthor ? handleEdit : undefined}
         onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
       />
+
+      {/* Voting Interface */}
+      {currentUserId && voteTally && (
+        <div className="mt-12 bg-white rounded-lg border border-gray-200 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Vote on This Proposal</h2>
+          <VoteInterface
+            proposalId={id}
+            currentVote={currentVote}
+            tally={voteTally}
+            onVote={handleVote}
+            disabled={loadingVote}
+          />
+        </div>
+      )}
+
+      {/* Login prompt for non-logged-in users */}
+      {!currentUserId && (
+        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
+          <h3 className="text-xl font-semibold text-blue-900 mb-2">Want to vote?</h3>
+          <p className="text-blue-700 mb-4">Log in to participate in this decision</p>
+          <Link
+            href="/login"
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium inline-block"
+          >
+            Log In
+          </Link>
+        </div>
+      )}
 
       {/* Back Button */}
       <div className="mt-8">

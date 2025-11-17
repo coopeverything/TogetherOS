@@ -375,3 +375,66 @@ export interface PhrasingSuggestion {
   /** Whether user accepted this suggestion */
   accepted?: boolean
 }
+
+/**
+ * Vote type for consent-based decision making
+ */
+export type VoteType =
+  | 'consent'    // Approve the proposal
+  | 'concern'    // Express concerns/objections
+  | 'abstain'    // Abstain from voting
+  | 'block'      // Strong objection (blocks decision)
+
+/**
+ * Vote entity
+ * Records individual member votes during voting phase
+ */
+export interface Vote {
+  /** Unique identifier (UUID v4) */
+  id: string
+
+  /** Proposal being voted on */
+  proposalId: string
+
+  /** Member who cast the vote */
+  memberId: string
+
+  /** Vote type */
+  voteType: VoteType
+
+  /** Optional reasoning for vote */
+  reasoning?: string
+
+  /** When vote was cast */
+  votedAt: Date
+
+  /** Last vote update timestamp */
+  updatedAt: Date
+}
+
+/**
+ * Vote tally for a proposal
+ * Aggregated vote counts
+ */
+export interface VoteTally {
+  /** Total votes cast */
+  total: number
+
+  /** Consent votes */
+  consent: number
+
+  /** Concern votes */
+  concern: number
+
+  /** Abstain votes */
+  abstain: number
+
+  /** Block votes */
+  block: number
+
+  /** Whether decision threshold is met */
+  thresholdMet: boolean
+
+  /** Whether any blocks exist (blocks prevent approval) */
+  hasBlocks: boolean
+}

@@ -11,6 +11,7 @@ import type {
   RegulationStatus,
   RegulationScopeType,
   ConflictSeverity,
+  VoteType,
 } from '@togetheros/types/governance'
 
 /**
@@ -446,4 +447,42 @@ export const regulationSchema = z.object({
   supersededBy: z.string().optional(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+})
+
+/**
+ * Vote type enum schema
+ */
+export const voteTypeSchema = z.enum(['consent', 'concern', 'abstain', 'block'])
+
+/**
+ * Cast vote input schema
+ */
+export const castVoteSchema = z.object({
+  proposalId: z.string().min(1, 'Proposal ID is required'),
+
+  memberId: z.string().min(1, 'Member ID is required'),
+
+  voteType: voteTypeSchema,
+
+  reasoning: z.string()
+    .max(2000, 'Reasoning cannot exceed 2000 characters')
+    .optional(),
+})
+
+/**
+ * Type inference from schema
+ */
+export type CastVoteInput = z.infer<typeof castVoteSchema>
+
+/**
+ * Vote tally schema
+ */
+export const voteTallySchema = z.object({
+  total: z.number().int().min(0),
+  consent: z.number().int().min(0),
+  concern: z.number().int().min(0),
+  abstain: z.number().int().min(0),
+  block: z.number().int().min(0),
+  thresholdMet: z.boolean(),
+  hasBlocks: z.boolean(),
 })
