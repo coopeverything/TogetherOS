@@ -206,10 +206,10 @@ const modules: Module[] = [
   {
     title: 'Onboarding Experience',
     description:
-      'Guided introduction to Coopeverything principles and features. Interactive tutorials for key workflows (creating proposals, joining groups, allocating Support Points). Helps new members understand cooperation-first values and platform capabilities.',
-    progress: 95,
-    status: 'in-progress',
-    repoPath: `${GITHUB_BASE}/docs/modules`,
+      'Comprehensive learning system with structured paths, mini-lessons, and quizzes. Teaches platform usage and cooperative skills (self-moderation, consensus-building). Features RP rewards, badges, daily challenges, and streak tracking. Bridge AI provides contextual help throughout. Designed to develop confident contributors with healthy daily engagement habits.',
+    progress: 0,
+    status: 'planned',
+    repoPath: `${GITHUB_BASE}/docs/modules/onboarding.md`,
     category: 'Community Connection',
   },
 ]
