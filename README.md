@@ -1,6 +1,6 @@
 # TogetherOS — A new operating system for humanity
 
-OS = Operating System (not “open source”). TogetherOS is a cooperation-first stack that helps people self-organize: direct legislation, mutual aid, a fair social economy, and shared knowledge — all woven into practical tools and clear discipline for contributors.
+TogetherOS is a cooperation-first stack that helps people self-organize: direct legislation through collective governance, empathy and mutual aid, thriving through a fair social economy, organize information and share knowledge, reconnect with our human family — all woven into practical, modern, open source and transparent tools.
 
 > 📜 **Manifesto:** see the canonical vision in [docs/Manifesto.md](docs/Manifesto.md)
 > 🧭 **Categories & keywords (canonical):** [docs/TogetherOS_CATEGORIES_AND_KEYWORDS](docs/TogetherOS_CATEGORIES_AND_KEYWORDS)
@@ -32,4 +32,5 @@ OS = Operating System (not “open source”). TogetherOS is a cooperation-first
 - **Vision:** [docs/Manifesto.md](docs/Manifesto.md)
 - **CI Playbook:** [docs/CI/Actions_Playbook.md](docs/CI/Actions_Playbook.md)
 - **Index:** [docs/index.md](docs/index.md)
+
 # Deployment test - trigger workflow after HEREDOC fix
