@@ -1,12 +1,14 @@
-# Admin Accountability Module
+# Execution & Accountability Module
 
 ## Overview
 
-The Admin Accountability module provides transparent tracking of the decision → implementation → verification pipeline in TogetherOS's cooperative governance model. Admins execute decisions made democratically by workgroups and assemblies, with full traceability and accountability mechanisms.
+The Execution & Accountability module provides transparent tracking of the complete decision → implementation → verification → review pipeline in TogetherOS's cooperative governance model. It bridges the gap between democratic decisions and real-world action, ensuring admins execute proposals transparently while providing mechanisms for success tracking, feedback loops, and continuous improvement.
+
+**Scope:** This module is the "execution phase" of the governance pipeline: **Forum → Governance → Execution → Review**
 
 **Current Progress:** <!-- progress:admin-accountability=0 --> 0%
 
-**Category:** Cooperative Technology, Collective Governance
+**Category:** Collective Governance, Cooperative Technology
 
 ---
 
@@ -389,6 +391,134 @@ interface PlatformSettings {
 
 ---
 
+## Integration with Events & Metrics Modules
+
+### Events Module Integration (Calendar & Milestones)
+
+**Purpose:** Initiatives generate calendar events automatically to track deadlines, meetings, and milestones.
+
+#### Automatic Event Creation:
+When an initiative is created:
+- **Deadline event:** Auto-create calendar event for initiative deadline
+- **Milestone events:** Break initiative into milestone events (e.g., "Design complete", "Implementation complete", "Verification")
+- **Workgroup meetings:** Auto-schedule recurring meetings for assigned admins
+- **Review event:** Schedule post-completion review meeting (triggered by verification)
+
+#### Event Types:
+```typescript
+interface InitiativeEvent {
+  id: string
+  initiativeId: string
+  type: 'deadline' | 'milestone' | 'meeting' | 'review'
+  title: string
+  date: Date
+  attendees: string[]          // Admin member IDs
+  location?: 'virtual' | string
+  notes?: string
+  completed: boolean
+}
+```
+
+#### Features:
+- **Deadline tracking:** Visual calendar showing all initiative deadlines
+- **Milestone celebrations:** Community notification when milestone reached
+- **Meeting reminders:** Auto-notify admins of upcoming workgroup meetings
+- **Attendance tracking:** Who attended which meetings (accountability)
+- **Meeting notes:** Link meeting notes to initiative for context
+
+**Current Status:** Events module at 0%, integration not yet implemented. Initiatives currently only have optional `deadline` field.
+
+---
+
+### Metrics Module Integration (Success Tracking & Re-evaluation)
+
+**Purpose:** Track initiative outcomes against success metrics, trigger re-evaluation when metrics fail, create feedback loop to Governance.
+
+#### Success Metrics Definition:
+Each initiative can define success metrics:
+```typescript
+interface InitiativeMetrics {
+  initiativeId: string
+  metrics: Metric[]
+  evaluationSchedule: 'immediate' | '30-days' | '90-days' | '1-year'
+  evaluationDate: Date
+  status: 'pending' | 'evaluated' | 'succeeded' | 'failed' | 'mixed'
+}
+
+interface Metric {
+  id: string
+  name: string                  // "Member satisfaction", "Cost reduction", etc.
+  target: number | string       // Expected outcome
+  actual?: number | string      // Measured outcome (after evaluation)
+  unit: string                  // "members", "dollars", "percentage", etc.
+  measurementMethod: string     // How to measure (survey, database query, manual count)
+}
+```
+
+#### Evaluation Flow:
+1. **Initiative delivered** → Schedule evaluation based on `evaluationSchedule`
+2. **Evaluation date arrives** → System creates evaluation task
+3. **Community measures actual outcomes** → Enter `actual` values for each metric
+4. **Compare target vs actual:**
+   - **Succeeded:** Actual ≥ Target for all metrics
+   - **Failed:** Actual < Target for majority of metrics
+   - **Mixed:** Some succeeded, some failed
+
+5. **If failed:**
+   - **Trigger re-evaluation** → Create review task
+   - **Check minority reports:** Did minority predictions come true?
+   - **Automatic improvement proposal creation** → Pre-fill amendment proposal with:
+     - Original decision ID
+     - Metrics that failed
+     - Minority report quotes (if relevant)
+     - Suggested improvements
+
+#### Re-evaluation Triggers:
+Automatic triggers that schedule evaluation:
+- **Metric failure:** Any metric < 50% of target
+- **Minority report validation:** Minority concerns proved correct
+- **Community feedback:** 5+ members flag issue with implementation
+- **Deadline overruns:** Implementation took >2x estimated time
+- **Budget overruns:** Cost >150% of estimated cost
+
+#### Feedback Loop to Governance:
+When initiative fails evaluation:
+1. **System creates improvement proposal** (pre-filled, requires member review)
+2. **Proposal includes:**
+   - Link to original decision
+   - Metrics that failed (evidence)
+   - Minority report excerpts (if applicable)
+   - Lessons learned from delivery report
+   - Suggested amendments
+3. **Member reviews and submits** to Governance module
+4. **Governance module processes** as amendment proposal
+5. **Cycle repeats:** New decision → New initiative → New evaluation
+
+**Example Feedback Loop:**
+```
+Original Decision: "Build community garden" (approved Jan 2024)
+  ↓
+Initiative: Tasks assigned, garden built (delivered June 2024)
+  ↓
+Metrics defined: "50 members participate", "Produce 100kg vegetables"
+  ↓
+Evaluation (90 days after): Only 15 members participate, 30kg produced
+  ↓
+Status: Failed (participation 30%, production 30%)
+  ↓
+Minority Report Review: "Concern about water access" (proved correct)
+  ↓
+Automatic Improvement Proposal created: "Add irrigation system to garden"
+  ↓
+Member reviews/submits → Governance deliberates → New decision → New initiative
+  ↓
+Updated garden delivered → New metrics tracked → Success!
+```
+
+**Current Status:** Metrics module at 0%, integration not yet implemented. Initiatives currently have optional `metricsAchieved` field in delivery reports but no structured tracking.
+
+---
+
 ## User Journeys
 
 ### Journey 1: Decision Approved → Initiative Created
@@ -746,15 +876,23 @@ export const adminRouter = router({
 ## Dependencies
 
 ### Required Modules:
-- **Governance** (0%) — Decision entity, proposal system
+- **Governance** (60%) — Decision entity, proposal system, amendment workflow
 - **Auth** (100%) — Role-based access, session management
 - **Groups** (100%) — Group membership, role assignments
+
+### Optional But Recommended:
+- **Events** (0%) — Calendar, milestones, meeting scheduling
+- **Metrics** (0%) — Success tracking, re-evaluation triggers, feedback loops
+- **Notifications** (65%) — Alerts for deadlines, assignments, verifications
 
 ### Integration Points:
 - Listen for `decision.approved` events from governance module
 - Emit `initiative.delivered` events for metrics/notifications
 - Query Support Points allocation for priority calculation
 - Use Auth middleware for role-based endpoint protection
+- Create calendar events via Events module (when available)
+- Schedule metric evaluations via Metrics module (when available)
+- Trigger improvement proposals in Governance module (feedback loop)
 
 ---
 

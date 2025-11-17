@@ -2,28 +2,35 @@
 
 ## Overview
 
-**Scope:** Create, deliberate, and decide on proposals with transparent rules and lightweight, testable flows
+**Scope:** Complete governance pipeline from proposal creation through decision-making, implementation tracking, and iterative improvement. Consolidates "Proposals" and "Governance" into one unified system.
 
-**Status:** 0% implementation
+**Status:** 60% implementation
 **Owner:** @coopeverything-core
 **Labels:** `module:governance`
-**Next milestone:** Submit a minimal proposal and see it in a list
+**Next milestone:** Implement voting logic and minority report preservation
 
 **Key Features:**
 - **Individual AND Group Proposals:** Members can create personal proposals OR group-scoped proposals
+- **Forum Integration:** Convert deliberation threads into formal proposals
 - **Bridge AI Integration:** Similarity detection, regulation conflict checking, conversational clarification (architecture prepared, implementation future)
 - **Support Points Integration:** Proposals earn RP, accept SP allocations for prioritization
 - **Consent-Based Decisions:** Transparent voting with minority report preservation
+- **Amendment Process:** Iterative improvements through feedback loop
+- **Delivery Tracking:** Convert approved proposals into initiatives
 
 ---
 
 ## Why This Exists
 
 Members must be able to:
-- Turn ideas into formal proposals
-- Discuss with evidence and trade-offs
-- Make consent-based decisions
+- Turn ideas (from Forum discussions) into formal proposals
+- Gather evidence and explore trade-offs
+- Make consent-based decisions (not majority-rule)
+- Preserve minority reports and dissenting views
 - Track delivery and review outcomes
+- Iterate and improve through amendments
+
+**Note:** This is part of the unified governance pipeline: **Forum → Governance → Initiatives**
 
 We ship a **thin vertical slice first** so contributors can see end-to-end value quickly:
 **Submit → List → View details** (voting comes later)
@@ -216,6 +223,129 @@ scripts/validate.sh                       # Add seed check
 - **Civic jury:** Dispute resolution
 - **Conflict of interest:** Declarations and recusal
 - **Delivery reports:** Tied to proposals, public audit
+
+---
+
+## Forum → Governance Bridge
+
+Ideas begin as informal discussions in the **Forum module** before becoming formal proposals in Governance.
+
+### Conversion Flow
+
+1. **Forum Discussion Phase**
+   - Member starts a discussion with `topicCategory: 'proposal'` or `'deliberation'`
+   - Community explores problem, brainstorms solutions
+   - Evidence and viewpoints emerge organically
+
+2. **Readiness Signals**
+   - Discussion reaches natural conclusion
+   - Consensus forms around a direction
+   - Author (or community) decides to formalize
+
+3. **Convert to Proposal** (Planned Feature)
+   - "Convert to Proposal" button on forum threads
+   - Auto-populate proposal fields:
+     - Title from thread title
+     - Summary from first post + discussion highlights
+     - Evidence from links shared in thread
+   - Link back to original forum discussion
+
+4. **Formal Governance Phase**
+   - Proposal enters governance workflow
+   - Voting, minority reports, decision tracking
+   - Forum thread remains as historical context
+
+**Current Status:** Forum module at 0%, conversion mechanism not yet implemented. Proposals can be created manually via `/governance/new`.
+
+---
+
+## Minority Reports & Dissent Preservation
+
+**Philosophy:** Consent-based decision-making is NOT majority-rule. Dissenting views must be codified, preserved, and given equal visibility to the majority decision.
+
+### How It Works
+
+1. **During Voting**
+   - Members can select: `support`, `oppose`, `abstain`, or `block`
+   - Members selecting `oppose` or `block` are prompted to explain reasoning
+   - System auto-flags these as minority positions (`isMinority: true`)
+
+2. **Minority Report Creation**
+   - If ≥10% of voters oppose or ≥1 member blocks, minority report is REQUIRED
+   - Minority members collaborate to write report (separate document)
+   - Report answers:
+     - What concerns remain unaddressed?
+     - What risks does the majority overlook?
+     - What alternative would you propose?
+     - Under what conditions would you consent?
+
+3. **Report Preservation**
+   - Stored in `proposal.minorityReport` field (markdown text)
+   - Displayed prominently on proposal detail page
+   - Included in decision announcement
+   - Linked from initiative/delivery tracking
+
+4. **Review & Amendment**
+   - If minority predictions prove correct (during review phase), proposal can be amended
+   - Minority report informs improvement proposals
+   - Creates feedback loop for better future decisions
+
+**Current Status:** Data model supports minority reports (field exists). Voting logic and report creation UI not yet implemented.
+
+---
+
+## Amendment & Iteration Process
+
+Decisions are NOT permanent. The commons can revisit and improve any decision through the amendment process.
+
+### When to Amend
+
+Triggers for creating an amendment proposal:
+- **Delivery phase issues:** Implementation reveals unforeseen problems
+- **Metric failures:** Success metrics not met (see Metrics module)
+- **Minority report validation:** Dissenting predictions prove correct
+- **Changed circumstances:** External factors require adjustment
+- **Community feedback:** Members request improvements
+
+### Amendment Workflow
+
+1. **Trigger Event**
+   - Review phase identifies issues (automated or manual)
+   - Member creates amendment proposal (references original)
+
+2. **Amendment Proposal**
+   - Type: `amendment` (vs `new`)
+   - Linked to original proposal (`amendedProposalId` field)
+   - Shows diff of changes (what's modified vs original)
+   - Includes rationale: "Why amend instead of new proposal?"
+
+3. **Deliberation**
+   - Lower approval threshold (e.g., 60% vs 75%)
+   - Original supporters auto-notified
+   - Minority report authors invited to weigh in
+
+4. **Decision**
+   - If approved: Original proposal marked `status: 'superseded'`
+   - Amendment becomes new active regulation
+   - Link preserved: Original ← Amendment (bidirectional)
+
+5. **History Tracking**
+   - All versions preserved (append-only)
+   - Proposal detail page shows version history
+   - Members can view evolution of decision over time
+
+**Example Amendment Flow:**
+```
+Original Proposal (2024-01): "Community garden at Central Park"
+  ↓ (approved, implemented)
+Delivery Report (2024-06): Water access insufficient (minority report predicted this)
+  ↓ (review phase triggered)
+Amendment Proposal (2024-07): "Add irrigation system to community garden"
+  ↓ (approved)
+Updated Regulation: Garden now includes irrigation
+```
+
+**Current Status:** Amendment workflow not implemented. Proposal schema supports `status: 'superseded'` but no amendment linking or versioning.
 
 ---
 

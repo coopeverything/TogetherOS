@@ -1,24 +1,29 @@
-# Forum & Deliberation Module
+# Community Discussions & Deliberation Module
 
 ## Overview
 
-The Forum & Deliberation module provides structured, empathy-first discussions with AI-assisted moderation and deliberative tools for finding common ground. It enables communities to discuss issues, explore perspectives, and build consensus through transparent, respectful dialogue.
+The Community Discussions module provides a versatile space for knowledge building, idea exploration, Q&A, and structured deliberation. Think of it as a multi-purpose forum for:
+- **Knowledge Repository:** Best practices, how-tos, community wisdom
+- **Idea Bank:** Explore ideas before formalizing as proposals
+- **Q&A Hub:** Ask questions, share expertise, build collective knowledge
+- **Deliberation Space:** Structured consensus-building when decisions loom
+- **Announcements:** Share important updates with the community
 
 **Current Progress:** <!-- progress:forum=0 --> 0%
 
-**Category:** Collective Governance, Community Connection, Cooperative Technology
+**Category:** Community Connection, Collective Governance, Cooperative Technology
 
 ---
 
 ## Core Purpose
 
 Enable members to:
-- Create and participate in threaded discussions
-- Explore different perspectives with empathy tools
-- Build consensus through deliberative features (pro/con weighing)
-- Preserve minority opinions and dissenting voices
-- Use AI assistance for moderation and summarization
-- Connect discussions to proposals and decisions
+- **Share knowledge:** Document best practices, lessons learned, how-to guides
+- **Explore ideas:** Test concepts, gather feedback before formal proposals
+- **Ask & answer questions:** Build searchable community knowledge base
+- **Deliberate together:** Structured discussions for consensus-building (when needed)
+- **Preserve diverse views:** Minority opinions and dissenting voices remain visible
+- **Connect to governance:** Convert mature discussions into formal proposals
 
 ---
 
@@ -207,31 +212,57 @@ interface Edit {
 
 ## Topic Categories Explained
 
-### General Discussion
-- Open-ended conversations
-- No formal structure required
-- Can evolve into proposals
+### General Discussion (Knowledge Building)
+- **Primary use:** Document best practices, share lessons learned, build community wisdom
+- **Examples:**
+  - "How we improved our community gardens" (case study)
+  - "Best practices for conflict resolution in cooperatives"
+  - "Tips for organizing mutual aid networks"
+- **Structure:** Open-ended, no formal requirements
+- **Can evolve into:** Questions, proposals, or knowledge base entries
 
-### Proposal Discussion
-- Pre-proposal exploration
-- Bridge can help structure into formal proposal
-- Often becomes a governance proposal
+### Question (Q&A & Learning)
+- **Primary use:** Ask questions, share expertise, build searchable knowledge
+- **Examples:**
+  - "How do I set up a timebank?"
+  - "What's the difference between SP and RP?"
+  - "Anyone tried participatory budgeting in their group?"
+- **Features:**
+  - Mark a reply as "answer"
+  - Searchable knowledge base
+  - Bridge can suggest related docs
+- **Can evolve into:** Knowledge base articles, best practices docs
 
-### Question
-- Q&A format
-- Can mark a reply as "answer"
-- Searchable knowledge base
+### Proposal (Idea Exploration)
+- **Primary use:** Test ideas, gather feedback BEFORE formal proposals
+- **Examples:**
+  - "Thinking about a community tool library - thoughts?"
+  - "Should we experiment with rotating facilitation?"
+  - "Ideas for improving our meeting structure"
+- **Structure:** Informal brainstorming, evidence gathering
+- **Bridge feature:** "Convert to Proposal" button (when idea matures)
+- **Can evolve into:** Formal governance proposal
 
-### Deliberation
-- Structured consensus-building
-- Posts include stance + reasoning + tradeoffs
-- Minority opinions preserved
-- Bridge can summarize into decision framework
+### Deliberation (Structured Consensus-Building)
+- **Primary use:** Serious discussions when decisions are imminent
+- **Examples:**
+  - "How should we handle moderation in our group?"
+  - "Choosing between two mutual aid models"
+  - "Deliberating on budget allocation approach"
+- **Features:**
+  - Posts include stance + reasoning + tradeoffs
+  - Minority opinions preserved and highlighted
+  - Bridge can summarize into decision framework
+- **Can evolve into:** Formal vote, governance proposal with evidence
 
-### Announcement
-- One-way information sharing
-- Comments allowed but not required
-- Used by groups/coordinators
+### Announcement (Information Sharing)
+- **Primary use:** Important updates, news, event notices
+- **Examples:**
+  - "New members: Welcome!"
+  - "Meeting schedule for next month"
+  - "Platform update deployed"
+- **Structure:** One-way info, comments optional
+- **Used by:** Group coordinators, platform team
 
 ---
 

@@ -212,6 +212,26 @@ const modules: Module[] = [
     repoPath: `${GITHUB_BASE}/docs/modules/onboarding.md`,
     category: 'Community Connection',
   },
+  {
+    title: 'Events & Calendar',
+    description:
+      'Comprehensive event management, milestone tracking, and meeting scheduling. Integrates with initiatives to auto-create deadline events, workgroup meetings, and review sessions. Features attendance tracking, meeting notes, and RSVP management. Keeps the community coordinated and accountable.',
+    progress: 0,
+    status: 'planned',
+    repoPath: `${GITHUB_BASE}/docs/modules/events.md`,
+    docsPath: '/docs/modules/events',
+    category: 'Collective Governance, Community Connection',
+  },
+  {
+    title: 'Metrics & Review',
+    description:
+      'Success tracking and continuous improvement system. Define metrics for initiatives, measure outcomes vs expectations, trigger re-evaluations when metrics fail, validate minority reports, and auto-generate improvement proposals. Creates a feedback loop from implementation back to governance, ensuring the commons learns from experience.',
+    progress: 0,
+    status: 'planned',
+    repoPath: `${GITHUB_BASE}/docs/modules/metrics.md`,
+    docsPath: '/docs/modules/metrics',
+    category: 'Collective Governance',
+  },
 ]
 
 export default function ModulesIndexPage() {
@@ -228,11 +248,16 @@ export default function ModulesIndexPage() {
             Coopeverything Modules Hub
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive overview of all platform modules. Each module
-            represents a key capability powered by TogetherOS, the technology
-            stack enabling cooperation. Click any module to see its description,
-            progress, and links to documentation.
+            These modules work together as a <strong>unified governance pipeline</strong>: from ideation to decision to execution to continuous improvement. Each module represents a key capability powered by TogetherOS, the technology stack enabling cooperation.
           </p>
+          <div className="mt-4">
+            <a
+              href="/how-we-decide"
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Learn how the pipeline works →
+            </a>
+          </div>
         </div>
 
         {/* Quick Stats */}

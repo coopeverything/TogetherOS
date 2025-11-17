@@ -8,7 +8,45 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 
 ---
 
-## Core Modules (Platform)
+## Core Modules — Governance Pipeline
+
+These modules work together as a **unified governance pipeline**: from ideation to decision to execution to continuous improvement.
+
+### Discussion Phase Modules
+
+Ideas begin as informal discussions before becoming formal proposals.
+
+| Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
+| --- | --- | ---:| --- | --- |
+| **Forum / Deliberation** | Structured discussion threads for deep deliberation, knowledge building, Q&A hub, idea bank, empathy-first moderation, consensus-building tools, conversion to proposals | <!-- progress:forum=0 --> 0% | Topic list + post composer MVP | Bridge thread tidy, AI moderation |
+| **Onboarding ("Bridge")** | Scenario intro, quick profile, "first tiny step", behavioral AI system with member states, 7-type memory, 5-phase decision loop, action palette, questionnaires API, educational content API | <!-- progress:onboarding=95 --> 95% | PostgreSQL repos + UI integration | Behavioral AI system implemented ✅ |
+| **Search & Tags** | Global search, Path/keyword filters, topic discovery | <!-- progress:search=0 --> 0% | Tag facet filter on lists | Index choice (client/server) |
+| **Feed** | Social media feed + native posts, multi-dimensional reactions, topic filtering, post composer (Phase 1-2 ✅), Bridge topic intelligence with AI suggestions, duplicate thread detection, topic-based feeds (Phase 3 ✅), community priorities map with privacy-safe aggregates (Phase 4 ✅), multi-dimensional rating system with reputation scores (Phase 5 ✅), evidence repository with viewpoint tagging and verification (Phase 6 ✅), sentiment visualization with bubble charts and trend lines (Phase 7 ✅), action recommendations with interest profiling (Phase 8 ✅), deliberation progression indicators and breadcrumb navigation (Phase 9 ✅) | <!-- progress:feed=100 --> 100% | Production-ready ✅ | All 9 phases complete: feed → deliberation pipeline fully implemented |
+
+### Decision Phase Modules
+
+Formal proposals, voting, and consent-based decision making.
+
+| Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
+| --- | --- | ---:| --- | --- |
+| **Proposals & Decisions** | Proposal object, evidence/options, vote, review, minority reports, amendment process, consent-based governance | <!-- progress:governance=60 --> 60% | Voting logic + evidence system | Complete CRUD MVP with UI deployed ✅ |
+| **Support Points & Reputation** | Points bank, allocation per idea, badges, SP for governance power (only from contributions), RP for economic claims | <!-- progress:reputation=45 --> 45% | UI components (balance, allocate, history) | Backend complete (DB + API + types). UI pending. |
+| **Support Points & Reward Points UI** | SP wallet & allocation interface, RP dashboard with earnings tracker, RP → SP exchange at configurable rates, admin tracking panels | <!-- progress:support-points-ui=0 --> 0% | SP wallet component + allocation widget | Spec complete (docs/modules/support-points-ui.md), no code yet. Extends reputation backend (45% complete). |
+| **Moderation Transparency** | Quality-scored moderation with member ratings (1-5 stars), RP incentives tied to scores, 1-month rotating terms, public moderation log (members-only), coordinator queue with AI assistance, appeal system | <!-- progress:moderation-transparency=0 --> 0% | Flag entity + moderation queue | Spec complete (docs/modules/moderation-transparency.md), no code yet |
+
+### Execution Phase Modules
+
+Implementation, tracking, and accountability for approved decisions.
+
+| Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
+| --- | --- | ---:| --- | --- |
+| **Admin Accountability** | Decision → implementation → verification pipeline, admin queue, settings classification (assembly vote vs admin discretion), NDJSON audit logs, recall mechanism, delivery reports | <!-- progress:admin-accountability=0 --> 0% | Initiative entity + conversion logic | Spec complete (docs/modules/admin-accountability.md), no code yet |
+| **Events & Calendar** | Event management, milestone tracking, meeting scheduling, attendance tracking, auto-creation from initiatives, workgroup meetings, review sessions, RSVP management, meeting notes | <!-- progress:events=0 --> 0% | Event CRUD + calendar view | Spec complete (docs/modules/events.md), integrates with Execution module |
+| **Metrics & Review** | Success tracking, outcome measurement, evaluation scheduling, re-evaluation triggers, minority report validation, feedback loops, improvement proposal auto-generation, institutional learning | <!-- progress:metrics=0 --> 0% | Metrics definition + evaluation MVP | Spec complete (docs/modules/metrics.md), creates feedback loop to Governance |
+
+### Foundation Modules
+
+Infrastructure and core platform capabilities.
 
 | Module | Scope (what it covers) | Progress | Next milestone | Blockers / Notes |
 | --- | --- | ---:| --- | --- |
@@ -17,21 +55,12 @@ For timestamped progress updates, see: [STATUS/progress-log.md](../STATUS/progre
 | **Identity & Auth** | Sign up/in, sessions, roles, privacy (email/handle), email verification, password reset, Google OAuth | <!-- progress:auth=100 --> 100% | Production-ready ✅ | All features complete with security hardening + OAuth env vars documented |
 | **Profiles** | Member cards, skills/tags, Path interests | <!-- progress:profiles=100 --> 100% | Production-ready ✅ | All core features complete |
 | **Groups & Orgs** | Local groups, org records, federation handles | <!-- progress:groups=100 --> 100% | Production-ready ✅ | All core features complete |
-| **Feed** | Social media feed + native posts, multi-dimensional reactions, topic filtering, post composer (Phase 1-2 ✅), Bridge topic intelligence with AI suggestions, duplicate thread detection, topic-based feeds (Phase 3 ✅), community priorities map with privacy-safe aggregates (Phase 4 ✅), multi-dimensional rating system with reputation scores (Phase 5 ✅), evidence repository with viewpoint tagging and verification (Phase 6 ✅), sentiment visualization with bubble charts and trend lines (Phase 7 ✅), action recommendations with interest profiling (Phase 8 ✅), deliberation progression indicators and breadcrumb navigation (Phase 9 ✅) | <!-- progress:feed=100 --> 100% | Production-ready ✅ | All 9 phases complete: feed → deliberation pipeline fully implemented |
 | **Gamification** | Local community growth tracking, research-backed milestone thresholds (5, 15, 25, 50, 100, 150 members), progress visualization, 3D celebration animations, invitation reward mechanics (RP system), ethical design without dark patterns | <!-- progress:gamification=15 --> 15% | Database schema + milestone definitions | Spec complete (docs/modules/gamification.md), no code yet |
-| **Forum / Deliberation** | Structured discussion threads for deep deliberation, empathy-first moderation, consensus-building tools | <!-- progress:forum=0 --> 0% | Topic list + post composer MVP | Bridge thread tidy, AI moderation |
-| **Proposals & Decisions** | Proposal object, evidence/options, vote, review | <!-- progress:governance=60 --> 60% | Voting logic + evidence system | Complete CRUD MVP with UI deployed ✅ |
-| **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
-| **Support Points & Reputation** | Points bank, allocation per idea, badges | <!-- progress:reputation=45 --> 45% | UI components (balance, allocate, history) | Backend complete (DB + API + types). UI pending. |
-| **Onboarding ("Bridge")** | Scenario intro, quick profile, "first tiny step" | <!-- progress:onboarding=95 --> 95% | PostgreSQL repos + UI integration | Behavioral AI system implemented: member states, 7-type memory, 5-phase decision loop, action palette, questionnaires API, educational content API ✅ |
-| **Search & Tags** | Global search, Path/keyword filters | <!-- progress:search=0 --> 0% | Tag facet filter on lists | Index choice (client/server) |
+| **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace, 4-ledger system (SP/RP/TBC/SH) | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
 | **Notifications & Inbox** | Mentions, proposal updates, reminders | <!-- progress:notifications=65 --> 65% | Real-time updates (websockets) + module integrations | Complete MVP with 6 endpoints + 3 UI components deployed ✅ |
 | **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=60 --> 60% | Integrate more doc links in app UI | Stable doc routes |
 | **Observability** | Basic logs, error boundary, uptime ping | <!-- progress:observability=10 --> 10% | Error boundary + simple tracker | Choose provider (self/3rd-party) |
 | **Security & Privacy** | Least-privilege tokens, PII handling, audit flags | <!-- progress:security=30 --> 30% | Secrets layout + no-PII logs | Threat model checklist |
-| **Admin Accountability** | Decision → implementation → verification pipeline, admin queue, settings classification (assembly vote vs admin discretion), NDJSON audit logs, recall mechanism | <!-- progress:admin-accountability=0 --> 0% | Initiative entity + conversion logic | Spec complete (docs/modules/admin-accountability.md), no code yet |
-| **Support Points & Reward Points UI** | SP wallet & allocation interface, RP dashboard with earnings tracker, RP → SP exchange at configurable rates, admin tracking panels | <!-- progress:support-points-ui=0 --> 0% | SP wallet component + allocation widget | Spec complete (docs/modules/support-points-ui.md), no code yet. Extends reputation backend (45% complete). |
-| **Moderation Transparency** | Quality-scored moderation with member ratings (1-5 stars), RP incentives tied to scores, 1-month rotating terms, public moderation log (members-only), coordinator queue with AI assistance, appeal system | <!-- progress:moderation-transparency=0 --> 0% | Flag entity + moderation queue | Spec complete (docs/modules/moderation-transparency.md), no code yet |
 
 ---
 
