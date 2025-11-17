@@ -8,10 +8,10 @@ import { getVoteTally } from '../../../../../../../api/src/modules/governance/ha
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const proposalId = params.id
+    const { id: proposalId } = await params
 
     // Parse threshold from query params (default 0.5 = 50%)
     const { searchParams } = new URL(request.url)

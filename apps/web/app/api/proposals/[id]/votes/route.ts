@@ -21,11 +21,11 @@ import { castVoteSchema } from '@togetheros/validators/governance'
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth(request)
-    const proposalId = params.id
+    const { id: proposalId } = await params
     const body = await request.json()
 
     // Validate input
@@ -66,10 +66,10 @@ export async function POST(
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const proposalId = params.id
+    const { id: proposalId } = await params
 
     // Anyone can view votes (transparency principle)
     const result = await getProposalVotes(proposalId)

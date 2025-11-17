@@ -9,11 +9,11 @@ import { getMyVote } from '../../../../../../../api/src/modules/governance/handl
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth(request)
-    const proposalId = params.id
+    const { id: proposalId } = await params
 
     const result = await getMyVote(proposalId, user.id)
 
