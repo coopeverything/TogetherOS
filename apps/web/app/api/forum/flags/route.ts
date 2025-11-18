@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   listFlags,
   createFlag,
-} from '../../../../../../../packages/db/src/forum-flags'
+} from '@togetheros/db/forum-flags'
 
 /**
  * GET /api/forum/flags

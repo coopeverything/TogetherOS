@@ -10,7 +10,7 @@ import {
   listReactionsByContent,
   createReaction,
   deleteReactionByUserAndContent,
-} from '../../../../../../../../../packages/db/src/forum-reactions'
+} from '@togetheros/db/forum-reactions'
 
 /**
  * GET /api/forum/posts/[postId]/reactions
