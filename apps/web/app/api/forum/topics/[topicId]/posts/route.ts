@@ -7,7 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createPostSchema } from '@togetheros/validators/forum'
 import {
-  listPosts,
+  listPostsByTopic,
   createPost,
 } from '../../../../../../../../packages/db/src/forum-posts'
 
@@ -21,8 +21,8 @@ export async function GET(
 ) {
   try {
     const { topicId } = await params
-    const posts = await listPosts({ topicId })
-    return NextResponse.json({ posts })
+    const { posts, total } = await listPostsByTopic(topicId)
+    return NextResponse.json({ posts, total })
   } catch (error: any) {
     console.error('Error fetching posts:', error)
     return NextResponse.json(
