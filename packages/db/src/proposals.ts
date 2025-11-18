@@ -71,6 +71,7 @@ function toProposal(row: ProposalRow): Proposal {
 
 /**
  * Create proposal input
+ * Note: status is not included - proposals always start as 'draft'
  */
 export interface CreateProposalInput {
   scopeType: ProposalScopeType;
@@ -78,7 +79,6 @@ export interface CreateProposalInput {
   authorId: string;
   title: string;
   summary: string;
-  status?: ProposalStatus;
 }
 
 /**
@@ -114,6 +114,7 @@ export interface ListProposalsFilter {
 
 /**
  * Create a new proposal
+ * Note: All new proposals start with status 'draft'
  */
 export async function createProposal(input: CreateProposalInput): Promise<Proposal> {
   const result = await query<ProposalRow>(
@@ -126,7 +127,7 @@ export async function createProposal(input: CreateProposalInput): Promise<Propos
       input.authorId,
       input.title,
       input.summary,
-      input.status || 'draft',
+      'draft', // All proposals start as draft
     ]
   );
 
