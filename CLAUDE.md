@@ -11,16 +11,191 @@
 
 ## Mandatory Workflows
 
+**Pre-Work Verification** (REQUIRED for ALL work):
+- See: "Pre-Work Verification Protocol" section below
+- 3-check protocol executed BEFORE starting ANY work
+- Prevents wrong branch commits, uncommitted changes leakage, baseline tracking
+
+**Pre-Commit Verification** (REQUIRED before git commit):
+- See: "Pre-Commit Verification Protocol" section below
+- 4-check protocol executed BEFORE running git commit
+- Prevents wrong-branch commits, build failures, type errors in CI
+
 **TypeScript Verification** (REQUIRED for ALL TypeScript code):
 - See: `.claude/workflows/typescript-verification.md`
 - Pre-flight checklist BEFORE writing code
 - Post-write verification AFTER writing code
 - Prevents 90%+ of TypeScript errors through verification-first approach
 
-**Branch Verification** (REQUIRED before ANY work):
-- See: "Branch Verification Protocol" section below
-- ALWAYS verify current branch before starting work
-- Prevents working on wrong branch and creating cross-branch conflicts
+---
+
+## Pre-Work Verification Protocol
+
+**EXECUTE ALL 3 CHECKS BEFORE STARTING ANY WORK** (takes 55 seconds):
+
+### Check 1: Branch & Working Directory State (15 seconds)
+
+```bash
+git branch --show-current
+git status
+```
+
+**Questions to answer:**
+- ✅ Am I on the correct branch for this work?
+  - Feature work? Should be on `feature/*` branch
+  - Bug fix/hotfix? Should be on `yolo` branch
+  - Docs only? Can be on `docs/*` or `yolo`
+- ✅ Are there uncommitted changes from previous work?
+  - If YES: Commit them OR stash them OR switch to correct branch
+  - If NO: Proceed to Check 2
+
+**STOP if:**
+- Uncommitted changes exist that don't belong on current branch
+- Current branch doesn't match the type of work about to start
+
+**Action if STOP:**
+```bash
+# Option A: Commit if changes belong on current branch
+git add . && git commit -m "..."
+
+# Option B: Stash if switching contexts
+git stash push -m "WIP: description"
+
+# Option C: Switch to correct branch for those files
+git checkout <correct-branch>
+git add . && git commit -m "..."
+```
+
+### Check 2: Working Directory Must Be Clean (10 seconds)
+
+```bash
+git status --porcelain
+```
+
+**Expected output:** Empty (no output) OR only files related to current task
+
+**If not empty:**
+- Review each file: `git status`
+- Ask: "Should this file be part of my current work?"
+- If NO: Commit it separately or stash it
+- If YES: Proceed to Check 3
+
+### Check 3: TypeScript Error Baseline (30 seconds)
+
+```bash
+npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
+```
+
+**Record this number** - This is your baseline error count
+
+**Purpose:**
+- Track which errors are NEW (from your work) vs PRE-EXISTING
+- New errors MUST be fixed before commit
+- Pre-existing errors can be ignored (document in PR)
+
+**Example:**
+```bash
+$ npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
+2
+# Baseline: 2 errors (pre-existing, not my problem)
+
+# After my work:
+$ npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
+5
+# NEW: 3 errors (5 - 2 = 3) - MUST FIX THESE
+```
+
+---
+
+## Pre-Commit Verification Protocol
+
+**EXECUTE ALL 4 CHECKS BEFORE RUNNING `git commit`** (takes 90 seconds):
+
+### Check 1: Staged Files Match Branch Context (15 seconds)
+
+```bash
+git diff --cached --name-only
+```
+
+**Review EACH file** and ask:
+- ✅ Should this file be committed to THIS branch?
+- ✅ Is this feature work going to `yolo` (production)? **DANGER**
+- ✅ Is this fix going to `feature/*` branch? **WRONG**
+
+**Common Mistakes:**
+- ❌ Evidence/Options files on `yolo` (feature work)
+- ❌ SP/RP type fixes on `feature/*` (should be on `yolo`)
+- ❌ Admin dashboard changes on `feature/*` (should be on `yolo`)
+
+**STOP if:**
+- Any staged file doesn't belong on current branch
+- Feature work is staged on `yolo`
+- Bug fixes are staged on feature branch
+
+**Action if STOP:**
+```bash
+# Unstage the wrong files
+git reset HEAD path/to/wrong/file.ts
+
+# Switch to correct branch
+git checkout <correct-branch>
+
+# Stage and commit there instead
+git add path/to/wrong/file.ts
+git commit -m "..."
+```
+
+### Check 2: TypeScript Errors (30 seconds)
+
+```bash
+npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
+```
+
+**Compare to baseline** from Pre-Work Check 3:
+- Same number as baseline? ✅ PROCEED
+- Higher than baseline? ❌ STOP - Fix new errors first
+- Lower than baseline? ✅ PROCEED (you fixed errors!)
+
+**If new errors found:**
+```bash
+# See the actual errors
+npx tsc --noEmit
+
+# Fix them, then re-check
+npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
+```
+
+### Check 3: Build Success (30 seconds)
+
+```bash
+cd apps/web && npm run build && cd ../..
+```
+
+**MUST show:** `✓ Compiled successfully`
+
+**If build fails:**
+- Read the error message
+- Fix the issue (usually TypeScript or missing import)
+- Re-run build
+- DO NOT commit until build passes
+
+**Why this matters:**
+- CI will fail on same build error
+- Deployment will be blocked
+- Build failures waste CI time and delay deployment
+
+### Check 4: Tests Pass (15 seconds)
+
+```bash
+npm test 2>&1 | grep -E "(PASS|FAIL|Tests:)"
+```
+
+**MUST show:** All tests passing
+
+**Why this matters:**
+- `TESTS=OK` proof line is REQUIRED for yolo PRs
+- CI blocks merge if tests fail
+- Danger.js enforces test passing
 
 ---
 
@@ -416,18 +591,28 @@ System may be prompting even when operation is in allow list
 
 **At Start:**
 1. This file (CLAUDE.md) auto-loaded
-2. **Check deployment status (CRITICAL):**
+2. **Verify clean state (CRITICAL):**
+   ```bash
+   git status
+   git branch --show-current
+   ```
+   - **If uncommitted changes exist:** Ask user what to do with them
+     - Commit them? Stash them? Continue with them?
+     - NEVER proceed without acknowledging uncommitted changes
+   - **If on feature branch:** Ask if user wants to continue or switch to yolo
+   - **Document current state** in first message to user
+3. **Check deployment status (CRITICAL):**
    - Look for open `deployment-failure` GitHub issues
    - Check recent deployment history: `gh run list --workflow=auto-deploy-production.yml --limit 5`
    - If failures detected → **Automatically invoke yolo1 skill** to diagnose and fix
    - Report findings to user
-3. **Create Notion session page (RECOMMENDED for complex work):**
+4. **Create Notion session page (RECOMMENDED for complex work):**
    - Use: `mcp__notion__API-post-page`
    - Parent: `296d133a-246e-80a6-a870-c0d163e9c826`
    - Title: `"Nov 10, 25 14:30 - Session"`
    - See `status-tracker` skill for format details
    - If UUID bug occurs, retry once then proceed
-4. Review `git status` and recent commits
+5. Review recent commits: `git log --oneline -5`
 
 **During:**
 - Follow autonomy guidelines
@@ -446,33 +631,18 @@ System may be prompting even when operation is in allow list
 
 ## Branch Verification Protocol
 
-**CRITICAL: Execute BEFORE starting ANY work**
+**NOTE:** This section is now integrated into the **Pre-Work Verification Protocol** (see above).
 
-This protocol prevents working on the wrong branch, which causes:
-- Changes made in wrong context (wrong base branch)
-- Build failures when branches have different package states
-- Cross-branch conflicts requiring manual resolution
-- Wasted time redoing work on correct branch
+The comprehensive pre-work protocol includes:
+- Branch & working directory state verification
+- Clean working directory enforcement
+- TypeScript error baseline tracking
 
-### Mandatory Pre-Work Steps
-
-**1. Check current branch:**
-```bash
-git branch --show-current
-```
-
-**2. Verify branch matches task context:**
-- Does current branch match the work I'm about to do?
-- Is this the branch user expects me to work on?
-- Does this branch have the correct base (yolo vs main vs feature)?
-
-**3. If branch is WRONG:**
-- Switch to correct branch: `git checkout <correct-branch>`
-- OR create new feature branch: `git checkout -b feature/<topic>`
-- OR ask user: "Currently on branch X. Should I work here or create/switch to different branch?"
-
-**4. If branch is CORRECT:**
-- Proceed with work
+**Quick Reference - Branch/Work Type Matching:**
+- Feature work → `feature/*` branch
+- Bug fix/hotfix → `yolo` branch
+- Docs only → `docs/*` or `yolo` branch
+- Emergency production fix → `yolo` branch (direct commit allowed)
 
 ### Branch Naming Patterns
 
