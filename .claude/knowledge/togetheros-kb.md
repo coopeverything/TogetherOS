@@ -472,6 +472,55 @@ git fetch origin <branch-name>
 4. Path alias resolution works at runtime even with compile-time errors
 5. Verification workflow prevents 90%+ of errors through pre-flight checks
 6. When structure prevents fix, document as accepted limitation with explanation
+7. Clear build caches when TypeScript errors contradict themselves (see Nov 18 Forum API session below)
+
+---
+
+### Session Reference: 2025-11-18 Forum API Implementation (25% → 50%)
+
+**Task:** Implement Forum module API routes and topic listing UI
+
+**TypeScript Cache Discovery:**
+
+**Problem Encountered:**
+- Implemented Next.js 16 dynamic route with `Promise<Params>` pattern (correct for Next.js 16)
+- TypeScript error: "Expected `{ topicId: string }`, got `Promise<{ topicId: string }>`"
+- Changed code to non-Promise pattern to match error
+- TypeScript error **reversed**: "Expected `Promise<{ topicId: string }>`, got `{ topicId: string }`"
+- **Error messages literally contradicted themselves**
+
+**Root Cause:**
+- Stale `.next/` build cache from before Next.js 16 async params
+- Stale `tsconfig.tsbuildinfo` TypeScript incremental build info
+- Cached type definitions showed old (sync) param requirements
+- New code correctly used async params, but cache showed outdated errors
+
+**Solution:**
+```bash
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+npm run build  # ✅ Build succeeded with original Promise pattern
+```
+
+**Key Insight:**
+When TypeScript error messages flip or contradict themselves after you "fix" them, it's a sign of **stale build caches**, not actual type errors. The original code was likely correct.
+
+**Pattern Recognition:**
+1. Error says "Expected X, got Y"
+2. Change code to type X
+3. Error says "Expected Y, got X" (reversed!)
+4. **→ Clear caches immediately, revert to original code**
+
+**Documentation Added:**
+- `.claude/workflows/typescript-verification.md` - Mistake 6
+- `docs/dev/common-mistakes.md` - Section 7
+- `docs/dev/typescript-guide.md` - Pattern 5
+- `docs/DEVELOPMENT.md` - Troubleshooting entry
+
+**Lesson Learned:**
+- Framework updates (Next.js 16 async params) change type behavior
+- Build caches can persist old type definitions
+- Always clear caches after major framework updates
+- Error message contradictions = cache issue, not code issue
 
 ---
 

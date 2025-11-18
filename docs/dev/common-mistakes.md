@@ -257,6 +257,114 @@ gh pr edit <PR#> --base yolo
 
 ---
 
+## 7. Stale Build Caches Causing Contradictory TypeScript Errors
+
+### The Problem
+
+**TypeScript error messages that flip or contradict themselves** indicate stale build caches, not actual type errors.
+
+### What Happens
+
+```typescript
+// Step 1: TypeScript shows error
+// "Type '{ params: { topicId: string; }; }' is not assignable to type '{ params: Promise<{ topicId: string; }>; }'"
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { topicId: string } }  // ❌ Error says "Expected Promise"
+) { ... }
+
+// Step 2: You change code to match the expected type
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ topicId: string }> }  // Changed to Promise
+) { ... }
+
+// Step 3: TypeScript error REVERSES
+// "Type '{ params: Promise<{ topicId: string; }>; }' is not assignable to type '{ params: { topicId: string; }; }'"
+//  ❌ Error now says "Expected non-Promise"
+
+// The error message literally contradicted itself!
+```
+
+### Root Cause
+
+**Stale cache files:**
+- `.next/` directory (Next.js build cache with compiled types)
+- `tsconfig.tsbuildinfo` (TypeScript incremental build info)
+
+These files cache compiled types and can show **outdated error messages** when framework behavior changes (e.g., Next.js 16 changed dynamic route params from sync to async).
+
+### How to Fix
+
+```bash
+# Clear build caches
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+
+# Re-run type check to get accurate errors
+npx tsc --noEmit
+
+# OR rebuild from scratch
+npm run build
+```
+
+### When to Clear Caches
+
+✅ **Clear caches when:**
+- Error messages contradict themselves (says "Expected X", you change to X, error says "Expected Y")
+- After upgrading Next.js, React, or TypeScript
+- TypeScript errors don't match what you see in the code
+- IDE shows different errors than CLI `tsc --noEmit`
+- Errors seem nonsensical or impossible
+
+❌ **Don't clear caches for:**
+- Normal, consistent TypeScript errors (fix the code instead)
+- Import/module not found errors (check file paths first)
+- Browser API in server code errors (move files to correct workspace)
+- Reproducible type mismatches (these are real errors)
+
+### How to Prevent
+
+**Include in Pre-Flight Checklist** (especially after framework updates):
+
+```bash
+# When starting TypeScript work after framework updates
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+npx tsc --noEmit  # Get clean baseline
+
+# When debugging confusing errors
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo  # Clear first
+npx tsc --noEmit  # Then check errors
+```
+
+**Pattern Recognition:**
+1. Error says "Expected X, got Y"
+2. You change code to match: use type X instead of Y
+3. Error then says "Expected Y, got X"
+4. **STOP** → Clear caches immediately
+
+### Real-World Example
+
+**Session:** Nov 18, 2025 (Forum API implementation)
+
+**Symptom:**
+- Implemented Next.js 16 dynamic route with `Promise<Params>` (correct for Next.js 16)
+- TypeScript error: "Expected `{ topicId: string }` (non-Promise)"
+- Changed to non-Promise pattern
+- TypeScript error reversed: "Expected `Promise<{ topicId: string }>` (Promise)"
+
+**Root Cause:**
+- Stale `.next/` cache from before Next.js 16 async params change
+- Cache contained old type definitions expecting sync params
+- New code used async params (correct), but cache showed old requirements
+
+**Solution:**
+```bash
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+npm run build  # ✅ Build succeeded with original Promise pattern
+```
+
+---
+
 ## Quick Reference
 
 ### Pre-Flight Checklist

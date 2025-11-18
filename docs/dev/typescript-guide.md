@@ -341,6 +341,100 @@ private checkConsent(actionType: string, flags: ConsentFlags): boolean {
 
 ---
 
+### Pattern 5: Contradictory Error Messages (Stale Cache)
+
+```
+❌ Error 1: Expected `{ topicId: string }`, got `Promise<{ topicId: string }>`
+# Change code to match expected type...
+❌ Error 2: Expected `Promise<{ topicId: string }>`, got `{ topicId: string }`
+# Error message literally reversed!
+```
+
+**Diagnosis:**
+1. Error messages contradict themselves when you fix them
+2. TypeScript expects different types depending on what code is written
+3. Common with Next.js 16 dynamic route params (async vs sync)
+4. Build caches are stale and showing outdated types
+
+**Symptoms:**
+- Error says "Expected X, got Y"
+- You change code to type X
+- Error then says "Expected Y, got X"
+- The error message flipped after you "fixed" it
+
+**Root Cause:**
+- Next.js caches compiled types in `.next/types/`
+- TypeScript caches incremental build info in `tsconfig.tsbuildinfo`
+- Framework updates (e.g., Next.js 16 async params) change type behavior
+- Old cached types conflict with new runtime behavior
+
+**Solution:**
+```bash
+# Clear all build caches
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+
+# Re-run type check to get accurate errors
+npx tsc --noEmit
+
+# OR rebuild from scratch
+npm run build
+```
+
+**When to Clear Caches:**
+
+✅ **CLEAR CACHES when:**
+- Error messages contradict themselves
+- After upgrading Next.js, React, or TypeScript
+- TypeScript errors don't match actual code
+- IDE shows different errors than CLI
+- Errors seem nonsensical
+
+❌ **DON'T clear caches for:**
+- Normal, consistent TypeScript errors
+- Import/module not found errors
+- Browser API in server code errors
+- Reproducible type mismatches
+
+**Prevention:**
+```bash
+# Include in troubleshooting checklist
+# When starting work after framework updates:
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+npx tsc --noEmit  # Get clean baseline
+
+# When debugging confusing errors:
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo  # Clear first
+npx tsc --noEmit  # Then check errors
+```
+
+**Real-World Example:**
+```typescript
+// Nov 18, 2025 - Forum API Implementation
+// Next.js 16 changed dynamic route params from sync to async
+
+// Original code (CORRECT for Next.js 16)
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ topicId: string }> }  // ✅ Async params
+) {
+  const { topicId } = await params  // Must await
+  // ...
+}
+
+// TypeScript error (from STALE cache):
+// "Expected { topicId: string }, got Promise<{ topicId: string }>"
+
+// Changed to sync (WRONG for Next.js 16, but error said to)
+{ params }: { params: { topicId: string } }  // ❌ Changed to sync
+
+// TypeScript error REVERSED (still from stale cache):
+// "Expected Promise<{ topicId: string }>, got { topicId: string }"
+
+// Solution: Cleared caches, reverted to async pattern, build succeeded
+```
+
+---
+
 ## Anti-Patterns to Avoid
 
 ### ❌ Don't: Mix Server and Client Code in Same File

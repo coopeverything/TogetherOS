@@ -404,6 +404,27 @@ npm run build
 - VS Code: Cmd/Ctrl + Shift + P → "Restart TS Server"
 - Or restart your editor
 
+### Contradictory TypeScript errors
+
+**Symptom:** Error messages that flip when you fix them
+- "Expected X, got Y" → change to Y → "Expected Y, got X"
+
+**Solution:** Clear build caches
+```bash
+rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
+npm run typecheck
+```
+
+**When this happens:**
+- After upgrading Next.js or React
+- With Next.js 16 dynamic route params
+- TypeScript errors don't match actual code
+
+**See also:**
+- `.claude/workflows/typescript-verification.md` (Mistake 6)
+- `docs/dev/common-mistakes.md` (Section 7)
+- `docs/dev/typescript-guide.md` (Pattern 5)
+
 ### Tests fail with path errors
 
 **Solution:** Check path aliases in `vitest.config.ts` match `tsconfig.json`
