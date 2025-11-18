@@ -8,6 +8,10 @@
 
 import { useState } from 'react'
 import { NeonNoir } from './NeonNoir'
+import { DesertBloom } from './DesertBloom'
+import { NordicVoid } from './NordicVoid'
+import { BaroqueMaximalist } from './BaroqueMaximalist'
+import { BrutalistRave } from './BrutalistRave'
 
 type VariantKey = 'neon' | 'desert' | 'nordic' | 'baroque' | 'brutalist'
 
@@ -22,37 +26,25 @@ const variants = {
     name: 'Desert Bloom',
     description: 'Psychedelic southwest with terracotta and sage',
     colors: ['#E07A5F', '#81B29A', '#F2CC8F'],
-    component: () => <div className="p-8 text-center" style={{ background: '#F4F1DE', minHeight: '80vh' }}>
-      <h1 className="text-6xl mb-4" style={{ fontFamily: 'Georgia, serif', color: '#E07A5F' }}>Desert Bloom</h1>
-      <p style={{ color: '#3D405B' }}>Coming soon - Psychedelic southwest aesthetic</p>
-    </div>
+    component: DesertBloom
   },
   nordic: {
     name: 'Nordic Void',
     description: 'Inverted Scandinavian minimalism with aurora accents',
     colors: ['#000000', '#00ff9f', '#ffffff'],
-    component: () => <div className="p-8 text-center" style={{ background: '#000000', color: '#ffffff', minHeight: '80vh' }}>
-      <h1 className="text-6xl mb-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 100 }}>Nordic Void</h1>
-      <p style={{ color: '#00ff9f' }}>Coming soon - Extreme minimalism meets northern lights</p>
-    </div>
+    component: NordicVoid
   },
   baroque: {
     name: 'Baroque Maximalist',
     description: 'Digital rococo with vaporwave pastels and gold',
     colors: ['#FFD700', '#FF6FD8', '#B4A7D6'],
-    component: () => <div className="p-8 text-center" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: '80vh' }}>
-      <h1 className="text-6xl mb-4" style={{ fontFamily: '"Playfair Display", serif', color: '#FFD700' }}>Baroque Maximalist</h1>
-      <p style={{ color: '#ffffff' }}>Coming soon - Versailles meets vaporwave</p>
-    </div>
+    component: BaroqueMaximalist
   },
   brutalist: {
     name: 'Brutalist Rave',
     description: 'Post-Soviet techno with concrete and aggressive neon',
     colors: ['#ff0000', '#00ff00', '#808080'],
-    component: () => <div className="p-8 text-center" style={{ background: '#808080', minHeight: '80vh' }}>
-      <h1 className="text-6xl mb-4 font-black" style={{ fontFamily: 'Arial Black, sans-serif', color: '#ff0000', textTransform: 'uppercase' }}>BRUTALIST RAVE</h1>
-      <p style={{ color: '#00ff00' }}>Coming soon - Raw concrete meets underground techno</p>
-    </div>
+    component: BrutalistRave
   }
 }
 
