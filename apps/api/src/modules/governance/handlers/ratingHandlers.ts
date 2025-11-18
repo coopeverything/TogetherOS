@@ -3,7 +3,7 @@
  * Business logic for proposal quality ratings
  */
 
-import { proposalRatingRepo } from '../repos/InMemoryProposalRatingRepo'
+import { proposalRatingRepo } from '../repos/PostgresProposalRatingRepo'
 import { ProposalRating } from '../entities/ProposalRating'
 import type { ProposalRatingAggregate } from '@togetheros/types/governance'
 import type { SubmitRatingInput } from '@togetheros/validators/governance'

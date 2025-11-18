@@ -1,7 +1,7 @@
 // apps/api/src/modules/governance/handlers/crud.ts
 // CRUD handlers for proposals
 
-import { InMemoryProposalRepo } from '../repos/InMemoryProposalRepo';
+import { proposalRepo } from '../repos/PostgresProposalRepo';
 import type { Proposal } from '@togetheros/types/governance';
 import type {
   CreateProposalInput,
@@ -11,9 +11,6 @@ import type {
 import { bridgeRatingService } from '../services/BridgeRatingService';
 import { bridgeRatingRepo } from '../repos/InMemoryBridgeRatingRepo';
 import { flagProposal } from './moderationHandlers';
-
-// Initialize repository (MVP: in-memory, will migrate to PostgreSQL)
-const proposalRepo = new InMemoryProposalRepo();
 
 /**
  * Create a new proposal
