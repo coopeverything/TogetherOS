@@ -307,13 +307,20 @@ describe('helper functions', () => {
 
   describe('getSPWeight', () => {
     it('returns correct weights', () => {
-      expect(getSPWeight('pr_merged_small')).toBe(5)
-      expect(getSPWeight('pr_merged_medium')).toBe(10)
-      expect(getSPWeight('pr_merged_large')).toBe(20)
-      expect(getSPWeight('docs_contribution')).toBe(8)
-      expect(getSPWeight('code_review')).toBe(3)
-      expect(getSPWeight('issue_triage')).toBe(2)
-      expect(getSPWeight('bug_fix')).toBe(15)
+      // RP earnings (technical contributions)
+      expect(getSPWeight('pr_merged_small')).toBe(25)
+      expect(getSPWeight('pr_merged_medium')).toBe(50)
+      expect(getSPWeight('pr_merged_large')).toBe(100)
+      expect(getSPWeight('docs_contribution')).toBe(40)
+      expect(getSPWeight('code_review')).toBe(15)
+      expect(getSPWeight('issue_triage')).toBe(10)
+      expect(getSPWeight('bug_fix')).toBe(75)
+
+      // SP weights (political participation)
+      expect(getSPWeight('group_created')).toBe(15)
+      expect(getSPWeight('group_joined')).toBe(3)
+      expect(getSPWeight('proposal_rating_submitted')).toBe(2)
+      expect(getSPWeight('proposal_rating_quality')).toBe(5)
     })
   })
 
