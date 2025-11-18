@@ -308,13 +308,13 @@ export function TopicComposer({
               onChange={setTags}
               suggestions={TAG_SUGGESTIONS}
               maxTags={5}
-              placeholder="Type keywords and press Enter"
+              placeholder="Start typing (suggestions will appear)..."
             />
             {errors.tags && (
               <p className="mt-1 text-sm text-red-600">{errors.tags}</p>
             )}
             <p className="mt-1 text-xs text-gray-500">
-              Choose from cooperation path keywords (e.g., mutual-aid, open-source, governance)
+              💡 Type and press <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 text-xs font-mono">Enter</kbd> to add tags. Choose from suggestions or create your own (e.g., mutual-aid, open-source, governance).
             </p>
           </div>
 

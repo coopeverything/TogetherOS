@@ -56,7 +56,7 @@ export function TagInput({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    setShowSuggestions(e.target.value.length > 0);
+    setShowSuggestions(true); // Always show suggestions when typing
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -87,7 +87,7 @@ export function TagInput({
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          onFocus={() => setShowSuggestions(inputValue.length > 0)}
+          onFocus={() => setShowSuggestions(true)} // Show suggestions on focus
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           placeholder={value.length === 0 ? placeholder : ''}
           className="flex-1 min-w-[120px] bg-transparent outline-none text-sm text-ink-900 placeholder:text-ink-400"
