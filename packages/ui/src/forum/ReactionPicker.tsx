@@ -27,11 +27,11 @@ export interface ReactionPickerProps {
 }
 
 const REACTIONS: { type: ReactionType; emoji: string; label: string }[] = [
-  { type: 'helpful', emoji: '✨', label: 'Helpful' },
-  { type: 'insightful', emoji: '💡', label: 'Insightful' },
   { type: 'agree', emoji: '👍', label: 'Agree' },
   { type: 'disagree', emoji: '🤔', label: 'Disagree (thoughtfully)' },
-  { type: 'appreciate', emoji: '🙏', label: 'Appreciate' },
+  { type: 'insightful', emoji: '💡', label: 'Insightful' },
+  { type: 'empathy', emoji: '🙏', label: 'Empathy' },
+  { type: 'question', emoji: '❓', label: 'Question' },
 ]
 
 export function ReactionPicker({
