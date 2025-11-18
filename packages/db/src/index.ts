@@ -71,6 +71,11 @@ export async function close() {
 
 // Export database modules
 export * from './budgets'
+export * from './forum-flags'
+export * from './forum-posts'
+export * from './forum-reactions'
+export * from './forum-replies'
+export * from './forum-topics'
 export * from './proposal-evidence'
 export * from './proposal-options'
 export * from './proposal-ratings'
