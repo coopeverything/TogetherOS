@@ -52,9 +52,9 @@ const modules: Module[] = [
   {
     title: 'Forum & Deliberation',
     description:
-      'Structured discussion threads for deep deliberation on complex topics. Feed discussions flow here when they require sustained attention. Features threaded conversations, evidence-based argumentation, and AI-assisted moderation to maintain constructive dialogue.',
-    progress: 15,
-    status: 'in-progress',
+      'Structured discussion threads for deep deliberation on complex topics. Feed discussions flow here when they require sustained attention. Features threaded conversations (topics/posts/replies), empathy-focused reactions (agree/disagree/insightful/empathy/question), and transparent moderation queue. Production-ready ✅',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/forum.md`,
     docsPath: '/docs/modules/forum',
     category: 'Collective Governance, Community Connection',
