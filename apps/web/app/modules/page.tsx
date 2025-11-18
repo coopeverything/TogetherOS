@@ -43,7 +43,7 @@ const modules: Module[] = [
     title: 'Governance & Proposals',
     description:
       'Transparent proposal creation and consent-based decision making system. Members create individual or group-scoped proposals, deliberate with evidence and trade-offs, make decisions with minority report preservation, and track delivery outcomes. Integrates with Bridge AI for similarity detection and regulation conflict checking.',
-    progress: 60,
+    progress: 75,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/governance.md`,
     docsPath: '/docs/modules/governance',
@@ -53,8 +53,8 @@ const modules: Module[] = [
     title: 'Forum & Deliberation',
     description:
       'Structured discussion threads for deep deliberation on complex topics. Feed discussions flow here when they require sustained attention. Features threaded conversations, evidence-based argumentation, and AI-assisted moderation to maintain constructive dialogue.',
-    progress: 0,
-    status: 'planned',
+    progress: 15,
+    status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/forum.md`,
     docsPath: '/docs/modules/forum',
     category: 'Collective Governance, Community Connection',
