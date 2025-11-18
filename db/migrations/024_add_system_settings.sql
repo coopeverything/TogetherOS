@@ -52,20 +52,17 @@ CREATE INDEX IF NOT EXISTS idx_settings_audit_time ON system_settings_audit(chan
 -- -----------------------------------
 -- SUPPORT POINTS (SP) WEIGHTS
 -- -----------------------------------
--- Currently hardcoded in packages/types/src/rewards.ts (SP_WEIGHTS)
--- Moving to database for admin configurability
+-- IMPORTANT: SP is ONLY for POLITICAL PARTICIPATION (governance, groups, volunteering)
+-- Technical contributions (PRs, code review, bug fixes) earn RP, NOT SP
+-- See docs/guides/4-ledger-system.md for complete ledger separation rules
 
 INSERT INTO system_settings (key, value, category, description, min_value, max_value) VALUES
-  ('sp_weights.pr_merged_small', '5', 'sp_weights', 'SP earned for small PR merge (< 50 lines)', 1, 100),
-  ('sp_weights.pr_merged_medium', '10', 'sp_weights', 'SP earned for medium PR merge (50-200 lines)', 1, 100),
-  ('sp_weights.pr_merged_large', '20', 'sp_weights', 'SP earned for large PR merge (> 200 lines)', 1, 100),
-  ('sp_weights.docs_contribution', '8', 'sp_weights', 'SP earned for documentation contribution', 1, 100),
-  ('sp_weights.code_review', '3', 'sp_weights', 'SP earned for code review', 1, 100),
-  ('sp_weights.issue_triage', '2', 'sp_weights', 'SP earned for issue triage', 1, 100),
-  ('sp_weights.bug_fix', '15', 'sp_weights', 'SP earned for bug fix', 1, 100),
+  -- Group participation (community building)
   ('sp_weights.group_created', '15', 'sp_weights', 'SP earned for creating a group', 1, 100),
   ('sp_weights.group_joined', '3', 'sp_weights', 'SP earned for joining a group', 1, 100),
   ('sp_weights.city_group_joined', '0', 'sp_weights', 'SP earned for joining city-based group (no reward)', 0, 100),
+
+  -- Governance participation (proposal ratings)
   ('sp_weights.proposal_rating_submitted', '2', 'sp_weights', 'SP earned for submitting proposal rating', 1, 100),
   ('sp_weights.proposal_rating_quality', '5', 'sp_weights', 'SP earned for high-quality rating feedback', 1, 100),
   ('sp_weights.proposal_rating_innovative', '3', 'sp_weights', 'SP earned for marking proposal as innovative', 1, 100),
@@ -75,10 +72,13 @@ ON CONFLICT (key) DO NOTHING;
 -- -----------------------------------
 -- REPUTATION POINTS (RP) EARNINGS
 -- -----------------------------------
--- Currently in rp_earning_rules table (migration 023)
--- Migrating to system_settings for unified management
+-- RP is for TECHNICAL CONTRIBUTIONS and FINANCIAL SUPPORT
+-- - Coding (PRs, reviews, bug fixes, docs) → RP
+-- - Dues and donations → RP
+-- - Governance activities → SP, NOT RP
 
 INSERT INTO system_settings (key, value, category, description, min_value, max_value) VALUES
+  -- Technical contributions (coding)
   ('rp_earnings.pr_merged_small', '25', 'rp_earnings', 'RP earned for small PR merge (< 50 lines)', 1, 1000),
   ('rp_earnings.pr_merged_medium', '50', 'rp_earnings', 'RP earned for medium PR merge (50-200 lines)', 1, 1000),
   ('rp_earnings.pr_merged_large', '100', 'rp_earnings', 'RP earned for large PR merge (> 200 lines)', 1, 1000),
@@ -86,8 +86,10 @@ INSERT INTO system_settings (key, value, category, description, min_value, max_v
   ('rp_earnings.code_review', '15', 'rp_earnings', 'RP earned for code review', 1, 1000),
   ('rp_earnings.issue_triage', '10', 'rp_earnings', 'RP earned for issue triage', 1, 1000),
   ('rp_earnings.bug_fix', '75', 'rp_earnings', 'RP earned for bug fix', 1, 1000),
+
+  -- Financial support
   ('rp_earnings.monthly_dues_paid', '100', 'rp_earnings', 'RP earned for paying monthly dues', 1, 1000),
-  ('rp_earnings.donation', '200', 'rp_earnings', 'RP earned for donation (min $10)', 1, 1000)
+  ('rp_earnings.donation', '100', 'rp_earnings', 'RP earned for donation (min $20)', 1, 1000)
 ON CONFLICT (key) DO NOTHING;
 
 -- -----------------------------------

@@ -308,7 +308,8 @@ These principles are **hard-coded** into the system and cannot be bypassed:
 **Donations:**
 - Each donation grants RP via donation-to-RP function
 - **Explicit design goal:** Amount enough to enable at least 1 TBC redemption
-- Example: $10 donation → 100 RP → 1 TBC conversion
+- Example: $20 donation → 100 RP → 1 TBC conversion
+- Minimum donation: $20
 
 ### Converting RP to Timebank Credits (TBC)
 

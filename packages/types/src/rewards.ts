@@ -2,16 +2,16 @@
 // TogetherOS Rewards Module - Core Entity Definitions
 
 /**
- * Event types that trigger Support Point rewards
+ * Event types that trigger Support Point (SP) rewards
+ *
+ * IMPORTANT: SP is ONLY for POLITICAL PARTICIPATION, never for technical contributions
+ * - Governance activities (proposals, ratings, voting) → earn SP
+ * - Community activities (groups, volunteering) → earn SP
+ * - Coding activities (PRs, code review, bug fixes) → earn RP (Reputation Points), NOT SP
+ *
+ * See docs/guides/4-ledger-system.md for complete ledger separation rules
  */
-export type RewardEventType =
-  | 'pr_merged_small'      // < 50 lines
-  | 'pr_merged_medium'     // 50-200 lines
-  | 'pr_merged_large'      // > 200 lines
-  | 'docs_contribution'    // Documentation updates
-  | 'code_review'          // PR review completed
-  | 'issue_triage'         // Issue labeled/prioritized
-  | 'bug_fix'              // Bug fix merged
+export type SPRewardEventType =
   | 'group_created'        // Created a new group (not city group)
   | 'group_joined'         // Joined an existing group (not city group)
   | 'city_group_joined'    // Joined auto-created city group (no reward)
@@ -19,6 +19,31 @@ export type RewardEventType =
   | 'proposal_rating_quality'    // Submitted high-quality detailed rating
   | 'proposal_rating_innovative' // Marked proposal as innovative (validated later)
   | 'proposal_highly_rated'      // Authored proposal that received excellent ratings
+
+/**
+ * Event types that trigger Reputation Point (RP) rewards
+ *
+ * IMPORTANT: RP is for TECHNICAL CONTRIBUTIONS and FINANCIAL SUPPORT
+ * - Coding (PRs, reviews, bug fixes, docs) → earn RP
+ * - Dues and donations → earn RP
+ * - Governance activities → earn SP, NOT RP
+ */
+export type RPRewardEventType =
+  | 'pr_merged_small'      // < 50 lines
+  | 'pr_merged_medium'     // 50-200 lines
+  | 'pr_merged_large'      // > 200 lines
+  | 'docs_contribution'    // Documentation updates
+  | 'code_review'          // PR review completed
+  | 'issue_triage'         // Issue labeled/prioritized
+  | 'bug_fix'              // Bug fix merged
+  | 'monthly_dues_paid'    // Monthly membership dues
+  | 'donation'             // One-time donation (min $20)
+
+/**
+ * Combined event type for all reward-triggering events
+ * @deprecated Use SPRewardEventType or RPRewardEventType for type safety
+ */
+export type RewardEventType = SPRewardEventType | RPRewardEventType
 
 /**
  * Domain-specific context for reward events
