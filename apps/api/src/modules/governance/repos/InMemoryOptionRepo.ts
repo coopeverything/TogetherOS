@@ -1,7 +1,11 @@
 import type { Option, Tradeoff } from '@togetheros/types'
+import { createOption } from '../entities/Option'
+import type { IOptionRepo } from './OptionRepo'
 
-export interface IOptionRepo {
-  addOption(params: {
+export class InMemoryOptionRepo implements IOptionRepo {
+  private options: Map<string, Option> = new Map()
+
+  async addOption(params: {
     proposalId: string
     title: string
     description: string
@@ -9,13 +13,41 @@ export interface IOptionRepo {
     proposedBy: string
     estimatedCost?: number
     estimatedTime?: string
-  }): Promise<Option>
+  }): Promise<Option> {
+    const newOption = createOption(params)
+    this.options.set(newOption.id, newOption)
+    return newOption
+  }
 
-  getOptionsByProposal(proposalId: string): Promise<Option[]>
-  getOption(optionId: string): Promise<Option | null>
-  updateOption(
+  async getOptionsByProposal(proposalId: string): Promise<Option[]> {
+    const results: Option[] = []
+    for (const option of this.options.values()) {
+      if (option.proposalId === proposalId) {
+        results.push(option)
+      }
+    }
+    return results.sort((a, b) => b.proposedAt.getTime() - a.proposedAt.getTime())
+  }
+
+  async getOption(optionId: string): Promise<Option | null> {
+    return this.options.get(optionId) || null
+  }
+
+  async updateOption(
     optionId: string,
     updates: Partial<Pick<Option, 'title' | 'description' | 'tradeoffs' | 'estimatedCost' | 'estimatedTime'>>
-  ): Promise<Option | null>
-  deleteOption(optionId: string): Promise<boolean>
+  ): Promise<Option | null> {
+    const existing = this.options.get(optionId)
+    if (!existing) {
+      return null
+    }
+
+    const updated = { ...existing, ...updates }
+    this.options.set(optionId, updated)
+    return updated
+  }
+
+  async deleteOption(optionId: string): Promise<boolean> {
+    return this.options.delete(optionId)
+  }
 }
