@@ -1,7 +1,5 @@
-import { InMemoryOptionRepo } from '../repos/InMemoryOptionRepo'
+import { optionRepo } from '../repos/PostgresOptionRepo'
 import type { Option, Tradeoff } from '@togetheros/types'
-
-const optionRepo = new InMemoryOptionRepo()
 
 export async function addOption(params: {
   proposalId: string

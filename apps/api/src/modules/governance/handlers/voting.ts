@@ -3,7 +3,7 @@
  * Business logic for consent-based voting
  */
 
-import { voteRepo } from '../repos/InMemoryVoteRepo'
+import { voteRepo } from '../repos/PostgresVoteRepo'
 import { Vote } from '../entities/Vote'
 import type { VoteType, VoteTally } from '@togetheros/types/governance'
 import type { CastVoteInput } from '@togetheros/validators/governance'

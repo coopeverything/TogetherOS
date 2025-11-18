@@ -1,7 +1,5 @@
-import { InMemoryEvidenceRepo } from '../repos/InMemoryEvidenceRepo'
+import { evidenceRepo } from '../repos/PostgresEvidenceRepo'
 import type { ProposalEvidence, EvidenceType } from '@togetheros/types'
-
-const evidenceRepo = new InMemoryEvidenceRepo()
 
 export async function addEvidence(params: {
   proposalId: string
