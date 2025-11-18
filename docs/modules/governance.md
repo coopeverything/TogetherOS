@@ -4,10 +4,10 @@
 
 **Scope:** Complete governance pipeline from proposal creation through decision-making, implementation tracking, and iterative improvement. Consolidates "Proposals" and "Governance" into one unified system.
 
-**Status:** 60% implementation
+**Status:** 75% implementation
 **Owner:** @coopeverything-core
 **Labels:** `module:governance`
-**Next milestone:** Implement voting logic and minority report preservation
+**Next milestone:** Support Points integration and test coverage
 
 **Key Features:**
 - **Individual AND Group Proposals:** Members can create personal proposals OR group-scoped proposals
@@ -34,6 +34,60 @@ Members must be able to:
 
 We ship a **thin vertical slice first** so contributors can see end-to-end value quickly:
 **Submit → List → View details** (voting comes later)
+
+---
+
+## Implementation Status
+
+### Completed (75%)
+
+**PostgreSQL Persistence Layer** ✅
+- 5 database modules in `packages/db/src/`:
+  - `proposals.ts` — Core CRUD operations with type conversion (snake_case ↔ camelCase)
+  - `proposal-evidence.ts` — Evidence attachment and listing
+  - `proposal-options.ts` — Options with tradeoffs (JSONB storage)
+  - `proposal-votes.ts` — Vote casting and tally calculation
+  - `proposal-ratings.ts` — Quality ratings and aggregates
+- Migration `026_add_proposal_votes_ratings.sql` — Creates votes/ratings tables with proper indexes
+- 5 production repository implementations:
+  - `PostgresProposalRepo` — Replaces in-memory repo
+  - `PostgresEvidenceRepo` — Evidence persistence
+  - `PostgresOptionRepo` — Options persistence
+  - `PostgresVoteRepo` — Vote persistence
+  - `PostgresProposalRatingRepo` — Rating persistence
+- All handlers updated to use PostgreSQL repos (deployed to production)
+
+**Types & Validators** ✅
+- Complete type definitions in `packages/types/src/governance.ts`
+- Zod validation schemas in `packages/validators/src/governance.ts`
+- Support for individual AND group proposals (polymorphic scoping)
+
+**Domain Entities** ✅
+- Proposal, Evidence, Option, Vote, ProposalRating entities with business logic
+- Aggregate calculations (vote tallies, rating averages)
+
+**API Handlers** ✅
+- CRUD operations: create, list, view, update, delete proposals
+- Evidence/Options: add, list, update, delete
+- Voting: cast vote, get my vote, get tally
+- Ratings: submit rating, get aggregate
+
+**API Routes** ✅
+- All governance endpoints implemented and deployed
+
+### In Progress (Next 25%)
+
+- UI components and pages (ProposalList, ProposalView, ProposalForm)
+- Support Points integration (reward events, allocations)
+- Test coverage (unit tests, contract tests, Storybook stories)
+
+### Not Started
+
+- Bridge AI integration (similarity detection, regulation conflict checking)
+- Forum → Governance conversion mechanism
+- Minority report UI and workflow
+- Amendment process implementation
+- Delivery tracking and review phase
 
 ---
 
