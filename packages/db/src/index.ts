@@ -78,6 +78,10 @@ export * from './system-settings'
 export * from './timebank'
 export * from './users'
 
+// Explicitly re-export commonly used user functions for Turbopack
+export type { User } from './users'
+export { findUserById, findUserByEmail, findUserByUsername, createUser, verifyPassword, updateUser, logActivity, findUsersByIds } from './users'
+
 // Export pool for health checks
 export default { query, getClient, close, pool };
 export { pool };
