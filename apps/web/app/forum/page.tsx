@@ -1,79 +1,102 @@
-import { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Community Discussions | TogetherOS',
-  description: 'Knowledge building, Q&A, idea exploration, and structured deliberation',
-}
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Metadata } from 'next'
+import type { Topic } from '@togetheros/types/forum'
+import { TopicList } from '@togetheros/ui/forum'
 
 export default function ForumPage() {
+  const router = useRouter()
+  const [topics, setTopics] = useState<Topic[]>([])
+  const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchTopics()
+  }, [])
+
+  async function fetchTopics() {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/forum/topics')
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch topics')
+      }
+
+      const data = await response.json()
+      setTopics(data.topics || [])
+
+      // Extract unique author IDs and fetch names
+      const authorIds: string[] = Array.from(new Set<string>(data.topics.map((t: Topic) => t.authorId)))
+      const names: Record<string, string> = {}
+
+      // For now, use placeholder names (in real implementation, fetch from user API)
+      authorIds.forEach((id) => {
+        names[id] = `User ${id.slice(0, 8)}`
+      })
+
+      setAuthorNames(names)
+    } catch (err: any) {
+      console.error('Error fetching topics:', err)
+      setError(err.message || 'Failed to load topics')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleCreateTopic() {
+    // TODO: Open topic creation modal
+    alert('Topic creation coming soon!')
+  }
+
+  function handleTopicClick(topicId: string) {
+    router.push(`/forum/${topicId}`)
+  }
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="animate-pulse">
+          <div className="h-10 bg-gray-200 rounded w-64 mb-6"></div>
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <p className="text-red-800 font-medium">Error loading topics</p>
+          <p className="text-red-600 text-sm mt-2">{error}</p>
+          <button
+            onClick={fetchTopics}
+            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Community Discussions</h1>
-        <p className="text-muted-foreground">
-          Knowledge building, Q&A, idea exploration, and structured deliberation
-        </p>
-      </div>
-
-      <div className="grid gap-6">
-        {/* Topic Categories Overview */}
-        <div className="grid gap-4 md:grid-cols-2">
-          <CategoryCard
-            title="General Discussion"
-            description="Share knowledge, best practices, and community wisdom"
-            icon="💬"
-          />
-          <CategoryCard
-            title="Questions & Answers"
-            description="Ask questions and build searchable community knowledge"
-            icon="❓"
-          />
-          <CategoryCard
-            title="Idea Exploration"
-            description="Test ideas and gather feedback before formal proposals"
-            icon="💡"
-          />
-          <CategoryCard
-            title="Deliberation"
-            description="Structured consensus-building for important decisions"
-            icon="⚖️"
-          />
-        </div>
-
-        {/* Coming Soon Notice */}
-        <div className="bg-muted/50 border border-border rounded-lg p-6 text-center">
-          <h2 className="text-xl font-semibold mb-2">Forum Module In Development</h2>
-          <p className="text-muted-foreground mb-4">
-            The community discussions module is currently being built.
-            This page will soon feature topic listings, search, and discussion threads.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Progress: <span className="font-mono">0% → 15%</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-interface CategoryCardProps {
-  title: string
-  description: string
-  icon: string
-}
-
-function CategoryCard({ title, description, icon }: CategoryCardProps) {
-  return (
-    <div className="border border-border rounded-lg p-4 hover:bg-accent/50 transition-colors">
-      <div className="flex items-start gap-3">
-        <span className="text-2xl" role="img" aria-label={title}>
-          {icon}
-        </span>
-        <div>
-          <h3 className="font-semibold mb-1">{title}</h3>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
-      </div>
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <TopicList
+        topics={topics}
+        authorNames={authorNames}
+        showCreateButton={true}
+        onCreateTopic={handleCreateTopic}
+        onTopicClick={handleTopicClick}
+      />
     </div>
   )
 }
