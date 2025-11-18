@@ -64,7 +64,8 @@ export async function PATCH(
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
 
     // Update setting (automatically creates audit entry)
-    const userId = 'admin-user-id' // TODO: Get from session
+    // TODO: Get userId from session when auth is implemented
+    const userId = '2214caba-da2c-4a3c-88eb-1cba645ae90d' // System admin user
     const updated = await updateSetting(validated, userId, ip || undefined)
 
     return NextResponse.json({ success: true, data: updated })
@@ -105,7 +106,8 @@ export async function DELETE(
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
 
     // Delete setting (automatically creates audit entry)
-    const userId = 'admin-user-id' // TODO: Get from session
+    // TODO: Get userId from session when auth is implemented
+    const userId = '2214caba-da2c-4a3c-88eb-1cba645ae90d' // System admin user
     await deleteSetting(key, userId, validated.reason, ip || undefined)
 
     return NextResponse.json({ success: true })
