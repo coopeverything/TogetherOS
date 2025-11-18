@@ -57,6 +57,11 @@ export default function AdminSettingsPage() {
       return
     }
 
+    if (editReason.trim().length < 10) {
+      alert('Reason must be at least 10 characters long')
+      return
+    }
+
     try {
       const res = await fetch(`/api/admin/settings/${key}`, {
         method: 'PATCH',
@@ -77,11 +82,56 @@ export default function AdminSettingsPage() {
         loadAudit()
         alert('Setting updated successfully!')
       } else {
-        alert(`Failed to update: ${data.error}`)
+        // Show detailed validation errors if available
+        if (data.details && Array.isArray(data.details)) {
+          const errorMessages = data.details.map((err: any) =>
+            `${err.path.join('.')}: ${err.message}`
+          ).join('\n')
+          alert(`Validation failed:\n${errorMessages}`)
+        } else {
+          alert(`Failed to update: ${data.error}`)
+        }
       }
     } catch (error) {
       console.error('Failed to update setting:', error)
       alert('Failed to update setting')
+    }
+  }
+
+  async function handleDelete(key: string, description: string) {
+    const reason = prompt(
+      `Deleting: ${description}\n\nPlease provide a reason for deleting this setting (min 10 characters):`
+    )
+
+    if (!reason) return // User cancelled
+
+    if (reason.trim().length < 10) {
+      alert('Reason must be at least 10 characters long')
+      return
+    }
+
+    if (!confirm(`Are you sure you want to delete "${key}"? This action will be logged in the audit trail.`)) {
+      return
+    }
+
+    try {
+      const res = await fetch(`/api/admin/settings/${key}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reason }),
+      })
+
+      const data = await res.json()
+      if (data.success) {
+        loadSettings()
+        loadAudit()
+        alert('Setting deleted successfully!')
+      } else {
+        alert(`Failed to delete: ${data.error}`)
+      }
+    } catch (error) {
+      console.error('Failed to delete setting:', error)
+      alert('Failed to delete setting')
     }
   }
 
@@ -208,10 +258,11 @@ export default function AdminSettingsPage() {
                           <div className="space-y-2">
                             <input
                               type="text"
-                              placeholder="Reason for change (required)"
+                              placeholder="Reason for change (min 10 chars)"
                               value={editReason}
                               onChange={(e) => setEditReason(e.target.value)}
                               className="border rounded px-2 py-1 w-full text-sm"
+                              minLength={10}
                             />
                             <div className="flex space-x-2">
                               <button
@@ -229,12 +280,20 @@ export default function AdminSettingsPage() {
                             </div>
                           </div>
                         ) : (
-                          <button
-                            onClick={() => startEdit(setting)}
-                            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                          >
-                            Edit
-                          </button>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => startEdit(setting)}
+                              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(setting.key, setting.description)}
+                              className="text-red-600 hover:text-red-800 text-sm font-medium"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         )}
                       </td>
                     </tr>

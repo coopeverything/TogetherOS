@@ -272,6 +272,41 @@ function parseSettingValue(jsonbValue: any): number | boolean | string {
 }
 
 /**
+ * Delete a setting (with audit trail)
+ */
+export async function deleteSetting(
+  key: string,
+  userId: string,
+  reason: string,
+  ipAddress?: string
+): Promise<void> {
+  // Get current value for audit
+  const setting = await getSetting(key)
+  if (!setting) {
+    throw new Error(`Setting not found: ${key}`)
+  }
+
+  // Insert audit record
+  const auditSql = `
+    INSERT INTO system_settings_audit
+    (setting_key, old_value, new_value, changed_by, reason, ip_address)
+    VALUES ($1, $2, $3, $4, $5, $6)
+  `
+  await query(auditSql, [
+    key,
+    JSON.stringify(setting.value),
+    null, // new_value is null for deletion
+    userId,
+    reason,
+    ipAddress || null,
+  ])
+
+  // Delete the setting
+  const deleteSql = 'DELETE FROM system_settings WHERE key = $1'
+  await query(deleteSql, [key])
+}
+
+/**
  * Helper: Get settings grouped by category for UI display
  */
 export async function getSettingsByCategory(): Promise<

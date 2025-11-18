@@ -2,8 +2,13 @@
 // Admin Settings API - Get and update individual setting
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getSetting, updateSetting, validateSettingValue } from '@togetheros/db'
+import { getSetting, updateSetting, validateSettingValue, deleteSetting } from '@togetheros/db'
 import { updateSettingSchema } from '@togetheros/validators'
+import { z } from 'zod'
+
+const deleteSettingSchema = z.object({
+  reason: z.string().min(10).max(500),
+})
 
 export async function GET(
   request: NextRequest,
@@ -75,6 +80,54 @@ export async function PATCH(
 
     return NextResponse.json(
       { success: false, error: 'Failed to update setting' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ key: string }> }
+) {
+  try {
+    const { key } = await params
+
+    // TODO: Add authentication check - only admins can delete settings
+    // const session = await getServerSession()
+    // if (!session?.user?.isAdmin) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    // }
+
+    const body = await request.json()
+    const validated = deleteSettingSchema.parse(body)
+
+    // Get IP for audit log
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
+
+    // Delete setting (automatically creates audit entry)
+    const userId = 'admin-user-id' // TODO: Get from session
+    await deleteSetting(key, userId, validated.reason, ip || undefined)
+
+    return NextResponse.json({ success: true })
+  } catch (error: any) {
+    console.error('Error deleting setting:', error)
+
+    if (error.name === 'ZodError') {
+      return NextResponse.json(
+        { success: false, error: 'Validation error', details: error.errors },
+        { status: 422 }
+      )
+    }
+
+    if (error.message?.includes('not found')) {
+      return NextResponse.json(
+        { success: false, error: 'Setting not found' },
+        { status: 404 }
+      )
+    }
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete setting' },
       { status: 500 }
     )
   }
