@@ -17,6 +17,11 @@
 - Post-write verification AFTER writing code
 - Prevents 90%+ of TypeScript errors through verification-first approach
 
+**Branch Verification** (REQUIRED before ANY work):
+- See: "Branch Verification Protocol" section below
+- ALWAYS verify current branch before starting work
+- Prevents working on wrong branch and creating cross-branch conflicts
+
 ---
 
 ## Autonomy & Proactivity
@@ -436,6 +441,174 @@ System may be prompting even when operation is in allow list
    - Archive oldest session if >6 exist
 2. Push all changes
 3. Clear TodoWrite list
+
+---
+
+## Branch Verification Protocol
+
+**CRITICAL: Execute BEFORE starting ANY work**
+
+This protocol prevents working on the wrong branch, which causes:
+- Changes made in wrong context (wrong base branch)
+- Build failures when branches have different package states
+- Cross-branch conflicts requiring manual resolution
+- Wasted time redoing work on correct branch
+
+### Mandatory Pre-Work Steps
+
+**1. Check current branch:**
+```bash
+git branch --show-current
+```
+
+**2. Verify branch matches task context:**
+- Does current branch match the work I'm about to do?
+- Is this the branch user expects me to work on?
+- Does this branch have the correct base (yolo vs main vs feature)?
+
+**3. If branch is WRONG:**
+- Switch to correct branch: `git checkout <correct-branch>`
+- OR create new feature branch: `git checkout -b feature/<topic>`
+- OR ask user: "Currently on branch X. Should I work here or create/switch to different branch?"
+
+**4. If branch is CORRECT:**
+- Proceed with work
+
+### Branch Naming Patterns
+
+**Feature branches:**
+```bash
+feature/<topic>              # Example: feature/governance-rewards
+claude/<module>-<sessionId>  # Example: claude/bridge-landing-011CUQtanTsWEweh3xMQupeE
+```
+
+**Documentation branches:**
+```bash
+docs/<topic>                 # Example: docs/update-workflows
+```
+
+**Bug fix branches:**
+```bash
+fix/<issue>                  # Example: fix/rating-calculation
+```
+
+### Common Scenarios
+
+**Scenario 1: Starting new task**
+```bash
+# Always check first
+git branch --show-current
+
+# Create new feature branch from yolo
+git checkout yolo
+git pull origin yolo
+git checkout -b feature/new-task
+```
+
+**Scenario 2: Continuing previous work**
+```bash
+# Verify on correct branch
+git branch --show-current
+
+# If on wrong branch, switch
+git checkout feature/previous-task
+```
+
+**Scenario 3: Multiple parallel tasks**
+```bash
+# User may have multiple feature branches
+# ALWAYS verify which branch to use for current task
+git branch --show-current
+
+# List recent branches if unsure
+git branch -a --sort=-committerdate | head -20
+```
+
+### Never
+
+- ❌ Assume current branch is correct
+- ❌ Start work without checking branch
+- ❌ Make changes and discover wrong branch later
+- ❌ Rely on previous session's branch state
+- ❌ Work on yolo directly (unless explicit user request)
+
+### If Unsure
+
+**Ask user with context:**
+```
+Currently on branch: <branch-name>
+About to work on: <task description>
+
+Is this the correct branch? Should I:
+A) Work on current branch (<branch-name>)
+B) Switch to existing branch (which one?)
+C) Create new feature branch from yolo
+```
+
+### Integration with Other Workflows
+
+**Combine with TypeScript Verification:**
+```bash
+# 1. BRANCH VERIFICATION (FIRST)
+git branch --show-current
+# Verify correct branch
+
+# 2. TYPESCRIPT PRE-FLIGHT (SECOND)
+# Read existing patterns before writing code
+# Check workspace location (apps/web vs apps/api)
+# Verify type definitions
+```
+
+**Combine with Background Process Protocol:**
+```bash
+# After starting build in background
+# While waiting for output:
+# 1. Verify still on correct branch
+git branch --show-current
+
+# 2. Check for system reminders about output
+# 3. Call BashOutput immediately when reminded
+```
+
+---
+
+## Background Process Protocol
+
+**Execute immediately when system reminds:**
+```
+Background Bash XYZ has new output available
+```
+
+**Action:**
+1. Call BashOutput(bash_id=XYZ) IMMEDIATELY
+2. Analyze result (pass/fail/error/progress)
+3. Act on finding or continue to next process
+4. Never wait, never defer, never summarize instead
+
+**Pattern:**
+```bash
+# System reminder appears
+# ⚠️ DO NOT ignore
+# ⚠️ DO NOT wait
+# ⚠️ DO NOT summarize first
+
+# ✅ IMMEDIATELY check output
+BashOutput(bash_id=XYZ)
+
+# Then analyze and act
+```
+
+**Common Mistakes:**
+- ❌ Waiting 45+ minutes without checking completed process
+- ❌ Summarizing work instead of checking process output
+- ❌ Assuming process is still running without verification
+- ❌ Checking processes at end of session instead of immediately
+
+**Correct Behavior:**
+- ✅ Check output within 30 seconds of reminder
+- ✅ Multiple reminders = check each process separately
+- ✅ Act on results immediately (fix errors, proceed if pass)
+- ✅ Kill hung processes if stuck (use KillShell tool)
 
 ---
 
