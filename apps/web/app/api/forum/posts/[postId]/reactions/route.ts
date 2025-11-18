@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   listReactionsByContent,
   createReaction,
-  deleteReactionByUserAndContent,
+  deleteUserReaction,
 } from '@togetheros/db/forum-reactions'
 
 /**
@@ -90,7 +90,7 @@ export async function DELETE(
       )
     }
 
-    await deleteReactionByUserAndContent(userId, postId, 'post')
+    await deleteUserReaction(postId, 'post', userId)
     return NextResponse.json({ success: true })
   } catch (error: any) {
     console.error('Error deleting reaction:', error)

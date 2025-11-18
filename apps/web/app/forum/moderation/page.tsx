@@ -25,9 +25,7 @@ export default function ModerationQueuePage() {
   async function fetchFlags() {
     try {
       setLoading(true)
-      const url = filter === 'pending'
-        ? '/api/forum/flags?status=pending'
-        : '/api/forum/flags'
+      const url = '/api/forum/flags?status=pending'
 
       const res = await fetch(url)
       if (!res.ok) throw new Error('Failed to fetch flags')

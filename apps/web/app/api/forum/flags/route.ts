@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  listFlags,
+  listPendingFlags,
   createFlag,
 } from '@togetheros/db/forum-flags'
 
@@ -17,10 +17,19 @@ import {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status') as 'pending' | 'resolved' | 'dismissed' | null
+    const status = searchParams.get('status')
+    const limit = parseInt(searchParams.get('limit') || '50', 10)
+    const offset = parseInt(searchParams.get('offset') || '0', 10)
 
-    const flags = await listFlags(status || undefined)
-    return NextResponse.json({ flags })
+    // For now, only support pending flags (moderation queue)
+    // To support all statuses, we'd need a different function
+    if (status === 'pending' || !status) {
+      const result = await listPendingFlags(limit, offset)
+      return NextResponse.json(result)
+    }
+
+    // For other statuses, return empty list for now
+    return NextResponse.json({ flags: [], total: 0 })
   } catch (error: any) {
     console.error('Error fetching flags:', error)
     return NextResponse.json(
@@ -37,11 +46,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { contentId, contentType, flaggedBy, reason, details } = body
+    const { contentId, contentType, flaggerId, reason, details } = body
 
-    if (!contentId || !contentType || !flaggedBy || !reason) {
+    if (!contentId || !contentType || !flaggerId || !reason) {
       return NextResponse.json(
-        { error: 'contentId, contentType, flaggedBy, and reason are required' },
+        { error: 'contentId, contentType, flaggerId, and reason are required' },
         { status: 400 }
       )
     }
@@ -49,7 +58,7 @@ export async function POST(request: NextRequest) {
     const flag = await createFlag({
       contentId,
       contentType,
-      flaggedBy,
+      flaggerId,
       reason,
       details,
     })
