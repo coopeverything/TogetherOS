@@ -9,7 +9,7 @@ import { createReplySchema } from '@togetheros/validators/forum'
 import {
   listRepliesByPost,
   createReply,
-} from '../../../../../../../../../packages/db/src/forum-replies'
+} from '@togetheros/db/forum-replies'
 
 /**
  * GET /api/forum/posts/[postId]/replies
