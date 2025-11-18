@@ -176,16 +176,10 @@ export interface CreateRewardEventInput {
 }
 
 /**
- * SP weight mapping for event types
+ * SP weight mapping for political participation events
+ * @deprecated Use system_settings table for configurable values
  */
-export const SP_WEIGHTS: Record<RewardEventType, number> = {
-  pr_merged_small: 5,
-  pr_merged_medium: 10,
-  pr_merged_large: 20,
-  docs_contribution: 8,
-  code_review: 3,
-  issue_triage: 2,
-  bug_fix: 15,
+export const SP_WEIGHTS: Record<SPRewardEventType, number> = {
   group_created: 15,        // Creating a new group
   group_joined: 3,          // Joining an existing group
   city_group_joined: 0,     // Joining city group (no reward)
@@ -193,6 +187,22 @@ export const SP_WEIGHTS: Record<RewardEventType, number> = {
   proposal_rating_quality: 5,     // High-quality detailed rating
   proposal_rating_innovative: 3,  // Marked as innovative (bonus to rater if validated)
   proposal_highly_rated: 10,      // Proposal author bonus for excellent ratings
+}
+
+/**
+ * RP earnings mapping for technical contributions
+ * @deprecated Use system_settings table for configurable values
+ */
+export const RP_EARNINGS: Record<RPRewardEventType, number> = {
+  pr_merged_small: 25,
+  pr_merged_medium: 50,
+  pr_merged_large: 100,
+  docs_contribution: 40,
+  code_review: 15,
+  issue_triage: 10,
+  bug_fix: 75,
+  monthly_dues_paid: 100,
+  donation: 100,  // min $20
 }
 
 // ==================================================

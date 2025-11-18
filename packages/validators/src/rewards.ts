@@ -117,16 +117,11 @@ export function isValidEventType(type: string): type is RewardEventType {
 
 /**
  * Validation helper: Get SP weight for event type
+ * @deprecated Use system_settings table instead
  */
 export function getSPWeight(eventType: RewardEventType): number {
-  const weights: Record<RewardEventType, number> = {
-    pr_merged_small: 5,
-    pr_merged_medium: 10,
-    pr_merged_large: 20,
-    docs_contribution: 8,
-    code_review: 3,
-    issue_triage: 2,
-    bug_fix: 15,
+  // SP weights (political participation only)
+  const spWeights: Partial<Record<RewardEventType, number>> = {
     group_created: 15,
     group_joined: 3,
     city_group_joined: 0,
@@ -135,7 +130,21 @@ export function getSPWeight(eventType: RewardEventType): number {
     proposal_rating_innovative: 3,
     proposal_highly_rated: 10,
   }
-  return weights[eventType]
+
+  // RP earnings (technical contributions)
+  const rpEarnings: Partial<Record<RewardEventType, number>> = {
+    pr_merged_small: 25,
+    pr_merged_medium: 50,
+    pr_merged_large: 100,
+    docs_contribution: 40,
+    code_review: 15,
+    issue_triage: 10,
+    bug_fix: 75,
+    monthly_dues_paid: 100,
+    donation: 100,
+  }
+
+  return spWeights[eventType] ?? rpEarnings[eventType] ?? 0
 }
 
 /**
