@@ -32,6 +32,7 @@ const REACTIONS: { type: ReactionType; emoji: string; label: string }[] = [
   { type: 'insightful', emoji: '💡', label: 'Insightful' },
   { type: 'empathy', emoji: '🙏', label: 'Empathy' },
   { type: 'question', emoji: '❓', label: 'Question' },
+  { type: 'concern', emoji: '⚠️', label: 'Concern' },
 ]
 
 export function ReactionPicker({
