@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Metadata } from 'next'
 import type { Topic } from '@togetheros/types/forum'
-import { TopicList } from '@togetheros/ui/forum'
+import { TopicList, TopicComposer, type CreateTopicData } from '@togetheros/ui/forum'
 
 export default function ForumPage() {
   const router = useRouter()
@@ -12,6 +11,8 @@ export default function ForumPage() {
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isComposerOpen, setIsComposerOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     fetchTopics()
@@ -48,8 +49,42 @@ export default function ForumPage() {
   }
 
   function handleCreateTopic() {
-    // TODO: Open topic creation modal
-    alert('Topic creation coming soon!')
+    setIsComposerOpen(true)
+  }
+
+  async function handleSubmitTopic(data: CreateTopicData) {
+    try {
+      setIsSubmitting(true)
+
+      const response = await fetch('/api/forum/topics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Failed to create topic' }))
+        throw new Error(errorData.error || 'Failed to create topic')
+      }
+
+      const result = await response.json()
+
+      // Close modal and refresh topics
+      setIsComposerOpen(false)
+      await fetchTopics()
+
+      // Navigate to new topic
+      if (result.id) {
+        router.push(`/forum/${result.id}`)
+      }
+    } catch (err: any) {
+      console.error('Error creating topic:', err)
+      alert(err.message || 'Failed to create topic. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   function handleTopicClick(topicId: string) {
@@ -89,14 +124,23 @@ export default function ForumPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <TopicList
-        topics={topics}
-        authorNames={authorNames}
-        showCreateButton={true}
-        onCreateTopic={handleCreateTopic}
-        onTopicClick={handleTopicClick}
+    <>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <TopicList
+          topics={topics}
+          authorNames={authorNames}
+          showCreateButton={true}
+          onCreateTopic={handleCreateTopic}
+          onTopicClick={handleTopicClick}
+        />
+      </div>
+
+      <TopicComposer
+        isOpen={isComposerOpen}
+        onClose={() => setIsComposerOpen(false)}
+        onSubmit={handleSubmitTopic}
+        isSubmitting={isSubmitting}
       />
-    </div>
+    </>
   )
 }
