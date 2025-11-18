@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * Admin Dashboard - Central hub for all admin and test pages
+ * Admin Dashboard - Clean, organized admin interface
  * Route: /admin
  * Auth: Admin only
  */
@@ -9,13 +9,25 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+interface AdminSection {
+  title: string
+  items: AdminItem[]
+}
+
+interface AdminItem {
+  title: string
+  description: string
+  path: string
+  status: 'active' | 'coming-soon'
+}
+
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthorized, setIsAuthorized] = useState(false)
+  const [expandedSection, setExpandedSection] = useState<string | null>('system')
   const router = useRouter()
 
   useEffect(() => {
-    // Check admin authorization
     fetch('/api/auth/me')
       .then(res => res.json())
       .then(data => {
@@ -35,16 +47,8 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'var(--bg-0)',
-      }}>
-        <div style={{ color: 'var(--ink-700)', fontSize: '0.875rem' }}>
-          Loading...
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-600 text-sm">Loading...</div>
       </div>
     )
   }
@@ -53,362 +57,221 @@ export default function AdminDashboard() {
     return null
   }
 
-  const adminPages = [
+  const sections: AdminSection[] = [
     {
-      title: 'Bridge Training',
-      description: 'Manage training data, Q&A examples, and conversation training',
-      path: '/admin/bridge',
-      category: 'AI Assistant',
-      stats: 'Unified training interface',
+      title: 'System Configuration',
+      items: [
+        {
+          title: 'System Settings',
+          description: 'Configure SP/RP weights, conversion rates, and constraints',
+          path: '/admin/settings',
+          status: 'active',
+        },
+      ],
     },
     {
-      title: 'Members Admin',
-      description: 'User accounts, roles, permissions, and activity',
-      path: '/admin/members',
-      category: 'User Management',
-      stats: 'Coming soon',
-      disabled: true,
+      title: 'AI & Content',
+      items: [
+        {
+          title: 'Bridge Training',
+          description: 'Manage Bridge AI training data and Q&A examples',
+          path: '/admin/bridge',
+          status: 'active',
+        },
+        {
+          title: 'Moderation Queue',
+          description: 'Review flagged content and user reports',
+          path: '/admin/moderation',
+          status: 'coming-soon',
+        },
+      ],
     },
     {
-      title: 'Moderation Reports',
-      description: 'Flagged content, user reports, and moderation queue',
-      path: '/admin/moderation',
-      category: 'Safety',
-      stats: 'Coming soon',
-      disabled: true,
+      title: 'Users & Groups',
+      items: [
+        {
+          title: 'Member Management',
+          description: 'User accounts, roles, and permissions',
+          path: '/admin/members',
+          status: 'coming-soon',
+        },
+        {
+          title: 'Group Oversight',
+          description: 'Monitor groups and coordination',
+          path: '/admin/groups',
+          status: 'coming-soon',
+        },
+      ],
     },
     {
-      title: 'Group Management',
-      description: 'Oversight of all groups, settings, and coordination',
-      path: '/admin/groups',
-      category: 'Groups',
-      stats: 'Coming soon',
-      disabled: true,
+      title: 'Governance & Economy',
+      items: [
+        {
+          title: 'Governance Oversight',
+          description: 'Proposal monitoring and decision logs',
+          path: '/admin/governance',
+          status: 'coming-soon',
+        },
+        {
+          title: 'Social Economy',
+          description: 'Support Points, timebanking, and treasury',
+          path: '/admin/economy',
+          status: 'coming-soon',
+        },
+      ],
     },
     {
-      title: 'Governance Oversight',
-      description: 'Proposal monitoring, decision logs, minority reports',
-      path: '/admin/governance',
-      category: 'Governance',
-      stats: 'Coming soon',
-      disabled: true,
-    },
-    {
-      title: 'Social Economy',
-      description: 'Support Points, timebanking, treasury oversight',
-      path: '/admin/economy',
-      category: 'Economy',
-      stats: 'Coming soon',
-      disabled: true,
-    },
-    {
-      title: 'System Logs & Audit',
-      description: 'Security events, NDJSON logs, system health monitoring',
-      path: '/admin/logs',
-      category: 'System',
-      stats: 'Coming soon',
-      disabled: true,
-    },
-    {
-      title: 'Analytics Dashboard',
-      description: 'User growth, engagement metrics, system performance',
-      path: '/admin/analytics',
-      category: 'Insights',
-      stats: 'Coming soon',
-      disabled: true,
-    },
-    {
-      title: 'Email & Notifications',
-      description: 'Manage system notifications and email templates',
-      path: '/admin/notifications',
-      category: 'Communications',
-      stats: 'Coming soon',
-      disabled: true,
-    },
-    {
-      title: 'Feature Flags',
-      description: 'Toggle experimental features and rollout controls',
-      path: '/admin/features',
-      category: 'System',
-      stats: 'Coming soon',
-      disabled: true,
-    },
-    {
-      title: 'Backup & Export',
-      description: 'Data export, backup management, and recovery',
-      path: '/admin/backup',
-      category: 'Data',
-      stats: 'Coming soon',
-      disabled: true,
+      title: 'Monitoring & Data',
+      items: [
+        {
+          title: 'System Logs',
+          description: 'Audit trails and security events',
+          path: '/admin/logs',
+          status: 'coming-soon',
+        },
+        {
+          title: 'Analytics',
+          description: 'Growth metrics and system performance',
+          path: '/admin/analytics',
+          status: 'coming-soon',
+        },
+        {
+          title: 'Backup & Export',
+          description: 'Data export and recovery',
+          path: '/admin/backup',
+          status: 'coming-soon',
+        },
+      ],
     },
   ]
 
-  const testPages = [
-    {
-      title: 'Admin Design Demo',
-      description: 'Compact, utilitarian admin UI patterns',
-      path: '/test/admin-design',
-      category: 'Design System',
-    },
-    {
-      title: 'Profile Components',
-      description: 'User profile and avatar components',
-      path: '/test/profiles',
-      category: 'Profiles',
-    },
-  ]
+  const toggleSection = (title: string) => {
+    setExpandedSection(expandedSection === title ? null : title)
+  }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--bg-0)',
-      padding: '2rem 1rem',
-    }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{
-            fontSize: '1.5rem',
-            fontWeight: 600,
-            color: 'var(--ink-900)',
-            marginBottom: '0.5rem',
-          }}>
+        <div className="mb-8">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">
             Admin Dashboard
           </h1>
-          <p style={{
-            fontSize: '0.875rem',
-            color: 'var(--ink-700)',
-          }}>
-            Central hub for administration and testing
+          <p className="text-sm text-gray-600">
+            System administration and configuration
           </p>
         </div>
 
-        {/* Admin Tools Section */}
-        <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
-            color: 'var(--ink-900)',
-            marginBottom: '1rem',
-          }}>
-            Admin Tools
-          </h2>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-            gap: '1rem',
-          }}>
-            {adminPages.map(page => (
-              <a
-                key={page.path}
-                href={page.disabled ? undefined : page.path}
-                style={{
-                  display: 'block',
-                  background: 'var(--bg-1)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.5rem',
-                  padding: '1rem',
-                  textDecoration: 'none',
-                  transition: 'all 0.15s ease',
-                  cursor: page.disabled ? 'not-allowed' : 'pointer',
-                  opacity: page.disabled ? 0.6 : 1,
-                }}
-                onMouseEnter={(e) => {
-                  if (!page.disabled) {
-                    e.currentTarget.style.borderColor = 'var(--brand-500)'
-                    e.currentTarget.style.background = 'var(--bg-2)'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!page.disabled) {
-                    e.currentTarget.style.borderColor = 'var(--border)'
-                    e.currentTarget.style.background = 'var(--bg-1)'
-                  }
-                }}
-                onClick={(e) => {
-                  if (page.disabled) {
-                    e.preventDefault()
-                  }
-                }}
+        {/* Collapsible Sections */}
+        <div className="space-y-3">
+          {sections.map((section) => (
+            <div key={section.title} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              {/* Section Header (Clickable) */}
+              <button
+                onClick={() => toggleSection(section.title)}
+                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
               >
-                <div style={{
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  color: 'var(--brand-500)',
-                  marginBottom: '0.5rem',
-                  fontWeight: 600,
-                }}>
-                  {page.category}
+                <div className="flex items-center gap-2">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 transition-transform ${
+                      expandedSection === section.title ? 'rotate-90' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  <span className="font-medium text-gray-900">{section.title}</span>
                 </div>
+                <span className="text-xs text-gray-500">
+                  {section.items.filter(i => i.status === 'active').length} / {section.items.length} active
+                </span>
+              </button>
 
-                <div style={{
-                  fontSize: '0.9375rem',
-                  fontWeight: 600,
-                  color: 'var(--ink-900)',
-                  marginBottom: '0.5rem',
-                }}>
-                  {page.title}
+              {/* Section Content (Expandable) */}
+              {expandedSection === section.title && (
+                <div className="border-t border-gray-200 bg-gray-50">
+                  {section.items.map((item) => (
+                    <a
+                      key={item.path}
+                      href={item.status === 'active' ? item.path : undefined}
+                      className={`block px-4 py-3 border-b border-gray-100 last:border-b-0 ${
+                        item.status === 'active'
+                          ? 'hover:bg-white cursor-pointer'
+                          : 'cursor-not-allowed opacity-60'
+                      }`}
+                      onClick={(e) => {
+                        if (item.status !== 'active') {
+                          e.preventDefault()
+                        }
+                      }}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-medium text-gray-900 text-sm">
+                              {item.title}
+                            </span>
+                            {item.status === 'coming-soon' && (
+                              <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded">
+                                Coming Soon
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-600 leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                        {item.status === 'active' && (
+                          <svg
+                            className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        )}
+                      </div>
+                    </a>
+                  ))}
                 </div>
+              )}
+            </div>
+          ))}
+        </div>
 
-                <div style={{
-                  fontSize: '0.8125rem',
-                  color: 'var(--ink-700)',
-                  lineHeight: 1.5,
-                  marginBottom: '0.75rem',
-                }}>
-                  {page.description}
+        {/* Test Pages (Minimal) */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <h2 className="text-sm font-medium text-gray-900 mb-3">Development Tools</h2>
+          <div className="space-y-2">
+            <a
+              href="/test/admin-design"
+              className="block px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-medium text-gray-900">Admin Design Demo</div>
+                  <div className="text-xs text-gray-600">UI patterns and components</div>
                 </div>
-
-                <div style={{
-                  fontSize: '0.75rem',
-                  color: 'var(--ink-700)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                }}>
-                  <span>{page.stats}</span>
-                  <span style={{ marginLeft: 'auto', color: 'var(--brand-500)' }}>
-                    →
-                  </span>
-                </div>
-              </a>
-            ))}
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
           </div>
-        </section>
-
-        {/* Test Pages Section */}
-        <section>
-          <h2 style={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
-            color: 'var(--ink-900)',
-            marginBottom: '1rem',
-          }}>
-            Test Pages
-          </h2>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-            gap: '1rem',
-          }}>
-            {testPages.map(page => (
-              <a
-                key={page.path}
-                href={page.path}
-                style={{
-                  display: 'block',
-                  background: 'var(--bg-1)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.5rem',
-                  padding: '1rem',
-                  textDecoration: 'none',
-                  transition: 'all 0.15s ease',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--joy-500)'
-                  e.currentTarget.style.background = 'var(--bg-2)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--border)'
-                  e.currentTarget.style.background = 'var(--bg-1)'
-                }}
-              >
-                <div style={{
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  color: 'var(--joy-500)',
-                  marginBottom: '0.5rem',
-                  fontWeight: 600,
-                }}>
-                  {page.category}
-                </div>
-
-                <div style={{
-                  fontSize: '0.9375rem',
-                  fontWeight: 600,
-                  color: 'var(--ink-900)',
-                  marginBottom: '0.5rem',
-                }}>
-                  {page.title}
-                </div>
-
-                <div style={{
-                  fontSize: '0.8125rem',
-                  color: 'var(--ink-700)',
-                  lineHeight: 1.5,
-                }}>
-                  {page.description}
-                </div>
-
-                <div style={{
-                  fontSize: '0.75rem',
-                  color: 'var(--joy-500)',
-                  marginTop: '0.75rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                }}>
-                  →
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
+        </div>
 
         {/* Quick Links */}
-        <div style={{
-          marginTop: '3rem',
-          padding: '1rem',
-          background: 'var(--bg-1)',
-          border: '1px solid var(--border)',
-          borderRadius: '0.5rem',
-        }}>
-          <div style={{
-            fontSize: '0.8125rem',
-            color: 'var(--ink-700)',
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            alignItems: 'center',
-          }}>
-            <span style={{ fontWeight: 600 }}>Quick Links:</span>
-            <a
-              href="/"
-              style={{
-                color: 'var(--brand-500)',
-                textDecoration: 'none',
-              }}
-            >
-              Home
-            </a>
-            <span>•</span>
-            <a
-              href="/bridge"
-              style={{
-                color: 'var(--brand-500)',
-                textDecoration: 'none',
-              }}
-            >
-              Bridge
-            </a>
-            <span>•</span>
-            <a
-              href="https://github.com/coopeverything/TogetherOS"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'var(--brand-500)',
-                textDecoration: 'none',
-              }}
-            >
-              GitHub
-            </a>
-          </div>
+        <div className="mt-6 text-xs text-gray-500 flex items-center gap-3">
+          <a href="/" className="hover:text-gray-700">Home</a>
+          <span>•</span>
+          <a href="/bridge" className="hover:text-gray-700">Bridge</a>
+          <span>•</span>
+          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700">
+            GitHub
+          </a>
         </div>
       </div>
     </div>
