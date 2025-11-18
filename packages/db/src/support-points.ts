@@ -337,7 +337,7 @@ export async function createRewardEvent(input: CreateRewardEventInput): Promise<
   const {SP_WEIGHTS, RP_EARNINGS} = await import('@togetheros/types/rewards');
 
   // Calculate SP weight based on event type
-  // @ts-expect-error - SP_WEIGHTS and RP_EARNINGS have different key types, fallback to 0
+  // Try SP_WEIGHTS first, fallback to RP_EARNINGS, then 0
   const sp_weight = (SP_WEIGHTS[input.event_type as keyof typeof SP_WEIGHTS] ?? RP_EARNINGS[input.event_type as keyof typeof RP_EARNINGS]) || 0;
 
   // Generate deduplication key
