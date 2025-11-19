@@ -1,6 +1,8 @@
 /**
  * Forum Posts database operations
  * Handles CRUD operations for forum posts (top-level responses to topics)
+ *
+ * Table: forum_posts (module-prefixed to avoid collision with feed_posts)
  */
 
 import { query } from './index';
@@ -94,7 +96,7 @@ export interface UpdatePostInput {
  */
 export async function createPost(input: CreatePostInput): Promise<Post> {
   const result = await query<PostRow>(
-    `INSERT INTO posts (
+    `INSERT INTO forum_posts (
       topic_id,
       author_id,
       content,
@@ -124,7 +126,7 @@ export async function createPost(input: CreatePostInput): Promise<Post> {
  */
 export async function getPostById(id: string): Promise<Post | null> {
   const result = await query<PostRow>(
-    `SELECT * FROM posts
+    `SELECT * FROM forum_posts
      WHERE id = $1 AND deleted_at IS NULL`,
     [id]
   );
@@ -145,7 +147,7 @@ export async function listPostsByTopic(
 }> {
   // Get total count
   const countResult = await query<{ count: string }>(
-    `SELECT COUNT(*) as count FROM posts
+    `SELECT COUNT(*) as count FROM forum_posts
      WHERE topic_id = $1 AND deleted_at IS NULL`,
     [topicId]
   );
@@ -153,7 +155,7 @@ export async function listPostsByTopic(
 
   // Get posts
   const result = await query<PostRow>(
-    `SELECT * FROM posts
+    `SELECT * FROM forum_posts
      WHERE topic_id = $1 AND deleted_at IS NULL
      ORDER BY created_at ASC
      LIMIT $2 OFFSET $3`,
@@ -179,7 +181,7 @@ export async function listPostsByAuthor(
 }> {
   // Get total count
   const countResult = await query<{ count: string }>(
-    `SELECT COUNT(*) as count FROM posts
+    `SELECT COUNT(*) as count FROM forum_posts
      WHERE author_id = $1 AND deleted_at IS NULL`,
     [authorId]
   );
@@ -187,7 +189,7 @@ export async function listPostsByAuthor(
 
   // Get posts
   const result = await query<PostRow>(
-    `SELECT * FROM posts
+    `SELECT * FROM forum_posts
      WHERE author_id = $1 AND deleted_at IS NULL
      ORDER BY created_at DESC
      LIMIT $2 OFFSET $3`,
@@ -235,7 +237,7 @@ export async function updatePost(
   }
 
   const result = await query<PostRow>(
-    `UPDATE posts
+    `UPDATE forum_posts
      SET ${fields.join(', ')}
      WHERE id = $${paramCount++} AND deleted_at IS NULL
      RETURNING *`,
@@ -254,7 +256,7 @@ export async function updatePost(
  */
 export async function deletePost(id: string): Promise<void> {
   await query(
-    `UPDATE posts
+    `UPDATE forum_posts
      SET deleted_at = NOW()
      WHERE id = $1 AND deleted_at IS NULL`,
     [id]
