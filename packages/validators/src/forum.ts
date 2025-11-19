@@ -191,6 +191,23 @@ export const createPostSchema = z.object({
 export type CreatePostInput = z.infer<typeof createPostSchema>
 
 /**
+ * Update post input schema
+ */
+export const updatePostSchema = z.object({
+  content: z.string()
+    .min(1, 'Content must be at least 1 character')
+    .max(5000, 'Content cannot exceed 5000 characters')
+    .optional(),
+
+  position: postPositionSchema.optional(),
+})
+
+/**
+ * Type inference from schema
+ */
+export type UpdatePostInput = z.infer<typeof updatePostSchema>
+
+/**
  * Create reply input schema
  */
 export const createReplySchema = z.object({
