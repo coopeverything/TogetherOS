@@ -13,13 +13,13 @@
 
 **Pre-Work Verification** (REQUIRED for ALL work):
 - See: "Pre-Work Verification Protocol" section below
-- 3-check protocol executed BEFORE starting ANY work
-- Prevents wrong branch commits, uncommitted changes leakage, baseline tracking
+- Quick checks executed BEFORE starting ANY work
+- Prevents wrong branch commits, uncommitted changes leakage
 
 **Pre-Commit Verification** (REQUIRED before git commit):
 - See: "Pre-Commit Verification Protocol" section below
-- 4-check protocol executed BEFORE running git commit
-- Prevents wrong-branch commits, build failures, type errors in CI
+- Essential checks executed BEFORE running git commit
+- At minimum: tests must pass
 
 **TypeScript Verification** (REQUIRED for ALL TypeScript code):
 - See: `.claude/workflows/typescript-verification.md`
@@ -31,9 +31,9 @@
 
 ## Pre-Work Verification Protocol
 
-**EXECUTE ALL 3 CHECKS BEFORE STARTING ANY WORK** (takes 55 seconds):
+**Quick checks before starting work:**
 
-### Check 1: Branch & Working Directory State (15 seconds)
+### Check 1: Branch & Working Directory State
 
 ```bash
 git branch --show-current
@@ -43,11 +43,11 @@ git status
 **Questions to answer:**
 - ✅ Am I on the correct branch for this work?
   - Feature work? Should be on `feature/*` branch
-  - Bug fix/hotfix? Should be on `yolo` branch
+  - Bug fixes/small changes? Can be on `yolo` branch directly
   - Docs only? Can be on `docs/*` or `yolo`
 - ✅ Are there uncommitted changes from previous work?
   - If YES: Commit them OR stash them OR switch to correct branch
-  - If NO: Proceed to Check 2
+  - If NO: Proceed
 
 **STOP if:**
 - Uncommitted changes exist that don't belong on current branch
@@ -66,7 +66,7 @@ git checkout <correct-branch>
 git add . && git commit -m "..."
 ```
 
-### Check 2: Working Directory Must Be Clean (10 seconds)
+### Check 2: Working Directory Must Be Clean
 
 ```bash
 git status --porcelain
@@ -78,116 +78,18 @@ git status --porcelain
 - Review each file: `git status`
 - Ask: "Should this file be part of my current work?"
 - If NO: Commit it separately or stash it
-- If YES: Proceed to Check 3
-
-### Check 3: TypeScript Error Baseline (30 seconds)
-
-```bash
-npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
-```
-
-**Record this number** - This is your baseline error count
-
-**Purpose:**
-- Track which errors are NEW (from your work) vs PRE-EXISTING
-- New errors MUST be fixed before commit
-- Pre-existing errors can be ignored (document in PR)
-
-**Example:**
-```bash
-$ npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
-2
-# Baseline: 2 errors (pre-existing, not my problem)
-
-# After my work:
-$ npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
-5
-# NEW: 3 errors (5 - 2 = 3) - MUST FIX THESE
-```
+- If YES: Proceed with work
 
 ---
 
 ## Pre-Commit Verification Protocol
 
-**EXECUTE ALL 4 CHECKS BEFORE RUNNING `git commit`** (takes 90 seconds):
+**Essential checks before committing:**
 
-### Check 1: Staged Files Match Branch Context (15 seconds)
-
-```bash
-git diff --cached --name-only
-```
-
-**Review EACH file** and ask:
-- ✅ Should this file be committed to THIS branch?
-- ✅ Is this feature work going to `yolo` (production)? **DANGER**
-- ✅ Is this fix going to `feature/*` branch? **WRONG**
-
-**Common Mistakes:**
-- ❌ Evidence/Options files on `yolo` (feature work)
-- ❌ SP/RP type fixes on `feature/*` (should be on `yolo`)
-- ❌ Admin dashboard changes on `feature/*` (should be on `yolo`)
-
-**STOP if:**
-- Any staged file doesn't belong on current branch
-- Feature work is staged on `yolo`
-- Bug fixes are staged on feature branch
-
-**Action if STOP:**
-```bash
-# Unstage the wrong files
-git reset HEAD path/to/wrong/file.ts
-
-# Switch to correct branch
-git checkout <correct-branch>
-
-# Stage and commit there instead
-git add path/to/wrong/file.ts
-git commit -m "..."
-```
-
-### Check 2: TypeScript Errors (30 seconds)
+### Check 1: Tests Must Pass
 
 ```bash
-npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
-```
-
-**Compare to baseline** from Pre-Work Check 3:
-- Same number as baseline? ✅ PROCEED
-- Higher than baseline? ❌ STOP - Fix new errors first
-- Lower than baseline? ✅ PROCEED (you fixed errors!)
-
-**If new errors found:**
-```bash
-# See the actual errors
-npx tsc --noEmit
-
-# Fix them, then re-check
-npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
-```
-
-### Check 3: Build Success (30 seconds)
-
-```bash
-cd apps/web && npm run build && cd ../..
-```
-
-**MUST show:** `✓ Compiled successfully`
-
-**If build fails:**
-- Read the error message
-- Fix the issue (usually TypeScript or missing import)
-- Re-run build
-- DO NOT commit until build passes
-
-**Why this matters:**
-- CI will fail on same build error
-- Deployment will be blocked
-- Build failures waste CI time and delay deployment
-
-### Check 4: Tests Pass (15 seconds)
-
-```bash
-npm test 2>&1 | grep -E "(PASS|FAIL|Tests:)"
+npm test
 ```
 
 **MUST show:** All tests passing
@@ -196,6 +98,37 @@ npm test 2>&1 | grep -E "(PASS|FAIL|Tests:)"
 - `TESTS=OK` proof line is REQUIRED for yolo PRs
 - CI blocks merge if tests fail
 - Danger.js enforces test passing
+
+**If tests fail:**
+- Read the error message
+- Fix the issue
+- Re-run tests
+- DO NOT commit until tests pass
+
+### Check 2: TypeScript Verification (RECOMMENDED for TS changes)
+
+```bash
+npx tsc --noEmit
+```
+
+**Best practice:** Run before committing TypeScript changes
+
+**See:** `.claude/workflows/typescript-verification.md` for detailed TypeScript workflow
+
+### Check 3: Build Verification (OPTIONAL - for production-critical changes)
+
+```bash
+npm run build
+```
+
+**Run this for:**
+- Major refactoring
+- Changes to build configuration
+- Production-critical features
+
+**If build fails:**
+- Fix the issue before committing
+- Build failures block deployment
 
 ---
 
@@ -245,9 +178,9 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 - All PRs target `yolo`
 - Auto-deploy to production on merge
 
-**Test Pages:** `/test/{module}` pattern
+**Test Pages (Optional):** `/test/{module}` pattern
 - Component testing and demos at www.coopeverything.org/test/{module}
-- See `yolo1` skill for details
+- Rarely used, not required for most features
 
 **Clean Working Directory Discipline:**
 - Always verify `git status` is clean before creating feature branches
@@ -279,6 +212,64 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 - `TESTS=OK` - REQUIRED (CI validates)
 
 **Detailed workflows:** See `pr-formatter` and `yolo1` skills
+
+### When to Push Directly vs Create PR
+
+**Direct push to yolo (no PR needed):**
+- ✅ Documentation typo fixes (<50 lines)
+- ✅ Comment updates
+- ✅ Small bug fixes (<50 lines)
+- ✅ Test page additions (/test/module)
+- ✅ CHANGELOG updates
+- ✅ Emergency hotfixes (with post-push monitoring)
+
+**Create PR for:**
+- Features requiring bot feedback (Codex/Copilot suggestions)
+- Major refactoring (>300 lines changed)
+- Breaking API changes
+- Security-sensitive code (want bot security review)
+- Want deployment verification before merge
+
+### PR Merge Decision
+
+**When to merge immediately:**
+- ✅ Tests pass (required)
+- ✅ No P1 security alerts in modified files
+- ✅ Changes align with task scope
+- ✅ Small fixes or docs updates
+
+**When to wait for bot reviews:**
+- Features with complex logic
+- Security-sensitive changes
+- API changes
+- Want additional validation
+
+**PR merge workflow:**
+1. Wait 5 minutes for bot reviews (if using bots)
+2. Check CI status: `gh pr checks <PR#>`
+3. Check for Copilot sub-PRs: `gh pr list --author "app/copilot-swe-agent"`
+4. Fix any P1 issues immediately
+5. Merge when ALL checks pass: `gh pr merge <PR#> --squash --delete-branch`
+6. Monitor auto-deploy: `gh run watch`
+
+### Force Deploy Option
+
+**When to use `workflow_dispatch` with `force: true`:**
+- TypeScript errors that don't affect runtime
+- Build passes locally but fails in CI due to cache issues
+- Known pre-existing errors being fixed in separate PR
+- Emergency hotfix that can't wait for full CI
+
+**How to force deploy:**
+```bash
+# Via GitHub UI: Actions → auto-deploy-production → Run workflow → Check "Force"
+# Or via gh CLI (if supported)
+```
+
+**After force deploy:**
+- Document reason in commit message or PR
+- Create follow-up issue for any bypassed errors
+- Monitor deployment health closely
 
 ---
 
@@ -330,105 +321,23 @@ SELECT * FROM users WHERE is_admin = TRUE;
 
 ---
 
-## Dependabot Update Protocol
+## Dependabot & Security Alerts
 
-**Before merging Dependabot PRs:**
+**For detailed protocols, see:** `.claude/knowledge/ci-cd-discipline.md`
 
-### 1. Check Compatibility Score (in PR description)
+**Quick reference:**
 
-**Thresholds:**
-- **≥75%** ✅ - Safe to merge (still test locally for major versions)
-- **50-74%** 🟡 - Moderate risk → Review changelog + test locally
-- **<50%** 🔴 - High risk → Defer or close PR
-- **"Unknown"** ⚠️ - New release → Check ecosystem readiness
+### Dependabot Updates
+- **≥75%** compatibility → Safe to merge
+- **<75%** → Review changelog, test locally
+- Major versions → Defer 30-90 days for ecosystem maturity
 
-### 2. Version Type Rules
+### Security Alerts (CodeQL)
+- **P1 alerts in modified files** → BLOCK merge (must fix)
+- **P1 alerts in other files** → Don't block
+- **P2/P3 alerts** → Informational only
 
-**Patch updates (1.0.0 → 1.0.1):**
-- ✅ Can bypass score threshold (bug fixes only)
-- Auto-merge if CI passes
-
-**Minor updates (1.0.0 → 1.1.0):**
-- Check score, test locally if <75%
-
-**Major updates (1.0.0 → 2.0.0):**
-- Always require manual review (breaking changes expected)
-- Defer 30-90 days for ecosystem maturity
-- Check framework compatibility (Next.js for React, etc.)
-
-### 3. Ecosystem Readiness Checklist
-
-**For React updates:**
-- ✅ Next.js officially supports version
-- ✅ Radix UI/shadcn compatible
-- ✅ @types/react available
-
-**For Next.js updates:**
-- ✅ React version compatible
-- ✅ Release >14 days old (early bugs fixed)
-
-**For Tailwind updates:**
-- ✅ tailwind-merge compatible version exists
-- ✅ UI package ecosystem updated
-
-### 4. Danger.js Automation
-
-Danger.js will automatically:
-- Warn if score <75%
-- Flag "unknown" scores for manual review
-- Provide risk assessment based on score
-
-**No action needed** - warnings appear in PR comments automatically.
-
----
-
-## Security Alerts (CodeQL)
-
-**Policy:** P1 security alerts in modified files BLOCK merge.
-
-### How It Works
-
-**Danger.js automatically checks:**
-- Fetches all open P1 (error severity) CodeQL alerts
-- Cross-references with files modified by the PR
-- **Blocks merge** if any P1 alerts exist in modified files
-
-### Decision Criteria
-
-**BLOCKS merge:**
-- ❌ P1 alert exists in file modified by this PR
-- Example: PR modifies `apps/api/route.ts` which has log injection alert
-
-**DOES NOT block merge:**
-- ✅ P1 alert exists in file NOT modified by this PR
-- ✅ P2/P3 alerts (warnings/notes) - informational only
-
-### Alert Severity Levels
-
-- **P1 (Error)** — Critical vulnerabilities (SQL injection, XSS, auth bypass, log injection) - MUST FIX
-- **P2 (Warning)** — Medium-severity issues (incomplete validation, race conditions) - SHOULD FIX
-- **P3 (Note)** — Code quality issues (unused variables, style) - CAN DEFER
-
-### When Blocked
-
-If Danger.js blocks your PR:
-
-1. **View the alert:** Click the alert link in the PR comment
-2. **Fix the issue:** Update the code to address the vulnerability
-3. **Common fixes:**
-   - Log injection: `JSON.stringify(userInput)` before logging
-   - SQL injection: Use parameterized queries
-   - XSS: Sanitize/escape user input before rendering
-4. **Push update:** Danger.js will re-check automatically
-5. **Merge when clear:** Once fixed, PR will be unblocked
-
-### View All Alerts
-
-**CodeQL Dashboard:** https://github.com/coopeverything/TogetherOS/security/code-scanning
-
-**Pre-existing alerts:**
-- Alert #64 (P1): Log injection in `apps/web/app/api/groups/route.ts:44` - Fix when that file is next modified
-- Alert #80 (P2): Polynomial ReDoS in `packages/ui/src/bridge/markdown-renderer.tsx:44`
+**View alerts:** https://github.com/coopeverything/TogetherOS/security/code-scanning
 
 ---
 
@@ -450,20 +359,11 @@ If Danger.js blocks your PR:
   - `mcp__notion__API-delete-a-block`
   - `mcp__notion__API-update-a-block`
 
-### If User Repeatedly Approves Same Operation
+### Adding New Operations to Allow List
 
-**Expected Behavior:**
-Auto-add to `.claude/settings.local.json` allow list
+Operations can be added manually to `.claude/settings.local.json` to skip prompts.
 
-**Current Issue:**
-System may be prompting even when operation is in allow list
-
-**Investigation Needed:**
-- Why are prompts still appearing?
-- Is there a global vs local permission conflict?
-- Are wildcards working correctly?
-
-**See:** `docs/dev/future-explorations.md` for permission auto-update plan
+**See:** `docs/dev/future-explorations.md` for permission auto-update plans
 
 ---
 
@@ -601,11 +501,10 @@ System may be prompting even when operation is in allow list
      - NEVER proceed without acknowledging uncommitted changes
    - **If on feature branch:** Ask if user wants to continue or switch to yolo
    - **Document current state** in first message to user
-3. **Check deployment status (CRITICAL):**
+3. **Check deployment status (if relevant):**
    - Look for open `deployment-failure` GitHub issues
-   - Check recent deployment history: `gh run list --workflow=auto-deploy-production.yml --limit 5`
-   - If failures detected → **Automatically invoke yolo1 skill** to diagnose and fix
-   - Report findings to user
+   - Check recent deployment history: `gh run list --limit 5`
+   - Report any failures to user
 4. **Create Notion session page (RECOMMENDED for complex work):**
    - Use: `mcp__notion__API-post-page`
    - Parent: `296d133a-246e-80a6-a870-c0d163e9c826`
@@ -629,18 +528,11 @@ System may be prompting even when operation is in allow list
 
 ---
 
-## Branch Verification Protocol
-
-**NOTE:** This section is now integrated into the **Pre-Work Verification Protocol** (see above).
-
-The comprehensive pre-work protocol includes:
-- Branch & working directory state verification
-- Clean working directory enforcement
-- TypeScript error baseline tracking
+## Branch Naming & Workflow
 
 **Quick Reference - Branch/Work Type Matching:**
 - Feature work → `feature/*` branch
-- Bug fix/hotfix → `yolo` branch
+- Bug fixes/small changes → `yolo` branch (direct commit)
 - Docs only → `docs/*` or `yolo` branch
 - Emergency production fix → `yolo` branch (direct commit allowed)
 
@@ -713,31 +605,6 @@ Is this the correct branch? Should I:
 A) Work on current branch (<branch-name>)
 B) Switch to existing branch (which one?)
 C) Create new feature branch from yolo
-```
-
-### Integration with Other Workflows
-
-**Combine with TypeScript Verification:**
-```bash
-# 1. BRANCH VERIFICATION (FIRST)
-git branch --show-current
-# Verify correct branch
-
-# 2. TYPESCRIPT PRE-FLIGHT (SECOND)
-# Read existing patterns before writing code
-# Check workspace location (apps/web vs apps/api)
-# Verify type definitions
-```
-
-**Combine with Background Process Protocol:**
-```bash
-# After starting build in background
-# While waiting for output:
-# 1. Verify still on correct branch
-git branch --show-current
-
-# 2. Check for system reminders about output
-# 3. Call BashOutput immediately when reminded
 ```
 
 ---
