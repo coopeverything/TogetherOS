@@ -9,7 +9,7 @@ import { createPostSchema } from '@togetheros/validators/forum'
 import {
   listPostsByTopic,
   createPost,
-} from '../../../../../../../../packages/db/src/forum-posts'
+} from '@togetheros/db'
 
 /**
  * GET /api/forum/topics/[topicId]/posts
