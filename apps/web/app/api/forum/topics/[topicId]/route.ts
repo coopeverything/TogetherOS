@@ -7,11 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth/middleware';
-import {
-  getTopicById,
-  updateTopic,
-  deleteTopic,
-} from '../../../../../../../packages/db/src/forum-topics';
+import { getTopicById, updateTopic, deleteTopic } from '@togetheros/db';
 import { updateTopicSchema } from '@togetheros/validators/forum';
 
 export async function GET(
@@ -54,7 +50,7 @@ export async function PATCH(
     // Validate with Zod schema
     const validatedData = updateTopicSchema.parse(body);
 
-    // Check if topic exists and user is author
+    // Check if topic exists
     const existingTopic = await getTopicById(topicId);
     if (!existingTopic) {
       return NextResponse.json(
@@ -63,9 +59,10 @@ export async function PATCH(
       );
     }
 
-    if (existingTopic.authorId !== user.id) {
+    // Check if user can modify (author OR admin)
+    if (!user.is_admin && existingTopic.authorId !== user.id) {
       return NextResponse.json(
-        { error: 'Only the topic author can update it' },
+        { error: 'Only the topic author or an admin can update it' },
         { status: 403 }
       );
     }
@@ -105,7 +102,7 @@ export async function DELETE(
     // Require authentication
     const user = await requireAuth(request);
 
-    // Check if topic exists and user is author
+    // Check if topic exists
     const existingTopic = await getTopicById(topicId);
     if (!existingTopic) {
       return NextResponse.json(
@@ -114,9 +111,10 @@ export async function DELETE(
       );
     }
 
-    if (existingTopic.authorId !== user.id) {
+    // Check if user can modify (author OR admin)
+    if (!user.is_admin && existingTopic.authorId !== user.id) {
       return NextResponse.json(
-        { error: 'Only the topic author can delete it' },
+        { error: 'Only the topic author or an admin can delete it' },
         { status: 403 }
       );
     }
