@@ -123,16 +123,102 @@ export default function ForumPage() {
     )
   }
 
+  // Calculate stats for sidebar
+  const hotTopics = topics
+    .filter(t => t.postCount > 0)
+    .sort((a, b) => b.postCount - a.postCount)
+    .slice(0, 5)
+
+  const trendingTopics = topics
+    .filter(t => t.isPinned || t.postCount > 1)
+    .sort((a, b) => new Date(b.lastActivityAt).getTime() - new Date(a.lastActivityAt).getTime())
+    .slice(0, 5)
+
   return (
     <>
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <TopicList
-          topics={topics}
-          authorNames={authorNames}
-          showCreateButton={true}
-          onCreateTopic={handleCreateTopic}
-          onTopicClick={handleTopicClick}
-        />
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+          {/* Main content */}
+          <div>
+            <TopicList
+              topics={topics}
+              authorNames={authorNames}
+              showCreateButton={true}
+              onCreateTopic={handleCreateTopic}
+              onTopicClick={handleTopicClick}
+            />
+          </div>
+
+          {/* Right sidebar */}
+          <aside className="space-y-6">
+            {/* Trending Topics */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <span className="text-orange-600">🔥</span>
+                Trending
+              </h3>
+              {trendingTopics.length === 0 ? (
+                <p className="text-sm text-gray-500">No trending topics yet</p>
+              ) : (
+                <div className="space-y-2">
+                  {trendingTopics.map((topic) => (
+                    <button
+                      key={topic.id}
+                      onClick={() => handleTopicClick(topic.id)}
+                      className="block w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="text-sm font-medium text-gray-900 line-clamp-2">
+                        {topic.title}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {topic.postCount} posts
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Hot Topics (Most Comments) */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <span className="text-red-600">💬</span>
+                Hot Topics
+              </h3>
+              {hotTopics.length === 0 ? (
+                <p className="text-sm text-gray-500">No active discussions yet</p>
+              ) : (
+                <div className="space-y-2">
+                  {hotTopics.map((topic) => (
+                    <button
+                      key={topic.id}
+                      onClick={() => handleTopicClick(topic.id)}
+                      className="block w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="text-sm font-medium text-gray-900 line-clamp-2">
+                        {topic.title}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {topic.postCount} posts
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* My Posts (Placeholder) */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <span className="text-blue-600">📝</span>
+                My Posts
+              </h3>
+              <p className="text-sm text-gray-500">
+                Your recent posts will appear here
+              </p>
+            </div>
+          </aside>
+        </div>
       </div>
 
       <TopicComposer

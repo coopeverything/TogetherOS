@@ -79,25 +79,73 @@ export function TopicList({
       {/* Filters */}
       <div className="mb-6 space-y-4">
         <div className="flex flex-wrap gap-4">
-          {/* Category Filter */}
+          {/* Category Filter - Clickable Buttons */}
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category
             </label>
-            <select
-              value={categoryFilter}
-              onChange={(e) =>
-                setCategoryFilter(e.target.value as TopicCategory | 'all')
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-            >
-              <option value="all">All Categories</option>
-              <option value="general">💬 General Discussion</option>
-              <option value="proposal">💡 Idea Exploration</option>
-              <option value="question">❓ Questions & Answers</option>
-              <option value="deliberation">⚖️ Deliberation</option>
-              <option value="announcement">📢 Announcements</option>
-            </select>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setCategoryFilter('all')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  categoryFilter === 'all'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                All Categories
+              </button>
+              <button
+                onClick={() => setCategoryFilter('general')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  categoryFilter === 'general'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                💬 General
+              </button>
+              <button
+                onClick={() => setCategoryFilter('proposal')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  categoryFilter === 'proposal'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                💡 Ideas
+              </button>
+              <button
+                onClick={() => setCategoryFilter('question')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  categoryFilter === 'question'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                ❓ Q&A
+              </button>
+              <button
+                onClick={() => setCategoryFilter('deliberation')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  categoryFilter === 'deliberation'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                ⚖️ Deliberation
+              </button>
+              <button
+                onClick={() => setCategoryFilter('announcement')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  categoryFilter === 'announcement'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                📢 Announcements
+              </button>
+            </div>
           </div>
 
           {/* Status Filter */}
