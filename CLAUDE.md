@@ -258,19 +258,19 @@ Two-phase yolo→main synchronization: WIP markers at 5% milestones, code sync a
 
 **CI on yolo branch:**
 - Tests: Enabled (npm test) - REQUIRED ✅
-- Dual-bot code review: REQUIRED ✅
+- Dual-bot code review: RECOMMENDED (optional for features)
   - **Codex** (`chatgpt-codex-connector`) - PRIMARY: Inline reviews, P1 issues block merge
   - **Copilot SWE** (`copilot-swe-agent`) - SECONDARY: Creates sub-PRs with fixes
-  - Wait time: 5 minutes for bot reviews
+  - Wait time: 5 minutes for bot reviews (if using)
   - **IMPORTANT**: Check for Copilot sub-PRs BEFORE merging parent PR
-- Human approval: NOT REQUIRED (bot reviews sufficient) ✅
+- Human approval: NOT REQUIRED
 - Lint/smoke: Disabled (only runs on main)
 - Auto-deploy: Triggers on merge to production
 
 **Proof lines for yolo PRs:**
-- `TESTS=OK` - REQUIRED (matches CI validation)
-- `TYPECHECK=OK` - REQUIRED for TypeScript changes (run `npx tsc --noEmit`)
-- `LINT=OK` - Optional (run `./scripts/validate.sh` locally for best practices)
+- `TESTS=OK` - REQUIRED (Danger.js enforces this)
+- `TYPECHECK=OK` - RECOMMENDED for TypeScript changes (run `npx tsc --noEmit`)
+- `LINT=OK` - RECOMMENDED (run `./scripts/validate.sh` locally for best practices)
 - `VALIDATORS=GREEN`, `DOCS=OK` - Optional
 
 **Proof lines for main PRs:**
@@ -779,6 +779,106 @@ BashOutput(bash_id=XYZ)
 - ✅ Multiple reminders = check each process separately
 - ✅ Act on results immediately (fix errors, proceed if pass)
 - ✅ Kill hung processes if stuck (use KillShell tool)
+
+---
+
+## Database Table Naming Convention (CRITICAL)
+
+**Context:** We had a production collision where both Feed and Forum modules created a `posts` table. This MUST never happen again.
+
+### Mandatory Naming Convention
+
+**ALL module-specific tables MUST use module prefixes:**
+
+```sql
+{module}_{entity}
+```
+
+**Examples:**
+- ✅ `feed_posts` - Posts in the feed module
+- ✅ `forum_posts` - Posts in the forum module
+- ✅ `governance_proposals` - Proposals in governance
+- ❌ `posts` - NEVER create without module prefix
+- ❌ `comments` - NEVER create without module prefix
+
+**Shared tables (no prefix):**
+- `users` - Core user accounts
+- `groups` - Already established without prefix
+- `verification_tokens` - Auth tokens
+- `migrations` - Migration tracking
+
+### Migration Creation Checklist
+
+**BEFORE creating ANY migration:**
+
+1. **Check for naming collisions:**
+```bash
+# List all existing tables (from project root)
+find db/migrations -name "*.sql" -exec grep -h "CREATE TABLE" {} \; | \
+  sed 's/CREATE TABLE IF NOT EXISTS //;s/CREATE TABLE //;s/ (.*//;s/"//g' | \
+  sort -u
+```
+
+2. **Verify module prefix:**
+- Does your table name start with `{module}_`?
+- Is this a truly shared table (users, groups)?
+- If shared, have you documented why?
+
+3. **Check related tables:**
+```bash
+# Find all tables that might relate
+grep -r "REFERENCES your_table_name" db/migrations/
+```
+
+4. **Test locally first:**
+```bash
+# Reset local DB and run all migrations
+dropdb togetheros_dev && createdb togetheros_dev
+for f in db/migrations/*.sql; do psql -U postgres -d togetheros_dev -f "$f"; done
+```
+
+5. **Document foreign keys:**
+- List all tables this migration references
+- List all future tables that will reference this one
+
+### Production Database Access
+
+**SSH Connection:**
+```bash
+# ALWAYS use IP address (72.60.27.167), not hostname
+ssh root@72.60.27.167
+
+# Navigate to project
+cd /var/www/togetheros
+
+# Connect to PostgreSQL
+sudo -u postgres psql togetheros
+```
+
+**Common Operations:**
+```sql
+-- List all tables with row counts
+SELECT schemaname, tablename, n_live_tup as row_count
+FROM pg_stat_user_tables
+ORDER BY tablename;
+
+-- Check for table existence before creating
+SELECT EXISTS (
+  SELECT FROM information_schema.tables
+  WHERE table_name = 'your_table_name'
+);
+
+-- View table structure
+\d table_name
+
+-- View all foreign keys
+SELECT conname, conrelid::regclass, confrelid::regclass
+FROM pg_constraint
+WHERE contype = 'f'
+ORDER BY conrelid::regclass::text;
+```
+
+**IMPORTANT:** Never use hostname aliases (like @continentjump) - always use the numerical IP address (72.60.27.167) as it's stable across server changes.
 
 ---
 
