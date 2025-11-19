@@ -68,7 +68,8 @@ All contribution domains will eventually generate reward events:
 **Purpose:** Governance energy - determines which proposals reach the decision pipeline
 
 **How They Work:**
-- Earned ONLY through non-monetary contribution events (PR merges, proposals, facilitation, care work)
+- Earned ONLY through political/governance activities (proposals, moderation quality, facilitation, deliberation)
+- **NEVER from code contributions** (code earns RP, not SP - this separation prevents plutocracy)
 - Allocated to proposals to signal priority (max 10 SP per proposal per person)
 - Enable agenda-setting (not voting weight - votes remain one person = one vote)
 - **NEVER convertible** to RP, TBC, SH, or money (strict anti-plutocracy invariant)
@@ -76,15 +77,17 @@ All contribution domains will eventually generate reward events:
 **Example Weights (Phase A):**
 ```typescript
 const SP_WEIGHTS = {
-  pr_merged_small: 5,        // < 50 lines changed
-  pr_merged_medium: 10,      // 50-200 lines
-  pr_merged_large: 20,       // > 200 lines
-  docs_contribution: 8,      // Documentation PR
-  code_review: 3,            // Helpful review feedback
-  issue_triage: 2,           // Issue labeling/clarification
-  bug_fix: 15,               // Critical bug resolution
+  proposal_created: 10,              // Created governance proposal
+  proposal_quality_rating: 5,        // Submitted detailed proposal rating
+  moderation_quality_high: 15,       // Community-rated moderation (4-5 stars)
+  moderation_quality_medium: 8,      // Community-rated moderation (3 stars)
+  deliberation_facilitated: 12,      // Facilitated group deliberation
+  consensus_achieved: 20,            // Helped achieve consensus
+  minority_report_authored: 12,      // Documented minority position
 }
 ```
+
+**Note:** Code contributions (PRs, docs, reviews) earn **Reward Points (RP)** instead. This separation ensures governance power cannot be purchased through economic contributions.
 
 ### 2. Badges & Skill Trees
 **Purpose:** Represent milestones in contribution or mastery
@@ -104,9 +107,11 @@ const SP_WEIGHTS = {
 **Purpose:** "The commons owes you something" - real-world claims from contributions and financial support
 
 **How They Work:**
-- Earned through verified contributions (same events that grant SP, but different weights)
-- Earned through membership dues (fixed RP per paid month)
-- Earned through one-off donations (minimum grants enough RP for 1 Timebank Credit)
+- Earned through **code contributions** (PRs, documentation, reviews, bug fixes)
+- Earned through **engagement activities** (profile completion, microlessons, forum participation, research)
+- Earned through **membership dues** (fixed RP per paid month)
+- Earned through **one-off donations** (minimum grants enough RP for 1 Timebank Credit)
+- **Moderation earns both**: performing moderation earns RP (labor), quality ratings from community earn SP (political)
 - Convertible to Timebank Credits (TBC) under monthly throttling rules
 - Can be used in occasional Social Horizon (SH) purchase events (with strict caps)
 - Unlock perks and benefits (priority event seats, raffles, retreat slots)
@@ -116,20 +121,30 @@ const SP_WEIGHTS = {
 | Aspect | Support Points (SP) | Reward Points (RP) |
 |--------|---------------------|-------------------|
 | **Purpose** | Governance energy - prioritize proposals | Economic claims - real-world benefits |
-| **Sources** | ONLY from non-monetary contributions | Contributions + membership dues + donations |
+| **Sources** | ONLY political/governance activities | Code + engagement + financial support |
 | **How Used** | Allocate to proposals (agenda-setting) | Convert to TBC, SH purchase events, perks |
 | **Reclaimed** | Yes, when proposals close | No, consumed when spent |
 | **Convertible To** | NEVER converts to RP or money | Converts to TBC (throttled), SH (rare events) |
 | **Governance Power** | Controls agenda (what gets voted on) | NEVER grants voting power (one person = one vote) |
 | **Anti-Plutocracy** | Cannot be bought with money/RP | Can be earned from dues/donations (tangible benefit) |
 
-**Key Invariant:** Money and RP are **never** Support Points. SP comes only from non-monetary contribution events.
+**Key Invariant:** Money, RP, and code contributions are **never** Support Points. SP comes only from political/governance activities.
 
-**Example RP Sources:**
-- PR merged (medium): +50 RP (also grants 10 SP)
-- Monthly dues paid ($10): +100 RP (grants 0 SP)
-- Donation ($20): +200 RP (grants 0 SP, enough for 2 TBC)
-- Facilitation session: +75 RP (also grants 15 SP)
+**Example SP Sources (Political/Governance):**
+- Proposal created: +10 SP
+- Moderation quality (4-5 stars): +15 SP
+- Facilitation session: +12 SP
+- Consensus achieved: +20 SP
+
+**Example RP Sources (Code + Engagement + Financial):**
+- PR merged (medium): +50 RP (grants 0 SP - code is not political)
+- Profile completion: +50 RP
+- Microlesson completed: +10 RP
+- Forum quality post: +20 RP
+- Research contribution: +30 RP
+- Monthly dues paid ($10): +100 RP
+- Donation ($20): +200 RP
+- Moderation action performed: +10 RP (labor compensation)
 
 **Example RP Uses:**
 - Convert 100 RP → 1 TBC (once per month, throttled)

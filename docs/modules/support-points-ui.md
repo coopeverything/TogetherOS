@@ -72,7 +72,8 @@ See `docs/guides/4-ledger-system.md` for complete 4-ledger economic system speci
 
 **Mechanics:**
 - Every member starts with **100 SP**
-- Earned through contributions (PRs, proposals, care work, moderation quality)
+- Earned through political/governance activities (proposals, moderation quality, facilitation, deliberation)
+- **NEVER from code** (code earns RP, not SP - this prevents plutocracy)
 - **Max 10 SP per proposal** (anti-whale safeguard)
 - **Non-transferable** (cannot gift or sell)
 - **Reclaimed** when proposals close (returned to wallet)

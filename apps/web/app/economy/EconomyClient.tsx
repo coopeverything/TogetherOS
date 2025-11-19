@@ -299,8 +299,8 @@ export default function EconomyClient() {
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
                 <li>Initial grant: 100 SP</li>
-                <li>Contributions: Code, docs, facilitation, mutual aid</li>
-                <li>Never from money or RP</li>
+                <li>Governance: Proposals, moderation quality, facilitation, deliberation</li>
+                <li>Never from code, money, or RP</li>
               </ul>
               <p><strong>Uses:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
