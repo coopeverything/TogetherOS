@@ -103,8 +103,8 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
               to work on first. Higher SP allocation = higher priority.
             </p>
             <p>
-              <strong>Fair Distribution:</strong> Everyone starts with 100 SP. You earn more through contributions
-              (code, docs, facilitation, mutual aid).
+              <strong>Fair Distribution:</strong> Everyone starts with 100 SP. You earn more through governance participation
+              (proposals, moderation quality, facilitation, deliberation).
             </p>
             <p>
               <strong>Anti-Plutocracy:</strong> SP can ONLY be earned through contributions, never purchased.

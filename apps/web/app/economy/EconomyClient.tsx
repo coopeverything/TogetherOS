@@ -299,8 +299,8 @@ export default function EconomyClient() {
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
                 <li>Initial grant: 100 SP</li>
-                <li>Contributions: Code, docs, facilitation, mutual aid</li>
-                <li>Never from money or RP</li>
+                <li>Governance: Proposals, moderation quality, facilitation, deliberation</li>
+                <li>Never from code, money, or RP</li>
               </ul>
               <p><strong>Uses:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -318,9 +318,10 @@ export default function EconomyClient() {
               <p><strong>Purpose:</strong> "The commons owes you something" - economic claims</p>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
+                <li>Code: PRs, docs, reviews, bug fixes</li>
+                <li>Engagement: Profile, microlessons, forum, research</li>
                 <li>Monthly dues: 100 RP/month</li>
                 <li>Donations: 200 RP minimum</li>
-                <li>Contributions: Same events as SP, different weights</li>
               </ul>
               <p><strong>Uses:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">

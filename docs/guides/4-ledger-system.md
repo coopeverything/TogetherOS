@@ -61,13 +61,13 @@ These principles are **hard-coded** into the system and cannot be bypassed:
 ### Purpose
 **Governance energy** - determines which proposals reach the decision pipeline and with what priority.
 
-### Sources (Contribution Events Only)
-- Code contributions (PRs merged)
-- Documentation work
-- Moderation quality
-- Deliberation quality
-- Verified tasks (organizing, facilitation, etc.)
-- **NEVER from money, fees, donations, or RP**
+### Sources (Political/Governance Activities Only)
+- Proposal creation and quality ratings
+- Moderation quality scores (community feedback)
+- Deliberation facilitation
+- Consensus building activities
+- Verified political dialog improvement
+- **NEVER from code contributions, money, fees, donations, or RP**
 
 ### Uses
 - Allocate SP to proposals (including your own)
@@ -92,7 +92,7 @@ These principles are **hard-coded** into the system and cannot be bypassed:
 - `allocated` - Currently locked on active proposals
 
 ### Example Flow
-1. Alice merges a PR → earns 10 SP
+1. Alice creates a governance proposal → earns 10 SP
 2. Alice allocates 10 SP to Proposal #42 (locks SP)
 3. Proposal #42 closes → Alice's 10 SP returns to available budget
 4. Alice can now allocate those SP elsewhere
@@ -105,12 +105,19 @@ These principles are **hard-coded** into the system and cannot be bypassed:
 **The commons owes you something** - real-world claims from contributions and financial support.
 
 ### Sources
-1. **Contribution events** (same events that grant SP)
-   - Each event grants both SP and RP with different weights
-   - Example: PR merged → 10 SP + 50 RP
-2. **Membership dues** (fixed RP per paid month)
+1. **Code contributions** (PRs merged, documentation, reviews, bug fixes)
+   - Example: PR merged → 50 RP (grants 0 SP - code is not political)
+2. **Engagement activities** (profile completion, microlessons, forum participation, research)
+   - Profile completion → 50 RP
+   - Microlesson completed → 10 RP
+   - Forum quality post → 20 RP
+   - Research contribution → 30 RP
+3. **Moderation labor** (performing moderation earns RP)
+   - Moderation action → 10 RP (labor compensation)
+   - Note: Community quality ratings earn SP (political), not RP
+4. **Membership dues** (fixed RP per paid month)
    - Example: Monthly fee → 100 RP
-3. **One-off donations** (RP amount sufficient for at least 1 TBC)
+5. **One-off donations** (RP amount sufficient for at least 1 TBC)
    - Minimum donation grants enough RP to redeem 1 Timebank Credit
    - Larger donations grant proportionally more RP
 
