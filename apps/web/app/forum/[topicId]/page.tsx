@@ -124,7 +124,10 @@ export default function TopicDetailPage({
         }),
       })
 
-      if (!response.ok) throw new Error('Failed to create post')
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Failed to create post' }))
+        throw new Error(errorData.error || 'Failed to create post')
+      }
 
       setNewPostContent('')
       await fetchTopicAndPosts()
