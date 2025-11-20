@@ -74,7 +74,7 @@ export default function TopicDetailPage({
       const topicRes = await fetch(`/api/forum/topics/${topicId}`)
       if (!topicRes.ok) throw new Error('Failed to fetch topic')
       const topicData = await topicRes.json()
-      setTopic(topicData)
+      setTopic(topicData.topic)
 
       // Fetch posts
       const postsRes = await fetch(`/api/forum/topics/${topicId}/posts`)
