@@ -44,6 +44,26 @@ export default function TopicDetailPage({
     }
   }, [topicId])
 
+  // Defensive: Ensure edit data is populated when entering edit mode
+  useEffect(() => {
+    if (editingTopicId && topic && editingTopicId === topic.id) {
+      setEditTopicData({
+        title: topic.title,
+        description: topic.description || '',
+        category: topic.category,
+      })
+    }
+  }, [editingTopicId, topic])
+
+  useEffect(() => {
+    if (editingPostId) {
+      const post = posts.find(p => p.id === editingPostId)
+      if (post) {
+        setEditPostContent(post.content)
+      }
+    }
+  }, [editingPostId, posts])
+
   async function fetchTopicAndPosts() {
     if (!topicId) return
 
@@ -95,7 +115,7 @@ export default function TopicDetailPage({
     }
   }
 
-  async function handleEditTopic() {
+  function handleEditTopic() {
     if (!topic) return
     setEditTopicData({
       title: topic.title,
@@ -144,9 +164,9 @@ export default function TopicDetailPage({
     }
   }
 
-  async function handleEditPost(post: Post) {
-    setEditingPostId(post.id)
+  function handleEditPost(post: Post) {
     setEditPostContent(post.content)
+    setEditingPostId(post.id)
   }
 
   async function handleSavePostEdit(postId: string) {
