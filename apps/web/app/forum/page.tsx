@@ -75,8 +75,11 @@ export default function ForumPage() {
       setIsComposerOpen(false)
       await fetchTopics()
 
-      // Navigate to new topic
-      if (result.id) {
+      // Navigate to new topic using slug
+      if (result.topic?.slug) {
+        router.push(`/forum/${result.topic.slug}`)
+      } else if (result.id) {
+        // Fallback to ID if slug not available
         router.push(`/forum/${result.id}`)
       }
     } catch (err: any) {
@@ -88,7 +91,14 @@ export default function ForumPage() {
   }
 
   function handleTopicClick(topicId: string) {
-    router.push(`/forum/${topicId}`)
+    // Find topic to get slug
+    const topic = topics.find(t => t.id === topicId)
+    if (topic?.slug) {
+      router.push(`/forum/${topic.slug}`)
+    } else {
+      // Fallback to ID
+      router.push(`/forum/${topicId}`)
+    }
   }
 
   if (loading) {

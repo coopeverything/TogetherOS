@@ -1,19 +1,20 @@
 /**
  * Forum Posts API Routes
- * GET /api/forum/topics/[topicId]/posts - List posts for a topic
- * POST /api/forum/topics/[topicId]/posts - Create a new post
+ * GET /api/forum/topics/[topicId]/posts - List posts for a topic (accepts slug or ID)
+ * POST /api/forum/topics/[topicId]/posts - Create a new post (accepts slug or ID)
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createPostSchema } from '@togetheros/validators/forum'
 import {
+  getTopicBySlugOrId,
   listPostsByTopic,
   createPost,
 } from '@togetheros/db'
 
 /**
  * GET /api/forum/topics/[topicId]/posts
- * List all posts for a topic
+ * List all posts for a topic (accepts slug or ID)
  */
 export async function GET(
   request: NextRequest,
@@ -21,7 +22,17 @@ export async function GET(
 ) {
   try {
     const { topicId } = await params
-    const { posts, total } = await listPostsByTopic(topicId)
+
+    // Resolve slug/ID to actual topic
+    const topic = await getTopicBySlugOrId(topicId)
+    if (!topic) {
+      return NextResponse.json(
+        { error: 'Topic not found' },
+        { status: 404 }
+      )
+    }
+
+    const { posts, total } = await listPostsByTopic(topic.id)
     return NextResponse.json({ posts, total })
   } catch (error: any) {
     console.error('Error fetching posts:', error)
@@ -34,7 +45,7 @@ export async function GET(
 
 /**
  * POST /api/forum/topics/[topicId]/posts
- * Create a new post in a topic
+ * Create a new post in a topic (accepts slug or ID)
  */
 export async function POST(
   request: NextRequest,
@@ -44,10 +55,19 @@ export async function POST(
     const { topicId } = await params
     const body = await request.json()
 
-    // Validate input
+    // Resolve slug/ID to actual topic
+    const topic = await getTopicBySlugOrId(topicId)
+    if (!topic) {
+      return NextResponse.json(
+        { error: 'Topic not found' },
+        { status: 404 }
+      )
+    }
+
+    // Validate input (use actual topic ID)
     const validated = createPostSchema.parse({
       ...body,
-      topicId,
+      topicId: topic.id,
     })
 
     const post = await createPost(validated)

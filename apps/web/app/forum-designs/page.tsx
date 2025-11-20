@@ -9,6 +9,7 @@ const mockTopics: Topic[] = [
   {
     id: '1',
     title: 'Establishing Community Gardens Initiative',
+    slug: 'establishing-community-gardens-initiative',
     description: 'Proposal to create shared gardening spaces across neighborhoods to promote food security and community connection.',
     category: 'proposal',
     status: 'open',
@@ -25,6 +26,7 @@ const mockTopics: Topic[] = [
   {
     id: '2',
     title: 'How do timebanking transactions work?',
+    slug: 'how-do-timebanking-transactions-work',
     description: 'New member here - can someone explain how to exchange hours and what counts as valid work?',
     category: 'question',
     status: 'resolved',
@@ -41,6 +43,7 @@ const mockTopics: Topic[] = [
   {
     id: '3',
     title: 'Weekly Deliberation: Cooperative Childcare Program',
+    slug: 'weekly-deliberation-cooperative-childcare-program',
     description: 'Discussing the formation of a parent-run childcare cooperative with rotating schedules and shared resources.',
     category: 'deliberation',
     status: 'open',
@@ -57,6 +60,7 @@ const mockTopics: Topic[] = [
   {
     id: '4',
     title: 'New Member Orientation - January',
+    slug: 'new-member-orientation-january',
     description: 'Welcome! This thread is for January newcomers to introduce themselves and learn about our community.',
     category: 'general',
     status: 'open',
@@ -73,6 +77,7 @@ const mockTopics: Topic[] = [
   {
     id: '5',
     title: '[ANNOUNCEMENT] Platform Update v2.3 - New Features',
+    slug: 'announcement-platform-update-v23-new-features',
     description: 'We have released several improvements including better search, notification controls, and mobile optimization.',
     category: 'announcement',
     status: 'open',
@@ -89,6 +94,7 @@ const mockTopics: Topic[] = [
   {
     id: '6',
     title: 'Expanding Tool Library Access Hours',
+    slug: 'expanding-tool-library-access-hours',
     description: 'Should we extend the community tool library hours to weekends and evenings?',
     category: 'proposal',
     status: 'open',

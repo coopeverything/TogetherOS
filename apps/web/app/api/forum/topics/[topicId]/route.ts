@@ -1,13 +1,13 @@
 /**
  * Forum Topic Detail API Endpoint
- * GET /api/forum/topics/[topicId] - Get single topic by ID
+ * GET /api/forum/topics/[topicId] - Get single topic by ID or slug
  * PATCH /api/forum/topics/[topicId] - Update topic
  * DELETE /api/forum/topics/[topicId] - Delete topic (soft delete)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth/middleware';
-import { getTopicById, updateTopic, deleteTopic } from '@togetheros/db';
+import { getTopicBySlugOrId, updateTopic, deleteTopic } from '@togetheros/db';
 import { updateTopicSchema } from '@togetheros/validators/forum';
 
 export async function GET(
@@ -16,7 +16,8 @@ export async function GET(
 ) {
   try {
     const { topicId } = await params
-    const topic = await getTopicById(topicId);
+    // Accept both slug and UUID
+    const topic = await getTopicBySlugOrId(topicId);
 
     if (!topic) {
       return NextResponse.json(
@@ -50,8 +51,8 @@ export async function PATCH(
     // Validate with Zod schema
     const validatedData = updateTopicSchema.parse(body);
 
-    // Check if topic exists
-    const existingTopic = await getTopicById(topicId);
+    // Check if topic exists (accept both slug and UUID)
+    const existingTopic = await getTopicBySlugOrId(topicId);
     if (!existingTopic) {
       return NextResponse.json(
         { error: 'Topic not found' },
@@ -67,7 +68,8 @@ export async function PATCH(
       );
     }
 
-    const updatedTopic = await updateTopic(topicId, validatedData);
+    // Update by actual ID (not slug)
+    const updatedTopic = await updateTopic(existingTopic.id, validatedData);
 
     return NextResponse.json({ topic: updatedTopic });
   } catch (error: any) {
@@ -102,8 +104,8 @@ export async function DELETE(
     // Require authentication
     const user = await requireAuth(request);
 
-    // Check if topic exists
-    const existingTopic = await getTopicById(topicId);
+    // Check if topic exists (accept both slug and UUID)
+    const existingTopic = await getTopicBySlugOrId(topicId);
     if (!existingTopic) {
       return NextResponse.json(
         { error: 'Topic not found' },
@@ -119,7 +121,8 @@ export async function DELETE(
       );
     }
 
-    await deleteTopic(topicId);
+    // Delete by actual ID (not slug)
+    await deleteTopic(existingTopic.id);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error: any) {

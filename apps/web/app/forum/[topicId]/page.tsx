@@ -29,10 +29,13 @@ export default function TopicDetailPage({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [editingTopicId, setEditingTopicId] = useState<string | null>(null)
   const [editingPostId, setEditingPostId] = useState<string | null>(null)
-  const [editTopicData, setEditTopicData] = useState({ title: '', description: '', category: '' })
+  const [editTopicData, setEditTopicData] = useState({ title: '', description: '', category: '', tags: [] as string[] })
   const [editPostContent, setEditPostContent] = useState('')
   const [showTopicControls] = useState(true) // TODO: Check actual user permissions
   const [showPostControls] = useState(true) // TODO: Check actual user permissions
+  const [tagInput, setTagInput] = useState('') // For comma-separated tag input
+  const [tagSuggestions, setTagSuggestions] = useState<string[]>([]) // Autocomplete suggestions
+  const [showSuggestions, setShowSuggestions] = useState(false)
 
   useEffect(() => {
     params.then(({ topicId }) => setTopicId(topicId))
@@ -41,8 +44,23 @@ export default function TopicDetailPage({
   useEffect(() => {
     if (topicId) {
       fetchTopicAndPosts()
+      fetchTagSuggestions()
     }
   }, [topicId])
+
+  async function fetchTagSuggestions() {
+    try {
+      const response = await fetch('/api/admin/forum/tags')
+      if (response.ok) {
+        const data = await response.json()
+        const allTags = data.tags.map((t: { tag: string }) => t.tag)
+        setTagSuggestions(allTags)
+      }
+    } catch (err) {
+      // Silently fail - autocomplete is optional
+      console.log('Could not fetch tag suggestions:', err)
+    }
+  }
 
   // Defensive: Ensure edit data is populated when entering edit mode
   useEffect(() => {
@@ -51,7 +69,10 @@ export default function TopicDetailPage({
         title: topic.title,
         description: topic.description || '',
         category: topic.category,
+        tags: topic.tags || [],
       })
+      // Set tag input as comma-separated string
+      setTagInput((topic.tags || []).join(', '))
     }
   }, [editingTopicId, topic])
 
@@ -133,12 +154,14 @@ export default function TopicDetailPage({
           title: editTopicData.title.trim(),
           description: editTopicData.description.trim() || undefined,
           category: editTopicData.category,
+          tags: editTopicData.tags,
         }),
       })
 
       if (!response.ok) throw new Error('Failed to update topic')
 
       setEditingTopicId(null)
+      setTagInput('') // Clear tag input
       await fetchTopicAndPosts()
     } catch (err: any) {
       alert(err.message || 'Failed to update topic')
@@ -278,6 +301,81 @@ export default function TopicDetailPage({
                 <option value="deliberation">Deliberation</option>
                 <option value="announcement">Announcement</option>
               </select>
+            </div>
+            <div className="relative">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Keywords / Tags
+              </label>
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => {
+                  const value = e.target.value
+                  setTagInput(value)
+
+                  // Parse comma-separated tags and update editTopicData
+                  const tags = value
+                    .split(',')
+                    .map(tag => tag.trim())
+                    .filter(tag => tag.length > 0)
+                  setEditTopicData({ ...editTopicData, tags })
+
+                  // Show suggestions for the current tag being typed
+                  const currentTag = value.split(',').pop()?.trim().toLowerCase() || ''
+                  if (currentTag.length > 0) {
+                    const filtered = tagSuggestions.filter(
+                      tag => tag.toLowerCase().includes(currentTag) && !tags.includes(tag)
+                    ).slice(0, 5)
+                    setShowSuggestions(filtered.length > 0)
+                  } else {
+                    setShowSuggestions(false)
+                  }
+                }}
+                onFocus={() => {
+                  const currentTag = tagInput.split(',').pop()?.trim().toLowerCase() || ''
+                  if (currentTag.length > 0) {
+                    const tags = tagInput.split(',').map(t => t.trim()).filter(t => t.length > 0)
+                    const filtered = tagSuggestions.filter(
+                      tag => tag.toLowerCase().includes(currentTag) && !tags.includes(tag)
+                    ).slice(0, 5)
+                    setShowSuggestions(filtered.length > 0)
+                  }
+                }}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                placeholder="Enter tags separated by commas (e.g., climate, sustainability, community)"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              />
+              {showSuggestions && (
+                <div className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
+                  {tagSuggestions
+                    .filter(tag => {
+                      const currentTag = tagInput.split(',').pop()?.trim().toLowerCase() || ''
+                      const existingTags = tagInput.split(',').map(t => t.trim()).filter(t => t.length > 0)
+                      return tag.toLowerCase().includes(currentTag) && !existingTags.includes(tag)
+                    })
+                    .slice(0, 5)
+                    .map(suggestion => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        onClick={() => {
+                          const tags = tagInput.split(',').map(t => t.trim()).filter(t => t.length > 0)
+                          tags[tags.length - 1] = suggestion
+                          const newValue = tags.join(', ')
+                          setTagInput(newValue + ', ')
+                          setEditTopicData({ ...editTopicData, tags: [...tags, suggestion] })
+                          setShowSuggestions(false)
+                        }}
+                        className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-gray-100"
+                      >
+                        #{suggestion}
+                      </button>
+                    ))}
+                </div>
+              )}
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Separate tags with commas. Start typing to see suggestions from existing tags.
+              </p>
             </div>
             <div className="flex gap-2">
               <button

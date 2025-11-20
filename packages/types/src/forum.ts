@@ -60,6 +60,9 @@ export interface Topic {
   /** Topic title (3-200 chars) */
   title: string
 
+  /** URL-friendly slug (auto-generated from title) */
+  slug: string
+
   /** Optional intro description (10-2000 chars) */
   description?: string
 
