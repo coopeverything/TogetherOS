@@ -120,7 +120,6 @@ export default function TopicDetailPage({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          authorId: 'temp-user-id', // TODO: Get from auth
           content: newPostContent.trim(),
         }),
       })

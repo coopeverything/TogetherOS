@@ -5,6 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/auth/middleware'
 import { createPostSchema } from '@togetheros/validators/forum'
 import {
   getTopicBySlugOrId,
@@ -53,6 +54,10 @@ export async function POST(
 ) {
   try {
     const { topicId } = await params
+
+    // Require authentication
+    const user = await requireAuth(request)
+
     const body = await request.json()
 
     // Resolve slug/ID to actual topic
@@ -64,16 +69,21 @@ export async function POST(
       )
     }
 
-    // Validate input (use actual topic ID)
+    // Validate input (use actual topic ID and authenticated user ID)
     const validated = createPostSchema.parse({
       ...body,
       topicId: topic.id,
+      authorId: user.id,
     })
 
     const post = await createPost(validated)
     return NextResponse.json(post, { status: 201 })
   } catch (error: any) {
     console.error('Error creating post:', error)
+
+    if (error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     if (error.name === 'ZodError') {
       return NextResponse.json(

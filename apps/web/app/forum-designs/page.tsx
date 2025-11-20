@@ -111,6 +111,7 @@ const mockTopics: Topic[] = [
   {
     id: '7',
     title: 'Skill Share: Basic Home Repair Workshop',
+    slug: 'skill-share-basic-home-repair-workshop',
     description: 'Join us for hands-on learning about plumbing, electrical, and carpentry basics. Bring your questions!',
     category: 'general',
     status: 'archived',
