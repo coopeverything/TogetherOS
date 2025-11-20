@@ -117,11 +117,8 @@ export default function TopicDetailPage({
 
   function handleEditTopic() {
     if (!topic) return
-    setEditTopicData({
-      title: topic.title,
-      description: topic.description || '',
-      category: topic.category,
-    })
+    // Data will be populated by useEffect when editingTopicId changes
+    // This prevents race conditions between manual state updates and useEffect
     setEditingTopicId(topic.id)
   }
 
@@ -165,7 +162,8 @@ export default function TopicDetailPage({
   }
 
   function handleEditPost(post: Post) {
-    setEditPostContent(post.content)
+    // Data will be populated by useEffect when editingPostId changes
+    // This prevents race conditions between manual state updates and useEffect
     setEditingPostId(post.id)
   }
 
