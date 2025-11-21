@@ -20,6 +20,15 @@ export default function AdminForumTagsPage() {
   const [creatingTag, setCreatingTag] = useState(false)
   const [newTag, setNewTag] = useState('')
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [showSuggestions, setShowSuggestions] = useState(false)
+
+  // Filter existing tags that match input
+  const suggestions = newTag.trim()
+    ? tags.filter(t =>
+        t.tag.toLowerCase().includes(newTag.toLowerCase()) &&
+        t.tag !== newTag.trim()
+      ).slice(0, 5)
+    : []
 
   useEffect(() => {
     fetchTags()
@@ -226,17 +235,48 @@ export default function AdminForumTagsPage() {
           Create New Tag
         </h2>
         <div className="flex gap-3">
-          <input
-            type="text"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleCreateTag()
-            }}
-            placeholder="Enter tag name (e.g., climate-action)"
-            className="flex-1 px-3 py-2 border border-green-300 dark:border-green-700 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
-            disabled={creatingTag}
-          />
+          <div className="relative flex-1">
+            <input
+              type="text"
+              value={newTag}
+              onChange={(e) => {
+                setNewTag(e.target.value)
+                setShowSuggestions(true)
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleCreateTag()
+                if (e.key === 'Escape') setShowSuggestions(false)
+              }}
+              placeholder="Enter tag name (e.g., climate-action)"
+              className="w-full px-3 py-2 border border-green-300 dark:border-green-700 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+              disabled={creatingTag}
+            />
+            {/* Autocomplete suggestions dropdown */}
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-48 overflow-auto">
+                <div className="px-3 py-1 text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
+                  Existing tags:
+                </div>
+                {suggestions.map(({ tag, count }) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      setNewTag(tag)
+                      setShowSuggestions(false)
+                    }}
+                    className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 flex justify-between items-center"
+                  >
+                    <span className="text-gray-900 dark:text-gray-100">#{tag}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{count} topics</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <button
             onClick={handleCreateTag}
             disabled={creatingTag || !newTag.trim()}
