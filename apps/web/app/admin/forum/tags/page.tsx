@@ -17,6 +17,8 @@ export default function AdminForumTagsPage() {
   const [newTagName, setNewTagName] = useState('')
   const [renaming, setRenaming] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [creatingTag, setCreatingTag] = useState(false)
+  const [newTag, setNewTag] = useState('')
 
   useEffect(() => {
     fetchTags()
@@ -128,6 +130,52 @@ export default function AdminForumTagsPage() {
     }
   }
 
+  async function handleCreateTag() {
+    const trimmedTag = newTag.trim()
+
+    if (!trimmedTag) {
+      alert('Please enter a tag name')
+      return
+    }
+
+    // Check if tag already exists
+    if (tags.some(t => t.tag === trimmedTag)) {
+      alert(`Tag "${trimmedTag}" already exists`)
+      return
+    }
+
+    if (!confirm(`Create new tag "${trimmedTag}"? This will make it available in autocomplete.`)) {
+      return
+    }
+
+    try {
+      setCreatingTag(true)
+
+      const response = await fetch('/api/admin/forum/tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tag: trimmedTag }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Failed to create tag' }))
+        throw new Error(errorData.error || 'Failed to create tag')
+      }
+
+      const result = await response.json()
+      alert(result.message || 'Tag created successfully')
+
+      // Clear input and refresh tags list
+      setNewTag('')
+      await fetchTags()
+    } catch (err: any) {
+      console.error('Error creating tag:', err)
+      alert(err.message || 'Failed to create tag')
+    } finally {
+      setCreatingTag(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -164,6 +212,36 @@ export default function AdminForumTagsPage() {
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
           Manage and correct forum tags/keywords. Changes apply across all topics.
+        </p>
+      </div>
+
+      {/* Create New Tag Form */}
+      <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+        <h2 className="text-sm font-semibold text-green-900 dark:text-green-200 mb-3">
+          Create New Tag
+        </h2>
+        <div className="flex gap-3">
+          <input
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleCreateTag()
+            }}
+            placeholder="Enter tag name (e.g., climate-action)"
+            className="flex-1 px-3 py-2 border border-green-300 dark:border-green-700 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+            disabled={creatingTag}
+          />
+          <button
+            onClick={handleCreateTag}
+            disabled={creatingTag || !newTag.trim()}
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+          >
+            {creatingTag ? 'Creating...' : 'Create Tag'}
+          </button>
+        </div>
+        <p className="text-xs text-green-800 dark:text-green-300 mt-2">
+          Creating a tag makes it available in autocomplete suggestions. Note: The tag will appear with count 0 until used by a topic.
         </p>
       </div>
 
