@@ -19,6 +19,7 @@ export default function AdminForumTagsPage() {
   const [deleting, setDeleting] = useState<string | null>(null)
   const [creatingTag, setCreatingTag] = useState(false)
   const [newTag, setNewTag] = useState('')
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   useEffect(() => {
     fetchTags()
@@ -134,17 +135,11 @@ export default function AdminForumTagsPage() {
     const trimmedTag = newTag.trim()
 
     if (!trimmedTag) {
-      alert('Please enter a tag name')
       return
     }
 
     // Check if tag already exists
     if (tags.some(t => t.tag === trimmedTag)) {
-      alert(`Tag "${trimmedTag}" already exists`)
-      return
-    }
-
-    if (!confirm(`Create new tag "${trimmedTag}"? This will make it available in autocomplete.`)) {
       return
     }
 
@@ -163,7 +158,10 @@ export default function AdminForumTagsPage() {
       }
 
       const result = await response.json()
-      alert(result.message || 'Tag created successfully')
+
+      // Show success message and auto-dismiss after 1 second
+      setSuccessMessage(result.message || `Tag "${trimmedTag}" created`)
+      setTimeout(() => setSuccessMessage(null), 1000)
 
       // Clear input and refresh tags list
       setNewTag('')
@@ -214,6 +212,13 @@ export default function AdminForumTagsPage() {
           Manage and correct forum tags/keywords. Changes apply across all topics.
         </p>
       </div>
+
+      {/* Success Message Toast */}
+      {successMessage && (
+        <div className="mb-4 p-3 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-800 dark:text-green-200 rounded-lg text-center font-medium">
+          {successMessage}
+        </div>
+      )}
 
       {/* Create New Tag Form */}
       <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
