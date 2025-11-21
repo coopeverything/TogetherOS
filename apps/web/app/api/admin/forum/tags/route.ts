@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
         FROM forum_tags
       ) combined
       GROUP BY tag, count
-      ORDER BY count DESC, tag ASC`
+      ORDER BY tag ASC`
     )
 
     const tags = result.rows.map(row => ({
