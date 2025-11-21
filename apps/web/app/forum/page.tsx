@@ -9,6 +9,7 @@ export default function ForumPage() {
   const router = useRouter()
   const [topics, setTopics] = useState<Topic[]>([])
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isComposerOpen, setIsComposerOpen] = useState(false)
@@ -16,7 +17,20 @@ export default function ForumPage() {
 
   useEffect(() => {
     fetchTopics()
+    fetchCurrentUser()
   }, [])
+
+  async function fetchCurrentUser() {
+    try {
+      const response = await fetch('/api/profile')
+      if (response.ok) {
+        const data = await response.json()
+        setCurrentUserId(data.user?.id || null)
+      }
+    } catch {
+      // Not logged in, that's fine
+    }
+  }
 
   async function fetchTopics() {
     try {
@@ -144,6 +158,13 @@ export default function ForumPage() {
     .sort((a, b) => new Date(b.lastActivityAt).getTime() - new Date(a.lastActivityAt).getTime())
     .slice(0, 5)
 
+  const myTopics = currentUserId
+    ? topics
+        .filter(t => t.authorId === currentUserId)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 5)
+    : []
+
   return (
     <>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -217,15 +238,38 @@ export default function ForumPage() {
               )}
             </div>
 
-            {/* My Posts (Placeholder) */}
+            {/* My Posts */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
                 <span className="text-blue-600">📝</span>
                 My Posts
               </h3>
-              <p className="text-sm text-gray-500">
-                Your recent posts will appear here
-              </p>
+              {!currentUserId ? (
+                <p className="text-sm text-gray-500">
+                  <a href="/login" className="text-blue-600 hover:underline">Sign in</a> to see your posts
+                </p>
+              ) : myTopics.length === 0 ? (
+                <p className="text-sm text-gray-500">
+                  You haven't created any topics yet
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {myTopics.map((topic) => (
+                    <button
+                      key={topic.id}
+                      onClick={() => handleTopicClick(topic.id)}
+                      className="block w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="text-sm font-medium text-gray-900 line-clamp-2">
+                        {topic.title}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {topic.postCount} posts
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </aside>
         </div>
