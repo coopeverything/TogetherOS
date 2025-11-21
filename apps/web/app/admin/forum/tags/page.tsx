@@ -16,6 +16,7 @@ export default function AdminForumTagsPage() {
   const [editingTag, setEditingTag] = useState<string | null>(null)
   const [newTagName, setNewTagName] = useState('')
   const [renaming, setRenaming] = useState(false)
+  const [deleting, setDeleting] = useState<string | null>(null)
 
   useEffect(() => {
     fetchTags()
@@ -92,6 +93,38 @@ export default function AdminForumTagsPage() {
       alert(err.message || 'Failed to rename tag')
     } finally {
       setRenaming(false)
+    }
+  }
+
+  async function handleDeleteTag(tag: string) {
+    if (!confirm(`Delete "${tag}" from all topics? This action cannot be undone.`)) {
+      return
+    }
+
+    try {
+      setDeleting(tag)
+
+      const response = await fetch('/api/admin/forum/tags', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tag }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Failed to delete tag' }))
+        throw new Error(errorData.error || 'Failed to delete tag')
+      }
+
+      const result = await response.json()
+      alert(result.message || 'Tag deleted successfully')
+
+      // Refresh tags list
+      await fetchTags()
+    } catch (err: any) {
+      console.error('Error deleting tag:', err)
+      alert(err.message || 'Failed to delete tag')
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -190,12 +223,22 @@ export default function AdminForumTagsPage() {
                         Used in {count} topic{count !== 1 ? 's' : ''}
                       </span>
                     </div>
-                    <button
-                      onClick={() => handleEditClick(tag)}
-                      className="px-3 py-1 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md"
-                    >
-                      Rename
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleEditClick(tag)}
+                        disabled={deleting === tag}
+                        className="px-3 py-1 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md disabled:opacity-50"
+                      >
+                        Rename
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTag(tag)}
+                        disabled={deleting === tag}
+                        className="px-3 py-1 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md disabled:opacity-50"
+                      >
+                        {deleting === tag ? 'Deleting...' : 'Delete'}
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

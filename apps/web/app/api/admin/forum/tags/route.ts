@@ -2,6 +2,7 @@
  * Admin Forum Tags API
  * GET /api/admin/forum/tags - Get all unique tags with usage counts
  * PATCH /api/admin/forum/tags - Rename a tag across all topics
+ * DELETE /api/admin/forum/tags - Delete a tag from all topics
  */
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -113,6 +114,63 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json(
       { error: error.message || 'Failed to rename tag' },
+      { status: 500 }
+    )
+  }
+}
+
+/**
+ * DELETE /api/admin/forum/tags
+ * Delete a tag from all topics
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    // Require admin authentication
+    const user = await requireAuth(request)
+    if (!user.is_admin) {
+      return NextResponse.json(
+        { error: 'Admin access required' },
+        { status: 403 }
+      )
+    }
+
+    const body = await request.json()
+    const { tag } = body
+
+    if (!tag) {
+      return NextResponse.json(
+        { error: 'Tag is required' },
+        { status: 400 }
+      )
+    }
+
+    // Remove tag from all topics that have it
+    // Use array_remove to remove the tag from the tags array
+    const result = await query(
+      `UPDATE topics
+       SET tags = array_remove(tags, $1)
+       WHERE $1 = ANY(tags)
+       AND deleted_at IS NULL
+       RETURNING id`,
+      [tag]
+    )
+
+    const updatedCount = result.rows.length
+
+    return NextResponse.json({
+      success: true,
+      updatedTopics: updatedCount,
+      message: `Deleted "${tag}" from ${updatedCount} topic(s)`
+    })
+  } catch (error: any) {
+    console.error('DELETE /api/admin/forum/tags error:', JSON.stringify({ message: error.message }))
+
+    if (error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    return NextResponse.json(
+      { error: error.message || 'Failed to delete tag' },
       { status: 500 }
     )
   }

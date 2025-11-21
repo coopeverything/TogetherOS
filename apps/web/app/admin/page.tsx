@@ -79,6 +79,12 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Forum Tag Management',
+          description: 'Manage, rename, and delete forum tags across all topics',
+          path: '/admin/forum/tags',
+          status: 'active',
+        },
+        {
           title: 'Moderation Queue',
           description: 'Review flagged content and user reports',
           path: '/admin/moderation',
