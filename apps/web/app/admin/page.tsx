@@ -153,6 +153,12 @@ export default function AdminDashboard() {
       title: 'Development & Testing',
       items: [
         {
+          title: 'Dashboard Prototype',
+          description: 'Gemini AI dashboard with Feed, priorities, and action items',
+          path: '/admin/dashboard-test2',
+          status: 'active',
+        },
+        {
           title: 'Dashboard Designs',
           description: 'Explore creative dashboard design variations',
           path: '/admin/dashboard-designs',
