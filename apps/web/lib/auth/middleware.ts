@@ -26,6 +26,7 @@ export async function requireAuth(
     const sessionCookie = cookieStore.get('session');
 
     if (!sessionCookie?.value) {
+      console.error('requireAuth: No session cookie found');
       throw new Error('Unauthorized');
     }
 
@@ -33,11 +34,13 @@ export async function requireAuth(
     const user = await verifySession(sessionCookie.value);
 
     if (!user) {
+      console.error('requireAuth: Session verification failed for token');
       throw new Error('Unauthorized');
     }
 
     return user;
   } catch (error: any) {
+    console.error('requireAuth: Authentication error:', error.message);
     throw new Error('Unauthorized');
   }
 }

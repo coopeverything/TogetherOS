@@ -1,14 +1,14 @@
 /**
- * Next.js Middleware
+ * Next.js Proxy (formerly Middleware)
  *
  * Tracks request performance via headers
- * Note: Cannot use file system operations in Edge runtime
+ * Note: Runs on Node.js runtime in Next.js 16+
  * Performance logging happens in API routes instead
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const start = Date.now();
 
   // Clone the response to allow modifications
@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
-// Configure which routes the middleware runs on
+// Configure which routes the proxy runs on
 export const config = {
   matcher: [
     /*

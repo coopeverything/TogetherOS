@@ -16,6 +16,7 @@ import type {
 interface TopicRow {
   id: string;
   title: string;
+  slug: string;
   description?: string;
   author_id: string;
   group_id?: string;
@@ -39,6 +40,7 @@ function toTopic(row: TopicRow): Topic {
   return {
     id: row.id,
     title: row.title,
+    slug: row.slug,
     description: row.description,
     authorId: row.author_id,
     groupId: row.group_id,
@@ -125,6 +127,43 @@ export async function getTopicById(id: string): Promise<Topic | null> {
      WHERE id = $1 AND deleted_at IS NULL`,
     [id]
   );
+
+  return result.rows[0] ? toTopic(result.rows[0]) : null;
+}
+
+/**
+ * Get topic by slug
+ */
+export async function getTopicBySlug(slug: string): Promise<Topic | null> {
+  const result = await query<TopicRow>(
+    `SELECT * FROM topics
+     WHERE slug = $1 AND deleted_at IS NULL`,
+    [slug]
+  );
+
+  return result.rows[0] ? toTopic(result.rows[0]) : null;
+}
+
+/**
+ * Get topic by slug or ID (tries slug first, falls back to ID)
+ * This allows URLs to accept both /forum/my-topic-slug and /forum/uuid
+ */
+export async function getTopicBySlugOrId(slugOrId: string): Promise<Topic | null> {
+  // Try slug first (more common in URLs)
+  let result = await query<TopicRow>(
+    `SELECT * FROM topics
+     WHERE slug = $1 AND deleted_at IS NULL`,
+    [slugOrId]
+  );
+
+  // If not found by slug, try by ID (UUID format)
+  if (!result.rows[0]) {
+    result = await query<TopicRow>(
+      `SELECT * FROM topics
+       WHERE id = $1 AND deleted_at IS NULL`,
+      [slugOrId]
+    );
+  }
 
   return result.rows[0] ? toTopic(result.rows[0]) : null;
 }

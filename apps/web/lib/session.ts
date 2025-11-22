@@ -38,7 +38,7 @@ export async function verifySession(
          s.expires_at as session_expires
        FROM sessions s
        INNER JOIN users u ON s.user_id = u.id
-       WHERE s.id = $1
+       WHERE s.token = $1
          AND s.expires_at > NOW()
        LIMIT 1`,
       [sessionToken]
