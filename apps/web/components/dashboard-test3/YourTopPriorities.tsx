@@ -1,0 +1,33 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export function YourTopPriorities() {
+  const priorities = [
+    { id: 1, name: "Housing", score: 9 },
+    { id: 2, name: "Climate", score: 8 },
+    { id: 3, name: "Education", score: 6 },
+    { id: 4, name: "Economy", score: 5 },
+    { id: 5, name: "Wellbeing", score: 4 },
+  ];
+
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base">Your Top Priorities</CardTitle>
+      </CardHeader>
+      <CardContent className="pt-2">
+        <ul className="space-y-1.5">
+          {priorities.map((priority) => (
+            <li key={priority.id} className="flex items-center justify-between">
+              <span className="text-xs font-medium">{priority.name}</span>
+              <Badge variant="default" className="text-xs py-0 px-1.5">{priority.score}/10</Badge>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-3 text-xs text-blue-600 hover:underline">
+          <a href="#">Manage Priorities &rarr;</a>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

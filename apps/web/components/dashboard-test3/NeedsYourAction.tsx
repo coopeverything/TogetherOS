@@ -1,0 +1,28 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export function NeedsYourAction() {
+  const actions = [
+    { id: 1, text: "5 proposals to vote", icon: "🗳️" },
+    { id: 2, text: "3 discussions need reply", icon: "💬" },
+    { id: 3, text: "12 tasks overdue", icon: "⏰" },
+    { id: 4, text: "2 drafts to finish", icon: "📝" },
+  ];
+
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base">Needs Your Action</CardTitle>
+      </CardHeader>
+      <CardContent className="pt-2">
+        <ul className="space-y-1.5">
+          {actions.map((action) => (
+            <li key={action.id} className="flex items-center space-x-2">
+              <span className="text-base">{action.icon}</span>
+              <span className="text-xs font-medium">{action.text}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}
