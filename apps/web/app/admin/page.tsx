@@ -149,6 +149,35 @@ export default function AdminDashboard() {
         },
       ],
     },
+    {
+      title: 'Development & Testing',
+      items: [
+        {
+          title: 'Dashboard Designs',
+          description: 'Explore creative dashboard design variations',
+          path: '/admin/dashboard-designs',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Demos',
+          description: 'Interactive dashboard component demonstrations',
+          path: '/admin/dashboard-demos',
+          status: 'active',
+        },
+        {
+          title: 'Design System',
+          description: 'UI patterns and admin interface components',
+          path: '/admin/design-system',
+          status: 'active',
+        },
+        {
+          title: 'Profile Testing',
+          description: 'Profile component testing and demos',
+          path: '/admin/profile-testing',
+          status: 'active',
+        },
+      ],
+    },
   ]
 
   const toggleSection = (title: string) => {
