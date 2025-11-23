@@ -229,7 +229,7 @@ describe('error-logger', () => {
 
       const context = createErrorContext(request);
 
-      expect(context.route).toBe('/api/test');
+      expect(context?.route).toBe('/api/test');
     });
 
     it('should hash IP from x-forwarded-for header', () => {
@@ -245,7 +245,7 @@ describe('error-logger', () => {
 
       const context = createErrorContext(request);
 
-      expect(context.ip_hash).toBe('forwarded12345678'.substring(0, 16));
+      expect(context?.ip_hash).toBe('forwarded12345678'.substring(0, 16));
     });
 
     it('should hash IP from x-real-ip header if no x-forwarded-for', () => {
@@ -261,7 +261,7 @@ describe('error-logger', () => {
 
       const context = createErrorContext(request);
 
-      expect(context.ip_hash).toBe('realip1234567890'.substring(0, 16));
+      expect(context?.ip_hash).toBe('realip1234567890'.substring(0, 16));
     });
 
     it('should handle missing IP headers', () => {
@@ -269,7 +269,7 @@ describe('error-logger', () => {
 
       const context = createErrorContext(request);
 
-      expect(context.ip_hash).toBeUndefined();
+      expect(context?.ip_hash).toBeUndefined();
     });
   });
 

@@ -22,7 +22,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - **Onboarding** — Guided introduction to TogetherOS principles (planned)
 - [Bridge — Internal pilot (core team only)](./bridge/landing-pilot.md) — AI assistant providing conversational Q&A
   - [Full Bridge Specification](./bridge.md)
-- **Search & Tags** — Full-text search and discovery (planned)
+- [Search & Tags](./search.md) — Global search with path/keyword filters and topic discovery (50% complete — Phase 1 foundation)
 - **Notifications & Inbox** — Real-time notifications and updates (planned)
 - **Docs Site Hooks** — Documentation integration (planned)
 - [Observability](./observability.md) — Platform health monitoring and error tracking (40% complete — Phase 1.5: self-hosted stack ready)
