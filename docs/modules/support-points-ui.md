@@ -4,7 +4,7 @@
 
 The Support Points & Reward Points UI module provides member-facing interfaces for TogetherOS's dual points system: Support Points (SP) for signaling priorities on proposals, and Reward Points (RP) for gamification and community growth incentives. It also includes the RP → SP exchange mechanism and admin tracking panels.
 
-**Current Progress:** <!-- progress:support-points-ui=0 --> 0%
+**Current Progress:** <!-- progress:support-points-ui=35 --> 35%
 
 **Category:** Social Economy, Cooperative Technology
 
