@@ -269,7 +269,54 @@ fi
 
 **Only after deployment verification is delivery complete.**
 
-### 13. Session Memory (Finalize)
+### 13. Update Module Documentation
+
+**After successful deployment, update module progress:**
+
+```bash
+# 1. Update module spec progress marker
+# Find the module spec file (e.g., docs/modules/support-points-ui.md)
+# Edit the progress line from:
+#   **Current Progress:** <!-- progress:module-name=X --> X%
+# To:
+#   **Current Progress:** <!-- progress:module-name=Y --> Y%
+
+# 2. Update modules INDEX
+# Edit docs/modules/INDEX.md
+# Find the module entry and update progress percentage
+# Example: "(35% — Phase 1 complete)" instead of "(0% — spec only)"
+
+# 3. Commit documentation updates
+git add docs/modules/
+git commit -m "docs(modules): update {module-name} progress to Y%
+
+Phase X implementation complete:
+- Component/feature 1
+- Component/feature 2
+- Component/feature 3
+
+PR #<num> merged and deployed successfully.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+# 4. Push documentation update
+git pull origin yolo --rebase  # In case deployment created commits
+git push origin yolo
+```
+
+**Progress calculation guidelines:**
+- Phase 1 complete (basic features): ~30-40%
+- Phase 2 complete (enhanced features): ~60-70%
+- Phase 3 complete (advanced features): ~90%
+- Full module complete: 100%
+
+**Always update both files:**
+1. ✅ Module spec file (`docs/modules/{module-name}.md`)
+2. ✅ Modules INDEX (`docs/modules/INDEX.md`)
+
+### 14. Session Memory (Finalize)
 
 **Update Notion session page** with final summary:
 ```

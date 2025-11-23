@@ -1,8 +1,6 @@
-export { AllocationHistory } from './AllocationHistory'
 export type { AllocationHistoryProps } from './AllocationHistory'
-
-export { AllocationSlider } from './AllocationSlider'
+export { AllocationHistory } from './AllocationHistory'
 export type { AllocationSliderProps } from './AllocationSlider'
-
-export { ProposalAllocationWidget } from './ProposalAllocationWidget'
+export { AllocationSlider } from './AllocationSlider'
 export type { ProposalAllocationWidgetProps } from './ProposalAllocationWidget'
+export { ProposalAllocationWidget } from './ProposalAllocationWidget'
