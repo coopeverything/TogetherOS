@@ -109,18 +109,83 @@ export interface RewardEvent {
 export interface MemberRewardBalance {
   /** Member ID */
   memberId: string
-  
+
   /** Total SP earned (all time) */
   total: number
-  
+
   /** Available SP (not allocated to proposals) */
   available: number
-  
+
   /** SP allocated to active proposals */
   allocated: number
-  
+
   /** Last updated timestamp */
   updatedAt: Date
+}
+
+/**
+ * Support Points transaction types
+ */
+export type SPTransactionType =
+  | 'earned'      // Earned SP from contribution
+  | 'allocated'   // Allocated SP to proposal
+  | 'reclaimed'   // Reclaimed SP from closed proposal
+
+/**
+ * Support Points transaction
+ * Records all SP balance changes with detailed audit trail
+ */
+export interface SPTransaction {
+  /** Unique identifier (UUID) */
+  id: string
+
+  /** Member who owns this transaction */
+  memberId: string
+
+  /** Transaction type */
+  type: SPTransactionType
+
+  /** Amount of SP (positive for earn/reclaim, negative for allocate) */
+  amount: number
+
+  /** Source event type */
+  sourceType: 'group_created' | 'proposal_rating_submitted' | 'proposal_created' | 'moderation_quality' | 'allocation' | 'reclaim'
+
+  /** Source entity ID (proposal ID, event ID, etc.) */
+  sourceId?: string
+
+  /** Human-readable description */
+  description: string
+
+  /** When transaction occurred */
+  timestamp: Date
+}
+
+/**
+ * Support Points allocation to proposals
+ * Tracks which member allocated how much SP to which proposal
+ */
+export interface SPAllocation {
+  /** Unique identifier (UUID) */
+  id: string
+
+  /** Member who allocated SP */
+  memberId: string
+
+  /** Proposal receiving SP allocation */
+  proposalId: string
+
+  /** Amount allocated (1-10) */
+  amount: number
+
+  /** When allocation was made */
+  allocatedAt: Date
+
+  /** Allocation status */
+  status: 'active' | 'reclaimed'
+
+  /** When SP was reclaimed (if status = reclaimed) */
+  reclaimedAt?: Date
 }
 
 /**
