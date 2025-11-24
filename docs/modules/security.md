@@ -514,7 +514,7 @@ tail logs/bridge/actions-$(date +%Y-%m-%d).ndjson
 
 ## Progress: 20%
 
-<!-- progress:security=20 -->
+<!-- progress:security=30 -->
 
 **Phase 1:** ✅ Complete (CodeQL, Dependabot, secret scanning, PII redaction)
 **Phase 2:** 📋 Planned (rate limiting, CSP, request signing)

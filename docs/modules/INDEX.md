@@ -13,22 +13,22 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - **Identity & Auth** — User identity management (planned)
 - **Profiles** — Member profiles and contribution history (planned)
 - [Groups & Orgs](./groups.md) — Community self-organization with transparent governance
-- [Feed](./feed.md) — Social media feed with imported content, multi-dimensional reactions, and discussion initiation (Phase 1: 40% complete)
+- [Feed](./feed.md) — Social media feed with imported content, multi-dimensional reactions, discussion initiation, all 9 phases complete (100% complete — production-ready ✅)
 - [Gamification](./gamification.md) — Local community growth tracking, milestone celebrations, invitation rewards (15% complete — spec only)
-- [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation (Feed discussions flow here)
+- [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation, topic/post/reply system, empathy reactions (100% complete — production-ready ✅)
 - [Proposals & Decisions (Governance)](./governance.md) — Transparent proposal creation and consent-based decision making
 - [Social Economy Primitives](./social-economy.md) — Support Points, timebanking, and cooperative treasury
 - **Support Points & Reputation** — Fair contribution recognition system (planned)
 - **Onboarding** — Guided introduction to TogetherOS principles (planned)
 - [Bridge — Internal pilot (core team only)](./bridge/landing-pilot.md) — AI assistant providing conversational Q&A
   - [Full Bridge Specification](./bridge.md)
-- [Search & Tags](./search.md) — Global search with path/keyword filters and topic discovery (50% complete — Phase 1 complete, production-verified)
+- [Search & Tags](./search.md) — Global search with path/keyword filters, full-text search across proposals + forum topics + posts (85% complete — Phase 1-2 complete, production-verified)
 - **Notifications & Inbox** — Real-time notifications and updates (planned)
 - **Docs Site Hooks** — Documentation integration (planned)
 - [Observability](./observability.md) — Platform health monitoring and error tracking (40% complete — Phase 1.5: self-hosted stack ready)
 - [Security & Privacy](./security.md) — Privacy-first architecture with audit logs
 - [Admin Accountability](./admin-accountability.md) — Decision implementation tracking with cooperative safeguards (0% — spec only)
-- [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP → SP exchange (35% — Phase 1 complete)
+- [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP → SP exchange (0% — spec only, no code yet)
 - [Moderation Transparency](./moderation-transparency.md) — Quality-scored moderation with RP incentives (0% — spec only)
 
 ## Knowledge Base (Comprehensive Specs)
