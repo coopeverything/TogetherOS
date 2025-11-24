@@ -188,10 +188,11 @@ const modules: Module[] = [
   {
     title: 'Search & Discovery',
     description:
-      'Full-text search across proposals, discussions, and content. AI-powered topic clustering and similarity detection. Helps members find existing conversations, discover related content, and avoid duplicate work.',
-    progress: 0,
-    status: 'planned',
-    repoPath: `${GITHUB_BASE}/docs/modules`,
+      'Global search across proposals with faceted filtering by cooperation paths. Features privacy-preserving query tracking (SHA-256 hashing), relevance scoring, and fast response times (4-15ms). Phase 1 complete with database schema, API endpoints, and search UI deployed to production. Future phases will add forum topics/posts search and profile discovery.',
+    progress: 50,
+    status: 'in-progress',
+    repoPath: `${GITHUB_BASE}/docs/modules/search.md`,
+    docsPath: '/docs/modules/search',
     category: 'Cooperative Technology',
   },
   {
