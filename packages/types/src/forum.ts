@@ -86,6 +86,15 @@ export interface Topic {
   /** Lifecycle state */
   status: TopicStatus
 
+  /** Linked proposal (if this topic was promoted) */
+  linkedProposalId?: string
+
+  /** Promotion eligibility status */
+  promotionStatus?: 'eligible' | 'promoted' | 'declined'
+
+  /** Count of unique supporters (for promotion threshold, defaults to 0) */
+  supporterCount?: number
+
   /** Sticky at top of list */
   isPinned: boolean
 

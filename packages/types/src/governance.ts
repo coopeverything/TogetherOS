@@ -77,6 +77,12 @@ export interface Proposal {
   /** Cooperation path classification (one of 8 canonical paths) */
   cooperationPath?: CooperationPathSlug
 
+  /** Source forum topic (if promoted from discussion) */
+  sourceTopicId?: string
+
+  /** How this proposal was created (defaults to 'manual') */
+  sourceType?: 'manual' | 'forum' | 'bridge'
+
   /** Governance workflow status */
   status: ProposalStatus
 
