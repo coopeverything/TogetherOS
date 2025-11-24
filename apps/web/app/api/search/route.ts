@@ -79,13 +79,11 @@ async function searchProposals(
   const searchPattern = `%${searchTerm.toLowerCase()}%`;
 
   // Build WHERE clause for filters
-  const whereConditions: string[] = ['(LOWER(title) LIKE $1 OR LOWER(description) LIKE $1)'];
+  const whereConditions: string[] = ['(LOWER(title) LIKE $1 OR LOWER(summary) LIKE $1)', 'deleted_at IS NULL'];
   const params: unknown[] = [searchPattern];
 
-  if (path) {
-    whereConditions.push(`category = $${params.length + 1}`);
-    params.push(path);
-  }
+  // Note: Cooperation path filtering removed for now (proposals table doesn't have category)
+  // Will add in Phase 2 when we implement proper taxonomy linking
 
   const whereClause = whereConditions.join(' AND ');
 
@@ -94,15 +92,15 @@ async function searchProposals(
     `SELECT
       id,
       title,
-      description,
-      category,
+      summary as description,
       status,
-      created_by,
+      author_id as created_by,
       created_at,
       updated_at,
-      (SELECT COUNT(*) FROM governance_votes WHERE proposal_id = governance_proposals.id) as vote_count,
-      (SELECT SUM(sp_allocated) FROM governance_votes WHERE proposal_id = governance_proposals.id) as total_sp
-    FROM governance_proposals
+      (SELECT COUNT(*) FROM proposal_votes WHERE proposal_id = proposals.id) as vote_count,
+      (SELECT COALESCE(SUM(amount), 0) FROM support_points_allocations
+       WHERE target_type = 'proposal' AND target_id = proposals.id AND status = 'active') as total_sp
+    FROM proposals
     WHERE ${whereClause}
     ORDER BY created_at DESC
     LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
@@ -111,7 +109,7 @@ async function searchProposals(
 
   // Get total count
   const countResult = await query(
-    `SELECT COUNT(*) as total FROM governance_proposals WHERE ${whereClause}`,
+    `SELECT COUNT(*) as total FROM proposals WHERE ${whereClause}`,
     params
   );
   const total = parseInt(countResult.rows[0].total, 10);
@@ -146,7 +144,7 @@ async function searchProposals(
         author_id: String(row.created_by),
         created_at: row.created_at as string,
         updated_at: row.updated_at as string,
-        path: row.category as CooperationPathSlug,
+        // path removed for now - will add taxonomy linking in Phase 2
         engagement: {
           comments: voteCount,
           support_points: totalSp,
