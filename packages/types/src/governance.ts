@@ -1,6 +1,8 @@
 // packages/types/src/governance.ts
 // TogetherOS Governance Module - Core Entity Definitions
 
+import type { CooperationPathSlug } from './search'
+
 /**
  * Proposal scope type (individual OR group)
  */
@@ -71,6 +73,9 @@ export interface Proposal {
 
   /** Proposal summary (10-2000 chars) */
   summary: string
+
+  /** Cooperation path classification (one of 8 canonical paths) */
+  cooperationPath?: CooperationPathSlug
 
   /** Governance workflow status */
   status: ProposalStatus
