@@ -269,26 +269,77 @@ fi
 
 **Only after deployment verification is delivery complete.**
 
-### 13. Update Module Documentation
+### 13. Update Module Documentation (MSSP - Module Status Synchronization Protocol)
 
-**After successful deployment, update module progress:**
+**CRITICAL: After successful deployment, update ALL THREE documentation locations:**
+
+**Step 13.1: Calculate Progress Increase**
 
 ```bash
-# 1. Update module spec progress marker
-# Find the module spec file (e.g., docs/modules/support-points-ui.md)
-# Edit the progress line from:
-#   **Current Progress:** <!-- progress:module-name=X --> X%
-# To:
-#   **Current Progress:** <!-- progress:module-name=Y --> Y%
+# Progress calculation guidelines:
+# - Phase 1 complete (basic features): ~30-40%
+# - Phase 2 complete (enhanced features): ~60-70%
+# - Phase 3 complete (advanced features): ~90%
+# - Full module complete: 100%
+# - Calculate based on work completed in this PR
+```
 
-# 2. Update modules INDEX
-# Edit docs/modules/INDEX.md
-# Find the module entry and update progress percentage
-# Example: "(35% — Phase 1 complete)" instead of "(0% — spec only)"
+**Step 13.2: Update STATUS_v2.md (AUTHORITATIVE SOURCE)**
 
-# 3. Commit documentation updates
-git add docs/modules/
+```bash
+# 1. Edit docs/STATUS_v2.md
+# 2. Find the module's table row
+# 3. Update the progress marker: <!-- progress:module-name=Y -->
+# 4. Update the description of what's complete
+# Example:
+#   | **Module** | Description | <!-- progress:module=85 --> 85% | Next | Notes |
+```
+
+**Step 13.3: Update Individual Module Spec**
+
+```bash
+# 1. Edit docs/modules/{module-name}.md
+# 2. Find the progress line:
+#    **Current Progress:** <!-- progress:module-name=X --> X%
+# 3. Update to match STATUS_v2.md:
+#    **Current Progress:** <!-- progress:module-name=Y --> Y%
+# 4. Update visible "Progress: Y%" text at bottom of file if present
+```
+
+**Step 13.4: Update Modules INDEX (THE CRITICAL ONE)**
+
+```bash
+# 1. Edit docs/modules/INDEX.md
+# 2. Find the module entry in the list
+# 3. Update percentage and description to match STATUS_v2.md
+# Examples:
+#   BEFORE: "(50% complete — Phase 1 complete)"
+#   AFTER:  "(85% complete — Phase 1-2 complete, production-verified)"
+#
+#   BEFORE: "(0% — spec only)"
+#   AFTER:  "(35% — Phase 1 complete)"
+```
+
+**Step 13.5: Verify Synchronization**
+
+```bash
+# Run the status check script to verify all three locations match
+./scripts/check-module-status.sh {module-name}
+
+# Expected output: "✅ All module progress markers are synchronized!"
+# If discrepancies found, fix them before committing
+```
+
+**Step 13.6: Commit Documentation Updates**
+
+```bash
+git add docs/modules/ docs/STATUS_v2.md
 git commit -m "docs(modules): update {module-name} progress to Y%
+
+Updates all three documentation locations (MSSP):
+- STATUS_v2.md: {module} at Y% (was X%)
+- docs/modules/{module-name}.md: Progress marker updated
+- docs/modules/INDEX.md: Entry updated to Y%
 
 Phase X implementation complete:
 - Component/feature 1
@@ -297,24 +348,23 @@ Phase X implementation complete:
 
 PR #<num> merged and deployed successfully.
 
+Verified: ./scripts/check-module-status.sh shows all markers synchronized
+
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
-# 4. Push documentation update
+# Push documentation update
 git pull origin yolo --rebase  # In case deployment created commits
 git push origin yolo
 ```
 
-**Progress calculation guidelines:**
-- Phase 1 complete (basic features): ~30-40%
-- Phase 2 complete (enhanced features): ~60-70%
-- Phase 3 complete (advanced features): ~90%
-- Full module complete: 100%
+**MANDATORY: Update ALL THREE locations:**
+1. ✅ **STATUS_v2.md** (authoritative source)
+2. ✅ **Module spec file** (`docs/modules/{module-name}.md`)
+3. ✅ **Modules INDEX** (`docs/modules/INDEX.md`) ← **THE ONE PREVIOUSLY MISSED**
 
-**Always update both files:**
-1. ✅ Module spec file (`docs/modules/{module-name}.md`)
-2. ✅ Modules INDEX (`docs/modules/INDEX.md`)
+**Verification:** Run `./scripts/check-module-status.sh {module-name}` before committing
 
 ### 14. Session Memory (Finalize)
 
