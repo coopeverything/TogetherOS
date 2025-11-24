@@ -1,8 +1,6 @@
-export { SearchBar } from './SearchBar';
 export type { SearchBarProps } from './SearchBar';
-
-export { SearchFilters } from './SearchFilters';
+export { SearchBar } from './SearchBar';
 export type { SearchFiltersProps } from './SearchFilters';
-
-export { SearchResults } from './SearchResults';
+export { SearchFilters } from './SearchFilters';
 export type { SearchResultsProps } from './SearchResults';
+export { SearchResults } from './SearchResults';

@@ -34,8 +34,8 @@ export interface SearchQuery {
   type?: SearchContentType;           // Content type filter
   path?: CooperationPathSlug;         // Cooperation Path filter
   keywords?: string[];                // Keyword filters
-  limit?: number;                     // Results per page (default: 20, max: 100)
-  offset?: number;                    // Pagination offset
+  limit: number;                      // Results per page (default: 20, max: 100)
+  offset: number;                     // Pagination offset (default: 0)
 }
 
 /**

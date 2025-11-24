@@ -1,6 +1,8 @@
 // packages/types/src/forum.ts
 // TogetherOS Forum Module - Core Entity Definitions
 
+import type { CooperationPathSlug } from './search'
+
 /**
  * Topic category types
  */
@@ -74,6 +76,9 @@ export interface Topic {
 
   /** Type of discussion */
   category: TopicCategory
+
+  /** Cooperation path classification (one of 8 canonical paths) */
+  cooperationPath?: CooperationPathSlug
 
   /** Cooperation Path keywords */
   tags: string[]

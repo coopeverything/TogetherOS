@@ -82,8 +82,11 @@ async function searchProposals(
   const whereConditions: string[] = ['(LOWER(title) LIKE $1 OR LOWER(summary) LIKE $1)', 'deleted_at IS NULL'];
   const params: unknown[] = [searchPattern];
 
-  // Note: Cooperation path filtering removed for now (proposals table doesn't have category)
-  // Will add in Phase 2 when we implement proper taxonomy linking
+  // Add cooperation path filter if provided
+  if (path) {
+    params.push(path);
+    whereConditions.push(`cooperation_path = $${params.length}`);
+  }
 
   const whereClause = whereConditions.join(' AND ');
 
@@ -94,6 +97,7 @@ async function searchProposals(
       title,
       summary as description,
       status,
+      cooperation_path,
       author_id as created_by,
       created_at,
       updated_at,
@@ -144,7 +148,7 @@ async function searchProposals(
         author_id: String(row.created_by),
         created_at: row.created_at as string,
         updated_at: row.updated_at as string,
-        // path removed for now - will add taxonomy linking in Phase 2
+        path: row.cooperation_path as CooperationPathSlug | undefined,
         engagement: {
           comments: voteCount,
           support_points: totalSp,
@@ -152,6 +156,214 @@ async function searchProposals(
       },
       relevance_score: calculateRelevanceScore(
         titleMatch,
+        bodyMatch,
+        exactMatch,
+        daysOld,
+        engagement
+      ),
+    };
+  });
+
+  // Sort by relevance score
+  results.sort((a, b) => b.relevance_score - a.relevance_score);
+
+  return { results, total };
+}
+
+/**
+ * Search forum topics (Phase 2)
+ */
+async function searchTopics(
+  searchTerm: string,
+  path?: CooperationPathSlug,
+  limit = 20,
+  offset = 0
+): Promise<{ results: SearchResult[]; total: number }> {
+  const searchPattern = `%${searchTerm.toLowerCase()}%`;
+
+  // Build WHERE clause for filters
+  const whereConditions: string[] = [
+    '(LOWER(title) LIKE $1 OR LOWER(description) LIKE $1)',
+    'deleted_at IS NULL'
+  ];
+  const params: unknown[] = [searchPattern];
+
+  // Add cooperation path filter if provided
+  if (path) {
+    params.push(path);
+    whereConditions.push(`cooperation_path = $${params.length}`);
+  }
+
+  const whereClause = whereConditions.join(' AND ');
+
+  // Query topics
+  const topics = await query(
+    `SELECT
+      id,
+      title,
+      description,
+      category,
+      cooperation_path,
+      author_id,
+      created_at,
+      updated_at,
+      post_count,
+      participant_count
+    FROM topics
+    WHERE ${whereClause}
+    ORDER BY last_activity_at DESC
+    LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+    [...params, limit, offset]
+  );
+
+  // Get total count
+  const countResult = await query(
+    `SELECT COUNT(*) as total FROM topics WHERE ${whereClause}`,
+    params
+  );
+  const total = parseInt(countResult.rows[0].total, 10);
+
+  // Transform to SearchResult format
+  const results: SearchResult[] = topics.rows.map((row: Record<string, unknown>) => {
+    const title = String(row.title);
+    const description = String(row.description || '');
+    const createdAt = new Date(String(row.created_at));
+    const daysOld = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+
+    // Check for matches
+    const titleMatch = title.toLowerCase().includes(searchTerm.toLowerCase());
+    const bodyMatch = description.toLowerCase().includes(searchTerm.toLowerCase());
+    const exactMatch = title.toLowerCase() === searchTerm.toLowerCase();
+
+    // Calculate engagement
+    const postCount = parseInt(String(row.post_count || 0), 10);
+    const participantCount = parseInt(String(row.participant_count || 0), 10);
+    const engagement = postCount + participantCount * 2;
+
+    // Create excerpt (first 200 chars)
+    const excerpt = description.substring(0, 200) + (description.length > 200 ? '...' : '');
+
+    return {
+      id: String(row.id),
+      type: 'topic' as const,
+      title,
+      excerpt,
+      url: `/forum/${row.id}`,
+      metadata: {
+        author_id: String(row.author_id),
+        created_at: row.created_at as string,
+        updated_at: row.updated_at as string,
+        path: row.cooperation_path as CooperationPathSlug | undefined,
+        engagement: {
+          comments: postCount,
+          views: participantCount,
+        },
+      },
+      relevance_score: calculateRelevanceScore(
+        titleMatch,
+        bodyMatch,
+        exactMatch,
+        daysOld,
+        engagement
+      ),
+    };
+  });
+
+  // Sort by relevance score
+  results.sort((a, b) => b.relevance_score - a.relevance_score);
+
+  return { results, total };
+}
+
+/**
+ * Search forum posts (Phase 2)
+ */
+async function searchPosts(
+  searchTerm: string,
+  path?: CooperationPathSlug,
+  limit = 20,
+  offset = 0
+): Promise<{ results: SearchResult[]; total: number }> {
+  const searchPattern = `%${searchTerm.toLowerCase()}%`;
+
+  // Build WHERE clause for filters
+  const whereConditions: string[] = [
+    'LOWER(forum_posts.content) LIKE $1',
+    'forum_posts.deleted_at IS NULL'
+  ];
+  const params: unknown[] = [searchPattern];
+
+  // Add cooperation path filter if provided (via parent topic)
+  if (path) {
+    params.push(path);
+    whereConditions.push(`topics.cooperation_path = $${params.length}`);
+  }
+
+  const whereClause = whereConditions.join(' AND ');
+
+  // Query posts with topic context
+  const posts = await query(
+    `SELECT
+      forum_posts.id,
+      forum_posts.content,
+      forum_posts.author_id,
+      forum_posts.created_at,
+      forum_posts.updated_at,
+      topics.id as topic_id,
+      topics.title as topic_title,
+      topics.cooperation_path
+    FROM forum_posts
+    INNER JOIN topics ON forum_posts.topic_id = topics.id
+    WHERE ${whereClause}
+    ORDER BY forum_posts.created_at DESC
+    LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+    [...params, limit, offset]
+  );
+
+  // Get total count
+  const countResult = await query(
+    `SELECT COUNT(*) as total
+    FROM forum_posts
+    INNER JOIN topics ON forum_posts.topic_id = topics.id
+    WHERE ${whereClause}`,
+    params
+  );
+  const total = parseInt(countResult.rows[0].total, 10);
+
+  // Transform to SearchResult format
+  const results: SearchResult[] = posts.rows.map((row: Record<string, unknown>) => {
+    const content = String(row.content);
+    const topicTitle = String(row.topic_title);
+    const createdAt = new Date(String(row.created_at));
+    const daysOld = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+
+    // Check for matches
+    const bodyMatch = content.toLowerCase().includes(searchTerm.toLowerCase());
+    const exactMatch = content.toLowerCase() === searchTerm.toLowerCase();
+
+    // Calculate engagement (posts are less prominent than topics/proposals)
+    const engagement = 5; // Base engagement for posts
+
+    // Create excerpt (first 200 chars with highlight)
+    const excerpt = content.substring(0, 200) + (content.length > 200 ? '...' : '');
+
+    return {
+      id: String(row.id),
+      type: 'post' as const,
+      title: `Re: ${topicTitle}`,
+      excerpt,
+      url: `/forum/${row.topic_id}#post-${row.id}`,
+      metadata: {
+        author_id: String(row.author_id),
+        created_at: row.created_at as string,
+        updated_at: row.updated_at as string,
+        path: row.cooperation_path as CooperationPathSlug | undefined,
+        engagement: {
+          comments: 0,
+        },
+      },
+      relevance_score: calculateRelevanceScore(
+        false, // posts don't match titles
         bodyMatch,
         exactMatch,
         daysOld,
@@ -210,11 +422,29 @@ export async function GET(request: NextRequest): Promise<NextResponse<SearchResp
       );
     }
 
-    // Perform search (Phase 1: proposals only)
+    // Perform search
     let results: SearchResult[] = [];
     let total = 0;
 
-    if (params.type === 'all' || params.type === 'proposal') {
+    if (params.type === 'all') {
+      // Search proposals, topics, and posts - merge results
+      const [proposalResults, topicResults, postResults] = await Promise.all([
+        searchProposals(params.q, params.path, params.limit, params.offset),
+        searchTopics(params.q, params.path, params.limit, params.offset),
+        searchPosts(params.q, params.path, params.limit, params.offset),
+      ]);
+
+      // Merge and sort by relevance
+      results = [
+        ...proposalResults.results,
+        ...topicResults.results,
+        ...postResults.results
+      ];
+      results.sort((a, b) => b.relevance_score - a.relevance_score);
+      results = results.slice(params.offset, params.offset + params.limit);
+
+      total = proposalResults.total + topicResults.total + postResults.total;
+    } else if (params.type === 'proposal') {
       const proposalResults = await searchProposals(
         params.q,
         params.path,
@@ -223,6 +453,24 @@ export async function GET(request: NextRequest): Promise<NextResponse<SearchResp
       );
       results = proposalResults.results;
       total = proposalResults.total;
+    } else if (params.type === 'topic') {
+      const topicResults = await searchTopics(
+        params.q,
+        params.path,
+        params.limit,
+        params.offset
+      );
+      results = topicResults.results;
+      total = topicResults.total;
+    } else if (params.type === 'post') {
+      const postResults = await searchPosts(
+        params.q,
+        params.path,
+        params.limit,
+        params.offset
+      );
+      results = postResults.results;
+      total = postResults.total;
     }
 
     // Track search query (async, non-blocking)
