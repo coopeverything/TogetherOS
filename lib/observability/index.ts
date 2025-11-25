@@ -9,6 +9,8 @@
  * - Alert management (Discord/Slack webhooks)
  * - APM tracing (distributed traces, spans)
  * - Performance regression detection
+ * - Feature flags (percentage-based rollouts, user targeting)
+ * - Canary deployment (gradual rollout with auto-rollback)
  *
  * @module observability
  */
@@ -68,3 +70,47 @@ export {
   exportPrometheusMetrics,
 } from './regression-detector';
 export type { RegressionConfig } from './regression-detector';
+
+// Feature flags
+export {
+  evaluateFlag,
+  isFeatureEnabled,
+  setFlag,
+  deleteFlag,
+  getAllFlags,
+  getFlag,
+  updateRolloutPercentage,
+  invalidateCache as invalidateFlagCache,
+  exportFlagMetrics,
+  loadFlags,
+} from './feature-flags';
+export type {
+  FeatureFlag,
+  FeatureFlagRule,
+  FlagEvaluationContext,
+  FlagEvaluationResult,
+} from './feature-flags';
+
+// Canary deployment
+export {
+  startCanaryDeployment,
+  shouldRouteToCanary,
+  recordCanaryRequest,
+  advanceCanaryStage,
+  rollbackDeployment,
+  pauseDeployment,
+  resumeDeployment,
+  getCurrentDeployment,
+  getDeploymentHistory,
+  exportCanaryMetrics,
+  instantDeploy,
+  DEFAULT_CANARY_STAGES,
+} from './canary-deployment';
+export type {
+  DeploymentStrategy,
+  DeploymentStatus,
+  DeploymentState,
+  DeploymentMetrics,
+  DeploymentConfig,
+  CanaryStage,
+} from './canary-deployment';
