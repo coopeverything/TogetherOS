@@ -142,8 +142,8 @@ const modules: Module[] = [
   {
     title: 'Observability & Monitoring',
     description:
-      'Platform health monitoring, error tracking, and performance metrics. Provides real-time insights into system behavior, deployment status, and user experience. Features structured logging, metrics collection, and alerting for production reliability.',
-    progress: 10,
+      'Self-hosted observability stack with error/perf logging, alert manager, Prometheus metrics, APM distributed tracing, contract testing, feature flags, and canary deployment. Features gradual rollouts (10%→50%→100%), auto-rollback on error threshold, and user targeting rules.',
+    progress: 70,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/observability.md`,
     docsPath: '/docs/modules/observability',
@@ -188,8 +188,8 @@ const modules: Module[] = [
   {
     title: 'Search & Discovery',
     description:
-      'Global search across proposals with faceted filtering by cooperation paths. Features privacy-preserving query tracking (SHA-256 hashing), relevance scoring, and fast response times (4-15ms). Phase 1 complete with database schema, API endpoints, and search UI deployed to production. Future phases will add forum topics/posts search and profile discovery.',
-    progress: 50,
+      'Global search with path/keyword filters, full-text search across proposals + forum topics + posts. Features privacy-preserving query tracking (SHA-256 hashing), relevance scoring, and fast response times (4-15ms). Phase 1-2 complete, production-verified.',
+    progress: 85,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/search.md`,
     docsPath: '/docs/modules/search',
