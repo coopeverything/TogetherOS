@@ -1,0 +1,53 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "Stryker Mutation Testing Configuration for TogetherOS",
+  "packageManager": "npm",
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.ts"
+  },
+  "mutate": [
+    "packages/validators/src/**/*.ts",
+    "!packages/validators/src/**/*.test.ts",
+    "!packages/validators/src/**/__tests__/**"
+  ],
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "coverage",
+    ".next",
+    "**/*.d.ts",
+    "**/*.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "reporters": [
+    "progress",
+    "clear-text",
+    "html",
+    "json"
+  ],
+  "htmlReporter": {
+    "fileName": "mutation-report.html"
+  },
+  "jsonReporter": {
+    "fileName": "mutation-report.json"
+  },
+  "coverageAnalysis": "perTest",
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": 50
+  },
+  "timeoutMS": 60000,
+  "timeoutFactor": 2,
+  "maxConcurrentTestRunners": 2,
+  "concurrency": 4,
+  "incremental": true,
+  "incrementalFile": ".stryker-tmp/incremental.json",
+  "disableTypeChecks": false,
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.json",
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": true
+}
