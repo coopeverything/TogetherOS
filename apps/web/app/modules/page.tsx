@@ -72,8 +72,8 @@ const modules: Module[] = [
   {
     title: 'Gamification & Milestones',
     description:
-      'Local community growth tracking with milestone celebrations and invitation rewards. Tracks member engagement, community health metrics, and celebrates achievements. Designed to encourage participation without creating extractive competition. Focus on cooperation over competition.',
-    progress: 15,
+      'Local community growth tracking with milestone celebrations and invitation rewards. Phase 1 complete: Database schema (4 tables), Dunbar-based milestone definitions (5→150 members), 3-stage invitation RP rewards (+25/+50+100/+25), and full db operations. Focus on cooperation over competition.',
+    progress: 30,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/gamification.md`,
     docsPath: '/docs/modules/gamification',
