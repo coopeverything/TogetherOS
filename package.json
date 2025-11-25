@@ -25,6 +25,9 @@
     "test:e2e:synthetic": "playwright test tests/e2e/synthetic",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
+    "test:contract": "vitest run tests/contract/consumer",
+    "test:contract:verify": "vitest run tests/contract/provider",
+    "test:contract:all": "npm run test:contract && npm run test:contract:verify",
     "typecheck": "tsc --build --dry",
     "prepare": "husky"
   },
@@ -43,6 +46,7 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^16.0.2",
     "@playwright/test": "^1.56.1",
     "@stryker-mutator/core": "^9.4.0",
     "@stryker-mutator/vitest-runner": "^9.4.0",
