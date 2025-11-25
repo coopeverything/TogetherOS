@@ -59,7 +59,7 @@ Infrastructure and core platform capabilities.
 | **Social Economy Primitives** | Mutual aid board, timebank, fair-marketplace, 4-ledger system (SP/RP/TBC/SH) | <!-- progress:social-economy=0 --> 0% | Mutual aid request/fulfill MVP | No payments yet (display only) |
 | **Notifications & Inbox** | Mentions, proposal updates, reminders | <!-- progress:notifications=65 --> 65% | Real-time updates (websockets) + module integrations | Complete MVP with 6 endpoints + 3 UI components deployed ✅ |
 | **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=60 --> 60% | Integrate more doc links in app UI | Stable doc routes |
-| **Observability** | Self-hosted error/perf logging with PII sanitization, alert manager (Discord/Slack), Prometheus metrics API, monitoring UI, comprehensive test suite, Docker stack ready (Uptime Kuma, Grafana, Loki) | <!-- progress:observability=45 --> 45% | Activate Docker monitoring stack when needed | Phase 2.1 complete - property-based testing setup |
+| **Observability** | Self-hosted error/perf logging with PII sanitization, alert manager (Discord/Slack), Prometheus metrics API, monitoring UI, comprehensive test suite, Docker stack ready (Uptime Kuma, Grafana, Loki) | <!-- progress:observability=50 --> 50% | Activate Docker monitoring stack when needed | Phase 2.2 complete - mutation testing setup |
 | **Security & Privacy** | Least-privilege tokens, PII handling, audit flags | <!-- progress:security=30 --> 30% | Secrets layout + no-PII logs | Threat model checklist |
 
 ---
