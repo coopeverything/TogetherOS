@@ -324,6 +324,28 @@ fi
 #   AFTER:  "(35% — Phase 1 complete)"
 ```
 
+**Step 13.4b: Update /modules UI Page (VISIBLE TO USERS)**
+
+```bash
+# ⚠️ CRITICAL: The live /modules page has HARDCODED progress values!
+# If you don't update this file, users see stale progress on the website.
+
+# 1. Edit apps/web/app/modules/page.tsx
+# 2. Find the module in the `modules` array (search for module title)
+# 3. Update `progress: X` to new value
+# 4. Update `description` if features changed significantly
+# 5. Update `status` if module became 'complete' (100%)
+
+# Example module entry:
+#   {
+#     title: 'Observability & Monitoring',
+#     description: 'Self-hosted stack with feature flags, canary deployment...',
+#     progress: 70,  // ← UPDATE THIS
+#     status: 'in-progress',  // ← UPDATE if now 'complete'
+#     ...
+#   }
+```
+
 **Step 13.5: Verify Synchronization (MANDATORY)**
 
 ```bash
@@ -369,10 +391,11 @@ git pull origin yolo --rebase  # In case deployment created commits
 git push origin yolo
 ```
 
-**MANDATORY: Update ALL THREE locations:**
+**MANDATORY: Update ALL FOUR locations:**
 1. ✅ **STATUS_v2.md** (authoritative source)
 2. ✅ **Module spec file** (`docs/modules/{module-name}.md`)
-3. ✅ **Modules INDEX** (`docs/modules/INDEX.md`) ← **THE ONE PREVIOUSLY MISSED**
+3. ✅ **Modules INDEX** (`docs/modules/INDEX.md`)
+4. ✅ **Modules UI page** (`apps/web/app/modules/page.tsx`) ← **VISIBLE TO USERS**
 
 **Verification:** Run `./scripts/check-module-status.sh {module-name}` before committing
 
