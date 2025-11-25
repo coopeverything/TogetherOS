@@ -25,7 +25,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Search & Tags](./search.md) — Global search with path/keyword filters, full-text search across proposals + forum topics + posts (85% complete — Phase 1-2 complete, production-verified)
 - **Notifications & Inbox** — Real-time notifications and updates (65% complete — MVP with 6 endpoints + 3 UI components ✅)
 - **Docs Site Hooks** — Documentation integration (60% complete — stable doc routes)
-- [Observability](./observability.md) — Platform health monitoring and error tracking (70% complete — Phase 4: canary deployment & feature flags)
+- [Observability](./observability.md) — Platform health monitoring and error tracking (100% complete — full observability stack ✅)
 - [Security & Privacy](./security.md) — Privacy-first architecture with audit logs (30% complete — threat model checklist)
 - [Admin Accountability](./admin-accountability.md) — Decision implementation tracking with cooperative safeguards (0% — spec only)
 - [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP → SP exchange (0% — spec only, no code yet)
