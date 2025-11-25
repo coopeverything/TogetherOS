@@ -1,0 +1,390 @@
+{
+  "dashboard": {
+    "title": "TogetherOS Uptime & SLO",
+    "tags": ["togetheros", "uptime", "slo", "availability"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 1,
+    "refresh": "1m",
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "Prometheus",
+          "expr": "changes(togetheros_deployment_timestamp[1m]) > 0",
+          "tagKeys": "version",
+          "titleFormat": "Deployment"
+        },
+        {
+          "name": "Incidents",
+          "datasource": "Prometheus",
+          "expr": "togetheros_incident_active == 1",
+          "tagKeys": "severity",
+          "titleFormat": "Incident"
+        }
+      ]
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Current Availability",
+        "description": "SLO Target: 99.9%",
+        "type": "gauge",
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 0 },
+        "targets": [
+          {
+            "expr": "avg_over_time(up{job=\"togetheros-app\"}[24h])",
+            "legendFormat": "Availability"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0.99,
+            "max": 1,
+            "decimals": 4,
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "orange", "value": 0.995 },
+                { "color": "yellow", "value": 0.999 },
+                { "color": "green", "value": 0.9995 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Uptime Status",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+        "targets": [
+          {
+            "expr": "up{job=\"togetheros-app\"}",
+            "legendFormat": "Status"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" } } },
+              { "type": "value", "options": { "1": { "text": "UP", "color": "green" } } }
+            ]
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Process Uptime",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+        "targets": [
+          {
+            "expr": "process_uptime_seconds{job=\"togetheros-app\"}",
+            "legendFormat": "Uptime"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Health Check Status",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+        "targets": [
+          {
+            "expr": "togetheros_health_status",
+            "legendFormat": "Health"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              { "type": "value", "options": { "0": { "text": "UNHEALTHY", "color": "red" } } },
+              { "type": "value", "options": { "1": { "text": "DEGRADED", "color": "yellow" } } },
+              { "type": "value", "options": { "2": { "text": "HEALTHY", "color": "green" } } }
+            ]
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Database Status",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
+        "targets": [
+          {
+            "expr": "togetheros_database_status",
+            "legendFormat": "Database"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" } } },
+              { "type": "value", "options": { "1": { "text": "OK", "color": "green" } } }
+            ]
+          }
+        }
+      },
+      {
+        "id": 6,
+        "title": "Monthly Availability",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 8, "y": 4 },
+        "targets": [
+          {
+            "expr": "avg_over_time(up{job=\"togetheros-app\"}[30d])",
+            "legendFormat": "30d Availability"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "decimals": 4
+          }
+        }
+      },
+      {
+        "id": 7,
+        "title": "Downtime Budget (monthly)",
+        "description": "SLO: 99.9% = 43.8min/month",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 12, "y": 4 },
+        "targets": [
+          {
+            "expr": "(1 - avg_over_time(up{job=\"togetheros-app\"}[30d])) * 30 * 24 * 60",
+            "legendFormat": "Downtime Used"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "m",
+            "decimals": 1,
+            "thresholds": {
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "yellow", "value": 30 },
+                { "color": "red", "value": 43.8 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Budget Remaining",
+        "type": "gauge",
+        "gridPos": { "h": 4, "w": 8, "x": 16, "y": 4 },
+        "targets": [
+          {
+            "expr": "1 - ((1 - avg_over_time(up{job=\"togetheros-app\"}[30d])) * 30 * 24 * 60) / 43.8",
+            "legendFormat": "Budget Remaining"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "orange", "value": 0.25 },
+                { "color": "yellow", "value": 0.5 },
+                { "color": "green", "value": 0.75 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 9,
+        "title": "Availability Over Time",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 16, "x": 0, "y": 8 },
+        "targets": [
+          {
+            "expr": "avg_over_time(up{job=\"togetheros-app\"}[1h])",
+            "legendFormat": "1h Rolling Avg"
+          },
+          {
+            "expr": "0.999",
+            "legendFormat": "SLO Target (99.9%)"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0.99,
+            "max": 1
+          },
+          "overrides": [
+            {
+              "matcher": { "id": "byName", "options": "SLO Target (99.9%)" },
+              "properties": [
+                { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+                { "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "title": "Incident Count",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 16, "y": 8 },
+        "targets": [
+          {
+            "expr": "count_over_time((up{job=\"togetheros-app\"} == 0)[24h:])",
+            "legendFormat": "Incidents (24h)"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "yellow", "value": 1 },
+                { "color": "red", "value": 3 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 11,
+        "title": "Last Downtime",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 20, "y": 8 },
+        "targets": [
+          {
+            "expr": "time() - timestamp(up{job=\"togetheros-app\"} == 0)",
+            "legendFormat": "Time Since"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s"
+          }
+        }
+      },
+      {
+        "id": 12,
+        "title": "MTTR (Mean Time To Recovery)",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 16, "y": 12 },
+        "targets": [
+          {
+            "expr": "avg(togetheros_incident_recovery_time_seconds)",
+            "legendFormat": "MTTR"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "thresholds": {
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "yellow", "value": 60 },
+                { "color": "red", "value": 300 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 13,
+        "title": "MTBF (Mean Time Between Failures)",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 4, "x": 20, "y": 12 },
+        "targets": [
+          {
+            "expr": "avg(togetheros_incident_mtbf_seconds)",
+            "legendFormat": "MTBF"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s"
+          }
+        }
+      },
+      {
+        "id": 14,
+        "title": "Health Check History",
+        "type": "timeseries",
+        "gridPos": { "h": 6, "w": 12, "x": 0, "y": 16 },
+        "targets": [
+          {
+            "expr": "togetheros_health_check_latency_ms{job=\"togetheros-app\"}",
+            "legendFormat": "{{check}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ms",
+            "thresholds": {
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "yellow", "value": 100 },
+                { "color": "red", "value": 500 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 15,
+        "title": "Synthetic Monitor Results",
+        "type": "timeseries",
+        "gridPos": { "h": 6, "w": 12, "x": 12, "y": 16 },
+        "targets": [
+          {
+            "expr": "togetheros_synthetic_test_success{job=\"togetheros-app\"}",
+            "legendFormat": "{{test_name}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              { "type": "value", "options": { "0": { "text": "FAIL" } } },
+              { "type": "value", "options": { "1": { "text": "PASS" } } }
+            ]
+          }
+        }
+      },
+      {
+        "id": 16,
+        "title": "SLO Summary",
+        "type": "table",
+        "gridPos": { "h": 6, "w": 24, "x": 0, "y": 22 },
+        "targets": [
+          {
+            "expr": "vector(0.999)",
+            "legendFormat": "Availability SLO",
+            "format": "table"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "reduce",
+            "options": {
+              "reducers": ["last"]
+            }
+          }
+        ],
+        "options": {
+          "frameIndex": 0,
+          "showHeader": true
+        }
+      }
+    ]
+  }
+}
