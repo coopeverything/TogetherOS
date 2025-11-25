@@ -130,10 +130,28 @@ export default function AdminDashboard() {
       title: 'Monitoring & Data',
       items: [
         {
+          title: 'Observability',
+          description: 'Full observability dashboard with logs, metrics, flags',
+          path: '/admin/observability',
+          status: 'active',
+        },
+        {
+          title: 'System Monitoring',
+          description: 'Health checks and system status',
+          path: '/admin/monitoring',
+          status: 'active',
+        },
+        {
           title: 'System Logs',
-          description: 'Audit trails and security events',
+          description: 'Metrics and performance data',
           path: '/admin/logs',
-          status: 'coming-soon',
+          status: 'active',
+        },
+        {
+          title: 'Notifications',
+          description: 'Notification system testing',
+          path: '/admin/notifications',
+          status: 'active',
         },
         {
           title: 'Analytics',
@@ -153,21 +171,9 @@ export default function AdminDashboard() {
       title: 'Development & Testing',
       items: [
         {
-          title: 'Dashboard Styles',
-          description: 'Compare dashboard design variations with different styling approaches',
-          path: '/admin/dashboard-styles',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Designs',
-          description: 'Explore creative dashboard design variations',
-          path: '/admin/dashboard-designs',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Demos',
-          description: 'Interactive dashboard component demonstrations',
-          path: '/admin/dashboard-demos',
+          title: 'Dashboard Showcase',
+          description: 'Unified dashboard demos, styles, and creative designs',
+          path: '/admin/dashboard',
           status: 'active',
         },
         {
@@ -180,6 +186,24 @@ export default function AdminDashboard() {
           title: 'Profile Testing',
           description: 'Profile component testing and demos',
           path: '/admin/profile-testing',
+          status: 'active',
+        },
+        {
+          title: 'Auth Testing',
+          description: 'Authentication flow testing interface',
+          path: '/admin/auth-testing',
+          status: 'active',
+        },
+        {
+          title: 'Feed Testing',
+          description: 'Feed component testing and demos',
+          path: '/admin/feed-testing',
+          status: 'active',
+        },
+        {
+          title: 'Recommendations Testing',
+          description: 'Bridge recommendations testing',
+          path: '/admin/recommendations-testing',
           status: 'active',
         },
       ],
@@ -283,26 +307,6 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Test Pages (Minimal) */}
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <h2 className="text-sm font-medium text-gray-900 mb-3">Development Tools</h2>
-          <div className="space-y-2">
-            <a
-              href="/test/admin-design"
-              className="block px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm font-medium text-gray-900">Admin Design Demo</div>
-                  <div className="text-xs text-gray-600">UI patterns and components</div>
-                </div>
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </a>
-          </div>
-        </div>
 
         {/* Quick Links */}
         <div className="mt-6 text-xs text-gray-500 flex items-center gap-3">
