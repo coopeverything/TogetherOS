@@ -25,6 +25,10 @@ export interface InvitationRecord {
   rpAwardedStage2: boolean
   rpAwardedStage3: boolean
   createdAt: Date
+  /** URL token for shareable invitation links */
+  token: string | null
+  /** Personal message from inviter */
+  personalMessage: string | null
 }
 
 /**
@@ -46,6 +50,8 @@ export interface SendInvitationInput {
   groupId: string
   /** Days until expiration (default: 7) */
   expirationDays?: number
+  /** Personal message from inviter */
+  personalMessage?: string
 }
 
 /**
@@ -111,3 +117,22 @@ export const INVITATION_LIMITS = {
   /** Min profile completion for invitee (%) */
   MIN_PROFILE_COMPLETION: 50,
 } as const
+
+/**
+ * Data for invitation landing page
+ * Returned when user visits /invite/[token]
+ */
+export interface InvitationLandingData {
+  id: string
+  inviterId: string
+  inviterName: string
+  inviterEmail?: string
+  inviteeEmail: string
+  groupId: string
+  groupName: string
+  groupLocation?: string
+  personalMessage?: string
+  expiresAt: Date
+  rpReward: number
+  status: InvitationStatus
+}
