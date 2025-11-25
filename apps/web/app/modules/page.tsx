@@ -143,8 +143,8 @@ const modules: Module[] = [
     title: 'Observability & Monitoring',
     description:
       'Self-hosted observability stack with error/perf logging, alert manager, Prometheus metrics, APM distributed tracing, contract testing, feature flags, and canary deployment. Features gradual rollouts (10%→50%→100%), auto-rollback on error threshold, and user targeting rules.',
-    progress: 70,
-    status: 'in-progress',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/observability.md`,
     docsPath: '/docs/modules/observability',
     category: 'Cooperative Technology',
