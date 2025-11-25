@@ -83,7 +83,7 @@ describe('Governance Validators - Property-Based Tests', () => {
 
   describe('createProposalSchema', () => {
     // Custom arbitraries for proposal data
-    const uuidArbitrary = fc.hexaString({ minLength: 32, maxLength: 32 })
+    const uuidArbitrary = fc.uuid()
     const titleArbitrary = fc.string({ minLength: 3, maxLength: 200 })
     const summaryArbitrary = fc.string({ minLength: 10, maxLength: 2000 })
 
@@ -137,7 +137,7 @@ describe('Governance Validators - Property-Based Tests', () => {
         fc.assert(
           fc.property(
             uuidArbitrary,
-            uuidArbitrary.filter((id) => id !== ''),
+            uuidArbitrary.filter((id: string) => id !== ''),
             titleArbitrary,
             summaryArbitrary,
             (scopeId, authorId, title, summary) => {
