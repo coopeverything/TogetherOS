@@ -15,3 +15,8 @@ coverage/
 .mcp.json
 .vercel
 *.tsbuildinfo
+
+# Mutation testing
+.stryker-tmp/
+mutation-report.html
+mutation-report.json
