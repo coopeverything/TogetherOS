@@ -50,6 +50,10 @@ export type RPRewardEventType =
   | 'working_group_launched' // Launched working group (+150 RP, requires 50+ members)
   | 'group_mentored'       // Mentored a new group (+200 RP, requires 100+ members)
   | 'governance_proposal_drafted' // Drafted governance proposal (+250 RP, requires 150+ members)
+  // Onboarding & challenges
+  | 'onboarding_step_completed'   // Completed an onboarding step
+  | 'daily_challenge_completed'   // Completed a daily challenge
+  | 'first_week_completed'        // Completed first-week journey (7-day bonus)
 
 /**
  * Combined event type for all reward-triggering events
@@ -291,6 +295,10 @@ export const RP_EARNINGS: Record<RPRewardEventType, number> = {
   working_group_launched: 150,
   group_mentored: 200,
   governance_proposal_drafted: 250,
+  // Onboarding & challenges
+  onboarding_step_completed: 10,     // Completed an onboarding step
+  daily_challenge_completed: 25,     // Completed a daily challenge
+  first_week_completed: 100,         // Completed first-week journey (7-day bonus)
 }
 
 // ==================================================
