@@ -269,7 +269,11 @@ fi
 
 **Only after deployment verification is delivery complete.**
 
-### 13. Update Module Documentation (MSSP - Module Status Synchronization Protocol)
+### 13. Update Module Documentation (CRITICAL - MANDATORY)
+
+**⚠️ MSSP - Module Status Synchronization Protocol**
+
+**This step is MANDATORY. Failure to update ALL THREE locations causes progress tracking drift.**
 
 **CRITICAL: After successful deployment, update ALL THREE documentation locations:**
 
@@ -320,14 +324,20 @@ fi
 #   AFTER:  "(35% — Phase 1 complete)"
 ```
 
-**Step 13.5: Verify Synchronization**
+**Step 13.5: Verify Synchronization (MANDATORY)**
 
 ```bash
-# Run the status check script to verify all three locations match
-./scripts/check-module-status.sh {module-name}
+# REQUIRED: Run the status check script BEFORE committing
+# This validates STATUS_v2.md ↔ Module specs AND STATUS_v2.md ↔ INDEX.md
+./scripts/check-module-status.sh
 
 # Expected output: "✅ All module progress markers are synchronized!"
-# If discrepancies found, fix them before committing
+# If ANY discrepancies found:
+# 1. Fix ALL issues (not just the module you worked on)
+# 2. Re-run script to confirm
+# 3. Only then proceed to commit
+
+# DO NOT SKIP THIS STEP - it catches INDEX.md drift that causes visible progress inconsistencies
 ```
 
 **Step 13.6: Commit Documentation Updates**
