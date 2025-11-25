@@ -23,12 +23,14 @@ export type SPRewardEventType =
 /**
  * Event types that trigger Reputation Point (RP) rewards
  *
- * IMPORTANT: RP is for TECHNICAL CONTRIBUTIONS and FINANCIAL SUPPORT
+ * IMPORTANT: RP is for TECHNICAL CONTRIBUTIONS, FINANCIAL SUPPORT, and GAMIFICATION
  * - Coding (PRs, reviews, bug fixes, docs) → earn RP
  * - Dues and donations → earn RP
+ * - Gamification activities (invitations, meetups, milestones) → earn RP
  * - Governance activities → earn SP, NOT RP
  */
 export type RPRewardEventType =
+  // Technical contributions
   | 'pr_merged_small'      // < 50 lines
   | 'pr_merged_medium'     // 50-200 lines
   | 'pr_merged_large'      // > 200 lines
@@ -36,8 +38,18 @@ export type RPRewardEventType =
   | 'code_review'          // PR review completed
   | 'issue_triage'         // Issue labeled/prioritized
   | 'bug_fix'              // Bug fix merged
+  // Financial support
   | 'monthly_dues_paid'    // Monthly membership dues
   | 'donation'             // One-time donation (min $20)
+  // Gamification activities
+  | 'invitation_sent'      // Stage 1: Sent invite (+25 RP)
+  | 'invitation_accepted'  // Stage 2: Invite accepted (+50 RP inviter, +100 RP invitee)
+  | 'invitation_contributed' // Stage 3: Invitee made first contribution (+25 RP)
+  | 'meetup_organized'     // Organized a meetup (+100 RP, requires 15+ members)
+  | 'federated_connection' // Connected with federated groups (+75 RP)
+  | 'working_group_launched' // Launched working group (+150 RP, requires 50+ members)
+  | 'group_mentored'       // Mentored a new group (+200 RP, requires 100+ members)
+  | 'governance_proposal_drafted' // Drafted governance proposal (+250 RP, requires 150+ members)
 
 /**
  * Combined event type for all reward-triggering events
@@ -255,10 +267,11 @@ export const SP_WEIGHTS: Record<SPRewardEventType, number> = {
 }
 
 /**
- * RP earnings mapping for technical contributions
+ * RP earnings mapping for technical contributions and gamification
  * @deprecated Use system_settings table for configurable values
  */
 export const RP_EARNINGS: Record<RPRewardEventType, number> = {
+  // Technical contributions
   pr_merged_small: 25,
   pr_merged_medium: 50,
   pr_merged_large: 100,
@@ -266,8 +279,18 @@ export const RP_EARNINGS: Record<RPRewardEventType, number> = {
   code_review: 15,
   issue_triage: 10,
   bug_fix: 75,
+  // Financial support
   monthly_dues_paid: 100,
   donation: 100,  // min $20
+  // Gamification activities
+  invitation_sent: 25,
+  invitation_accepted: 50,  // inviter bonus (invitee gets 100)
+  invitation_contributed: 25,
+  meetup_organized: 100,
+  federated_connection: 75,
+  working_group_launched: 150,
+  group_mentored: 200,
+  governance_proposal_drafted: 250,
 }
 
 // ==================================================
