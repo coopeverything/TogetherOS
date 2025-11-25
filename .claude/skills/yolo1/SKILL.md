@@ -376,12 +376,13 @@ fi
 **Step 13.6: Commit Documentation Updates**
 
 ```bash
-git add docs/modules/ docs/STATUS_v2.md
+git add docs/modules/ docs/STATUS_v2.md apps/web/app/modules/page.tsx
 git commit -m "docs(modules): update {module-name} progress to Y%
 
-Updates all three documentation locations (MSSP):
+Updates all four locations (MSSP):
 - STATUS_v2.md: {module} at Y% (was X%)
 - docs/modules/{module-name}.md: Progress marker updated
+- apps/web/app/modules/page.tsx: UI synced with STATUS_v2.md
 - docs/modules/INDEX.md: Entry updated to Y%
 
 Phase X implementation complete:
