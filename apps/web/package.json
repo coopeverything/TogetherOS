@@ -34,7 +34,7 @@
     "ulid": "^3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.10.1",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.2",
     "autoprefixer": "^10.4.20",
