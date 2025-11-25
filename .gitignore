@@ -20,3 +20,8 @@ coverage/
 .stryker-tmp/
 mutation-report.html
 mutation-report.json
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
