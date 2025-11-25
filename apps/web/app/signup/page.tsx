@@ -1,16 +1,53 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, FormEvent } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from './signup.module.css';
 
+interface InvitationContext {
+  inviterName: string;
+  groupName: string;
+  rpReward: number;
+}
+
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const inviteToken = searchParams.get('invite');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [invitationContext, setInvitationContext] = useState<InvitationContext | null>(null);
+
+  // Fetch invitation context if token is present
+  useEffect(() => {
+    async function fetchInvitation() {
+      if (!inviteToken) return;
+
+      try {
+        const response = await fetch(`/api/invitations/${inviteToken}`);
+        if (response.ok) {
+          const data = await response.json();
+          setInvitationContext({
+            inviterName: data.invitation.inviterName,
+            groupName: data.invitation.groupName,
+            rpReward: data.invitation.rpReward,
+          });
+          // Pre-fill email if available
+          if (data.invitation.inviteeEmail) {
+            setEmail(data.invitation.inviteeEmail);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch invitation:', err);
+      }
+    }
+
+    fetchInvitation();
+  }, [inviteToken]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,7 +64,11 @@ export default function SignupPage() {
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password: password || undefined }),
+        body: JSON.stringify({
+          email: email.trim(),
+          password: password || undefined,
+          invitationToken: inviteToken || undefined,
+        }),
       });
 
       const data = await response.json();
@@ -36,6 +77,20 @@ export default function SignupPage() {
         setState('error');
         setErrorMessage(data.error || 'Something went wrong');
         return;
+      }
+
+      // If we have an invitation token, accept it
+      if (inviteToken) {
+        try {
+          await fetch('/api/invitations/accept', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: inviteToken }),
+          });
+        } catch (err) {
+          console.error('Failed to accept invitation:', err);
+          // Don't block signup if invitation acceptance fails
+        }
       }
 
       // Redirect to dashboard (which will redirect to onboarding if needed)
@@ -50,12 +105,27 @@ export default function SignupPage() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Welcome to a world of cooperation.</h1>
-
-        <p className={styles.intro}>
-          Join a community built on empowerment through collaboration—where cooperation replaces competition,
-          communities solve their own problems and thrive, and your skills create real change.
-        </p>
+        {invitationContext ? (
+          <>
+            <h1 className={styles.title}>
+              {invitationContext.inviterName} invited you to join!
+            </h1>
+            <div className={styles.callout}>
+              <p style={{ margin: 0 }}>
+                Join <strong>{invitationContext.groupName}</strong> and earn{' '}
+                <strong>+{invitationContext.rpReward} Reward Points</strong> to get started!
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <h1 className={styles.title}>Welcome to a world of cooperation.</h1>
+            <p className={styles.intro}>
+              Join a community built on empowerment through collaboration—where cooperation replaces competition,
+              communities solve their own problems and thrive, and your skills create real change.
+            </p>
+          </>
+        )}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>

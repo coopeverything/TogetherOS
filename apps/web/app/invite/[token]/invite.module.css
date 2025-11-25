@@ -1,0 +1,192 @@
+/* Invitation Landing Page - TogetherOS Design System */
+
+.container {
+  min-height: 100vh;
+  background: var(--bg-0, #FAFAF9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.card {
+  max-width: 600px;
+  width: 100%;
+  background: var(--bg-1, #FFFFFF);
+  padding: 3rem 2.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border, #E5E7EB);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink-900, #0F172A);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--ink-500, #64748B);
+  font-size: 1.125rem;
+}
+
+.inviterSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.inviterLabel {
+  color: var(--ink-500, #64748B);
+  font-size: 1rem;
+}
+
+.inviterName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--brand-700, #047857);
+}
+
+.messageBox {
+  background: var(--bg-2, #F5F5F4);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.messageText {
+  font-style: italic;
+  color: var(--ink-700, #334155);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+.groupSection {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border, #E5E7EB);
+  border-bottom: 1px solid var(--border, #E5E7EB);
+}
+
+.groupLabel {
+  color: var(--ink-500, #64748B);
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+}
+
+.groupName {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--ink-900, #0F172A);
+  margin: 0.25rem 0;
+}
+
+.groupLocation {
+  color: var(--ink-500, #64748B);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.rewardBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, var(--brand-50, #ECFDF5) 0%, var(--brand-100, #D1FAE5) 100%);
+  border: 1px solid var(--brand-200, #A7F3D0);
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.rewardIcon {
+  font-size: 1.5rem;
+}
+
+.rewardText {
+  font-size: 1.0625rem;
+  color: var(--brand-800, #065F46);
+}
+
+.rewardText strong {
+  font-weight: 700;
+}
+
+.intro {
+  font-size: 1rem;
+  color: var(--ink-600, #475569);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--brand-600, #059669);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #047857;
+  transform: translateY(-1px);
+}
+
+.disclaimer {
+  font-size: 0.9375rem;
+  color: var(--ink-600, #475569);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.expiryNote {
+  font-size: 0.8125rem;
+  color: var(--ink-400, #94A3B8);
+  text-align: center;
+  margin: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 2rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .groupName {
+    font-size: 1.25rem;
+  }
+
+  .rewardBanner {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

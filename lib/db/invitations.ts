@@ -9,20 +9,36 @@ import type {
   AcceptInvitationInput,
   InvitationStats,
   InvitationStatus,
+  InvitationLandingData,
 } from '@togetheros/types'
 import {
   INVITATION_LIMITS,
   INVITATION_REWARDS,
   INVITATION_QUALITY_THRESHOLDS,
 } from '@togetheros/types'
+import crypto from 'crypto'
 import { earnRewardPoints } from './reward-points'
+
+/**
+ * Generate a secure random token for invitation URLs
+ */
+function generateToken(): string {
+  return crypto.randomBytes(32).toString('hex')
+}
 
 /**
  * Send a new invitation
  * Awards Stage 1 RP (+25) immediately
+ * Returns invitation with token for shareable URL
  */
 export async function sendInvitation(input: SendInvitationInput): Promise<InvitationRecord> {
-  const { inviterId, inviteeEmail, groupId, expirationDays = INVITATION_LIMITS.EXPIRATION_DAYS } = input
+  const {
+    inviterId,
+    inviteeEmail,
+    groupId,
+    expirationDays = INVITATION_LIMITS.EXPIRATION_DAYS,
+    personalMessage,
+  } = input
 
   // Check weekly limit
   const stats = await getInvitationStats(inviterId)
@@ -39,11 +55,14 @@ export async function sendInvitation(input: SendInvitationInput): Promise<Invita
     const expiresAt = new Date()
     expiresAt.setDate(expiresAt.getDate() + expirationDays)
 
+    // Generate unique token
+    const token = generateToken()
+
     // Create invitation
     const result = await client.query(
       `INSERT INTO gamification_invitations
-         (inviter_id, invitee_email, group_id, expires_at, rp_awarded_stage_1)
-       VALUES ($1, $2, $3, $4, true)
+         (inviter_id, invitee_email, group_id, expires_at, rp_awarded_stage_1, token, personal_message)
+       VALUES ($1, $2, $3, $4, true, $5, $6)
        RETURNING
          id,
          inviter_id as "inviterId",
@@ -57,8 +76,10 @@ export async function sendInvitation(input: SendInvitationInput): Promise<Invita
          rp_awarded_stage_1 as "rpAwardedStage1",
          rp_awarded_stage_2 as "rpAwardedStage2",
          rp_awarded_stage_3 as "rpAwardedStage3",
-         created_at as "createdAt"`,
-      [inviterId, inviteeEmail, groupId, expiresAt]
+         created_at as "createdAt",
+         token,
+         personal_message as "personalMessage"`,
+      [inviterId, inviteeEmail, groupId, expiresAt, token, personalMessage || null]
     )
 
     const invitation = result.rows[0]
@@ -347,7 +368,9 @@ export async function declineInvitation(invitationId: string): Promise<Invitatio
        rp_awarded_stage_1 as "rpAwardedStage1",
        rp_awarded_stage_2 as "rpAwardedStage2",
        rp_awarded_stage_3 as "rpAwardedStage3",
-       created_at as "createdAt"`,
+       created_at as "createdAt",
+       token,
+       personal_message as "personalMessage"`,
     [invitationId]
   )
 
@@ -356,4 +379,110 @@ export async function declineInvitation(invitationId: string): Promise<Invitatio
   }
 
   return result.rows[0]
+}
+
+/**
+ * Get invitation by token for landing page
+ * Used when user visits /invite/[token]
+ */
+export async function getInvitationByToken(token: string): Promise<InvitationLandingData | null> {
+  const result = await db.query(
+    `SELECT
+       i.id,
+       i.inviter_id as "inviterId",
+       i.invitee_email as "inviteeEmail",
+       i.group_id as "groupId",
+       i.status,
+       i.expires_at as "expiresAt",
+       i.personal_message as "personalMessage",
+       u.name as "inviterName",
+       u.email as "inviterEmail",
+       g.name as "groupName",
+       g.city as "groupLocation"
+     FROM gamification_invitations i
+     INNER JOIN users u ON u.id = i.inviter_id
+     INNER JOIN groups g ON g.id = i.group_id
+     WHERE i.token = $1`,
+    [token]
+  )
+
+  if (result.rows.length === 0) {
+    return null
+  }
+
+  const invitation = result.rows[0]
+
+  return {
+    ...invitation,
+    rpReward: INVITATION_REWARDS.STAGE_2_ACCEPTED_INVITEE,
+  }
+}
+
+/**
+ * Link accepted invitation to newly created user
+ * Called after signup when user signs up via invitation link
+ */
+export async function linkInviteeToUser(
+  invitationId: string,
+  userId: string
+): Promise<void> {
+  const client = await db.getClient()
+
+  try {
+    await client.query('BEGIN')
+
+    // Update invitation with invitee member ID
+    const inviteResult = await client.query(
+      `UPDATE gamification_invitations
+       SET invitee_member_id = $2
+       WHERE id = $1 AND status = 'pending'
+       RETURNING inviter_id as "inviterId"`,
+      [invitationId, userId]
+    )
+
+    if (inviteResult.rows.length === 0) {
+      throw new Error('Invitation not found or already processed')
+    }
+
+    const { inviterId } = inviteResult.rows[0]
+
+    // Update user with invitation tracking
+    await client.query(
+      `UPDATE users
+       SET invited_by_id = $2, invitation_id = $1
+       WHERE id = $3`,
+      [invitationId, inviterId, userId]
+    )
+
+    await client.query('COMMIT')
+  } catch (error) {
+    await client.query('ROLLBACK')
+    throw error
+  } finally {
+    client.release()
+  }
+}
+
+/**
+ * Accept invitation by token (after user signup)
+ * Awards Stage 2 RP: +50 to inviter, +100 to invitee
+ */
+export async function acceptInvitationByToken(
+  token: string,
+  inviteeMemberId: string
+): Promise<InvitationRecord> {
+  // First get the invitation ID from token
+  const lookupResult = await db.query(
+    `SELECT id FROM gamification_invitations WHERE token = $1 AND status = 'pending'`,
+    [token]
+  )
+
+  if (lookupResult.rows.length === 0) {
+    throw new Error('Invitation not found or already processed')
+  }
+
+  const invitationId = lookupResult.rows[0].id
+
+  // Use existing acceptInvitation function
+  return acceptInvitation({ invitationId, inviteeMemberId })
 }
