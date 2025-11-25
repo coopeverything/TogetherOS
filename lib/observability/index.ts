@@ -11,6 +11,7 @@
  * - Performance regression detection
  * - Feature flags (percentage-based rollouts, user targeting)
  * - Canary deployment (gradual rollout with auto-rollback)
+ * - Log aggregation (centralized logs, query interface, dashboards)
  *
  * @module observability
  */
@@ -114,3 +115,28 @@ export type {
   DeploymentConfig,
   CanaryStage,
 } from './canary-deployment';
+
+// Log aggregation
+export {
+  addLog,
+  logError as logAggregatedError,
+  logPerf,
+  logTrace,
+  logCanary,
+  logFeatureFlag,
+  logSystem,
+  queryLogs,
+  getAggregatedMetrics,
+  exportPrometheusLogs,
+  getPersistedLogs,
+  cleanupOldLogs,
+  getBufferStats,
+  clearMemoryBuffer,
+} from './log-aggregator';
+export type {
+  LogSource,
+  LogLevel,
+  AggregatedLogEntry,
+  LogQuery,
+  AggregatedMetrics,
+} from './log-aggregator';

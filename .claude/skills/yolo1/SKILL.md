@@ -324,27 +324,38 @@ fi
 #   AFTER:  "(35% — Phase 1 complete)"
 ```
 
-**Step 13.4b: Update /modules UI Page (VISIBLE TO USERS)**
+**Step 13.4b: Sync ALL Modules in /modules UI Page (VISIBLE TO USERS)**
 
 ```bash
 # ⚠️ CRITICAL: The live /modules page has HARDCODED progress values!
-# If you don't update this file, users see stale progress on the website.
+# This step syncs ALL modules, not just the one you worked on.
 
-# 1. Edit apps/web/app/modules/page.tsx
-# 2. Find the module in the `modules` array (search for module title)
-# 3. Update `progress: X` to new value
-# 4. Update `description` if features changed significantly
-# 5. Update `status` if module became 'complete' (100%)
+# 1. Read docs/STATUS_v2.md to get authoritative progress for ALL modules
+# 2. Read apps/web/app/modules/page.tsx
+# 3. Compare progress values for EVERY module
+# 4. Update ANY module that has drifted (not just current task)
+# 5. Update descriptions if they're significantly outdated
 
-# Example module entry:
-#   {
-#     title: 'Observability & Monitoring',
-#     description: 'Self-hosted stack with feature flags, canary deployment...',
-#     progress: 70,  // ← UPDATE THIS
-#     status: 'in-progress',  // ← UPDATE if now 'complete'
-#     ...
-#   }
+# Module mapping (STATUS_v2.md name → page.tsx title):
+#   Observability → 'Observability & Monitoring'
+#   Search & Tags → 'Search & Discovery'
+#   Notifications & Inbox → 'Notifications & Inbox'
+#   Governance → 'Governance & Proposals'
+#   Forum → 'Forum & Deliberation'
+#   Bridge → 'Bridge AI Assistant'
+#   etc.
+
+# For each module in STATUS_v2.md:
+#   - Extract progress from: <!-- progress:module-name=X -->
+#   - Find matching entry in page.tsx modules array
+#   - If progress differs, update the `progress:` value
+#   - If status changed (e.g., now 100%), update `status:` to 'complete'
 ```
+
+**Why sync ALL modules?**
+- Prevents cumulative drift (multiple sessions can each miss updates)
+- Single source of truth: STATUS_v2.md → UI
+- Users always see accurate progress on the website
 
 **Step 13.5: Verify Synchronization (MANDATORY)**
 
