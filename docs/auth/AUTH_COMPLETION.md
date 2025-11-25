@@ -99,7 +99,7 @@ GOOGLE_REDIRECT_URI=https://coopeverything.org/api/auth/callback/google
 ### 4. Test Page ✅
 
 **File Created:**
-- `apps/web/app/test/auth/page.tsx`
+- `apps/web/app/admin/auth-testing/page.tsx`
 
 **Features:**
 - Session status display
@@ -116,7 +116,7 @@ GOOGLE_REDIRECT_URI=https://coopeverything.org/api/auth/callback/google
 - Visual test result indicators (✓ pass, ✗ fail, ○ pending)
 
 **Route:**
-- GET `/test/auth` - Auth testing interface
+- GET `/admin/auth-testing` - Auth testing interface
 
 ---
 
@@ -176,7 +176,7 @@ Added OAuth fields to `User` interface:
 - ✅ Password reset flow
 - ✅ Google OAuth 2.0 provider
 - ✅ Verification tokens table
-- ✅ Test page at /test/auth
+- ✅ Test page at /admin/auth-testing
 - ✅ User interface updates (forgot password link)
 - ✅ OAuth fields in User type
 - ✅ Complete documentation
@@ -192,7 +192,7 @@ Route (app)                              Size     First Load JS
 ┌ ○ /verify-email                        1.17 kB  97.2 kB
 ┌ ○ /forgot-password                     1.56 kB  97.6 kB
 ┌ ○ /reset-password                      1.75 kB  97.8 kB
-┌ ○ /test/auth                           2.15 kB  98.2 kB
+┌ ○ /admin/auth-testing                           2.15 kB  98.2 kB
 ┌ ƒ /api/auth/verify-email               0 B      0 B
 ┌ ƒ /api/auth/resend-verification        0 B      0 B
 ┌ ƒ /api/auth/forgot-password            0 B      0 B
@@ -228,7 +228,7 @@ All routes compiled successfully
 - [ ] Set email templates
 
 ### Testing
-- [ ] Visit `/test/auth` to verify all features
+- [ ] Visit `/admin/auth-testing` to verify all features
 - [ ] Test email verification flow (dev mode shows URL)
 - [ ] Test password reset flow (dev mode shows URL)
 - [ ] Test Google OAuth (requires OAuth app setup)
@@ -273,7 +273,7 @@ apps/web/app/api/auth/callback/google/route.ts
 apps/web/app/verify-email/page.tsx
 apps/web/app/forgot-password/page.tsx
 apps/web/app/reset-password/page.tsx
-apps/web/app/test/auth/page.tsx
+apps/web/app/admin/auth-testing/page.tsx
 db/migrations/002_add_verification_tokens.sql
 docs/auth/AUTH_COMPLETION.md
 ```
@@ -354,7 +354,7 @@ curl -X POST http://localhost:3000/api/auth/forgot-password \
 
 ### 4. Test Page
 
-Visit: `http://localhost:3000/test/auth`
+Visit: `http://localhost:3000/admin/auth-testing`
 
 - View session status
 - Run feature tests
@@ -399,7 +399,7 @@ Visit: `http://localhost:3000/test/auth`
 - This completion report: `/docs/auth/AUTH_COMPLETION.md`
 
 **Test Page:**
-- `/test/auth` - Interactive testing interface
+- `/admin/auth-testing` - Interactive testing interface
 
 **Database:**
 - Schema: `/db/schema.sql`

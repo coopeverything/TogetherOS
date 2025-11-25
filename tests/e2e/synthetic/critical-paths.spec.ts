@@ -98,11 +98,11 @@ test.describe('Critical User Paths', () => {
 
   test('test pages accessible', async ({ page }) => {
     // Test monitoring page
-    await page.goto(`${BASE_URL}/test/monitoring`);
+    await page.goto(`${BASE_URL}/admin/monitoring`);
     await expect(page.locator('h1')).toContainText(/monitoring/i);
 
     // Test logs page
-    await page.goto(`${BASE_URL}/test/logs`);
+    await page.goto(`${BASE_URL}/admin/logs`);
     await expect(page.locator('h1')).toContainText(/metrics|logs/i);
   });
 });

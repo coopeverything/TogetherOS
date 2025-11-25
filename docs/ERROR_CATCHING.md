@@ -162,7 +162,7 @@ If any health check fails:
 - `200` - Healthy (`ok` or `degraded`)
 - `503` - Unhealthy (database down, memory critical)
 
-**Test:** Visit https://coopeverything.org/test/monitoring
+**Test:** Visit https://coopeverything.org/admin/monitoring
 
 **Outcome:** 24/7 monitoring, immediate alerts on downtime
 
@@ -292,7 +292,7 @@ systemctl stop postgresql
 ```
 
 **Test 4: Health Endpoint Test**
-Visit https://coopeverything.org/test/monitoring
+Visit https://coopeverything.org/admin/monitoring
 - Check health status
 - Trigger Sentry test errors
 - Monitor auto-refresh

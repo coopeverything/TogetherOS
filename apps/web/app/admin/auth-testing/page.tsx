@@ -745,7 +745,7 @@ export default function AuthTestPage() {
               'Google OAuth provider',
               'Database schema with verification_tokens table',
               'OAuth fields in User type',
-              'Test page at /test/auth',
+              'Test page at /admin/auth-testing',
             ].map((item, i) => (
               <li key={i} style={{
                 padding: '0.75rem',

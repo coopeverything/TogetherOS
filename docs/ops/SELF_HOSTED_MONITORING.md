@@ -36,8 +36,8 @@ These components are **already deployed and running** with the application:
 - `/api/metrics/system` - JSON system metrics (only responds when requested)
 
 **UI Pages:**
-- `/test/logs` - System metrics dashboard (only loads when visited)
-- `/test/monitoring` - Health check UI (only loads when visited)
+- `/admin/logs` - System metrics dashboard (only loads when visited)
+- `/admin/monitoring` - Health check UI (only loads when visited)
 
 **Resource usage:** Negligible (~0 MB RAM, <1% CPU) - these only activate when used
 
@@ -129,8 +129,8 @@ crontab -e
 - **Uptime Kuma:** http://localhost:3001 (setup wizard on first visit)
 - **Grafana:** http://localhost:3002 (login: admin/admin)
 - **Prometheus:** http://localhost:9090
-- **System Metrics:** https://coopeverything.org/test/logs
-- **Monitoring Test:** https://coopeverything.org/test/monitoring
+- **System Metrics:** https://coopeverything.org/admin/logs
+- **Monitoring Test:** https://coopeverything.org/admin/monitoring
 
 ---
 
@@ -228,7 +228,7 @@ await sendAlert({
 - System memory (total, free, used, percentage)
 - Status classification (ok, warning, critical)
 
-**Dashboard:** https://coopeverything.org/test/logs
+**Dashboard:** https://coopeverything.org/admin/logs
 
 ### Uptime Kuma
 

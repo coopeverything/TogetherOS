@@ -22,11 +22,12 @@ This skill executes complete code operations for TogetherOS, from branch creatio
 - **PR Target**: ALL PRs go to `yolo`, **NEVER to main**
 - **Deployment**: VPS-only (coopeverything.org) - **NO Vercel/Vertex**
 - **Design System**: Follow `docs/design/system.md` for all UI work (colors, typography, components)
-- **Test Pages**: Demo/testing pages created under `/test/{module}` pattern
-  - URL: `www.coopeverything.org/test/{module}` (e.g., `/test/profiles`)
-  - Purpose: Component showcases, interactive demos, API testing interfaces
-  - No auth required (uses sample data for UI testing)
-  - Examples: Component variants, completion states, form interactions
+- **Admin Pages**: Non-user-facing pages (debugging, testing, monitoring) go under `/admin/`
+  - URL: `www.coopeverything.org/admin/{module}` (e.g., `/admin/observability`)
+  - Requires admin authentication
+  - Examples: System monitoring, log viewers, API testing, debugging tools
+  - **NEVER use `/test/` pattern** — all dev tools belong in admin dashboard
+  - Suffixes like `-testing` for clarity: `/admin/auth-testing`, `/admin/feed-testing`
 - **PR Verification**: Always include in PR body:
   ```
   Verified: All changes tested during implementation, build passes

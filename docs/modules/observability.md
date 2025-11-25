@@ -13,7 +13,7 @@
 ### ✅ Active (Lightweight Monitoring)
 - Error/performance NDJSON loggers (passive, log on demand)
 - System metrics API endpoints (`/api/metrics`, `/api/metrics/system`)
-- Monitoring UI pages (`/test/logs`, `/test/monitoring`)
+- Monitoring UI pages (`/admin/logs`, `/admin/monitoring`)
 - Alert manager library (Discord/Slack webhooks)
 
 ### ⚠️ Configured But Inactive (Ready When Needed)
@@ -49,13 +49,13 @@ The Observability module provides real-time visibility into TogetherOS productio
 - ✅ Health endpoint (`/api/health`)
 - ✅ Post-deploy health verification
 - ✅ Auto-rollback on deployment failures
-- ✅ Test page (`/test/monitoring`)
+- ✅ Test page (`/admin/monitoring`)
 - ✅ UptimeRobot setup documentation
 
 **Key Files:**
 - `apps/web/app/api/health/route.ts` - Health check endpoint
 - `sentry.*.config.ts` - Sentry configuration
-- `apps/web/app/test/monitoring/page.tsx` - Monitoring test UI
+- `apps/web/app/admin/monitoring/page.tsx` - Monitoring test UI
 - `.github/workflows/auto-deploy-production.yml` - Auto-rollback logic
 - `docs/ops/MONITORING.md` - Setup guide
 - `docs/ERROR_CATCHING.md` - Error detection overview
@@ -74,7 +74,7 @@ The Observability module provides real-time visibility into TogetherOS productio
 - ✅ Alert manager (Discord/Slack/webhook support)
 - ✅ Prometheus metrics endpoint (`/api/metrics`)
 - ✅ System metrics endpoint (`/api/metrics/system`)
-- ✅ Log dashboard UI (`/test/logs`)
+- ✅ Log dashboard UI (`/admin/logs`)
 - ✅ Docker Compose stack (Uptime Kuma, Prometheus, Grafana, Loki)
 - ✅ Health check cron script (5-min intervals)
 - ✅ Synthetic monitoring script (Playwright E2E tests)
@@ -86,7 +86,7 @@ The Observability module provides real-time visibility into TogetherOS productio
 - `lib/observability/alert-manager.ts` - Centralized alerting
 - `apps/web/app/api/metrics/route.ts` - Prometheus metrics
 - `apps/web/app/api/metrics/system/route.ts` - System resource metrics
-- `apps/web/app/test/logs/page.tsx` - Metrics dashboard UI
+- `apps/web/app/admin/logs/page.tsx` - Metrics dashboard UI
 - `apps/web/middleware.ts` - Request timing middleware
 - `docker-compose.observability.yml` - Full monitoring stack
 - `config/prometheus/prometheus.yml` - Prometheus config
@@ -280,7 +280,7 @@ If any check fails:
 
 ### Test Page
 
-**URL:** https://coopeverything.org/test/monitoring
+**URL:** https://coopeverything.org/admin/monitoring
 
 **Features:**
 - View real-time health status
@@ -445,7 +445,7 @@ beforeSend(event) {
    - Configure Slack webhook
 
 3. **Test Everything**
-   - Visit `/test/monitoring`
+   - Visit `/admin/monitoring`
    - Trigger Sentry errors
    - Verify UptimeRobot alerts
 
@@ -483,5 +483,5 @@ beforeSend(event) {
 - Feature flags (percentage rollouts, user targeting, A/B testing)
 - Canary deployment (gradual 10%→50%→100% rollout, auto-rollback)
 - Centralized log aggregation with query interface
-- Advanced dashboard UI at `/test/observability`
+- Advanced dashboard UI at `/admin/observability`
 - Docker stack ready (Uptime Kuma, Grafana, Loki)

@@ -156,7 +156,7 @@ gh secret set SENTRY_AUTH_TOKEN --body "your_auth_token_here"
 **Via test page:**
 ```bash
 # Visit production test page
-https://coopeverything.org/test/monitoring
+https://coopeverything.org/admin/monitoring
 
 # Click "Test Sentry (Caught)"
 # Click "Test Sentry (Uncaught)"
@@ -527,7 +527,7 @@ HEALTH_STATUS=ok
 
 ### Step 5.1: Access Test Page
 
-**URL:** https://coopeverything.org/test/monitoring
+**URL:** https://coopeverything.org/admin/monitoring
 
 **Features to test:**
 
