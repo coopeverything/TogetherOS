@@ -2,15 +2,29 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { earnRewardPoints } from '@/lib/db/reward-points'
+import { getSettingValue } from '@togetheros/db'
 
 const VALID_STEPS = [2, 3, 4, 5, 6, 7] as const
-const STEP_MAX_RP: Record<number, number> = {
+
+// Default values (fallback if DB settings not yet migrated)
+const DEFAULT_STEP_RP: Record<number, number> = {
   2: 15,
   3: 10,
   4: 20,
   5: 15,
   6: 30,
   7: 25,
+}
+
+async function getStepMaxRP(step: number): Promise<number> {
+  try {
+    return await getSettingValue<number>(
+      `rp_earnings.onboarding_step_${step}`,
+      DEFAULT_STEP_RP[step]
+    )
+  } catch {
+    return DEFAULT_STEP_RP[step]
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -26,8 +40,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid step' }, { status: 400 })
     }
 
-    // Validate RP amount matches expected for step
-    const maxRP = STEP_MAX_RP[step]
+    // Get max RP from system settings (with fallback)
+    const maxRP = await getStepMaxRP(step)
     if (rpAmount > maxRP) {
       return NextResponse.json(
         { error: `Max RP for step ${step} is ${maxRP}` },
