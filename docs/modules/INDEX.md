@@ -14,7 +14,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - **Profiles** — Member profiles and contribution history (100% complete — production-ready ✅)
 - [Groups & Orgs](./groups.md) — Community self-organization with transparent governance (100% complete — production-ready ✅)
 - [Feed](./feed.md) — Social media feed with imported content, multi-dimensional reactions, discussion initiation, all 9 phases complete (100% complete — production-ready ✅)
-- [Gamification](./gamification.md) — Local community growth tracking, milestone celebrations, invitation rewards (15% complete — spec only)
+- [Gamification](./gamification.md) — Local community growth tracking, milestone celebrations, invitation rewards, daily challenges, first-week journey (75% complete — production-ready core ✅)
 - [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation, topic/post/reply system, empathy reactions (100% complete — production-ready ✅)
 - [Proposals & Decisions (Governance)](./governance.md) — Transparent proposal creation and consent-based decision making (75% complete — DB + API + UI complete, voting refinements pending)
 - [Social Economy Primitives](./social-economy.md) — Support Points, timebanking, and cooperative treasury (0% — spec only)
