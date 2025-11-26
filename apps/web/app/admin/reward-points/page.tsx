@@ -34,32 +34,6 @@ interface EarningBreakdown {
   color: string
 }
 
-// Mock data for initial implementation
-const MOCK_STATS: RPStats = {
-  totalRPInCirculation: 45000,
-  totalRPEarned: 52000,
-  totalRPSpent: 7000,
-  avgRPPerMember: 300,
-  totalMembers: 150,
-  spentOnTBC: 4500,
-  spentOnSH: 2500,
-}
-
-const MOCK_TOP_EARNERS: TopEarner[] = [
-  { memberId: '1', displayName: 'alice_coder', totalEarned: 1250, primarySource: 'PR merges' },
-  { memberId: '2', displayName: 'bob_reviewer', totalEarned: 980, primarySource: 'Code reviews' },
-  { memberId: '3', displayName: 'carol_docs', totalEarned: 850, primarySource: 'Documentation' },
-  { memberId: '4', displayName: 'dave_organizer', totalEarned: 720, primarySource: 'Meetup organizing' },
-  { memberId: '5', displayName: 'eve_mentor', totalEarned: 650, primarySource: 'Group mentoring' },
-]
-
-const MOCK_BREAKDOWN: EarningBreakdown[] = [
-  { category: 'contributions', label: 'Technical Contributions', amount: 28000, percentage: 54, color: 'bg-green-500' },
-  { category: 'dues', label: 'Membership Dues', amount: 15000, percentage: 29, color: 'bg-blue-500' },
-  { category: 'gamification', label: 'Gamification', amount: 6000, percentage: 11, color: 'bg-purple-500' },
-  { category: 'donations', label: 'Donations', amount: 3000, percentage: 6, color: 'bg-amber-500' },
-]
-
 export default function AdminRewardPointsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthorized, setIsAuthorized] = useState(false)
@@ -69,22 +43,35 @@ export default function AdminRewardPointsPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check admin authorization
-    fetch('/api/auth/me')
-      .then(res => res.json())
-      .then(data => {
-        if (data.user && data.user.is_admin) {
-          setIsAuthorized(true)
-          // Load data (using mock for now)
-          setStats(MOCK_STATS)
-          setTopEarners(MOCK_TOP_EARNERS)
-          setBreakdown(MOCK_BREAKDOWN)
-        } else {
+    // Check admin authorization and fetch data
+    const fetchData = async () => {
+      try {
+        const authRes = await fetch('/api/auth/me')
+        const authData = await authRes.json()
+
+        if (!authData.user || !authData.user.is_admin) {
           router.push('/login?redirect=/admin/reward-points')
+          return
         }
-      })
-      .catch(() => router.push('/login?redirect=/admin/reward-points'))
-      .finally(() => setIsLoading(false))
+
+        setIsAuthorized(true)
+
+        // Fetch admin RP stats
+        const statsRes = await fetch('/api/admin/reward-points')
+        if (statsRes.ok) {
+          const data = await statsRes.json()
+          setStats(data.stats)
+          setTopEarners(data.topEarners || [])
+          setBreakdown(data.breakdown || [])
+        }
+      } catch {
+        router.push('/login?redirect=/admin/reward-points')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
   }, [router])
 
   if (isLoading || !isAuthorized) {

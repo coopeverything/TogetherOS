@@ -28,37 +28,12 @@ interface TopAllocator {
 interface RecentAllocation {
   id: string
   memberId: string
+  memberName: string
   proposalId: string
   proposalTitle: string
   amount: number
-  allocatedAt: Date
+  allocatedAt: string
 }
-
-// Mock data for initial implementation
-const MOCK_STATS: SPStats = {
-  totalSPInCirculation: 15000,
-  totalSPAllocated: 3500,
-  totalSPAvailable: 11500,
-  activeAllocations: 245,
-  totalMembers: 150,
-  avgSPPerMember: 100,
-}
-
-const MOCK_TOP_ALLOCATORS: TopAllocator[] = [
-  { memberId: '1', displayName: 'alice_cooper', totalAllocated: 85, allocationCount: 12 },
-  { memberId: '2', displayName: 'bob_builder', totalAllocated: 72, allocationCount: 9 },
-  { memberId: '3', displayName: 'carol_singer', totalAllocated: 68, allocationCount: 11 },
-  { memberId: '4', displayName: 'dave_coder', totalAllocated: 55, allocationCount: 7 },
-  { memberId: '5', displayName: 'eve_designer', totalAllocated: 48, allocationCount: 6 },
-]
-
-const MOCK_RECENT_ALLOCATIONS: RecentAllocation[] = [
-  { id: '1', memberId: '1', proposalId: 'p1', proposalTitle: 'Community Garden Initiative', amount: 8, allocatedAt: new Date(Date.now() - 3600000) },
-  { id: '2', memberId: '2', proposalId: 'p2', proposalTitle: 'Open Source Education Program', amount: 10, allocatedAt: new Date(Date.now() - 7200000) },
-  { id: '3', memberId: '3', proposalId: 'p3', proposalTitle: 'Local Food Cooperative', amount: 6, allocatedAt: new Date(Date.now() - 10800000) },
-  { id: '4', memberId: '4', proposalId: 'p1', proposalTitle: 'Community Garden Initiative', amount: 7, allocatedAt: new Date(Date.now() - 14400000) },
-  { id: '5', memberId: '5', proposalId: 'p4', proposalTitle: 'Repair Cafe Network', amount: 9, allocatedAt: new Date(Date.now() - 18000000) },
-]
 
 export default function AdminSupportPointsPage() {
   const [isLoading, setIsLoading] = useState(true)
@@ -69,22 +44,35 @@ export default function AdminSupportPointsPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check admin authorization
-    fetch('/api/auth/me')
-      .then(res => res.json())
-      .then(data => {
-        if (data.user && data.user.is_admin) {
-          setIsAuthorized(true)
-          // Load data (using mock for now)
-          setStats(MOCK_STATS)
-          setTopAllocators(MOCK_TOP_ALLOCATORS)
-          setRecentAllocations(MOCK_RECENT_ALLOCATIONS)
-        } else {
+    // Check admin authorization and fetch data
+    const fetchData = async () => {
+      try {
+        const authRes = await fetch('/api/auth/me')
+        const authData = await authRes.json()
+
+        if (!authData.user || !authData.user.is_admin) {
           router.push('/login?redirect=/admin/support-points')
+          return
         }
-      })
-      .catch(() => router.push('/login?redirect=/admin/support-points'))
-      .finally(() => setIsLoading(false))
+
+        setIsAuthorized(true)
+
+        // Fetch admin SP stats
+        const statsRes = await fetch('/api/admin/support-points')
+        if (statsRes.ok) {
+          const data = await statsRes.json()
+          setStats(data.stats)
+          setTopAllocators(data.topAllocators || [])
+          setRecentAllocations(data.recentAllocations || [])
+        }
+      } catch {
+        router.push('/login?redirect=/admin/support-points')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
   }, [router])
 
   if (isLoading || !isAuthorized) {
@@ -100,7 +88,7 @@ export default function AdminSupportPointsPage() {
     )
   }
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleString('en-US', {
       month: 'short',
       day: 'numeric',
