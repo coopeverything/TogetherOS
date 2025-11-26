@@ -157,7 +157,7 @@ export default function ManifestoPage() {
               </a>
               <br />
               <a
-                href="/modules"
+                href="/admin/modules"
                 className="inline-block text-orange-600 hover:text-orange-700 font-medium"
               >
                 → Explore Modules

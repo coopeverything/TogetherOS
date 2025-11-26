@@ -350,7 +350,7 @@ export default function HowWeDecidePage() {
               Browse Proposals
             </Link>
             <Link
-              href="/modules"
+              href="/admin/modules"
               className="inline-flex items-center justify-center px-8 py-3 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 transition-colors font-medium"
             >
               Explore All Modules

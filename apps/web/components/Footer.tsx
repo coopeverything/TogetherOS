@@ -33,7 +33,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/modules" className="text-gray-600 hover:text-orange-600">
+                <Link href="/admin/modules" className="text-gray-600 hover:text-orange-600">
                   Modules
                 </Link>
               </li>
@@ -86,7 +86,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/design" className="text-gray-600 hover:text-orange-600">
+                <Link href="/admin/design" className="text-gray-600 hover:text-orange-600">
                   Design System
                 </Link>
               </li>
