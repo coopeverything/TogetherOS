@@ -447,6 +447,34 @@ Operations can be added manually to `.claude/settings.local.json` to skip prompt
 
 ---
 
+## Admin Page Navigation Registration
+
+**MANDATORY when creating any page under `/admin/*`:**
+
+When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
+
+1. **Create the page file** - Implement the admin page component
+2. **Register in admin navigation** - Edit `apps/web/app/admin/page.tsx`:
+   - Find the appropriate section in the `sections` array
+   - Add new item with: `title`, `description`, `path`, `status: 'active'`
+   - Sections: System Configuration, AI & Content, Users & Groups, Governance & Economy, Monitoring & Data, Development & Testing
+3. **Verify** page appears in admin dashboard at `/admin` before committing
+
+**Example registration:**
+```typescript
+// In apps/web/app/admin/page.tsx sections array
+{
+  title: 'New Admin Page',
+  description: 'Brief description of what this admin page does',
+  path: '/admin/new-page',
+  status: 'active',  // or 'coming-soon' for placeholders
+}
+```
+
+**Why this matters:** Admin pages created without navigation registration become orphaned and inaccessible from the main admin dashboard. Users expect all admin functionality to be discoverable from `/admin`.
+
+---
+
 ## Time Estimation Guidelines
 
 **Context:** TogetherOS development = just the operator + Claude in yolo mode (no human devs)

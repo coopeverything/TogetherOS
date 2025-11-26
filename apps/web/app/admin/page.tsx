@@ -130,6 +130,18 @@ export default function AdminDashboard() {
           path: '/admin/economy',
           status: 'coming-soon',
         },
+        {
+          title: 'Support Points Admin',
+          description: 'SP circulation, top allocators, allocation patterns',
+          path: '/admin/support-points',
+          status: 'active',
+        },
+        {
+          title: 'Reward Points Admin',
+          description: 'RP stats, earning breakdown, top earners',
+          path: '/admin/reward-points',
+          status: 'active',
+        },
       ],
     },
     {

@@ -106,6 +106,34 @@ Initial content:
 - List each file touched with a brief reason
 - Keep changes strictly within scope (no scope creep)
 
+### 2.5. Admin Page Navigation Registration (If Creating Admin Pages)
+
+**MANDATORY if you created any page under `/admin/*`:**
+
+When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
+
+1. **Register in admin navigation** - Edit `apps/web/app/admin/page.tsx`:
+   ```typescript
+   // Find the appropriate section in the `sections` array and add:
+   {
+     title: 'Page Title',
+     description: 'Brief description of what this admin page does',
+     path: '/admin/page-name',
+     status: 'active',  // or 'coming-soon' for placeholders
+   }
+   ```
+2. **Section selection guide:**
+   - System Configuration — settings, config
+   - AI & Content — Bridge, forum tags, gamification, moderation
+   - Users & Groups — members, groups management
+   - Governance & Economy — proposals, SP/RP, treasury
+   - Monitoring & Data — observability, logs, analytics
+   - Development & Testing — design system, testing pages
+
+3. **Verify** the page appears in admin dashboard navigation at `/admin` before proceeding
+
+**Why this matters:** Admin pages created without navigation registration become orphaned and inaccessible. Users expect all admin functionality to be discoverable from `/admin`.
+
 ### 3. Dependency Installation
 - Run install command (default: `npm ci`)
 - Verify dependencies installed correctly

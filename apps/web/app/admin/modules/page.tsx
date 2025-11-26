@@ -102,9 +102,9 @@ const modules: Module[] = [
   {
     title: 'Support Points UI',
     description:
-      'Member-facing interface for allocating Support Points (SP) to proposals. Shows current SP balance, allocation history, and impact of contributions. Enables democratic prioritization where members vote with finite resources. SP comes ONLY from governance activities (proposals, moderation quality, facilitation, deliberation), never from code or money - this is a core anti-plutocracy safeguard.',
-    progress: 35,
-    status: 'in-progress',
+      'Complete SP/RP member interface: SP wallet with allocation history, RP dashboard with earnings tracker and badge progress, proposal allocation widget, admin panels for circulation stats. All phases complete including admin tracking panels. Production-ready ✅',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/support-points-ui.md`,
     docsPath: '/docs/modules/support-points-ui',
     category: 'Social Economy',
