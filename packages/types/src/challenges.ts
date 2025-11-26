@@ -63,6 +63,7 @@ export interface ChallengeDefinition {
   isFirstWeek: boolean
   dayNumber?: number
   icon?: string
+  microlessonId?: string
   createdAt: Date
   updatedAt: Date
 }

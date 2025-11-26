@@ -85,6 +85,12 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Gamification Content',
+          description: 'Manage challenges, microlessons, and onboarding suggestions',
+          path: '/admin/gamification',
+          status: 'active',
+        },
+        {
           title: 'Moderation Queue',
           description: 'Review flagged content and user reports',
           path: '/admin/moderation',
