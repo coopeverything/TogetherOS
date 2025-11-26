@@ -158,7 +158,7 @@ export default function CooperationPathsPage() {
               → Read the Manifesto
             </a>
             <a
-              href="/modules"
+              href="/admin/modules"
               className="block text-blue-600 hover:text-blue-700 font-medium"
             >
               → Explore Modules

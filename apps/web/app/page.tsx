@@ -247,7 +247,7 @@ export default function HomePage() {
                 Create Account
               </Button>
             </Link>
-            <Link href="/status">
+            <Link href="/admin/status">
               <Button size="lg" variant="ghost" className="border-white/20 text-white hover:bg-white/10">
                 View Progress
               </Button>
@@ -264,10 +264,10 @@ export default function HomePage() {
               © 2025 TogetherOS. Built with cooperation in mind.
             </p>
             <div className="flex gap-6">
-              <Link href="/design" className="text-sm text-ink-700 hover:text-brand-600">
+              <Link href="/admin/design" className="text-sm text-ink-700 hover:text-brand-600">
                 Design System
               </Link>
-              <Link href="/status" className="text-sm text-ink-700 hover:text-brand-600">
+              <Link href="/admin/status" className="text-sm text-ink-700 hover:text-brand-600">
                 Status
               </Link>
               <Link href="/bridge" className="text-sm text-ink-700 hover:text-brand-600">
