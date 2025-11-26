@@ -62,9 +62,9 @@ const modules: Module[] = [
   {
     title: 'Bridge AI Assistant',
     description:
-      'Internal AI assistant (core team pilot) providing conversational Q&A, citation-backed answers, and context-aware recommendations. Features streaming responses, NDJSON audit logs, rate limiting, and integration with governance proposals. Helps members discover relevant discussions and avoid duplicate work.',
-    progress: 95,
-    status: 'in-progress',
+      'Internal AI assistant (core team pilot) providing conversational Q&A, citation-backed answers, and context-aware recommendations. Features streaming responses, NDJSON audit logs, rate limiting, governance integration, 8-step onboarding wizard with RP rewards, and PostgreSQL progress tracking.',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/bridge.md`,
     docsPath: '/docs/modules/bridge',
     category: 'Cooperative Technology',
