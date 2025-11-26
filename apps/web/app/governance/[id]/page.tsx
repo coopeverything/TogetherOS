@@ -15,6 +15,7 @@ import {
   ProposalRatingForm,
   ProposalRatingDisplay,
 } from '@togetheros/ui/governance'
+import { ProposalAllocationWidget } from '@/components/economy/ProposalAllocationWidget'
 import type {
   Proposal,
   VoteType,
@@ -287,6 +288,16 @@ export default function ProposalDetailPage() {
         onEdit={isAuthor ? handleEdit : undefined}
         onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
       />
+
+      {/* Support Points Allocation Widget */}
+      {currentUserId && (
+        <div className="mt-8">
+          <ProposalAllocationWidget
+            proposalId={id}
+            proposalTitle={proposal.title}
+          />
+        </div>
+      )}
 
       {/* Rating Section */}
       <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
