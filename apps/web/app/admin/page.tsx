@@ -91,6 +91,12 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Onboarding Learning',
+          description: 'Manage learning paths, lessons, and quizzes for user onboarding',
+          path: '/admin/onboarding-learning',
+          status: 'active',
+        },
+        {
           title: 'Moderation Queue',
           description: 'Review flagged content and user reports',
           path: '/admin/moderation',
