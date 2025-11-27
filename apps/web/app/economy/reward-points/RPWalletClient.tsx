@@ -18,20 +18,19 @@ export interface RPWalletClientProps {
 // Polling interval for real-time updates (30 seconds)
 const BALANCE_POLL_INTERVAL = 30000
 
-// Mock badges for now (will be fetched from API later)
-const MOCK_BADGES: Badge[] = [
-  { id: '1', name: 'First Contribution', description: 'Made your first contribution', icon: '🌟', criteria: 'Make your first contribution to the community', category: 'contribution' },
-  { id: '2', name: 'Code Warrior', description: 'Merged 10 PRs', icon: '⚔️', criteria: 'Have 10 pull requests merged', category: 'contribution' },
-  { id: '3', name: 'Docs Hero', description: 'Contributed to documentation', icon: '📚', criteria: 'Contribute to documentation', category: 'contribution' },
-  { id: '4', name: 'Bug Hunter', description: 'Fixed 5 bugs', icon: '🐛', criteria: 'Fix 5 bugs', category: 'contribution' },
-  { id: '5', name: '100 RP Club', description: 'Earned 100 RP', icon: '💯', criteria: 'Earn 100 Reward Points', category: 'milestone' },
-  { id: '6', name: '500 RP Club', description: 'Earned 500 RP', icon: '🏆', criteria: 'Earn 500 Reward Points', category: 'milestone' },
-  { id: '7', name: 'Founding Member', description: 'Early adopter', icon: '🚀', criteria: 'Join during launch phase', category: 'special' },
+// Fallback badges (used when API unavailable)
+const FALLBACK_BADGES: Badge[] = [
+  { id: 'first-pr', name: 'First PR', description: 'Made your first contribution', icon: '1', criteria: 'Have a pull request merged', category: 'contribution' },
+  { id: 'foundation-builder', name: 'Foundation Builder', description: 'Contributed to core infrastructure', icon: '2', criteria: 'Contribute to foundation code', category: 'contribution' },
+  { id: 'bug-hunter', name: 'Bug Hunter', description: 'Fixed bugs in the codebase', icon: '3', criteria: 'Report and verify 5 bugs', category: 'contribution' },
+  { id: 'docs-champion', name: 'Docs Champion', description: 'Contributed to documentation', icon: '4', criteria: 'Make 10 documentation contributions', category: 'contribution' },
+  { id: 'code-reviewer', name: 'Code Reviewer', description: 'Reviewed pull requests', icon: '5', criteria: 'Complete 20 code reviews', category: 'contribution' },
 ]
 
 export function RPWalletClient({ userId }: RPWalletClientProps) {
   const [balance, setBalance] = useState<RewardPointsBalance | null>(null)
   const [transactions, setTransactions] = useState<RewardPointsTransaction[]>([])
+  const [badges, setBadges] = useState<Badge[]>(FALLBACK_BADGES)
   const [memberBadges, setMemberBadges] = useState<MemberBadge[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -74,18 +73,32 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
         ])
       }
 
-      // Fetch member badges
-      const badgesResponse = await fetch('/api/reward-points/badges')
+      // Fetch badges with member status from new API
+      const badgesResponse = await fetch('/api/member-badges')
       if (badgesResponse.ok) {
         const data = await badgesResponse.json()
-        setMemberBadges(data.badges)
+        // Transform the response to separate badges and memberBadges
+        const allBadges: Badge[] = data.badges.map((b: { badge: Badge; earned: boolean; earnedAt?: Date }) => b.badge)
+        const earnedBadges: MemberBadge[] = data.badges
+          .filter((b: { badge: Badge; earned: boolean; earnedAt?: Date }) => b.earned)
+          .map((b: { badge: Badge; earned: boolean; earnedAt?: Date }) => ({
+            memberId: userId,
+            badgeId: b.badge.id,
+            earnedAt: b.earnedAt,
+          }))
+        setBadges(allBadges)
+        setMemberBadges(earnedBadges)
       } else {
-        // Use mock data if API not yet implemented
-        setMemberBadges([
-          { memberId: userId, badgeId: '1', earnedAt: new Date(Date.now() - 604800000) },
-          { memberId: userId, badgeId: '5', earnedAt: new Date(Date.now() - 432000000) },
-          { memberId: userId, badgeId: '7', earnedAt: new Date(Date.now() - 2592000000) },
-        ])
+        // Fallback: Try the old API format
+        const oldBadgesResponse = await fetch('/api/badges')
+        if (oldBadgesResponse.ok) {
+          const data = await oldBadgesResponse.json()
+          if (data.badges) {
+            setBadges(data.badges)
+          }
+        }
+        // Keep member badges empty if can't fetch
+        setMemberBadges([])
       }
 
       setLastUpdated(new Date())
@@ -212,7 +225,7 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
 
         {/* Badge Progress */}
         <BadgeProgressCard
-          badges={MOCK_BADGES}
+          badges={badges}
           memberBadges={memberBadges}
           className="mb-6"
         />
