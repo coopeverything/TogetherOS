@@ -43,8 +43,8 @@ const modules: Module[] = [
     title: 'Governance & Proposals',
     description:
       'Transparent proposal creation and consent-based decision making system. Members create individual or group-scoped proposals, deliberate with evidence and trade-offs, make decisions with minority report preservation, and track delivery outcomes. Integrates with Bridge AI for similarity detection and regulation conflict checking.',
-    progress: 75,
-    status: 'in-progress',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/governance.md`,
     docsPath: '/docs/modules/governance',
     category: 'Collective Governance',

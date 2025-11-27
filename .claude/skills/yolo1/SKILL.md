@@ -360,7 +360,7 @@ fi
 # This step syncs ALL modules, not just the one you worked on.
 
 # 1. Read docs/STATUS_v2.md to get authoritative progress for ALL modules
-# 2. Read apps/web/app/modules/page.tsx
+# 2. Read apps/web/app/admin/modules/page.tsx
 # 3. Compare progress values for EVERY module
 # 4. Update ANY module that has drifted (not just current task)
 # 5. Update descriptions if they're significantly outdated
@@ -405,13 +405,13 @@ fi
 **Step 13.6: Commit Documentation Updates**
 
 ```bash
-git add docs/modules/ docs/STATUS_v2.md apps/web/app/modules/page.tsx
+git add docs/modules/ docs/STATUS_v2.md apps/web/app/admin/modules/page.tsx
 git commit -m "docs(modules): update {module-name} progress to Y%
 
 Updates all four locations (MSSP):
 - STATUS_v2.md: {module} at Y% (was X%)
 - docs/modules/{module-name}.md: Progress marker updated
-- apps/web/app/modules/page.tsx: UI synced with STATUS_v2.md
+- apps/web/app/admin/modules/page.tsx: UI synced with STATUS_v2.md
 - docs/modules/INDEX.md: Entry updated to Y%
 
 Phase X implementation complete:
@@ -436,7 +436,7 @@ git push origin yolo
 1. ✅ **STATUS_v2.md** (authoritative source)
 2. ✅ **Module spec file** (`docs/modules/{module-name}.md`)
 3. ✅ **Modules INDEX** (`docs/modules/INDEX.md`)
-4. ✅ **Modules UI page** (`apps/web/app/modules/page.tsx`) ← **VISIBLE TO USERS**
+4. ✅ **Modules UI page** (`apps/web/app/admin/modules/page.tsx`) ← **VISIBLE TO USERS**
 
 **Verification:** Run `./scripts/check-module-status.sh {module-name}` before committing
 

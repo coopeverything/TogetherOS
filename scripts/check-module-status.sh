@@ -187,21 +187,127 @@ for module in "${MODULES[@]}"; do
   fi
 done
 
-TOTAL_ISSUES=$((DISCREPANCIES + INDEX_ISSUES))
+# Function to extract percentage from Admin Modules UI page
+get_ui_percentage() {
+  local module="$1"
+  local ui_page="apps/web/app/admin/modules/page.tsx"
+
+  if [[ ! -f "$ui_page" ]]; then
+    echo "NO_UI_PAGE"
+    return
+  fi
+
+  # Map module names to their UI page titles
+  local search_title=""
+  case "$module" in
+    feed) search_title="Feed Module" ;;
+    groups) search_title="Groups & Organizations" ;;
+    governance) search_title="Governance & Proposals" ;;
+    forum) search_title="Forum & Deliberation" ;;
+    onboarding) search_title="Bridge AI Assistant" ;;
+    gamification) search_title="Gamification & Milestones" ;;
+    social-economy) search_title="Social Economy Primitives" ;;
+    reputation) search_title="Support Points & Reputation" ;;
+    search) search_title="Search & Discovery" ;;
+    notifications) search_title="Notifications & Inbox" ;;
+    observability) search_title="Observability & Monitoring" ;;
+    security) search_title="Security & Privacy" ;;
+    admin-accountability) search_title="Admin Accountability" ;;
+    support-points-ui) search_title="Support Points & Reward Points UI" ;;
+    moderation-transparency) search_title="Moderation Transparency" ;;
+    profiles) search_title="Member Profiles" ;;
+    docs-hooks) search_title="Documentation Hub" ;;
+    scaffold) search_title="Developer Experience" ;;
+    ui) search_title="UI Components" ;;
+    auth) search_title="Identity & Auth" ;;
+    *) search_title="" ;;
+  esac
+
+  if [[ -z "$search_title" ]]; then
+    echo "NO_MAPPING"
+    return
+  fi
+
+  # Find the module block and extract progress
+  # Search for title line, then get progress from nearby lines
+  local line_num
+  line_num=$(grep -n "title: '$search_title'" "$ui_page" 2>/dev/null | head -1 | cut -d: -f1)
+
+  if [[ -z "$line_num" ]]; then
+    echo "NOT_IN_UI"
+    return
+  fi
+
+  # Extract progress value from the module block (within 10 lines after title)
+  local pct
+  pct=$(sed -n "${line_num},$((line_num + 10))p" "$ui_page" | grep -o "progress: [0-9]*" | head -1 | grep -oE "[0-9]+")
+
+  if [[ -n "$pct" ]]; then
+    echo "$pct"
+  else
+    echo "NO_PCT"
+  fi
+}
+
+# Modules in UI page to check
+UI_MODULES=(
+  "feed" "groups" "governance" "forum" "onboarding" "gamification"
+  "social-economy" "reputation" "search" "notifications" "observability"
+  "security" "admin-accountability" "support-points-ui" "moderation-transparency"
+)
+
+UI_ISSUES=0
+
+echo ""
+echo "📋 Checking STATUS_v2.md ↔ Admin Modules UI Page:"
+UI_PAGE="apps/web/app/admin/modules/page.tsx"
+if [[ -f "$UI_PAGE" ]]; then
+  for module in "${UI_MODULES[@]}"; do
+    status_pct=$(get_status_percentage "$module")
+    ui_pct=$(get_ui_percentage "$module")
+
+    if [[ "$status_pct" == "NOT_FOUND" ]]; then
+      continue
+    fi
+
+    if [[ "$ui_pct" == "NO_MAPPING" || "$ui_pct" == "NOT_IN_UI" || "$ui_pct" == "NO_PCT" ]]; then
+      continue
+    fi
+
+    if [[ "$ui_pct" != "$status_pct" ]]; then
+      echo "⚠️  UI page mismatch: $module"
+      echo "   STATUS_v2.md: $status_pct%"
+      echo "   UI page: $ui_pct%"
+      echo "   → Update apps/web/app/admin/modules/page.tsx"
+      UI_ISSUES=$((UI_ISSUES + 1))
+    fi
+  done
+
+  if [[ $UI_ISSUES -eq 0 ]]; then
+    echo "   All UI page modules in sync ✓"
+  fi
+else
+  echo "   ⚠️ UI page not found: $UI_PAGE"
+fi
+
+TOTAL_ISSUES=$((DISCREPANCIES + INDEX_ISSUES + UI_ISSUES))
 
 echo ""
 if [[ $TOTAL_ISSUES -eq 0 ]]; then
   echo "✅ All module progress markers are synchronized!"
   echo "   STATUS_v2.md ↔ Module specs: OK"
   echo "   STATUS_v2.md ↔ INDEX.md: OK"
+  echo "   STATUS_v2.md ↔ UI page: OK"
 else
   echo "❌ Found issues:"
   [[ $DISCREPANCIES -gt 0 ]] && echo "   - $DISCREPANCIES spec file mismatch(es)"
   [[ $INDEX_ISSUES -gt 0 ]] && echo "   - $INDEX_ISSUES INDEX.md issue(s)"
+  [[ $UI_ISSUES -gt 0 ]] && echo "   - $UI_ISSUES UI page mismatch(es)"
   echo ""
   echo "To fix:"
   echo "1. Update individual module specs to match STATUS_v2.md"
   echo "2. Update docs/modules/INDEX.md descriptions with correct percentages"
-  echo "3. Commit: git commit -m 'docs(modules): sync status markers'"
+  echo "3. Update apps/web/app/admin/modules/page.tsx progress values"
+  echo "4. Commit: git commit -m 'docs(modules): sync status markers'"
   exit 1
 fi
