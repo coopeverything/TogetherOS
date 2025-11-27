@@ -92,9 +92,9 @@ const modules: Module[] = [
   {
     title: 'Support Points & Reputation',
     description:
-      'Tracks member contributions and distributes Support Points (SP) and Reward Points (RP). SP for governance power (ONLY from contributions), RP for economic claims. Backend complete with database schema, API endpoints, type definitions, badge CRUD, and ReputationService. Badge display integrated with RPWalletClient.',
-    progress: 65,
-    status: 'in-progress',
+      'Tracks member contributions and distributes Support Points (SP) and Reward Points (RP). SP for governance power (ONLY from contributions), RP for economic claims. Full system: DB + API + ReputationService + badge awarding hooks in governance/forum + admin panel + RP balance/transactions API. Production-ready.',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/rewards.md`,
     docsPath: '/docs/modules/rewards',
     category: 'Social Economy',

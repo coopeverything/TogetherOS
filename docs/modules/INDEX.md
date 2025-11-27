@@ -18,7 +18,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation, topic/post/reply system, empathy reactions (100% complete — production-ready ✅)
 - [Proposals & Decisions (Governance)](./governance.md) — Transparent proposal creation and consent-based decision making (100% complete — production-ready ✅)
 - [Social Economy Primitives](./social-economy.md) — Support Points, timebanking, and cooperative treasury (0% — spec only)
-- **Support Points & Reputation** — Fair contribution recognition system (65% complete — badge system backend + UI integration complete)
+- **Support Points & Reputation** — Fair contribution recognition system (100% complete — production-ready ✅)
 - **Onboarding ("Bridge")** — Behavioral AI system with member states, decision loop, action palette, 8-step wizard with RP rewards (100% complete — production-ready ✅)
 - [Bridge — Internal pilot (core team only)](./bridge/landing-pilot.md) — AI assistant providing conversational Q&A
   - [Full Bridge Specification](./bridge.md)
