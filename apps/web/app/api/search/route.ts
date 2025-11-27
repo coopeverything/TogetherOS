@@ -2,8 +2,10 @@
  * Search API Endpoint
  * GET /api/search
  *
- * Provides global search across proposals (Phase 1)
- * Future phases: forum topics, posts, profiles
+ * Provides global search across:
+ * - Proposals (Phase 1)
+ * - Forum topics and posts (Phase 2)
+ * - Member profiles (Phase 3)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -379,6 +381,115 @@ async function searchPosts(
 }
 
 /**
+ * Search profiles (Phase 3)
+ */
+async function searchProfiles(
+  searchTerm: string,
+  path?: CooperationPathSlug,
+  limit = 20,
+  offset = 0
+): Promise<{ results: SearchResult[]; total: number }> {
+  const searchPattern = `%${searchTerm.toLowerCase()}%`;
+
+  // Build WHERE clause for filters
+  const whereConditions: string[] = [
+    "(LOWER(display_name) LIKE $1 OR LOWER(handle) LIKE $1 OR LOWER(bio) LIKE $1)",
+    "is_active = true",
+    "profile_visibility IN ('public', 'members')"
+  ];
+  const params: unknown[] = [searchPattern];
+
+  // Add cooperation path filter if provided (via user's primary path interest)
+  if (path) {
+    params.push(path);
+    whereConditions.push(`primary_cooperation_path = $${params.length}`);
+  }
+
+  const whereClause = whereConditions.join(' AND ');
+
+  // Query profiles
+  const profiles = await query(
+    `SELECT
+      id,
+      display_name,
+      handle,
+      bio,
+      avatar_url,
+      primary_cooperation_path,
+      skills,
+      created_at,
+      reputation_points,
+      (SELECT COUNT(*) FROM proposals WHERE author_id = users.id AND deleted_at IS NULL) as proposal_count
+    FROM users
+    WHERE ${whereClause}
+    ORDER BY reputation_points DESC, created_at DESC
+    LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+    [...params, limit, offset]
+  );
+
+  // Get total count
+  const countResult = await query(
+    `SELECT COUNT(*) as total FROM users WHERE ${whereClause}`,
+    params
+  );
+  const total = parseInt(countResult.rows[0].total, 10);
+
+  // Transform to SearchResult format
+  const results: SearchResult[] = profiles.rows.map((row: Record<string, unknown>) => {
+    const displayName = String(row.display_name || row.handle);
+    const handle = String(row.handle);
+    const bio = String(row.bio || '');
+    const createdAt = new Date(String(row.created_at));
+    const daysOld = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+
+    // Check for matches
+    const nameMatch = displayName.toLowerCase().includes(searchTerm.toLowerCase());
+    const handleMatch = handle.toLowerCase().includes(searchTerm.toLowerCase());
+    const bioMatch = bio.toLowerCase().includes(searchTerm.toLowerCase());
+    const exactMatch = displayName.toLowerCase() === searchTerm.toLowerCase() ||
+                       handle.toLowerCase() === searchTerm.toLowerCase();
+
+    // Calculate engagement based on reputation and proposals
+    const reputationPoints = parseInt(String(row.reputation_points || 0), 10);
+    const proposalCount = parseInt(String(row.proposal_count || 0), 10);
+    const engagement = reputationPoints / 10 + proposalCount * 5;
+
+    // Create excerpt from bio
+    const excerpt = bio.substring(0, 200) + (bio.length > 200 ? '...' : '');
+
+    return {
+      id: String(row.id),
+      type: 'profile' as const,
+      title: displayName,
+      excerpt: excerpt || `@${handle}`,
+      url: `/members/${handle}`,
+      metadata: {
+        author: displayName,
+        author_id: String(row.id),
+        created_at: row.created_at as string,
+        path: row.primary_cooperation_path as CooperationPathSlug | undefined,
+        engagement: {
+          reactions: reputationPoints,
+          comments: proposalCount,
+        },
+      },
+      relevance_score: calculateRelevanceScore(
+        nameMatch || handleMatch,
+        bioMatch,
+        exactMatch,
+        daysOld,
+        engagement
+      ),
+    };
+  });
+
+  // Sort by relevance score
+  results.sort((a, b) => b.relevance_score - a.relevance_score);
+
+  return { results, total };
+}
+
+/**
  * Track search query (privacy-preserving)
  */
 async function trackSearchQuery(
@@ -427,23 +538,25 @@ export async function GET(request: NextRequest): Promise<NextResponse<SearchResp
     let total = 0;
 
     if (params.type === 'all') {
-      // Search proposals, topics, and posts - merge results
-      const [proposalResults, topicResults, postResults] = await Promise.all([
+      // Search proposals, topics, posts, and profiles - merge results
+      const [proposalResults, topicResults, postResults, profileResults] = await Promise.all([
         searchProposals(params.q, params.path, params.limit, params.offset),
         searchTopics(params.q, params.path, params.limit, params.offset),
         searchPosts(params.q, params.path, params.limit, params.offset),
+        searchProfiles(params.q, params.path, params.limit, params.offset),
       ]);
 
       // Merge and sort by relevance
       results = [
         ...proposalResults.results,
         ...topicResults.results,
-        ...postResults.results
+        ...postResults.results,
+        ...profileResults.results
       ];
       results.sort((a, b) => b.relevance_score - a.relevance_score);
-      results = results.slice(params.offset, params.offset + params.limit);
+      results = results.slice(0, params.limit);
 
-      total = proposalResults.total + topicResults.total + postResults.total;
+      total = proposalResults.total + topicResults.total + postResults.total + profileResults.total;
     } else if (params.type === 'proposal') {
       const proposalResults = await searchProposals(
         params.q,
@@ -471,6 +584,15 @@ export async function GET(request: NextRequest): Promise<NextResponse<SearchResp
       );
       results = postResults.results;
       total = postResults.total;
+    } else if (params.type === 'profile') {
+      const profileResults = await searchProfiles(
+        params.q,
+        params.path,
+        params.limit,
+        params.offset
+      );
+      results = profileResults.results;
+      total = profileResults.total;
     }
 
     // Track search query (async, non-blocking)

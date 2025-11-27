@@ -156,4 +156,39 @@ export interface SavedSearch {
   filters: SearchFilters;
   created_at: string;
   last_used_at: string | null;
+  use_count: number;
+}
+
+/**
+ * Create saved search request
+ */
+export interface SavedSearchCreate {
+  name: string;
+  query: string;
+  filters?: SearchFilters;
+}
+
+/**
+ * Autocomplete suggestion types
+ */
+export type AutocompleteSuggestionType = 'recent' | 'popular' | 'suggestion';
+
+/**
+ * Individual autocomplete suggestion
+ */
+export interface AutocompleteSuggestion {
+  text: string;
+  type: AutocompleteSuggestionType;
+  metadata?: {
+    result_count?: number;
+    content_type?: SearchContentType;
+  };
+}
+
+/**
+ * Autocomplete API response
+ */
+export interface AutocompleteResponse {
+  suggestions: AutocompleteSuggestion[];
+  query: string;
 }
