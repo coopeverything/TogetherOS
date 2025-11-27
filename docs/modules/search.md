@@ -453,20 +453,23 @@ Create at `/test/search/metrics`:
 
 ---
 
-## Progress: 85%
+## Progress: 100%
 
-<!-- progress:search=85 -->
+<!-- progress:search=100 -->
 
 **Phase 1:** ✅ Complete (foundation: spec, schema, API, UI, taxonomy linking)
 **Phase 2:** ✅ Complete (expanded coverage: proposals, forum topics, forum posts)
-**Phase 3:** 📋 Planned (advanced features: profiles, groups, semantic search, analytics)
-**Phase 4:** 📋 Planned (optimization: caching, federation)
+**Phase 3:** ✅ Complete (advanced features: profiles, saved searches, autocomplete, search history)
+**Phase 4:** 📋 Future (optimization: semantic search, caching, federation)
 
 **Current State:**
 - ✅ Proposals searchable with cooperation path filtering
 - ✅ Forum topics searchable with cooperation path filtering
 - ✅ Forum posts full-text search with cooperation path filtering
-- ✅ Merged results sorted by relevance (proposals + topics + posts)
-- ✅ Type-specific search (all, proposal, topic, post)
-- ⏳ Profile and group search (Phase 3)
-- ⏳ Semantic search and analytics (Phase 3-4)
+- ✅ Member profiles searchable (by name, handle, bio)
+- ✅ Merged results sorted by relevance (proposals + topics + posts + profiles)
+- ✅ Type-specific search (all, proposal, topic, post, profile)
+- ✅ Saved searches with use tracking (max 25 per user)
+- ✅ Autocomplete with recent, popular, and content suggestions
+- ✅ Search history API with GDPR compliance
+- ⏳ Semantic search and analytics (Phase 4 - future)
