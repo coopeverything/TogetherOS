@@ -13,6 +13,7 @@ import {
   type ListTopicsFilters,
 } from '../../../../../../packages/db/src/forum-topics';
 import { createTopicSchema, listTopicsFiltersSchema } from '@togetheros/validators/forum';
+import { reputationService } from '@/lib/services/ReputationService';
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,6 +29,14 @@ export async function POST(request: NextRequest) {
     });
 
     const topic = await createTopic(validatedData);
+
+    // Check and award topic-related badges
+    try {
+      await reputationService.checkTopicCreationBadges(user.id);
+    } catch (badgeError) {
+      // Don't fail the request if badge check fails
+      console.error('Badge check failed:', badgeError);
+    }
 
     return NextResponse.json({ topic }, { status: 201 });
   } catch (error: any) {

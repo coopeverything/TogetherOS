@@ -11,6 +11,7 @@ import {
   listProposals,
 } from '../../../../api/src/modules/governance/handlers/crud';
 import type { CreateProposalInput, ListProposalsFilters } from '@togetheros/validators/governance';
+import { reputationService } from '@/lib/services/ReputationService';
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,6 +58,14 @@ export async function POST(request: NextRequest) {
     };
 
     const proposal = await createProposal(input);
+
+    // Check and award proposal-related badges
+    try {
+      await reputationService.checkProposalBadges(user.id);
+    } catch (badgeError) {
+      // Don't fail the request if badge check fails
+      console.error('Badge check failed:', badgeError);
+    }
 
     return NextResponse.json({ proposal }, { status: 201 });
   } catch (error: any) {

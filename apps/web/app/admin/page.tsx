@@ -148,6 +148,12 @@ export default function AdminDashboard() {
           path: '/admin/reward-points',
           status: 'active',
         },
+        {
+          title: 'Badge Management',
+          description: 'View badges, award statistics, and recent awards',
+          path: '/admin/badges',
+          status: 'active',
+        },
       ],
     },
     {

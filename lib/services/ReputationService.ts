@@ -32,6 +32,14 @@ const BADGE_CRITERIA: Record<string, { eventType: string; threshold: number }> =
   'sp-allocator': { eventType: 'sp_allocated', threshold: 1 },
   'supporter-5': { eventType: 'sp_allocated', threshold: 5 },
   'supporter-10': { eventType: 'sp_allocated', threshold: 10 },
+
+  // Forum badges
+  'topic-starter': { eventType: 'topic_created', threshold: 1 },
+  'discussion-leader': { eventType: 'topic_created', threshold: 5 },
+  'thought-leader': { eventType: 'topic_created', threshold: 10 },
+  'first-reply': { eventType: 'post_created', threshold: 1 },
+  'active-participant': { eventType: 'post_created', threshold: 10 },
+  'community-voice': { eventType: 'post_created', threshold: 50 },
 };
 
 export class ReputationService {
@@ -73,7 +81,7 @@ export class ReputationService {
   private async countMemberEvents(memberId: string, eventType: string): Promise<number> {
     const result = await query<{ count: string }>(
       `SELECT COUNT(*) as count FROM reward_events
-       WHERE member_id = $1 AND event_type = $2 AND processed = TRUE`,
+       WHERE member_id = $1 AND event_type = $2 AND status = 'processed'`,
       [memberId, eventType]
     );
     return parseInt(result.rows[0]?.count || '0', 10);
@@ -137,6 +145,20 @@ export class ReputationService {
    */
   async checkContributionBadges(memberId: string, eventId?: string): Promise<void> {
     await this.checkAndAwardBadge(memberId, 'pr_merged', eventId);
+  }
+
+  /**
+   * Check badges for forum topic creation
+   */
+  async checkTopicCreationBadges(memberId: string, eventId?: string): Promise<void> {
+    await this.checkAndAwardBadge(memberId, 'topic_created', eventId);
+  }
+
+  /**
+   * Check badges for forum post creation
+   */
+  async checkPostCreationBadges(memberId: string, eventId?: string): Promise<void> {
+    await this.checkAndAwardBadge(memberId, 'post_created', eventId);
   }
 }
 

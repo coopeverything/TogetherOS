@@ -12,6 +12,7 @@ import {
   listPostsByTopic,
   createPost,
 } from '@togetheros/db'
+import { reputationService } from '@/lib/services/ReputationService'
 
 /**
  * GET /api/forum/topics/[topicId]/posts
@@ -77,6 +78,15 @@ export async function POST(
     })
 
     const post = await createPost(validated)
+
+    // Check and award post-related badges
+    try {
+      await reputationService.checkPostCreationBadges(user.id)
+    } catch (badgeError) {
+      // Don't fail the request if badge check fails
+      console.error('Badge check failed:', badgeError)
+    }
+
     return NextResponse.json(post, { status: 201 })
   } catch (error: any) {
     console.error('Error creating post:', error)

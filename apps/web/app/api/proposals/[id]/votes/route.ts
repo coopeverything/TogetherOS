@@ -14,6 +14,7 @@ import {
   getVoteTally,
 } from '../../../../../../api/src/modules/governance/handlers/voting'
 import { castVoteSchema } from '@togetheros/validators/governance'
+import { reputationService } from '@/lib/services/ReputationService'
 
 /**
  * Cast or update a vote
@@ -37,6 +38,14 @@ export async function POST(
     })
 
     const result = await castVote(validatedInput)
+
+    // Check and award voting-related badges
+    try {
+      await reputationService.checkVotingBadges(user.id)
+    } catch (badgeError) {
+      // Don't fail the request if badge check fails
+      console.error('Badge check failed:', badgeError)
+    }
 
     return NextResponse.json(result, { status: 200 })
   } catch (error: any) {
