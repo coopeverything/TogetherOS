@@ -32,13 +32,13 @@ export function ProposalAllocationWidget({
         setAvailableSP(balanceData.balance?.available || 0)
 
         // Fetch current allocation for this proposal
-        const allocRes = await fetch(`/api/support-points/allocations?proposalId=${proposalId}`)
+        const allocRes = await fetch('/api/support-points/allocations')
         if (!allocRes.ok) throw new Error('Failed to fetch allocation')
         const allocData = await allocRes.json()
 
-        // Find allocation for this proposal
+        // Find allocation for this proposal (target_type='proposal', target_id=proposalId)
         const allocation = allocData.allocations?.find(
-          (a: any) => a.proposalId === proposalId && a.status === 'active'
+          (a: any) => a.target_type === 'proposal' && a.target_id === proposalId && a.status === 'active'
         )
         setCurrentAllocation(allocation?.amount || 0)
       } catch (err) {
@@ -55,7 +55,7 @@ export function ProposalAllocationWidget({
     const res = await fetch('/api/support-points/allocate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ proposalId, amount })
+      body: JSON.stringify({ targetType: 'proposal', targetId: proposalId, amount })
     })
 
     if (!res.ok) {
@@ -73,7 +73,7 @@ export function ProposalAllocationWidget({
     const res = await fetch('/api/support-points/reclaim', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ proposalId })
+      body: JSON.stringify({ targetType: 'proposal', targetId: proposalId })
     })
 
     if (!res.ok) {
