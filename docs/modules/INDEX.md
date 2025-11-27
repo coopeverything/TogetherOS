@@ -16,7 +16,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Feed](./feed.md) — Social media feed with imported content, multi-dimensional reactions, discussion initiation, all 9 phases complete (100% complete — production-ready ✅)
 - [Gamification](./gamification.md) — Local community growth tracking, milestone celebrations, invitation rewards, daily challenges, first-week journey (100% complete — production-ready ✅)
 - [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation, topic/post/reply system, empathy reactions (100% complete — production-ready ✅)
-- [Proposals & Decisions (Governance)](./governance.md) — Transparent proposal creation and consent-based decision making (75% complete — DB + API + UI complete, voting refinements pending)
+- [Proposals & Decisions (Governance)](./governance.md) — Transparent proposal creation and consent-based decision making (100% complete — production-ready ✅)
 - [Social Economy Primitives](./social-economy.md) — Support Points, timebanking, and cooperative treasury (0% — spec only)
 - **Support Points & Reputation** — Fair contribution recognition system (45% complete — backend complete, UI pending)
 - **Onboarding ("Bridge")** — Behavioral AI system with member states, decision loop, action palette, 8-step wizard with RP rewards (100% complete — production-ready ✅)
