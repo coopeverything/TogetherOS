@@ -18,11 +18,11 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Forum / Deliberation](./forum.md) — Structured discussion threads for deep deliberation, topic/post/reply system, empathy reactions (100% complete — production-ready ✅)
 - [Proposals & Decisions (Governance)](./governance.md) — Transparent proposal creation and consent-based decision making (100% complete — production-ready ✅)
 - [Social Economy Primitives](./social-economy.md) — Support Points, timebanking, and cooperative treasury (0% — spec only)
-- **Support Points & Reputation** — Fair contribution recognition system (45% complete — backend complete, UI pending)
+- **Support Points & Reputation** — Fair contribution recognition system (65% complete — badge system backend + UI integration complete)
 - **Onboarding ("Bridge")** — Behavioral AI system with member states, decision loop, action palette, 8-step wizard with RP rewards (100% complete — production-ready ✅)
 - [Bridge — Internal pilot (core team only)](./bridge/landing-pilot.md) — AI assistant providing conversational Q&A
   - [Full Bridge Specification](./bridge.md)
-- [Search & Tags](./search.md) — Global search with path/keyword filters, full-text search across proposals + forum topics + posts (85% complete — Phase 1-2 complete, production-verified)
+- [Search & Tags](./search.md) — Global search with path/keyword filters, full-text search across proposals + forum topics + posts + profiles (100% complete — production-ready ✅)
 - **Notifications & Inbox** — Real-time notifications and updates (65% complete — MVP with 6 endpoints + 3 UI components ✅)
 - **Docs Site Hooks** — Documentation integration (60% complete — stable doc routes)
 - [Observability](./observability.md) — Platform health monitoring and error tracking (100% complete — full observability stack ✅)

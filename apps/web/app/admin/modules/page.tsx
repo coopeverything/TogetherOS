@@ -92,8 +92,8 @@ const modules: Module[] = [
   {
     title: 'Support Points & Reputation',
     description:
-      'Tracks member contributions and distributes Support Points (SP) and Reward Points (RP). SP for governance power (ONLY from contributions), RP for economic claims. Backend complete with database schema, API endpoints, and type definitions. UI components pending for member-facing interfaces.',
-    progress: 45,
+      'Tracks member contributions and distributes Support Points (SP) and Reward Points (RP). SP for governance power (ONLY from contributions), RP for economic claims. Backend complete with database schema, API endpoints, type definitions, badge CRUD, and ReputationService. Badge display integrated with RPWalletClient.',
+    progress: 65,
     status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/rewards.md`,
     docsPath: '/docs/modules/rewards',
@@ -188,9 +188,9 @@ const modules: Module[] = [
   {
     title: 'Search & Discovery',
     description:
-      'Global search with path/keyword filters, full-text search across proposals + forum topics + posts. Features privacy-preserving query tracking (SHA-256 hashing), relevance scoring, and fast response times (4-15ms). Phase 1-2 complete, production-verified.',
-    progress: 85,
-    status: 'in-progress',
+      'Global search with path/keyword filters, full-text search across proposals + forum topics + posts + profiles. Features privacy-preserving query tracking, saved searches, autocomplete, and search history API. All phases complete, production-ready.',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/search.md`,
     docsPath: '/docs/modules/search',
     category: 'Cooperative Technology',

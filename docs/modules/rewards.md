@@ -4,7 +4,7 @@
 
 **Rewards** is TogetherOS's system for recording meaningful contributions and converting participation into visible recognition through Support Points, badges, and cooperative currency flows.
 
-**Status:** 0% implementation (🎯 **First contributor module**)
+**Status:** <!-- progress:reputation=65 --> 65% implementation
 **Owner:** @coopeverything-core
 **Labels:** `module:rewards`, `good-first-issue`
 **Priority:** Foundation for community engagement
