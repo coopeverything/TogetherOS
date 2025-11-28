@@ -73,6 +73,12 @@ export default function AdminDashboard() {
       title: 'AI & Content',
       items: [
         {
+          title: 'Onboarding Hub',
+          description: 'Unified management for challenges, microlessons, learning paths, lessons, quizzes, and flow',
+          path: '/admin/onboarding',
+          status: 'active',
+        },
+        {
           title: 'Bridge Training',
           description: 'Manage Bridge AI training data and Q&A examples',
           path: '/admin/bridge',
