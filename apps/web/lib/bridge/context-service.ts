@@ -356,3 +356,95 @@ export function clearContextCache(): void {
   userContextCache.clear();
   cityContextCache.clear();
 }
+
+/**
+ * Bridge Preferences for personalization
+ */
+export interface BridgePreferences {
+  tonePreference: 'formal' | 'casual' | 'empathetic';
+  interventionLevel: 'minimal' | 'balanced' | 'proactive';
+  motivationType: 'achievement' | 'community' | 'learning' | 'impact';
+  learningPreference: 'reading' | 'watching' | 'doing' | 'discussing';
+  unlockLevel: number; // 0-5
+}
+
+// Cache for preferences (shorter TTL since it changes less often)
+const preferencesCache = new Map<string, { prefs: BridgePreferences; expiresAt: number }>();
+const PREFERENCES_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+/**
+ * Fetch user's Bridge preferences and unlock level
+ */
+export async function fetchBridgePreferences(userId: string): Promise<BridgePreferences | null> {
+  // Check cache first
+  const cached = preferencesCache.get(userId);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.prefs;
+  }
+
+  if (!USE_DATABASE) {
+    // Default preferences for non-DB mode
+    return {
+      tonePreference: 'empathetic',
+      interventionLevel: 'balanced',
+      motivationType: 'community',
+      learningPreference: 'doing',
+      unlockLevel: 5, // Full access in demo mode
+    };
+  }
+
+  try {
+    const { query } = await import('@togetheros/db');
+
+    // Query both bridge_preferences and users table for unlock_level
+    const result = await query<{
+      tone_preference: string;
+      intervention_level: string;
+      motivation_type: string | null;
+      learning_preference: string | null;
+      unlock_level: number | null;
+    }>(
+      `SELECT
+        COALESCE(bp.tone_preference, 'empathetic') as tone_preference,
+        COALESCE(bp.intervention_level, 'balanced') as intervention_level,
+        bp.motivation_type,
+        bp.learning_preference,
+        COALESCE(u.unlock_level, 0) as unlock_level
+      FROM users u
+      LEFT JOIN bridge_preferences bp ON bp.user_id = u.id
+      WHERE u.id = $1`,
+      [userId]
+    );
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows[0];
+    const prefs: BridgePreferences = {
+      tonePreference: (row.tone_preference as 'formal' | 'casual' | 'empathetic') || 'empathetic',
+      interventionLevel: (row.intervention_level as 'minimal' | 'balanced' | 'proactive') || 'balanced',
+      motivationType: (row.motivation_type as 'achievement' | 'community' | 'learning' | 'impact') || 'community',
+      learningPreference: (row.learning_preference as 'reading' | 'watching' | 'doing' | 'discussing') || 'doing',
+      unlockLevel: row.unlock_level ?? 0,
+    };
+
+    // Cache the preferences
+    preferencesCache.set(userId, {
+      prefs,
+      expiresAt: Date.now() + PREFERENCES_CACHE_TTL,
+    });
+
+    return prefs;
+  } catch (error) {
+    console.error('[Bridge Context] Failed to fetch preferences:', error);
+    // Return defaults on error
+    return {
+      tonePreference: 'empathetic',
+      interventionLevel: 'balanced',
+      motivationType: 'community',
+      learningPreference: 'doing',
+      unlockLevel: 0,
+    };
+  }
+}

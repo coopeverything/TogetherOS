@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import type { ContentType } from './ContentList';
 import type { ContentData } from './ContentEditor';
 
-type AssistAction = 'suggest_reflection' | 'find_statistic' | 'improve_tone' | 'expand' | 'shorten' | 'analyze';
+type AssistAction = 'suggest_reflection' | 'find_statistic' | 'improve_tone' | 'expand' | 'shorten' | 'analyze' | 'suggest_visuals' | 'create_scenario';
 
 interface AssistResponse {
   suggestion: string;
@@ -26,6 +26,11 @@ const QUICK_ACTIONS: { action: AssistAction; label: string; icon: string; descri
   { action: 'expand', label: 'Expand', icon: '📝', description: 'Add more detail' },
   { action: 'shorten', label: 'Shorten', icon: '✂️', description: 'Condense content' },
   { action: 'analyze', label: 'Analyze', icon: '🔍', description: 'Get improvement tips' },
+];
+
+const VISUAL_ACTIONS: { action: AssistAction; label: string; icon: string; description: string }[] = [
+  { action: 'suggest_visuals', label: 'Suggest Visuals', icon: '🎨', description: 'Get visual content ideas' },
+  { action: 'create_scenario', label: 'Video Script', icon: '🎬', description: 'Create a short video scenario' },
 ];
 
 export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps) {
@@ -194,6 +199,31 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
               className={cn(
                 'flex items-center gap-2 px-3 py-2 text-left text-sm rounded-lg transition-colors',
                 'bg-bg-2 hover:bg-bg-3 disabled:opacity-50',
+                isLoading && 'cursor-wait'
+              )}
+            >
+              <span>{icon}</span>
+              <span className="truncate">{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Visual Content Actions */}
+      <div className="p-4 border-b border-border">
+        <h4 className="text-xs font-semibold text-ink-700 uppercase tracking-wide mb-3">
+          Visual Content
+        </h4>
+        <div className="grid grid-cols-2 gap-2">
+          {VISUAL_ACTIONS.map(({ action, label, icon, description }) => (
+            <button
+              key={action}
+              onClick={() => runAssist(action)}
+              disabled={isLoading}
+              title={description}
+              className={cn(
+                'flex items-center gap-2 px-3 py-2 text-left text-sm rounded-lg transition-colors',
+                'bg-purple-50 hover:bg-purple-100 text-purple-900 disabled:opacity-50',
                 isLoading && 'cursor-wait'
               )}
             >

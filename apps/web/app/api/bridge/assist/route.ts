@@ -11,6 +11,8 @@
  * - expand: Elaborate on the content
  * - shorten: Condense the content
  * - analyze: General content analysis and suggestions
+ * - suggest_visuals: Suggest visual content ideas (photos, illustrations, etc.)
+ * - create_scenario: Generate a short video scenario script
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -24,7 +26,7 @@ const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 type ContentType = 'microlesson' | 'bias_challenge' | 'micro_challenge' | 'quiz' | 'general';
-type AssistAction = 'suggest_reflection' | 'find_statistic' | 'improve_tone' | 'expand' | 'shorten' | 'analyze';
+type AssistAction = 'suggest_reflection' | 'find_statistic' | 'improve_tone' | 'expand' | 'shorten' | 'analyze' | 'suggest_visuals' | 'create_scenario';
 
 interface AssistRequest {
   contentType: ContentType;
@@ -117,6 +119,48 @@ Consider:
 - Missing elements (for the content type)
 
 Provide 2-3 concrete, actionable suggestions in a bulleted list.`,
+
+  suggest_visuals: `Based on this microlesson content, suggest visual elements to enhance it.
+Provide:
+
+**Visual Type:** (photo, illustration, infographic, video clip, or animation)
+
+**Concept:** What should the visual depict? Describe the scene, subject, or concept.
+
+**Mood/Tone:** (inspiring, informative, emotional, abstract, documentary)
+
+**Stock Photo Keywords:** 5 searchable terms for finding suitable stock images
+
+**DIY Alternative:** A simple option if no stock is available (smartphone photo idea, simple illustration sketch, etc.)
+
+Format your response clearly with these labeled sections.`,
+
+  create_scenario: `Create a short video scenario script (15-30 seconds) for this microlesson content.
+
+Format:
+
+**Opening Shot (2-3 sec):**
+[Describe visual + any text overlay]
+
+**Main Sequence (3-4 shots):**
+- Shot 1: [Visual description]
+- Shot 2: [Visual description]
+- Shot 3: [Visual description]
+- Shot 4 (optional): [Visual description]
+
+**Closing Shot:**
+[Final visual + text overlay suggestion]
+
+**Audio/Mood:**
+- Background music style: [describe mood]
+- Voiceover: [yes/no, and if yes, sample text]
+
+**Equipment Needed:**
+- [ ] Smartphone OK
+- [ ] Needs tripod
+- [ ] Professional equipment recommended
+
+Keep it achievable for non-professionals with a smartphone.`,
 };
 
 function validateRequest(body: unknown): { valid: true; data: AssistRequest } | { valid: false; error: string } {
@@ -146,7 +190,7 @@ function validateRequest(body: unknown): { valid: true; data: AssistRequest } | 
     return { valid: false, error: 'action required' };
   }
 
-  if (!['suggest_reflection', 'find_statistic', 'improve_tone', 'expand', 'shorten', 'analyze'].includes(action)) {
+  if (!['suggest_reflection', 'find_statistic', 'improve_tone', 'expand', 'shorten', 'analyze', 'suggest_visuals', 'create_scenario'].includes(action)) {
     return { valid: false, error: 'Invalid action' };
   }
 
@@ -243,6 +287,9 @@ Be concise and practical. Focus on actionable improvements.`;
       userMessage = `Context: ${context}\n\n${userMessage}`;
     }
 
+    // Adjust max_tokens based on action type (scenarios need more space)
+    const maxTokens = ['suggest_visuals', 'create_scenario'].includes(action) ? 800 : 500;
+
     // Call OpenAI API (non-streaming for quick responses)
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -256,7 +303,7 @@ Be concise and practical. Focus on actionable improvements.`;
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userMessage },
         ],
-        max_tokens: 500,
+        max_tokens: maxTokens,
         temperature: 0.7,
       }),
     });

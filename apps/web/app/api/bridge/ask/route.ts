@@ -16,7 +16,7 @@ import {
   getSources,
   type DocEntry,
 } from '@/lib/bridge/docs-indexer';
-import { fetchUserContext, fetchCityContext } from '../../../../lib/bridge/context-service';
+import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '../../../../lib/bridge/context-service';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
@@ -156,12 +156,16 @@ export async function POST(request: NextRequest) {
     // Fetch user and city context (only for authenticated users)
     let userContext = null;
     let cityContext = null;
+    let bridgePreferences: BridgePreferences | null = null;
     const suggestedActivities: ActivityRec[] = [];
 
     if (user) {
       try {
         // Fetch user context with personalized interests
         userContext = await fetchUserContext({ userId: user.id });
+
+        // Fetch Bridge preferences for personalization
+        bridgePreferences = await fetchBridgePreferences(user.id);
 
         // Fetch city context if user has location data
         if (userContext.city && userContext.region) {
@@ -201,6 +205,48 @@ Engagement level: ${userContext.engagementScore}/100
 Active groups: ${userContext.groupMemberships.length}
 
 When they ask about "my city" or local opportunities, they mean ${userContext.city}, ${userContext.region}. Reference their location and interests naturally in your responses.`;
+    }
+
+    // Add Bridge preferences for personalization
+    if (bridgePreferences) {
+      const toneInstructions = {
+        formal: 'Be direct, efficient, and professional. Get to the point quickly without unnecessary warmth.',
+        casual: 'Be friendly, relaxed, and conversational. Use a warm but efficient tone.',
+        empathetic: 'Be warm, patient, and supportive. Show understanding and encouragement.',
+      };
+
+      const motivationInstructions = {
+        achievement: 'Focus on goals, milestones, and measurable progress. Highlight achievements and next targets.',
+        community: 'Emphasize connections with others, shared experiences, and community building.',
+        learning: 'Focus on discovery, understanding, and skill development. Explain the "why" behind suggestions.',
+        impact: 'Highlight the difference their actions make. Connect activities to meaningful outcomes.',
+      };
+
+      const levelInstructions = {
+        minimal: 'Keep suggestions brief and high-level. Let them explore on their own.',
+        balanced: 'Provide moderate guidance. Suggest options but let them decide.',
+        proactive: 'Give detailed step-by-step guidance. Be thorough in your explanations.',
+      };
+
+      enhancedSystemPrompt += `
+
+**COMMUNICATION PREFERENCES (IMPORTANT - Adjust your responses accordingly):**
+- Tone: ${bridgePreferences.tonePreference} - ${toneInstructions[bridgePreferences.tonePreference]}
+- Motivation style: ${bridgePreferences.motivationType} - ${motivationInstructions[bridgePreferences.motivationType]}
+- Guidance level: ${bridgePreferences.interventionLevel} - ${levelInstructions[bridgePreferences.interventionLevel]}
+- Learning preference: ${bridgePreferences.learningPreference} (prefer ${bridgePreferences.learningPreference === 'reading' ? 'text-based explanations' : bridgePreferences.learningPreference === 'watching' ? 'visual/video suggestions' : bridgePreferences.learningPreference === 'doing' ? 'hands-on activities and exercises' : 'discussion-based approaches'})
+
+**USER UNLOCK LEVEL: ${bridgePreferences.unlockLevel}** (0=new, 5=full access)
+${bridgePreferences.unlockLevel < 3 ? `
+- This user is still in mystery onboarding mode
+- Don't reveal too much about other members or specific groups yet
+- Create curiosity and anticipation about what's to come
+- Encourage completing challenges to unlock more features` : bridgePreferences.unlockLevel < 5 ? `
+- This user has partial access to the community
+- They can see some content but not everything
+- Encourage group participation to unlock full features` : `
+- This user has full citizen access
+- Engage them as a full community member`}`;
     }
 
     // Add city context (local opportunities) with RP-based recommendations
