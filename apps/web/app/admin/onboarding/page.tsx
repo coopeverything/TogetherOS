@@ -452,10 +452,10 @@ export default function OnboardingEditorPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-bg-2">
+    <div className="fixed inset-0 top-16 flex flex-col bg-bg-2">
       {/* Error Banner */}
       {error && (
-        <div className="bg-red-50 border-b border-red-200 px-6 py-3 flex items-center justify-between">
+        <div className="bg-red-50 border-b border-red-200 px-6 py-3 flex items-center justify-between flex-shrink-0">
           <span className="text-red-700 text-sm">{error}</span>
           <button
             onClick={() => setError(null)}
@@ -469,9 +469,9 @@ export default function OnboardingEditorPage() {
       )}
 
       {/* Main Split-Pane Layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex min-h-0">
         {/* Left: Content List */}
-        <div className="w-72 flex-shrink-0">
+        <div className="w-72 flex-shrink-0 overflow-y-auto">
           <ContentList
             items={contentItems}
             selectedId={selectedId}
@@ -482,20 +482,24 @@ export default function OnboardingEditorPage() {
         </div>
 
         {/* Center: Content Editor */}
-        <ContentEditor
-          content={editingContent}
-          onChange={handleChange}
-          onSave={handleSave}
-          onPublish={handlePublish}
-          isSaving={isSaving}
-          lastSaved={lastSaved || undefined}
-        />
+        <div className="flex-1 min-w-0 overflow-y-auto">
+          <ContentEditor
+            content={editingContent}
+            onChange={handleChange}
+            onSave={handleSave}
+            onPublish={handlePublish}
+            isSaving={isSaving}
+            lastSaved={lastSaved || undefined}
+          />
+        </div>
 
         {/* Right: Bridge AI Copilot */}
-        <BridgeCopilot
-          content={editingContent}
-          onApplySuggestion={handleApplySuggestion}
-        />
+        <div className="w-80 flex-shrink-0 overflow-y-auto">
+          <BridgeCopilot
+            content={editingContent}
+            onApplySuggestion={handleApplySuggestion}
+          />
+        </div>
       </div>
     </div>
   );

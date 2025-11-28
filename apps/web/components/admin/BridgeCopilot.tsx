@@ -156,7 +156,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
 
   if (!content) {
     return (
-      <div className="w-80 flex-shrink-0 bg-bg-1 border-l border-border p-6 flex items-center justify-center">
+      <div className="h-full bg-bg-1 border-l border-border p-6 flex items-center justify-center">
         <div className="text-center text-ink-500">
           <div className="text-4xl mb-3">🤖</div>
           <p className="font-medium">Bridge AI Copilot</p>
@@ -167,7 +167,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
   }
 
   return (
-    <div className="w-80 flex-shrink-0 bg-bg-1 border-l border-border flex flex-col">
+    <div className="h-full bg-bg-1 border-l border-border flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center gap-2">

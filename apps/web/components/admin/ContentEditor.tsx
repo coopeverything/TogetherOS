@@ -57,7 +57,7 @@ export function ContentEditor({
 }: ContentEditorProps) {
   if (!content) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-bg-1">
+      <div className="h-full flex items-center justify-center bg-bg-1">
         <div className="text-center text-ink-500">
           <p className="text-lg mb-2">Select content to edit</p>
           <p className="text-sm">Or create new content from the sidebar</p>
@@ -67,7 +67,7 @@ export function ContentEditor({
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-bg-1 overflow-hidden">
+    <div className="h-full flex flex-col bg-bg-1">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white">
         <div>
