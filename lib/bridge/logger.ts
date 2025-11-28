@@ -56,12 +56,13 @@ function ensureLogDir(): void {
 export interface BridgeLogEntry {
   id: string;
   ts: string;
-  action: 'ask' | 'error' | 'rate_limit';
+  action: 'ask' | 'error' | 'rate_limit' | 'assist' | 'assist_error' | 'assist_rate_limit' | 'assist_unauthorized';
   ip_hash: string;
   q_len?: number;
   latency_ms?: number;
   status?: number;
   error?: string;
+  metadata?: Record<string, unknown>;
 }
 
 /**
