@@ -10,8 +10,9 @@
  * - Right: Bridge AI copilot for assistance
  */
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ContentList, type ContentItem, type ContentType } from '@/components/admin/ContentList';
 import { ContentEditor, type ContentData } from '@/components/admin/ContentEditor';
 import { BridgeCopilot } from '@/components/admin/BridgeCopilot';
@@ -181,6 +182,41 @@ export default function OnboardingEditorPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Resizable sidebar state
+  const [sidebarWidth, setSidebarWidth] = useState(288); // 72 * 4 = 288px (w-72)
+  const isResizing = useRef(false);
+  const minWidth = 200;
+  const maxWidth = 400;
+
+  // Handle resize
+  const handleMouseDown = useCallback(() => {
+    isResizing.current = true;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing.current) return;
+      const newWidth = Math.min(maxWidth, Math.max(minWidth, e.clientX));
+      setSidebarWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      isResizing.current = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
 
   // Auth check
   useEffect(() => {
@@ -452,32 +488,53 @@ export default function OnboardingEditorPage() {
   }
 
   return (
-    <div className="fixed inset-0 top-16 flex flex-col bg-bg-2">
-      {/* Error Banner */}
-      {error && (
-        <div className="bg-red-50 border-b border-red-200 px-6 py-3 flex items-center justify-between flex-shrink-0">
-          <span className="text-red-700 text-sm">{error}</span>
-          <button
-            onClick={() => setError(null)}
-            className="text-red-500 hover:text-red-700"
+    <div className="h-full flex flex-col bg-bg-2">
+      {/* Top Bar with Exit Button */}
+      <div className="flex items-center justify-between px-4 py-2 bg-ink-900 text-white flex-shrink-0">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-white/10 transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </button>
+            <span className="text-sm font-medium">Exit Editor</span>
+          </Link>
+          <div className="h-4 w-px bg-white/20" />
+          <span className="text-sm text-white/70">Learning Content Editor</span>
         </div>
-      )}
+        {error && (
+          <div className="flex items-center gap-2 px-3 py-1 bg-red-500/20 rounded text-red-200 text-sm">
+            <span>{error}</span>
+            <button onClick={() => setError(null)} className="hover:text-white">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Main Split-Pane Layout */}
       <div className="flex-1 flex min-h-0">
-        {/* Left: Content List */}
-        <div className="w-72 flex-shrink-0 overflow-y-auto">
+        {/* Left: Content List (Resizable) */}
+        <div
+          className="flex-shrink-0 overflow-y-auto relative"
+          style={{ width: sidebarWidth }}
+        >
           <ContentList
             items={contentItems}
             selectedId={selectedId}
             onSelect={handleSelect}
             onNew={handleNew}
             onDelete={handleDelete}
+          />
+          {/* Resize Handle */}
+          <div
+            onMouseDown={handleMouseDown}
+            className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-brand-500 active:bg-brand-600 transition-colors"
+            title="Drag to resize"
           />
         </div>
 
