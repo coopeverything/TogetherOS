@@ -447,18 +447,22 @@ Operations can be added manually to `.claude/settings.local.json` to skip prompt
 
 ---
 
-## Admin Page Navigation Registration
+## CRITICAL: Admin Page Registration (MANDATORY)
 
-**MANDATORY when creating any page under `/admin/*`:**
+**EVERY admin page MUST be registered in the /admin dashboard. NO EXCEPTIONS.**
 
-When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
+When creating ANY page under `apps/web/app/admin/*/page.tsx`:
 
-1. **Create the page file** - Implement the admin page component
-2. **Register in admin navigation** - Edit `apps/web/app/admin/page.tsx`:
-   - Find the appropriate section in the `sections` array
-   - Add new item with: `title`, `description`, `path`, `status: 'active'`
-   - Sections: System Configuration, AI & Content, Users & Groups, Governance & Economy, Monitoring & Data, Development & Testing
-3. **Verify** page appears in admin dashboard at `/admin` before committing
+1. **IMMEDIATELY add entry to `apps/web/app/admin/page.tsx`** sections array
+2. **Choose appropriate section:**
+   - System Configuration: Settings, feature flags
+   - AI & Content: Onboarding, training, content management
+   - Users & Groups: Member/group management
+   - Governance & Economy: SP, RP, governance tools
+   - Monitoring & Data: Logs, status, analytics, modules
+   - Development & Testing: Test pages, design exploration
+3. **VERIFY page appears in dashboard at `/admin` BEFORE committing**
+4. **NO ORPHANED PAGES** - every admin page must be discoverable from /admin
 
 **Example registration:**
 ```typescript
@@ -471,7 +475,9 @@ When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
 }
 ```
 
-**Why this matters:** Admin pages created without navigation registration become orphaned and inaccessible from the main admin dashboard. Users expect all admin functionality to be discoverable from `/admin`.
+**If Claude creates an admin page without registering it, this is a BUG to fix immediately.**
+
+**Why this matters:** Admin pages created without navigation registration become orphaned and inaccessible. Users expect ALL admin functionality to be discoverable from the main `/admin` dashboard.
 
 ---
 

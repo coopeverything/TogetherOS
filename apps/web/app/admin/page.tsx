@@ -67,6 +67,12 @@ export default function AdminDashboard() {
           path: '/admin/settings',
           status: 'active',
         },
+        {
+          title: 'Feature Flags',
+          description: 'Toggle features and experimental functionality',
+          path: '/admin/features',
+          status: 'active',
+        },
       ],
     },
     {
@@ -178,6 +184,18 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Module Status',
+          description: 'Module implementation progress and status tracking',
+          path: '/admin/modules',
+          status: 'active',
+        },
+        {
+          title: 'System Status',
+          description: 'Overall system status and health overview',
+          path: '/admin/status',
+          status: 'active',
+        },
+        {
           title: 'System Logs',
           description: 'Metrics and performance data',
           path: '/admin/logs',
@@ -213,9 +231,57 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Dashboard Demos',
+          description: 'Dashboard component demos and examples',
+          path: '/admin/dashboard-demos',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Designs',
+          description: 'Dashboard design exploration and variants',
+          path: '/admin/dashboard-designs',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Styles',
+          description: 'Dashboard styling and theme testing',
+          path: '/admin/dashboard-styles',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Test 2',
+          description: 'Alternative dashboard testing page',
+          path: '/admin/dashboard-test2',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Test 3',
+          description: 'Dashboard test variant 3',
+          path: '/admin/dashboard-test3',
+          status: 'active',
+        },
+        {
+          title: 'Design Exploration',
+          description: 'UI design exploration and experiments',
+          path: '/admin/design',
+          status: 'active',
+        },
+        {
           title: 'Design System',
           description: 'UI patterns and admin interface components',
           path: '/admin/design-system',
+          status: 'active',
+        },
+        {
+          title: 'Forum Designs',
+          description: 'Forum UI component testing and designs',
+          path: '/admin/forum-designs',
+          status: 'active',
+        },
+        {
+          title: 'Gamification Testing',
+          description: 'Gamification features testing and demos',
+          path: '/admin/gamification-testing',
           status: 'active',
         },
         {
