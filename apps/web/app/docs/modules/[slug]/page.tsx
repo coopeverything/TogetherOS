@@ -6,66 +6,10 @@ import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import type { AnchorHTMLAttributes } from 'react'
+import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
 interface Props {
   params: Promise<{ slug: string }>
-}
-
-/**
- * Custom link component that transforms .md links to work on the live site.
- * - Relative .md links (./foo.md, ../bar.md) → /docs/modules/foo, /docs/bar
- * - Absolute GitHub links → external (unchanged)
- * - Other links → unchanged
- */
-function MarkdownLink({
-  href,
-  children,
-  ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement>) {
-  if (!href) {
-    return <span {...props}>{children}</span>
-  }
-
-  // Handle relative .md links
-  if (href.endsWith('.md') && !href.startsWith('http')) {
-    // Remove .md extension
-    let newHref = href.replace(/\.md$/, '')
-
-    // Handle relative paths
-    if (newHref.startsWith('./')) {
-      // Same directory: ./foo.md → /docs/modules/foo
-      newHref = `/docs/modules/${newHref.slice(2)}`
-    } else if (newHref.startsWith('../')) {
-      // Parent directory: ../contributors/GETTING_STARTED.md → /docs/contributors/GETTING_STARTED
-      newHref = newHref.replace(/^\.\.\//, '/docs/')
-    } else if (!newHref.startsWith('/')) {
-      // No prefix: foo.md → /docs/modules/foo
-      newHref = `/docs/modules/${newHref}`
-    }
-
-    return (
-      <Link href={newHref} {...props}>
-        {children}
-      </Link>
-    )
-  }
-
-  // External links
-  if (href.startsWith('http')) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-        {children}
-      </a>
-    )
-  }
-
-  // Other internal links
-  return (
-    <Link href={href} {...props}>
-      {children}
-    </Link>
-  )
 }
 
 // Map of valid slugs to their file names
@@ -89,11 +33,194 @@ const VALID_MODULES = [
   'support-points-ui',
 ] as const
 
+// Set of module slugs that have actual internal pages
+const INTERNAL_MODULE_ROUTES = new Set<string>(VALID_MODULES)
+
+// GitHub icon component
+function GitHubIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path
+        fillRule="evenodd"
+        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+        clipRule="evenodd"
+      />
+    </svg>
+  )
+}
+
+// External link icon component
+function ExternalLinkIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className || "w-3 h-3 inline-block ml-1"} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+  )
+}
+
+/**
+ * Custom link component that transforms .md links to work on the live site.
+ * - Sibling module links (./governance.md) → internal routes (if module exists)
+ * - Other .md links → GitHub (for files without internal routes)
+ * - Absolute GitHub links → external (unchanged)
+ * - Other links → unchanged
+ */
+function createMarkdownLink(slug: string) {
+  return function MarkdownLink({
+    href,
+    children,
+    ...props
+  }: AnchorHTMLAttributes<HTMLAnchorElement>) {
+    if (!href) {
+      return <span {...props}>{children}</span>
+    }
+
+    // Handle relative .md links
+    if (href.endsWith('.md') && !href.startsWith('http')) {
+      const pathWithoutMd = href.replace(/\.md$/, '')
+
+      // Check if it's a sibling module link (./foo.md) that has an internal page
+      if (pathWithoutMd.startsWith('./')) {
+        const moduleName = pathWithoutMd.slice(2)
+        // Only use internal route if module exists in our VALID_MODULES list
+        if (INTERNAL_MODULE_ROUTES.has(moduleName)) {
+          return (
+            <Link href={`/docs/modules/${moduleName}`} {...props}>
+              {children}
+            </Link>
+          )
+        }
+      }
+
+      // For all other .md links, redirect to GitHub
+      const githubBase = 'https://github.com/coopeverything/TogetherOS/blob/yolo/'
+      let githubPath: string
+
+      if (href.startsWith('../')) {
+        // Parent directory: ../architecture.md → docs/architecture.md
+        githubPath = `docs/${href.slice(3)}`
+      } else if (href.startsWith('./')) {
+        // Same directory but not a module: ./ui/README.md → docs/modules/ui/README.md
+        githubPath = `docs/modules/${href.slice(2)}`
+      } else {
+        // No prefix: something.md → docs/modules/something.md
+        githubPath = `docs/modules/${href}`
+      }
+
+      return (
+        <a
+          href={`${githubBase}${githubPath}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-0.5"
+          {...props}
+        >
+          {children}
+          <ExternalLinkIcon className="w-3 h-3 opacity-60" />
+        </a>
+      )
+    }
+
+    // External links
+    if (href.startsWith('http')) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+          {children}
+        </a>
+      )
+    }
+
+    // Other internal links
+    return (
+      <Link href={href} {...props}>
+        {children}
+      </Link>
+    )
+  }
+}
+
+/**
+ * Custom code block component that replaces code blocks with GitHub links.
+ * Inline code is preserved (for `variable` names in text).
+ * Block code is replaced with a "View on GitHub" card.
+ */
+function createCodeBlock(slug: string) {
+  return function CodeBlock({
+    inline,
+    className,
+    children,
+    ...props
+  }: {
+    inline?: boolean
+    className?: string
+    children?: ReactNode
+    node?: unknown
+  }) {
+    // Inline code: keep as-is (for `variable` names in text)
+    if (inline) {
+      return (
+        <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-medium" {...props}>
+          {children}
+        </code>
+      )
+    }
+
+    // Block code: replace with GitHub link card
+    const language = className?.replace('language-', '') || 'code'
+    const languageLabel = getLanguageLabel(language)
+
+    return (
+      <div className="my-6 p-4 bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-lg">
+        <div className="flex items-center gap-2 text-gray-700">
+          <GitHubIcon className="w-5 h-5" />
+          <span className="font-medium">Technical Implementation</span>
+          {languageLabel && (
+            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">{languageLabel}</span>
+          )}
+        </div>
+        <p className="mt-2 text-sm text-gray-600">
+          This section contains implementation details.
+          <a
+            href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-700 underline ml-1 inline-flex items-center gap-1"
+          >
+            View full specification on GitHub
+            <ExternalLinkIcon className="w-3 h-3" />
+          </a>
+        </p>
+      </div>
+    )
+  }
+}
+
+// Map language identifiers to human-readable labels
+function getLanguageLabel(language: string): string | null {
+  const labels: Record<string, string> = {
+    typescript: 'TypeScript',
+    ts: 'TypeScript',
+    javascript: 'JavaScript',
+    js: 'JavaScript',
+    tsx: 'TypeScript/React',
+    jsx: 'JavaScript/React',
+    sql: 'SQL',
+    bash: 'Shell',
+    sh: 'Shell',
+    json: 'JSON',
+    yaml: 'YAML',
+    yml: 'YAML',
+    markdown: 'Markdown',
+    md: 'Markdown',
+    css: 'CSS',
+    html: 'HTML',
+  }
+  return labels[language.toLowerCase()] || null
+}
+
 /**
  * Get the path to the docs/modules directory.
  * Works in both development and production builds.
- * In monorepo: apps/web runs with cwd at apps/web, so ../../docs/modules
- * Falls back to checking from project root if that fails.
  */
 function getDocsPath(slug: string): string | null {
   // Try relative path from apps/web (build context)
@@ -130,7 +257,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${title} | TogetherOS Modules`,
-    description: `Documentation for the ${title} module in TogetherOS`,
+    description: `Learn about the ${title} module in TogetherOS - what it does, how it helps members, and how to use it.`,
   }
 }
 
@@ -160,6 +287,10 @@ export default async function ModuleDocPage({ params }: Props) {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
 
+  // Create slug-aware components
+  const MarkdownLink = createMarkdownLink(slug)
+  const CodeBlock = createCodeBlock(slug)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -188,24 +319,54 @@ export default async function ModuleDocPage({ params }: Props) {
 
         {/* Content */}
         <article className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          {/* User-facing content note */}
+          <div className="mb-6 p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-700">
+            <strong>For Members:</strong> This page explains what this module does and how it helps you.
+            Technical implementation details link to GitHub for developers.
+          </div>
+
           {/*
             Prose styling with improved paragraph spacing:
             - prose-p:mb-6 adds bottom margin to paragraphs
             - prose-li:mb-2 adds spacing between list items
             - prose-headings:mt-8 adds top margin to headings
           */}
-          <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-gray-700 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-medium prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:overflow-x-auto prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-gray-300 prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
+          <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-gray-700 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-gray-300 prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
-              components={{ a: MarkdownLink }}
+              components={{
+                a: MarkdownLink,
+                code: CodeBlock,
+              }}
             >
               {content}
             </ReactMarkdown>
           </div>
         </article>
 
-        {/* Footer */}
-        <div className="mt-8 flex items-center justify-between text-sm text-gray-600">
+        {/* Developer Footer */}
+        <div className="mt-8 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="flex items-center gap-2 text-gray-700">
+            <GitHubIcon className="w-5 h-5" />
+            <span className="font-medium">For Developers</span>
+          </div>
+          <p className="mt-2 text-sm text-gray-600">
+            View the complete technical specification including API contracts,
+            database schemas, TypeScript interfaces, and implementation details on{' '}
+            <a
+              href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
+            >
+              GitHub
+              <ExternalLinkIcon className="w-3 h-3" />
+            </a>
+          </p>
+        </div>
+
+        {/* Footer Links */}
+        <div className="mt-6 flex items-center justify-between text-sm text-gray-600">
           <Link
             href="/modules"
             className="text-blue-600 hover:text-blue-700"
@@ -218,13 +379,7 @@ export default async function ModuleDocPage({ params }: Props) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-gray-600 hover:text-gray-900"
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                fillRule="evenodd"
-                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <GitHubIcon className="w-4 h-4" />
             Edit on GitHub
           </a>
         </div>
