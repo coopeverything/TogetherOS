@@ -23,14 +23,33 @@ export type ChallengeCategory = typeof CHALLENGE_CATEGORIES[number];
 export const CHALLENGE_DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
 export type ChallengeDifficulty = typeof CHALLENGE_DIFFICULTIES[number];
 
+// Microlesson card types for visual lesson building
+export type MicrolessonCardType = 'text' | 'image' | 'video' | 'statistic' | 'reflection';
+
+export interface MicrolessonCard {
+  id: string;
+  type: MicrolessonCardType;
+  content: string; // Rich text content for text cards, or description for media
+  imageUrl?: string; // For image cards
+  videoUrl?: string; // For video cards (YouTube, Vimeo, or direct URL)
+  caption?: string; // Caption for images/videos
+  altText?: string; // Alt text for accessibility
+  statistic?: string; // For statistic cards (e.g., "40%")
+  statisticLabel?: string; // Label for statistic (e.g., "of food is wasted")
+  question?: string; // For reflection cards
+  order: number; // For drag-drop reordering
+}
+
 export interface ContentData {
   id: string;
   type: ContentType;
   title: string;
-  story: string; // Main rich text content
-  number: string; // Statistic/number field
-  reflection: string; // Reflection question
+  story: string; // Main rich text content (legacy, still used for non-card types)
+  number: string; // Statistic/number field (legacy)
+  reflection: string; // Reflection question (legacy)
   status: 'draft' | 'published';
+  // Card-based microlessons
+  cards?: MicrolessonCard[]; // Array of cards for microlessons
   // Additional fields for specific types
   options?: string[]; // For quiz/bias challenge
   correctAnswer?: number; // For quiz
@@ -177,7 +196,7 @@ export function ContentEditor({
   );
 }
 
-// Microlesson Fields: Story → Number → Reflection
+// Microlesson Fields: Card-based visual lesson builder
 function MicrolessonFields({
   content,
   onChange,
@@ -185,49 +204,527 @@ function MicrolessonFields({
   content: ContentData;
   onChange: (data: Partial<ContentData>) => void;
 }) {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [bridgeSuggestion, setBridgeSuggestion] = useState<string | null>(null);
+
+  const cards = content.cards || [];
+
+  const generateId = () => `card-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+  const addCard = (type: MicrolessonCardType) => {
+    const newCard: MicrolessonCard = {
+      id: generateId(),
+      type,
+      content: '',
+      order: cards.length,
+    };
+    onChange({ cards: [...cards, newCard] });
+  };
+
+  const updateCard = (cardId: string, updates: Partial<MicrolessonCard>) => {
+    onChange({
+      cards: cards.map(card =>
+        card.id === cardId ? { ...card, ...updates } : card
+      ),
+    });
+  };
+
+  const deleteCard = (cardId: string) => {
+    onChange({
+      cards: cards.filter(card => card.id !== cardId).map((card, index) => ({
+        ...card,
+        order: index,
+      })),
+    });
+  };
+
+  const moveCard = (cardId: string, direction: 'up' | 'down') => {
+    const index = cards.findIndex(c => c.id === cardId);
+    if (
+      (direction === 'up' && index === 0) ||
+      (direction === 'down' && index === cards.length - 1)
+    ) return;
+
+    const newCards = [...cards];
+    const swapIndex = direction === 'up' ? index - 1 : index + 1;
+    [newCards[index], newCards[swapIndex]] = [newCards[swapIndex], newCards[index]];
+    onChange({
+      cards: newCards.map((card, i) => ({ ...card, order: i })),
+    });
+  };
+
+  const askBridgeForScenario = async () => {
+    setIsGenerating(true);
+    setBridgeSuggestion(null);
+    try {
+      const res = await fetch('/api/bridge/assist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'microlesson_scenario',
+          context: {
+            title: content.title,
+            existingCards: cards.map(c => ({ type: c.type, content: c.content?.slice(0, 100) })),
+          },
+          prompt: `Suggest a compelling real-world scenario for a microlesson titled "${content.title || 'Untitled'}".
+                   The scenario should be emotionally engaging, include a specific character/situation,
+                   and naturally lead to a surprising statistic and reflection question.
+                   Return as JSON: { scenario: string, suggestedStatistic: string, reflectionQuestion: string }`,
+        }),
+      });
+      const data = await res.json();
+      if (data.suggestion) {
+        setBridgeSuggestion(data.suggestion);
+      } else if (data.response) {
+        setBridgeSuggestion(data.response);
+      }
+    } catch (error) {
+      console.error('Bridge suggestion error:', error);
+      setBridgeSuggestion('Unable to generate suggestion. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const applyBridgeSuggestion = () => {
+    if (!bridgeSuggestion) return;
+    try {
+      const parsed = JSON.parse(bridgeSuggestion);
+      const newCards: MicrolessonCard[] = [];
+
+      if (parsed.scenario) {
+        newCards.push({
+          id: generateId(),
+          type: 'text',
+          content: `<p>${parsed.scenario}</p>`,
+          order: 0,
+        });
+      }
+      if (parsed.suggestedStatistic) {
+        const [stat, ...labelParts] = parsed.suggestedStatistic.split(' ');
+        newCards.push({
+          id: generateId(),
+          type: 'statistic',
+          content: '',
+          statistic: stat,
+          statisticLabel: labelParts.join(' '),
+          order: 1,
+        });
+      }
+      if (parsed.reflectionQuestion) {
+        newCards.push({
+          id: generateId(),
+          type: 'reflection',
+          content: '',
+          question: parsed.reflectionQuestion,
+          order: 2,
+        });
+      }
+
+      if (newCards.length > 0) {
+        onChange({ cards: [...cards, ...newCards].map((c, i) => ({ ...c, order: i })) });
+        setBridgeSuggestion(null);
+      }
+    } catch {
+      // If not JSON, just add as text card
+      const newCard: MicrolessonCard = {
+        id: generateId(),
+        type: 'text',
+        content: `<p>${bridgeSuggestion}</p>`,
+        order: cards.length,
+      };
+      onChange({ cards: [...cards, newCard] });
+      setBridgeSuggestion(null);
+    }
+  };
+
   return (
-    <>
-      <RichTextField
-        label="Story"
-        value={content.story}
-        onChange={(story) => onChange({ story })}
-        placeholder="Tell a compelling story that creates emotional connection..."
-        hint="The narrative that hooks the reader (60-90 seconds to read)"
-      />
-
-      <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
-          Number / Statistic
-        </label>
-        <input
-          type="text"
-          value={content.number || ''}
-          onChange={(e) => onChange({ number: e.target.value })}
-          placeholder="e.g., '40% of food in America is wasted'"
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
-        />
-        <p className="text-xs text-ink-500 mt-1">
-          A striking statistic that grounds the story in reality
+    <div className="space-y-6">
+      {/* Bridge AI Suggestion */}
+      <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🌉</span>
+            <span className="font-medium text-purple-900">Bridge AI Assistant</span>
+          </div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={askBridgeForScenario}
+            disabled={isGenerating}
+            className="bg-purple-100 hover:bg-purple-200 text-purple-700"
+          >
+            {isGenerating ? (
+              <>
+                <span className="animate-spin mr-2">⟳</span>
+                Generating...
+              </>
+            ) : (
+              '✨ Suggest Scenario'
+            )}
+          </Button>
+        </div>
+        <p className="text-sm text-purple-700">
+          Let Bridge suggest a compelling real-world scenario, statistic, and reflection question
         </p>
+
+        {bridgeSuggestion && (
+          <div className="mt-3 p-3 bg-white rounded-lg border border-purple-200">
+            <p className="text-sm text-gray-700 whitespace-pre-wrap mb-3">{bridgeSuggestion}</p>
+            <div className="flex gap-2">
+              <Button size="sm" onClick={applyBridgeSuggestion}>
+                Apply Suggestion
+              </Button>
+              <Button variant="secondary" size="sm" onClick={() => setBridgeSuggestion(null)}>
+                Dismiss
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
-          Reflection Question
-        </label>
-        <textarea
-          value={content.reflection || ''}
-          onChange={(e) => onChange({ reflection: e.target.value })}
-          placeholder="What's one way you could..."
-          rows={2}
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
-        />
-        <p className="text-xs text-ink-500 mt-1">
-          Open-ended question connecting to personal experience
-        </p>
+      {/* Add Card Buttons */}
+      <div className="flex flex-wrap gap-2">
+        <span className="text-sm text-ink-600 self-center mr-2">Add card:</span>
+        <button
+          type="button"
+          onClick={() => addCard('text')}
+          className="px-3 py-1.5 text-sm bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors flex items-center gap-1"
+        >
+          📝 Text
+        </button>
+        <button
+          type="button"
+          onClick={() => addCard('image')}
+          className="px-3 py-1.5 text-sm bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors flex items-center gap-1"
+        >
+          🖼️ Image
+        </button>
+        <button
+          type="button"
+          onClick={() => addCard('video')}
+          className="px-3 py-1.5 text-sm bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
+        >
+          🎬 Video
+        </button>
+        <button
+          type="button"
+          onClick={() => addCard('statistic')}
+          className="px-3 py-1.5 text-sm bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors flex items-center gap-1"
+        >
+          📊 Statistic
+        </button>
+        <button
+          type="button"
+          onClick={() => addCard('reflection')}
+          className="px-3 py-1.5 text-sm bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors flex items-center gap-1"
+        >
+          💭 Reflection
+        </button>
       </div>
-    </>
+
+      {/* Cards List */}
+      {cards.length === 0 ? (
+        <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
+          <p className="text-ink-500 mb-2">No cards yet</p>
+          <p className="text-sm text-ink-400">
+            Add cards to build your microlesson, or let Bridge suggest a scenario
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {cards.sort((a, b) => a.order - b.order).map((card, index) => (
+            <MicrolessonCardEditor
+              key={card.id}
+              card={card}
+              index={index}
+              totalCards={cards.length}
+              onUpdate={(updates) => updateCard(card.id, updates)}
+              onDelete={() => deleteCard(card.id)}
+              onMove={(direction) => moveCard(card.id, direction)}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Legacy fields for backward compatibility - hidden if cards exist */}
+      {cards.length === 0 && (
+        <div className="border-t border-border pt-6 mt-6">
+          <p className="text-xs text-ink-500 mb-4">
+            Or use legacy single-field format:
+          </p>
+          <RichTextField
+            label="Story"
+            value={content.story}
+            onChange={(story) => onChange({ story })}
+            placeholder="Tell a compelling story..."
+            hint="The narrative that hooks the reader"
+          />
+        </div>
+      )}
+    </div>
   );
+}
+
+// Individual Microlesson Card Editor
+function MicrolessonCardEditor({
+  card,
+  index,
+  totalCards,
+  onUpdate,
+  onDelete,
+  onMove,
+}: {
+  card: MicrolessonCard;
+  index: number;
+  totalCards: number;
+  onUpdate: (updates: Partial<MicrolessonCard>) => void;
+  onDelete: () => void;
+  onMove: (direction: 'up' | 'down') => void;
+}) {
+  const cardTypeConfig: Record<MicrolessonCardType, { icon: string; label: string; color: string }> = {
+    text: { icon: '📝', label: 'Text', color: 'bg-blue-50 border-blue-200' },
+    image: { icon: '🖼️', label: 'Image', color: 'bg-green-50 border-green-200' },
+    video: { icon: '🎬', label: 'Video', color: 'bg-red-50 border-red-200' },
+    statistic: { icon: '📊', label: 'Statistic', color: 'bg-orange-50 border-orange-200' },
+    reflection: { icon: '💭', label: 'Reflection', color: 'bg-purple-50 border-purple-200' },
+  };
+
+  const config = cardTypeConfig[card.type];
+
+  return (
+    <div className={cn('rounded-lg border-2 p-4', config.color)}>
+      {/* Card Header */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">{config.icon}</span>
+          <span className="text-sm font-medium text-ink-700">
+            Card {index + 1}: {config.label}
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => onMove('up')}
+            disabled={index === 0}
+            className="p-1 text-ink-500 hover:text-ink-700 disabled:opacity-30"
+            title="Move up"
+          >
+            ↑
+          </button>
+          <button
+            type="button"
+            onClick={() => onMove('down')}
+            disabled={index === totalCards - 1}
+            className="p-1 text-ink-500 hover:text-ink-700 disabled:opacity-30"
+            title="Move down"
+          >
+            ↓
+          </button>
+          <button
+            type="button"
+            onClick={onDelete}
+            className="p-1 text-red-500 hover:text-red-700 ml-2"
+            title="Delete card"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      {/* Card Content by Type */}
+      {card.type === 'text' && (
+        <RichTextField
+          label="Content"
+          value={card.content}
+          onChange={(content) => onUpdate({ content })}
+          placeholder="Write your story segment..."
+          hint="Use rich text formatting for emphasis"
+        />
+      )}
+
+      {card.type === 'image' && (
+        <div className="space-y-3">
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1">
+              Image URL
+            </label>
+            <input
+              type="url"
+              value={card.imageUrl || ''}
+              onChange={(e) => onUpdate({ imageUrl: e.target.value })}
+              placeholder="https://example.com/image.jpg"
+              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+          {card.imageUrl && (
+            <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
+              <img
+                src={card.imageUrl}
+                alt={card.altText || 'Preview'}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="50" text-anchor="middle" fill="%23999">Image Error</text></svg>';
+                }}
+              />
+            </div>
+          )}
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1">
+              Caption
+            </label>
+            <input
+              type="text"
+              value={card.caption || ''}
+              onChange={(e) => onUpdate({ caption: e.target.value })}
+              placeholder="Describe what's shown in this image..."
+              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1">
+              Alt Text (Accessibility)
+            </label>
+            <input
+              type="text"
+              value={card.altText || ''}
+              onChange={(e) => onUpdate({ altText: e.target.value })}
+              placeholder="Describe the image for screen readers..."
+              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+        </div>
+      )}
+
+      {card.type === 'video' && (
+        <div className="space-y-3">
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1">
+              Video URL
+            </label>
+            <input
+              type="url"
+              value={card.videoUrl || ''}
+              onChange={(e) => onUpdate({ videoUrl: e.target.value })}
+              placeholder="YouTube, Vimeo, or direct video URL..."
+              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+            <p className="text-xs text-ink-500 mt-1">
+              Supports YouTube, Vimeo, and direct video links
+            </p>
+          </div>
+          {card.videoUrl && (
+            <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center">
+              {card.videoUrl.includes('youtube.com') || card.videoUrl.includes('youtu.be') ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${extractYouTubeId(card.videoUrl)}`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : card.videoUrl.includes('vimeo.com') ? (
+                <iframe
+                  src={`https://player.vimeo.com/video/${extractVimeoId(card.videoUrl)}`}
+                  className="w-full h-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video src={card.videoUrl} controls className="w-full h-full" />
+              )}
+            </div>
+          )}
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1">
+              Caption
+            </label>
+            <input
+              type="text"
+              value={card.caption || ''}
+              onChange={(e) => onUpdate({ caption: e.target.value })}
+              placeholder="Video description..."
+              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+        </div>
+      )}
+
+      {card.type === 'statistic' && (
+        <div className="space-y-3">
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-ink-700 mb-1">
+                Number
+              </label>
+              <input
+                type="text"
+                value={card.statistic || ''}
+                onChange={(e) => onUpdate({ statistic: e.target.value })}
+                placeholder="40%"
+                className="w-full px-3 py-2 text-2xl font-bold text-center border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+              />
+            </div>
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
+                Label
+              </label>
+              <input
+                type="text"
+                value={card.statisticLabel || ''}
+                onChange={(e) => onUpdate({ statisticLabel: e.target.value })}
+                placeholder="of food in America is wasted"
+                className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+              />
+            </div>
+          </div>
+          {/* Preview */}
+          {(card.statistic || card.statisticLabel) && (
+            <div className="p-4 bg-white rounded-lg text-center">
+              <span className="text-4xl font-bold text-orange-600">{card.statistic || '—'}</span>
+              <span className="text-lg text-ink-700 ml-2">{card.statisticLabel}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {card.type === 'reflection' && (
+        <div className="space-y-3">
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1">
+              Reflection Question
+            </label>
+            <textarea
+              value={card.question || ''}
+              onChange={(e) => onUpdate({ question: e.target.value })}
+              placeholder="What's one way you could..."
+              rows={2}
+              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+            />
+            <p className="text-xs text-ink-500 mt-1">
+              Open-ended question connecting to personal experience
+            </p>
+          </div>
+          {/* Preview */}
+          {card.question && (
+            <div className="p-4 bg-purple-100 rounded-lg">
+              <p className="text-purple-800 italic">&ldquo;{card.question}&rdquo;</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Helper functions for video URL parsing
+function extractYouTubeId(url: string): string {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  return match ? match[1] : '';
+}
+
+function extractVimeoId(url: string): string {
+  const match = url.match(/vimeo\.com\/(\d+)/);
+  return match ? match[1] : '';
 }
 
 // Full Challenge Fields (from gamification consolidation)
