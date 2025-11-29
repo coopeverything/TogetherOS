@@ -108,7 +108,7 @@ export default async function ModuleDocPage({ params }: Props) {
         {/* Navigation */}
         <nav className="mb-8">
           <Link
-            href="/admin/modules"
+            href="/modules"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
           >
             <svg
@@ -144,7 +144,7 @@ export default async function ModuleDocPage({ params }: Props) {
         {/* Footer */}
         <div className="mt-8 flex items-center justify-between text-sm text-gray-600">
           <Link
-            href="/admin/modules"
+            href="/modules"
             className="text-blue-600 hover:text-blue-700"
           >
             View all modules
