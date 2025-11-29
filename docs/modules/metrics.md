@@ -1,582 +1,164 @@
-# Metrics & Review Module
+# Metrics & Review
+
+**Purpose:** Track whether decisions actually achieve their goals, trigger re-evaluation when they don't, and create a feedback loop for continuous improvement.
+
+**Status:** 0% — Specification Complete
+
+---
 
 ## Overview
 
-The Metrics & Review module provides systematic success tracking, outcome measurement, and continuous improvement mechanisms for TogetherOS communities. It creates a feedback loop from implementation back to governance, ensuring decisions are evaluated against stated goals and lessons learned inform future proposals.
+The Metrics module ensures decisions are evaluated against stated goals:
 
-**Current Progress:** <!-- progress:metrics=0 --> 0%
+1. **Success Metrics Definition** — Specify measurable outcomes for initiatives
+2. **Evaluation Scheduling** — Automatic check-ins at key milestones
+3. **Re-evaluation Triggers** — Flag underperforming initiatives automatically
+4. **Minority Report Validation** — Check if dissenting predictions came true
+5. **Feedback Loop** — Auto-generate improvement proposals when things fail
 
-**Category:** Collective Governance, Cooperative Technology
+### Design Principles
 
----
-
-## Core Purpose
-
-Enable communities to:
-- **Define success metrics:** Specify measurable outcomes for initiatives
-- **Track actual results:** Measure what happened vs what was expected
-- **Trigger re-evaluation:** Automatically flag failed or underperforming initiatives
-- **Validate minority reports:** Check if dissenting predictions came true
-- **Create feedback loops:** Auto-generate improvement proposals when initiatives fail
-- **Learn collectively:** Build institutional knowledge from successes and failures
+- **Meaningful outcomes:** Measure impact, not just output
+- **Learn from failure:** Every failed initiative teaches something
+- **Minority voices matter:** Validated dissent informs future decisions
+- **Continuous improvement:** Cycle from decision → result → refinement
 
 ---
 
-## Key Concepts
+## Our Values in Action
 
-### Success Metrics vs Vanity Metrics
+### Transparency
 
-**Success Metrics** measure meaningful outcomes:
-- **Good:** "50 members actively using community garden" (impact)
-- **Bad:** "Garden built" (output, not outcome)
+All metrics are visible:
 
-**Characteristics of good metrics:**
+- **Public success rates:** See which types of initiatives succeed
+- **Failure patterns:** Learn from what hasn't worked
+- **Minority validation:** Track how often dissenters were right
+- **No hidden algorithms:** All calculations documented
+
+### Open Source
+
+The metrics system is fully open:
+
+- **Inspect the code:** See how success is calculated
+- **Review evaluation logic:** Understand trigger conditions
+- **Audit improvement proposals:** See what the system recommends
+
+### Community Governance
+
+**This module is subject to change by the community through proposal and voting.** Coop-everything means what it says:
+
+- **Success thresholds:** Community decides what counts as success
+- **Evaluation timelines:** Members set when to measure outcomes
+- **Failure responses:** Vote on how to handle underperforming initiatives
+- **Your voice matters:** From metric weights to re-evaluation triggers, members decide
+
+---
+
+## Good Metrics vs Bad Metrics
+
+### What Makes a Good Metric?
+
 - **Specific:** Clear definition, no ambiguity
 - **Measurable:** Quantifiable or verifiable
 - **Relevant:** Directly related to proposal goals
 - **Time-bound:** Evaluation timeline specified
 - **Attributable:** Can link outcome to initiative
 
----
+### Examples
 
-## Key Entities
-
-### InitiativeMetrics
-
-Links metrics to a specific initiative.
-
-```typescript
-interface InitiativeMetrics {
-  id: string                           // UUID
-  initiativeId: string                 // Links to Execution module
-  proposalId: string                   // Original governance proposal
-
-  // Metrics definition
-  metrics: Metric[]                    // List of success metrics
-
-  // Evaluation scheduling
-  evaluationSchedule: EvaluationSchedule
-  evaluationDate: Date                 // When to measure outcomes
-  reminderDate: Date                   // Reminder before evaluation
-
-  // Current status
-  status: MetricStatus
-  evaluatedAt?: Date
-  evaluatedBy?: string                 // Member UUID who performed evaluation
-
-  // Results
-  overallOutcome?: 'succeeded' | 'failed' | 'mixed' | 'inconclusive'
-  improvementProposalId?: string       // If feedback loop triggered
-
-  // Timestamps
-  createdAt: Date
-  updatedAt: Date
-}
-
-type EvaluationSchedule =
-  | 'immediate'                        // Right after delivery
-  | '30-days'                          // 1 month post-delivery
-  | '90-days'                          // 3 months post-delivery
-  | '6-months'                         // 6 months post-delivery
-  | '1-year'                           // 1 year post-delivery
-  | 'custom'                           // Specify custom date
-
-type MetricStatus =
-  | 'pending'                          // Awaiting evaluation date
-  | 'ready_for_evaluation'            // Evaluation date reached
-  | 'in_evaluation'                    // Community measuring outcomes
-  | 'evaluated'                        // Completed
-  | 'improvement_pending'              // Feedback loop initiated
-```
-
-### Metric
-
-Individual measurable outcome.
-
-```typescript
-interface Metric {
-  id: string                           // UUID
-  name: string                         // 3-100 chars
-  description: string                  // What this measures (10-500 chars)
-
-  // Target vs Actual
-  target: MetricValue                  // Expected outcome
-  actual?: MetricValue                 // Measured outcome (after evaluation)
-
-  // Measurement
-  unit: string                         // "members", "dollars", "hours", "percentage", etc.
-  measurementMethod: MeasurementMethod
-  dataSource?: string                  // Where to get data (DB query, survey, manual)
-
-  // Weighting
-  weight: number                       // 1-10 (importance of this metric)
-  mandatory: boolean                   // Must succeed for overall success
-
-  // Results
-  status?: 'exceeded' | 'met' | 'partially_met' | 'not_met' | 'not_measured'
-  variance?: number                    // % difference from target
-  notes?: string                       // Evaluator comments
-}
-
-interface MetricValue {
-  value: number | string | boolean
-  confidence?: 'high' | 'medium' | 'low' // How confident in this measurement
-  evidenceUrls?: string[]               // Links to proof
-}
-
-type MeasurementMethod =
-  | 'database_query'                   // Auto-measure from platform data
-  | 'survey'                           // Community survey
-  | 'manual_count'                     // Manual observation/counting
-  | 'external_data'                    // Import from external source
-  | 'qualitative'                      // Narrative/subjective assessment
-```
-
-### MinorityReportValidation
-
-Tracks whether minority report predictions came true.
-
-```typescript
-interface MinorityReportValidation {
-  id: string                           // UUID
-  proposalId: string
-  initiativeMetricsId: string
-
-  // Minority report content
-  minorityReportText: string           // Original report
-  keyConcerns: string[]                // Extracted predictions
-
-  // Validation
-  validated: boolean                   // Did concerns prove correct?
-  validatedConcerns: string[]          // Which specific concerns were right
-  validationNotes: string              // Explanation
-  validatedAt: Date
-  validatedBy: string                  // Member UUID
-
-  // Action taken
-  improvementProposalCreated: boolean
-  improvementProposalId?: string
-}
-```
-
-### ImprovementProposal
-
-Auto-generated proposal when initiative fails evaluation.
-
-```typescript
-interface ImprovementProposal {
-  id: string                           // UUID
-  originalProposalId: string           // Failed proposal
-  initiativeId: string                 // Failed initiative
-  initiativeMetricsId: string          // Metrics that failed
-
-  // Pre-filled content (member must review before submitting)
-  title: string                        // "Improvement: [original title]"
-  summary: string                      // Auto-generated summary
-  failedMetrics: Metric[]              // Metrics that didn't meet target
-  minorityReportQuotes?: string[]      // If minority was validated
-  lessonsLearned: string               // From delivery report
-  suggestedAmendments: string          // AI-suggested improvements
-
-  // Status
-  status: 'draft' | 'submitted' | 'in_governance' | 'rejected'
-  reviewedBy?: string                  // Member who reviewed/submitted
-  submittedAt?: Date
-
-  createdAt: Date
-}
-```
-
-### MetricTemplate
-
-Reusable metric definitions for common types of initiatives.
-
-```typescript
-interface MetricTemplate {
-  id: string                           // UUID
-  name: string                         // Template name
-  category: string                     // Initiative type
-  description: string
-
-  // Pre-defined metrics
-  metrics: Omit<Metric, 'id' | 'target' | 'actual'>[]
-
-  // Usage
-  timesUsed: number
-  successRate: number                  // % of initiatives using this template that succeeded
-
-  createdAt: Date
-  updatedAt: Date
-}
-```
+| Good Metric | Bad Metric |
+|-------------|------------|
+| "50 members actively using community garden" | "Garden built" |
+| "80% satisfaction rating in post-survey" | "People are happy" |
+| "Response time under 24 hours" | "Fast responses" |
+| "30% cost reduction vs previous quarter" | "Save money" |
 
 ---
 
-## Integration with Other Modules
+## How Evaluation Works
 
-### Execution & Accountability Module
+### The Cycle
 
-**Automatic metrics scheduling:**
+1. **Initiative Delivered** — Admin submits completion
+2. **Evaluation Scheduled** — System sets measurement date (30 days, 90 days, 1 year)
+3. **Measurement Time** — Community enters actual outcomes
+4. **Compare Results** — System calculates: target vs actual
+5. **Determine Outcome:**
+   - **Succeeded:** Actual ≥ target for all metrics
+   - **Mixed:** Some succeeded, some failed
+   - **Failed:** Actual < target for majority
 
-1. **Initiative created** → Prompt admin to define metrics
-2. **Initiative delivered** → Calculate evaluation date based on schedule
-3. **Evaluation date arrives** → Create evaluation task
-4. **Metrics evaluated** → Update initiative status
-5. **Metrics failed** → Trigger improvement proposal creation
+### When Initiatives Fail
 
-### Governance Module
-
-**Feedback loop for continuous improvement:**
-
-1. **Metrics fail** → System creates `ImprovementProposal`
-2. **Pre-fill proposal** with:
-   - Original decision ID
+1. System creates draft improvement proposal
+2. Pre-fills with:
+   - Link to original decision
    - Failed metrics (evidence)
-   - Minority report validation (if applicable)
-   - Lessons learned from delivery report
-   - Suggested amendments
-3. **Member reviews** draft proposal
-4. **Member submits** to Governance module as amendment
-5. **Governance processes** as standard amendment proposal
-
-### Events Module
-
-**Evaluation reminders:**
-- Create "Evaluation Reminder" event 1 week before evaluation date
-- Create "Metrics Review Meeting" event for community to discuss results
-- Schedule follow-up if metrics inconclusive
+   - Minority report excerpts (if applicable)
+   - Lessons from delivery report
+3. Member reviews and submits as amendment
+4. Governance processes the improvement
+5. New initiative → New metrics → Better results
 
 ---
 
-## Core Features
+## Minority Report Validation
 
-### Phase 1: Metrics Definition & Tracking (0% - SPEC ONLY)
+One of the most powerful features: checking if dissenters were right.
 
-#### Features:
-- Define metrics when creating initiative
-- Metric templates for common initiative types
-- Schedule evaluation based on timeline
-- Track metrics through initiative lifecycle
-- Manual measurement entry
-- Automatic measurement (database queries)
+### Why This Matters
 
-#### UI Routes:
-- `/initiatives/[id]/metrics` - Define metrics for initiative
-- `/initiatives/[id]/metrics/evaluate` - Enter measurement data
-- `/metrics/templates` - Browse metric templates
+- Minority reports capture concerns the majority dismissed
+- When initiatives fail, minority concerns often prove valid
+- This creates accountability for majority decisions
+- Over time, communities learn to take dissent seriously
 
-#### Implementation:
-- [ ] `InitiativeMetrics` entity with validation
-- [ ] `Metric` entity with validation
-- [ ] Metrics definition API
-- [ ] Evaluation scheduling logic
-- [ ] Template system for reusable metrics
-- [ ] UI: Metrics definition form
-- [ ] UI: Metric template browser
+### How It Works
+
+1. When metrics fail, system checks minority reports
+2. Compares concerns raised vs actual outcomes
+3. If concerns validated → Quoted in improvement proposal
+4. Tracks validation rate over time
 
 ---
 
-### Phase 2: Evaluation & Measurement (0% - SPEC ONLY)
+## Metric Templates
 
-#### Features:
-- Evaluation task creation (when date arrives)
-- Measurement data entry interface
-- Automatic database query execution (for measurable metrics)
-- Survey creation for qualitative metrics
-- Evidence attachment (proof of outcomes)
-- Variance calculation (target vs actual)
-- Overall outcome determination (succeeded/failed/mixed)
+Common initiative types have pre-built metrics:
 
-#### UI Components:
-- Evaluation dashboard
-- Measurement entry forms
-- Evidence upload
-- Results visualization (charts, graphs)
+### Community Projects
+- Active participation rate
+- Member satisfaction score
+- Resource utilization efficiency
 
-#### Implementation:
-- [ ] Evaluation task queue
-- [ ] Measurement entry API
-- [ ] Database query executor for metrics
-- [ ] Survey integration
-- [ ] Variance and outcome calculation engine
-- [ ] UI: Evaluation dashboard
-- [ ] UI: Results visualization
+### Platform Features
+- User adoption percentage
+- Bug count in first 30 days
+- Net Promoter Score (NPS)
+
+### Events
+- Attendance vs target
+- Post-event feedback rating
+- Follow-up engagement rate
 
 ---
 
-### Phase 3: Re-evaluation Triggers & Alerts (0% - SPEC ONLY)
+## Technical Implementation
 
-#### Features:
-- Automatic failure detection (metrics <50% of target)
-- Minority report validation workflow
-- Community feedback aggregation
-- Alert creation for stakeholders
-- Escalation for severe failures
+For developers interested in the entity schemas, API endpoints, evaluation algorithms, and implementation details:
 
-#### Trigger Conditions:
-- Any metric <50% of target
-- Majority of metrics fail
-- Minority report concerns validated
-- 5+ members flag initiative as failed
-- Implementation >2x estimated time/cost
-
-#### Implementation:
-- [ ] Trigger detection engine
-- [ ] MinorityReportValidation entity and workflow
-- [ ] Alert/notification integration
-- [ ] Escalation rules configuration
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/metrics-technical.md)
 
 ---
 
-### Phase 4: Feedback Loop & Improvement Proposals (0% - SPEC ONLY)
+## Related Modules
 
-#### Features:
-- Auto-generate improvement proposals (pre-filled drafts)
-- AI-suggested amendments based on failure patterns
-- Member review and submission workflow
-- Track improvement cycle (original → amendment → new initiative → new metrics)
-- Success rate tracking for amendments
-
-#### Implementation:
-- [ ] `ImprovementProposal` entity
-- [ ] Auto-generation logic (extract failed metrics, minority quotes, lessons)
-- [ ] AI integration for amendment suggestions
-- [ ] Member review UI
-- [ ] Submission to Governance module
-- [ ] Cycle tracking (link original → improvement → result)
+- [Execution & Accountability](./admin-accountability.md) — Initiative tracking
+- [Governance](./governance.md) — Amendment proposals from failures
+- [Gamification](./gamification.md) — Community milestone tracking
+- [Events](./events.md) — Evaluation reminder scheduling
 
 ---
 
-### Phase 5: Analytics & Institutional Learning (0% - SPEC ONLY)
-
-#### Features:
-- Success rate by initiative type
-- Common failure patterns
-- Metric template effectiveness
-- Minority report validation rate (how often dissent was correct)
-- Time-to-success trends
-- Cost/benefit analysis aggregates
-
-#### UI Routes:
-- `/metrics/analytics` - Platform-wide metrics dashboard
-- `/metrics/patterns` - Common failure patterns
-- `/metrics/templates/effectiveness` - Template performance
-
----
-
-## Validation Rules
-
-### Metrics Definition
-
-```typescript
-import { z } from 'zod'
-
-export const defineMetricsSchema = z.object({
-  initiativeId: z.string().uuid(),
-  evaluationSchedule: z.enum(['immediate', '30-days', '90-days', '6-months', '1-year', 'custom']),
-  customEvaluationDate: z.date().optional(),
-  metrics: z.array(z.object({
-    name: z.string().min(3).max(100),
-    description: z.string().min(10).max(500),
-    target: z.object({
-      value: z.union([z.number(), z.string(), z.boolean()]),
-      confidence: z.enum(['high', 'medium', 'low']).optional(),
-    }),
-    unit: z.string().min(1).max(50),
-    measurementMethod: z.enum(['database_query', 'survey', 'manual_count', 'external_data', 'qualitative']),
-    dataSource: z.string().optional(),
-    weight: z.number().int().min(1).max(10).default(5),
-    mandatory: z.boolean().default(false),
-  })).min(1).max(10),  // At least 1 metric, max 10
-}).refine(data => {
-  // If custom evaluation schedule, must provide date
-  if (data.evaluationSchedule === 'custom' && !data.customEvaluationDate) {
-    return false
-  }
-  return true
-})
-```
-
-### Measurement Entry
-
-```typescript
-export const enterMeasurementSchema = z.object({
-  metricId: z.string().uuid(),
-  actual: z.object({
-    value: z.union([z.number(), z.string(), z.boolean()]),
-    confidence: z.enum(['high', 'medium', 'low']),
-    evidenceUrls: z.array(z.string().url()).optional(),
-  }),
-  notes: z.string().max(1000).optional(),
-})
-```
-
-### Minority Report Validation
-
-```typescript
-export const validateMinorityReportSchema = z.object({
-  minorityReportValidationId: z.string().uuid(),
-  validated: z.boolean(),
-  validatedConcerns: z.array(z.string()).min(1),
-  validationNotes: z.string().min(10).max(2000),
-})
-```
-
----
-
-## Success Metrics (Meta!)
-
-### Metrics for the Metrics Module:
-
-#### Adoption
-- **Metrics definition rate:** >80% of initiatives have defined metrics
-- **Evaluation completion rate:** >90% of scheduled evaluations completed on time
-- **Template usage:** >60% of initiatives use metric templates
-
-#### Quality
-- **Outcome clarity:** >85% of evaluations have clear succeeded/failed/mixed determination
-- **Evidence attachment:** >70% of measured metrics have evidence attached
-- **Community participation:** >50% of evaluations have >5 community members validating
-
-#### Impact
-- **Feedback loop activation:** >30% of failed initiatives generate improvement proposals
-- **Improvement success rate:** >60% of improvement proposals succeed on re-evaluation
-- **Minority validation rate:** Track % of minority reports that proved correct
-- **Institutional learning:** Success rate improves over time for repeated initiative types
-
----
-
-## Dependencies
-
-### Required Modules:
-- **Execution & Accountability** (0%) — Initiative tracking
-- **Governance** (60%) — Improvement proposal creation, amendment workflow
-
-### Optional Integration:
-- **Events** (0%) — Evaluation reminder events
-- **Notifications** (65%) — Evaluation alerts
-- **Bridge AI** (95%) — Suggested amendments, pattern detection
-
----
-
-## Privacy & Security
-
-### Public Information (Members-Only):
-- Aggregate success rates by initiative type
-- Common failure patterns (anonymized)
-- Template effectiveness stats
-
-### Group-Only Information:
-- Specific initiative metrics (unless initiative was public)
-- Minority report validation details
-- Individual metric measurements
-
-### Private Information (Admins Only):
-- Member-submitted evidence (if sensitive)
-- Failed initiative post-mortems (if requested private)
-
----
-
-## Future Enhancements
-
-### Phase 6: AI-Powered Insights
-- Predictive modeling (likelihood of initiative success based on metrics)
-- Pattern detection (common failure modes)
-- Automated amendment suggestions (based on historical data)
-- Anomaly detection (unusual outcomes worth investigating)
-
-### Phase 7: Cross-Group Learning
-- Federated metrics sharing (anonymized)
-- Best practice identification across instances
-- Template library shared across groups
-- Comparative analytics (how does our success rate compare?)
-
----
-
-## Example Metrics for Common Initiative Types
-
-### Community Garden Initiative
-
-```typescript
-const gardenMetrics: Metric[] = [
-  {
-    name: "Active Participants",
-    description: "Number of members actively participating in garden (visited 2+ times/month)",
-    target: { value: 50, confidence: 'medium' },
-    unit: "members",
-    measurementMethod: "database_query",
-    dataSource: "SELECT COUNT(DISTINCT user_id) FROM garden_visits WHERE visits >= 2 AND month = evaluation_month",
-    weight: 10,
-    mandatory: true
-  },
-  {
-    name: "Food Production",
-    description: "Total kilograms of vegetables/fruits harvested",
-    target: { value: 100, confidence: 'low' },
-    unit: "kilograms",
-    measurementMethod: "manual_count",
-    weight: 7,
-    mandatory: false
-  },
-  {
-    name: "Member Satisfaction",
-    description: "Percentage of participants who rate experience 4+ stars",
-    target: { value: 80, confidence: 'high' },
-    unit: "percentage",
-    measurementMethod: "survey",
-    weight: 8,
-    mandatory: true
-  }
-]
-```
-
-### Platform Feature Initiative
-
-```typescript
-const featureMetrics: Metric[] = [
-  {
-    name: "User Adoption",
-    description: "Percentage of active members using feature at least once",
-    target: { value: 60, confidence: 'medium' },
-    unit: "percentage",
-    measurementMethod: "database_query",
-    weight: 10,
-    mandatory: true
-  },
-  {
-    name: "Bug Reports",
-    description: "Number of P1/P2 bugs reported in first 30 days",
-    target: { value: 5, confidence: 'high' },  // Target is LOW (fewer bugs better)
-    unit: "bugs",
-    measurementMethod: "external_data",  // From GitHub issues
-    weight: 8,
-    mandatory: true
-  },
-  {
-    name: "User Feedback",
-    description: "Net Promoter Score (NPS) for feature",
-    target: { value: 50, confidence: 'medium' },
-    unit: "nps_score",
-    measurementMethod: "survey",
-    weight: 7,
-    mandatory: false
-  }
-]
-```
-
----
-
-## Related Documentation
-
-- [Execution & Accountability Module](./admin-accountability.md) — Initiative implementation
-- [Governance Module](./governance.md) — Improvement proposals, amendments
-- [Events Module](./events.md) — Evaluation reminder events
-- [Moderation Transparency Module](./moderation-transparency.md) — Moderation metrics
-
----
-
-**Status:** Spec complete, implementation at 0%
-**Next Milestone:** Metrics definition + evaluation MVP (target: 30%)
-**Owner:** @coopeverything-core
-
----
+<!-- progress:metrics=0 -->

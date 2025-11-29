@@ -310,7 +310,7 @@ export default async function ModuleDocPage({ params }: Props) {
             View the complete technical specification including API contracts,
             database schemas, TypeScript interfaces, and implementation details on{' '}
             <a
-              href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
+              href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/${slug}-technical.md`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
