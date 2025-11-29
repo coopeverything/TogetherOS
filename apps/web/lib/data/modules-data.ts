@@ -203,10 +203,11 @@ export const modules: Module[] = [
   {
     title: 'Notifications & Inbox',
     description:
-      'Real-time notifications for mentions, replies, proposal updates, and governance decisions. Configurable notification preferences with email and in-app delivery. Complete MVP with 6 endpoints and 3 UI components deployed.',
-    progress: 65,
-    status: 'in-progress',
-    repoPath: `${GITHUB_BASE}/docs/modules`,
+      'Real-time notifications for mentions, replies, proposal updates, and governance decisions. All features complete: PostgreSQL database schema, preferences API with per-type toggles, settings UI page, filtering by type, mark-as-read/mark-all-read, email digest frequency controls, and push notification settings. Database-backed with in-memory fallback for development.',
+    progress: 100,
+    status: 'complete',
+    repoPath: `${GITHUB_BASE}/docs/modules/notifications.md`,
+    docsPath: '/docs/modules/notifications',
     category: 'Community Connection',
   },
   {
