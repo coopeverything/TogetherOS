@@ -8,6 +8,21 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { ContentType } from './ContentList';
 
+// Action types from gamification module
+export const CHALLENGE_ACTION_TYPES = [
+  'post_message', 'post_comment', 'view_paths', 'add_skills', 'send_invitation',
+  'proposal_interact', 'complete_journey', 'welcome_member', 'start_thread',
+  'offer_help', 'share_resource', 'rate_proposal', 'update_profile', 'visit_group', 'join_group',
+] as const;
+
+export type ChallengeActionType = typeof CHALLENGE_ACTION_TYPES[number];
+
+export const CHALLENGE_CATEGORIES = ['social', 'contribution', 'exploration', 'growth'] as const;
+export type ChallengeCategory = typeof CHALLENGE_CATEGORIES[number];
+
+export const CHALLENGE_DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
+export type ChallengeDifficulty = typeof CHALLENGE_DIFFICULTIES[number];
+
 export interface ContentData {
   id: string;
   type: ContentType;
@@ -22,6 +37,15 @@ export interface ContentData {
   explanation?: string; // For quiz/bias challenge
   rpReward?: number; // For challenges
   task?: string; // For micro-challenges
+  // Full challenge fields (from gamification)
+  category?: ChallengeCategory;
+  difficulty?: ChallengeDifficulty;
+  actionType?: ChallengeActionType;
+  actionTarget?: Record<string, unknown>;
+  isFirstWeek?: boolean;
+  dayNumber?: number;
+  icon?: string;
+  microlessonId?: string;
 }
 
 interface ContentEditorProps {
@@ -35,6 +59,7 @@ interface ContentEditorProps {
 
 const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
   microlesson: 'Microlesson',
+  challenge: 'Challenge',
   bias_challenge: 'Bias Challenge',
   micro_challenge: 'Micro-Challenge',
   quiz: 'Quiz Question',
@@ -42,6 +67,7 @@ const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
 
 const CONTENT_TYPE_DESCRIPTIONS: Record<ContentType, string> = {
   microlesson: '60-90 second learning experience: Story → Number → Reflection',
+  challenge: 'Full challenge with action type, RP reward, and optional first-week scheduling',
   bias_challenge: 'Quick scenario revealing cognitive bias (1-2 taps)',
   micro_challenge: '3-5 minute actionable task with RP reward',
   quiz: 'Multiple choice question with explanation',
@@ -133,6 +159,9 @@ export function ContentEditor({
           {content.type === 'microlesson' && (
             <MicrolessonFields content={content} onChange={onChange} />
           )}
+          {content.type === 'challenge' && (
+            <ChallengeFields content={content} onChange={onChange} />
+          )}
           {content.type === 'bias_challenge' && (
             <BiasChallengeFields content={content} onChange={onChange} />
           )}
@@ -196,6 +225,138 @@ function MicrolessonFields({
         <p className="text-xs text-ink-500 mt-1">
           Open-ended question connecting to personal experience
         </p>
+      </div>
+    </>
+  );
+}
+
+// Full Challenge Fields (from gamification consolidation)
+function ChallengeFields({
+  content,
+  onChange,
+}: {
+  content: ContentData;
+  onChange: (data: Partial<ContentData>) => void;
+}) {
+  return (
+    <>
+      <RichTextField
+        label="Description"
+        value={content.story}
+        onChange={(story) => onChange({ story })}
+        placeholder="Describe what the user should do..."
+        hint="Use rich text to make the challenge engaging"
+      />
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-ink-700 mb-2">
+            Category
+          </label>
+          <select
+            value={content.category || 'social'}
+            onChange={(e) => onChange({ category: e.target.value as ChallengeCategory })}
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+          >
+            {CHALLENGE_CATEGORIES.map(cat => (
+              <option key={cat} value={cat} className="capitalize">{cat}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-ink-700 mb-2">
+            Difficulty
+          </label>
+          <select
+            value={content.difficulty || 'easy'}
+            onChange={(e) => onChange({ difficulty: e.target.value as ChallengeDifficulty })}
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+          >
+            {CHALLENGE_DIFFICULTIES.map(diff => (
+              <option key={diff} value={diff} className="capitalize">{diff}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-ink-700 mb-2">
+            RP Reward
+          </label>
+          <input
+            type="number"
+            value={content.rpReward || 25}
+            onChange={(e) => onChange({ rpReward: parseInt(e.target.value) || 0 })}
+            min={1}
+            max={100}
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-ink-700 mb-2">
+            Action Type
+          </label>
+          <select
+            value={content.actionType || 'complete_journey'}
+            onChange={(e) => onChange({ actionType: e.target.value as ChallengeActionType })}
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+          >
+            {CHALLENGE_ACTION_TYPES.map(action => (
+              <option key={action} value={action}>
+                {action.replace(/_/g, ' ')}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-ink-700 mb-2">
+          Icon (optional)
+        </label>
+        <input
+          type="text"
+          value={content.icon || ''}
+          onChange={(e) => onChange({ icon: e.target.value })}
+          placeholder="e.g., wave, star, trophy"
+          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+        />
+      </div>
+
+      {/* First Week Scheduling */}
+      <div className="p-4 bg-bg-2 rounded-lg border border-border">
+        <div className="flex items-center gap-3 mb-3">
+          <input
+            type="checkbox"
+            id="isFirstWeek"
+            checked={content.isFirstWeek || false}
+            onChange={(e) => onChange({ isFirstWeek: e.target.checked })}
+            className="w-4 h-4 text-brand-600 border-border rounded focus:ring-brand-500"
+          />
+          <label htmlFor="isFirstWeek" className="text-sm font-medium text-ink-700">
+            First Week Challenge
+          </label>
+        </div>
+        {content.isFirstWeek && (
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-2">
+              Day Number (1-7)
+            </label>
+            <select
+              value={content.dayNumber || 1}
+              onChange={(e) => onChange({ dayNumber: parseInt(e.target.value) })}
+              className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+            >
+              {[1, 2, 3, 4, 5, 6, 7].map(day => (
+                <option key={day} value={day}>Day {day}</option>
+              ))}
+            </select>
+            <p className="text-xs text-ink-500 mt-1">
+              This challenge will be shown to new users on Day {content.dayNumber || 1} of onboarding
+            </p>
+          </div>
+        )}
       </div>
     </>
   );

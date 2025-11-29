@@ -14,17 +14,21 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ContentList, type ContentItem, type ContentType } from '@/components/admin/ContentList';
-import { ContentEditor, type ContentData } from '@/components/admin/ContentEditor';
+import { ContentEditor, type ContentData, type ChallengeActionType, type ChallengeCategory, type ChallengeDifficulty } from '@/components/admin/ContentEditor';
 import { BridgeCopilot } from '@/components/admin/BridgeCopilot';
 
 // Map API data to our unified ContentItem format
 function mapToContentItem(type: ContentType, item: APIItem): ContentItem {
+  const ch = item as APIChallenge;
   return {
     id: item.id,
     type,
     title: item.title || item.name || 'Untitled',
     status: item.isActive !== false ? 'published' : 'draft',
     updatedAt: item.updatedAt ? new Date(item.updatedAt) : new Date(),
+    // Challenge-specific fields for First Week view
+    isFirstWeek: ch.isFirstWeek,
+    dayNumber: ch.dayNumber,
   };
 }
 
@@ -53,9 +57,24 @@ function mapToContentData(type: ContentType, item: APIItem): ContentData {
       base.number = ml.description || '';
       break;
 
+    case 'challenge':
+      // Map full challenge data (from gamification consolidation)
+      const fullCh = item as APIChallenge;
+      base.story = fullCh.description || '';
+      base.rpReward = fullCh.rpReward;
+      base.category = fullCh.category as ChallengeCategory;
+      base.difficulty = fullCh.difficulty as ChallengeDifficulty;
+      base.actionType = fullCh.actionType as ChallengeActionType;
+      base.actionTarget = fullCh.actionTarget;
+      base.isFirstWeek = fullCh.isFirstWeek;
+      base.dayNumber = fullCh.dayNumber;
+      base.icon = fullCh.icon;
+      base.microlessonId = fullCh.microlessonId;
+      break;
+
     case 'bias_challenge':
     case 'micro_challenge':
-      // Map challenge data
+      // Map challenge data (legacy types)
       const ch = item as APIChallenge;
       base.story = ch.description || '';
       base.rpReward = ch.rpReward;
@@ -100,6 +119,23 @@ function mapToAPIFormat(data: ContentData): Record<string, unknown> {
         rpReward: 15,
         estimatedMinutes: 5,
         sortOrder: 0,
+      };
+
+    case 'challenge':
+      // Full challenge data (from gamification consolidation)
+      return {
+        ...base,
+        name: data.title,
+        description: data.story,
+        category: data.category || 'social',
+        difficulty: data.difficulty || 'easy',
+        rpReward: data.rpReward || 25,
+        actionType: data.actionType || 'complete_journey',
+        actionTarget: data.actionTarget || {},
+        isFirstWeek: data.isFirstWeek || false,
+        dayNumber: data.dayNumber,
+        icon: data.icon,
+        microlessonId: data.microlessonId,
       };
 
     case 'bias_challenge':
@@ -158,6 +194,13 @@ interface APIMicrolesson extends APIItem {
 interface APIChallenge extends APIItem {
   rpReward?: number;
   category?: string;
+  difficulty?: string;
+  actionType?: string;
+  actionTarget?: Record<string, unknown>;
+  isFirstWeek?: boolean;
+  dayNumber?: number;
+  icon?: string;
+  microlessonId?: string;
 }
 
 interface APIQuiz extends APIItem {
@@ -167,10 +210,13 @@ interface APIQuiz extends APIItem {
   explanation?: string;
 }
 
+type ViewMode = 'editor' | 'first-week';
+
 export default function OnboardingEditorPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('editor');
 
   // Content state
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
@@ -264,11 +310,10 @@ export default function OnboardingEditorPage() {
         });
       }
 
-      // Map challenges (as micro_challenge or bias_challenge based on description)
+      // Map challenges (using full 'challenge' type from gamification consolidation)
       if (challengesData.success && Array.isArray(challengesData.data)) {
         challengesData.data.forEach((ch: APIChallenge) => {
-          const type: ContentType = ch.category === 'growth' ? 'bias_challenge' : 'micro_challenge';
-          items.push(mapToContentItem(type, ch));
+          items.push(mapToContentItem('challenge', ch));
           raw.set(ch.id, ch);
         });
       }
@@ -352,6 +397,7 @@ export default function OnboardingEditorPage() {
             ? '/api/admin/gamification/microlessons'
             : `/api/admin/gamification/microlessons/${editingContent.id}`;
           break;
+        case 'challenge':
         case 'bias_challenge':
         case 'micro_challenge':
           url = isNew
@@ -439,6 +485,7 @@ export default function OnboardingEditorPage() {
         case 'microlesson':
           url = `/api/admin/gamification/microlessons/${id}`;
           break;
+        case 'challenge':
         case 'bias_challenge':
         case 'micro_challenge':
           url = `/api/admin/gamification/challenges/${id}`;
@@ -489,7 +536,7 @@ export default function OnboardingEditorPage() {
 
   return (
     <div className="h-full flex flex-col bg-bg-2">
-      {/* Top Bar with Exit Button */}
+      {/* Top Bar with Exit Button and View Mode Toggle */}
       <div className="flex items-center justify-between px-4 py-2 bg-ink-900 text-white flex-shrink-0">
         <div className="flex items-center gap-3">
           <Link
@@ -502,7 +549,30 @@ export default function OnboardingEditorPage() {
             <span className="text-sm font-medium">Exit Editor</span>
           </Link>
           <div className="h-4 w-px bg-white/20" />
-          <span className="text-sm text-white/70">Learning Content Editor</span>
+
+          {/* View Mode Toggle */}
+          <div className="flex items-center gap-1 bg-white/10 rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('editor')}
+              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                viewMode === 'editor'
+                  ? 'bg-white text-ink-900'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              Content Editor
+            </button>
+            <button
+              onClick={() => setViewMode('first-week')}
+              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                viewMode === 'first-week'
+                  ? 'bg-white text-ink-900'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              First Week Flow
+            </button>
+          </div>
         </div>
         {error && (
           <div className="flex items-center gap-2 px-3 py-1 bg-red-500/20 rounded text-red-200 text-sm">
@@ -516,46 +586,204 @@ export default function OnboardingEditorPage() {
         )}
       </div>
 
-      {/* Main Split-Pane Layout */}
-      <div className="flex-1 flex min-h-0">
-        {/* Left: Content List (Resizable) */}
-        <div
-          className="flex-shrink-0 overflow-y-auto relative"
-          style={{ width: sidebarWidth }}
-        >
-          <ContentList
-            items={contentItems}
-            selectedId={selectedId}
-            onSelect={handleSelect}
-            onNew={handleNew}
-            onDelete={handleDelete}
-          />
-          {/* Resize Handle */}
+      {/* Main Content Area */}
+      {viewMode === 'first-week' ? (
+        <FirstWeekFlowView
+          challenges={contentItems.filter(item => item.type === 'challenge')}
+          microlessons={contentItems.filter(item => item.type === 'microlesson')}
+          rawData={rawData}
+          onEditChallenge={(id) => {
+            setViewMode('editor');
+            handleSelect(id);
+          }}
+        />
+      ) : (
+        <div className="flex-1 flex min-h-0">
+          {/* Left: Content List (Resizable) */}
           <div
-            onMouseDown={handleMouseDown}
-            className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-brand-500 active:bg-brand-600 transition-colors"
-            title="Drag to resize"
-          />
+            className="flex-shrink-0 overflow-y-auto relative"
+            style={{ width: sidebarWidth }}
+          >
+            <ContentList
+              items={contentItems}
+              selectedId={selectedId}
+              onSelect={handleSelect}
+              onNew={handleNew}
+              onDelete={handleDelete}
+            />
+            {/* Resize Handle */}
+            <div
+              onMouseDown={handleMouseDown}
+              className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-brand-500 active:bg-brand-600 transition-colors"
+              title="Drag to resize"
+            />
+          </div>
+
+          {/* Center: Content Editor */}
+          <div className="flex-1 min-w-0 overflow-y-auto">
+            <ContentEditor
+              content={editingContent}
+              onChange={handleChange}
+              onSave={handleSave}
+              onPublish={handlePublish}
+              isSaving={isSaving}
+              lastSaved={lastSaved || undefined}
+            />
+          </div>
+
+          {/* Right: Bridge AI Copilot */}
+          <div className="w-80 flex-shrink-0 overflow-y-auto">
+            <BridgeCopilot
+              content={editingContent}
+              onApplySuggestion={handleApplySuggestion}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// First Week Flow View Component
+interface FirstWeekFlowViewProps {
+  challenges: ContentItem[];
+  microlessons: ContentItem[];
+  rawData: Map<string, APIItem>;
+  onEditChallenge: (id: string) => void;
+}
+
+function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge }: FirstWeekFlowViewProps) {
+  // Group challenges by day
+  const firstWeekChallenges = challenges
+    .filter(ch => {
+      const raw = rawData.get(ch.id) as APIChallenge | undefined;
+      return raw?.isFirstWeek;
+    })
+    .sort((a, b) => {
+      const rawA = rawData.get(a.id) as APIChallenge | undefined;
+      const rawB = rawData.get(b.id) as APIChallenge | undefined;
+      return (rawA?.dayNumber || 0) - (rawB?.dayNumber || 0);
+    });
+
+  // Group by day
+  const dayGroups = new Map<number, ContentItem[]>();
+  firstWeekChallenges.forEach(ch => {
+    const raw = rawData.get(ch.id) as APIChallenge | undefined;
+    const day = raw?.dayNumber || 1;
+    if (!dayGroups.has(day)) {
+      dayGroups.set(day, []);
+    }
+    dayGroups.get(day)!.push(ch);
+  });
+
+  return (
+    <div className="flex-1 overflow-y-auto bg-bg-1 p-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-ink-900">First Week Onboarding Flow</h2>
+          <p className="text-ink-600 mt-1">
+            Challenges scheduled for new users during their first 7 days. Click on a challenge to edit it.
+          </p>
         </div>
 
-        {/* Center: Content Editor */}
-        <div className="flex-1 min-w-0 overflow-y-auto">
-          <ContentEditor
-            content={editingContent}
-            onChange={handleChange}
-            onSave={handleSave}
-            onPublish={handlePublish}
-            isSaving={isSaving}
-            lastSaved={lastSaved || undefined}
-          />
+        {/* Timeline */}
+        <div className="space-y-6">
+          {[1, 2, 3, 4, 5, 6, 7].map(day => {
+            const dayChallenges = dayGroups.get(day) || [];
+            return (
+              <div key={day} className="relative">
+                {/* Day Header */}
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-lg">
+                    {day}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-ink-900">Day {day}</h3>
+                    <p className="text-sm text-ink-500">
+                      {dayChallenges.length === 0
+                        ? 'No challenges scheduled'
+                        : `${dayChallenges.length} challenge${dayChallenges.length > 1 ? 's' : ''}`}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Challenges for this day */}
+                {dayChallenges.length > 0 ? (
+                  <div className="ml-6 pl-10 border-l-2 border-border space-y-3">
+                    {dayChallenges.map(ch => {
+                      const raw = rawData.get(ch.id) as APIChallenge | undefined;
+                      const linkedMicrolesson = raw?.microlessonId
+                        ? microlessons.find(ml => ml.id === raw.microlessonId)
+                        : null;
+
+                      return (
+                        <div
+                          key={ch.id}
+                          onClick={() => onEditChallenge(ch.id)}
+                          className="bg-white rounded-lg border border-border p-4 hover:border-brand-300 hover:shadow-sm cursor-pointer transition-all"
+                        >
+                          <div className="flex items-start gap-3">
+                            <span className="text-2xl">{raw?.icon || '⭐'}</span>
+                            <div className="flex-1">
+                              <h4 className="font-medium text-ink-900">{ch.title}</h4>
+                              <div className="flex items-center gap-4 mt-2 text-sm text-ink-600">
+                                <span className="capitalize">{raw?.category || 'social'}</span>
+                                <span>{raw?.rpReward || 25} RP</span>
+                                <span className="capitalize">{raw?.difficulty || 'easy'}</span>
+                              </div>
+                              {linkedMicrolesson && (
+                                <div className="mt-2 text-sm text-brand-600 flex items-center gap-1">
+                                  <span>📖</span>
+                                  <span>Linked: {linkedMicrolesson.title}</span>
+                                </div>
+                              )}
+                            </div>
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              ch.status === 'published'
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                              {ch.status}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="ml-6 pl-10 border-l-2 border-border">
+                    <div className="bg-bg-2 rounded-lg border border-dashed border-border p-4 text-center text-ink-500">
+                      No challenges for Day {day}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Right: Bridge AI Copilot */}
-        <div className="w-80 flex-shrink-0 overflow-y-auto">
-          <BridgeCopilot
-            content={editingContent}
-            onApplySuggestion={handleApplySuggestion}
-          />
+        {/* Summary */}
+        <div className="mt-8 p-4 bg-brand-50 rounded-lg border border-brand-200">
+          <h3 className="font-semibold text-brand-900 mb-2">Summary</h3>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <span className="text-brand-700">Total First Week Challenges:</span>
+              <span className="ml-2 font-semibold text-brand-900">{firstWeekChallenges.length}</span>
+            </div>
+            <div>
+              <span className="text-brand-700">Days Covered:</span>
+              <span className="ml-2 font-semibold text-brand-900">{dayGroups.size}/7</span>
+            </div>
+            <div>
+              <span className="text-brand-700">Total RP Available:</span>
+              <span className="ml-2 font-semibold text-brand-900">
+                {firstWeekChallenges.reduce((sum, ch) => {
+                  const raw = rawData.get(ch.id) as APIChallenge | undefined;
+                  return sum + (raw?.rpReward || 25);
+                }, 0)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
