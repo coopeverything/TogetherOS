@@ -79,8 +79,8 @@ export default function AdminDashboard() {
       title: 'AI & Content',
       items: [
         {
-          title: 'Onboarding Hub',
-          description: 'Unified management for challenges, microlessons, learning paths, lessons, quizzes, and flow',
+          title: 'Learning Content Editor',
+          description: 'Rich text editor for challenges, microlessons, quizzes, and first-week onboarding flow (with AI copilot)',
           path: '/admin/onboarding',
           status: 'active',
         },
@@ -94,12 +94,6 @@ export default function AdminDashboard() {
           title: 'Forum Tag Management',
           description: 'Manage, rename, and delete forum tags across all topics',
           path: '/admin/forum/tags',
-          status: 'active',
-        },
-        {
-          title: 'Gamification Content',
-          description: 'Manage challenges, microlessons, and onboarding suggestions',
-          path: '/admin/gamification',
           status: 'active',
         },
         {

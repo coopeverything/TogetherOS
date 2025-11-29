@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
-export type ContentType = 'microlesson' | 'bias_challenge' | 'micro_challenge' | 'quiz';
+export type ContentType = 'microlesson' | 'bias_challenge' | 'micro_challenge' | 'quiz' | 'challenge';
 
 export interface ContentItem {
   id: string;
@@ -12,6 +12,9 @@ export interface ContentItem {
   title: string;
   status: 'draft' | 'published';
   updatedAt: Date;
+  // Challenge-specific fields for First Week view
+  isFirstWeek?: boolean;
+  dayNumber?: number;
 }
 
 interface ContentListProps {
@@ -24,6 +27,7 @@ interface ContentListProps {
 
 const CONTENT_TYPE_CONFIG: Record<ContentType, { label: string; icon: string; color: string }> = {
   microlesson: { label: 'Microlesson', icon: '📖', color: 'bg-blue-100 text-blue-700' },
+  challenge: { label: 'Challenge', icon: '⭐', color: 'bg-orange-100 text-orange-700' },
   bias_challenge: { label: 'Bias Challenge', icon: '🧠', color: 'bg-purple-100 text-purple-700' },
   micro_challenge: { label: 'Micro-Challenge', icon: '🎯', color: 'bg-green-100 text-green-700' },
   quiz: { label: 'Quiz', icon: '❓', color: 'bg-yellow-100 text-yellow-700' },
