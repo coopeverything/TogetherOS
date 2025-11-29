@@ -1,5 +1,5 @@
 // apps/api/src/modules/notifications/handlers/notifications.ts
-// API handlers for notifications
+// API handlers for notifications - Database-backed with in-memory fallback
 
 import type {
   Notification as NotificationType,
@@ -7,28 +7,27 @@ import type {
   NotificationFilters,
   NotificationCounts,
   NotificationStatus,
+  NotificationPreferences,
 } from '@togetheros/types'
+import * as db from '@togetheros/db'
+
+// Fallback to in-memory for testing/development without database
 import { InMemoryNotificationRepo } from '../repos/InMemoryNotificationRepo'
 import { sampleNotifications } from '../fixtures'
 
-// Singleton repo for in-memory storage (session-scoped)
-let notificationRepo: InMemoryNotificationRepo | null = null
+let inMemoryRepo: InMemoryNotificationRepo | null = null
+const useDatabase = process.env.DATABASE_URL !== undefined
 
-/**
- * Get or initialize notification repo
- */
-function getNotificationRepo(): InMemoryNotificationRepo {
-  if (!notificationRepo) {
-    // Initialize with sample fixtures
-    notificationRepo = new InMemoryNotificationRepo(sampleNotifications)
+function getInMemoryRepo(): InMemoryNotificationRepo {
+  if (!inMemoryRepo) {
+    inMemoryRepo = new InMemoryNotificationRepo(sampleNotifications)
   }
-  return notificationRepo
+  return inMemoryRepo
 }
 
 /**
  * GET /api/notifications
  * List notifications for a user with optional filters
- * Query params: status, type, priority, unreadOnly, offset, limit
  */
 export async function listNotifications(
   userId: string,
@@ -38,8 +37,18 @@ export async function listNotifications(
   total: number
   hasMore: boolean
 }> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    const notifications = await db.listNotificationsForUser(userId, filters)
+    const total = await db.countNotificationsForUser(userId, filters)
+    const limit = filters.limit ?? 20
+    const offset = filters.offset ?? 0
+    const hasMore = offset + notifications.length < total
 
+    return { notifications, total, hasMore }
+  }
+
+  // Fallback to in-memory
+  const repo = getInMemoryRepo()
   const notifications = await repo.listForUser(userId, filters)
   const total = await repo.countForUser(userId, filters)
   const limit = filters.limit ?? 20
@@ -54,7 +63,11 @@ export async function listNotifications(
  * Get single notification by ID
  */
 export async function getNotification(id: string): Promise<NotificationType | null> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    return db.findNotificationById(id)
+  }
+
+  const repo = getInMemoryRepo()
   return repo.findById(id)
 }
 
@@ -63,21 +76,28 @@ export async function getNotification(id: string): Promise<NotificationType | nu
  * Get notification counts for a user
  */
 export async function getNotificationCounts(userId: string): Promise<NotificationCounts> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    return db.getNotificationCounts(userId)
+  }
+
+  const repo = getInMemoryRepo()
   return repo.getCounts(userId)
 }
 
 /**
  * PATCH /api/notifications/:id/status
  * Update notification status (read, unread, archived)
- * Body: { status: NotificationStatus }
  */
 export async function updateNotificationStatus(
   notificationId: string,
   userId: string,
   status: NotificationStatus
 ): Promise<NotificationType | null> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    return db.updateNotificationStatus(notificationId, userId, status)
+  }
+
+  const repo = getInMemoryRepo()
   return repo.updateStatus(notificationId, userId, status)
 }
 
@@ -86,7 +106,12 @@ export async function updateNotificationStatus(
  * Mark all notifications as read for a user
  */
 export async function markAllAsRead(userId: string): Promise<{ count: number }> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    const count = await db.markAllNotificationsAsRead(userId)
+    return { count }
+  }
+
+  const repo = getInMemoryRepo()
   const count = await repo.markAllAsRead(userId)
   return { count }
 }
@@ -116,24 +141,31 @@ export async function markAsUnread(
 /**
  * POST /api/notifications
  * Create a new notification
- * Body: CreateNotificationInput
  */
 export async function createNotification(
   input: CreateNotificationInput
 ): Promise<NotificationType> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    return db.createNotification(input)
+  }
+
+  const repo = getInMemoryRepo()
   return repo.create(input)
 }
 
 /**
  * POST /api/notifications/bulk
  * Create multiple notifications (for broadcasts)
- * Body: { notifications: CreateNotificationInput[] }
  */
 export async function bulkCreateNotifications(
   inputs: CreateNotificationInput[]
 ): Promise<{ notifications: NotificationType[]; count: number }> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    const notifications = await db.bulkCreateNotifications(inputs)
+    return { notifications, count: notifications.length }
+  }
+
+  const repo = getInMemoryRepo()
   const notifications = await repo.bulkCreate(inputs)
   return { notifications, count: notifications.length }
 }
@@ -146,7 +178,12 @@ export async function deleteNotification(
   notificationId: string,
   userId: string
 ): Promise<{ success: boolean }> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    const success = await db.deleteNotification(notificationId, userId)
+    return { success }
+  }
+
+  const repo = getInMemoryRepo()
   await repo.delete(notificationId, userId)
   return { success: true }
 }
@@ -156,7 +193,71 @@ export async function deleteNotification(
  * Delete all archived notifications for a user
  */
 export async function deleteAllArchived(userId: string): Promise<{ count: number }> {
-  const repo = getNotificationRepo()
+  if (useDatabase) {
+    const count = await db.deleteAllArchivedNotifications(userId)
+    return { count }
+  }
+
+  const repo = getInMemoryRepo()
   const count = await repo.deleteAllArchived(userId)
   return { count }
+}
+
+// ============================================
+// PREFERENCES HANDLERS
+// ============================================
+
+/**
+ * GET /api/notifications/preferences
+ * Get notification preferences for a user
+ */
+export async function getNotificationPreferences(
+  userId: string
+): Promise<NotificationPreferences> {
+  if (useDatabase) {
+    return db.getNotificationPreferences(userId)
+  }
+
+  // Return defaults for in-memory mode
+  return {
+    userId,
+    enabledTypes: {
+      mention: true,
+      proposal_update: true,
+      discussion_reply: true,
+      group_update: true,
+      system_message: true,
+      support_points: true,
+      badge_earned: true,
+      reaction: true,
+    },
+    emailDigest: 'daily',
+    pushEnabled: false,
+    updatedAt: new Date(),
+  }
+}
+
+/**
+ * PUT /api/notifications/preferences
+ * Update notification preferences for a user
+ */
+export async function updatePreferences(
+  userId: string,
+  preferences: Partial<Omit<NotificationPreferences, 'userId' | 'updatedAt'>>
+): Promise<NotificationPreferences> {
+  if (useDatabase) {
+    return db.updateNotificationPreferences(userId, preferences)
+  }
+
+  // Return merged defaults for in-memory mode
+  const current = await getNotificationPreferences(userId)
+  return {
+    ...current,
+    ...preferences,
+    enabledTypes: {
+      ...current.enabledTypes,
+      ...preferences.enabledTypes,
+    },
+    updatedAt: new Date(),
+  }
 }

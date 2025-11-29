@@ -1,170 +1,224 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import type { Notification, NotificationCounts, NotificationStatus } from '@togetheros/types'
+
+type FilterTab = 'all' | 'unread' | 'proposal_update' | 'discussion_reply' | 'group_update' | 'system_message'
+
 export default function NotificationsPage() {
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [counts, setCounts] = useState<NotificationCounts>({ unread: 0, total: 0 })
+  const [activeFilter, setActiveFilter] = useState<FilterTab>('all')
+  const [loading, setLoading] = useState(true)
+
+  // Fetch notifications
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const params = new URLSearchParams()
+        if (activeFilter === 'unread') {
+          params.set('unreadOnly', 'true')
+        } else if (activeFilter !== 'all') {
+          params.set('type', activeFilter)
+        }
+
+        const [notifRes, countsRes] = await Promise.all([
+          fetch(`/api/notifications?${params.toString()}`),
+          fetch('/api/notifications/count'),
+        ])
+
+        const notifData = await notifRes.json()
+        const countsData = await countsRes.json()
+
+        setNotifications(notifData.notifications || [])
+        setCounts(countsData.counts || { unread: 0, total: 0 })
+      } catch (error) {
+        console.error('Failed to fetch notifications:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [activeFilter])
+
+  // Mark as read handler
+  const handleMarkAsRead = async (id: string) => {
+    try {
+      await fetch('/api/notifications/actions/mark-as-read', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notificationId: id }),
+      })
+
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n.id === id ? { ...n, status: 'read' as NotificationStatus, readAt: new Date() } : n
+        )
+      )
+      setCounts((prev) => ({ ...prev, unread: Math.max(0, prev.unread - 1) }))
+    } catch (error) {
+      console.error('Failed to mark as read:', error)
+    }
+  }
+
+  // Mark all as read handler
+  const handleMarkAllAsRead = async () => {
+    try {
+      await fetch('/api/notifications/actions/mark-all-read', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+
+      setNotifications((prev) =>
+        prev.map((n) => ({ ...n, status: 'read' as NotificationStatus, readAt: new Date() }))
+      )
+      setCounts((prev) => ({ ...prev, unread: 0 }))
+    } catch (error) {
+      console.error('Failed to mark all as read:', error)
+    }
+  }
+
+  const filters: { key: FilterTab; label: string }[] = [
+    { key: 'all', label: 'All' },
+    { key: 'unread', label: 'Unread' },
+    { key: 'proposal_update', label: 'Proposals' },
+    { key: 'discussion_reply', label: 'Discussions' },
+    { key: 'group_update', label: 'Groups' },
+    { key: 'system_message', label: 'System' },
+  ]
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-4xl font-bold text-gray-900">Notifications & Inbox</h1>
-          <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">
-            In Development
-          </span>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Notifications</h1>
+          <p className="text-gray-600 mt-1">
+            {counts.unread > 0 ? `${counts.unread} unread` : 'All caught up!'}
+          </p>
         </div>
-        <p className="text-lg text-gray-600 max-w-3xl">
-          Unified notification center for proposals, discussions, group updates, and system messages with smart filtering.
-        </p>
-      </div>
-
-      {/* What This Module Will Do */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">What This Module Will Do</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Core Features</h3>
-            <ul className="space-y-2 text-gray-600">
-              <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
-                Unified notification inbox
-              </li>
-              <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
-                Filter by type and priority
-              </li>
-              <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
-                Mark as read/unread, archive
-              </li>
-              <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
-                Configurable preferences
-              </li>
-              <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
-                Real-time updates via WebSocket
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Cooperation Paths</h3>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">
-                Cooperative Technology
-              </span>
-              <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
-                Community Connection
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* UI Sketch */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">UI Sketch (Placeholder)</h2>
-
-        {/* Filters */}
-        <div className="flex gap-2 mb-6 flex-wrap">
-          {['All', 'Unread', 'Proposals', 'Discussions', 'Groups', 'System'].map((filter, i) => (
+        <div className="flex items-center gap-3">
+          {counts.unread > 0 && (
             <button
-              key={filter}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                i === 0
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-              disabled
+              onClick={handleMarkAllAsRead}
+              className="text-sm text-orange-600 hover:text-orange-700 font-medium"
             >
-              {filter}
-              {i === 1 && <span className="ml-2 px-2 py-0.5 bg-orange-100 text-orange-800 text-xs rounded-full">3</span>}
+              Mark all as read
             </button>
-          ))}
+          )}
+          <Link
+            href="/notifications/settings"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Settings
+          </Link>
         </div>
+      </div>
 
-        {/* Notifications List */}
+      {/* Filters */}
+      <div className="flex gap-2 mb-6 flex-wrap border-b border-gray-200 pb-4">
+        {filters.map((filter) => (
+          <button
+            key={filter.key}
+            onClick={() => setActiveFilter(filter.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeFilter === filter.key
+                ? 'bg-orange-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            {filter.label}
+            {filter.key === 'unread' && counts.unread > 0 && (
+              <span className="ml-2 px-2 py-0.5 bg-white/20 text-xs rounded-full">
+                {counts.unread}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Notifications List */}
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+        </div>
+      ) : notifications.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">🔔</div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No notifications</h3>
+          <p className="text-gray-600">
+            {activeFilter === 'unread'
+              ? "You're all caught up!"
+              : 'No notifications to show for this filter.'}
+          </p>
+        </div>
+      ) : (
         <div className="space-y-2">
-          {[
-            {
-              title: 'New proposal: Implement timebanking system',
-              desc: 'A proposal requiring your input has been submitted',
-              time: '2h ago',
-              unread: true,
-              icon: '📋'
-            },
-            {
-              title: 'Reply to your discussion',
-              desc: 'Someone replied to "Privacy vs transparency trade-offs"',
-              time: '5h ago',
-              unread: true,
-              icon: '💬'
-            },
-            {
-              title: 'Group update: Local Food Cooperative',
-              desc: 'New members joined and posted introduction',
-              time: '1d ago',
-              unread: false,
-              icon: '👥'
-            },
-            {
-              title: 'Support Points allocation reminder',
-              desc: 'You have 87 points available to allocate this month',
-              time: '2d ago',
-              unread: false,
-              icon: '⭐'
-            },
-          ].map((notif, i) => (
+          {notifications.map((notif) => (
             <div
-              key={i}
-              className={`p-4 rounded-lg border ${
-                notif.unread
-                  ? 'bg-orange-50 border-orange-200'
-                  : 'bg-white border-gray-200'
+              key={notif.id}
+              className={`p-4 rounded-lg border transition-colors ${
+                notif.status === 'unread'
+                  ? 'bg-orange-50 border-orange-200 hover:bg-orange-100'
+                  : 'bg-white border-gray-200 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-start gap-3">
-                <div className="text-2xl">{notif.icon}</div>
-                <div className="flex-1">
-                  <h3 className={`font-semibold mb-1 ${
-                    notif.unread ? 'text-gray-900' : 'text-gray-700'
-                  }`}>
+                <div className="text-2xl flex-shrink-0">{notif.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className={`font-semibold mb-1 ${
+                      notif.status === 'unread' ? 'text-gray-900' : 'text-gray-700'
+                    }`}
+                  >
                     {notif.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">{notif.desc}</p>
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">{notif.message}</p>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
-                    <span>{notif.time}</span>
-                    {notif.unread && (
-                      <button className="text-orange-600 hover:text-orange-700 font-medium">
+                    <span>
+                      {new Date(notif.createdAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                    {notif.status === 'unread' && (
+                      <button
+                        onClick={() => handleMarkAsRead(notif.id)}
+                        className="text-orange-600 hover:text-orange-700 font-medium"
+                      >
                         Mark as read
                       </button>
                     )}
+                    {notif.reference?.url && (
+                      <Link
+                        href={notif.reference.url}
+                        className="text-orange-600 hover:text-orange-700 font-medium"
+                      >
+                        View →
+                      </Link>
+                    )}
                   </div>
                 </div>
+                {notif.priority === 'high' && (
+                  <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">
+                    Important
+                  </span>
+                )}
               </div>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Technical Details */}
-      <div className="bg-blue-50 rounded-lg border border-blue-200 p-6">
-        <h2 className="text-xl font-semibold text-blue-900 mb-3">For Developers</h2>
-        <p className="text-blue-800 mb-3">
-          Module spec: <a
-            href="https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/notifications.md"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 underline font-medium hover:text-blue-600"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-            </svg>
-            Notifications & Inbox
-          </a>
-        </p>
-        <div className="text-sm text-blue-700">
-          <p><strong>Status:</strong> 0% implemented (spec only)</p>
-          <p><strong>Priority:</strong> Phase 2 (needed by most modules)</p>
-          <p><strong>Dependencies:</strong> Auth, WebSocket server, PostgreSQL triggers, All content modules</p>
-        </div>
-      </div>
+      )}
     </div>
   )
 }
