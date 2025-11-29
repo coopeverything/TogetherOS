@@ -31,6 +31,34 @@ const VALID_MODULES = [
   'support-points-ui',
 ] as const
 
+/**
+ * Get the path to the docs/modules directory.
+ * Works in both development and production builds.
+ * In monorepo: apps/web runs with cwd at apps/web, so ../../docs/modules
+ * Falls back to checking from project root if that fails.
+ */
+function getDocsPath(slug: string): string | null {
+  // Try relative path from apps/web (build context)
+  const relativePath = path.join(process.cwd(), '..', '..', 'docs', 'modules', `${slug}.md`)
+  if (fs.existsSync(relativePath)) {
+    return relativePath
+  }
+
+  // Try from project root (some CI contexts)
+  const rootPath = path.join(process.cwd(), 'docs', 'modules', `${slug}.md`)
+  if (fs.existsSync(rootPath)) {
+    return rootPath
+  }
+
+  // Try absolute path construction
+  const absolutePath = path.resolve(__dirname, '..', '..', '..', '..', '..', '..', 'docs', 'modules', `${slug}.md`)
+  if (fs.existsSync(absolutePath)) {
+    return absolutePath
+  }
+
+  return null
+}
+
 export async function generateStaticParams() {
   return VALID_MODULES.map((slug) => ({ slug }))
 }
@@ -56,10 +84,10 @@ export default async function ModuleDocPage({ params }: Props) {
     notFound()
   }
 
-  // Read markdown file from docs/modules directory
-  const filePath = path.join(process.cwd(), '..', '..', 'docs', 'modules', `${slug}.md`)
+  // Find the markdown file
+  const filePath = getDocsPath(slug)
 
-  if (!fs.existsSync(filePath)) {
+  if (!filePath) {
     notFound()
   }
 
@@ -102,7 +130,13 @@ export default async function ModuleDocPage({ params }: Props) {
 
         {/* Content */}
         <article className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-table:border-collapse prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-2 prose-td:border prose-td:border-gray-300 prose-td:p-2">
+          {/*
+            Prose styling with improved paragraph spacing:
+            - prose-p:mb-6 adds bottom margin to paragraphs
+            - prose-li:mb-2 adds spacing between list items
+            - prose-headings:mt-8 adds top margin to headings
+          */}
+          <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-gray-700 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-medium prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:overflow-x-auto prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-gray-300 prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
           </div>
         </article>
