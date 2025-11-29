@@ -24,6 +24,7 @@ const VALID_MODULES = [
   'groups',
   'metrics',
   'moderation-transparency',
+  'notifications',
   'observability',
   'onboarding',
   'rewards',
