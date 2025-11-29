@@ -147,12 +147,10 @@ function createMarkdownLink(slug: string) {
 function createCodeBlock(slug: string) {
   return function CodeBlock({
     inline,
-    className,
     children,
     ...props
   }: {
     inline?: boolean
-    className?: string
     children?: ReactNode
     node?: unknown
   }) {
@@ -165,57 +163,21 @@ function createCodeBlock(slug: string) {
       )
     }
 
-    // Block code: replace with GitHub link card
-    const language = className?.replace('language-', '') || 'code'
-    const languageLabel = getLanguageLabel(language)
-
+    // Block code: replace with GitHub link
     return (
-      <div className="my-6 p-4 bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-lg">
-        <div className="flex items-center gap-2 text-gray-700">
+      <div className="my-4">
+        <a
+          href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium"
+        >
           <GitHubIcon className="w-5 h-5" />
-          <span className="font-medium">Technical Implementation</span>
-          {languageLabel && (
-            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">{languageLabel}</span>
-          )}
-        </div>
-        <p className="mt-2 text-sm text-gray-600">
-          This section contains implementation details.
-          <a
-            href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-700 underline ml-1 inline-flex items-center gap-1"
-          >
-            View full specification on GitHub
-            <ExternalLinkIcon className="w-3 h-3" />
-          </a>
-        </p>
+          <span>Technical Implementation</span>
+        </a>
       </div>
     )
   }
-}
-
-// Map language identifiers to human-readable labels
-function getLanguageLabel(language: string): string | null {
-  const labels: Record<string, string> = {
-    typescript: 'TypeScript',
-    ts: 'TypeScript',
-    javascript: 'JavaScript',
-    js: 'JavaScript',
-    tsx: 'TypeScript/React',
-    jsx: 'JavaScript/React',
-    sql: 'SQL',
-    bash: 'Shell',
-    sh: 'Shell',
-    json: 'JSON',
-    yaml: 'YAML',
-    yml: 'YAML',
-    markdown: 'Markdown',
-    md: 'Markdown',
-    css: 'CSS',
-    html: 'HTML',
-  }
-  return labels[language.toLowerCase()] || null
 }
 
 /**
@@ -319,12 +281,6 @@ export default async function ModuleDocPage({ params }: Props) {
 
         {/* Content */}
         <article className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          {/* User-facing content note */}
-          <div className="mb-6 p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-700">
-            <strong>For Members:</strong> This page explains what this module does and how it helps you.
-            Technical implementation details link to GitHub for developers.
-          </div>
-
           {/*
             Prose styling with improved paragraph spacing:
             - prose-p:mb-6 adds bottom margin to paragraphs
