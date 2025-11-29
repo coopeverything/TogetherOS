@@ -211,6 +211,7 @@ const modules: Module[] = [
     progress: 0,
     status: 'planned',
     repoPath: `${GITHUB_BASE}/docs/modules/onboarding.md`,
+    docsPath: '/docs/modules/onboarding',
     category: 'Community Connection',
   },
   {
