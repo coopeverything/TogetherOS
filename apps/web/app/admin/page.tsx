@@ -73,6 +73,12 @@ export default function AdminDashboard() {
           path: '/admin/features',
           status: 'active',
         },
+        {
+          title: 'Security Dashboard',
+          description: 'Security features, rate limiting, GDPR compliance, and vulnerability status',
+          path: '/admin/security',
+          status: 'active',
+        },
       ],
     },
     {

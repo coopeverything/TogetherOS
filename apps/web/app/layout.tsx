@@ -9,6 +9,7 @@ import { DarkModeProvider } from '@/components/dark-mode-provider';
 import { ToastProvider } from '@/components/ui/toast';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { CookieConsent } from '@/components/security/CookieConsent';
 
 export const metadata = {
   title: 'Coopeverything',
@@ -28,6 +29,7 @@ export default function RootLayout({
             <Navigation />
             <main className="flex-1">{children}</main>
             <Footer />
+            <CookieConsent />
           </ToastProvider>
         </DarkModeProvider>
       </body>
