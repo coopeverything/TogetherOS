@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Module Status Synchronization Check
-# Compares module progress across INDEX.md, STATUS_v2.md, and individual specs
+# Compares module progress across STATUS_v2.md, individual specs, INDEX.md, and shared modules data
+# The shared modules data file (apps/web/lib/data/modules-data.ts) feeds both:
+#   - /modules (public modules hub)
+#   - /admin/modules (admin modules dashboard)
 # Usage: ./scripts/check-module-status.sh [module-name]
 
 set -euo pipefail
@@ -187,13 +190,14 @@ for module in "${MODULES[@]}"; do
   fi
 done
 
-# Function to extract percentage from Admin Modules UI page
+# Function to extract percentage from shared modules data file
+# This file feeds both /modules (public) and /admin/modules (admin)
 get_ui_percentage() {
   local module="$1"
-  local ui_page="apps/web/app/admin/modules/page.tsx"
+  local data_file="apps/web/lib/data/modules-data.ts"
 
-  if [[ ! -f "$ui_page" ]]; then
-    echo "NO_UI_PAGE"
+  if [[ ! -f "$data_file" ]]; then
+    echo "NO_DATA_FILE"
     return
   fi
 
@@ -204,7 +208,7 @@ get_ui_percentage() {
     groups) search_title="Groups & Organizations" ;;
     governance) search_title="Governance & Proposals" ;;
     forum) search_title="Forum & Deliberation" ;;
-    onboarding) search_title="Bridge AI Assistant" ;;
+    onboarding) search_title="Onboarding Experience" ;;
     gamification) search_title="Gamification & Milestones" ;;
     social-economy) search_title="Social Economy Primitives" ;;
     reputation) search_title="Support Points & Reputation" ;;
@@ -213,13 +217,13 @@ get_ui_percentage() {
     observability) search_title="Observability & Monitoring" ;;
     security) search_title="Security & Privacy" ;;
     admin-accountability) search_title="Admin Accountability" ;;
-    support-points-ui) search_title="Support Points & Reward Points UI" ;;
+    support-points-ui) search_title="Support Points UI" ;;
     moderation-transparency) search_title="Moderation Transparency" ;;
-    profiles) search_title="Member Profiles" ;;
+    profiles) search_title="User Profiles" ;;
     docs-hooks) search_title="Documentation Hub" ;;
-    scaffold) search_title="Developer Experience" ;;
-    ui) search_title="UI Components" ;;
-    auth) search_title="Identity & Auth" ;;
+    scaffold) search_title="Monorepo & Scaffolding" ;;
+    ui) search_title="UI Design System" ;;
+    auth) search_title="Identity & Authentication" ;;
     *) search_title="" ;;
   esac
 
@@ -231,7 +235,7 @@ get_ui_percentage() {
   # Find the module block and extract progress
   # Search for title line, then get progress from nearby lines
   local line_num
-  line_num=$(grep -n "title: '$search_title'" "$ui_page" 2>/dev/null | head -1 | cut -d: -f1)
+  line_num=$(grep -n "title: '$search_title'" "$data_file" 2>/dev/null | head -1 | cut -d: -f1)
 
   if [[ -z "$line_num" ]]; then
     echo "NOT_IN_UI"
@@ -240,7 +244,7 @@ get_ui_percentage() {
 
   # Extract progress value from the module block (within 10 lines after title)
   local pct
-  pct=$(sed -n "${line_num},$((line_num + 10))p" "$ui_page" | grep -o "progress: [0-9]*" | head -1 | grep -oE "[0-9]+")
+  pct=$(sed -n "${line_num},$((line_num + 10))p" "$data_file" | grep -o "progress: [0-9]*" | head -1 | grep -oE "[0-9]+")
 
   if [[ -n "$pct" ]]; then
     echo "$pct"
@@ -259,9 +263,9 @@ UI_MODULES=(
 UI_ISSUES=0
 
 echo ""
-echo "📋 Checking STATUS_v2.md ↔ Admin Modules UI Page:"
-UI_PAGE="apps/web/app/admin/modules/page.tsx"
-if [[ -f "$UI_PAGE" ]]; then
+echo "📋 Checking STATUS_v2.md ↔ Shared Modules Data (feeds /modules + /admin/modules):"
+DATA_FILE="apps/web/lib/data/modules-data.ts"
+if [[ -f "$DATA_FILE" ]]; then
   for module in "${UI_MODULES[@]}"; do
     status_pct=$(get_status_percentage "$module")
     ui_pct=$(get_ui_percentage "$module")
@@ -275,19 +279,19 @@ if [[ -f "$UI_PAGE" ]]; then
     fi
 
     if [[ "$ui_pct" != "$status_pct" ]]; then
-      echo "⚠️  UI page mismatch: $module"
+      echo "⚠️  Modules data mismatch: $module"
       echo "   STATUS_v2.md: $status_pct%"
-      echo "   UI page: $ui_pct%"
-      echo "   → Update apps/web/app/admin/modules/page.tsx"
+      echo "   modules-data.ts: $ui_pct%"
+      echo "   → Update apps/web/lib/data/modules-data.ts"
       UI_ISSUES=$((UI_ISSUES + 1))
     fi
   done
 
   if [[ $UI_ISSUES -eq 0 ]]; then
-    echo "   All UI page modules in sync ✓"
+    echo "   All modules data in sync ✓"
   fi
 else
-  echo "   ⚠️ UI page not found: $UI_PAGE"
+  echo "   ⚠️ Modules data file not found: $DATA_FILE"
 fi
 
 TOTAL_ISSUES=$((DISCREPANCIES + INDEX_ISSUES + UI_ISSUES))
@@ -297,17 +301,17 @@ if [[ $TOTAL_ISSUES -eq 0 ]]; then
   echo "✅ All module progress markers are synchronized!"
   echo "   STATUS_v2.md ↔ Module specs: OK"
   echo "   STATUS_v2.md ↔ INDEX.md: OK"
-  echo "   STATUS_v2.md ↔ UI page: OK"
+  echo "   STATUS_v2.md ↔ modules-data.ts: OK (feeds /modules + /admin/modules)"
 else
   echo "❌ Found issues:"
   [[ $DISCREPANCIES -gt 0 ]] && echo "   - $DISCREPANCIES spec file mismatch(es)"
   [[ $INDEX_ISSUES -gt 0 ]] && echo "   - $INDEX_ISSUES INDEX.md issue(s)"
-  [[ $UI_ISSUES -gt 0 ]] && echo "   - $UI_ISSUES UI page mismatch(es)"
+  [[ $UI_ISSUES -gt 0 ]] && echo "   - $UI_ISSUES modules-data.ts mismatch(es)"
   echo ""
   echo "To fix:"
   echo "1. Update individual module specs to match STATUS_v2.md"
   echo "2. Update docs/modules/INDEX.md descriptions with correct percentages"
-  echo "3. Update apps/web/app/admin/modules/page.tsx progress values"
+  echo "3. Update apps/web/lib/data/modules-data.ts progress values"
   echo "4. Commit: git commit -m 'docs(modules): sync status markers'"
   exit 1
 fi

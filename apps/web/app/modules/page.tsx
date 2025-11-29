@@ -1,20 +1,19 @@
 import { ModuleCard } from '@togetheros/ui/docs/ModuleCard'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import {
   modules,
   getCompleteModules,
   getInProgressModules,
   getPlannedModules,
   GITHUB_BASE,
-} from '../../../lib/data/modules-data'
+} from '../../lib/data/modules-data'
 
 export const metadata: Metadata = {
-  title: 'Modules Hub (Admin) | Coopeverything Docs',
-  description: 'Admin view of all Coopeverything platform modules',
+  title: 'Modules Hub | Coopeverything',
+  description: 'Comprehensive overview of all Coopeverything platform modules',
 }
 
-export default function AdminModulesPage() {
+export default function ModulesPage() {
   const completeModules = getCompleteModules()
   const inProgressModules = getInProgressModules()
   const plannedModules = getPlannedModules()
@@ -22,20 +21,6 @@ export default function AdminModulesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Admin Notice */}
-        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-          <div className="flex items-center gap-2 text-amber-800">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span className="font-medium">Admin View</span>
-          </div>
-          <p className="mt-1 text-sm text-amber-700">
-            This is the admin modules dashboard. Public view available at{' '}
-            <Link href="/modules" className="underline hover:no-underline">/modules</Link>.
-          </p>
-        </div>
-
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">

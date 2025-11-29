@@ -353,38 +353,45 @@ fi
 #   AFTER:  "(35% — Phase 1 complete)"
 ```
 
-**Step 13.4b: Sync ALL Modules in /modules UI Page (VISIBLE TO USERS)**
+**Step 13.4b: Sync ALL Modules in Shared Data File (VISIBLE TO USERS)**
 
 ```bash
-# ⚠️ CRITICAL: The live /modules page has HARDCODED progress values!
-# This step syncs ALL modules, not just the one you worked on.
+# ⚠️ CRITICAL: Update the shared data file - single source for both UI pages!
+# This file feeds BOTH /modules (public) AND /admin/modules (admin)
 
 # 1. Read docs/STATUS_v2.md to get authoritative progress for ALL modules
-# 2. Read apps/web/app/admin/modules/page.tsx
+# 2. Read apps/web/lib/data/modules-data.ts (SHARED DATA FILE)
 # 3. Compare progress values for EVERY module
 # 4. Update ANY module that has drifted (not just current task)
 # 5. Update descriptions if they're significantly outdated
 
-# Module mapping (STATUS_v2.md name → page.tsx title):
+# Module mapping (STATUS_v2.md name → modules-data.ts title):
 #   Observability → 'Observability & Monitoring'
 #   Search & Tags → 'Search & Discovery'
 #   Notifications & Inbox → 'Notifications & Inbox'
 #   Governance → 'Governance & Proposals'
 #   Forum → 'Forum & Deliberation'
 #   Bridge → 'Bridge AI Assistant'
+#   Onboarding ("Bridge") → 'Onboarding Experience'
 #   etc.
 
 # For each module in STATUS_v2.md:
 #   - Extract progress from: <!-- progress:module-name=X -->
-#   - Find matching entry in page.tsx modules array
+#   - Find matching entry in modules-data.ts modules array
 #   - If progress differs, update the `progress:` value
 #   - If status changed (e.g., now 100%), update `status:` to 'complete'
+
+# UI Pages that consume this data:
+#   - /modules (public) → apps/web/app/modules/page.tsx
+#   - /admin/modules (admin) → apps/web/app/admin/modules/page.tsx
+# Both import from: apps/web/lib/data/modules-data.ts
 ```
 
-**Why sync ALL modules?**
+**Why sync via shared data file?**
 - Prevents cumulative drift (multiple sessions can each miss updates)
-- Single source of truth: STATUS_v2.md → UI
-- Users always see accurate progress on the website
+- Single source of truth: STATUS_v2.md → modules-data.ts → UI pages
+- Users always see accurate progress on BOTH /modules and /admin/modules
+- Only ONE file to update, not two separate page files
 
 **Step 13.5: Verify Synchronization (MANDATORY)**
 
@@ -405,13 +412,13 @@ fi
 **Step 13.6: Commit Documentation Updates**
 
 ```bash
-git add docs/modules/ docs/STATUS_v2.md apps/web/app/admin/modules/page.tsx
+git add docs/modules/ docs/STATUS_v2.md apps/web/lib/data/modules-data.ts
 git commit -m "docs(modules): update {module-name} progress to Y%
 
 Updates all four locations (MSSP):
 - STATUS_v2.md: {module} at Y% (was X%)
 - docs/modules/{module-name}.md: Progress marker updated
-- apps/web/app/admin/modules/page.tsx: UI synced with STATUS_v2.md
+- apps/web/lib/data/modules-data.ts: Shared data synced (feeds /modules + /admin/modules)
 - docs/modules/INDEX.md: Entry updated to Y%
 
 Phase X implementation complete:
@@ -436,7 +443,7 @@ git push origin yolo
 1. ✅ **STATUS_v2.md** (authoritative source)
 2. ✅ **Module spec file** (`docs/modules/{module-name}.md`)
 3. ✅ **Modules INDEX** (`docs/modules/INDEX.md`)
-4. ✅ **Modules UI page** (`apps/web/app/admin/modules/page.tsx`) ← **VISIBLE TO USERS**
+4. ✅ **Shared modules data** (`apps/web/lib/data/modules-data.ts`) ← **FEEDS BOTH /modules AND /admin/modules**
 
 **Verification:** Run `./scripts/check-module-status.sh {module-name}` before committing
 
