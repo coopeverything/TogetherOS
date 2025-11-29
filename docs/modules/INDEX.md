@@ -26,7 +26,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - **Notifications & Inbox** — Real-time notifications and updates (65% complete — MVP with 6 endpoints + 3 UI components ✅)
 - **Docs Site Hooks** — Documentation integration (60% complete — stable doc routes)
 - [Observability](./observability.md) — Platform health monitoring and error tracking (100% complete — full observability stack ✅)
-- [Security & Privacy](./security.md) — Privacy-first architecture with audit logs (30% complete — threat model checklist)
+- [Security & Privacy](./security.md) — Rate limiting, CSRF, security headers, GDPR compliance, cookie consent (100% complete — production-ready ✅)
 - [Admin Accountability](./admin-accountability.md) — Decision implementation tracking with cooperative safeguards (0% — spec only)
 - [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP dashboard + admin panels (100% — production-ready ✅)
 - [Moderation Transparency](./moderation-transparency.md) — Quality-scored moderation with RP incentives (0% — spec only)

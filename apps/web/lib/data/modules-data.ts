@@ -137,9 +137,9 @@ export const modules: Module[] = [
   {
     title: 'Security & Privacy',
     description:
-      'Privacy-first architecture with no raw prompts stored, IP hashing, PII redaction, and append-only audit logs. Features least-privilege access control, role-based permissions, and exportable data for portable identities. Ensures member data sovereignty and platform transparency.',
-    progress: 30,
-    status: 'in-progress',
+      'Complete security stack: global rate limiting, CSRF protection, security headers (CSP/HSTS), GDPR compliance (data export/deletion), cookie consent, input sanitization. Privacy-first with PII redaction, IP hashing, and append-only audit logs.',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/security.md`,
     docsPath: '/docs/modules/security',
     category: 'Cooperative Technology',

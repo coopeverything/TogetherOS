@@ -60,7 +60,7 @@ Infrastructure and core platform capabilities.
 | **Notifications & Inbox** | Mentions, proposal updates, reminders, preferences management, email digest settings, push notification controls | <!-- progress:notifications=100 --> 100% | Production-ready ✅ | All features complete: PostgreSQL schema ✅, preferences API ✅, settings UI ✅, filtering ✅, mark-as-read ✅ |
 | **Docs Site Hooks** | Links from app → docs canon | <!-- progress:docs-hooks=60 --> 60% | Integrate more doc links in app UI | Stable doc routes |
 | **Observability** | Self-hosted error/perf logging with PII sanitization, alert manager (Discord/Slack), Prometheus metrics API, monitoring UI, comprehensive test suite, Docker stack ready (Uptime Kuma, Grafana, Loki), APM distributed tracing, contract testing, feature flags, canary deployment, log aggregation, advanced dashboard | <!-- progress:observability=100 --> 100% | Production-ready ✅ | All phases complete - full observability stack |
-| **Security & Privacy** | Least-privilege tokens, PII handling, audit flags | <!-- progress:security=30 --> 30% | Secrets layout + no-PII logs | Threat model checklist |
+| **Security & Privacy** | Rate limiting, CSRF protection, security headers (CSP/HSTS), GDPR compliance (data export/deletion), cookie consent, input sanitization, PII redaction, IP hashing, CodeQL scanning, Dependabot | <!-- progress:security=100 --> 100% | Production-ready ✅ | All phases complete: Global rate limiting ✅, Security headers ✅, GDPR endpoints ✅, Cookie consent ✅, Admin dashboard ✅ |
 
 ---
 
