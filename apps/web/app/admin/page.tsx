@@ -190,6 +190,12 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Events Calendar',
+          description: 'Community events, meetings, and milestone tracking',
+          path: '/events',
+          status: 'active',
+        },
+        {
           title: 'System Logs',
           description: 'Metrics and performance data',
           path: '/admin/logs',

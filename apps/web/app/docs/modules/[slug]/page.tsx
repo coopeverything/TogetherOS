@@ -3,11 +3,69 @@ import fs from 'fs'
 import path from 'path'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import remarkBreaks from 'remark-breaks'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import type { AnchorHTMLAttributes } from 'react'
 
 interface Props {
   params: Promise<{ slug: string }>
+}
+
+/**
+ * Custom link component that transforms .md links to work on the live site.
+ * - Relative .md links (./foo.md, ../bar.md) → /docs/modules/foo, /docs/bar
+ * - Absolute GitHub links → external (unchanged)
+ * - Other links → unchanged
+ */
+function MarkdownLink({
+  href,
+  children,
+  ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement>) {
+  if (!href) {
+    return <span {...props}>{children}</span>
+  }
+
+  // Handle relative .md links
+  if (href.endsWith('.md') && !href.startsWith('http')) {
+    // Remove .md extension
+    let newHref = href.replace(/\.md$/, '')
+
+    // Handle relative paths
+    if (newHref.startsWith('./')) {
+      // Same directory: ./foo.md → /docs/modules/foo
+      newHref = `/docs/modules/${newHref.slice(2)}`
+    } else if (newHref.startsWith('../')) {
+      // Parent directory: ../contributors/GETTING_STARTED.md → /docs/contributors/GETTING_STARTED
+      newHref = newHref.replace(/^\.\.\//, '/docs/')
+    } else if (!newHref.startsWith('/')) {
+      // No prefix: foo.md → /docs/modules/foo
+      newHref = `/docs/modules/${newHref}`
+    }
+
+    return (
+      <Link href={newHref} {...props}>
+        {children}
+      </Link>
+    )
+  }
+
+  // External links
+  if (href.startsWith('http')) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+        {children}
+      </a>
+    )
+  }
+
+  // Other internal links
+  return (
+    <Link href={href} {...props}>
+      {children}
+    </Link>
+  )
 }
 
 // Map of valid slugs to their file names
@@ -137,7 +195,12 @@ export default async function ModuleDocPage({ params }: Props) {
             - prose-headings:mt-8 adds top margin to headings
           */}
           <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-gray-700 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-medium prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:overflow-x-auto prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-gray-300 prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkBreaks]}
+              components={{ a: MarkdownLink }}
+            >
+              {content}
+            </ReactMarkdown>
           </div>
         </article>
 

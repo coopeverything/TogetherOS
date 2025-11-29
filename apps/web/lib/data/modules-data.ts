@@ -222,9 +222,9 @@ export const modules: Module[] = [
   {
     title: 'Events & Calendar',
     description:
-      'Comprehensive event management, milestone tracking, and meeting scheduling. Integrates with initiatives to auto-create deadline events, workgroup meetings, and review sessions. Features attendance tracking, meeting notes, and RSVP management. Keeps the community coordinated and accountable.',
-    progress: 0,
-    status: 'planned',
+      'Comprehensive event management, milestone tracking, and meeting scheduling. Database schema (6 tables), full CRUD API, RSVP system, calendar view with month navigation, event type filtering, upcoming events sidebar. Features attendance tracking, meeting notes, and capacity management. Production-ready.',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/events.md`,
     docsPath: '/docs/modules/events',
     category: 'Collective Governance, Community Connection',
