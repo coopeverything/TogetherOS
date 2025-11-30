@@ -9,7 +9,7 @@ const baseNavItems = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/feed', label: 'Feed' },
   { href: '/groups', label: 'Groups' },
-  { href: '/how-we-decide', label: 'How We Decide' },
+  { href: '/wiki', label: 'Wiki' },
   { href: '/forum', label: 'Forum' },
   { href: '/proposals', label: 'Proposals' },
   { href: '/economy', label: 'Economy' },
