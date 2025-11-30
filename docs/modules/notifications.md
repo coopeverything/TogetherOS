@@ -80,7 +80,7 @@ Access your notifications from the bell icon in the header:
 
 ## Notification Preferences
 
-Customize your experience at `/notifications/settings`:
+Customize what notifications you receive and how:
 
 ### Per-Type Controls
 
@@ -116,19 +116,19 @@ Your notification activity is protected:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/notifications-technical.md)
-
----
-
 ## Related Modules
 
 - [Feed](./feed.md) — Activity that generates notifications
 - [Governance](./governance.md) — Proposal notifications
 - [Forum](./forum.md) — Reply notifications
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/notifications-technical.md)
 
 ---
 

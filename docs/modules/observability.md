@@ -123,18 +123,18 @@ When deployments fail, we recover automatically:
 
 ---
 
+## Related Modules
+
+- [Security](./security.md) — Security scanning and privacy protections
+- [Bridge](./bridge.md) — Privacy in AI interactions
+
+---
+
 ## Technical Implementation
 
 For developers interested in the architecture, Docker stack, alerting configuration, and implementation details:
 
 [View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/observability-technical.md)
-
----
-
-## Related Modules
-
-- [Security](./security.md) — Security scanning and privacy protections
-- [Bridge](./bridge.md) — Privacy in AI interactions
 
 ---
 

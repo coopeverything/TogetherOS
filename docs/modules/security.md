@@ -123,19 +123,19 @@ See our full [Security Policy](https://github.com/coopeverything/TogetherOS/blob
 
 ---
 
-## Technical Implementation
-
-For developers interested in the security architecture, threat models, compliance requirements, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/security-technical.md)
-
----
-
 ## Related Modules
 
 - [Observability](./observability.md) — Error tracking and monitoring
 - [Bridge](./bridge.md) — Privacy in AI interactions
 - [Identity](./identity-auth.md) — Authentication security
+
+---
+
+## Technical Implementation
+
+For developers interested in the security architecture, threat models, compliance requirements, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/security-technical.md)
 
 ---
 

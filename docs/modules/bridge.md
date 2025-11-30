@@ -152,20 +152,20 @@ For new members:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the API contracts, logging system, LLM integration, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/bridge-technical.md)
-
----
-
 ## Related Modules
 
 - [Forum](./forum.md) — Thread tidy for discussions
 - [Governance](./governance.md) — Proposal similarity detection
 - [Search](./search.md) — Bridge helps with discovery
 - [Onboarding](./onboarding.md) — New member guidance
+
+---
+
+## Technical Implementation
+
+For developers interested in the API contracts, logging system, LLM integration, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/bridge-technical.md)
 
 ---
 

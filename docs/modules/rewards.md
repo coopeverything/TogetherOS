@@ -155,20 +155,20 @@ Represent milestones in contribution or mastery:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, GitHub integration, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/rewards-technical.md)
-
----
-
 ## Related Modules
 
 - [Support Points](./support-points-ui.md) — SP/RP wallet interfaces
 - [Gamification](./gamification.md) — Milestone tracking and celebrations
 - [Governance](./governance.md) — SP allocation to proposals
 - [Social Economy](./social-economy.md) — Full economic model
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, GitHub integration, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/rewards-technical.md)
 
 ---
 

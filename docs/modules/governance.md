@@ -119,20 +119,20 @@ Decisions are not permanent. The community can:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/governance-technical.md)
-
----
-
 ## Related Modules
 
 - [Forum](./forum.md) — Ideas start as discussions before becoming proposals
 - [Support Points](./support-points-ui.md) — Allocate points to prioritize proposals
 - [Groups](./groups.md) — Create group-scoped proposals
 - [Search](./search.md) — Find proposals by topic or cooperation path
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/governance-technical.md)
 
 ---
 

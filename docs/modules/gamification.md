@@ -175,20 +175,20 @@ We follow the ETHIC principles:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, animation framework, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/gamification-technical.md)
-
----
-
 ## Related Modules
 
 - [Groups](./groups.md) — Community formation and growth
 - [Onboarding](./onboarding.md) — New member rewards
 - [Support Points](./support-points-ui.md) — SP vs RP distinction
 - [Feed](./feed.md) — Progress widget in sidebar
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, animation framework, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/gamification-technical.md)
 
 ---
 

@@ -141,20 +141,20 @@ Turn any post into a discussion:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/feed-technical.md)
-
----
-
 ## Related Modules
 
 - [Forum](./forum.md) — Discussions opened from feed posts
 - [Governance](./governance.md) — Proposals emerge from feed engagement
 - [Groups](./groups.md) — Group-scoped feeds
 - [Bridge](./bridge.md) — Topic intelligence and recommendations
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/feed-technical.md)
 
 ---
 

@@ -142,20 +142,20 @@ RP is recognition for your contributions — it acknowledges your efforts:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/support-points-technical.md)
-
----
-
 ## Related Modules
 
 - [Governance](./governance.md) — Allocate SP to proposals
 - [Gamification](./gamification.md) — Badge and milestone systems
 - [Rewards](./rewards.md) — Full recognition system
 - [Social Economy](./social-economy.md) — Complete economic model
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/support-points-technical.md)
 
 ---
 

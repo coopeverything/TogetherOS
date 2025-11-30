@@ -143,20 +143,20 @@ System flags admins when:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the entity schemas, API endpoints, audit log format, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/admin-accountability-technical.md)
-
----
-
 ## Related Modules
 
 - [Governance](./governance.md) — Proposals that create initiatives
 - [Moderation Transparency](./moderation-transparency.md) — Parallel accountability for moderators
 - [Metrics](./metrics.md) — Success tracking for initiatives
 - [Groups](./groups.md) — Group-level admin roles
+
+---
+
+## Technical Implementation
+
+For developers interested in the entity schemas, API endpoints, audit log format, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/admin-accountability-technical.md)
 
 ---
 

@@ -122,20 +122,20 @@ After meetings, capture what happened:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/events-technical.md)
-
----
-
 ## Related Modules
 
 - [Groups](./groups.md) — Group-scoped events
 - [Governance](./governance.md) — Deliberation and voting sessions
 - [Notifications](./notifications.md) — Event reminders
 - [Gamification](./gamification.md) — Milestone celebrations
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/events-technical.md)
 
 ---
 

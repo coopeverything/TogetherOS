@@ -139,20 +139,20 @@ Bridge AI helps throughout your journey:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/onboarding-technical.md)
-
----
-
 ## Related Modules
 
 - [Bridge](./bridge.md) — AI assistance during learning
 - [Gamification](./gamification.md) — Badge and streak systems
 - [Support Points](./support-points-ui.md) — Learn allocation
 - [Governance](./governance.md) — Proposal creation lessons
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/onboarding-technical.md)
 
 ---
 

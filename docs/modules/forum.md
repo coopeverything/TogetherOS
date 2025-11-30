@@ -130,20 +130,20 @@ One-way information sharing:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/forum-technical.md)
-
----
-
 ## Related Modules
 
 - [Governance](./governance.md) — Convert discussions into formal proposals
 - [Bridge](./bridge.md) — AI assistance for thread tidying
 - [Groups](./groups.md) — Group-scoped discussions
 - [Search](./search.md) — Find topics and posts
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/forum-technical.md)
 
 ---
 

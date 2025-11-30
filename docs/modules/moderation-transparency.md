@@ -187,20 +187,20 @@ System flags moderators when:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the entity schemas, API endpoints, rating calculations, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/moderation-transparency-technical.md)
-
----
-
 ## Related Modules
 
 - [Forum](./forum.md) — Content that gets moderated
 - [Gamification](./gamification.md) — RP earning system
 - [Execution & Accountability](./admin-accountability.md) — Parallel accountability for admins
 - [Bridge](./bridge.md) — AI-assisted moderation suggestions
+
+---
+
+## Technical Implementation
+
+For developers interested in the entity schemas, API endpoints, rating calculations, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/moderation-transparency-technical.md)
 
 ---
 

@@ -140,20 +140,20 @@ All roles have visible expiration dates and can be recalled by group decision.
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/groups-technical.md)
-
----
-
 ## Related Modules
 
 - [Governance](./governance.md) — Group-scoped proposals and decisions
 - [Events](./events.md) — Coordinate group activities
 - [Forum](./forum.md) — Group discussion spaces
 - [Gamification](./gamification.md) — Track group milestones and growth
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/groups-technical.md)
 
 ---
 

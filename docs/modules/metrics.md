@@ -144,20 +144,20 @@ Common initiative types have pre-built metrics:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the entity schemas, API endpoints, evaluation algorithms, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/metrics-technical.md)
-
----
-
 ## Related Modules
 
 - [Execution & Accountability](./admin-accountability.md) — Initiative tracking
 - [Governance](./governance.md) — Amendment proposals from failures
 - [Gamification](./gamification.md) — Community milestone tracking
 - [Events](./events.md) — Evaluation reminder scheduling
+
+---
+
+## Technical Implementation
+
+For developers interested in the entity schemas, API endpoints, evaluation algorithms, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/metrics-technical.md)
 
 ---
 

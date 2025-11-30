@@ -204,20 +204,20 @@ Tracks whether members take more than they give:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the data models, API endpoints, wallet schemas, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/social-economy-technical.md)
-
----
-
 ## Related Modules
 
 - [Support Points](./support-points-ui.md) — SP/RP wallet interfaces
 - [Governance](./governance.md) — SP allocation to proposals
 - [Rewards](./rewards.md) — RP earning system
 - [Gamification](./gamification.md) — Contribution paths and badges
+
+---
+
+## Technical Implementation
+
+For developers interested in the data models, API endpoints, wallet schemas, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/social-economy-technical.md)
 
 ---
 

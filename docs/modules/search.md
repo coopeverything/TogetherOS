@@ -107,19 +107,19 @@ Your search activity is protected:
 
 ---
 
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, ranking algorithms, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/search-technical.md)
-
----
-
 ## Related Modules
 
 - [Governance](./governance.md) — Search proposals
 - [Forum](./forum.md) — Search discussions
 - [Groups](./groups.md) — Find communities
+
+---
+
+## Technical Implementation
+
+For developers interested in the database schemas, API endpoints, ranking algorithms, and implementation details:
+
+[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/search-technical.md)
 
 ---
 
