@@ -141,44 +141,37 @@ function createMarkdownLink(slug: string) {
 }
 
 /**
- * Custom code block component that replaces code blocks with GitHub links.
- * Inline code is preserved (for `variable` names in text).
- * Block code is replaced with a "View on GitHub" card.
+ * Custom code component that styles inline code.
+ * Block code is rendered with default styling (no replacement needed since
+ * Technical Implementation sections now use proper markdown links).
  */
-function createCodeBlock(slug: string) {
-  return function CodeBlock({
-    inline,
-    children,
-    ...props
-  }: {
-    inline?: boolean
-    children?: ReactNode
-    node?: unknown
-  }) {
-    // Inline code: keep as-is (for `variable` names in text)
-    if (inline) {
-      return (
-        <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-medium" {...props}>
-          {children}
-        </code>
-      )
-    }
+function CodeBlock({
+  children,
+  className,
+  ...props
+}: {
+  children?: ReactNode
+  className?: string
+  node?: unknown
+}) {
+  // Check if this is a code block (has language class like "language-typescript")
+  const isCodeBlock = className?.startsWith('language-')
 
-    // Block code: replace with GitHub link
+  if (isCodeBlock) {
+    // Render code blocks with syntax highlighting styling
     return (
-      <div className="my-4">
-        <a
-          href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium"
-        >
-          <GitHubIcon className="w-5 h-5" />
-          <span>Technical Implementation</span>
-        </a>
-      </div>
+      <code className={`${className} block bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm`} {...props}>
+        {children}
+      </code>
     )
   }
+
+  // Inline code: styled with background
+  return (
+    <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-medium" {...props}>
+      {children}
+    </code>
+  )
 }
 
 /**
@@ -250,9 +243,8 @@ export default async function ModuleDocPage({ params }: Props) {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
 
-  // Create slug-aware components
+  // Create slug-aware link component
   const MarkdownLink = createMarkdownLink(slug)
-  const CodeBlock = createCodeBlock(slug)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
