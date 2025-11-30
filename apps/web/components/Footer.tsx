@@ -26,12 +26,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Documentation */}
+          {/* Learn */}
           <div>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
-              Documentation
+              Learn
             </h3>
             <ul className="space-y-2">
+              <li>
+                <Link href="/wiki" className="text-gray-600 hover:text-orange-600">
+                  Wiki
+                </Link>
+              </li>
+              <li>
+                <Link href="/glossary" className="text-gray-600 hover:text-orange-600">
+                  Glossary
+                </Link>
+              </li>
               <li>
                 <Link href="/modules" className="text-gray-600 hover:text-orange-600">
                   Modules

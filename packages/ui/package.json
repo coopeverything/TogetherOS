@@ -9,7 +9,8 @@
     ".": "./src/index.ts",
     "./bridge": "./src/bridge/index.ts",
     "./groups": "./src/groups/index.ts",
-    "./profiles": "./src/profiles/index.ts"
+    "./profiles": "./src/profiles/index.ts",
+    "./wiki": "./src/wiki/index.ts"
   },
   "scripts": {
     "build": "tsc --build",
