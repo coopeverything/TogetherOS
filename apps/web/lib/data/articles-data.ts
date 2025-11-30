@@ -61,7 +61,11 @@ A brilliant strategist can advise. A skilled facilitator can guide discussions. 
 
 ---
 
-*This article represents the author's perspective. Discuss and debate in the forum.*`,
+*This article represents the author's perspective. Discuss and debate in the forum.*
+
+---
+
+**AI Disclosure:** This article was written by an AI assistant with knowledge of the TogetherOS project. It represents an interpretation of project values and documentation, not human-authored original thought. Treat it as a starting point for discussion, not definitive truth.`,
     status: 'published',
     authorId: 'user-1',
     authorName: 'Collective Voice',
@@ -132,7 +136,11 @@ That discomfort is growth.
 
 ---
 
-*This is my personal practice. Your path to mental flexibility may look different. Share yours in the forum.*`,
+*This is my personal practice. Your path to mental flexibility may look different. Share yours in the forum.*
+
+---
+
+**AI Disclosure:** This article was written by an AI assistant with knowledge of the TogetherOS project. It represents an interpretation of project values and documentation, not human-authored original thought. Treat it as a starting point for discussion, not definitive truth.`,
     status: 'published',
     authorId: 'user-2',
     authorName: 'Mindful Skeptic',
@@ -214,7 +222,11 @@ We're not just building software. We're prototyping a different relationship bet
 
 ---
 
-*This represents one perspective on SP design philosophy. The system continues to evolve through community deliberation.*`,
+*This represents one perspective on SP design philosophy. The system continues to evolve through community deliberation.*
+
+---
+
+**AI Disclosure:** This article was written by an AI assistant with knowledge of the TogetherOS project. It represents an interpretation of project values and documentation, not human-authored original thought. Treat it as a starting point for discussion, not definitive truth.`,
     status: 'published',
     authorId: 'user-1',
     authorName: 'Collective Voice',

@@ -473,66 +473,783 @@ You can focus on paths that match your interests and skills, or explore paths th
     readTimeMinutes: 4,
   },
   {
-    id: 'wiki-manifesto-whitepaper',
-    slug: 'manifesto-vs-whitepaper',
-    title: 'Vision and Architecture: Manifesto & White Paper',
+    id: 'wiki-the-problem',
+    slug: 'the-problem',
+    title: 'The Problem We Face',
     summary:
-      'The Manifesto explains WHY (values, vision). The White Paper explains HOW (architecture, mechanics). Different entry points for different people.',
-    content: `# Vision and Architecture: Manifesto & White Paper
+      'Power concentrated in a few hands routes wealth upward and pain downward. This produces struggle, poverty, exploitation, ecological breakdown, and social disconnection.',
+    content: `# The Problem We Face
 
-TogetherOS has two foundational documents:
+TogetherOS exists because humanity faces a structural problem that no individual effort can solve.
 
-## The Manifesto
+## The Core Issue
 
-**What it is:** The WHY — values, vision, problems we're solving, what we believe
+**Power concentrated in a few hands routes wealth and political power upward and pain downward.**
 
-**Audience:** Everyone — activists, skeptics, the curious, potential members
+This isn't about bad people — it's about bad systems. When power concentrates, it produces predictable outcomes:
 
-**Tone:** Inspiring, emotional, urgent
+- **Economic extraction** — Surplus flows to owners, not workers
+- **Political capture** — Decisions favor those who fund campaigns
+- **Ecological destruction** — Short-term profit beats long-term survival
+- **Social isolation** — Competition replaces cooperation
 
-**Question it answers:** "Why should I care?"
+## The Lived Experience
 
-**Read it when:** You want to understand the purpose and passion behind TogetherOS
+What does this mean in daily life?
 
-## The White Paper
+- **Struggle and poverty** — Working harder doesn't guarantee security
+- **Exploitation** — Labor is commodified, people become "resources"
+- **Anxiety and isolation** — We're told to compete, not connect
+- **Disconnection** — From each other, from nature, from meaning
 
-**What it is:** The HOW — architecture, mechanics, protocols, safeguards
+## Why Individual Solutions Fail
 
-**Audience:** Builders, researchers, skeptics who want proof
+You can't solve structural problems with individual choices:
 
-**Tone:** Technical, precise, credible
+- Recycling won't stop industrial pollution
+- Buying local won't reverse global supply chains
+- Personal resilience won't compensate for broken systems
+- Individual enlightenment won't change who holds power
 
-**Question it answers:** "How does this actually work?"
+## The Pattern Across Systems
 
-**Read it when:** You want to understand implementation details
+This same pattern repeats everywhere:
 
-## Why Both?
+| Domain | Power Concentration | Result |
+|--------|-------------------|--------|
+| Economy | Wealth → few owners | Extraction, poverty |
+| Politics | Influence → wealthy donors | Policy capture |
+| Media | Narrative → few platforms | Information control |
+| Technology | Data → tech giants | Surveillance, manipulation |
 
-Different people need different entry points:
+## Not Pessimism — Analysis
 
-- **Emotional buy-in first:** Some people need to feel the vision before caring about implementation. They read Manifesto → then White Paper.
+Seeing this clearly isn't pessimism. It's the necessary first step toward change. You can't fix what you can't name.
 
-- **Intellectual proof first:** Some people need to see concrete plans before trusting the vision. They read White Paper → then Manifesto.
+The question isn't "is this true?" — most people feel it in their lives. The question is: "what do we do about it?"
 
-Neither is "better." Both are necessary.
-
-## Where to Find Them
-
-- **Manifesto:** /manifesto (user-friendly) or docs/Manifesto.md (GitHub)
-- **White Paper:** docs/TogetherOS_WhitePaper.md (GitHub)
-
-## Living Documents
-
-Both documents are subject to community deliberation. They represent our current best understanding, not final truths. As we learn and grow, they evolve.`,
+That's where TogetherOS begins.`,
     status: 'stable',
-    tags: ['documentation', 'vision', 'architecture', 'onboarding'],
-    cooperationPaths: ['Cooperative Technology'],
-    relatedArticles: ['cooperation-paths', 'governance-process'],
-    terms: ['manifesto', 'whitepaper'],
+    tags: ['vision', 'problem', 'analysis', 'systems'],
+    cooperationPaths: ['Collective Governance'],
+    relatedArticles: ['the-solution', 'cooperation-paths'],
+    terms: ['power-hierarchy'],
     contributorCount: 1,
     lastEditedAt: '2025-11-30T00:00:00Z',
     createdAt: '2025-11-30T00:00:00Z',
-    readTimeMinutes: 3,
+    readTimeMinutes: 4,
+  },
+  {
+    id: 'wiki-the-solution',
+    slug: 'the-solution',
+    title: 'The Solution: Unlearn Division, Learn Coordination',
+    summary:
+      'TogetherOS helps communities self-organize through shared decisions, cooperative economics, and tiny verifiable steps. The key insight: the default assumptions holding us back can be changed.',
+    content: `# The Solution: Unlearn Division, Learn Coordination
+
+## The Opening
+
+Here's the good news: **the defaults holding us back are not fixed.**
+
+Individualism, zero-sum thinking, waiting for leaders — these aren't human nature. They're learned behaviors. And what's learned can be unlearned.
+
+## What TogetherOS Does
+
+TogetherOS helps people **unlearn division and learn coordination** through:
+
+### 1. Shared Decisions, Shared Power
+
+Instead of voting for representatives who decide for us:
+
+- **Direct participation** — Members propose and vote on actual decisions
+- **Transparent processes** — Everyone can see how decisions are made
+- **Rotating roles** — No permanent positions of power
+- **Recallable coordinators** — Anyone executing decisions can be removed
+
+### 2. Cooperative Economics
+
+Instead of wealth extracting upward:
+
+- **Support Points** — Governance power earned through contribution, never bought
+- **Reward Points** — Economic claims that recognize value created
+- **Timebanking** — Exchange labor directly, outside money systems
+- **Cooperative Treasury** — Surplus stays in the community
+
+### 3. Tiny, Verifiable Steps
+
+Instead of grand plans that never materialize:
+
+- **Minimal shippable increments** — Small changes that actually ship
+- **Public proofs** — Every step documented and verifiable
+- **Continuous delivery** — Progress you can see and feel
+- **Rapid iteration** — Learn and adjust quickly
+
+## The Default Reset
+
+TogetherOS aims to reset default assumptions:
+
+| Old Default | New Default |
+|-------------|-------------|
+| Wait for leaders | Participate directly |
+| Compete for scarcity | Coordinate for abundance |
+| Delegate responsibility | Share responsibility |
+| Consume passively | Create actively |
+| Trust authority | Verify everything |
+
+## Why "OS"?
+
+TogetherOS is an Operating System — a foundation layer that other applications run on top of.
+
+Just as your computer's OS provides:
+- File management (data)
+- Process scheduling (coordination)
+- User permissions (governance)
+- Networking (connection)
+
+TogetherOS provides:
+- Knowledge management (wiki, articles, glossary)
+- Decision coordination (proposals, voting, consent)
+- Role management (coordinators, recall, accountability)
+- Community connection (groups, forums, events)
+
+## Not a Utopia
+
+TogetherOS doesn't promise utopia. It provides tools for communities to experiment with different ways of organizing. Some experiments will fail. That's the point — fail fast, learn, adjust.
+
+The goal isn't perfection. It's **practice** — practicing coordination until it becomes natural.`,
+    status: 'stable',
+    tags: ['vision', 'solution', 'cooperation', 'systems'],
+    cooperationPaths: ['Collective Governance', 'Social Economy'],
+    relatedArticles: ['the-problem', 'cooperation-paths', 'support-points'],
+    terms: ['coordinator', 'support-points'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 5,
+  },
+  {
+    id: 'wiki-behavior-change',
+    slug: 'behavior-change',
+    title: 'Behavior Change: From Habits to Culture',
+    summary:
+      'TogetherOS uses gamification, micro-lessons, and public rituals to shift behavior from individual competition to collective coordination. Change happens through practice, not preaching.',
+    content: `# Behavior Change: From Habits to Culture
+
+## The Challenge
+
+Knowing cooperation is good isn't enough. We've been conditioned for competition. Changing behavior requires more than information — it requires **practice**.
+
+## How TogetherOS Changes Behavior
+
+### 1. Gamification (Without Manipulation)
+
+- **Support Points** reward contribution, not consumption
+- **Badges** recognize skills developed, not status achieved
+- **Progress tracking** makes growth visible
+- **Leaderboards** (optional) celebrate contribution, not extraction
+
+**Key difference from exploitative gamification:** You can always see how the system works. No dark patterns. No manipulation for engagement metrics.
+
+### 2. Micro-Lessons at Point of Need
+
+Instead of courses you take once and forget:
+
+- **Just-in-time learning** — Lessons appear when relevant
+- **Bite-sized content** — 2-5 minutes, not hours
+- **Immediate application** — Learn, then do
+- **Spaced repetition** — Concepts reinforced over time
+
+### 3. Public Rituals
+
+Shared practices that build culture:
+
+- **Weekly standups** — What are we working on? What's blocked?
+- **Monthly retrospectives** — What worked? What didn't?
+- **Quarterly planning** — Where are we going together?
+- **Annual celebrations** — Recognizing contribution and growth
+
+### 4. Social Proof
+
+When you see others cooperating, it normalizes cooperation:
+
+- **Activity feeds** — See what others are doing
+- **Testimonials** — Hear how cooperation helped
+- **Case studies** — Learn from successful experiments
+- **Mentorship** — Direct connection with experienced practitioners
+
+## The Habit Loop
+
+TogetherOS is designed around the habit loop:
+
+1. **Cue** — Notification, ritual, or context trigger
+2. **Routine** — The cooperative action (propose, vote, contribute)
+3. **Reward** — SP, recognition, visible progress, sense of belonging
+
+Over time, cooperative behaviors become automatic.
+
+## Cultural Transmission
+
+Individual habit change isn't enough. TogetherOS aims for **cultural change**:
+
+- New members learn from existing culture
+- Norms are explicit and discussable
+- Stories of cooperation spread
+- Cooperation becomes "how we do things here"
+
+## Patience Required
+
+This takes time. Default assumptions don't change overnight. But with consistent practice, new defaults emerge.
+
+We're not trying to convince people cooperation is good. We're building systems where cooperation is **easy, natural, and rewarded**.`,
+    status: 'evolving',
+    tags: ['behavior', 'gamification', 'culture', 'habits', 'learning'],
+    cooperationPaths: ['Collaborative Education', 'Community Connection'],
+    relatedArticles: ['support-points', 'mental-flexibility'],
+    terms: ['support-points', 'mental-flexibility'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 5,
+  },
+  {
+    id: 'wiki-governance-process',
+    slug: 'governance-process',
+    title: 'The Governance Process',
+    summary:
+      'How proposals move from idea to implementation: submission, deliberation, voting, and execution. Every step transparent, every decision traceable.',
+    content: `# The Governance Process
+
+## Overview
+
+TogetherOS governance follows a clear process:
+
+**Proposal → Deliberation → Voting → Execution → Review**
+
+Every step is transparent. Every decision is traceable.
+
+## Step 1: Proposal Submission
+
+Anyone can propose. A proposal includes:
+
+- **Title** — Clear, descriptive name
+- **Summary** — What you're proposing in 2-3 sentences
+- **Rationale** — Why this matters
+- **Evidence** — Data, examples, reasoning
+- **Trade-offs** — What we gain, what we lose
+- **Implementation plan** — How it would be executed
+
+**Quality matters.** Poorly written proposals waste everyone's time. The system encourages thoughtful preparation.
+
+## Step 2: Deliberation
+
+Before voting, the community discusses:
+
+- **Clarifying questions** — What exactly do you mean?
+- **Concerns** — What could go wrong?
+- **Amendments** — Can we improve this?
+- **Alternative approaches** — Is there a better way?
+
+**Discussion periods vary** by proposal impact:
+- Minor changes: 3 days
+- Standard proposals: 7 days
+- Major changes: 14-30 days
+
+## Step 3: Voting
+
+Four voting options:
+
+| Vote | Meaning |
+|------|---------|
+| **Support** | I consent to this moving forward |
+| **Oppose** | I have concerns but won't block |
+| **Abstain** | I choose not to participate in this decision |
+| **Block** | I have fundamental objections that must be addressed |
+
+**Consent threshold:** Proposals pass when no one blocks and support exceeds opposition.
+
+## Step 4: Execution
+
+Passed proposals need execution:
+
+- **Coordinator assigned** — Someone takes responsibility
+- **Timeline set** — When will it be done?
+- **Resources allocated** — What's needed?
+- **Progress tracked** — Visible milestones
+
+## Step 5: Review
+
+After execution, review:
+
+- **Delivery report** — What was actually done?
+- **Impact assessment** — Did it achieve the goal?
+- **Lessons learned** — What would we do differently?
+- **Minority report accuracy** — Were concerns validated?
+
+## Minority Reports
+
+When proposals pass despite opposition:
+
+- **Concerns documented** — Not just dismissed
+- **Predictions recorded** — What opponents expect to happen
+- **Reviewed later** — If predictions prove correct, proposal can be amended
+
+This protects minority voices and creates accountability for decisions.
+
+## SP Allocation
+
+Members allocate Support Points to signal priority:
+
+- Each member can allocate up to 10 SP per proposal
+- Higher SP = higher visibility
+- SP regenerates over time
+- SP cannot be bought
+
+This creates a market for attention without creating a plutocracy.
+
+## Emergency Decisions
+
+Some decisions can't wait for normal process:
+
+- **Emergency proposals** — Shorter deliberation period
+- **Higher thresholds** — Requires more support to pass quickly
+- **Automatic review** — Emergency decisions reviewed after crisis passes
+
+## Amending Proposals
+
+If a proposal is blocked:
+
+1. Proposer can withdraw
+2. Proposer can amend to address concerns
+3. Amended proposal goes through shortened deliberation
+4. If concerns addressed, blocking members may change vote
+
+The goal is finding solutions that work for everyone, not forcing decisions through.`,
+    status: 'stable',
+    tags: ['governance', 'process', 'proposals', 'voting', 'deliberation'],
+    cooperationPaths: ['Collective Governance'],
+    relatedArticles: ['consent-based-decisions', 'coordinator', 'support-points'],
+    terms: ['consent-based', 'minority-report', 'support-points', 'coordinator'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 6,
+  },
+  {
+    id: 'wiki-four-ledger-system',
+    slug: 'four-ledger-system',
+    title: 'The Four Ledger System',
+    summary:
+      'TogetherOS tracks four separate types of value: Support Points (governance), Reward Points (economic claims), Timebank Hours (labor exchange), and Cooperative Treasury (collective resources).',
+    content: `# The Four Ledger System
+
+## Why Four Ledgers?
+
+Traditional systems conflate different types of value. Money buys goods, services, influence, and power. TogetherOS separates these concerns:
+
+## Ledger 1: Support Points (SP)
+
+**Purpose:** Governance power
+
+- Earned through contributions
+- **Cannot be bought, sold, or traded**
+- Used to vote on proposals and signal priority
+- Regenerates over time
+
+**Why separate?** Governance power should reflect contribution, not wealth. Rich people shouldn't get more votes.
+
+## Ledger 2: Reward Points (RP)
+
+**Purpose:** Economic claims
+
+- Earned through contributions
+- Potentially tradeable (future feature)
+- Redeemable for goods/services in cooperative economy
+- Represents value created
+
+**Why separate from SP?** You might want to trade economic value but shouldn't be able to trade political power.
+
+## Ledger 3: Timebank Hours
+
+**Purpose:** Direct labor exchange
+
+- 1 hour = 1 hour, regardless of task
+- No money involved
+- Tracked between individuals or in a pool
+- Alternative to wage labor
+
+**Example:** I help you fix your bike (1 hour). You owe me 1 hour of help with whatever I need.
+
+**Why include this?** Not everything needs to be monetized. Direct exchange builds relationships.
+
+## Ledger 4: Cooperative Treasury
+
+**Purpose:** Collective resources
+
+- Fiat currency held in common
+- Funded by: grants, donations, cooperative enterprises
+- Used for: shared expenses, hired coordinators, infrastructure
+- Governed by proposals
+
+**Why include this?** Communities need collective resources. This provides transparent management.
+
+## How They Interact
+
+| Transaction | Ledger Used |
+|-------------|-------------|
+| Vote on proposal | SP |
+| Signal proposal priority | SP |
+| Earn recognition for work | SP + RP |
+| Exchange labor directly | Timebank |
+| Buy supplies for group | Treasury |
+| Hire a coordinator | Treasury |
+
+## The Firewall
+
+**Critical rule:** Money (Treasury) can NEVER become SP.
+
+You can donate to the treasury. You can earn RP for contributions. But you cannot buy governance power.
+
+This firewall prevents plutocracy.
+
+## Transparency
+
+All four ledgers are transparent:
+
+- Balances visible (privacy-respecting)
+- Transactions traceable
+- Rules explicit
+- Changes require proposals
+
+## Future Development
+
+The four-ledger system may evolve:
+
+- **Social Horizon Currency** — Local currency for the cooperative economy
+- **Inter-community exchange** — Trading between communities
+- **Universal Basic Income** — Automatic distribution from treasury
+
+These are possibilities, not promises. Development depends on community deliberation.`,
+    status: 'evolving',
+    tags: ['economy', 'ledgers', 'SP', 'RP', 'timebank', 'treasury'],
+    cooperationPaths: ['Social Economy'],
+    relatedArticles: ['support-points', 'mutual-aid'],
+    terms: ['support-points', 'reward-points', 'anti-plutocracy'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 5,
+  },
+  {
+    id: 'wiki-mutual-aid',
+    slug: 'mutual-aid',
+    title: 'Mutual Aid Networks',
+    summary:
+      'Mutual aid is reciprocal support — not charity (top-down) but solidarity (side-by-side). TogetherOS provides tools for organizing and tracking mutual aid.',
+    content: `# Mutual Aid Networks
+
+## What Is Mutual Aid?
+
+**Mutual aid** is reciprocal support between community members. It differs from:
+
+| Model | Direction | Relationship |
+|-------|-----------|--------------|
+| Charity | Top-down | Donor → recipient |
+| Welfare | Top-down | State → citizen |
+| Mutual Aid | Horizontal | Neighbor ↔ neighbor |
+
+In mutual aid, everyone is both giver and receiver. Today I help you, tomorrow you help me, next week we both help someone else.
+
+## Why Mutual Aid Matters
+
+When people help each other directly:
+
+- **Relationships form** — You know your neighbors
+- **Skills transfer** — Teaching happens naturally
+- **Resilience builds** — Community can handle crises
+- **Systems are bypassed** — Don't need corporations or government
+
+## TogetherOS Mutual Aid Tools
+
+### Request Board
+
+- Post what you need: "Need help moving furniture Saturday"
+- Post what you offer: "Can teach basic coding, 1 hour/week"
+- Matching happens in the community
+
+### Skills Directory
+
+- Members list skills they can offer
+- Searchable by category
+- Includes availability and preferences
+
+### Timebanking
+
+- Track hours given and received
+- 1 hour = 1 hour (no skill hierarchy)
+- Build community credit
+
+### Group Coordination
+
+- Create mutual aid groups by topic or geography
+- Coordinate regular support (childcare circles, tool libraries)
+- Plan for emergencies
+
+## Examples
+
+**Skill Shares:**
+- Bike repair workshop
+- Language exchange
+- Coding help sessions
+- Gardening advice
+
+**Material Sharing:**
+- Tool library
+- Seed swap
+- Clothing exchange
+- Food rescue distribution
+
+**Care Networks:**
+- Childcare circles
+- Elder check-ins
+- Pet sitting rotation
+- Meal trains for sick members
+
+## The Economic Logic
+
+Traditional economics assumes scarcity and competition. Mutual aid assumes abundance and cooperation:
+
+- **Your skills don't deplete** when you share them
+- **Your relationships strengthen** when you help
+- **Community capacity grows** as everyone contributes
+- **Money becomes less necessary** as direct exchange increases
+
+## Getting Started
+
+1. **Identify your skills** — What can you offer?
+2. **Identify your needs** — What could you use help with?
+3. **Start small** — One exchange builds to many
+4. **Pay it forward** — Help someone new when you can
+
+## Not Charity
+
+Important distinction: mutual aid isn't about "helping the less fortunate." It's about building networks where everyone has something to give and receive.
+
+The person who receives help today may offer help tomorrow. Everyone has value. Everyone belongs.`,
+    status: 'stable',
+    tags: ['economy', 'mutual-aid', 'community', 'solidarity'],
+    cooperationPaths: ['Social Economy', 'Community Connection'],
+    relatedArticles: ['four-ledger-system', 'cooperation-paths'],
+    terms: ['social-economy', 'mutual-aid'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 5,
+  },
+  {
+    id: 'wiki-threat-model',
+    slug: 'threat-model',
+    title: 'Threat Model: What Could Go Wrong',
+    summary:
+      'TogetherOS is designed to resist specific threats: plutocracy, populist capture, coordinator corruption, sybil attacks, and burnout. Understanding threats helps us build defenses.',
+    content: `# Threat Model: What Could Go Wrong
+
+## Why Think About Threats?
+
+Every system has vulnerabilities. Pretending otherwise leads to failure. TogetherOS explicitly names threats so we can build defenses.
+
+## Threat 1: Plutocracy (Money Buys Power)
+
+**Attack:** Wealthy members try to buy influence over decisions.
+
+**Defense:** Support Points cannot be purchased. Ever. The firewall between money and governance power is absolute.
+
+**Remaining risk:** Wealthy members could donate time to earn SP. This is acceptable — time investment shows genuine commitment.
+
+## Threat 2: Populist Capture
+
+**Attack:** Charismatic individual manipulates community into following them.
+
+**Defense:**
+- No permanent leadership positions
+- All roles recallable
+- Minority reports preserve dissent
+- Mental flexibility as cultural value
+
+**Remaining risk:** Charisma is hard to defend against. Culture of questioning helps.
+
+## Threat 3: Coordinator Corruption
+
+**Attack:** External entity bribes or threatens coordinators.
+
+**Defense:**
+- Coordinators have no independent power
+- Can be recalled at any time
+- Corrupting a coordinator gains nothing
+- Another coordinator takes their place
+
+**Remaining risk:** Minimal. The design makes corruption unprofitable.
+
+## Threat 4: Sybil Attack (Fake Accounts)
+
+**Attack:** Someone creates many fake accounts to gain voting power.
+
+**Defense:**
+- Onboarding process requires real engagement
+- SP earned through contribution (can't fake contribution at scale)
+- Verification options for high-stakes decisions
+- Community moderation catches suspicious activity
+
+**Remaining risk:** Small-scale sybil attacks possible but not profitable.
+
+## Threat 5: Burnout
+
+**Attack:** Active members exhaust themselves, system collapses.
+
+**Defense:**
+- Task distribution algorithms prevent overload
+- Recognition systems acknowledge contribution
+- Role rotation prevents entrenchment
+- Culture of sustainable pace
+
+**Remaining risk:** Burnout is always possible. Systems help but can't fully prevent.
+
+## Threat 6: External Pressure
+
+**Attack:** Powerful external entities (governments, corporations) pressure the community.
+
+**Defense:**
+- No single point of failure (distributed leadership)
+- Transparent decision-making hard to secretly influence
+- Legal structure designed for resilience
+- Multiple instances can exist independently
+
+**Remaining risk:** Determined attackers with resources are hard to stop. But distributed systems are harder to kill.
+
+## Threat 7: Apathy
+
+**Attack:** Members stop participating. Decisions made by tiny minority.
+
+**Defense:**
+- Gamification rewards participation
+- Regular communication about impact
+- Low-barrier participation options
+- Notification of important decisions
+
+**Remaining risk:** Apathy is always possible. Can't force engagement.
+
+## Living Document
+
+This threat model will evolve. As we learn about new vulnerabilities, we'll add defenses. Security is a process, not a destination.`,
+    status: 'evolving',
+    tags: ['security', 'threats', 'safeguards', 'governance'],
+    cooperationPaths: ['Collective Governance', 'Cooperative Technology'],
+    relatedArticles: ['coordinator', 'recall-mechanism', 'support-points'],
+    terms: ['anti-plutocracy', 'coordinator', 'recall'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 5,
+  },
+  {
+    id: 'wiki-privacy-data',
+    slug: 'privacy-and-data',
+    title: 'Privacy and Data Protection',
+    summary:
+      'TogetherOS practices privacy by design: minimal data collection, user control over personal information, transparency about what we store, and the right to be forgotten.',
+    content: `# Privacy and Data Protection
+
+## Guiding Principle
+
+**Privacy by design:** We collect the minimum necessary, protect what we collect, and give users control.
+
+## What We Collect
+
+### Necessary Data
+
+| Data | Why | Retention |
+|------|-----|-----------|
+| Email | Account recovery, notifications | Until account deletion |
+| Username | Identity in community | Until account deletion |
+| Password hash | Authentication | Until account deletion |
+| Contribution history | SP/RP calculation | Aggregated after 2 years |
+| Vote history | Governance transparency | Permanent (public) |
+
+### Optional Data
+
+- Profile information (bio, location, skills) — You choose what to share
+- Activity preferences — For personalization
+- Communication preferences — For notifications
+
+### What We Don't Collect
+
+- Browsing history outside TogetherOS
+- Location tracking
+- Payment information (handled by third parties)
+- Personal messages content (end-to-end encrypted where possible)
+
+## Transparency Features
+
+### Public by Design
+
+Some things are intentionally public:
+
+- How you voted on proposals (accountability)
+- Your SP balance (governance legitimacy)
+- Your contributions (recognition)
+
+### Aggregate vs Individual
+
+Many statistics are shared only in aggregate:
+
+- Total participation (not who participated)
+- Voting patterns (not individual votes on private matters)
+- Demographics (not individual attributes)
+
+## User Controls
+
+You can always:
+
+- **Export your data** — Get a copy of everything we have
+- **Delete your account** — Remove personal data (votes remain for integrity)
+- **Modify your profile** — Change what you share
+- **Opt out of optional collection** — Reduce data footprint
+
+## Data Security
+
+- **Encryption at rest** — Data encrypted when stored
+- **Encryption in transit** — HTTPS everywhere
+- **Access controls** — Role-based access to sensitive data
+- **Audit logs** — Track who accessed what
+
+## The Right to Be Forgotten
+
+If you delete your account:
+
+- Personal data is removed
+- Contributions are anonymized (attributed to "deleted user")
+- Vote history remains for governance integrity
+- You can request additional removal if legally required
+
+## Governance of Privacy
+
+Privacy policies are subject to community governance. Changes require proposals and consent-based decision making.
+
+## No Selling of Data
+
+We do not sell, rent, or trade personal data. Ever. This is non-negotiable.
+
+## Questions?
+
+Contact the community about privacy concerns. Transparency includes explaining how we protect your information.`,
+    status: 'stable',
+    tags: ['privacy', 'data', 'security', 'rights'],
+    cooperationPaths: ['Cooperative Technology'],
+    relatedArticles: ['threat-model', 'governance-process'],
+    terms: ['privacy'],
+    contributorCount: 1,
+    lastEditedAt: '2025-11-30T00:00:00Z',
+    createdAt: '2025-11-30T00:00:00Z',
+    readTimeMinutes: 5,
   },
   {
     id: 'wiki-elected-hired',
@@ -741,7 +1458,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     slug: 'manifesto',
     shortDefinition:
       'The foundational document explaining WHY TogetherOS exists — our values and vision.',
-    wikiArticleSlug: 'manifesto-vs-whitepaper',
+    wikiArticleSlug: 'the-solution',
     relatedTerms: ['whitepaper'],
     cooperationPath: 'Cooperative Technology',
   },
@@ -751,7 +1468,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     slug: 'whitepaper',
     shortDefinition:
       'The technical document explaining HOW TogetherOS works — architecture and mechanics.',
-    wikiArticleSlug: 'manifesto-vs-whitepaper',
+    wikiArticleSlug: 'governance-process',
     relatedTerms: ['manifesto'],
     cooperationPath: 'Cooperative Technology',
   },
@@ -764,6 +1481,65 @@ export const glossaryTerms: GlossaryTerm[] = [
     wikiArticleSlug: 'cooperation-paths',
     relatedTerms: ['support-points', 'reward-points'],
     cooperationPath: 'Social Economy',
+  },
+  {
+    id: 'term-mutual-aid',
+    word: 'Mutual Aid',
+    slug: 'mutual-aid',
+    shortDefinition:
+      'Reciprocal support between community members — not charity (top-down) but solidarity (side-by-side).',
+    wikiArticleSlug: 'mutual-aid',
+    relatedTerms: ['social-economy', 'timebank'],
+    cooperationPath: 'Social Economy',
+  },
+  {
+    id: 'term-timebank',
+    word: 'Timebank',
+    slug: 'timebank',
+    shortDefinition:
+      'Direct labor exchange where 1 hour = 1 hour, regardless of task. No money involved.',
+    wikiArticleSlug: 'four-ledger-system',
+    relatedTerms: ['mutual-aid', 'social-economy'],
+    cooperationPath: 'Social Economy',
+  },
+  {
+    id: 'term-treasury',
+    word: 'Cooperative Treasury',
+    slug: 'treasury',
+    shortDefinition:
+      'Collective resources held in common, funded by grants and donations, governed by proposals.',
+    wikiArticleSlug: 'four-ledger-system',
+    relatedTerms: ['support-points', 'reward-points'],
+    cooperationPath: 'Social Economy',
+  },
+  {
+    id: 'term-privacy',
+    word: 'Privacy by Design',
+    slug: 'privacy',
+    shortDefinition:
+      'Collect minimum necessary, protect what we collect, give users control. Never sell data.',
+    wikiArticleSlug: 'privacy-and-data',
+    cooperationPath: 'Cooperative Technology',
+  },
+  {
+    id: 'term-behavior-change',
+    word: 'Behavior Change',
+    slug: 'behavior-change',
+    shortDefinition:
+      'Shifting from competition to cooperation through practice: gamification, micro-lessons, public rituals.',
+    wikiArticleSlug: 'behavior-change',
+    relatedTerms: ['mental-flexibility'],
+    cooperationPath: 'Collaborative Education',
+  },
+  {
+    id: 'term-threat-model',
+    word: 'Threat Model',
+    slug: 'threat-model',
+    shortDefinition:
+      'Explicit analysis of what could go wrong: plutocracy, populist capture, corruption, sybil attacks.',
+    wikiArticleSlug: 'threat-model',
+    relatedTerms: ['anti-plutocracy', 'coordinator'],
+    cooperationPath: 'Cooperative Technology',
   },
 ]
 
