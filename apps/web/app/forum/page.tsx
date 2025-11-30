@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import type { Topic } from '@togetheros/types/forum'
 import { TopicList, TopicComposer, type CreateTopicData } from '@togetheros/ui/forum'
 
 export default function ForumPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [topics, setTopics] = useState<Topic[]>([])
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
@@ -15,10 +16,19 @@ export default function ForumPage() {
   const [isComposerOpen, setIsComposerOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Pre-fill values from URL params (for wiki/article discussion links)
+  const initialTitle = searchParams.get('title') || ''
+  const initialDescription = searchParams.get('description') || ''
+
   useEffect(() => {
     fetchTopics()
     fetchCurrentUser()
-  }, [])
+
+    // Auto-open composer if title is provided in URL
+    if (searchParams.get('newTopic') === 'true' || searchParams.get('title')) {
+      setIsComposerOpen(true)
+    }
+  }, [searchParams])
 
   async function fetchCurrentUser() {
     try {
@@ -280,6 +290,8 @@ export default function ForumPage() {
         onClose={() => setIsComposerOpen(false)}
         onSubmit={handleSubmitTopic}
         isSubmitting={isSubmitting}
+        initialTitle={initialTitle}
+        initialDescription={initialDescription}
       />
     </>
   )

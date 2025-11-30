@@ -6,7 +6,7 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { TopicCategory } from '@togetheros/types/forum'
 import { TagInput } from '../profiles/TagInput'
 import { cn } from '../utils'
@@ -23,6 +23,12 @@ export interface TopicComposerProps {
 
   /** Whether form is submitting */
   isSubmitting?: boolean
+
+  /** Optional initial title (for pre-filling from wiki/articles) */
+  initialTitle?: string
+
+  /** Optional initial description */
+  initialDescription?: string
 
   /** Optional CSS class name */
   className?: string
@@ -95,14 +101,22 @@ export function TopicComposer({
   onClose,
   onSubmit,
   isSubmitting = false,
+  initialTitle = '',
+  initialDescription = '',
   className = '',
 }: TopicComposerProps) {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState(initialTitle)
+  const [description, setDescription] = useState(initialDescription)
   const [category, setCategory] = useState<TopicCategory>('general')
   const [tags, setTags] = useState<string[]>([])
   const [showPreview, setShowPreview] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  // Update state when initial values change (e.g., from URL params)
+  useEffect(() => {
+    if (initialTitle) setTitle(initialTitle)
+    if (initialDescription) setDescription(initialDescription)
+  }, [initialTitle, initialDescription])
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {}

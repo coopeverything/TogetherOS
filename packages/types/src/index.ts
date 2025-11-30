@@ -1,5 +1,6 @@
 // packages/types/src/index.ts
 // Main barrel export for @togetheros/types
+export * from './article'
 export * from './bridge-behavioral'
 export * from './bridge-context'
 export * from './bridge-training'
