@@ -88,6 +88,7 @@ export * from './support-points'
 export * from './system-settings'
 export * from './timebank'
 export * from './users'
+export * from './bridge-teaching'
 
 // Explicitly re-export commonly used user functions for Turbopack
 export type { User } from './users'

@@ -97,6 +97,12 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Bridge Teaching Sessions',
+          description: 'Interactive role-play training for teaching Bridge to handle user archetypes',
+          path: '/admin/bridge-teaching',
+          status: 'active',
+        },
+        {
           title: 'Forum Tag Management',
           description: 'Manage, rename, and delete forum tags across all topics',
           path: '/admin/forum/tags',
