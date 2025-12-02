@@ -70,6 +70,7 @@ export async function close() {
 }
 
 // Export database modules
+export * from './bridge-teaching'
 export * from './budgets'
 export * from './forum-flags'
 export * from './forum-posts'
@@ -88,7 +89,6 @@ export * from './support-points'
 export * from './system-settings'
 export * from './timebank'
 export * from './users'
-export * from './bridge-teaching'
 
 // Explicitly re-export commonly used user functions for Turbopack
 export type { User } from './users'
