@@ -26,7 +26,7 @@ export function CompactMetric({ icon, value, label, onClick }: MetricProps) {
     <button
       onClick={onClick}
       title={label}
-      className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-sm font-medium text-gray-900 cursor-pointer"
+      className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-full transition-colors text-sm font-medium text-gray-900 dark:text-white cursor-pointer"
     >
       <span className="text-base">{icon}</span>
       <span>{value}</span>

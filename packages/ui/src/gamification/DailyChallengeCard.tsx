@@ -81,7 +81,7 @@ export function DailyChallengeCard({
     <div
       className={`
         relative rounded-xl border-2 p-4 transition-all duration-200
-        ${isLocked ? 'bg-gray-50 border-gray-200 opacity-60' : ''}
+        ${isLocked ? 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 opacity-60' : ''}
         ${isCompleted ? 'bg-green-50 border-green-300' : ''}
         ${!isLocked && !isCompleted ? `${categoryStyle.bg} ${categoryStyle.border}` : ''}
         ${className}
@@ -103,7 +103,7 @@ export function DailyChallengeCard({
       <div className="flex items-start gap-3 mb-3">
         <span className="text-3xl">{icon}</span>
         <div className="flex-1">
-          <h3 className={`font-semibold ${isLocked ? 'text-gray-500' : 'text-gray-900'}`}>
+          <h3 className={`font-semibold ${isLocked ? 'text-gray-500' : 'text-gray-900 dark:text-white'}`}>
             {challenge.name}
           </h3>
           <p className={`text-sm mt-1 ${isLocked ? 'text-gray-400' : 'text-gray-600'}`}>

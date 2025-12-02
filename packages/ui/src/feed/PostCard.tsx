@@ -79,7 +79,7 @@ function formatTimeAgo(date: Date | string): string {
 function getPlatformColor(type: string): string {
   switch (type) {
     case 'native':
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
     case 'instagram':
       return 'bg-pink-100 text-pink-800'
     case 'tiktok':
@@ -89,7 +89,7 @@ function getPlatformColor(type: string): string {
     case 'facebook':
       return 'bg-blue-100 text-blue-800'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
   }
 }
 
@@ -118,7 +118,7 @@ export function PostCard({
   const totalReactions = Object.values(reactionCounts).reduce((sum, count) => sum + count, 0)
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow ${className}`}>
       {/* Header */}
       <div className="flex items-start gap-3 mb-3">
         <div className="w-10 h-10 bg-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -128,7 +128,7 @@ export function PostCard({
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-gray-900">{authorName}</span>
+            <span className="font-semibold text-gray-900 dark:text-white">{authorName}</span>
             {post.type !== 'native' && (
               <span className={`px-2 py-0.5 rounded text-xs font-medium ${platformColor}`}>
                 {post.type}
@@ -167,7 +167,7 @@ export function PostCard({
       {post.type === 'native' ? (
         <div className="mb-4">
           {post.title && (
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{post.title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
           )}
           {post.content && (
             <p className="text-gray-700 whitespace-pre-line mb-3">{post.content}</p>
@@ -188,7 +188,7 @@ export function PostCard({
       ) : (
         // Import preview
         post.sourcePreview && (
-          <div className="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+          <div className="mb-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             {post.sourcePreview.thumbnailUrl && (
               <img
                 src={post.sourcePreview.thumbnailUrl}
@@ -197,7 +197,7 @@ export function PostCard({
               />
             )}
             <div className="p-3">
-              <h4 className="font-semibold text-gray-900 mb-1">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                 {post.sourcePreview.title}
               </h4>
               {post.sourcePreview.description && (
@@ -264,7 +264,7 @@ export function PostCard({
               className={`px-3 py-1 rounded-full text-sm transition-colors ${
                 userReaction === type
                   ? 'bg-orange-100 text-orange-800 font-medium'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
               }`}
               title={type.charAt(0).toUpperCase() + type.slice(1)}
             >
@@ -282,7 +282,7 @@ export function PostCard({
         {/* Discuss button */}
         <button
           onClick={() => onDiscuss?.(post.id)}
-          className="ml-auto px-4 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700 transition-colors"
+          className="ml-auto px-4 py-1 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-sm font-medium text-gray-700 transition-colors"
         >
           💬 Discuss
           {post.discussionCount > 0 && (

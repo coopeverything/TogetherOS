@@ -177,7 +177,7 @@ export function ProposalForm({
                 value={scopeId}
                 onChange={(e) => setScopeId(e.target.value)}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-                  errors.scopeId ? 'border-red-500' : 'border-gray-300'
+                  errors.scopeId ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                 }`}
                 disabled={isSubmitting}
               >
@@ -211,7 +211,7 @@ export function ProposalForm({
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter a clear, concise title for your proposal"
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-            errors.title ? 'border-red-500' : 'border-gray-300'
+            errors.title ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
           }`}
           disabled={isSubmitting}
           maxLength={200}
@@ -241,7 +241,7 @@ export function ProposalForm({
           placeholder="Describe your proposal in detail. What problem does it solve? What are the benefits?"
           rows={8}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-            errors.summary ? 'border-red-500' : 'border-gray-300'
+            errors.summary ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
           }`}
           disabled={isSubmitting}
           maxLength={2000}
@@ -270,7 +270,7 @@ export function ProposalForm({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-gray-200 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>

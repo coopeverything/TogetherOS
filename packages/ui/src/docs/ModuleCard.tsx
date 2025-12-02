@@ -26,7 +26,7 @@ export function ModuleCard({
   const statusColors = {
     complete: 'bg-green-100 text-green-800 border-green-200',
     'in-progress': 'bg-blue-100 text-blue-800 border-blue-200',
-    planned: 'bg-gray-100 text-gray-600 border-gray-200',
+    planned: 'bg-gray-100 dark:bg-gray-700 text-gray-600 border-gray-200 dark:border-gray-700',
   }
 
   const statusLabels = {
@@ -36,17 +36,17 @@ export function ModuleCard({
   }
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:bg-gray-900 transition-colors"
       >
         <div className="flex items-center gap-3 flex-1">
           <div className="text-gray-400 text-xl">
             {isOpen ? '▼' : '▶'}
           </div>
           <div className="text-left flex-1">
-            <h3 className="font-semibold text-lg text-gray-900">{title}</h3>
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{title}</h3>
             {category && (
               <p className="text-sm text-gray-500 mt-0.5">{category}</p>
             )}
@@ -67,7 +67,7 @@ export function ModuleCard({
       </button>
 
       {isOpen && (
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
           <div className="space-y-4">
             {/* Description */}
             <div>

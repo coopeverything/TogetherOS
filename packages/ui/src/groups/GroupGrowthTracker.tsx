@@ -69,20 +69,20 @@ export function GroupGrowthTracker({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
       {/* Location Header */}
       <div className="flex items-center gap-2 mb-4">
         <span className="text-lg">📍</span>
         <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">
           YOUR AREA
         </span>
-        <span className="text-sm font-semibold text-gray-900">[{location}]</span>
+        <span className="text-sm font-semibold text-gray-900 dark:text-white">[{location}]</span>
       </div>
 
       {/* Member Count with Growth Indicator */}
       <div className="mb-4">
         <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-bold text-gray-900">
+          <span className="text-3xl font-bold text-gray-900 dark:text-white">
             {currentMemberCount}
           </span>
           <span className="text-sm text-gray-600">members</span>
@@ -95,7 +95,7 @@ export function GroupGrowthTracker({
       </div>
 
       {/* Section Title */}
-      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
         Community Growth
       </h3>
 
@@ -136,7 +136,7 @@ export function GroupGrowthTracker({
 
           {/* Members Remaining */}
           <div className="mb-2 text-sm text-gray-600">
-            <span className="font-semibold text-gray-900">{membersToGo}</span>{' '}
+            <span className="font-semibold text-gray-900 dark:text-white">{membersToGo}</span>{' '}
             {membersToGo === 1 ? 'member' : 'members'} to go
           </div>
 
@@ -181,10 +181,10 @@ export function GroupGrowthTracker({
       )}
 
       {/* Milestone History (Collapsible) */}
-      <div className="border-t border-gray-200 pt-3">
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
         <button
           onClick={() => setHistoryExpanded(!historyExpanded)}
-          className="flex items-center justify-between w-full text-sm font-medium text-gray-700 hover:text-gray-900"
+          className="flex items-center justify-between w-full text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-white"
         >
           <span>Milestone History</span>
           <span className="text-gray-400">{historyExpanded ? '▲' : '▼'}</span>
@@ -204,7 +204,7 @@ export function GroupGrowthTracker({
                 >
                   <span className="text-green-600 mt-0.5">✓</span>
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-gray-900 dark:text-white">
                       {milestone.label} ({milestone.threshold} members)
                     </p>
                     <p className="text-gray-600">{milestone.celebration}</p>

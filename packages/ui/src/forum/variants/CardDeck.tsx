@@ -48,9 +48,9 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
   return (
     <div className="h-screen bg-[#F7F7F5] flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex-shrink-0">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Card Deck</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Card Deck</h1>
           <div className="flex items-center gap-3">
             {selectedCards.size > 0 && (
               <span className="text-sm text-gray-600">
@@ -83,7 +83,7 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
               </div>
 
               {/* Column Content */}
-              <div className="flex-1 overflow-y-auto space-y-3 bg-white/50 rounded-lg p-2">
+              <div className="flex-1 overflow-y-auto space-y-3 bg-white dark:bg-gray-800/50 rounded-lg p-2">
                 {column.topics.map((topic) => (
                   <button
                     key={topic.id}
@@ -95,7 +95,7 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
                   >
                     {/* Card Header */}
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-sm font-medium text-gray-900 line-clamp-2 flex-1">
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 flex-1">
                         {topic.title}
                       </h3>
                       {topic.isPinned && (
@@ -106,7 +106,7 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
                     {/* Card Metadata */}
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-[10px] text-gray-600">
-                        <span className="px-1.5 py-0.5 bg-gray-100 rounded">
+                        <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">
                           {topic.category}
                         </span>
                       </div>
@@ -146,20 +146,20 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
 
       {/* Bottom Action Bar */}
       {selectedCards.size > 0 && (
-        <div className="bg-white border-t border-gray-200 px-6 py-3 flex items-center justify-between flex-shrink-0">
+        <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between flex-shrink-0">
           <span className="text-sm font-medium text-gray-700">
             {selectedCards.size} card{selectedCards.size !== 1 ? 's' : ''} selected
           </span>
           <div className="flex gap-2">
-            <button className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50">
+            <button className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:bg-gray-900">
               Archive
             </button>
-            <button className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50">
+            <button className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:bg-gray-900">
               Move to...
             </button>
             <button
               onClick={() => setSelectedCards(new Set())}
-              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900"
+              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 dark:text-white"
             >
               Clear
             </button>

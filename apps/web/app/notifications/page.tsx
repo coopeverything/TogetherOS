@@ -168,7 +168,7 @@ export default function NotificationsPage() {
               className={`p-4 rounded-lg border transition-colors ${
                 notif.status === 'unread'
                   ? 'bg-orange-50 border-orange-200 hover:bg-orange-100'
-                  : 'bg-white border-gray-200 hover:bg-gray-50'
+                  : 'bg-white dark:bg-gray-800 border-gray-200 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-start gap-3">
@@ -176,7 +176,7 @@ export default function NotificationsPage() {
                 <div className="flex-1 min-w-0">
                   <h3
                     className={`font-semibold mb-1 ${
-                      notif.status === 'unread' ? 'text-gray-900' : 'text-gray-700'
+                      notif.status === 'unread' ? 'text-gray-900 dark:text-white' : 'text-gray-700'
                     }`}
                   >
                     {notif.title}

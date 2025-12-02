@@ -58,7 +58,7 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-48 bg-gray-50 rounded-lg">
+      <div className="flex items-center justify-center h-48 bg-gray-50 dark:bg-gray-900 rounded-lg">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
           <p className="text-gray-600 text-sm">Loading your interests...</p>
@@ -77,7 +77,7 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
 
   if (interests.length === 0) {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8 text-center">
         <p className="text-gray-600 mb-2">No interest data yet.</p>
         <p className="text-gray-500 text-sm">
           As you engage with posts (reactions, ratings, comments), we'll track your interests here.
@@ -120,7 +120,7 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Your Interest Profile</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Your Interest Profile</h3>
           <p className="text-sm text-gray-600">
             Topics you've engaged with, sorted by interest level
           </p>
@@ -142,11 +142,11 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
           {topInterests.map((interest) => (
             <div
               key={interest.topic}
-              className="bg-white border border-gray-200 rounded-lg p-3 flex items-center gap-3"
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 flex items-center gap-3"
             >
               <div className="flex-grow">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-medium text-gray-900">{interest.topic}</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{interest.topic}</span>
                   <span className={`text-sm ${getTrendColor(interest.trend)}`}>
                     {getTrendIcon(interest.trend)}
                   </span>
@@ -212,12 +212,12 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
       {/* All interests list */}
       <div>
         <h4 className="text-sm font-semibold text-gray-700 mb-3">All Topics ({interests.length})</h4>
-        <div className="max-h-64 overflow-y-auto bg-gray-50 rounded-lg p-3">
+        <div className="max-h-64 overflow-y-auto bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
           <div className="space-y-1">
             {interests.map((interest) => (
               <div
                 key={interest.topic}
-                className="flex items-center justify-between text-sm py-1 px-2 hover:bg-white rounded"
+                className="flex items-center justify-between text-sm py-1 px-2 hover:bg-white dark:bg-gray-800 rounded"
               >
                 <span className="text-gray-700">{interest.topic}</span>
                 <div className="flex items-center gap-3 text-xs text-gray-500">

@@ -76,7 +76,7 @@ export function ProposalRatingForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Clarity Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Clarity
           <span className="text-gray-600 text-xs ml-2">(How well-written and understandable?)</span>
         </label>
@@ -103,7 +103,7 @@ export function ProposalRatingForm({
 
       {/* Importance Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Importance
           <span className="text-gray-600 text-xs ml-2">(How critical/impactful?)</span>
         </label>
@@ -128,7 +128,7 @@ export function ProposalRatingForm({
 
       {/* Urgency Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Urgency
           <span className="text-gray-600 text-xs ml-2">(How time-sensitive?)</span>
         </label>
@@ -161,7 +161,7 @@ export function ProposalRatingForm({
             disabled={disabled || isSubmitting}
             className="w-5 h-5 text-yellow-500 rounded focus:ring-2 focus:ring-yellow-500 disabled:opacity-50"
           />
-          <span className="text-sm font-medium text-gray-900 flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
             <span className="text-2xl">💡</span>
             Great New Idea
             <span className="text-gray-600 text-xs">(Mark innovative/creative proposals)</span>
@@ -171,7 +171,7 @@ export function ProposalRatingForm({
 
       {/* Constructiveness Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Constructiveness
           <span className="text-gray-600 text-xs ml-2">(Tone and respectfulness)</span>
         </label>
@@ -204,7 +204,7 @@ export function ProposalRatingForm({
 
       {/* Feedback */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Feedback (Optional)
           <span className="text-gray-600 text-xs ml-2">(Explain your ratings)</span>
         </label>
@@ -215,7 +215,7 @@ export function ProposalRatingForm({
           placeholder="Provide constructive feedback to help improve this proposal..."
           rows={4}
           maxLength={2000}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
         />
         <p className="mt-1 text-xs text-gray-500 text-right">
           {feedback.length}/2000 characters

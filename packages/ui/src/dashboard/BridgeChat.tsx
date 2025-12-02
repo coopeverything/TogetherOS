@@ -69,13 +69,13 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
   // Expanded chat window
   return (
     <div
-      className={`fixed bottom-4 right-4 w-[400px] h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col z-50 ${className}`}
+      className={`fixed bottom-4 right-4 w-[400px] h-[500px] bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col z-50 ${className}`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-orange-50">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-orange-50">
         <div className="flex items-center gap-2">
           <span className="text-lg">💬</span>
-          <span className="font-semibold text-gray-900">Bridge AI Assistant</span>
+          <span className="font-semibold text-gray-900 dark:text-white">Bridge AI Assistant</span>
         </div>
         <button
           onClick={() => setIsExpanded(false)}
@@ -96,7 +96,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
               className={`max-w-[80%] px-4 py-2 rounded-lg ${
                 message.role === 'user'
                   ? 'bg-orange-600 text-white'
-                  : 'bg-gray-100 text-gray-900'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
               }`}
             >
               {message.content}
@@ -115,7 +115,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
                     setInput(suggestion)
                     handleSendMessage()
                   }}
-                  className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                  className="text-xs px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-full transition-colors"
                 >
                   {suggestion}
                 </button>
@@ -126,7 +126,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
       </div>
 
       {/* Input */}
-      <div className="border-t border-gray-200 p-4">
+      <div className="border-t border-gray-200 dark:border-gray-700 p-4">
         <div className="flex gap-2">
           <input
             type="text"
@@ -134,7 +134,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder="Type your message..."
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
           <button
             onClick={handleSendMessage}

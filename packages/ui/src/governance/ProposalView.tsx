@@ -34,7 +34,7 @@ export interface ProposalViewProps {
 function getStatusBadgeColor(status: ProposalStatus): string {
   switch (status) {
     case 'draft':
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
     case 'research':
       return 'bg-yellow-100 text-yellow-800'
     case 'deliberation':
@@ -79,7 +79,7 @@ export function ProposalView({
       <div className="mb-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {proposal.title}
             </h1>
             <div className="flex items-center gap-3 text-sm text-gray-500">
@@ -125,15 +125,15 @@ export function ProposalView({
       </div>
 
       {/* Summary */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-3">Summary</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Summary</h2>
         <p className="text-gray-700 whitespace-pre-wrap">{proposal.summary}</p>
       </div>
 
       {/* Evidence */}
       {proposal.evidence.length > 0 && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Evidence ({proposal.evidence.length})
           </h2>
           <div className="space-y-4">
@@ -143,7 +143,7 @@ export function ProposalView({
                 className="border-l-4 border-blue-500 pl-4"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-semibold text-gray-900">{evidence.title}</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{evidence.title}</h3>
                   <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded">
                     {evidence.type}
                   </span>
@@ -167,17 +167,17 @@ export function ProposalView({
 
       {/* Options */}
       {proposal.options.length > 0 && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Options ({proposal.options.length})
           </h2>
           <div className="space-y-4">
             {proposal.options.map((option, index) => (
               <div
                 key={option.id || index}
-                className="border border-gray-200 rounded-lg p-4"
+                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
               >
-                <h3 className="font-semibold text-gray-900 mb-2">{option.title}</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{option.title}</h3>
                 <p className="text-gray-700 text-sm mb-3">{option.description}</p>
                 {(option.estimatedCost || option.estimatedTime) && (
                   <div className="flex gap-4 text-sm text-gray-600">
@@ -197,8 +197,8 @@ export function ProposalView({
 
       {/* Positions */}
       {proposal.positions.length > 0 && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Member Positions ({proposal.positions.length})
           </h2>
           <div className="space-y-4">
@@ -208,7 +208,7 @@ export function ProposalView({
                 className="border-l-4 border-purple-500 pl-4"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-semibold text-gray-900">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     User {position.memberId.slice(0, 8)}
                   </span>
                   <span
@@ -219,7 +219,7 @@ export function ProposalView({
                           ? 'bg-red-100 text-red-800'
                           : position.stance === 'block'
                             ? 'bg-red-200 text-red-900'
-                            : 'bg-gray-100 text-gray-800'
+                            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
                     }`}
                   >
                     {position.stance}
@@ -235,7 +235,7 @@ export function ProposalView({
       {/* Minority Report */}
       {proposal.minorityReport && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-3">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
             Minority Report
           </h2>
           <p className="text-gray-700 whitespace-pre-wrap">
@@ -246,8 +246,8 @@ export function ProposalView({
 
       {/* Decision Info */}
       {proposal.decidedAt && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-3">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
             Decision
           </h2>
           <div className="space-y-2 text-sm">

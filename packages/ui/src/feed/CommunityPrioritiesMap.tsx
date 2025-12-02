@@ -43,7 +43,7 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
           What Our Members Care About
         </h1>
         <p className="text-gray-600">
@@ -53,15 +53,15 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
 
       {/* Statistics summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
           <div className="text-3xl font-bold text-orange-600">{stats.length}</div>
           <div className="text-sm text-gray-600 mt-1">Active Topics</div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
           <div className="text-3xl font-bold text-orange-600">{totalUsers}</div>
           <div className="text-sm text-gray-600 mt-1">Contributing Members</div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
           <div className="text-3xl font-bold text-orange-600">
             {stats.length > 0 ? Math.round(stats[0].percentageOfCommunity) : 0}%
           </div>
@@ -73,21 +73,21 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
 
       {/* Priority bars */}
       {stats.length === 0 ? (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-12 text-center">
           <p className="text-gray-600">
             No community priorities yet. Be the first to prioritize topics!
           </p>
         </div>
       ) : (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Community Priorities</h2>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Community Priorities</h2>
           <div className="space-y-4">
             {stats.map((stat, index) => (
               <div key={stat.topic} className="space-y-2">
                 {/* Topic header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="text-lg font-semibold text-gray-900">
+                    <div className="text-lg font-semibold text-gray-900 dark:text-white">
                       {index + 1}. {stat.topic}
                     </div>
                     {stat.trendDirection !== 'stable' && (
@@ -97,7 +97,7 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
                     )}
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900">
+                    <div className="text-lg font-bold text-gray-900 dark:text-white">
                       {Math.round(stat.percentageOfCommunity)}%
                     </div>
                     <div className="text-xs text-gray-500">
@@ -107,7 +107,7 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
                 </div>
 
                 {/* Progress bar */}
-                <div className="relative w-full h-6 bg-gray-100 rounded-full overflow-hidden">
+                <div className="relative w-full h-6 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
                   <div
                     className={`absolute left-0 top-0 h-full ${getBarColor(stat.percentageOfCommunity)} transition-all duration-500`}
                     style={{ width: `${Math.min(stat.percentageOfCommunity, 100)}%` }}
@@ -131,7 +131,7 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
 
       {/* Explanation panel */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="font-semibold text-gray-900 mb-2">
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
           📊 How priorities work
         </h3>
         <ul className="text-sm text-gray-700 space-y-1">
@@ -155,8 +155,8 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
       </div>
 
       {/* Week-over-week trends */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Trending This Week</h2>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Trending This Week</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Rising topics */}
           <div>
@@ -170,7 +170,7 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
                     key={stat.topic}
                     className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2"
                   >
-                    <span className="font-medium text-gray-900">{stat.topic}</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{stat.topic}</span>
                     <span className="text-sm text-green-700">+{stat.trendPercentage}%</span>
                   </div>
                 ))}
@@ -192,7 +192,7 @@ export function CommunityPrioritiesMap({ stats, totalUsers }: CommunityPrioritie
                     key={stat.topic}
                     className="flex items-center justify-between bg-red-50 border border-red-200 rounded-lg px-3 py-2"
                   >
-                    <span className="font-medium text-gray-900">{stat.topic}</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{stat.topic}</span>
                     <span className="text-sm text-red-700">-{stat.trendPercentage}%</span>
                   </div>
                 ))}

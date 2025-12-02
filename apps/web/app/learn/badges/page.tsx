@@ -147,7 +147,7 @@ export default function LearningBadgesPage() {
               className={`px-4 py-2 text-sm rounded-lg transition-colors ${
                 filter === f
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-200 hover:bg-gray-50'
               }`}
             >
               {f === 'all' ? 'All Badges' : f === 'earned' ? 'Earned' : 'In Progress'}
@@ -165,7 +165,7 @@ export default function LearningBadgesPage() {
               {badges.map(badge => (
                 <div
                   key={badge.id}
-                  className={`bg-white rounded-lg border p-4 ${
+                  className={`bg-white dark:bg-gray-800 rounded-lg border p-4 ${
                     badge.earnedAt
                       ? 'border-green-200 bg-green-50'
                       : 'border-gray-200'

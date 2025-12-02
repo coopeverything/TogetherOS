@@ -285,12 +285,12 @@ export default function EventsPage() {
                       <div
                         key={i}
                         className={`min-h-[100px] p-1 border border-gray-100 rounded-lg ${
-                          isCurrentMonth ? 'bg-white' : 'bg-gray-50'
+                          isCurrentMonth ? 'bg-white dark:bg-gray-800' : 'bg-gray-50'
                         } ${isToday ? 'ring-2 ring-blue-500' : ''}`}
                       >
                         <div
                           className={`text-sm font-medium mb-1 ${
-                            isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
+                            isCurrentMonth ? 'text-gray-900 dark:text-white' : 'text-gray-400'
                           } ${isToday ? 'text-blue-600' : ''}`}
                         >
                           {date.getDate()}

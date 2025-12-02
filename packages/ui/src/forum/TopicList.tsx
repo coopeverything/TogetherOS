@@ -158,7 +158,7 @@ export function TopicList({
               onChange={(e) =>
                 setStatusFilter(e.target.value as TopicStatus | 'all')
               }
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             >
               <option value="all">All Statuses</option>
               <option value="open">Open</option>
@@ -172,7 +172,7 @@ export function TopicList({
 
       {/* Topic List */}
       {sortedTopics.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-gray-600 dark:text-gray-400 mb-2">No topics found</p>
           <p className="text-sm text-gray-500 dark:text-gray-500">
             {categoryFilter !== 'all' || statusFilter !== 'all'

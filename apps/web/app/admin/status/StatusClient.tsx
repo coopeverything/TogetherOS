@@ -74,7 +74,7 @@ function ModuleCard({ module }: ModuleCardProps) {
               #{module.key}
             </p>
           </div>
-          <div className={`flex-shrink-0 w-12 h-12 rounded-full ring-4 ${ringColor} flex items-center justify-center bg-white dark:bg-slate-900 ml-3 shadow-sm`}>
+          <div className={`flex-shrink-0 w-12 h-12 rounded-full ring-4 ${ringColor} flex items-center justify-center bg-white dark:bg-gray-800 dark:bg-slate-900 ml-3 shadow-sm`}>
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
               {module.progress}%
             </span>

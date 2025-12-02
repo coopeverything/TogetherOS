@@ -545,7 +545,7 @@ export default function FeedTestPage() {
                       className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                         !selectedTopic
                           ? 'bg-orange-600 text-white'
-                          : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                          : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-300 hover:bg-gray-50'
                       }`}
                     >
                       All Topics
@@ -557,7 +557,7 @@ export default function FeedTestPage() {
                         className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                           selectedTopic === topic
                             ? 'bg-orange-600 text-white'
-                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-300 hover:bg-gray-50'
                         }`}
                       >
                         {topic}

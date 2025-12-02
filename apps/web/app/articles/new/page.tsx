@@ -276,8 +276,8 @@ export default function NewArticlePage() {
             onClick={() => setShowPreview(false)}
             className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               !showPreview
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900 dark:text-white'
             }`}
           >
             Edit
@@ -287,8 +287,8 @@ export default function NewArticlePage() {
             onClick={() => setShowPreview(true)}
             className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               showPreview
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900 dark:text-white'
             }`}
           >
             Preview
@@ -347,7 +347,7 @@ export default function NewArticlePage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="A compelling title for your article"
-                className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-4 py-3 rounded-lg border bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.title ? 'border-red-500' : 'border-gray-200'
                 }`}
                 disabled={isSubmitting}
@@ -367,7 +367,7 @@ export default function NewArticlePage() {
                 onChange={(e) => setSummary(e.target.value)}
                 placeholder="A brief description that will appear in article listings"
                 rows={3}
-                className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical ${
+                className={`w-full px-4 py-3 rounded-lg border bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical ${
                   errors.summary ? 'border-red-500' : 'border-gray-200'
                 }`}
                 disabled={isSubmitting}
@@ -388,7 +388,7 @@ export default function NewArticlePage() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your article here... Use Markdown for formatting (# Heading, **bold**, *italic*, - lists)"
                 rows={15}
-                className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical font-mono text-sm ${
+                className={`w-full px-4 py-3 rounded-lg border bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical font-mono text-sm ${
                   errors.content ? 'border-red-500' : 'border-gray-200'
                 }`}
                 disabled={isSubmitting}
@@ -429,7 +429,7 @@ export default function NewArticlePage() {
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={handleTagKeyDown}
                   placeholder="Type a tag and press Enter"
-                  className={`flex-1 px-4 py-2 rounded-lg border bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                  className={`flex-1 px-4 py-2 rounded-lg border bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                     errors.tags ? 'border-red-500' : 'border-gray-200'
                   }`}
                   disabled={isSubmitting || tags.length >= 5}
@@ -497,7 +497,7 @@ export default function NewArticlePage() {
             <div className="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
               <Link
                 href="/articles"
-                className="text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white font-medium"
+                className="text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white font-medium"
               >
                 Cancel
               </Link>

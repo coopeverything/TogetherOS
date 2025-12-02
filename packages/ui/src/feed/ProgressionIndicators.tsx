@@ -62,7 +62,7 @@ export function ProgressionIndicators({
   const getStageColor = (stage: ProgressionStage) => {
     if (stage.completed) return 'bg-green-500 text-white border-green-500';
     if (stage.active) return 'bg-blue-600 text-white border-blue-600';
-    return 'bg-gray-200 text-gray-600 border-gray-300';
+    return 'bg-gray-200 text-gray-600 border-gray-300 dark:border-gray-600';
   };
 
   const getConnectionColor = (index: number) => {
@@ -124,15 +124,15 @@ export function ProgressionIndicators({
 
       {/* Readiness indicators */}
       {currentStage === 'feed' && (
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <h4 className="font-semibold text-gray-900 mb-3">Readiness for Deliberation</h4>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Readiness for Deliberation</h4>
 
           <div className="space-y-3">
             {/* Action readiness */}
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
                 <span className="text-gray-700">Overall Readiness</span>
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {Math.round(actionReadiness * 100)}%
                 </span>
               </div>
@@ -150,7 +150,7 @@ export function ProgressionIndicators({
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
                 <span className="text-gray-700">Consensus</span>
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {Math.round(consensusScore * 100)}%
                 </span>
               </div>
@@ -166,7 +166,7 @@ export function ProgressionIndicators({
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
                 <span className="text-gray-700">Engagement</span>
-                <span className="font-semibold text-gray-900">{engagementLevel} interactions</span>
+                <span className="font-semibold text-gray-900 dark:text-white">{engagementLevel} interactions</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
@@ -205,14 +205,14 @@ export function ProgressionIndicators({
       )}
 
       {currentStage === 'deliberation' && (
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <h4 className="font-semibold text-gray-900 mb-3">Readiness for Proposal</h4>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Readiness for Proposal</h4>
 
           <div className="space-y-3">
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
                 <span className="text-gray-700">Consensus Level</span>
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {Math.round(consensusScore * 100)}%
                 </span>
               </div>

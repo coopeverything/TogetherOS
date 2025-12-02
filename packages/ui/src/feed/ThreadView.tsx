@@ -13,14 +13,14 @@ export function ThreadView({ posts, authorNames, onReply }: ThreadViewProps) {
   return (
     <div className="space-y-4">
       {posts.map(post => (
-        <div key={post.id} className={`bg-white rounded-lg border p-4 ${post.parentId ? 'ml-8' : ''}`}>
+        <div key={post.id} className={`bg-white dark:bg-gray-800 rounded-lg border p-4 ${post.parentId ? 'ml-8' : ''}`}>
           <div className="flex items-center gap-2 mb-2">
             <span className="font-semibold">{authorNames[post.authorId] || 'Unknown'}</span>
             <span className="text-sm text-gray-500">
               {new Date(post.createdAt).toLocaleString()}
             </span>
           </div>
-          <p className="text-gray-800 whitespace-pre-wrap">{post.content}</p>
+          <p className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{post.content}</p>
         </div>
       ))}
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">

@@ -61,7 +61,7 @@ export function ActionRecommendations({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
+      <div className="flex items-center justify-center h-64 bg-gray-50 dark:bg-gray-900 rounded-lg">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
           <p className="text-gray-600 text-sm">Finding relevant actions...</p>
@@ -80,7 +80,7 @@ export function ActionRecommendations({
 
   if (recommendations.length === 0) {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8 text-center">
         <p className="text-gray-600 mb-2">No recommendations available right now.</p>
         <p className="text-gray-500 text-sm">
           Keep engaging with topics you care about to get personalized suggestions.
@@ -98,7 +98,7 @@ export function ActionRecommendations({
       case 'low':
         return 'bg-green-100 text-green-800 border-green-200';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-700';
     }
   };
 
@@ -139,7 +139,7 @@ export function ActionRecommendations({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-lg font-semibold text-gray-900">Recommended Actions</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recommended Actions</h3>
         <span className="text-sm text-gray-500">{recommendations.length} suggestions</span>
       </div>
 
@@ -147,7 +147,7 @@ export function ActionRecommendations({
         {recommendations.map((rec) => (
           <div
             key={rec.id}
-            className="bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
             onClick={() => onActionClick?.(rec)}
           >
             <div className="flex items-start gap-3">
@@ -157,7 +157,7 @@ export function ActionRecommendations({
               {/* Content */}
               <div className="flex-grow min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h4 className="font-semibold text-gray-900 leading-tight">{rec.title}</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white leading-tight">{rec.title}</h4>
                   <span
                     className={`text-xs px-2 py-1 rounded border flex-shrink-0 ${getUrgencyColor(rec.urgency)}`}
                   >

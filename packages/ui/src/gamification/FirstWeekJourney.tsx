@@ -127,7 +127,7 @@ export function FirstWeekJourney({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">First Week Journey</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">First Week Journey</h2>
           <p className="text-sm text-gray-600">
             Complete daily challenges to earn RP and unlock bonuses
           </p>
@@ -183,7 +183,7 @@ export function FirstWeekJourney({
                   ${isCompleted ? 'bg-green-500 text-white' : ''}
                   ${isAvailable && !isActive ? 'bg-brand-100 text-brand-700 ring-2 ring-brand-300' : ''}
                   ${isActive && !isCompleted ? 'bg-brand-600 text-white ring-2 ring-brand-300' : ''}
-                  ${isLocked ? 'bg-gray-100 text-gray-400' : ''}
+                  ${isLocked ? 'bg-gray-100 dark:bg-gray-700 text-gray-400' : ''}
                 `}
               >
                 {isCompleted ? '✓' : day.dayNumber}

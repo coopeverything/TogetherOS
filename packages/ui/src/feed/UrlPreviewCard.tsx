@@ -36,7 +36,7 @@ export function UrlPreviewCard({ url, preview, className = '' }: UrlPreviewCardP
   const icon = platformIcons[preview.platform] || platformIcons.other
 
   return (
-    <div className={`border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow ${className}`}>
+    <div className={`border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow ${className}`}>
       <a
         href={url}
         target="_blank"
@@ -45,7 +45,7 @@ export function UrlPreviewCard({ url, preview, className = '' }: UrlPreviewCardP
       >
         {/* Thumbnail */}
         {preview.thumbnailUrl && (
-          <div className="relative w-full h-48 bg-gray-100">
+          <div className="relative w-full h-48 bg-gray-100 dark:bg-gray-700">
             <img
               src={preview.thumbnailUrl}
               alt={preview.title}
@@ -62,7 +62,7 @@ export function UrlPreviewCard({ url, preview, className = '' }: UrlPreviewCardP
         {/* Content */}
         <div className="p-4">
           {/* Title */}
-          <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2">
+          <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 mb-2">
             {preview.title}
           </h3>
 

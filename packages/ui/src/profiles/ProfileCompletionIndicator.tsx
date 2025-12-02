@@ -73,7 +73,7 @@ export function ProfileCompletionIndicator({
   }
 
   return (
-    <div className={cn('rounded-lg border border-border bg-white shadow-sm p-4', className)}>
+    <div className={cn('rounded-lg border border-border bg-white dark:bg-gray-800 shadow-sm p-4', className)}>
       <div className="space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">

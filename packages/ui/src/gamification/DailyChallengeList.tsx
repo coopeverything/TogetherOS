@@ -110,7 +110,7 @@ export function DailyChallengeList({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Daily Challenges</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Daily Challenges</h2>
           <p className="text-sm text-gray-600">
             {completedCount}/{challenges.length} completed today
           </p>

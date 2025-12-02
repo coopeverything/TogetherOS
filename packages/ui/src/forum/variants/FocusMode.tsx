@@ -27,7 +27,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
   }
 
   const categoryColors = {
-    general: 'bg-gray-100 text-gray-800 border-gray-300',
+    general: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600',
     proposal: 'bg-yellow-50 text-yellow-900 border-yellow-200',
     question: 'bg-blue-50 text-blue-900 border-blue-200',
     deliberation: 'bg-purple-50 text-purple-900 border-purple-200',
@@ -38,7 +38,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
     <div className="flex h-screen bg-[#FAFAF9]" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       {/* Left Panel - Topic List */}
       {!readingMode && (
-        <div className="w-60 border-r border-[#E5E5E2] bg-white overflow-y-auto">
+        <div className="w-60 border-r border-[#E5E5E2] bg-white dark:bg-gray-800 overflow-y-auto">
           <div className="p-6 border-b border-[#E5E5E2]">
             <h2 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-4">
               Topics
@@ -59,7 +59,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
                 className={`w-full text-left p-3 rounded-lg mb-1 transition-all ${
                   selectedTopic?.id === topic.id
                     ? 'bg-[#FED7AA] shadow-sm'
-                    : 'hover:bg-gray-50'
+                    : 'hover:bg-gray-50 dark:bg-gray-900'
                 }`}
               >
                 <div className="flex items-start gap-2 mb-1">
@@ -147,7 +147,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
 
             {/* Content Placeholder */}
             <div className="mt-12 space-y-6">
-              <div className="p-6 bg-white rounded-lg border border-[#E5E5E2]">
+              <div className="p-6 bg-white dark:bg-gray-800 rounded-lg border border-[#E5E5E2]">
                 <p className="text-[#6B6B68]" style={{ fontSize: `${fontSize}px`, lineHeight: 1.7 }}>
                   This is where the topic content and discussion would appear. In Focus Mode,
                   content is optimized for reading with generous whitespace and comfortable
@@ -168,7 +168,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
 
       {/* Right Panel - Context & Tools */}
       {!readingMode && selectedTopic && (
-        <div className="w-80 border-l border-[#E5E5E2] bg-white p-6 overflow-y-auto">
+        <div className="w-80 border-l border-[#E5E5E2] bg-white dark:bg-gray-800 p-6 overflow-y-auto">
           {/* Reading Controls */}
           <div className="mb-8">
             <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
@@ -177,7 +177,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
             <div className="space-y-3">
               <button
                 onClick={() => setReadingMode(!readingMode)}
-                className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors"
+                className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-lg text-sm transition-colors"
               >
                 {readingMode ? 'Exit' : 'Enter'} Reading Mode
               </button>
@@ -207,10 +207,10 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
               <button className="w-full px-4 py-2 bg-[#EA580C] text-white rounded-lg text-sm hover:bg-[#C2410C] transition-colors">
                 Reply
               </button>
-              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-sm hover:bg-gray-50 transition-colors">
+              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-sm hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                 Subscribe
               </button>
-              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-sm hover:bg-gray-50 transition-colors">
+              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-sm hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                 Share
               </button>
             </div>

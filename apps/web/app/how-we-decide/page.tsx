@@ -416,7 +416,7 @@ function ModuleCard({
   }
 
   return (
-    <div className={`bg-white rounded-lg shadow-md border-2 ${colorClasses[color]} overflow-hidden`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md border-2 ${colorClasses[color]} overflow-hidden`}>
       <div className={`bg-gradient-to-r ${colorClasses[color]} p-6 text-white`}>
         <div className="flex items-center gap-4 mb-2">
           <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 bg-opacity-20 flex items-center justify-center text-2xl font-bold">

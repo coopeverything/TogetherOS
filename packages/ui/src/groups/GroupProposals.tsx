@@ -37,7 +37,7 @@ export interface GroupProposalsProps {
 function getStatusColor(status: ProposalStatus): string {
   switch (status) {
     case 'draft':
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
     case 'research':
       return 'bg-yellow-100 text-yellow-800'
     case 'deliberation':
@@ -71,7 +71,7 @@ export function GroupProposals({
     <div className={className}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900">Group Proposals</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Group Proposals</h2>
         {onCreateProposal && (
           <button
             onClick={onCreateProposal}
@@ -89,7 +89,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'all'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           All ({proposals.length})
@@ -99,7 +99,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'draft'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Draft ({proposals.filter((p) => p.status === 'draft').length})
@@ -109,7 +109,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'research'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Research ({proposals.filter((p) => p.status === 'research').length})
@@ -119,7 +119,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'deliberation'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Deliberation ({proposals.filter((p) => p.status === 'deliberation').length})
@@ -129,7 +129,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'voting'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Voting ({proposals.filter((p) => p.status === 'voting').length})
@@ -139,7 +139,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'decided'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Decided ({proposals.filter((p) => p.status === 'decided').length})
@@ -149,7 +149,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'delivery'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Delivery ({proposals.filter((p) => p.status === 'delivery').length})
@@ -159,7 +159,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'reviewed'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Reviewed ({proposals.filter((p) => p.status === 'reviewed').length})
@@ -169,7 +169,7 @@ export function GroupProposals({
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
             filter === 'archived'
               ? 'bg-orange-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Archived ({proposals.filter((p) => p.status === 'archived').length})
@@ -178,7 +178,7 @@ export function GroupProposals({
 
       {/* Proposals List */}
       {filteredProposals.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-gray-500">No proposals yet</p>
           <p className="text-gray-400 text-sm mt-2">
             {onCreateProposal
@@ -191,11 +191,11 @@ export function GroupProposals({
           {filteredProposals.map((proposal) => (
             <div
               key={proposal.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                     {proposal.title}
                   </h3>
                   <p className="text-sm text-gray-500">

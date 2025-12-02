@@ -52,7 +52,7 @@ export function SentimentMap({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg">
+      <div className="flex items-center justify-center h-96 bg-gray-50 dark:bg-gray-900 rounded-lg">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading sentiment map...</p>
@@ -71,7 +71,7 @@ export function SentimentMap({
 
   if (topics.length === 0) {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-12 text-center">
         <p className="text-gray-600 text-lg">No sentiment data available yet.</p>
         <p className="text-gray-500 text-sm mt-2">
           Topics will appear here once enough community members have engaged.
@@ -126,7 +126,7 @@ export function SentimentMap({
   return (
     <div className="space-y-4">
       {/* Legend */}
-      <div className="bg-gray-50 rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
         <div>
           <h4 className="font-semibold text-gray-700 mb-2">Bubble Size</h4>
           <p className="text-gray-600">Larger = more engagement (reactions, ratings, evidence)</p>
@@ -146,7 +146,7 @@ export function SentimentMap({
       </div>
 
       {/* Bubble chart */}
-      <div className="relative bg-white border border-gray-200 rounded-lg" style={{ height: '600px' }}>
+      <div className="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg" style={{ height: '600px' }}>
         {topics.map((topic, index) => {
           const size = getBubbleSize(topic.engagement_level);
           const color = getBubbleColor(topic.consensus_score, topic.avg_sentiment);

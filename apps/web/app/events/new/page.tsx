@@ -259,7 +259,7 @@ export default function NewEventPage() {
                     className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
                       formData.location === loc.value
                         ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white text-gray-700 border-gray-300 hover:border-blue-300'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 border-gray-300 hover:border-blue-300'
                     }`}
                   >
                     {loc.label}

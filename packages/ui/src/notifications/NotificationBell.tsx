@@ -26,7 +26,7 @@ export function NotificationBell({
   return (
     <button
       onClick={onClick}
-      className={`relative p-2 hover:bg-gray-100 rounded-full transition-colors ${className}`}
+      className={`relative p-2 hover:bg-gray-100 dark:bg-gray-700 rounded-full transition-colors ${className}`}
       aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
     >
       {/* Bell Icon */}

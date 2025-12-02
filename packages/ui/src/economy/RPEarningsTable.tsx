@@ -39,23 +39,23 @@ function formatDate(date: Date): string {
 export function RPEarningsTable({ transactions, className = '' }: RPEarningsTableProps) {
   if (transactions.length === 0) {
     return (
-      <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">RP Transaction History</h2>
+      <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">RP Transaction History</h2>
         <p className="text-gray-500 text-center py-8">No transactions yet</p>
       </div>
     )
   }
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}>
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900">RP Transaction History</h2>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden ${className}`}>
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">RP Transaction History</h2>
         <p className="text-sm text-gray-500 mt-1">{transactions.length} transactions</p>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-900">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Date
@@ -73,7 +73,7 @@ export function RPEarningsTable({ transactions, className = '' }: RPEarningsTabl
           </thead>
           <tbody className="divide-y divide-gray-200">
             {transactions.map((tx) => (
-              <tr key={tx.id} className="hover:bg-gray-50">
+              <tr key={tx.id} className="hover:bg-gray-50 dark:bg-gray-900">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {formatDate(tx.createdAt)}
                 </td>

@@ -21,7 +21,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
   )
 
   const categoryColors = {
-    general: 'bg-gray-100 text-gray-700',
+    general: 'bg-gray-100 dark:bg-gray-700 text-gray-700',
     proposal: 'bg-yellow-100 text-yellow-800',
     question: 'bg-blue-100 text-blue-800',
     deliberation: 'bg-purple-100 text-purple-800',
@@ -37,7 +37,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
   return (
     <div className="min-h-screen bg-[#F0F4F8]">
       {/* Header */}
-      <div className="bg-white border-b border-[#E2E8F0] sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-800 border-b border-[#E2E8F0] sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-[#1E293B]" style={{ fontFamily: 'Lexend, sans-serif' }}>
@@ -91,7 +91,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
                   {/* Card */}
                   <button
                     onClick={() => onTopicClick(topic.id)}
-                    className="w-full text-left bg-white rounded-lg border border-[#E2E8F0] p-6 hover:shadow-md transition-all"
+                    className="w-full text-left bg-white dark:bg-gray-800 rounded-lg border border-[#E2E8F0] p-6 hover:shadow-md transition-all"
                   >
                     {/* Header */}
                     <div className="flex items-start justify-between mb-3">

@@ -37,7 +37,7 @@ export function BreadcrumbTrail({ steps, topic }: BreadcrumbTrailProps) {
       {topic && (
         <>
           <span className="text-gray-400 mx-2">|</span>
-          <span className="text-gray-700 bg-gray-100 px-2 py-1 rounded text-xs">{topic}</span>
+          <span className="text-gray-700 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">{topic}</span>
         </>
       )}
     </nav>

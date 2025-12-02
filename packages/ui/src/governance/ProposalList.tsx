@@ -51,7 +51,7 @@ export function ProposalList({
     <div className={className}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Proposals</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Proposals</h1>
         {showCreateButton && onCreateProposal && (
           <button
             onClick={onCreateProposal}
@@ -73,7 +73,7 @@ export function ProposalList({
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as ProposalStatus | 'all')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Statuses</option>
               <option value="draft">Draft</option>
@@ -95,7 +95,7 @@ export function ProposalList({
             <select
               value={scopeFilter}
               onChange={(e) => setScopeFilter(e.target.value as ProposalScopeType | 'all')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Types</option>
               <option value="individual">Individual</option>
@@ -112,7 +112,7 @@ export function ProposalList({
 
       {/* Proposals List */}
       {filteredProposals.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-gray-500 text-lg mb-2">No proposals found</p>
           <p className="text-gray-400 text-sm">
             {proposals.length === 0

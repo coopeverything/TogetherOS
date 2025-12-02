@@ -50,7 +50,7 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
           <div className="mb-6">
             <button
               onClick={() => router.back()}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white dark:text-white dark:hover:text-white"
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:hover:text-white"
             >
               ← Back to Wallet
             </button>
@@ -79,7 +79,7 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
           <div className="mb-6">
             <button
               onClick={() => router.back()}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white dark:text-white dark:hover:text-white"
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:hover:text-white"
             >
               ← Back to Wallet
             </button>
@@ -103,7 +103,7 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
         <div className="mb-6">
           <button
             onClick={() => router.back()}
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white dark:text-white dark:hover:text-white"
+            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:hover:text-white"
           >
             ← Back to Wallet
           </button>

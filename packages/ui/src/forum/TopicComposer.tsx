@@ -190,7 +190,7 @@ export function TopicComposer({
       )}>
         {/* Header */}
         <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white dark:text-gray-100">
             Create New Topic
           </h2>
           <button
@@ -208,7 +208,7 @@ export function TopicComposer({
         <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
               Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -218,10 +218,10 @@ export function TopicComposer({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="What's this discussion about?"
               className={cn(
-                'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-900',
-                'text-gray-900 dark:text-gray-100 placeholder:text-gray-400',
+                'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-800 dark:bg-gray-900',
+                'text-gray-900 dark:text-white dark:text-gray-100 placeholder:text-gray-400',
                 'focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-                errors.title ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                errors.title ? 'border-red-500' : 'border-gray-300 dark:border-gray-600 dark:border-gray-600'
               )}
               disabled={isSubmitting}
             />
@@ -235,14 +235,14 @@ export function TopicComposer({
 
           {/* Category */}
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <label htmlFor="category" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
               Category <span className="text-red-500">*</span>
             </label>
             <select
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value as TopicCategory)}
-              className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:border-gray-600 bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={isSubmitting}
             >
               {CATEGORY_OPTIONS.map((option) => (
@@ -256,7 +256,7 @@ export function TopicComposer({
           {/* Description */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100">
                 Description (optional)
               </label>
               <button
@@ -270,12 +270,12 @@ export function TopicComposer({
             </div>
 
             {showPreview ? (
-              <div className="w-full min-h-[120px] px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900">
+              <div className="w-full min-h-[120px] px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 dark:bg-gray-900">
                 {description ? (
                   <div className="prose prose-sm dark:prose-invert max-w-none">
                     {/* Simple markdown rendering - just line breaks for now */}
                     {description.split('\n').map((line, i) => (
-                      <p key={i} className="text-gray-900 dark:text-gray-100">
+                      <p key={i} className="text-gray-900 dark:text-white dark:text-gray-100">
                         {line || '\u00A0'}
                       </p>
                     ))}
@@ -292,11 +292,11 @@ export function TopicComposer({
                 placeholder="Add more context or details about this topic (supports Markdown)"
                 rows={5}
                 className={cn(
-                  'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-900',
-                  'text-gray-900 dark:text-gray-100 placeholder:text-gray-400',
+                  'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-800 dark:bg-gray-900',
+                  'text-gray-900 dark:text-white dark:text-gray-100 placeholder:text-gray-400',
                   'focus:ring-2 focus:ring-blue-500 focus:border-transparent',
                   'resize-vertical',
-                  errors.description ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  errors.description ? 'border-red-500' : 'border-gray-300 dark:border-gray-600 dark:border-gray-600'
                 )}
                 disabled={isSubmitting}
               />
@@ -314,7 +314,7 @@ export function TopicComposer({
 
           {/* Tags */}
           <div>
-            <label htmlFor="tags" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <label htmlFor="tags" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
               Tags <span className="text-red-500">*</span>
             </label>
             <TagInput
@@ -328,7 +328,7 @@ export function TopicComposer({
               <p className="mt-1 text-sm text-red-600">{errors.tags}</p>
             )}
             <p className="mt-1 text-xs text-gray-500">
-              💡 Type and press <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 text-xs font-mono">Enter</kbd> to add tags. Choose from suggestions or create your own (e.g., mutual-aid, open-source, governance).
+              💡 Type and press <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 dark:border-gray-600 text-xs font-mono">Enter</kbd> to add tags. Choose from suggestions or create your own (e.g., mutual-aid, open-source, governance).
             </p>
           </div>
 
@@ -337,7 +337,7 @@ export function TopicComposer({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:text-white dark:hover:text-gray-100 transition-colors"
               disabled={isSubmitting}
             >
               Cancel

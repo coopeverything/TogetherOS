@@ -50,12 +50,12 @@ function getNotificationColor(type: NotificationType): string {
     proposal_update: 'bg-purple-50 border-purple-200',
     discussion_reply: 'bg-green-50 border-green-200',
     group_update: 'bg-yellow-50 border-yellow-200',
-    system_message: 'bg-gray-50 border-gray-200',
+    system_message: 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700',
     support_points: 'bg-amber-50 border-amber-200',
     badge_earned: 'bg-orange-50 border-orange-200',
     reaction: 'bg-pink-50 border-pink-200',
   }
-  return colors[type] || 'bg-gray-50 border-gray-200'
+  return colors[type] || 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700'
 }
 
 /**
@@ -112,7 +112,7 @@ export function NotificationToast({
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900">
+        <p className="text-sm font-medium text-gray-900 dark:text-white">
           {notification.title}
         </p>
         <p className="mt-1 text-sm text-gray-600 line-clamp-2">

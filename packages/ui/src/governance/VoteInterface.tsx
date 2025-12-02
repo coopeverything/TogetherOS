@@ -87,7 +87,7 @@ export function VoteInterface({
           <div className="text-3xl font-bold text-yellow-700">{tally.concern}</div>
           <div className="text-sm text-yellow-600">Concern</div>
         </div>
-        <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="text-3xl font-bold text-gray-700">{tally.abstain}</div>
           <div className="text-sm text-gray-600">Abstain</div>
         </div>
@@ -103,14 +103,14 @@ export function VoteInterface({
           ? 'bg-red-50 border-red-200'
           : tally.thresholdMet
           ? 'bg-green-50 border-green-200'
-          : 'bg-gray-50 border-gray-200'
+          : 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700'
       }`}>
         <p className={`font-medium ${
           tally.hasBlocks
             ? 'text-red-900'
             : tally.thresholdMet
             ? 'text-green-900'
-            : 'text-gray-900'
+            : 'text-gray-900 dark:text-white'
         }`}>
           {tally.hasBlocks
             ? `❌ Blocked - ${tally.block} block vote(s) prevent approval`
@@ -125,7 +125,7 @@ export function VoteInterface({
 
       {/* Vote Buttons */}
       <div className="space-y-4">
-        <h3 className="font-semibold text-gray-900">Cast Your Vote</h3>
+        <h3 className="font-semibold text-gray-900 dark:text-white">Cast Your Vote</h3>
         <div className="grid grid-cols-2 gap-4">
           {voteButtons.map((btn) => (
             <div key={btn.type} className="space-y-2">
@@ -153,7 +153,7 @@ export function VoteInterface({
                     placeholder={`Optional: Explain your ${btn.type} vote...`}
                     value={reasoning}
                     onChange={(e) => setReasoning(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                     rows={3}
                     disabled={isVoting}
                   />

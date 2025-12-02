@@ -38,10 +38,10 @@ export function InviteButton({
       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
       : 'bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800',
     secondary: disabled
-      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+      ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
       : 'bg-brand-50 text-brand-700 hover:bg-brand-100 active:bg-brand-200',
     outline: disabled
-      ? 'border border-gray-200 text-gray-400 cursor-not-allowed'
+      ? 'border border-gray-200 dark:border-gray-700 text-gray-400 cursor-not-allowed'
       : 'border border-brand-300 text-brand-700 hover:border-brand-500 hover:bg-brand-50',
   };
 

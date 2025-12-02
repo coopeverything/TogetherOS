@@ -77,7 +77,7 @@ export function PriorityList({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Your Priorities</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Priorities</h2>
           <p className="text-sm text-gray-600 mt-1">
             Drag to reorder. Adjust sliders to show how much you care (1-10).
           </p>
@@ -95,7 +95,7 @@ export function PriorityList({
       {/* Add topic form */}
       {showAddTopic && onAddPriority && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 mb-2">Add a topic to prioritize</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Add a topic to prioritize</h3>
           {availableTopics.length > 0 ? (
             <div className="flex flex-wrap gap-2 mb-3">
               {availableTopics
@@ -107,7 +107,7 @@ export function PriorityList({
                       onAddPriority(topic)
                       setShowAddTopic(false)
                     }}
-                    className="px-3 py-1 bg-white border border-gray-300 rounded-lg text-sm hover:bg-gray-50 transition-colors"
+                    className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:bg-gray-900 transition-colors"
                   >
                     {topic}
                   </button>
@@ -121,7 +121,7 @@ export function PriorityList({
               onChange={e => setNewTopic(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleAddTopic()}
               placeholder="Or enter a custom topic"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
             <button
               onClick={handleAddTopic}
@@ -136,7 +136,7 @@ export function PriorityList({
 
       {/* Priority list */}
       {sortedPriorities.length === 0 ? (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-12 text-center">
           <p className="text-gray-600">
             You have not prioritized any topics yet.
           </p>
@@ -153,8 +153,8 @@ export function PriorityList({
               onDragStart={() => handleDragStart(index)}
               onDragOver={e => handleDragOver(e, index)}
               onDrop={() => handleDrop(index)}
-              className={`bg-white border rounded-lg p-4 cursor-move hover:shadow-md transition-all ${
-                draggedIndex === index ? 'opacity-50 border-orange-500' : 'border-gray-200'
+              className={`bg-white dark:bg-gray-800 border rounded-lg p-4 cursor-move hover:shadow-md transition-all ${
+                draggedIndex === index ? 'opacity-50 border-orange-500' : 'border-gray-200 dark:border-gray-700'
               }`}
             >
               <div className="flex items-start gap-4">
@@ -184,13 +184,13 @@ export function PriorityList({
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 mb-2">{priority.topic}</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{priority.topic}</h3>
 
                   {/* Weight slider */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">How much do you care?</span>
-                      <span className="font-medium text-gray-900">{priority.weight}/10</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{priority.weight}/10</span>
                     </div>
                     <input
                       type="range"
@@ -230,7 +230,7 @@ export function PriorityList({
 
       {/* Privacy notice */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="font-semibold text-gray-900 mb-1">🔒 Your priorities are private</h3>
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-1">🔒 Your priorities are private</h3>
         <p className="text-sm text-gray-700">
           Only you can see your personal priority list. Only anonymous aggregate statistics
           (like "45% of community prioritizes housing") are public.

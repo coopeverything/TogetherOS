@@ -30,7 +30,7 @@ export interface ProposalCardProps {
 function getStatusBadgeColor(status: ProposalStatus): string {
   switch (status) {
     case 'draft':
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
     case 'research':
       return 'bg-yellow-100 text-yellow-800'
     case 'deliberation':
@@ -86,13 +86,13 @@ export function ProposalCard({
   return (
     <div
       onClick={handleClick}
-      className={`bg-white rounded-lg border border-gray-200 p-6 transition-shadow ${
+      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 transition-shadow ${
         clickable ? 'hover:shadow-md cursor-pointer' : ''
       } ${className}`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
             {proposal.title}
           </h3>
           <div className="flex items-center gap-2 text-sm text-gray-500">

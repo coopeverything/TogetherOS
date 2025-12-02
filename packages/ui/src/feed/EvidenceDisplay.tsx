@@ -59,7 +59,7 @@ export function EvidenceDisplay({ evidence, postId }: EvidenceDisplayProps) {
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                  className="p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">

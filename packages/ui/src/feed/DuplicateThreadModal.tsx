@@ -32,12 +32,12 @@ export function DuplicateThreadModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
-        <div className="border-b border-gray-200 px-6 py-4">
+        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Similar Discussions Found</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Similar Discussions Found</h2>
               <p className="text-sm text-gray-600 mt-1">
                 Bridge found {similarThreads.length} similar discussion{similarThreads.length !== 1 ? 's' : ''}.
                 Join an existing one or start a new discussion.
@@ -56,22 +56,22 @@ export function DuplicateThreadModal({
 
         {/* Your proposed discussion */}
         <div className="px-6 py-4 bg-blue-50 border-b border-blue-200">
-          <h3 className="text-sm font-semibold text-gray-900 mb-1">Your proposed discussion:</h3>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Your proposed discussion:</h3>
           <p className="text-gray-700">{proposedTitle}</p>
         </div>
 
         {/* Similar threads list */}
         <div className="px-6 py-4">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Existing discussions:</h3>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Existing discussions:</h3>
           <div className="space-y-3">
             {similarThreads.map(({ thread, similarity, matchedKeywords }) => (
               <div
                 key={thread.id}
-                className="border border-gray-200 rounded-lg p-4 hover:border-orange-300 hover:shadow-sm transition-all"
+                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-orange-300 hover:shadow-sm transition-all"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 mb-1">{thread.title}</h4>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{thread.title}</h4>
                     <div className="flex items-center gap-3 text-sm text-gray-600">
                       <span>💬 {thread.postCount} {thread.postCount === 1 ? 'post' : 'posts'}</span>
                       <span>👥 {thread.participantCount} {thread.participantCount === 1 ? 'participant' : 'participants'}</span>
@@ -105,7 +105,7 @@ export function DuplicateThreadModal({
                     {matchedKeywords.map((keyword, i) => (
                       <span
                         key={i}
-                        className="inline-block text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full mr-1 mb-1"
+                        className="inline-block text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 px-2 py-0.5 rounded-full mr-1 mb-1"
                       >
                         {keyword}
                       </span>
@@ -125,7 +125,7 @@ export function DuplicateThreadModal({
         </div>
 
         {/* Footer - option to create new anyway */}
-        <div className="border-t border-gray-200 px-6 py-4 bg-gray-50">
+        <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-900">
           <div className="flex items-start gap-3 mb-3">
             <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-yellow-600 text-xs">⚠️</span>
@@ -141,7 +141,7 @@ export function DuplicateThreadModal({
           <div className="flex items-center justify-end gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+              className="px-4 py-2 text-gray-700 hover:bg-gray-100 dark:bg-gray-700 rounded-lg font-medium transition-colors"
             >
               Cancel
             </button>

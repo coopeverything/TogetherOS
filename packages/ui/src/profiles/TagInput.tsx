@@ -96,7 +96,7 @@ export function TagInput({
       </div>
 
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-border rounded-md shadow-lg max-h-48 overflow-y-auto">
+        <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-border rounded-md shadow-lg max-h-48 overflow-y-auto">
           {filteredSuggestions.slice(0, 10).map((suggestion) => (
             <button
               key={suggestion}

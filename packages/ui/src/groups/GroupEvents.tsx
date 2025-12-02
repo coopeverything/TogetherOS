@@ -62,10 +62,10 @@ export function GroupEvents({
     const isFull = event.maxAttendees && event.attendeeCount >= event.maxAttendees
 
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">{event.title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">{event.title}</h3>
             <p className="text-sm text-gray-500">
               Organized by {event.organizerName}
             </p>
@@ -79,7 +79,7 @@ export function GroupEvents({
             </button>
           )}
           {isFull && (
-            <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
+            <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 text-sm font-medium rounded-full">
               Full
             </span>
           )}
@@ -112,7 +112,7 @@ export function GroupEvents({
     <div className={className}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900">Group Events</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Group Events</h2>
         {onCreateEvent && (
           <button
             onClick={onCreateEvent}
@@ -125,11 +125,11 @@ export function GroupEvents({
 
       {/* Upcoming Events */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
           Upcoming ({upcomingEvents.length})
         </h3>
         {upcomingEvents.length === 0 ? (
-          <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="text-center py-8 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
             <p className="text-gray-500">No upcoming events</p>
           </div>
         ) : (
@@ -144,7 +144,7 @@ export function GroupEvents({
       {/* Past Events */}
       {pastEvents.length > 0 && (
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Past ({pastEvents.length})
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

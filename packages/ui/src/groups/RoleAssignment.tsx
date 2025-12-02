@@ -45,7 +45,7 @@ function getRoleBadgeColor(role: GroupRoleType): string {
     case 'coordinator':
       return 'bg-purple-100 text-purple-800'
     case 'member':
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
   }
 }
 
@@ -95,13 +95,13 @@ export function RoleAssignment({
   return (
     <div className={className}>
       {/* Add Role Form */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-4 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Assign Role</h3>
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Assign Role</h3>
         <div className="flex gap-3">
           <select
             value={selectedMember}
             onChange={(e) => setSelectedMember(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             disabled={isAssigning}
           >
             <option value="">Select member...</option>
@@ -115,7 +115,7 @@ export function RoleAssignment({
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value as GroupRoleType)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             disabled={isAssigning}
           >
             <option value="member">Member</option>
@@ -135,7 +135,7 @@ export function RoleAssignment({
 
       {/* Current Roles */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Current Roles</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Current Roles</h3>
         {rolesWithMembers.length === 0 ? (
           <p className="text-gray-500 text-center py-8">No roles assigned yet</p>
         ) : (
@@ -143,7 +143,7 @@ export function RoleAssignment({
             {rolesWithMembers.map((role) => (
               <div
                 key={role.id}
-                className="flex items-center justify-between bg-white rounded-lg border border-gray-200 p-4"
+                className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
@@ -157,7 +157,7 @@ export function RoleAssignment({
                     </span>
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{role.member?.displayName}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{role.member?.displayName}</p>
                     <p className="text-sm text-gray-500">@{role.member?.handle}</p>
                   </div>
                 </div>

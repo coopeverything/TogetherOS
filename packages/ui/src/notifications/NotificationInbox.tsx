@@ -90,10 +90,10 @@ export function NotificationInbox({
   const unreadCount = notifications.filter((n) => n.status === 'unread').length
 
   return (
-    <div className={`bg-white rounded-lg shadow ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-900">Notifications</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notifications</h2>
         {unreadCount > 0 && (
           <button
             onClick={onMarkAllAsRead}
@@ -111,7 +111,7 @@ export function NotificationInbox({
           className={`px-3 py-1 text-sm rounded-full ${
             filter === 'all'
               ? 'bg-blue-100 text-blue-800'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-600 hover:bg-gray-200'
           }`}
         >
           All
@@ -121,7 +121,7 @@ export function NotificationInbox({
           className={`px-3 py-1 text-sm rounded-full ${
             filter === 'unread'
               ? 'bg-blue-100 text-blue-800'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-600 hover:bg-gray-200'
           }`}
         >
           Unread {unreadCount > 0 && `(${unreadCount})`}
@@ -131,7 +131,7 @@ export function NotificationInbox({
           className={`px-3 py-1 text-sm rounded-full ${
             filter === 'archived'
               ? 'bg-blue-100 text-blue-800'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-600 hover:bg-gray-200'
           }`}
         >
           Archived
@@ -154,7 +154,7 @@ export function NotificationInbox({
               key={notification.id}
               className={`
                 flex items-start gap-3 p-4
-                hover:bg-gray-50 cursor-pointer transition-colors
+                hover:bg-gray-50 dark:bg-gray-900 cursor-pointer transition-colors
                 ${notification.status === 'unread' ? 'bg-blue-50' : ''}
               `}
               onClick={() => onNotificationClick?.(notification)}
@@ -171,7 +171,7 @@ export function NotificationInbox({
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
                   {notification.title}
                 </p>
                 <p className="mt-1 text-sm text-gray-600">
@@ -202,7 +202,7 @@ export function NotificationInbox({
                         e.stopPropagation()
                         onUpdateStatus?.(notification.id, 'archived')
                       }}
-                      className="text-xs text-gray-600 hover:text-gray-800"
+                      className="text-xs text-gray-600 hover:text-gray-800 dark:text-gray-200"
                     >
                       Archive
                     </button>
@@ -211,7 +211,7 @@ export function NotificationInbox({
                         e.stopPropagation()
                         onUpdateStatus?.(notification.id, 'unread')
                       }}
-                      className="text-xs text-gray-600 hover:text-gray-800"
+                      className="text-xs text-gray-600 hover:text-gray-800 dark:text-gray-200"
                     >
                       Mark unread
                     </button>

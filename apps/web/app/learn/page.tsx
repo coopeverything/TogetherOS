@@ -125,7 +125,7 @@ export default function LearnPage() {
               className={`px-3 py-1.5 text-sm rounded-full whitespace-nowrap transition-colors ${
                 selectedCategory === cat
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-200 hover:bg-gray-50'
               }`}
             >
               {cat === 'all' ? 'All Paths' : LEARNING_PATH_CATEGORY_LABELS[cat as LearningPathCategory]}

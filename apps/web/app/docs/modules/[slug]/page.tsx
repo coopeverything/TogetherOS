@@ -326,7 +326,7 @@ export default async function ModuleDocPage({ params }: Props) {
             href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white"
+            className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white"
           >
             <GitHubIcon className="w-4 h-4" />
             Edit on GitHub

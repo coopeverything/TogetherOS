@@ -32,13 +32,13 @@ export function CollapsibleModule({
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 ${className}`}>
       {/* Header */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 dark:bg-gray-900 transition-colors"
       >
-        <h3 className="font-semibold text-gray-900">{title}</h3>
+        <h3 className="font-semibold text-gray-900 dark:text-white">{title}</h3>
         <span className="text-gray-500">{isCollapsed ? '▽' : '△'}</span>
       </button>
 

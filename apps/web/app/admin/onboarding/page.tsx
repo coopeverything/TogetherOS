@@ -556,8 +556,8 @@ export default function OnboardingEditorPage() {
               onClick={() => setViewMode('editor')}
               className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
                 viewMode === 'editor'
-                  ? 'bg-white text-ink-900'
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'bg-white dark:bg-gray-800 text-ink-900'
+                  : 'text-white/70 hover:text-white hover:bg-white dark:bg-gray-800/10'
               }`}
             >
               Content Editor
@@ -566,8 +566,8 @@ export default function OnboardingEditorPage() {
               onClick={() => setViewMode('first-week')}
               className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
                 viewMode === 'first-week'
-                  ? 'bg-white text-ink-900'
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'bg-white dark:bg-gray-800 text-ink-900'
+                  : 'text-white/70 hover:text-white hover:bg-white dark:bg-gray-800/10'
               }`}
             >
               First Week Flow

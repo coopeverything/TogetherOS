@@ -377,7 +377,7 @@ export default function AdminDashboard() {
                       href={item.status === 'active' ? item.path : undefined}
                       className={`block px-4 py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${
                         item.status === 'active'
-                          ? 'hover:bg-white dark:hover:bg-gray-800 cursor-pointer'
+                          ? 'hover:bg-white dark:bg-gray-800 dark:hover:bg-gray-800 cursor-pointer'
                           : 'cursor-not-allowed opacity-60'
                       }`}
                       onClick={(e) => {

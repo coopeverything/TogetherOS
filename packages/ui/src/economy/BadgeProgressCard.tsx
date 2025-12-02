@@ -31,8 +31,8 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
   const unearnedBadges = badges.filter((b) => !earnedBadgeIds.has(b.id))
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}>
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Badges</h2>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Badges</h2>
 
       {/* Earned Badges */}
       <div className="mb-6">
@@ -77,7 +77,7 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
               return (
                 <div
                   key={badge.id}
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200"
+                  className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700"
                 >
                   <div className="text-xl opacity-50">{badge.icon}</div>
                   <div className="flex-1">

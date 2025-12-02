@@ -37,7 +37,7 @@ export function RecommendationCard({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-wrap">
@@ -57,7 +57,7 @@ export function RecommendationCard({
       </div>
 
       {/* Content */}
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
         {recommendation.title}
       </h3>
       <p className="text-gray-700 mb-4">{recommendation.description}</p>
@@ -113,7 +113,7 @@ export function RecommendationCard({
 
       {/* Status indicator for non-pending recommendations */}
       {recommendation.status !== 'pending' && (
-        <div className="pt-4 border-t border-gray-200">
+        <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
           <span className="text-sm text-gray-500">
             Status: <span className="font-medium capitalize">{recommendation.status.replace('_', ' ')}</span>
           </span>

@@ -175,7 +175,7 @@ export default function NotificationSettingsPage() {
                   aria-checked={isEnabled}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out ${
                       isEnabled ? 'translate-x-5' : 'translate-x-0'
                     }`}
                   />
@@ -235,7 +235,7 @@ export default function NotificationSettingsPage() {
             aria-checked={preferences.pushEnabled}
           >
             <span
-              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out ${
                 preferences.pushEnabled ? 'translate-x-5' : 'translate-x-0'
               }`}
             />

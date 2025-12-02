@@ -148,10 +148,10 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
-        <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">Create Post</h2>
+        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create Post</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -175,7 +175,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Give your post a title..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 maxLength={200}
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -193,7 +193,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Share your thoughts or paste a social media URL...&#10;&#10;Examples:&#10;• Write plain text&#10;• Paste https://instagram.com/p/...&#10;• Mix text + URLs for inline previews"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
                 rows={10}
                 maxLength={5000}
                 required
@@ -233,7 +233,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
             {onSuggestTopics && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-semibold text-gray-900">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                     🤖 AI Topic Suggestions
                   </h3>
                   <button
@@ -251,11 +251,11 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                     {suggestedTopics.map((suggestion) => (
                       <div
                         key={suggestion.topic}
-                        className="flex items-center justify-between bg-white rounded p-2"
+                        className="flex items-center justify-between bg-white dark:bg-gray-800 rounded p-2"
                       >
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm text-gray-900">
+                            <span className="font-medium text-sm text-gray-900 dark:text-white">
                               {suggestion.topic}
                             </span>
                             <span
@@ -315,7 +315,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       selectedTopics.includes(topic)
                         ? 'bg-orange-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     {topic}
@@ -329,11 +329,11 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 px-6 py-4 flex items-center justify-end gap-3">
+          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+              className="px-4 py-2 text-gray-700 hover:bg-gray-100 dark:bg-gray-700 rounded-lg font-medium transition-colors"
             >
               Cancel
             </button>

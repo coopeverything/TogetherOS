@@ -38,7 +38,7 @@ export function SampleBadge({
 }: SampleBadgeProps) {
   return (
     <div
-      className={`absolute ${positionClasses[position]} ${sizeClasses[size]} font-medium tracking-wide z-10 bg-gray-100 text-gray-500 rounded opacity-60 border border-gray-300`}
+      className={`absolute ${positionClasses[position]} ${sizeClasses[size]} font-medium tracking-wide z-10 bg-gray-100 dark:bg-gray-700 text-gray-500 rounded opacity-60 border border-gray-300 dark:border-gray-600`}
     >
       {label}
     </div>

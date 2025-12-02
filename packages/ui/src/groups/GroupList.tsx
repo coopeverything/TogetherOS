@@ -74,7 +74,7 @@ export function GroupList({
   return (
     <div className={className}>
       {/* Filters */}
-      <div className="mb-6 bg-gray-50 rounded-lg border border-gray-200 p-4">
+      <div className="mb-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div>
@@ -88,7 +88,7 @@ export function GroupList({
               onChange={(e) =>
                 setFilters({ ...filters, search: e.target.value })
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -105,7 +105,7 @@ export function GroupList({
                   type: e.target.value as any,
                 })
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="">All types</option>
               <option value="local">Local</option>
@@ -127,7 +127,7 @@ export function GroupList({
                   sortBy: e.target.value as any,
                 })
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>

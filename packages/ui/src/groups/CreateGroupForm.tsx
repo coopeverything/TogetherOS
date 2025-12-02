@@ -127,7 +127,7 @@ export function CreateGroupForm({
           value={formData.name}
           onChange={(e) => handleNameChange(e.target.value)}
           disabled={isSubmitting}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
           placeholder="e.g., Boston Cooperative Network"
           required
         />
@@ -149,7 +149,7 @@ export function CreateGroupForm({
               setFormData((prev) => ({ ...prev, handle: e.target.value.toLowerCase() }))
             }
             disabled={isSubmitting}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
             placeholder="boston-coop"
             required
           />
@@ -172,7 +172,7 @@ export function CreateGroupForm({
             setFormData((prev) => ({ ...prev, type: e.target.value as GroupType }))
           }
           disabled={isSubmitting}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
           required
         >
           <option value="local">Local - City or regional group</option>
@@ -193,7 +193,7 @@ export function CreateGroupForm({
             setFormData((prev) => ({ ...prev, cooperationPath: e.target.value as CooperationPath }))
           }
           disabled={isSubmitting}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
           required
         >
           <option value="Collaborative Education">Collaborative Education</option>
@@ -223,7 +223,7 @@ export function CreateGroupForm({
               value={formData.zipCode || ''}
               onChange={(e) => setFormData((prev) => ({ ...prev, zipCode: e.target.value }))}
               disabled={isSubmitting}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
               placeholder="e.g., 02108"
               maxLength={10}
             />
@@ -243,7 +243,7 @@ export function CreateGroupForm({
               value={formData.location}
               onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
               disabled={isSubmitting}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
               placeholder="e.g., Boston, MA"
               required
             />
@@ -263,7 +263,7 @@ export function CreateGroupForm({
           onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
           disabled={isSubmitting}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
           placeholder="Describe your group's purpose and activities..."
           required
         />
@@ -296,7 +296,7 @@ export function CreateGroupForm({
               }
             }}
             disabled={isSubmitting || (formData.tags?.length || 0) >= 5}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:bg-gray-100 dark:bg-gray-700"
             placeholder="e.g., timebanking, urban-farming, repair"
           />
           <button
@@ -310,7 +310,7 @@ export function CreateGroupForm({
               }
             }}
             disabled={isSubmitting || !tagInput.trim() || (formData.tags?.length || 0) >= 5}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 transition-colors"
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:bg-gray-100 dark:bg-gray-700 disabled:text-gray-400 transition-colors"
           >
             Add
           </button>
@@ -354,7 +354,7 @@ export function CreateGroupForm({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 disabled:bg-gray-50 transition-colors font-medium"
+            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 rounded-md hover:bg-gray-200 disabled:bg-gray-50 dark:bg-gray-900 transition-colors font-medium"
           >
             Cancel
           </button>

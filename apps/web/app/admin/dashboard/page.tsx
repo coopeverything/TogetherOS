@@ -86,7 +86,7 @@ export default function DashboardShowcase() {
             </div>
             <a
               href="/admin"
-              className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white dark:text-gray-400 dark:hover:text-white"
+              className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:text-gray-400 dark:hover:text-white"
             >
               ← Back to Admin
             </a>

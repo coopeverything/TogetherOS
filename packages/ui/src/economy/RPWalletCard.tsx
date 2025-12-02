@@ -12,8 +12,8 @@ export interface RPWalletCardProps {
 
 export function RPWalletCard({ balance, className = '' }: RPWalletCardProps) {
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}>
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
         Reward Points Wallet
       </h2>
 
@@ -24,7 +24,7 @@ export function RPWalletCard({ balance, className = '' }: RPWalletCardProps) {
           <span className="text-2xl font-bold text-purple-600">{balance.available} RP</span>
         </div>
 
-        <div className="border-t border-gray-200 pt-4 space-y-3">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
           {/* Total Earned */}
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-700">Total Earned (All Time)</span>
@@ -44,7 +44,7 @@ export function RPWalletCard({ balance, className = '' }: RPWalletCardProps) {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-4 text-xs text-gray-500">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 text-xs text-gray-500">
           <p>
             Reward Points (RP) are earned through contributions, dues, and gamification activities.
             Convert RP to Timebank Credits (TBC) or use for Social Horizon (SH) purchases.

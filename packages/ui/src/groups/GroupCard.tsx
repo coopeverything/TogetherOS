@@ -52,7 +52,7 @@ function getTypeBadgeColor(type: string): string {
     case 'federated':
       return 'bg-purple-100 text-purple-800'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
   }
 }
 
@@ -80,7 +80,7 @@ export function GroupCard({
 
   return (
     <div
-      className={`bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow ${className}`}
+      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow ${className}`}
     >
       {/* Header: Avatar + Name + Type Badge */}
       <div className="flex items-start gap-3 mb-3">
@@ -91,7 +91,7 @@ export function GroupCard({
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 truncate">{group.name}</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white truncate">{group.name}</h3>
           <p className="text-sm text-gray-500">@{group.handle}</p>
         </div>
 
@@ -127,7 +127,7 @@ export function GroupCard({
         ) : (
           <a
             href={`/groups/${group.id}`}
-            className="block w-full px-4 py-2 bg-gray-100 text-gray-900 rounded-md hover:bg-gray-200 transition-colors text-sm font-medium text-center"
+            className="block w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md hover:bg-gray-200 transition-colors text-sm font-medium text-center"
           >
             View Group
           </a>

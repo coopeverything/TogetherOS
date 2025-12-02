@@ -231,7 +231,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                 return (
                   <div
                     key={question.id}
-                    className={`bg-white rounded-lg border p-4 ${
+                    className={`bg-white dark:bg-gray-800 rounded-lg border p-4 ${
                       qResult?.correct ? 'border-green-200' : 'border-red-200'
                     }`}
                   >
@@ -381,7 +381,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                   className={`w-full text-left p-3 rounded-lg border transition-colors ${
                     isSelected
                       ? 'bg-blue-50 border-blue-500 text-blue-900'
-                      : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-700'
+                      : 'bg-white dark:bg-gray-800 border-gray-200 hover:bg-gray-50 text-gray-700'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -411,7 +411,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
           <button
             onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
             disabled={currentQuestion === 0}
-            className="px-4 py-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white disabled:opacity-50"
+            className="px-4 py-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white disabled:opacity-50"
           >
             ← Previous
           </button>

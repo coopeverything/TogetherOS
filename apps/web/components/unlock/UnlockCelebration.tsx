@@ -99,7 +99,7 @@ export function UnlockCelebration({
       <div
         className={cn(
           'relative z-10 w-full max-w-md mx-4',
-          'bg-white rounded-2xl shadow-2xl',
+          'bg-white dark:bg-gray-800 rounded-2xl shadow-2xl',
           'animate-bounce-in overflow-hidden'
         )}
       >

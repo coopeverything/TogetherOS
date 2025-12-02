@@ -12,8 +12,8 @@ export interface SPWalletCardProps {
 
 export function SPWalletCard({ balance, className = '' }: SPWalletCardProps) {
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}>
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
         Support Points Wallet
       </h2>
 
@@ -24,7 +24,7 @@ export function SPWalletCard({ balance, className = '' }: SPWalletCardProps) {
           <span className="text-2xl font-bold text-blue-600">{balance.total} SP</span>
         </div>
 
-        <div className="border-t border-gray-200 pt-4 space-y-3">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
           {/* Available */}
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-700">Available</span>
@@ -38,7 +38,7 @@ export function SPWalletCard({ balance, className = '' }: SPWalletCardProps) {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-4 text-xs text-gray-500">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 text-xs text-gray-500">
           <p>
             Support Points (SP) signal which proposals you prioritize.
             Allocate SP to proposals to help the community prioritize work.

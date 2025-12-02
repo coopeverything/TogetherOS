@@ -69,7 +69,7 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
               {viewpoints.map((vp) => (
                 <label
                   key={vp.value}
-                  className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700"
                 >
                   <input
                     type="radio"
@@ -106,7 +106,7 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
           </button>
           <button
             onClick={onCancel}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 transition"
           >
             Cancel
           </button>

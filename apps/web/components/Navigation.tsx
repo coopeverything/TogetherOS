@@ -101,7 +101,7 @@ export default function Navigation() {
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
                 }`}
               >
                 {item.label}
@@ -253,7 +253,7 @@ export default function Navigation() {
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -267,7 +267,7 @@ export default function Navigation() {
               className={`flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium ${
                 isActive('/search')
                   ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
               }`}
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -310,7 +310,7 @@ export default function Navigation() {
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive('/notifications')
                       ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -321,7 +321,7 @@ export default function Navigation() {
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive('/profile')
                       ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >

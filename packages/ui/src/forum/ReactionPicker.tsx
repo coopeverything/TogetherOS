@@ -60,10 +60,10 @@ export function ReactionPicker({
         disabled={isSubmitting}
         className={cn(
           'px-3 py-1.5 text-sm rounded-md transition-colors',
-          'border border-gray-300 dark:border-gray-600',
+          'border border-gray-300 dark:border-gray-600 dark:border-gray-600',
           userReaction
             ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-500'
-            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700',
+            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700',
           'disabled:opacity-50 disabled:cursor-not-allowed'
         )}
       >
@@ -100,7 +100,7 @@ export function ReactionPicker({
                     'w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors',
                     isSelected
                       ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100'
+                      : 'hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 text-gray-900 dark:text-white dark:text-gray-100'
                   )}
                 >
                   <span>

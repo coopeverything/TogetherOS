@@ -30,8 +30,8 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
   const remainingThisWeek = stats.weeklyLimit - stats.sentThisWeek;
 
   return (
-    <div className={`bg-white rounded-xl border border-gray-200 p-4 ${className}`}>
-      <h3 className="text-sm font-semibold text-gray-900 mb-3">Your Invitation Stats</h3>
+    <div className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
+      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Your Invitation Stats</h3>
 
       {/* Quality Score */}
       <div className="mb-4">
@@ -41,7 +41,7 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
             {qualityPercent}% - {getQualityLabel()}
           </span>
         </div>
-        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-300 ${
               stats.qualityScore >= INVITATION_QUALITY_THRESHOLDS.GOOD
@@ -60,20 +60,20 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-gray-50 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-gray-900">{stats.totalSent}</div>
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
+          <div className="text-lg font-bold text-gray-900 dark:text-white">{stats.totalSent}</div>
           <div className="text-xs text-gray-500">Sent</div>
         </div>
-        <div className="bg-gray-50 rounded-lg p-2 text-center">
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-green-600">{stats.totalAccepted}</div>
           <div className="text-xs text-gray-500">Accepted</div>
         </div>
-        <div className="bg-gray-50 rounded-lg p-2 text-center">
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-brand-600">{stats.totalContributed}</div>
           <div className="text-xs text-gray-500">Active</div>
         </div>
-        <div className="bg-gray-50 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-gray-900">{acceptanceRate}%</div>
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
+          <div className="text-lg font-bold text-gray-900 dark:text-white">{acceptanceRate}%</div>
           <div className="text-xs text-gray-500">Accept Rate</div>
         </div>
       </div>
@@ -82,7 +82,7 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
       <div className="mt-4 pt-3 border-t border-gray-100">
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-500">Remaining this week</span>
-          <span className={`text-sm font-medium ${remainingThisWeek > 0 ? 'text-gray-900' : 'text-red-600'}`}>
+          <span className={`text-sm font-medium ${remainingThisWeek > 0 ? 'text-gray-900 dark:text-white' : 'text-red-600'}`}>
             {remainingThisWeek} / {stats.weeklyLimit}
           </span>
         </div>

@@ -80,11 +80,11 @@ export function ReplyComposer({
         placeholder="Write your reply..."
         rows={3}
         className={cn(
-          'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-900',
-          'text-gray-900 dark:text-gray-100 placeholder:text-gray-400',
+          'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-800 dark:bg-gray-900',
+          'text-gray-900 dark:text-white dark:text-gray-100 placeholder:text-gray-400',
           'focus:ring-2 focus:ring-blue-500 focus:border-transparent',
           'resize-vertical text-sm',
-          error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+          error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600 dark:border-gray-600'
         )}
         disabled={isSubmitting}
       />
@@ -103,7 +103,7 @@ export function ReplyComposer({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+              className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:text-white dark:hover:text-gray-100 transition-colors"
               disabled={isSubmitting}
             >
               Cancel
