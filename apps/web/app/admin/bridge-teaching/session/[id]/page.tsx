@@ -326,26 +326,24 @@ export default function TeachingSessionPage({ params }: PageProps) {
                 value={editTopic}
                 onChange={(e) => setEditTopic(e.target.value)}
                 placeholder="Topic"
+                className="teaching-input"
                 style={{
                   flex: '1 1 200px',
                   padding: '0.375rem 0.5rem',
                   border: '1px solid var(--border)',
                   borderRadius: '0.25rem',
                   fontSize: '0.875rem',
-                  background: 'var(--bg-0)',
-                  color: 'var(--ink-900)',
                 }}
               />
               <select
                 value={editArchetypeId}
                 onChange={(e) => setEditArchetypeId(e.target.value)}
+                className="teaching-input"
                 style={{
                   padding: '0.375rem 0.5rem',
                   border: '1px solid var(--border)',
                   borderRadius: '0.25rem',
                   fontSize: '0.875rem',
-                  background: 'var(--bg-0)',
-                  color: 'var(--ink-900)',
                 }}
               >
                 {archetypes.map((arch) => (
@@ -687,14 +685,13 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   value={explanation}
                   onChange={(e) => setExplanation(e.target.value)}
                   placeholder="Explanation for this response (optional)"
+                  className="teaching-input"
                   style={{
                     width: '100%',
                     padding: '0.375rem 0.5rem',
                     border: '1px solid var(--border)',
                     borderRadius: '0.375rem',
                     fontSize: '0.8125rem',
-                    background: 'var(--bg-0)',
-                    color: 'var(--ink-900)',
                   }}
                 />
               </div>
@@ -716,6 +713,7 @@ export default function TeachingSessionPage({ params }: PageProps) {
                     ? `Play the ${session.archetype?.name || 'user'} role...`
                     : `Share thoughts or extract patterns...`
                 }
+                className="teaching-input"
                 style={{
                   flex: 1,
                   padding: '0.625rem 0.75rem',
@@ -726,8 +724,6 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   minHeight: '2.5rem',
                   maxHeight: '8rem',
                   fontFamily: 'inherit',
-                  background: 'var(--bg-0)',
-                  color: 'var(--ink-900)',
                 }}
                 rows={2}
               />

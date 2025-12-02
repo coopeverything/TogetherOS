@@ -54,6 +54,17 @@
   --joy-500: #FBBF24;
 }
 
+/* Teaching Session Inputs - Dark Mode Compatible */
+.teaching-input,
+.teaching-input:focus {
+  background-color: var(--bg-0) !important;
+  color: var(--ink-900) !important;
+}
+
+.teaching-input::placeholder {
+  color: var(--ink-400) !important;
+}
+
 /* Base Styles */
 * {
   box-sizing: border-box;
