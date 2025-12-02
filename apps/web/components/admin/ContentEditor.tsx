@@ -1073,7 +1073,7 @@ function RichTextField({
       }),
     ],
     content: value,
-    onUpdate: ({ editor }) => {
+    onUpdate: ({ editor }: { editor: Editor }) => {
       onChange(editor.getHTML());
     },
     editorProps: {

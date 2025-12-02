@@ -10,6 +10,7 @@
     "incremental": true,
     "paths": {
       "@togetheros/db": ["../../packages/db/src"],
+      "@togetheros/db/*": ["../../packages/db/src/*"],
       "@togetheros/ui": ["../../packages/ui/src"],
       "@togetheros/ui/*": ["../../packages/ui/src/*"],
       "@togetheros/types": ["../../packages/types/src"],

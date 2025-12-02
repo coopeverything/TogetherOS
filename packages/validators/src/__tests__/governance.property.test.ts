@@ -16,7 +16,7 @@ describe('Governance Validators - Property-Based Tests', () => {
       fc.assert(
         fc.property(
           fc.constantFrom('individual', 'group'),
-          (scopeType) => {
+          (scopeType: string) => {
             const result = proposalScopeTypeSchema.safeParse(scopeType)
             expect(result.success).toBe(true)
           }
@@ -27,8 +27,8 @@ describe('Governance Validators - Property-Based Tests', () => {
     it('should reject invalid scope types', () => {
       fc.assert(
         fc.property(
-          fc.string().filter(s => s !== 'individual' && s !== 'group'),
-          (invalidScope) => {
+          fc.string().filter((s: string) => s !== 'individual' && s !== 'group'),
+          (invalidScope: string) => {
             const result = proposalScopeTypeSchema.safeParse(invalidScope)
             expect(result.success).toBe(false)
           }
@@ -44,7 +44,7 @@ describe('Governance Validators - Property-Based Tests', () => {
       fc.assert(
         fc.property(
           fc.constantFrom(...validStatuses),
-          (status) => {
+          (status: string) => {
             const result = proposalStatusSchema.safeParse(status)
             expect(result.success).toBe(true)
           }
@@ -55,8 +55,8 @@ describe('Governance Validators - Property-Based Tests', () => {
     it('should reject invalid statuses', () => {
       fc.assert(
         fc.property(
-          fc.string().filter(s => !validStatuses.includes(s as any)),
-          (invalidStatus) => {
+          fc.string().filter((s: string) => !validStatuses.includes(s as typeof validStatuses[number])),
+          (invalidStatus: string) => {
             const result = proposalStatusSchema.safeParse(invalidStatus)
             expect(result.success).toBe(false)
           }
@@ -72,7 +72,7 @@ describe('Governance Validators - Property-Based Tests', () => {
       fc.assert(
         fc.property(
           fc.constantFrom(...validStances),
-          (stance) => {
+          (stance: string) => {
             const result = positionStanceSchema.safeParse(stance)
             expect(result.success).toBe(true)
           }
@@ -94,7 +94,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             titleArbitrary,
             summaryArbitrary,
-            (userId, title, summary) => {
+            (userId: string, title: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -116,7 +116,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             titleArbitrary,
             summaryArbitrary,
-            (groupId, authorId, title, summary) => {
+            (groupId: string, authorId: string, title: string, summary: string) => {
               const proposal = {
                 scopeType: 'group' as const,
                 scopeId: groupId,
@@ -140,7 +140,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary.filter((id: string) => id !== ''),
             titleArbitrary,
             summaryArbitrary,
-            (scopeId, authorId, title, summary) => {
+            (scopeId: string, authorId: string, title: string, summary: string) => {
               fc.pre(scopeId !== authorId) // Only test cases where they differ
 
               const proposal = {
@@ -166,7 +166,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             fc.string({ maxLength: 2 }), // Title < 3 characters
             summaryArbitrary,
-            (userId, shortTitle, summary) => {
+            (userId: string, shortTitle: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -187,7 +187,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             fc.string({ minLength: 201, maxLength: 500 }), // Title > 200 characters
             summaryArbitrary,
-            (userId, longTitle, summary) => {
+            (userId: string, longTitle: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -208,7 +208,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             titleArbitrary,
             fc.string({ maxLength: 9 }), // Summary < 10 characters
-            (userId, title, shortSummary) => {
+            (userId: string, title: string, shortSummary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -229,7 +229,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             titleArbitrary,
             fc.string({ minLength: 2001, maxLength: 3000 }), // Summary > 2000 characters
-            (userId, title, longSummary) => {
+            (userId: string, title: string, longSummary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -252,7 +252,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             fc.constant('abc'),
             summaryArbitrary,
-            (userId, title, summary) => {
+            (userId: string, title: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -273,7 +273,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             fc.constant('a'.repeat(200)),
             summaryArbitrary,
-            (userId, title, summary) => {
+            (userId: string, title: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -294,7 +294,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             titleArbitrary,
             fc.constant('a'.repeat(10)),
-            (userId, title, summary) => {
+            (userId: string, title: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,
@@ -315,7 +315,7 @@ describe('Governance Validators - Property-Based Tests', () => {
             uuidArbitrary,
             titleArbitrary,
             fc.constant('a'.repeat(2000)),
-            (userId, title, summary) => {
+            (userId: string, title: string, summary: string) => {
               const proposal = {
                 scopeType: 'individual' as const,
                 scopeId: userId,

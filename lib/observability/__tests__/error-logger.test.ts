@@ -276,7 +276,7 @@ describe('error-logger', () => {
   describe('Property-based tests', () => {
     it('should always produce valid NDJSON for any error message', () => {
       fc.assert(
-        fc.property(fc.string(), errorMessage => {
+        fc.property(fc.string(), (errorMessage: string) => {
           const mockAppendFileSync = vi.mocked(fs.appendFileSync);
           mockAppendFileSync.mockClear();
 
@@ -301,7 +301,7 @@ describe('error-logger', () => {
           fc.emailAddress(),
           fc.string(),
           fc.string(),
-          (email, prefix, suffix) => {
+          (email: string, prefix: string, suffix: string) => {
             const mockAppendFileSync = vi.mocked(fs.appendFileSync);
             mockAppendFileSync.mockClear();
 
@@ -320,7 +320,7 @@ describe('error-logger', () => {
 
     it('should always return 16 character hash for any IP', () => {
       fc.assert(
-        fc.property(fc.ipV4(), ip => {
+        fc.property(fc.ipV4(), (ip: string) => {
           const mockHash = {
             update: vi.fn().mockReturnThis(),
             digest: vi.fn().mockReturnValue('a'.repeat(64)),

@@ -2,6 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
+import type { ReactNode } from 'react'
+
+// Type for ReactMarkdown component props
+type MarkdownComponentProps = {
+  children?: ReactNode
+  href?: string
+}
 import {
   articles,
   getArticleBySlug,
@@ -185,53 +192,53 @@ export default async function ArticleDetailPage({ params }: Props) {
         <article className="prose prose-lg prose-gray max-w-none mb-12">
           <ReactMarkdown
             components={{
-              h1: ({ children }) => (
+              h1: ({ children }: MarkdownComponentProps) => (
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
                   {children}
                 </h1>
               ),
-              h2: ({ children }) => (
+              h2: ({ children }: MarkdownComponentProps) => (
                 <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
                   {children}
                 </h2>
               ),
-              h3: ({ children }) => (
+              h3: ({ children }: MarkdownComponentProps) => (
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
                   {children}
                 </h3>
               ),
-              p: ({ children }) => (
+              p: ({ children }: MarkdownComponentProps) => (
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{children}</p>
               ),
-              ul: ({ children }) => (
+              ul: ({ children }: MarkdownComponentProps) => (
                 <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
                   {children}
                 </ul>
               ),
-              ol: ({ children }) => (
+              ol: ({ children }: MarkdownComponentProps) => (
                 <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
                   {children}
                 </ol>
               ),
-              li: ({ children }) => <li className="text-gray-700 dark:text-gray-300">{children}</li>,
-              blockquote: ({ children }) => (
+              li: ({ children }: MarkdownComponentProps) => <li className="text-gray-700 dark:text-gray-300">{children}</li>,
+              blockquote: ({ children }: MarkdownComponentProps) => (
                 <blockquote className="border-l-4 border-orange-500 pl-4 py-2 my-4 bg-orange-50 rounded-r-lg italic text-gray-700 dark:text-gray-300">
                   {children}
                 </blockquote>
               ),
-              code: ({ children }) => (
+              code: ({ children }: MarkdownComponentProps) => (
                 <code className="bg-gray-100 dark:bg-gray-800 rounded px-1.5 py-0.5 text-sm font-mono text-gray-800 dark:text-gray-100">
                   {children}
                 </code>
               ),
-              strong: ({ children }) => (
+              strong: ({ children }: MarkdownComponentProps) => (
                 <strong className="font-semibold text-gray-900 dark:text-white">{children}</strong>
               ),
-              em: ({ children }) => (
+              em: ({ children }: MarkdownComponentProps) => (
                 <em className="italic text-gray-700 dark:text-gray-300">{children}</em>
               ),
               hr: () => <hr className="my-8 border-gray-200 dark:border-gray-700" />,
-              a: ({ href, children }) => (
+              a: ({ href, children }: MarkdownComponentProps) => (
                 <a
                   href={href}
                   className="text-orange-600 hover:text-orange-700 underline"
