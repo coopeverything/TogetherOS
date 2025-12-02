@@ -27,6 +27,13 @@
 - Post-write verification AFTER writing code
 - Prevents 90%+ of TypeScript errors through verification-first approach
 
+**Feature Completion Verification** (REQUIRED for ALL features):
+- Backend alone ≠ complete feature
+- **MUST verify:** Can a user complete the full workflow from UI to database?
+- Check: Does the UI exist to access the backend?
+- Check: Are all CRUD operations accessible from the interface?
+- Lesson learned: Teaching Sessions had complete backend but no conversation UI (Dec 2025)
+
 ---
 
 ## Pre-Work Verification Protocol

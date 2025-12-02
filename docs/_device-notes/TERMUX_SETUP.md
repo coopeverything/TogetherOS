@@ -118,20 +118,48 @@ nano .env.local
 
 **Important:** Never commit `.env.local` to git - it contains sensitive configuration.
 
-### 7. Install Node Dependencies
+### 7. Install GitHub CLI & Authenticate
+
+```bash
+# Install GitHub CLI
+pkg install gh
+
+# Authenticate (opens browser for login)
+gh auth login --web
+# Follow prompts: copy code, open URL, enter code
+
+# Setup git to use gh credentials
+gh auth setup-git
+
+# Configure git identity
+git config user.email "132305976+coopeverything@users.noreply.github.com"
+git config user.name "CoopEverything!"
+
+# Verify push works
+git push --dry-run origin yolo
+# Should complete without errors
+```
+
+### 8. Install Node Dependencies
 
 ```bash
 # From repo root
-npm install
+# Use --ignore-scripts --force to skip native modules that don't support Android
+npm install --ignore-scripts --force
 
 # This installs all monorepo dependencies
 # Takes 3-10 minutes depending on connection
 # You should see "added XXXX packages"
+# Ignore warnings about @pact-foundation - it doesn't support Android but isn't needed
 ```
 
-### 8. Verify Build
+### 9. Verify Build & Tests
 
 ```bash
+# Run tests (should all pass)
+npm test
+# Expected: "118 passed" or similar
+
 # Run type checking (fast)
 npm run typecheck
 
@@ -145,6 +173,30 @@ npm run build
 ```
 
 If build fails, see **Troubleshooting** section below.
+
+## Quick Setup Checklist (TL;DR)
+
+For experienced users, here's the minimal setup:
+
+```bash
+# 1. Install tools
+pkg update && pkg install -y git node npm gh
+
+# 2. Authenticate GitHub
+gh auth login --web
+gh auth setup-git
+git config user.email "132305976+coopeverything@users.noreply.github.com"
+git config user.name "CoopEverything!"
+
+# 3. Clone and install
+cd ~ && git clone https://github.com/coopeverything/TogetherOS.git
+cd TogetherOS
+npm install --ignore-scripts --force
+
+# 4. Verify
+npm test          # All tests pass
+git push --dry-run origin yolo  # Push works
+```
 
 ## Development Workflow on Tablet
 
@@ -347,17 +399,45 @@ npm install
 npm run typecheck
 ```
 
-### "Permission denied" when pushing to GitHub
+### "Permission denied" or "could not read Username" when pushing
 
 ```bash
-# SSH key not configured
-# Verify SSH connection first
-ssh -T git@github.com
+# RECOMMENDED: Use GitHub CLI (simpler than SSH)
+pkg install gh
+gh auth login --web
+gh auth setup-git
 
-# If fails:
+# Then push with HTTPS (not SSH)
+git remote set-url origin https://github.com/coopeverything/TogetherOS.git
+git push origin yolo
+
+# ALTERNATIVE: SSH key setup
 ssh-keygen -t ed25519 -C "your-email@example.com"
 cat ~/.ssh/id_ed25519.pub  # Copy this
 # Add to https://github.com/settings/keys
+ssh -T git@github.com  # Test connection
+```
+
+### "Author identity unknown" when committing
+
+```bash
+# Git doesn't know who you are
+git config user.email "132305976+coopeverything@users.noreply.github.com"
+git config user.name "CoopEverything!"
+
+# Then retry your commit
+git commit -m "your message"
+```
+
+### npm install fails with "Unsupported platform"
+
+```bash
+# Some packages don't support Android (like @pact-foundation/pact-core)
+# Use --ignore-scripts --force to skip native modules
+npm install --ignore-scripts --force
+
+# This is safe - those packages are optional dev dependencies
+# All core functionality works without them
 ```
 
 ### "Database connection failed"
