@@ -51,24 +51,24 @@ export function TopicCard({
   }
 
   const categoryColors = {
-    general: 'bg-gray-100 text-gray-800',
-    proposal: 'bg-yellow-100 text-yellow-800',
-    question: 'bg-blue-100 text-blue-800',
-    deliberation: 'bg-purple-100 text-purple-800',
-    announcement: 'bg-green-100 text-green-800',
+    general: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+    proposal: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+    question: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+    deliberation: 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+    announcement: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
   }
 
   const statusColors = {
-    open: 'text-green-600',
-    resolved: 'text-blue-600',
-    archived: 'text-gray-500',
-    locked: 'text-red-600',
+    open: 'text-green-600 dark:text-green-400',
+    resolved: 'text-blue-600 dark:text-blue-400',
+    archived: 'text-gray-500 dark:text-gray-400',
+    locked: 'text-red-600 dark:text-red-400',
   }
 
   return (
     <div
       onClick={onClick}
-      className={`border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow ${
+      className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow ${
         onClick ? 'cursor-pointer' : ''
       } ${className}`}
     >
@@ -104,13 +104,13 @@ export function TopicCard({
           </div>
 
           {/* Topic Title */}
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
             {topic.title}
           </h3>
 
           {/* Topic Description */}
           {topic.description && (
-            <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
               {topic.description}
             </p>
           )}
@@ -128,7 +128,7 @@ export function TopicCard({
           {topic.tags.map((tag) => (
             <span
               key={tag}
-              className="inline-block px-2 py-0.5 text-xs bg-gray-100 text-gray-700 rounded"
+              className="inline-block px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded"
             >
               {tag}
             </span>
@@ -137,7 +137,7 @@ export function TopicCard({
       )}
 
       {/* Footer Metadata */}
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
         <div className="flex items-center gap-3">
           {/* Author */}
           <span>
