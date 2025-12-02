@@ -321,6 +321,74 @@ claude/bridge-landing-011CUQtanTsWEweh3xMQupeE
 - ✅ **Always branch from yolo** (not main)
 - ✅ PRs target yolo (not main)
 
+### Git Operations Best Practices
+
+#### Pre-Work Branch Verification (MANDATORY)
+
+**Before starting ANY work, verify your branch:**
+```bash
+git branch --show-current
+git status
+```
+
+**Questions to answer:**
+- Am I on the correct branch for this task?
+- Are there uncommitted changes from previous work?
+
+**If on wrong branch:**
+```bash
+# Switch to correct branch BEFORE making changes
+git checkout yolo
+git pull origin yolo
+git checkout -b feature/new-task
+```
+
+**Why this matters:** Starting work on the wrong branch leads to:
+- Commits on unrelated branches
+- Complex cherry-pick/rebase operations to fix
+- Accidental inclusion of unrelated files in PRs
+
+#### Stashing with Untracked Files
+
+**Problem:** `git stash` by default does NOT include untracked files.
+
+**Solution:** Always use `-u` flag when stashing with new files:
+```bash
+# ❌ Wrong - loses untracked files
+git stash
+
+# ✅ Correct - includes untracked files
+git stash push -u -m "description of changes"
+
+# ✅ Also correct - shorthand
+git stash -u
+```
+
+**Options:**
+- `-u` / `--include-untracked`: Stash untracked files (recommended)
+- `-a` / `--all`: Stash everything including ignored files (use with caution)
+
+**Warning:** After stashing with `-u`, untracked files are deleted from working directory (they're in the stash). Use `git stash pop` to restore.
+
+**Source:** [Git Stash Documentation](https://git-scm.com/docs/git-stash)
+
+#### If You Commit to Wrong Branch
+
+```bash
+# Option 1: Move last commit to correct branch (before push)
+git reset HEAD~1 --soft          # Undo commit, keep changes staged
+git stash push -u                 # Stash everything
+git checkout correct-branch       # Switch to correct branch
+git stash pop                     # Apply changes
+git commit -m "..."               # Recommit
+
+# Option 2: Cherry-pick (after push or multiple commits)
+git checkout correct-branch
+git cherry-pick <commit-sha>
+git checkout wrong-branch
+git reset --hard HEAD~1           # Remove from wrong branch (CAREFUL!)
+```
+
 ### Path Labels & Taxonomy
 
 **Use these exact labels** (validated against `codex/taxonomy/CATEGORY_TREE.json`):

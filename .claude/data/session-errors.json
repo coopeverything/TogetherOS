@@ -3,48 +3,6 @@
   "description": "Cross-session error tracking for pattern detection and knowledge base updates",
   "errors": [
     {
-      "id": "err-001",
-      "signature": {
-        "type": "git",
-        "code": "STASH_UNTRACKED",
-        "pattern": "git stash does not include untracked files by default"
-      },
-      "occurrences": [
-        {
-          "session_date": "2025-12-01",
-          "commit_sha": "e834280",
-          "file": null,
-          "message": "Stashed changes but untracked .claude/data/ and .claude/skills/error-learner/ were left behind",
-          "context": "Switching from docs/tablet-dev-setup to yolo branch while having new untracked directories"
-        }
-      ],
-      "status": "watching",
-      "first_seen": "2025-12-01T21:50:00Z",
-      "last_seen": "2025-12-01T21:50:00Z",
-      "occurrence_count": 1
-    },
-    {
-      "id": "err-002",
-      "signature": {
-        "type": "git",
-        "code": "WRONG_BRANCH_CONTEXT",
-        "pattern": "Started work on wrong branch, had to switch mid-session"
-      },
-      "occurrences": [
-        {
-          "session_date": "2025-12-01",
-          "commit_sha": "e834280",
-          "file": null,
-          "message": "Created new skill files while on docs/tablet-dev-setup instead of yolo or feature branch",
-          "context": "Creating error-learner skill - should have switched to yolo first"
-        }
-      ],
-      "status": "watching",
-      "first_seen": "2025-12-01T21:45:00Z",
-      "last_seen": "2025-12-01T21:45:00Z",
-      "occurrence_count": 1
-    },
-    {
       "id": "err-003",
       "signature": {
         "type": "filesystem",
@@ -66,6 +24,31 @@
       "occurrence_count": 1
     }
   ],
-  "resolved_patterns": [],
-  "last_updated": "2025-12-01T21:55:00Z"
+  "resolved_patterns": [
+    {
+      "id": "err-001",
+      "signature": {
+        "type": "git",
+        "code": "STASH_UNTRACKED",
+        "pattern": "git stash does not include untracked files by default"
+      },
+      "resolution": "Added 'Stashing with Untracked Files' section to ci-cd-discipline.md. Solution: Always use `git stash push -u` to include untracked files.",
+      "kb_file_updated": ".claude/knowledge/ci-cd-discipline.md",
+      "resolved_date": "2025-12-01T22:10:00Z",
+      "source": "https://git-scm.com/docs/git-stash"
+    },
+    {
+      "id": "err-002",
+      "signature": {
+        "type": "git",
+        "code": "WRONG_BRANCH_CONTEXT",
+        "pattern": "Started work on wrong branch, had to switch mid-session"
+      },
+      "resolution": "Added 'Pre-Work Branch Verification (MANDATORY)' section to ci-cd-discipline.md. Solution: Always run `git branch --show-current` and `git status` before starting work.",
+      "kb_file_updated": ".claude/knowledge/ci-cd-discipline.md",
+      "resolved_date": "2025-12-01T22:10:00Z",
+      "source": "https://gist.github.com/calaway/ea880263b0c0495bb00ee877f001dc59"
+    }
+  ],
+  "last_updated": "2025-12-01T22:10:00Z"
 }
