@@ -69,7 +69,7 @@ export function SearchFilters({ filters, onFilterChange }: SearchFiltersProps) {
             id="content-type"
             value={filters.type || 'all'}
             onChange={handleTypeChange}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {CONTENT_TYPES.map((type) => (
               <option key={type.value} value={type.value}>
@@ -88,7 +88,7 @@ export function SearchFilters({ filters, onFilterChange }: SearchFiltersProps) {
             id="cooperation-path"
             value={filters.path || 'all'}
             onChange={handlePathChange}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Paths</option>
             {COOPERATION_PATHS.map((path) => (
@@ -103,7 +103,7 @@ export function SearchFilters({ filters, onFilterChange }: SearchFiltersProps) {
         {hasActiveFilters && (
           <button
             onClick={() => onFilterChange({ type: 'all' })}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50"
+            className="rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm hover:bg-gray-50 dark:bg-gray-900"
           >
             Clear filters
           </button>
@@ -112,7 +112,7 @@ export function SearchFilters({ filters, onFilterChange }: SearchFiltersProps) {
 
       {/* Active Filter Summary */}
       {hasActiveFilters && (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
           <span>Filtering by: </span>
           {filters.type && filters.type !== 'all' && (
             <span className="font-medium">{CONTENT_TYPES.find((t) => t.value === filters.type)?.label}</span>

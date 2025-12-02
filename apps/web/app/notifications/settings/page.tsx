@@ -116,7 +116,7 @@ export default function NotificationSettingsPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center py-12">
-          <p className="text-gray-600">Failed to load preferences. Please try again.</p>
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Failed to load preferences. Please try again.</p>
         </div>
       </div>
     )
@@ -128,15 +128,15 @@ export default function NotificationSettingsPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/notifications"
-          className="text-gray-500 hover:text-gray-700 transition-colors"
+          className="text-gray-500 dark:text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-900">Notification Settings</h1>
-          <p className="text-gray-600">Manage how you receive notifications</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Notification Settings</h1>
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Manage how you receive notifications</p>
         </div>
         {(saving || saved) && (
           <span className={`text-sm font-medium ${saved ? 'text-green-600' : 'text-gray-500'}`}>
@@ -146,10 +146,10 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Notification Types */}
-      <div className="bg-white rounded-lg border border-gray-200 mb-6">
-        <div className="px-4 py-3 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Notification Types</h2>
-          <p className="text-sm text-gray-600">Choose which notifications you want to receive</p>
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Notification Types</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Choose which notifications you want to receive</p>
         </div>
         <div className="divide-y divide-gray-100">
           {(Object.keys(NOTIFICATION_TYPE_LABELS) as NotificationType[]).map((type) => {
@@ -162,8 +162,8 @@ export default function NotificationSettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-xl">{icon}</span>
                   <div>
-                    <p className="font-medium text-gray-900">{label}</p>
-                    <p className="text-sm text-gray-500">{description}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{label}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{description}</p>
                   </div>
                 </div>
                 <button
@@ -187,10 +187,10 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Email Digest */}
-      <div className="bg-white rounded-lg border border-gray-200 mb-6">
-        <div className="px-4 py-3 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Email Notifications</h2>
-          <p className="text-sm text-gray-600">How often to receive email summaries</p>
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Email Notifications</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">How often to receive email summaries</p>
         </div>
         <div className="p-4 space-y-3">
           {EMAIL_DIGEST_OPTIONS.map((option) => (
@@ -208,11 +208,11 @@ export default function NotificationSettingsPage() {
                 value={option.value}
                 checked={preferences.emailDigest === option.value}
                 onChange={() => updateEmailDigest(option.value)}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 dark:border-gray-600"
               />
               <div>
-                <p className="font-medium text-gray-900">{option.label}</p>
-                <p className="text-sm text-gray-500">{option.description}</p>
+                <p className="font-medium text-gray-900 dark:text-white">{option.label}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{option.description}</p>
               </div>
             </label>
           ))}
@@ -220,11 +220,11 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Push Notifications */}
-      <div className="bg-white rounded-lg border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <div className="px-4 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Push Notifications</h2>
-            <p className="text-sm text-gray-600">Receive browser notifications for important updates</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Push Notifications</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Receive browser notifications for important updates</p>
           </div>
           <button
             onClick={togglePush}

@@ -114,7 +114,7 @@ export function ContentEditor({
   return (
     <div className="h-full flex flex-col bg-bg-1">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white dark:bg-gray-800">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-brand-600">
@@ -369,8 +369,8 @@ function MicrolessonFields({
         </p>
 
         {bridgeSuggestion && (
-          <div className="mt-3 p-3 bg-white rounded-lg border border-purple-200">
-            <p className="text-sm text-gray-700 whitespace-pre-wrap mb-3">{bridgeSuggestion}</p>
+          <div className="mt-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-purple-200">
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-3">{bridgeSuggestion}</p>
             <div className="flex gap-2">
               <Button size="sm" onClick={applyBridgeSuggestion}>
                 Apply Suggestion
@@ -425,7 +425,7 @@ function MicrolessonFields({
 
       {/* Cards List */}
       {cards.length === 0 ? (
-        <div className="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg">
+        <div className="text-center py-12 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg">
           <p className="text-ink-500 mb-2">No cards yet</p>
           <p className="text-sm text-ink-400">
             Add cards to build your microlesson, or let Bridge suggest a scenario
@@ -558,7 +558,7 @@ function MicrolessonCardEditor({
             />
           </div>
           {card.imageUrl && (
-            <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
+            <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
               <img
                 src={card.imageUrl}
                 alt={card.altText || 'Preview'}
@@ -679,7 +679,7 @@ function MicrolessonCardEditor({
           </div>
           {/* Preview */}
           {(card.statistic || card.statisticLabel) && (
-            <div className="p-4 bg-white rounded-lg text-center">
+            <div className="p-4 bg-white dark:bg-gray-800 rounded-lg text-center">
               <span className="text-4xl font-bold text-orange-600">{card.statistic || '—'}</span>
               <span className="text-lg text-ink-700 ml-2">{card.statisticLabel}</span>
             </div>
@@ -753,7 +753,7 @@ function ChallengeFields({
           <select
             value={content.category || 'social'}
             onChange={(e) => onChange({ category: e.target.value as ChallengeCategory })}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
           >
             {CHALLENGE_CATEGORIES.map(cat => (
               <option key={cat} value={cat} className="capitalize">{cat}</option>
@@ -767,7 +767,7 @@ function ChallengeFields({
           <select
             value={content.difficulty || 'easy'}
             onChange={(e) => onChange({ difficulty: e.target.value as ChallengeDifficulty })}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
           >
             {CHALLENGE_DIFFICULTIES.map(diff => (
               <option key={diff} value={diff} className="capitalize">{diff}</option>
@@ -797,7 +797,7 @@ function ChallengeFields({
           <select
             value={content.actionType || 'complete_journey'}
             onChange={(e) => onChange({ actionType: e.target.value as ChallengeActionType })}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
           >
             {CHALLENGE_ACTION_TYPES.map(action => (
               <option key={action} value={action}>
@@ -843,7 +843,7 @@ function ChallengeFields({
             <select
               value={content.dayNumber || 1}
               onChange={(e) => onChange({ dayNumber: parseInt(e.target.value) })}
-              className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+              className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
             >
               {[1, 2, 3, 4, 5, 6, 7].map(day => (
                 <option key={day} value={day}>Day {day}</option>

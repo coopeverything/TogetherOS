@@ -141,8 +141,8 @@ export default function EventsPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Events & Calendar</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Events & Calendar</h1>
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
               Community events, meetings, and milestones
             </p>
           </div>
@@ -161,32 +161,32 @@ export default function EventsPage() {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Upcoming Events */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-              <h2 className="font-semibold text-gray-900 mb-4">Upcoming Events</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+              <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Upcoming Events</h2>
               {loading ? (
-                <div className="text-gray-500 text-sm">Loading...</div>
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm">Loading...</div>
               ) : upcomingEvents.length === 0 ? (
-                <div className="text-gray-500 text-sm">No upcoming events</div>
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm">No upcoming events</div>
               ) : (
                 <div className="space-y-3">
                   {upcomingEvents.map((event) => (
                     <Link
                       key={event.id}
                       href={`/events/${event.id}`}
-                      className="block p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                      className="block p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
                     >
                       <div className="flex items-start gap-3">
                         <div className="text-center min-w-[50px]">
-                          <div className="text-xs text-gray-500 uppercase">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase">
                             {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
                           </div>
-                          <div className="text-xl font-bold text-gray-900">
+                          <div className="text-xl font-bold text-gray-900 dark:text-white">
                             {new Date(event.startDate).getDate()}
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-gray-900 truncate">{event.title}</div>
-                          <div className="text-sm text-gray-500">{formatTime(event.startDate)}</div>
+                          <div className="font-medium text-gray-900 dark:text-white truncate">{event.title}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{formatTime(event.startDate)}</div>
                           <span className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full ${EVENT_COLORS[event.type]}`}>
                             {EVENT_LABELS[event.type]}
                           </span>
@@ -199,8 +199,8 @@ export default function EventsPage() {
             </div>
 
             {/* Event Type Filter */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-              <h2 className="font-semibold text-gray-900 mb-4">Filter by Type</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+              <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Filter by Type</h2>
               <div className="space-y-2">
                 {(Object.keys(EVENT_LABELS) as EventType[]).map((type) => (
                   <label
@@ -217,7 +217,7 @@ export default function EventsPage() {
                           setSelectedTypes(selectedTypes.filter((t) => t !== type))
                         }
                       }}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                     />
                     <span className={`text-sm px-2 py-0.5 rounded-full ${EVENT_COLORS[type]}`}>
                       {EVENT_LABELS[type]}
@@ -230,24 +230,24 @@ export default function EventsPage() {
 
           {/* Calendar */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
               {/* Calendar Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => navigateMonth(-1)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 rounded-lg transition-colors"
                   >
-                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  <h2 className="text-xl font-semibold text-gray-900">{monthName}</h2>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{monthName}</h2>
                   <button
                     onClick={() => navigateMonth(1)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 rounded-lg transition-colors"
                   >
-                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
@@ -265,7 +265,7 @@ export default function EventsPage() {
                 {/* Weekday Headers */}
                 <div className="grid grid-cols-7 mb-2">
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                    <div key={day} className="text-center text-sm font-medium text-gray-500 py-2">
+                    <div key={day} className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 py-2">
                       {day}
                     </div>
                   ))}
@@ -306,7 +306,7 @@ export default function EventsPage() {
                             </Link>
                           ))}
                           {filteredDayEvents.length > 3 && (
-                            <div className="text-xs text-gray-500 pl-1">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 pl-1">
                               +{filteredDayEvents.length - 3} more
                             </div>
                           )}

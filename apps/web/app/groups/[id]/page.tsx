@@ -25,8 +25,8 @@ export default function GroupDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Group Not Found</h1>
-          <p className="text-gray-600 mb-6">The group you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Group Not Found</h1>
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">The group you're looking for doesn't exist.</p>
           <Link
             href="/groups"
             className="text-orange-600 hover:text-orange-700 font-medium"
@@ -81,8 +81,8 @@ export default function GroupDetailPage() {
               </span>
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">{group.name}</h1>
-              <p className="text-gray-600">@{group.handle}</p>
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">{group.name}</h1>
+              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">@{group.handle}</p>
             </div>
           </div>
 
@@ -105,42 +105,42 @@ export default function GroupDetailPage() {
           <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
             {group.type.charAt(0).toUpperCase() + group.type.slice(1)}
           </span>
-          <span className="text-gray-600">{group.members.length} members</span>
-          {group.location && <span className="text-gray-600">📍 {group.location}</span>}
+          <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">{group.members.length} members</span>
+          {group.location && <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">📍 {group.location}</span>}
         </div>
       </div>
 
       {/* Description */}
       {group.description && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-3">About</h2>
-          <p className="text-gray-700 leading-relaxed">{group.description}</p>
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">About</h2>
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{group.description}</p>
         </div>
       )}
 
       {/* Members */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
           Members ({groupMembers.length})
         </h2>
         <MemberDirectory members={groupMembers} />
       </div>
 
       {/* Proposals */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
         <div className="text-center py-8">
-          <p className="text-gray-500">Group Proposals</p>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Group Proposals</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
             Proposal component available - integrate with governance module
           </p>
         </div>
       </div>
 
       {/* Events */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
         <div className="text-center py-8">
-          <p className="text-gray-500">Group Events</p>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Group Events</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
             Event coordination component available
           </p>
         </div>
@@ -148,10 +148,10 @@ export default function GroupDetailPage() {
 
       {/* Federation (for global groups only) */}
       {group.type === 'global' && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="text-center py-8">
-            <p className="text-gray-500">Federation Status</p>
-            <p className="text-gray-400 text-sm mt-2">
+            <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Federation Status</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
               Cross-instance connections and sync status
             </p>
           </div>

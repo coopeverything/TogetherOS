@@ -129,7 +129,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
 
       <CardContent className="pt-0">
         {sortedTransactions.length === 0 ? (
-          <div className="text-center py-8 text-sm text-gray-500">
+          <div className="text-center py-8 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
             No transactions found for the selected filters
           </div>
         ) : (
@@ -137,7 +137,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
             {sortedTransactions.map((tx) => (
               <div
                 key={tx.id}
-                className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0"
+                className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-b-0 last:pb-0"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -148,15 +148,15 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
                       >
                         {tx.type}
                       </Badge>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                         {formatDate(tx.timestamp)}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-900 mb-1">
+                    <p className="text-sm text-gray-900 dark:text-white mb-1">
                       {tx.description}
                     </p>
                     {tx.sourceType && (
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                         Source: {tx.sourceType}
                         {tx.sourceId && ` • ID: ${tx.sourceId.slice(0, 8)}...`}
                       </p>

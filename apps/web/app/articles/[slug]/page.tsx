@@ -59,14 +59,14 @@ export default async function ArticleDetailPage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-gray-500">
+          <ol className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
             <li>
               <Link href="/articles" className="hover:text-orange-600">
                 Articles
               </Link>
             </li>
             <li>/</li>
-            <li className="text-gray-900 font-medium truncate max-w-[200px]">
+            <li className="text-gray-900 dark:text-white font-medium truncate max-w-[200px]">
               {article.title}
             </li>
           </ol>
@@ -83,29 +83,29 @@ export default async function ArticleDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             {article.title}
           </h1>
 
-          <p className="text-xl text-gray-600 leading-relaxed mb-6">
+          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed mb-6">
             {article.summary}
           </p>
 
           {/* Author Info */}
-          <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 mb-6">
+          <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 mb-6">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-lg font-medium">
               {article.authorName.charAt(0)}
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-gray-900">{article.authorName}</div>
+              <div className="font-semibold text-gray-900 dark:text-white">{article.authorName}</div>
               {article.authorBio && (
-                <div className="text-sm text-gray-600">{article.authorBio}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">{article.authorBio}</div>
               )}
             </div>
           </div>
 
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 pb-6 border-b border-gray-200">
+          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 pb-6 border-b border-gray-200 dark:border-gray-700">
             {formattedDate && (
               <span className="flex items-center gap-1.5">
                 <svg
@@ -186,51 +186,51 @@ export default async function ArticleDetailPage({ params }: Props) {
           <ReactMarkdown
             components={{
               h1: ({ children }) => (
-                <h1 className="text-3xl font-bold text-gray-900 mt-8 mb-4">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
                   {children}
                 </h1>
               ),
               h2: ({ children }) => (
-                <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4 pb-2 border-b border-gray-200">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
                   {children}
                 </h2>
               ),
               h3: ({ children }) => (
-                <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
                   {children}
                 </h3>
               ),
               p: ({ children }) => (
-                <p className="text-gray-700 leading-relaxed mb-4">{children}</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{children}</p>
               ),
               ul: ({ children }) => (
-                <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+                <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
                   {children}
                 </ul>
               ),
               ol: ({ children }) => (
-                <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700">
+                <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
                   {children}
                 </ol>
               ),
-              li: ({ children }) => <li className="text-gray-700">{children}</li>,
+              li: ({ children }) => <li className="text-gray-700 dark:text-gray-300">{children}</li>,
               blockquote: ({ children }) => (
-                <blockquote className="border-l-4 border-orange-500 pl-4 py-2 my-4 bg-orange-50 rounded-r-lg italic text-gray-700">
+                <blockquote className="border-l-4 border-orange-500 pl-4 py-2 my-4 bg-orange-50 rounded-r-lg italic text-gray-700 dark:text-gray-300">
                   {children}
                 </blockquote>
               ),
               code: ({ children }) => (
-                <code className="bg-gray-100 rounded px-1.5 py-0.5 text-sm font-mono text-gray-800">
+                <code className="bg-gray-100 dark:bg-gray-800 rounded px-1.5 py-0.5 text-sm font-mono text-gray-800 dark:text-gray-100">
                   {children}
                 </code>
               ),
               strong: ({ children }) => (
-                <strong className="font-semibold text-gray-900">{children}</strong>
+                <strong className="font-semibold text-gray-900 dark:text-white">{children}</strong>
               ),
               em: ({ children }) => (
-                <em className="italic text-gray-700">{children}</em>
+                <em className="italic text-gray-700 dark:text-gray-300">{children}</em>
               ),
-              hr: () => <hr className="my-8 border-gray-200" />,
+              hr: () => <hr className="my-8 border-gray-200 dark:border-gray-700" />,
               a: ({ href, children }) => (
                 <a
                   href={href}
@@ -246,15 +246,15 @@ export default async function ArticleDetailPage({ params }: Props) {
         </article>
 
         {/* Tags */}
-        <div className="mb-8 pb-8 border-b border-gray-200">
-          <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
+        <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
             Tags
           </h3>
           <div className="flex flex-wrap gap-2">
             {article.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm"
               >
                 {tag}
               </span>
@@ -264,8 +264,8 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Cooperation Paths */}
         {article.cooperationPaths && article.cooperationPaths.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-gray-200">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
+          <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Cooperation Paths
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -283,8 +283,8 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Related Wiki Articles */}
         {relatedWikiArticles && relatedWikiArticles.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-gray-200">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
+          <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Related Wiki Articles
             </h3>
             <div className="grid gap-3">
@@ -292,14 +292,14 @@ export default async function ArticleDetailPage({ params }: Props) {
                 <Link
                   key={wiki!.id}
                   href={`/wiki/${wiki!.slug}`}
-                  className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm flex-shrink-0">
                     📖
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">{wiki!.title}</div>
-                    <div className="text-sm text-gray-600 line-clamp-2">
+                    <div className="font-medium text-gray-900 dark:text-white">{wiki!.title}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 line-clamp-2">
                       {wiki!.summary}
                     </div>
                   </div>
@@ -311,8 +311,8 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-gray-200">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
+          <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Related Articles
             </h3>
             <div className="grid gap-3">
@@ -320,14 +320,14 @@ export default async function ArticleDetailPage({ params }: Props) {
                 <Link
                   key={related.id}
                   href={`/articles/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-colors"
+                  className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-sm flex-shrink-0">
                     ✍️
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">{related.title}</div>
-                    <div className="text-sm text-gray-600">
+                    <div className="font-medium text-gray-900 dark:text-white">{related.title}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                       By {related.authorName}
                     </div>
                   </div>
@@ -360,7 +360,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           </Link>
           <Link
             href="/articles"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
           >
             <svg
               className="w-5 h-5"
@@ -380,7 +380,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         </div>
 
         {/* Footer Note */}
-        <div className="p-4 bg-orange-50 rounded-lg border border-orange-200 text-sm text-gray-700">
+        <div className="p-4 bg-orange-50 rounded-lg border border-orange-200 text-sm text-gray-700 dark:text-gray-300">
           <p>
             <strong>This is an author-owned opinion article.</strong> The views
             expressed here belong to the author and may not represent community

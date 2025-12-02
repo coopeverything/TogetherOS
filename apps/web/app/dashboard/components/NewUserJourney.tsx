@@ -69,8 +69,8 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
     return (
       <Card className={`p-6 ${className}`}>
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4"></div>
+          <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </Card>
     );
@@ -129,7 +129,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
 
       {/* Tabs (only show if first week is active) */}
       {state.firstWeekActive && (
-        <div className="flex border-b border-gray-200">
+        <div className="flex border-b border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setActiveTab('first-week')}
             className={`flex-1 py-3 px-4 text-sm font-medium text-center transition-colors ${

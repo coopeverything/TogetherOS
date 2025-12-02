@@ -118,7 +118,7 @@ export default function EventDetailPage({ params }: PageProps) {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading event...</div>
+        <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Loading event...</div>
       </div>
     )
   }
@@ -127,9 +127,9 @@ export default function EventDetailPage({ params }: PageProps) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-3xl mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-            <h1 className="text-xl font-semibold text-gray-900 mb-2">Event Not Found</h1>
-            <p className="text-gray-600 mb-4">{error || 'This event does not exist.'}</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 text-center">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Event Not Found</h1>
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">{error || 'This event does not exist.'}</p>
             <Link href="/events" className="text-blue-600 hover:underline">
               Back to Calendar
             </Link>
@@ -157,9 +157,9 @@ export default function EventDetailPage({ params }: PageProps) {
         </Link>
 
         {/* Event Card */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           {/* Header */}
-          <div className="p-6 border-b border-gray-200">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -172,14 +172,14 @@ export default function EventDetailPage({ params }: PageProps) {
                     </span>
                   )}
                   {isPast && !isCanceled && (
-                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600">
+                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 dark:text-gray-500">
                       Past Event
                     </span>
                   )}
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900">{event.title}</h1>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{event.title}</h1>
                 {event.groupName && (
-                  <p className="text-gray-600 mt-1">Hosted by {event.groupName}</p>
+                  <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">Hosted by {event.groupName}</p>
                 )}
               </div>
             </div>
@@ -195,9 +195,9 @@ export default function EventDetailPage({ params }: PageProps) {
                 </svg>
               </div>
               <div>
-                <div className="font-medium text-gray-900">{formatDateTime(event.startDate)}</div>
+                <div className="font-medium text-gray-900 dark:text-white">{formatDateTime(event.startDate)}</div>
                 {event.endDate && (
-                  <div className="text-gray-600">to {formatDateTime(event.endDate)}</div>
+                  <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">to {formatDateTime(event.endDate)}</div>
                 )}
               </div>
             </div>
@@ -211,9 +211,9 @@ export default function EventDetailPage({ params }: PageProps) {
                 </svg>
               </div>
               <div>
-                <div className="font-medium text-gray-900 capitalize">{event.location}</div>
+                <div className="font-medium text-gray-900 dark:text-white capitalize">{event.location}</div>
                 {event.physicalAddress && (
-                  <div className="text-gray-600">{event.physicalAddress}</div>
+                  <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">{event.physicalAddress}</div>
                 )}
                 {event.virtualLink && (
                   <a
@@ -230,16 +230,16 @@ export default function EventDetailPage({ params }: PageProps) {
 
             {/* Description */}
             {event.description && (
-              <div className="pt-4 border-t border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-2">About this Event</h3>
-                <p className="text-gray-700 whitespace-pre-wrap">{event.description}</p>
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">About this Event</h3>
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{event.description}</p>
               </div>
             )}
 
             {/* RSVP Section */}
             {!isCanceled && !isPast && (
-              <div className="pt-4 border-t border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-4">RSVP</h3>
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">RSVP</h3>
                 <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => handleRsvp('going')}
@@ -280,8 +280,8 @@ export default function EventDetailPage({ params }: PageProps) {
 
             {/* Attendees */}
             {event.attendees && event.attendees.length > 0 && (
-              <div className="pt-4 border-t border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-4">
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
                   Attendees ({event.attendees.filter((a) => a.rsvpStatus === 'going').length})
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -290,7 +290,7 @@ export default function EventDetailPage({ params }: PageProps) {
                     .map((attendee) => (
                       <div
                         key={attendee.id}
-                        className="px-3 py-1.5 bg-gray-100 rounded-full text-sm text-gray-700"
+                        className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300"
                       >
                         {attendee.memberName || 'Member'}
                         {attendee.role === 'organizer' && (
@@ -304,7 +304,7 @@ export default function EventDetailPage({ params }: PageProps) {
 
             {/* Capacity */}
             {event.maxAttendees && (
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                 Capacity: {counts.going} / {event.maxAttendees} spots filled
               </div>
             )}

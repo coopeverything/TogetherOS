@@ -39,7 +39,7 @@ export default function DashboardClient({ user }: { user: User }) {
   return (
     <div className="min-h-screen bg-bg-0">
       {/* Header */}
-      <header className="bg-white border-b border-border">
+      <header className="bg-white dark:bg-gray-800 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">

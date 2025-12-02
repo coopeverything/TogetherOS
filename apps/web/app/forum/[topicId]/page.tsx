@@ -234,9 +234,9 @@ export default function TopicDetailPage({
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-3/4"></div>
-          <div className="h-20 bg-gray-200 rounded"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     )
@@ -274,7 +274,7 @@ export default function TopicDetailPage({
                 type="text"
                 value={editTopicData.title}
                 onChange={(e) => setEditTopicData({ ...editTopicData, title: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100"
               />
             </div>
             <div>
@@ -285,7 +285,7 @@ export default function TopicDetailPage({
                 value={editTopicData.description}
                 onChange={(e) => setEditTopicData({ ...editTopicData, description: e.target.value })}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100"
               />
             </div>
             <div>
@@ -295,7 +295,7 @@ export default function TopicDetailPage({
               <select
                 value={editTopicData.category}
                 onChange={(e) => setEditTopicData({ ...editTopicData, category: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100"
               >
                 <option value="general">General</option>
                 <option value="proposal">Proposal</option>
@@ -345,7 +345,7 @@ export default function TopicDetailPage({
                 }}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 placeholder="Enter tags separated by commas (e.g., climate, sustainability, community)"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100"
               />
               {showSuggestions && (
                 <div className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
@@ -368,7 +368,7 @@ export default function TopicDetailPage({
                           setEditTopicData({ ...editTopicData, tags: [...tags, suggestion] })
                           setShowSuggestions(false)
                         }}
-                        className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-gray-100"
+                        className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-white dark:text-gray-100"
                       >
                         #{suggestion}
                       </button>
@@ -388,7 +388,7 @@ export default function TopicDetailPage({
               </button>
               <button
                 onClick={() => setEditingTopicId(null)}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white dark:text-gray-100 rounded-md hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-600"
               >
                 Cancel
               </button>
@@ -399,7 +399,7 @@ export default function TopicDetailPage({
           <>
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-gray-100 mb-2">
                   {topic.title}
                 </h1>
                 <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
@@ -436,7 +436,7 @@ export default function TopicDetailPage({
                 {topic.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs"
+                    className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs"
                   >
                     #{tag}
                   </span>
@@ -449,7 +449,7 @@ export default function TopicDetailPage({
 
       {/* Posts */}
       <div className="space-y-4 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white dark:text-gray-100">
           Discussion ({posts.length})
         </h2>
         {posts.length === 0 ? (
@@ -469,7 +469,7 @@ export default function TopicDetailPage({
                     value={editPostContent}
                     onChange={(e) => setEditPostContent(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100"
                   />
                   <div className="flex gap-2">
                     <button
@@ -483,7 +483,7 @@ export default function TopicDetailPage({
                         setEditingPostId(null)
                         setEditPostContent('')
                       }}
-                      className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+                      className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white dark:text-gray-100 rounded-md hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-600"
                     >
                       Cancel
                     </button>
@@ -494,7 +494,7 @@ export default function TopicDetailPage({
                 <>
                   <div className="prose prose-sm dark:prose-invert max-w-none">
                     {post.content.split('\n').map((line, i) => (
-                      <p key={i} className="text-gray-900 dark:text-gray-100">
+                      <p key={i} className="text-gray-900 dark:text-white dark:text-gray-100">
                         {line || '\u00A0'}
                       </p>
                     ))}
@@ -532,7 +532,7 @@ export default function TopicDetailPage({
 
       {/* Post Composer */}
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white dark:text-gray-100 mb-4">
           Add Your Thoughts
         </h3>
         <form onSubmit={handleSubmitPost}>
@@ -541,11 +541,11 @@ export default function TopicDetailPage({
             onChange={(e) => setNewPostContent(e.target.value)}
             placeholder="Share your perspective, ask questions, or add insights..."
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 dark:placeholder:text-gray-400 dark:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
             disabled={isSubmitting}
           />
           <div className="mt-4 flex items-center justify-between">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
               {newPostContent.length} / 5000 characters
             </p>
             <button

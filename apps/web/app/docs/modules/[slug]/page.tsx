@@ -168,7 +168,7 @@ function CodeBlock({
 
   // Inline code: styled with background
   return (
-    <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-medium" {...props}>
+    <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-medium" {...props}>
       {children}
     </code>
   )
@@ -273,14 +273,14 @@ export default async function ModuleDocPage({ params }: Props) {
         </nav>
 
         {/* Content */}
-        <article className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <article className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
           {/*
             Prose styling with improved paragraph spacing:
             - prose-p:mb-6 adds bottom margin to paragraphs
             - prose-li:mb-2 adds spacing between list items
             - prose-headings:mt-8 adds top margin to headings
           */}
-          <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-gray-700 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-gray-300 prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
+          <div className="prose prose-lg max-w-none prose-headings:text-gray-900 dark:text-white prose-headings:mt-8 prose-headings:mb-4 prose-p:text-gray-700 dark:text-gray-300 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-gray-300 dark:border-gray-600 prose-th:bg-gray-100 dark:bg-gray-800 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-gray-300 prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
               components={{
@@ -294,12 +294,12 @@ export default async function ModuleDocPage({ params }: Props) {
         </article>
 
         {/* Developer Footer */}
-        <div className="mt-8 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center gap-2 text-gray-700">
+        <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
             <GitHubIcon className="w-5 h-5" />
             <span className="font-medium">For Developers</span>
           </div>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
             View the complete technical specification including API contracts,
             database schemas, TypeScript interfaces, and implementation details on{' '}
             <a
@@ -315,7 +315,7 @@ export default async function ModuleDocPage({ params }: Props) {
         </div>
 
         {/* Footer Links */}
-        <div className="mt-6 flex items-center justify-between text-sm text-gray-600">
+        <div className="mt-6 flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
           <Link
             href="/modules"
             className="text-blue-600 hover:text-blue-700"
@@ -326,7 +326,7 @@ export default async function ModuleDocPage({ params }: Props) {
             href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-gray-600 hover:text-gray-900"
+            className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white"
           >
             <GitHubIcon className="w-4 h-4" />
             Edit on GitHub

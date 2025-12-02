@@ -60,7 +60,7 @@ function ModuleCard({ module }: ModuleCardProps) {
   const ringColor = getRingColor(module.progress);
 
   return (
-    <div className="group relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-blue-300/50 dark:hover:border-blue-700/50">
+    <div className="group relative bg-white dark:bg-gray-800/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-blue-300/50 dark:hover:border-blue-700/50">
       {/* Glow effect on hover */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500" />
 
@@ -200,7 +200,7 @@ export default function StatusClient() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
-        <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50">
+        <header className="bg-white dark:bg-gray-800/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               TogetherOS Progress
@@ -218,7 +218,7 @@ export default function StatusClient() {
   if (error || !data?.success) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center">
-        <div className="text-center p-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/50 dark:border-slate-700/50">
+        <div className="text-center p-12 bg-white dark:bg-gray-800/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/50 dark:border-slate-700/50">
           <div className="text-6xl mb-4">⚠️</div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
             Failed to Load Status
@@ -238,7 +238,7 @@ export default function StatusClient() {
       </div>
 
       {/* Header */}
-      <header className="relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50 shadow-sm">
+      <header className="relative bg-white dark:bg-gray-800/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
@@ -274,7 +274,7 @@ export default function StatusClient() {
           {/* Animated background */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 animate-gradient-shift" />
 
-          <div className="relative bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-8">
+          <div className="relative bg-white dark:bg-gray-800/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="text-center">
                 <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider">

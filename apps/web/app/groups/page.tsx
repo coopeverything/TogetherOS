@@ -28,7 +28,7 @@ export default function GroupsPage() {
             Create Group
           </Link>
         </div>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300 max-w-3xl">
           Create and manage cooperative groups, organizations, and communities with transparent governance and shared resources.
         </p>
       </div>
@@ -39,7 +39,7 @@ export default function GroupsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
                 Create and join cooperative groups

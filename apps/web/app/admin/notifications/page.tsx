@@ -159,12 +159,12 @@ export default function NotificationsTestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Notifications Test Page</h1>
-          <p className="mt-2 text-gray-600">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Notifications Test Page</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400 dark:text-gray-500">
             Testing interface for notification components: bell, toast, and inbox.
           </p>
           <div className="mt-3 flex gap-2">
@@ -178,7 +178,7 @@ export default function NotificationsTestPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-6 border-b border-gray-200">
+        <div className="mb-6 border-b border-gray-200 dark:border-gray-700">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'showcase' as const, label: 'Component Showcase' },
@@ -204,26 +204,26 @@ export default function NotificationsTestPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
           {/* Component Showcase Tab */}
           {activeTab === 'showcase' && (
             <div className="space-y-10">
               <section>
                 <h2 className="text-2xl font-semibold mb-4">NotificationBell Component</h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
                   Bell icon with unread count badge, typically displayed in the app header.
                 </p>
-                <div className="flex gap-6 items-center p-6 bg-gray-50 rounded">
+                <div className="flex gap-6 items-center p-6 bg-gray-50 dark:bg-gray-900 rounded">
                   <div>
-                    <p className="text-sm text-gray-600 mb-2">No unread</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">No unread</p>
                     <NotificationBell unreadCount={0} />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 mb-2">3 unread</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">3 unread</p>
                     <NotificationBell unreadCount={3} />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 mb-2">99+ unread</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">99+ unread</p>
                     <NotificationBell unreadCount={150} />
                   </div>
                 </div>
@@ -231,7 +231,7 @@ export default function NotificationsTestPage() {
 
               <section>
                 <h2 className="text-2xl font-semibold mb-4">NotificationToast Component</h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
                   Temporary toast notification that appears in the top-right corner.
                 </p>
                 <div className="space-y-4">
@@ -246,7 +246,7 @@ export default function NotificationsTestPage() {
 
               <section>
                 <h2 className="text-2xl font-semibold mb-4">NotificationInbox Component</h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
                   Full inbox view with filtering, status updates, and actions.
                 </p>
                 <NotificationInbox
@@ -263,7 +263,7 @@ export default function NotificationsTestPage() {
           {activeTab === 'demo' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-semibold mb-4">Interactive Demo</h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
                 Simulate real-world notification scenarios.
               </p>
 
@@ -285,7 +285,7 @@ export default function NotificationsTestPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="font-semibold mb-3">Current State</h3>
-                  <div className="p-4 bg-gray-50 rounded space-y-2">
+                  <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded space-y-2">
                     <p className="text-sm">
                       <span className="font-medium">Total:</span> {notifications.length}
                     </p>
@@ -305,7 +305,7 @@ export default function NotificationsTestPage() {
 
                 <div>
                   <h3 className="font-semibold mb-3">Bell Preview</h3>
-                  <div className="p-4 bg-gray-50 rounded flex justify-center">
+                  <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded flex justify-center">
                     <NotificationBell unreadCount={unreadCount} />
                   </div>
                 </div>
@@ -323,10 +323,10 @@ export default function NotificationsTestPage() {
                   <h3 className="font-mono text-sm font-semibold mb-2">
                     GET /api/notifications
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-3">
                     List notifications for user with optional filters
                   </p>
-                  <div className="bg-gray-50 p-3 rounded text-xs font-mono">
+                  <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-xs font-mono">
                     Query params: userId, status, type, priority, unreadOnly, offset, limit
                   </div>
                 </div>
@@ -335,10 +335,10 @@ export default function NotificationsTestPage() {
                   <h3 className="font-mono text-sm font-semibold mb-2">
                     GET /api/notifications/counts
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-3">
                     Get unread and total notification counts
                   </p>
-                  <div className="bg-gray-50 p-3 rounded text-xs font-mono">
+                  <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-xs font-mono">
                     Query params: userId
                   </div>
                 </div>
@@ -347,10 +347,10 @@ export default function NotificationsTestPage() {
                   <h3 className="font-mono text-sm font-semibold mb-2">
                     PATCH /api/notifications/[id]
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-3">
                     Update notification status (read, unread, archived)
                   </p>
-                  <div className="bg-gray-50 p-3 rounded text-xs font-mono">
+                  <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-xs font-mono">
                     Body: {JSON.stringify({ userId: 'uuid', status: 'read' })}
                   </div>
                 </div>
@@ -359,10 +359,10 @@ export default function NotificationsTestPage() {
                   <h3 className="font-mono text-sm font-semibold mb-2">
                     POST /api/notifications/mark-all-read
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-3">
                     Mark all notifications as read for user
                   </p>
-                  <div className="bg-gray-50 p-3 rounded text-xs font-mono">
+                  <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-xs font-mono">
                     Body: {JSON.stringify({ userId: 'uuid' })}
                   </div>
                 </div>
@@ -371,10 +371,10 @@ export default function NotificationsTestPage() {
                   <h3 className="font-mono text-sm font-semibold mb-2">
                     POST /api/notifications/bulk
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-3">
                     Create multiple notifications (broadcast)
                   </p>
-                  <div className="bg-gray-50 p-3 rounded text-xs font-mono overflow-x-auto">
+                  <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-xs font-mono overflow-x-auto">
                     Body: {JSON.stringify({ notifications: [{ userId: 'uuid', type: 'system_message', title: '...', message: '...' }] })}
                   </div>
                 </div>

@@ -205,36 +205,36 @@ export default function AdminSettingsPage() {
       {activeTab === 'settings' && (
         <div className="space-y-8">
           {settingsByCategory.map((category) => (
-            <div key={category.category} className="bg-white rounded-lg shadow p-6">
+            <div key={category.category} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">
                 {categoryLabels[category.category] || category.category}
               </h2>
 
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 dark:bg-gray-900">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Setting
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Value
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Range
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
                   {category.settings.map((setting) => (
                     <tr key={setting.key}>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {setting.key.split('.')[1]}
                         </div>
-                        <div className="text-xs text-gray-500">{setting.description}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{setting.description}</div>
                       </td>
                       <td className="px-6 py-4">
                         {editingKey === setting.key ? (
@@ -248,7 +248,7 @@ export default function AdminSettingsPage() {
                           <span className="text-sm font-semibold">{String(setting.value)}</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                         {setting.minValue !== null && setting.maxValue !== null
                           ? `${setting.minValue} - ${setting.maxValue}`
                           : '-'}
@@ -273,7 +273,7 @@ export default function AdminSettingsPage() {
                               </button>
                               <button
                                 onClick={cancelEdit}
-                                className="bg-gray-300 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-400"
+                                className="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1 rounded text-sm hover:bg-gray-400"
                               >
                                 Cancel
                               </button>
@@ -307,7 +307,7 @@ export default function AdminSettingsPage() {
 
       {/* Audit Log Tab */}
       {activeTab === 'audit' && (
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
           <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Recent Changes</h2>
             <div className="space-y-4">
@@ -315,8 +315,8 @@ export default function AdminSettingsPage() {
                 <div key={entry.id} className="border-l-4 border-blue-500 pl-4 py-2">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-medium text-gray-900">{entry.settingKey}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="font-medium text-gray-900 dark:text-white">{entry.settingKey}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                         {entry.oldValue !== null ? (
                           <>
                             Changed from <span className="font-mono">{String(entry.oldValue)}</span>{' '}
@@ -329,10 +329,10 @@ export default function AdminSettingsPage() {
                         )}
                       </p>
                       {entry.reason && (
-                        <p className="text-sm text-gray-500 mt-1">Reason: {entry.reason}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-1">Reason: {entry.reason}</p>
                       )}
                     </div>
-                    <div className="text-right text-sm text-gray-500">
+                    <div className="text-right text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                       <p>{new Date(entry.changedAt).toLocaleString()}</p>
                       <p>by {entry.changedBy}</p>
                     </div>

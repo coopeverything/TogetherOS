@@ -136,12 +136,12 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 p-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Reward Points Wallet</h1>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Reward Points Wallet</h1>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div className="animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
-              <div className="h-8 bg-gray-200 rounded w-32 mb-2"></div>
-              <div className="h-6 bg-gray-200 rounded w-24"></div>
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4"></div>
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-32 mb-2"></div>
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
             </div>
           </div>
         </div>
@@ -153,7 +153,7 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 p-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Reward Points Wallet</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Reward Points Wallet</h1>
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
             <h2 className="text-lg font-semibold text-red-900 mb-2">Error Loading Data</h2>
             <p className="text-red-700">{error}</p>
@@ -167,9 +167,9 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 p-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Reward Points Wallet</h1>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <p className="text-gray-600">No balance found</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Reward Points Wallet</h1>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">No balance found</p>
           </div>
         </div>
       </div>
@@ -181,23 +181,23 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
       <div className="max-w-4xl mx-auto">
         {/* Header with Navigation */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
             <Link href="/economy" className="hover:text-purple-600 transition-colors">
               Economy
             </Link>
             <span>→</span>
-            <span className="text-gray-900">Reward Points</span>
+            <span className="text-gray-900 dark:text-white">Reward Points</span>
           </div>
 
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Reward Points Wallet</h1>
-              <p className="text-gray-600">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Reward Points Wallet</h1>
+              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 Earn RP through contributions, convert to Timebank Credits or use for perks
               </p>
             </div>
             {lastUpdated && (
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                 Updated {formatLastUpdated(lastUpdated)}
               </div>
             )}
@@ -211,7 +211,7 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
         <div className="flex flex-wrap gap-3 mb-6">
           <Link
             href="/economy/reward-points/history"
-            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors"
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:border-gray-600 transition-colors"
           >
             View Full History →
           </Link>
@@ -237,9 +237,9 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
         />
 
         {/* How RP Works */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">How Reward Points Work</h2>
-          <div className="space-y-3 text-sm text-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">How Reward Points Work</h2>
+          <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
             <p>
               <strong>Economic Claims:</strong> Reward Points (RP) represent your contributions to the cooperative.
               They can be converted to Timebank Credits or used for Social Horizon purchases.
@@ -263,7 +263,7 @@ export function RPWalletClient({ userId }: RPWalletClientProps) {
         <div className="mt-8 flex gap-3">
           <Link
             href="/economy"
-            className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors font-medium inline-block"
+            className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:bg-gray-600 transition-colors font-medium inline-block"
           >
             ← Back to Economy
           </Link>

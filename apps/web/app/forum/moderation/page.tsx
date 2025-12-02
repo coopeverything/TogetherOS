@@ -42,8 +42,8 @@ export default function ModerationQueuePage() {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/3"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+          <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     )
@@ -52,7 +52,7 @@ export default function ModerationQueuePage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-gray-100">
           Moderation Queue
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -121,7 +121,7 @@ export default function ModerationQueuePage() {
               <div className="space-y-2">
                 <div>
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Reason:</span>
-                  <span className="ml-2 text-sm text-gray-900 dark:text-gray-100">{flag.reason}</span>
+                  <span className="ml-2 text-sm text-gray-900 dark:text-white dark:text-gray-100">{flag.reason}</span>
                 </div>
                 {flag.details && (
                   <div>

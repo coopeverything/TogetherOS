@@ -164,19 +164,19 @@ export function SearchBar({
     switch (type) {
       case 'recent':
         return (
-          <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         );
       case 'popular':
         return (
-          <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
           </svg>
         );
       case 'suggestion':
         return (
-          <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         );
@@ -194,7 +194,7 @@ export function SearchBar({
         onKeyDown={handleKeyDown}
         onFocus={() => query.length >= 2 && suggestions.length > 0 && setShowSuggestions(true)}
         autoFocus={autoFocus}
-        className="w-full rounded-md border border-gray-300 px-4 py-2 pr-24 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 pr-24 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
         autoComplete="off"
         role="combobox"
         aria-expanded={showSuggestions}
@@ -204,11 +204,11 @@ export function SearchBar({
       {query && (
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
           {isDebouncing && (
-            <span className="text-xs text-gray-500">Searching...</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">Searching...</span>
           )}
           <button
             onClick={handleClear}
-            className="rounded px-2 py-1 text-sm hover:bg-gray-100"
+            className="rounded px-2 py-1 text-sm hover:bg-gray-100 dark:bg-gray-800"
             aria-label="Clear search"
           >
             Clear
@@ -222,7 +222,7 @@ export function SearchBar({
           ref={suggestionsRef}
           id="search-suggestions"
           role="listbox"
-          className="absolute top-full left-0 right-0 z-50 mt-1 max-h-64 overflow-y-auto rounded-md border border-gray-200 bg-white shadow-lg"
+          className="absolute top-full left-0 right-0 z-50 mt-1 max-h-64 overflow-y-auto rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg"
         >
           {suggestions.map((suggestion, index) => (
             <button
@@ -237,12 +237,12 @@ export function SearchBar({
               {getSuggestionIcon(suggestion.type)}
               <span className="flex-1 truncate">{suggestion.text}</span>
               {suggestion.metadata?.result_count !== undefined && (
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-gray-400 dark:text-gray-500">
                   {suggestion.metadata.result_count} results
                 </span>
               )}
               {suggestion.metadata?.content_type && (
-                <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500">
+                <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                   {suggestion.metadata.content_type}
                 </span>
               )}
@@ -251,7 +251,7 @@ export function SearchBar({
         </div>
       )}
 
-      <div className="mt-1 text-xs text-gray-500">
+      <div className="mt-1 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
         Press Cmd/Ctrl+K to focus search
       </div>
     </div>

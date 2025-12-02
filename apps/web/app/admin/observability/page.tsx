@@ -77,7 +77,7 @@ function MetricCard({ title, value, subtitle }: { title: string; value: string |
     <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</h3>
       <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">{value}</p>
-      {subtitle && <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{subtitle}</p>}
+      {subtitle && <p className="text-xs text-gray-400 dark:text-gray-500 dark:text-gray-400 mt-1">{subtitle}</p>}
     </div>
   );
 }
@@ -150,7 +150,7 @@ export default function ObservabilityDashboard() {
   if (loading && !data) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-gray-500">Loading dashboard...</div>
+        <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Loading dashboard...</div>
       </div>
     );
   }
@@ -301,7 +301,7 @@ export default function ObservabilityDashboard() {
                         </thead>
                         <tbody>
                           {data.metrics.topRoutes.map((route, i) => (
-                            <tr key={i} className="border-b border-gray-100 dark:border-gray-800">
+                            <tr key={i} className="border-b border-gray-100 dark:border-gray-700 dark:border-gray-800">
                               <td className="py-2 font-mono text-xs">{route.route}</td>
                               <td className="py-2 text-right">{route.count}</td>
                               <td className="py-2 text-right">{route.avgDuration.toFixed(0)}ms</td>
@@ -321,7 +321,7 @@ export default function ObservabilityDashboard() {
                       {data.metrics.topErrors.map((error, i) => (
                         <div key={i} className="flex justify-between items-start gap-4">
                           <code className="text-xs text-red-600 dark:text-red-400 break-all">{error.message}</code>
-                          <span className="text-sm text-gray-500 whitespace-nowrap">{error.count}x</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 whitespace-nowrap">{error.count}x</span>
                         </div>
                       ))}
                     </div>
@@ -338,19 +338,19 @@ export default function ObservabilityDashboard() {
                 </div>
                 <div className="divide-y divide-gray-100 dark:divide-gray-800 max-h-[600px] overflow-y-auto">
                   {data.recentLogs.map((log) => (
-                    <div key={log.id} className="p-3 hover:bg-gray-50 dark:hover:bg-gray-750">
+                    <div key={log.id} className="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:bg-gray-750">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs text-gray-400">{new Date(log.timestamp).toLocaleTimeString()}</span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500">{new Date(log.timestamp).toLocaleTimeString()}</span>
                         <SourceBadge source={log.source} />
                         <LogLevelBadge level={log.level} />
-                        {log.route && <span className="text-xs text-gray-500 font-mono">{log.route}</span>}
-                        {log.duration && <span className="text-xs text-gray-400">{log.duration}ms</span>}
+                        {log.route && <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 font-mono">{log.route}</span>}
+                        {log.duration && <span className="text-xs text-gray-400 dark:text-gray-500">{log.duration}ms</span>}
                       </div>
                       <p className="text-sm text-gray-700 dark:text-gray-300 break-all">{log.message}</p>
                     </div>
                   ))}
                   {data.recentLogs.length === 0 && (
-                    <div className="p-8 text-center text-gray-500">No logs in the current time window</div>
+                    <div className="p-8 text-center text-gray-500 dark:text-gray-400 dark:text-gray-500">No logs in the current time window</div>
                   )}
                 </div>
               </div>
@@ -372,18 +372,18 @@ export default function ObservabilityDashboard() {
                       <div key={flag.name} className="p-3 flex items-center justify-between">
                         <div>
                           <span className="font-medium text-gray-900 dark:text-white">{flag.name}</span>
-                          <div className="text-xs text-gray-500 mt-0.5">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-0.5">
                             Updated: {new Date(flag.updatedAt).toLocaleString()}
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-sm text-gray-500">{flag.rolloutPercentage}%</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{flag.rolloutPercentage}%</span>
                           <StatusBadge status={flag.enabled ? 'healthy' : 'unhealthy'} />
                         </div>
                       </div>
                     ))}
                     {data.featureFlags.flags.length === 0 && (
-                      <div className="p-8 text-center text-gray-500">No feature flags configured</div>
+                      <div className="p-8 text-center text-gray-500 dark:text-gray-400 dark:text-gray-500">No feature flags configured</div>
                     )}
                   </div>
                 </div>
@@ -404,16 +404,16 @@ export default function ObservabilityDashboard() {
                       </div>
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="text-gray-500">Rollout:</span>
+                          <span className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Rollout:</span>
                           <span className="ml-2 font-medium">{data.canary.current.percentage}%</span>
                         </div>
                         <div>
-                          <span className="text-gray-500">Started:</span>
+                          <span className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Started:</span>
                           <span className="ml-2">{new Date(data.canary.current.startedAt).toLocaleString()}</span>
                         </div>
                         {data.canary.current.metrics && (
                           <div>
-                            <span className="text-gray-500">Requests:</span>
+                            <span className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Requests:</span>
                             <span className="ml-2">{data.canary.current.metrics.canaryRequests}</span>
                           </div>
                         )}
@@ -427,7 +427,7 @@ export default function ObservabilityDashboard() {
                       </div>
                     </div>
                   ) : (
-                    <div className="text-gray-500">No active canary deployment</div>
+                    <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500">No active canary deployment</div>
                   )}
                 </div>
 
@@ -441,7 +441,7 @@ export default function ObservabilityDashboard() {
                       <div key={deployment.id} className="p-3 flex items-center justify-between">
                         <div>
                           <span className="font-mono text-sm text-gray-900 dark:text-white">{deployment.version}</span>
-                          <div className="text-xs text-gray-500 mt-0.5">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-0.5">
                             {new Date(deployment.startedAt).toLocaleString()}
                           </div>
                         </div>
@@ -449,7 +449,7 @@ export default function ObservabilityDashboard() {
                       </div>
                     ))}
                     {data.canary.recentDeployments.length === 0 && (
-                      <div className="p-8 text-center text-gray-500">No deployment history</div>
+                      <div className="p-8 text-center text-gray-500 dark:text-gray-400 dark:text-gray-500">No deployment history</div>
                     )}
                   </div>
                 </div>

@@ -309,7 +309,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                     value={formData.bio}
                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                     placeholder="Tell us a bit about yourself..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                     rows={3}
                   />
                 </div>
@@ -481,7 +481,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                               "px-4 py-2 rounded-full text-sm transition-all",
                               isSelected
                                 ? "bg-brand-600 text-white"
-                                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:bg-gray-700"
                             )}
                           >
                             {option}
