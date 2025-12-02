@@ -1,7 +1,9 @@
 // POST /api/bridge-teaching/sessions/[id]/turns - Add turn to session
+// PATCH /api/bridge-teaching/sessions/[id]/turns - Provide feedback on turn
+// DELETE /api/bridge-teaching/sessions/[id]/turns - Delete a turn
 
 import { NextRequest, NextResponse } from 'next/server'
-import { addTurn, provideFeedback } from '@togetheros/db'
+import { addTurn, provideFeedback, deleteTurn } from '@togetheros/db'
 import { requireAdmin } from '@/lib/auth/middleware'
 import type { ConversationMode, Speaker, FeedbackRating } from '@togetheros/types'
 
@@ -115,6 +117,45 @@ export async function PATCH(
 
     return NextResponse.json(
       { error: error.message || 'Failed to update turn' },
+      { status: 500 }
+    )
+  }
+}
+
+// DELETE /api/bridge-teaching/sessions/[id]/turns - Delete a turn
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await requireAdmin(request)
+
+    const { searchParams } = new URL(request.url)
+    const turnId = searchParams.get('turnId')
+
+    if (!turnId) {
+      return NextResponse.json(
+        { error: 'turnId query parameter is required' },
+        { status: 400 }
+      )
+    }
+
+    const deleted = await deleteTurn(turnId)
+
+    if (!deleted) {
+      return NextResponse.json({ error: 'Turn not found' }, { status: 404 })
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (error: any) {
+    console.error('DELETE /api/bridge-teaching/sessions/[id]/turns error:', error)
+
+    if (error.message === 'Unauthorized' || error.message === 'Admin access required') {
+      return NextResponse.json({ error: error.message }, { status: 403 })
+    }
+
+    return NextResponse.json(
+      { error: error.message || 'Failed to delete turn' },
       { status: 500 }
     )
   }

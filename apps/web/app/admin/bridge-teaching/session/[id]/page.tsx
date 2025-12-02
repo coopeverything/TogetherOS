@@ -146,10 +146,40 @@ export default function TeachingSessionPage({ params }: PageProps) {
       setMessage('')
       setExplanation('')
       await loadSession()
+
+      // Auto-generate Bridge response in practice and demo modes
+      if (mode === 'practice' || mode === 'demo') {
+        await generateBridgeResponse(message.trim())
+      }
     } catch (err: any) {
       alert(err.message)
     } finally {
       setIsSending(false)
+    }
+  }
+
+  const generateBridgeResponse = async (trainerMessage: string) => {
+    try {
+      const res = await fetch(`/api/bridge-teaching/sessions/${id}/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          mode,
+          trainerMessage,
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        console.error('Bridge generation error:', data.error)
+        // Don't show alert - just log the error, user can still continue manually
+        return
+      }
+
+      await loadSession()
+    } catch (err: any) {
+      console.error('Bridge generation error:', err)
     }
   }
 
@@ -167,6 +197,22 @@ export default function TeachingSessionPage({ params }: PageProps) {
       })
 
       if (!res.ok) throw new Error('Failed to provide feedback')
+      await loadSession()
+    } catch (err: any) {
+      alert(err.message)
+    }
+  }
+
+  const deleteTurn = async (turnId: string) => {
+    if (!confirm('Delete this message?')) return
+
+    try {
+      const res = await fetch(`/api/bridge-teaching/sessions/${id}/turns?turnId=${turnId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+
+      if (!res.ok) throw new Error('Failed to delete turn')
       await loadSession()
     } catch (err: any) {
       alert(err.message)
@@ -472,7 +518,7 @@ export default function TeachingSessionPage({ params }: PageProps) {
                       alignItems: style.align,
                     }}
                   >
-                    {/* Mode badge + role */}
+                    {/* Mode badge + role + delete */}
                     <div style={{
                       display: 'flex',
                       gap: '0.375rem',
@@ -492,6 +538,24 @@ export default function TeachingSessionPage({ params }: PageProps) {
                       <span style={{ fontSize: '0.75rem', color: 'var(--ink-600)' }}>
                         {turn.speaker === 'trainer' ? 'You' : 'Bridge'} {turn.role && `(${turn.role})`}
                       </span>
+                      {session.status === 'active' && (
+                        <button
+                          onClick={() => deleteTurn(turn.id)}
+                          style={{
+                            fontSize: '0.6875rem',
+                            padding: '0.0625rem 0.25rem',
+                            background: 'transparent',
+                            color: 'var(--ink-400)',
+                            border: 'none',
+                            borderRadius: '0.25rem',
+                            cursor: 'pointer',
+                            opacity: 0.6,
+                          }}
+                          title="Delete message"
+                        >
+                          ×
+                        </button>
+                      )}
                     </div>
 
                     {/* Message bubble */}

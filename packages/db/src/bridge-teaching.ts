@@ -384,6 +384,17 @@ export async function provideFeedback(
   return mapRowToTurn(result.rows[0])
 }
 
+/**
+ * Delete a turn
+ */
+export async function deleteTurn(turnId: string): Promise<boolean> {
+  const result = await query(
+    `DELETE FROM bridge_teaching_turns WHERE id = $1`,
+    [turnId]
+  )
+  return (result.rowCount ?? 0) > 0
+}
+
 // ============================================================================
 // LEARNED PATTERNS
 // ============================================================================
