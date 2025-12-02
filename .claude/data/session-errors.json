@@ -1,7 +1,71 @@
 {
   "version": "1.0.0",
   "description": "Cross-session error tracking for pattern detection and knowledge base updates",
-  "errors": [],
+  "errors": [
+    {
+      "id": "err-001",
+      "signature": {
+        "type": "git",
+        "code": "STASH_UNTRACKED",
+        "pattern": "git stash does not include untracked files by default"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-01",
+          "commit_sha": "e834280",
+          "file": null,
+          "message": "Stashed changes but untracked .claude/data/ and .claude/skills/error-learner/ were left behind",
+          "context": "Switching from docs/tablet-dev-setup to yolo branch while having new untracked directories"
+        }
+      ],
+      "status": "watching",
+      "first_seen": "2025-12-01T21:50:00Z",
+      "last_seen": "2025-12-01T21:50:00Z",
+      "occurrence_count": 1
+    },
+    {
+      "id": "err-002",
+      "signature": {
+        "type": "git",
+        "code": "WRONG_BRANCH_CONTEXT",
+        "pattern": "Started work on wrong branch, had to switch mid-session"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-01",
+          "commit_sha": "e834280",
+          "file": null,
+          "message": "Created new skill files while on docs/tablet-dev-setup instead of yolo or feature branch",
+          "context": "Creating error-learner skill - should have switched to yolo first"
+        }
+      ],
+      "status": "watching",
+      "first_seen": "2025-12-01T21:45:00Z",
+      "last_seen": "2025-12-01T21:45:00Z",
+      "occurrence_count": 1
+    },
+    {
+      "id": "err-003",
+      "signature": {
+        "type": "filesystem",
+        "code": "NESTED_CLONE",
+        "pattern": "Nested git clone found in working directory"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-01",
+          "commit_sha": null,
+          "file": "TogetherOS/",
+          "message": "Found TogetherOS/ directory inside TogetherOS repo - a nested clone",
+          "context": "Session start - checking git status showed untracked TogetherOS/ directory"
+        }
+      ],
+      "status": "watching",
+      "first_seen": "2025-12-01T21:35:00Z",
+      "last_seen": "2025-12-01T21:35:00Z",
+      "occurrence_count": 1
+    }
+  ],
   "resolved_patterns": [],
-  "last_updated": null
+  "last_updated": "2025-12-01T21:55:00Z"
 }
