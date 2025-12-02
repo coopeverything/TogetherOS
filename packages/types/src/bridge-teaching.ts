@@ -34,6 +34,16 @@ export type FeedbackRating = 'positive' | 'negative' | 'neutral'
 export type SessionStatus = 'active' | 'completed' | 'archived'
 
 /**
+ * Session intent - why the member started the session
+ * - information: Looking up knowledge from CoopEverything's knowledge base
+ * - brainstorm: Exploring and developing an idea collaboratively
+ * - articulation: Help putting words on something they've been thinking
+ * - roleplay: Traditional archetype-based training exercise
+ * - general: No specific intent specified
+ */
+export type SessionIntent = 'information' | 'brainstorm' | 'articulation' | 'roleplay' | 'general'
+
+/**
  * Trust level for user archetypes
  */
 export type TrustLevel = 'low' | 'medium' | 'high' | 'neutral'
@@ -87,8 +97,9 @@ export interface TeachingSession {
   trainerId: string
   trainerName?: string
   topic: string
-  archetype: UserArchetype
-  archetypeId: string
+  archetype?: UserArchetype | null
+  archetypeId?: string | null
+  intent: SessionIntent
   status: SessionStatus
   turns: ConversationTurn[]
   extractedPatterns: ExtractedPattern[]
@@ -105,13 +116,17 @@ export interface TeachingSession {
  */
 export interface CreateTeachingSessionInput {
   topic: string
-  archetypeId: string
+  archetypeId?: string | null
+  intent?: SessionIntent
 }
 
 /**
  * Input for updating a teaching session
  */
 export interface UpdateTeachingSessionInput {
+  topic?: string
+  archetypeId?: string | null
+  intent?: SessionIntent
   status?: SessionStatus
   completedAt?: Date
 }

@@ -16,9 +16,18 @@ import type {
   PatternSummary,
   TeachingStats,
   SessionStatus,
+  SessionIntent,
 } from '@togetheros/types'
 
 type TabView = 'sessions' | 'patterns' | 'archetypes'
+
+const INTENT_OPTIONS: { value: SessionIntent; label: string; description: string }[] = [
+  { value: 'information', label: 'Information', description: 'Look up knowledge from CoopEverything' },
+  { value: 'brainstorm', label: 'Brainstorm', description: 'Explore and develop an idea' },
+  { value: 'articulation', label: 'Articulation', description: 'Help putting words on thoughts' },
+  { value: 'roleplay', label: 'Role-play', description: 'Archetype-based training exercise' },
+  { value: 'general', label: 'General', description: 'No specific focus' },
+]
 
 export default function BridgeTeachingPage() {
   const [activeTab, setActiveTab] = useState<TabView>('sessions')
@@ -34,6 +43,7 @@ export default function BridgeTeachingPage() {
   // Form state
   const [showNewSession, setShowNewSession] = useState(false)
   const [newSessionTopic, setNewSessionTopic] = useState('')
+  const [newSessionIntent, setNewSessionIntent] = useState<SessionIntent>('general')
   const [newSessionArchetype, setNewSessionArchetype] = useState('')
 
   // Expanded session
@@ -78,8 +88,14 @@ export default function BridgeTeachingPage() {
   }
 
   const createSession = async () => {
-    if (!newSessionTopic.trim() || !newSessionArchetype) {
-      alert('Please enter a topic and select an archetype')
+    if (!newSessionTopic.trim()) {
+      alert('Please enter a topic')
+      return
+    }
+
+    // Archetype is only required for roleplay intent
+    if (newSessionIntent === 'roleplay' && !newSessionArchetype) {
+      alert('Please select an archetype for role-play sessions')
       return
     }
 
@@ -90,7 +106,8 @@ export default function BridgeTeachingPage() {
         credentials: 'include',
         body: JSON.stringify({
           topic: newSessionTopic.trim(),
-          archetypeId: newSessionArchetype,
+          intent: newSessionIntent,
+          archetypeId: newSessionArchetype || null,
         }),
       })
 
@@ -100,6 +117,7 @@ export default function BridgeTeachingPage() {
       }
 
       setNewSessionTopic('')
+      setNewSessionIntent('general')
       setNewSessionArchetype('')
       setShowNewSession(false)
       await loadData()
@@ -143,6 +161,20 @@ export default function BridgeTeachingPage() {
       case 'low': return '#ef4444'
       default: return '#6b7280'
     }
+  }
+
+  const getIntentColor = (intent: string) => {
+    switch (intent) {
+      case 'information': return '#3b82f6'   // blue
+      case 'brainstorm': return '#8b5cf6'    // purple
+      case 'articulation': return '#ec4899'  // pink
+      case 'roleplay': return '#f59e0b'      // orange
+      default: return '#6b7280'              // gray
+    }
+  }
+
+  const getIntentLabel = (intent: string) => {
+    return INTENT_OPTIONS.find(o => o.value === intent)?.label || intent
   }
 
   if (isLoading) {
@@ -251,63 +283,122 @@ export default function BridgeTeachingPage() {
               ) : (
                 <div style={{ background: 'var(--bg-1)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}>
                   <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>Start New Session</h3>
-                  <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                    <input
-                      type="text"
-                      value={newSessionTopic}
-                      onChange={(e) => setNewSessionTopic(e.target.value)}
-                      placeholder="Topic (e.g., 'Explaining support points')"
-                      style={{
-                        flex: '1 1 200px',
-                        padding: '0.5rem 0.75rem',
-                        border: '1px solid var(--border)',
-                        borderRadius: '0.375rem',
-                        fontSize: '0.875rem',
-                      }}
-                    />
-                    <select
-                      value={newSessionArchetype}
-                      onChange={(e) => setNewSessionArchetype(e.target.value)}
-                      style={{
-                        padding: '0.5rem 0.75rem',
-                        border: '1px solid var(--border)',
-                        borderRadius: '0.375rem',
-                        fontSize: '0.875rem',
-                        minWidth: '180px',
-                      }}
-                    >
-                      <option value="">Select archetype...</option>
-                      {archetypes.map((arch) => (
-                        <option key={arch.id} value={arch.id}>{arch.name}</option>
-                      ))}
-                    </select>
-                    <button
-                      onClick={createSession}
-                      style={{
-                        padding: '0.5rem 1rem',
-                        background: 'var(--brand-600)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '0.375rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Create
-                    </button>
-                    <button
-                      onClick={() => setShowNewSession(false)}
-                      style={{
-                        padding: '0.5rem 1rem',
-                        background: 'transparent',
-                        color: 'var(--ink-700)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '0.375rem',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Cancel
-                    </button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {/* Intent Selection */}
+                    <div>
+                      <label style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--ink-700)', display: 'block', marginBottom: '0.375rem' }}>
+                        What do you want to do?
+                      </label>
+                      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        {INTENT_OPTIONS.map((option) => (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => {
+                              setNewSessionIntent(option.value)
+                              // Clear archetype if not roleplay
+                              if (option.value !== 'roleplay') {
+                                setNewSessionArchetype('')
+                              }
+                            }}
+                            title={option.description}
+                            style={{
+                              padding: '0.375rem 0.75rem',
+                              fontSize: '0.8125rem',
+                              background: newSessionIntent === option.value ? 'var(--brand-600)' : 'var(--bg-2)',
+                              color: newSessionIntent === option.value ? 'white' : 'var(--ink-700)',
+                              border: newSessionIntent === option.value ? '1px solid var(--brand-600)' : '1px solid var(--border)',
+                              borderRadius: '0.375rem',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--ink-500)', margin: '0.25rem 0 0 0' }}>
+                        {INTENT_OPTIONS.find(o => o.value === newSessionIntent)?.description}
+                      </p>
+                    </div>
+
+                    {/* Topic and Archetype Row */}
+                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                      <input
+                        type="text"
+                        value={newSessionTopic}
+                        onChange={(e) => setNewSessionTopic(e.target.value)}
+                        placeholder={
+                          newSessionIntent === 'information' ? 'What do you want to know? (e.g., "How do support points work?")'
+                          : newSessionIntent === 'brainstorm' ? 'What idea do you want to explore?'
+                          : newSessionIntent === 'articulation' ? 'What are you trying to express?'
+                          : newSessionIntent === 'roleplay' ? 'Training topic (e.g., "Explaining support points")'
+                          : 'What would you like to discuss?'
+                        }
+                        style={{
+                          flex: '1 1 300px',
+                          padding: '0.5rem 0.75rem',
+                          border: '1px solid var(--border)',
+                          borderRadius: '0.375rem',
+                          fontSize: '0.875rem',
+                        }}
+                      />
+
+                      {/* Only show archetype selector for roleplay intent */}
+                      {newSessionIntent === 'roleplay' && (
+                        <select
+                          value={newSessionArchetype}
+                          onChange={(e) => setNewSessionArchetype(e.target.value)}
+                          style={{
+                            padding: '0.5rem 0.75rem',
+                            border: '1px solid var(--border)',
+                            borderRadius: '0.375rem',
+                            fontSize: '0.875rem',
+                            minWidth: '180px',
+                          }}
+                        >
+                          <option value="">Select archetype...</option>
+                          {archetypes.map((arch) => (
+                            <option key={arch.id} value={arch.id}>{arch.name}</option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button
+                        onClick={createSession}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          background: 'var(--brand-600)',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '0.375rem',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Start Session
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowNewSession(false)
+                          setNewSessionIntent('general')
+                          setNewSessionArchetype('')
+                          setNewSessionTopic('')
+                        }}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          background: 'transparent',
+                          color: 'var(--ink-700)',
+                          border: '1px solid var(--border)',
+                          borderRadius: '0.375rem',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -355,9 +446,22 @@ export default function BridgeTeachingPage() {
                         >
                           {session.status}
                         </span>
-                        <span style={{ fontSize: '0.75rem', padding: '0.125rem 0.5rem', borderRadius: '0.25rem', background: 'var(--bg-2)', color: 'var(--ink-700)' }}>
-                          {session.archetype?.name || session.archetypeId}
+                        <span
+                          style={{
+                            fontSize: '0.75rem',
+                            padding: '0.125rem 0.5rem',
+                            borderRadius: '0.25rem',
+                            background: getIntentColor(session.intent) + '20',
+                            color: getIntentColor(session.intent),
+                          }}
+                        >
+                          {getIntentLabel(session.intent)}
                         </span>
+                        {session.archetype && (
+                          <span style={{ fontSize: '0.75rem', padding: '0.125rem 0.5rem', borderRadius: '0.25rem', background: 'var(--bg-2)', color: 'var(--ink-700)' }}>
+                            {session.archetype.name}
+                          </span>
+                        )}
                         <span style={{ flex: 1, fontSize: '0.9375rem', color: 'var(--ink-900)', fontWeight: 500 }}>
                           {session.topic}
                         </span>
@@ -397,7 +501,19 @@ export default function BridgeTeachingPage() {
                             </div>
                           </div>
 
-                          {/* Archetype Info */}
+                          {/* Intent Info */}
+                          <div style={{ background: getIntentColor(session.intent) + '10', padding: '0.75rem', borderRadius: '0.375rem', marginBottom: '1rem', border: `1px solid ${getIntentColor(session.intent)}30` }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                              <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: getIntentColor(session.intent) }}>
+                                {getIntentLabel(session.intent)}
+                              </span>
+                            </div>
+                            <div style={{ fontSize: '0.8125rem', color: 'var(--ink-700)' }}>
+                              {INTENT_OPTIONS.find(o => o.value === session.intent)?.description}
+                            </div>
+                          </div>
+
+                          {/* Archetype Info (only for roleplay sessions) */}
                           {session.archetype && (
                             <div style={{ background: 'var(--bg-2)', padding: '0.75rem', borderRadius: '0.375rem', marginBottom: '1rem' }}>
                               <div style={{ fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
@@ -599,7 +715,17 @@ export default function BridgeTeachingPage() {
         {/* Info Box */}
         <div style={{ marginTop: '2rem', padding: '1rem', background: 'var(--bg-2)', borderRadius: '0.5rem' }}>
           <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--ink-900)', marginBottom: '0.75rem' }}>
-            How Teaching Sessions Work
+            Session Types
+          </h3>
+          <ul style={{ color: 'var(--ink-700)', fontSize: '0.8125rem', lineHeight: 1.7, paddingLeft: '1.5rem', marginBottom: '1rem' }}>
+            <li><strong>Information:</strong> Look up knowledge from CoopEverything&apos;s knowledge base</li>
+            <li><strong>Brainstorm:</strong> Explore and develop an idea collaboratively with Bridge</li>
+            <li><strong>Articulation:</strong> Help putting words on something you&apos;ve been thinking</li>
+            <li><strong>Role-play:</strong> Traditional archetype-based training for Bridge&apos;s responses</li>
+          </ul>
+
+          <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--ink-900)', marginBottom: '0.75rem' }}>
+            Conversation Modes (for Role-play)
           </h3>
           <ul style={{ color: 'var(--ink-700)', fontSize: '0.8125rem', lineHeight: 1.7, paddingLeft: '1.5rem' }}>
             <li><strong>Demo Mode:</strong> You demonstrate ideal responses while Bridge plays the archetype</li>

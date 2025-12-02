@@ -12,6 +12,7 @@ import type {
   PatternUsage,
   TeachingStats,
   SessionStatus,
+  SessionIntent,
   ConversationMode,
   Speaker,
   FeedbackRating,
@@ -66,28 +67,39 @@ function mapRowToArchetype(row: any): UserArchetype {
 
 /**
  * Create a new teaching session
+ * archetypeId is optional - sessions can be created for:
+ * - information: Knowledge lookup from CoopEverything's knowledge base
+ * - brainstorm: Exploring and developing ideas
+ * - articulation: Help putting words on thoughts
+ * - roleplay: Traditional archetype-based training (requires archetypeId)
+ * - general: No specific intent
  */
 export async function createTeachingSession(
   trainerId: string,
   topic: string,
-  archetypeId: string
+  archetypeId?: string | null,
+  intent: SessionIntent = 'general'
 ): Promise<TeachingSession> {
+  // Auto-set intent to 'roleplay' if archetype is provided but no intent specified
+  const resolvedIntent = archetypeId && intent === 'general' ? 'roleplay' : intent
+
   const result = await query<any>(
-    `INSERT INTO bridge_teaching_sessions (trainer_id, topic, archetype_id, status)
-     VALUES ($1, $2, $3, 'active')
+    `INSERT INTO bridge_teaching_sessions (trainer_id, topic, archetype_id, intent, status)
+     VALUES ($1, $2, $3, $4, 'active')
      RETURNING *`,
-    [trainerId, topic, archetypeId]
+    [trainerId, topic, archetypeId || null, resolvedIntent]
   )
 
   const session = result.rows[0]
-  const archetype = await getArchetypeById(archetypeId)
+  const archetype = archetypeId ? await getArchetypeById(archetypeId) : null
 
   return {
     id: session.id,
     trainerId: session.trainer_id,
     topic: session.topic,
     archetypeId: session.archetype_id,
-    archetype: archetype!,
+    archetype: archetype,
+    intent: session.intent as SessionIntent,
     status: session.status as SessionStatus,
     turns: [],
     extractedPatterns: [],
@@ -115,7 +127,7 @@ export async function getTeachingSessionById(id: string): Promise<TeachingSessio
   if (sessionResult.rows.length === 0) return null
 
   const session = sessionResult.rows[0]
-  const archetype = await getArchetypeById(session.archetype_id)
+  const archetype = session.archetype_id ? await getArchetypeById(session.archetype_id) : null
   const turns = await getSessionTurns(id)
   const patterns = await getSessionPatterns(id)
 
@@ -125,7 +137,8 @@ export async function getTeachingSessionById(id: string): Promise<TeachingSessio
     trainerName: session.trainer_name,
     topic: session.topic,
     archetypeId: session.archetype_id,
-    archetype: archetype!,
+    archetype: archetype,
+    intent: (session.intent || 'general') as SessionIntent,
     status: session.status as SessionStatus,
     turns,
     extractedPatterns: patterns,
@@ -188,14 +201,15 @@ export async function listTeachingSessions(options?: {
 
   const sessions: TeachingSession[] = []
   for (const row of result.rows) {
-    const archetype = await getArchetypeById(row.archetype_id)
+    const archetype = row.archetype_id ? await getArchetypeById(row.archetype_id) : null
     sessions.push({
       id: row.id,
       trainerId: row.trainer_id,
       trainerName: row.trainer_name,
       topic: row.topic,
       archetypeId: row.archetype_id,
-      archetype: archetype!,
+      archetype: archetype,
+      intent: (row.intent || 'general') as SessionIntent,
       status: row.status as SessionStatus,
       turns: [], // Don't load turns for list view
       extractedPatterns: [],
@@ -231,13 +245,14 @@ export async function updateSessionStatus(
 }
 
 /**
- * Update session details (topic, archetype)
+ * Update session details (topic, archetype, intent)
  */
 export async function updateSession(
   id: string,
   updates: {
     topic?: string
-    archetypeId?: string
+    archetypeId?: string | null
+    intent?: SessionIntent
     status?: SessionStatus
   }
 ): Promise<TeachingSession | null> {
@@ -254,6 +269,12 @@ export async function updateSession(
   if (updates.archetypeId !== undefined) {
     setClauses.push(`archetype_id = $${paramIndex}`)
     params.push(updates.archetypeId)
+    paramIndex++
+  }
+
+  if (updates.intent !== undefined) {
+    setClauses.push(`intent = $${paramIndex}`)
+    params.push(updates.intent)
     paramIndex++
   }
 
@@ -723,14 +744,15 @@ export async function getTeachingStats(): Promise<TeachingStats> {
 
   const recentSessions: TeachingSession[] = []
   for (const row of recentResult.rows) {
-    const archetype = await getArchetypeById(row.archetype_id)
+    const archetype = row.archetype_id ? await getArchetypeById(row.archetype_id) : null
     recentSessions.push({
       id: row.id,
       trainerId: row.trainer_id,
       trainerName: row.trainer_name,
       topic: row.topic,
       archetypeId: row.archetype_id,
-      archetype: archetype!,
+      archetype: archetype,
+      intent: (row.intent || 'general') as SessionIntent,
       status: row.status as SessionStatus,
       turns: [],
       extractedPatterns: [],

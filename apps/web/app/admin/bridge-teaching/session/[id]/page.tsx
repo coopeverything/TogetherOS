@@ -15,9 +15,26 @@ import type {
   ConversationTurn,
   UserArchetype,
   ConversationMode,
+  SessionIntent,
   Speaker,
   FeedbackRating,
 } from '@togetheros/types'
+
+const INTENT_LABELS: Record<SessionIntent, string> = {
+  information: 'Information Lookup',
+  brainstorm: 'Brainstorming',
+  articulation: 'Articulation Help',
+  roleplay: 'Role-play Training',
+  general: 'General Session',
+}
+
+const INTENT_COLORS: Record<SessionIntent, string> = {
+  information: '#3b82f6',
+  brainstorm: '#8b5cf6',
+  articulation: '#ec4899',
+  roleplay: '#f59e0b',
+  general: '#6b7280',
+}
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -63,7 +80,7 @@ export default function TeachingSessionPage({ params }: PageProps) {
       const data = await res.json()
       setSession(data.session)
       setEditTopic(data.session.topic)
-      setEditArchetypeId(data.session.archetypeId)
+      setEditArchetypeId(data.session.archetypeId || '')
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -335,21 +352,25 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   fontSize: '0.875rem',
                 }}
               />
-              <select
-                value={editArchetypeId}
-                onChange={(e) => setEditArchetypeId(e.target.value)}
-                className="teaching-input"
-                style={{
-                  padding: '0.375rem 0.5rem',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.25rem',
-                  fontSize: '0.875rem',
-                }}
-              >
-                {archetypes.map((arch) => (
-                  <option key={arch.id} value={arch.id}>{arch.name}</option>
-                ))}
-              </select>
+              {/* Only show archetype selector for roleplay sessions */}
+              {session.intent === 'roleplay' && (
+                <select
+                  value={editArchetypeId}
+                  onChange={(e) => setEditArchetypeId(e.target.value)}
+                  className="teaching-input"
+                  style={{
+                    padding: '0.375rem 0.5rem',
+                    border: '1px solid var(--border)',
+                    borderRadius: '0.25rem',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  <option value="">No archetype</option>
+                  {archetypes.map((arch) => (
+                    <option key={arch.id} value={arch.id}>{arch.name}</option>
+                  ))}
+                </select>
+              )}
               <button
                 onClick={saveSessionEdit}
                 style={{
@@ -368,7 +389,7 @@ export default function TeachingSessionPage({ params }: PageProps) {
                 onClick={() => {
                   setIsEditing(false)
                   setEditTopic(session.topic)
-                  setEditArchetypeId(session.archetypeId)
+                  setEditArchetypeId(session.archetypeId || '')
                 }}
                 style={{
                   padding: '0.375rem 0.75rem',
@@ -391,12 +412,23 @@ export default function TeachingSessionPage({ params }: PageProps) {
               <span style={{
                 fontSize: '0.75rem',
                 padding: '0.125rem 0.5rem',
-                background: 'var(--bg-2)',
+                background: INTENT_COLORS[session.intent] + '20',
                 borderRadius: '0.25rem',
-                color: 'var(--ink-700)',
+                color: INTENT_COLORS[session.intent],
               }}>
-                {session.archetype?.name}
+                {INTENT_LABELS[session.intent]}
               </span>
+              {session.archetype && (
+                <span style={{
+                  fontSize: '0.75rem',
+                  padding: '0.125rem 0.5rem',
+                  background: 'var(--bg-2)',
+                  borderRadius: '0.25rem',
+                  color: 'var(--ink-700)',
+                }}>
+                  {session.archetype.name}
+                </span>
+              )}
               <button
                 onClick={() => setIsEditing(true)}
                 style={{
@@ -473,19 +505,41 @@ export default function TeachingSessionPage({ params }: PageProps) {
         padding: '0.5rem 1rem',
       }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', fontSize: '0.8125rem', color: getModeColor(mode) }}>
-          {mode === 'demo' && (
+          {session.intent === 'roleplay' ? (
+            // Role-play specific instructions
             <>
-              <strong>Demo Mode:</strong> You demonstrate ideal Bridge responses. Write how Bridge should respond to the {session.archetype?.name || 'user'}.
+              {mode === 'demo' && (
+                <>
+                  <strong>Demo Mode:</strong> You demonstrate ideal Bridge responses. Write how Bridge should respond to the {session.archetype?.name || 'user'}.
+                </>
+              )}
+              {mode === 'practice' && (
+                <>
+                  <strong>Practice Mode:</strong> You play the {session.archetype?.name || 'user'}. Bridge will attempt to respond. Provide feedback on each response.
+                </>
+              )}
+              {mode === 'discussion' && (
+                <>
+                  <strong>Discussion Mode:</strong> Discuss the conversation freely. Analyze what worked, extract patterns, share insights.
+                </>
+              )}
             </>
-          )}
-          {mode === 'practice' && (
+          ) : (
+            // Non-roleplay intents (information, brainstorm, articulation, general)
             <>
-              <strong>Practice Mode:</strong> You play the {session.archetype?.name || 'user'}. Bridge will attempt to respond. Provide feedback on each response.
-            </>
-          )}
-          {mode === 'discussion' && (
-            <>
-              <strong>Discussion Mode:</strong> Discuss the conversation freely. Analyze what worked, extract patterns, share insights.
+              {session.intent === 'information' && (
+                <strong>Information Session:</strong>
+              )}
+              {session.intent === 'brainstorm' && (
+                <strong>Brainstorming Session:</strong>
+              )}
+              {session.intent === 'articulation' && (
+                <strong>Articulation Session:</strong>
+              )}
+              {session.intent === 'general' && (
+                <strong>General Session:</strong>
+              )}
+              {' '}Have a natural conversation with Bridge. Share your thoughts, ask questions, and explore together.
             </>
           )}
         </div>
@@ -707,11 +761,21 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   }
                 }}
                 placeholder={
-                  mode === 'demo'
-                    ? `Demonstrate how Bridge should respond...`
-                    : mode === 'practice'
-                    ? `Play the ${session.archetype?.name || 'user'} role...`
-                    : `Share thoughts or extract patterns...`
+                  session.intent === 'roleplay' ? (
+                    mode === 'demo'
+                      ? `Demonstrate how Bridge should respond...`
+                      : mode === 'practice'
+                      ? `Play the ${session.archetype?.name || 'user'} role...`
+                      : `Share thoughts or extract patterns...`
+                  ) : session.intent === 'information' ? (
+                    `Ask a question about CoopEverything...`
+                  ) : session.intent === 'brainstorm' ? (
+                    `Share your idea or thought to explore...`
+                  ) : session.intent === 'articulation' ? (
+                    `Try to express what you're thinking...`
+                  ) : (
+                    `Type your message...`
+                  )
                 }
                 className="teaching-input"
                 style={{
