@@ -9,6 +9,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import type {
   TeachingSession,
   UserArchetype,
@@ -410,6 +411,22 @@ export default function BridgeTeachingPage() {
 
                           {/* Actions */}
                           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            <Link
+                              href={`/admin/bridge-teaching/session/${session.id}`}
+                              style={{
+                                padding: '0.375rem 0.75rem',
+                                fontSize: '0.8125rem',
+                                border: '1px solid var(--brand-600)',
+                                borderRadius: '0.25rem',
+                                background: 'var(--brand-600)',
+                                color: 'white',
+                                cursor: 'pointer',
+                                textDecoration: 'none',
+                                fontWeight: 600,
+                              }}
+                            >
+                              Open Session
+                            </Link>
                             {session.status === 'active' && (
                               <button
                                 onClick={() => updateSessionStatus(session.id, 'completed')}

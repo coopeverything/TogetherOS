@@ -230,6 +230,56 @@ export async function updateSessionStatus(
   return getTeachingSessionById(id)
 }
 
+/**
+ * Update session details (topic, archetype)
+ */
+export async function updateSession(
+  id: string,
+  updates: {
+    topic?: string
+    archetypeId?: string
+    status?: SessionStatus
+  }
+): Promise<TeachingSession | null> {
+  const setClauses: string[] = ['updated_at = NOW()']
+  const params: any[] = []
+  let paramIndex = 1
+
+  if (updates.topic !== undefined) {
+    setClauses.push(`topic = $${paramIndex}`)
+    params.push(updates.topic)
+    paramIndex++
+  }
+
+  if (updates.archetypeId !== undefined) {
+    setClauses.push(`archetype_id = $${paramIndex}`)
+    params.push(updates.archetypeId)
+    paramIndex++
+  }
+
+  if (updates.status !== undefined) {
+    setClauses.push(`status = $${paramIndex}`)
+    params.push(updates.status)
+    paramIndex++
+    if (updates.status === 'completed') {
+      setClauses.push(`completed_at = NOW()`)
+    }
+  }
+
+  if (params.length === 0) {
+    return getTeachingSessionById(id)
+  }
+
+  await query(
+    `UPDATE bridge_teaching_sessions
+     SET ${setClauses.join(', ')}
+     WHERE id = $${paramIndex}`,
+    [...params, id]
+  )
+
+  return getTeachingSessionById(id)
+}
+
 // ============================================================================
 // CONVERSATION TURNS
 // ============================================================================

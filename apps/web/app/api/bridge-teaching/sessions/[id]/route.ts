@@ -1,8 +1,8 @@
 // GET /api/bridge-teaching/sessions/[id] - Get session by ID
-// PATCH /api/bridge-teaching/sessions/[id] - Update session status
+// PATCH /api/bridge-teaching/sessions/[id] - Update session (status, topic, archetype)
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getTeachingSessionById, updateSessionStatus } from '@togetheros/db'
+import { getTeachingSessionById, updateSession } from '@togetheros/db'
 import { requireAdmin } from '@/lib/auth/middleware'
 import type { SessionStatus } from '@togetheros/types'
 
@@ -38,16 +38,37 @@ export async function PATCH(
 
     const { id } = await params
     const body = await request.json()
-    const { status } = body as { status: SessionStatus }
+    const { status, topic, archetypeId } = body as {
+      status?: SessionStatus
+      topic?: string
+      archetypeId?: string
+    }
 
-    if (!status || !['active', 'completed', 'archived'].includes(status)) {
+    // Validate status if provided
+    if (status && !['active', 'completed', 'archived'].includes(status)) {
       return NextResponse.json(
-        { error: 'Valid status is required (active, completed, archived)' },
+        { error: 'Invalid status. Must be active, completed, or archived' },
         { status: 400 }
       )
     }
 
-    const session = await updateSessionStatus(id, status)
+    // Validate topic if provided
+    if (topic !== undefined && typeof topic !== 'string') {
+      return NextResponse.json(
+        { error: 'Topic must be a string' },
+        { status: 400 }
+      )
+    }
+
+    // At least one field must be provided
+    if (!status && !topic && !archetypeId) {
+      return NextResponse.json(
+        { error: 'At least one field (status, topic, archetypeId) is required' },
+        { status: 400 }
+      )
+    }
+
+    const session = await updateSession(id, { status, topic, archetypeId })
 
     if (!session) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 })
