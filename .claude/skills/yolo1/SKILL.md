@@ -171,8 +171,19 @@ When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
 - **If P1 alerts only in unmodified files:** Informational only (won't block merge)
 - Include security status in PR body: `SECURITY=OK (0 P1 alerts in modified files)` or `SECURITY=WARN (X P1 alerts exist, but not in modified files)`
 
-### 8. Git Operations
+### 8. Git Operations + Error Learning
 - Commit with message: `feat({module}): {slice} - {scope}`
+- **Invoke `error-learner` skill:**
+  - Analyze session transcript for error patterns
+  - Check `.claude/data/session-errors.json` for cross-session patterns
+  - **If same-session pattern (2+ occurrences):**
+    - Research root cause and best practice
+    - Update knowledge files immediately (before push)
+  - **If cross-session pattern detected:**
+    - Promote stored error to "pattern" status
+    - Update knowledge files immediately
+  - **If one-off error:**
+    - Store in session-errors.json for future tracking
 - Push branch: `git push -u origin feature/{module}-{slice}`
 
 ### 9. Progress & Next Steps Update
@@ -530,6 +541,7 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 
 - **pr-formatter**: PR creation, formatting, validation, AI feedback loop
 - **status-tracker**: Progress tracking, next steps management, Notion memory
+- **error-learner**: Session error analysis, cross-session pattern detection, KB updates
 
 **See those skills for:**
 - Keyword generation details → `pr-formatter`
@@ -537,3 +549,5 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 - Module progress keys → `status-tracker`
 - Notion memory updates → `status-tracker`
 - PR verification checklist → `pr-formatter`
+- Error pattern detection → `error-learner`
+- Cross-session learning → `error-learner`

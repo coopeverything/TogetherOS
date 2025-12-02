@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "description": "Cross-session error tracking for pattern detection and knowledge base updates",
+  "errors": [],
+  "resolved_patterns": [],
+  "last_updated": null
+}
