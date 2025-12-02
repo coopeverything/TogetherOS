@@ -332,6 +332,8 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   border: '1px solid var(--border)',
                   borderRadius: '0.25rem',
                   fontSize: '0.875rem',
+                  background: 'var(--bg-0)',
+                  color: 'var(--ink-900)',
                 }}
               />
               <select
@@ -342,6 +344,8 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   border: '1px solid var(--border)',
                   borderRadius: '0.25rem',
                   fontSize: '0.875rem',
+                  background: 'var(--bg-0)',
+                  color: 'var(--ink-900)',
                 }}
               >
                 {archetypes.map((arch) => (
@@ -690,6 +694,7 @@ export default function TeachingSessionPage({ params }: PageProps) {
                     borderRadius: '0.375rem',
                     fontSize: '0.8125rem',
                     background: 'var(--bg-0)',
+                    color: 'var(--ink-900)',
                   }}
                 />
               </div>
@@ -721,6 +726,8 @@ export default function TeachingSessionPage({ params }: PageProps) {
                   minHeight: '2.5rem',
                   maxHeight: '8rem',
                   fontFamily: 'inherit',
+                  background: 'var(--bg-0)',
+                  color: 'var(--ink-900)',
                 }}
                 rows={2}
               />
