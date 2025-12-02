@@ -96,7 +96,7 @@ export default function NewProposalPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-gray-600">Loading...</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading...</p>
         </div>
       </div>
     )
@@ -123,15 +123,15 @@ export default function NewProposalPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-8">
-        <nav className="mb-4 text-sm text-gray-600">
+        <nav className="mb-4 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
           <Link href="/governance" className="hover:text-orange-600">
             Proposals
           </Link>
           <span className="mx-2">→</span>
-          <span className="text-gray-900">Create New Proposal</span>
+          <span className="text-gray-900 dark:text-white">Create New Proposal</span>
         </nav>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create New Proposal</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Create New Proposal</h1>
+        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">
           Start with a clear title and summary. You can add evidence, options, and other details later.
         </p>
       </div>
@@ -144,7 +144,7 @@ export default function NewProposalPage() {
       )}
 
       {/* Form */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <ProposalForm
           currentUserId={currentUserId}
           groups={groups}

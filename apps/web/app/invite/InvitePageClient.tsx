@@ -110,10 +110,10 @@ export default function InvitePageClient() {
     return (
       <div className="min-h-screen bg-bg-0 py-8 px-4">
         <div className="max-w-4xl mx-auto animate-pulse">
-          <div className="h-10 bg-gray-200 rounded w-64 mb-8"></div>
+          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-8"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-24 bg-gray-200 rounded-xl"></div>
+              <div key={i} className="h-24 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -243,7 +243,7 @@ export default function InvitePageClient() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Add a personal note to your invitation..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                   rows={3}
                 />
               </div>
@@ -268,15 +268,15 @@ export default function InvitePageClient() {
         <Card className="p-6 mb-8 bg-gradient-to-r from-brand-50 to-purple-50">
           <h3 className="font-bold text-ink-900 mb-3">🎮 Invitation Rewards</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-3 bg-white rounded-lg">
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
               <p className="text-2xl font-bold text-brand-600">+25 RP</p>
               <p className="text-sm text-ink-600">When you send</p>
             </div>
-            <div className="text-center p-3 bg-white rounded-lg">
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
               <p className="text-2xl font-bold text-green-600">+50 RP</p>
               <p className="text-sm text-ink-600">When they join</p>
             </div>
-            <div className="text-center p-3 bg-white rounded-lg">
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
               <p className="text-2xl font-bold text-purple-600">+25 RP</p>
               <p className="text-sm text-ink-600">First contribution</p>
             </div>

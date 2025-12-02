@@ -245,7 +245,7 @@ export default function FeedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Two-column grid layout: Feed (left) + Sidebar (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -255,8 +255,8 @@ export default function FeedPage() {
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">Feed</h1>
-                  <p className="text-gray-600 mt-1">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Feed</h1>
+                  <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
                     Community posts and imported content
                   </p>
                 </div>

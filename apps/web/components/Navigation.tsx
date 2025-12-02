@@ -82,7 +82,7 @@ export default function Navigation() {
   }
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+    <nav className="bg-white dark:bg-gray-800 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -114,7 +114,7 @@ export default function Navigation() {
             {/* Search Icon */}
             <Link
               href="/search"
-              className="p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+              className="p-2 rounded-md text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
               aria-label="Search"
               title="Search"
             >
@@ -126,7 +126,7 @@ export default function Navigation() {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
+              className="p-2 rounded-md text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
@@ -145,7 +145,7 @@ export default function Navigation() {
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
+                className="p-2 rounded-md text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
                 aria-label="User menu"
                 aria-expanded={userMenuOpen}
               >
@@ -162,7 +162,7 @@ export default function Navigation() {
                     <>
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         Profile
@@ -170,7 +170,7 @@ export default function Navigation() {
                       {isAdmin && (
                         <Link
                           href="/admin"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                           onClick={() => setUserMenuOpen(false)}
                         >
                           Admin
@@ -179,7 +179,7 @@ export default function Navigation() {
                       <div className="border-t border-gray-100 dark:border-gray-700"></div>
                       <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                       >
                         Sign Out
                       </button>
@@ -188,14 +188,14 @@ export default function Navigation() {
                     <>
                       <Link
                         href="/login"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         Log In
                       </Link>
                       <Link
                         href="/signup"
-                        className="block px-4 py-2 text-sm text-orange-600 hover:bg-gray-100 dark:text-orange-400 dark:hover:bg-gray-700 font-medium"
+                        className="block px-4 py-2 text-sm text-orange-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-orange-400 dark:hover:bg-gray-700 font-medium"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         Sign Up
@@ -210,7 +210,7 @@ export default function Navigation() {
             {isLoggedIn && (
               <Link
                 href="/notifications"
-                className="p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white relative"
+                className="p-2 rounded-md text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white relative"
                 aria-label="Notifications"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -224,7 +224,7 @@ export default function Navigation() {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+              className="p-2 rounded-md text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -280,7 +280,7 @@ export default function Navigation() {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="flex items-center gap-2 w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+              className="flex items-center gap-2 w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
             >
               {darkMode ? (
                 <>
@@ -332,7 +332,7 @@ export default function Navigation() {
                     handleLogout()
                     setMobileMenuOpen(false)
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                 >
                   Sign Out
                 </button>
@@ -341,7 +341,7 @@ export default function Navigation() {
               <>
                 <Link
                   href="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Log In

@@ -76,7 +76,7 @@ export function Feed() {
             <div key={item.id} className="border-b pb-3 last:border-b-0 last:pb-0">
               {item.type === "Post" && (
                 <div>
-                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     <Badge variant="default" className="text-xs py-0 px-1.5">{item.type}</Badge>
                     <span>by {item.author}</span>
                     <span>• {item.time}</span>
@@ -84,10 +84,10 @@ export function Feed() {
                     {item.platform && <span>• {item.platform}</span>}
                   </div>
                   <h3 className="mt-1.5 text-sm font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">
+                  <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
                     {item.content}
                   </p>
-                  <div className="flex items-center justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center justify-between mt-2 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     <div className="flex space-x-3">
                       <span>❤️ {item.likes}</span>
                       <span>💡 {item.ideas}</span>
@@ -100,7 +100,7 @@ export function Feed() {
               )}
               {item.type === "Proposal" && (
                 <div>
-                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     <Badge variant="default" className="text-xs py-0 px-1.5">{item.type}</Badge>
                     <span>{item.status}</span>
                     <span>• {item.timeLeft}</span>
@@ -115,7 +115,7 @@ export function Feed() {
               )}
               {item.type === "Event" && (
                 <div>
-                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     <Badge variant="default" className="text-xs py-0 px-1.5">{item.type}</Badge>
                     <span>{item.time}</span>
                     <span>• 📍 {item.location}</span>

@@ -105,7 +105,7 @@ export function UnlockCelebration({
       >
         {/* Header with level badge */}
         <div className="bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-8 text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white dark:bg-gray-800/20 rounded-full mb-4">
             <span className="text-4xl font-bold text-white">
               {level}
             </span>

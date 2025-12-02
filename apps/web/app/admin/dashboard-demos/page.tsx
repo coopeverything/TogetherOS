@@ -149,22 +149,22 @@ export default function DashboardTestPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard Test</h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Test</h1>
+              <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
                 Comprehensive demo of proposed dashboard layout
               </p>
             </div>
             <div className="flex gap-2">
-              <button className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors">
+              <button className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-md hover:bg-gray-200 dark:bg-gray-700 transition-colors">
                 Profile
               </button>
-              <button className="px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors">
+              <button className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white dark:text-white transition-colors">
                 Logout
               </button>
             </div>
@@ -187,10 +187,10 @@ export default function DashboardTestPage() {
                   {userGroups.map((group) => (
                     <div
                       key={group.id}
-                      className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                      className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer transition-colors"
                     >
-                      <div className="font-medium text-gray-900">{group.name}</div>
-                      <div className="text-sm text-gray-600 mt-1 space-y-0.5">
+                      <div className="font-medium text-gray-900 dark:text-white">{group.name}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1 space-y-0.5">
                         {group.newPosts > 0 && <div>🔔 {group.newPosts} new posts</div>}
                         {group.upcomingEvents > 0 && <div>📅 Event tomorrow</div>}
                         {group.activeVotes > 0 && <div>🗳️ Vote ending soon</div>}
@@ -209,24 +209,24 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Your Activity">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Posts this week:</span>
-                    <span className="font-medium text-gray-900">3</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Posts this week:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">3</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Reactions:</span>
-                    <span className="font-medium text-gray-900">47</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Reactions:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">47</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Discussions:</span>
-                    <span className="font-medium text-gray-900">12</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Discussions:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">12</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Votes cast:</span>
-                    <span className="font-medium text-gray-900">2</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Votes cast:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Events attended:</span>
-                    <span className="font-medium text-gray-900">1</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Events attended:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">1</span>
                   </div>
                 </div>
               </CollapsibleModule>
@@ -238,10 +238,10 @@ export default function DashboardTestPage() {
                 <div className="space-y-2">
                   {priorities.map((priority) => (
                     <div key={priority.rank} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-900">
+                      <span className="text-gray-900 dark:text-white">
                         {priority.rank}. {priority.topic}
                       </span>
-                      <span className="text-gray-600">({priority.weight}/10)</span>
+                      <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">({priority.weight}/10)</span>
                     </div>
                   ))}
                   <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-3">
@@ -258,7 +258,7 @@ export default function DashboardTestPage() {
                   {cooperationPaths.map((path) => (
                     <div key={path.id} className="flex items-center gap-2 text-sm">
                       <span className="text-base">{path.emoji}</span>
-                      <span className="text-gray-900">{path.name}</span>
+                      <span className="text-gray-900 dark:text-white">{path.name}</span>
                     </div>
                   ))}
                   <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-3">
@@ -275,10 +275,10 @@ export default function DashboardTestPage() {
                   {communityFocus.map((item) => (
                     <div key={item.topic}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-900">{item.topic}</span>
-                        <span className="text-gray-600">{item.percentage}%</span>
+                        <span className="text-gray-900 dark:text-white">{item.topic}</span>
+                        <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">{item.percentage}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                         <div
                           className="bg-orange-600 h-2 rounded-full"
                           style={{ width: `${item.percentage}%` }}
@@ -297,9 +297,9 @@ export default function DashboardTestPage() {
           {/* CENTRAL FEED (2 columns) */}
           <main className="lg:col-span-2 space-y-6">
             {/* Feed Header */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900">Feed</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Feed</h2>
                 <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
                   + Create Post
                 </button>
@@ -329,13 +329,13 @@ export default function DashboardTestPage() {
                 if (post.type === 'post') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                               <span>by {post.author}</span>
                               <span>•</span>
                               <span>{post.time}</span>
@@ -350,8 +350,8 @@ export default function DashboardTestPage() {
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-700 mb-4">{post.summary}</p>
-                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <p className="text-gray-700 dark:text-gray-300 mb-4">{post.summary}</p>
+                        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                           <span>❤️ {post.reactions?.care}</span>
                           <span>💡 {post.reactions?.insightful}</span>
                           <span>✓ {post.reactions?.agree}</span>
@@ -374,7 +374,7 @@ export default function DashboardTestPage() {
                             <div className="text-xs font-bold text-orange-800 mb-1">
                               🗳️ PROPOSAL
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                               {post.title}
                             </h3>
                             <div className="flex items-center gap-2 text-sm">
@@ -387,12 +387,12 @@ export default function DashboardTestPage() {
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-700 mb-4">{post.summary}</p>
+                        <p className="text-gray-700 dark:text-gray-300 mb-4">{post.summary}</p>
                         <div className="flex gap-3">
                           <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
                             Vote Now
                           </button>
-                          <button className="px-4 py-2 bg-white text-orange-600 border border-orange-600 rounded-lg hover:bg-orange-50 transition-colors">
+                          <button className="px-4 py-2 bg-white dark:bg-gray-800 text-orange-600 border border-orange-600 rounded-lg hover:bg-orange-50 transition-colors">
                             View Details
                           </button>
                         </div>
@@ -410,30 +410,30 @@ export default function DashboardTestPage() {
                             <div className="text-xs font-bold text-blue-800 mb-1">
                               📅 EVENT
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                               <span>{post.date}</span>
                               <span>•</span>
                               <span>📍 {post.location}</span>
                               <span>•</span>
                               <span>{post.attendees} attending</span>
                             </div>
-                            <div className="text-sm text-gray-500 mt-1">
+                            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-1">
                               Hosted by {post.host}
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-700 mb-4">{post.summary}</p>
+                        <p className="text-gray-700 dark:text-gray-300 mb-4">{post.summary}</p>
                         <div className="flex gap-3">
                           <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                             RSVP Going
                           </button>
-                          <button className="px-4 py-2 bg-white text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                          <button className="px-4 py-2 bg-white dark:bg-gray-800 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
                             Details
                           </button>
-                          <button className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors">
+                          <button className="px-4 py-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white transition-colors">
                             Share
                           </button>
                         </div>
@@ -453,17 +453,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Needs Your Action">
                 <div className="space-y-2 text-sm">
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <span className="text-gray-900">🗳️ 5 proposals to vote</span>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <span className="text-gray-900 dark:text-white">🗳️ 5 proposals to vote</span>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <span className="text-gray-900">💬 3 discussions need reply</span>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <span className="text-gray-900 dark:text-white">💬 3 discussions need reply</span>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <span className="text-gray-900">⏰ 12 tasks overdue</span>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <span className="text-gray-900 dark:text-white">⏰ 12 tasks overdue</span>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <span className="text-gray-900">📝 2 drafts to finish</span>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <span className="text-gray-900 dark:text-white">📝 2 drafts to finish</span>
                   </button>
                 </div>
               </CollapsibleModule>
@@ -474,10 +474,10 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Upcoming Events">
                 <div className="space-y-3">
                   {upcomingEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors">
-                      <div className="text-xs text-gray-600 mb-1">{event.date}</div>
-                      <div className="font-medium text-gray-900 mb-1">{event.title}</div>
-                      <div className="text-sm text-gray-600">
+                    <div key={event.id} className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer transition-colors">
+                      <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-1">{event.date}</div>
+                      <div className="font-medium text-gray-900 dark:text-white mb-1">{event.title}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                         📍 {event.location} • {event.attendees} going
                       </div>
                       <button className="text-sm text-blue-600 hover:text-blue-700 font-medium mt-2">
@@ -496,17 +496,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Upcoming Votes">
                 <div className="space-y-3">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-gray-900 mb-1">Farmers Market</div>
-                    <div className="text-sm text-gray-600 mb-2">2 days left • 67% voted</div>
+                  <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                    <div className="font-medium text-gray-900 dark:text-white mb-1">Farmers Market</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">2 days left • 67% voted</div>
                     <button className="w-full px-3 py-1.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium">
                       Vote Now
                     </button>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-gray-900 mb-1">Community Garden</div>
-                    <div className="text-sm text-gray-600 mb-2">5 days left • 45% voted</div>
-                    <button className="w-full px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+                  <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                    <div className="font-medium text-gray-900 dark:text-white mb-1">Community Garden</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">5 days left • 45% voted</div>
+                    <button className="w-full px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium">
                       View Details
                     </button>
                   </div>
@@ -519,9 +519,9 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Groups For You">
                 <div className="space-y-3">
                   {suggestedGroups.slice(0, 3).map((group) => (
-                    <div key={group.id} className="p-3 bg-gray-50 rounded-lg">
-                      <div className="font-medium text-gray-900 mb-1">{group.name}</div>
-                      <div className="text-sm text-gray-600 mb-2">
+                    <div key={group.id} className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                      <div className="font-medium text-gray-900 dark:text-white mb-1">{group.name}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">
                         {group.location} • {group.members} members
                       </div>
                       <div className="text-xs text-green-700 mb-2">Matches: {group.match}%</div>
@@ -541,17 +541,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Hot Topics">
                 <div className="space-y-2">
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <div className="font-medium text-gray-900">🔥 Housing Crisis</div>
-                    <div className="text-sm text-gray-600">47 participants</div>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <div className="font-medium text-gray-900 dark:text-white">🔥 Housing Crisis</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">47 participants</div>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <div className="font-medium text-gray-900">🔥 Climate Action</div>
-                    <div className="text-sm text-gray-600">32 participants</div>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <div className="font-medium text-gray-900 dark:text-white">🔥 Climate Action</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">32 participants</div>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 rounded transition-colors">
-                    <div className="font-medium text-gray-900">💬 Local Farmers Markets</div>
-                    <div className="text-sm text-gray-600">18 participants</div>
+                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
+                    <div className="font-medium text-gray-900 dark:text-white">💬 Local Farmers Markets</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">18 participants</div>
                   </button>
                 </div>
               </CollapsibleModule>
@@ -562,13 +562,13 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="For You">
                 <div className="space-y-3 text-sm">
                   <div className="p-3 bg-blue-50 rounded-lg">
-                    <div className="text-gray-900 mb-1">You care about Housing</div>
+                    <div className="text-gray-900 dark:text-white mb-1">You care about Housing</div>
                     <button className="text-blue-600 hover:text-blue-700 font-medium">
                       → Join Housing Task Force
                     </button>
                   </div>
                   <div className="p-3 bg-green-50 rounded-lg">
-                    <div className="text-gray-900 mb-1">3 people near you care about Climate</div>
+                    <div className="text-gray-900 dark:text-white mb-1">3 people near you care about Climate</div>
                     <button className="text-green-600 hover:text-green-700 font-medium">
                       → Invite to group
                     </button>

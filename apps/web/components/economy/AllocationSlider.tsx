@@ -85,7 +85,7 @@ export function AllocationSlider({
 
       <CardContent className="space-y-4">
         {/* Proposal Title */}
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+        <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg p-3">
           <p className="text-sm font-medium text-gray-900 dark:text-white">
             {proposalTitle}
           </p>
@@ -94,7 +94,7 @@ export function AllocationSlider({
         {/* Allocation Slider */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
               Amount to allocate
             </span>
             <span className="text-lg font-bold text-blue-600">
@@ -112,7 +112,7 @@ export function AllocationSlider({
             className="w-full"
           />
 
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
             <span>0</span>
             <span>5</span>
             <span>10</span>
@@ -177,7 +177,7 @@ export function AllocationSlider({
         </div>
 
         {/* Anti-Plutocracy Notice */}
-        <div className="text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
           <p className="flex items-start gap-1">
             <span className="text-blue-600 dark:text-blue-400">ℹ️</span>
             <span>

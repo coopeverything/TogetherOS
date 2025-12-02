@@ -63,29 +63,29 @@ function WikiCard({
   return (
     <Link
       href={`/wiki/${slug}`}
-      className="block bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-300 hover:shadow-md transition-all duration-200 group"
+      className="block bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:border-blue-300 hover:shadow-md transition-all duration-200 group"
     >
       <div className="flex items-start justify-between gap-4 mb-3">
-        <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
         <StatusBadge status={status} />
       </div>
 
-      <p className="text-gray-600 leading-relaxed mb-4">{summary}</p>
+      <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed mb-4">{summary}</p>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {tags.slice(0, 4).map((tag) => (
           <span
             key={tag}
-            className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs"
+            className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 dark:text-gray-500 rounded text-xs"
           >
             {tag}
           </span>
         ))}
       </div>
 
-      <div className="flex items-center gap-4 text-sm text-gray-500">
+      <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
         <span className="flex items-center gap-1">
           <svg
             className="w-4 h-4"
@@ -155,12 +155,12 @@ export default function WikiPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Wiki</h1>
-              <p className="text-gray-500">Community-owned knowledge</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Wiki</h1>
+              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Community-owned knowledge</p>
             </div>
           </div>
 
-          <p className="text-lg text-gray-600 leading-relaxed max-w-3xl">
+          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed max-w-3xl">
             These articles are <strong>collectively maintained</strong> by the
             community. They represent our evolving understanding of cooperation,
             governance, and how we work together. Every concept is open to
@@ -170,7 +170,7 @@ export default function WikiPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/glossary"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-300 hover:border-blue-300 hover:bg-blue-50 transition-colors"
             >
               <svg
                 className="w-4 h-4"
@@ -189,7 +189,7 @@ export default function WikiPage() {
             </Link>
             <Link
               href="/forum"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-300 hover:border-blue-300 hover:bg-blue-50 transition-colors"
             >
               <svg
                 className="w-4 h-4"
@@ -210,26 +210,26 @@ export default function WikiPage() {
         </div>
 
         {/* Status Legend */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-8">
-          <h2 className="text-sm font-medium text-gray-700 mb-3">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-8">
+          <h2 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
             Article Status
           </h2>
           <div className="flex flex-wrap gap-6">
             <div className="flex items-center gap-2">
               <StatusBadge status="stable" />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 Broad consensus, rarely edited
               </span>
             </div>
             <div className="flex items-center gap-2">
               <StatusBadge status="evolving" />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 Active refinement, open to input
               </span>
             </div>
             <div className="flex items-center gap-2">
               <StatusBadge status="contested" />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 Active debate, see discussion
               </span>
             </div>
@@ -238,33 +238,33 @@ export default function WikiPage() {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          <div className="bg-white rounded-lg border border-gray-200 p-4 text-center">
-            <div className="text-2xl font-bold text-gray-900">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {wikiArticles.length}
             </div>
-            <div className="text-sm text-gray-500">Articles</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Articles</div>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
             <div className="text-2xl font-bold text-green-600">
               {stableArticles.length}
             </div>
-            <div className="text-sm text-gray-500">Stable</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Stable</div>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
             <div className="text-2xl font-bold text-yellow-600">
               {evolvingArticles.length}
             </div>
-            <div className="text-sm text-gray-500">Evolving</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Evolving</div>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{tags.length}</div>
-            <div className="text-sm text-gray-500">Topics</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Topics</div>
           </div>
         </div>
 
         {/* All Articles */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
             All Articles
           </h2>
           <div className="space-y-4">
@@ -286,10 +286,10 @@ export default function WikiPage() {
 
         {/* Footer */}
         <div className="mt-12 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
-          <h3 className="font-semibold text-gray-900 mb-2">
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
             This is community knowledge
           </h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
             Every article can be discussed, challenged, and improved. If you
             disagree with something or have a better way to explain it, start a
             discussion. That's how we learn together.
@@ -303,7 +303,7 @@ export default function WikiPage() {
             </Link>
             <Link
               href="/manifesto"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               Read the Manifesto
             </Link>

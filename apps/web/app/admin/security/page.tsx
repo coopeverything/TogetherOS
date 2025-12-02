@@ -151,7 +151,7 @@ export default function SecurityAdminPage() {
       case 'down':
         return <span className="text-red-500">↓</span>;
       case 'stable':
-        return <span className="text-gray-400">→</span>;
+        return <span className="text-gray-400 dark:text-gray-500">→</span>;
       default:
         return null;
     }
@@ -187,7 +187,7 @@ export default function SecurityAdminPage() {
             href="https://github.com/coopeverything/TogetherOS/security/code-scanning"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-sm"
+            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-700 transition-colors text-sm"
           >
             View CodeQL Alerts →
           </a>
@@ -207,7 +207,7 @@ export default function SecurityAdminPage() {
                 {metric.value}
                 {getTrendIcon(metric.trend)}
               </div>
-              <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <div className="text-xs text-gray-400 dark:text-gray-500 dark:text-gray-400 mt-1">
                 {metric.description}
               </div>
             </div>
@@ -245,7 +245,7 @@ export default function SecurityAdminPage() {
                   </p>
                 </div>
                 {feature.lastChecked && (
-                  <div className="text-xs text-gray-400 dark:text-gray-500">
+                  <div className="text-xs text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Checked: {new Date(feature.lastChecked).toLocaleString()}
                   </div>
                 )}
@@ -264,7 +264,7 @@ export default function SecurityAdminPage() {
               href="https://github.com/coopeverything/TogetherOS/security/code-scanning"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
             >
               <div className="font-medium text-gray-900 dark:text-white">
                 View Security Alerts
@@ -277,7 +277,7 @@ export default function SecurityAdminPage() {
               href="https://github.com/coopeverything/TogetherOS/security/dependabot"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
             >
               <div className="font-medium text-gray-900 dark:text-white">
                 Dependabot Alerts
@@ -288,7 +288,7 @@ export default function SecurityAdminPage() {
             </a>
             <a
               href="/privacy"
-              className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
             >
               <div className="font-medium text-gray-900 dark:text-white">
                 Privacy Policy
@@ -300,7 +300,7 @@ export default function SecurityAdminPage() {
             <a
               href="/SECURITY.md"
               target="_blank"
-              className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
             >
               <div className="font-medium text-gray-900 dark:text-white">
                 Security Policy

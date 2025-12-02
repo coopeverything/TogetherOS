@@ -73,11 +73,11 @@ export default function DashboardShowcase() {
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
       {/* Main Header with Tabs */}
-      <header className="bg-white shadow-sm dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <header className="bg-white dark:bg-gray-800 shadow-sm dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
+              <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100 dark:text-white">
                 Dashboard Showcase
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -86,7 +86,7 @@ export default function DashboardShowcase() {
             </div>
             <a
               href="/admin"
-              className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+              className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white dark:text-gray-400 dark:hover:text-white"
             >
               ← Back to Admin
             </a>
@@ -120,7 +120,7 @@ export default function DashboardShowcase() {
           {/* Sub-tabs for Styles */}
           {mainTab === 'styles' && (
             <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
-              <span className="text-xs text-gray-500 mr-2">Style:</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mr-2">Style:</span>
               <Button
                 variant={styleVariant === 'default' ? 'secondary' : 'ghost'}
                 size="sm"

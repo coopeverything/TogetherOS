@@ -187,7 +187,7 @@ export default function NewArticlePage() {
   if (isLoggedIn === null) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 flex items-center justify-center">
-        <div className="animate-pulse text-gray-500">Loading...</div>
+        <div className="animate-pulse text-gray-500 dark:text-gray-400 dark:text-gray-500">Loading...</div>
       </div>
     )
   }
@@ -198,10 +198,10 @@ export default function NewArticlePage() {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
           <div className="text-6xl mb-4">🔐</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             Sign in to write an article
           </h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
             You need to be logged in to share your perspective with the community.
           </p>
           <div className="flex justify-center gap-4">
@@ -213,7 +213,7 @@ export default function NewArticlePage() {
             </Link>
             <Link
               href="/signup"
-              className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              className="px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
             >
               Sign Up
             </Link>
@@ -231,7 +231,7 @@ export default function NewArticlePage() {
           <nav className="mb-4">
             <Link
               href="/articles"
-              className="text-sm text-gray-500 hover:text-orange-600 flex items-center gap-1"
+              className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 hover:text-orange-600 flex items-center gap-1"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -245,19 +245,19 @@ export default function NewArticlePage() {
               ✍️
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Write an Article</h1>
-              <p className="text-gray-600">Share your perspective with the community</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Write an Article</h1>
+              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Share your perspective with the community</p>
             </div>
           </div>
 
           {/* Author preview */}
-          <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200">
+          <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-sm font-medium">
               {currentUser?.name.charAt(0) || '?'}
             </div>
             <div className="text-sm">
-              <span className="text-gray-500">Writing as </span>
-              <span className="font-medium text-gray-900">{currentUser?.name}</span>
+              <span className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Writing as </span>
+              <span className="font-medium text-gray-900 dark:text-white">{currentUser?.name}</span>
             </div>
           </div>
         </header>
@@ -270,7 +270,7 @@ export default function NewArticlePage() {
         )}
 
         {/* Editor / Preview Toggle */}
-        <div className="flex items-center gap-2 mb-6 p-1 bg-gray-100 rounded-lg w-fit">
+        <div className="flex items-center gap-2 mb-6 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg w-fit">
           <button
             type="button"
             onClick={() => setShowPreview(false)}
@@ -297,17 +297,17 @@ export default function NewArticlePage() {
 
         {showPreview ? (
           /* Preview Mode */
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-8">
             <div className="text-sm text-orange-600 uppercase tracking-wide font-medium mb-2">
               Expert Opinion
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               {title || 'Your title here...'}
             </h1>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
               {summary || 'Your summary here...'}
             </p>
-            <div className="flex items-center gap-4 text-sm text-gray-500 mb-6 pb-6 border-b border-gray-200">
+            <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
               <span>{readTimeMinutes} min read</span>
               <span>{wordCount} words</span>
             </div>
@@ -315,16 +315,16 @@ export default function NewArticlePage() {
               {content ? (
                 <ReactMarkdown>{content}</ReactMarkdown>
               ) : (
-                <p className="text-gray-400 italic">Your content here...</p>
+                <p className="text-gray-400 dark:text-gray-500 italic">Your content here...</p>
               )}
             </div>
             {tags.length > 0 && (
-              <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                      className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm"
                     >
                       {tag}
                     </span>
@@ -338,7 +338,7 @@ export default function NewArticlePage() {
           <form className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-900 mb-2">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                 Title <span className="text-red-500">*</span>
               </label>
               <input
@@ -353,12 +353,12 @@ export default function NewArticlePage() {
                 disabled={isSubmitting}
               />
               {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
-              <p className="mt-1 text-xs text-gray-500">{title.length} / 200 characters</p>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{title.length} / 200 characters</p>
             </div>
 
             {/* Summary */}
             <div>
-              <label htmlFor="summary" className="block text-sm font-medium text-gray-900 mb-2">
+              <label htmlFor="summary" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                 Summary <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -373,15 +373,15 @@ export default function NewArticlePage() {
                 disabled={isSubmitting}
               />
               {errors.summary && <p className="mt-1 text-sm text-red-600">{errors.summary}</p>}
-              <p className="mt-1 text-xs text-gray-500">{summary.length} / 500 characters</p>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{summary.length} / 500 characters</p>
             </div>
 
             {/* Content */}
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-900 mb-2">
+              <label htmlFor="content" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                 Content <span className="text-red-500">*</span>
               </label>
-              <div className="text-xs text-gray-500 mb-2">Supports Markdown formatting</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-2">Supports Markdown formatting</div>
               <textarea
                 id="content"
                 value={content}
@@ -394,14 +394,14 @@ export default function NewArticlePage() {
                 disabled={isSubmitting}
               />
               {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content}</p>}
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                 {wordCount} words · ~{readTimeMinutes} min read
               </p>
             </div>
 
             {/* Tags */}
             <div>
-              <label htmlFor="tags" className="block text-sm font-medium text-gray-900 mb-2">
+              <label htmlFor="tags" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                 Tags <span className="text-red-500">*</span>
               </label>
               <div className="flex flex-wrap gap-2 mb-2">
@@ -438,7 +438,7 @@ export default function NewArticlePage() {
                   type="button"
                   onClick={addTag}
                   disabled={!tagInput.trim() || tags.length >= 5}
-                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Add
                 </button>
@@ -447,7 +447,7 @@ export default function NewArticlePage() {
 
               {/* Tag suggestions */}
               <div className="mt-2 flex flex-wrap gap-1">
-                <span className="text-xs text-gray-500 mr-2">Suggestions:</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mr-2">Suggestions:</span>
                 {TAG_SUGGESTIONS.filter((t) => !tags.includes(t))
                   .slice(0, 8)
                   .map((tag) => (
@@ -459,7 +459,7 @@ export default function NewArticlePage() {
                           setTags([...tags, tag])
                         }
                       }}
-                      className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs hover:bg-gray-200"
+                      className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 dark:text-gray-500 rounded text-xs hover:bg-gray-200 dark:bg-gray-700"
                     >
                       + {tag}
                     </button>
@@ -469,10 +469,10 @@ export default function NewArticlePage() {
 
             {/* Cooperation Paths */}
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
+              <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                 Cooperation Paths (optional)
               </label>
-              <p className="text-xs text-gray-500 mb-3">
+              <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-3">
                 Select paths that relate to your article's topic
               </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -494,10 +494,10 @@ export default function NewArticlePage() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+            <div className="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
               <Link
                 href="/articles"
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white font-medium"
               >
                 Cancel
               </Link>
@@ -506,7 +506,7 @@ export default function NewArticlePage() {
                   type="button"
                   onClick={() => handleSubmit('draft')}
                   disabled={isSubmitting}
-                  className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium disabled:opacity-50"
+                  className="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 font-medium disabled:opacity-50"
                 >
                   {isSubmitting ? 'Saving...' : 'Save Draft'}
                 </button>
@@ -524,8 +524,8 @@ export default function NewArticlePage() {
         )}
 
         {/* Help Text */}
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200 text-sm text-gray-600">
-          <h4 className="font-medium text-gray-900 mb-2">Writing Tips</h4>
+        <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+          <h4 className="font-medium text-gray-900 dark:text-white mb-2">Writing Tips</h4>
           <ul className="list-disc list-inside space-y-1">
             <li>Use clear, descriptive titles that capture your main argument</li>
             <li>Structure your article with headings (## Heading) for readability</li>

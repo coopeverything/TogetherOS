@@ -47,8 +47,8 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-600 text-sm">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-gray-600 dark:text-gray-400 text-sm">Loading...</div>
       </div>
     )
   }
@@ -329,14 +329,14 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
             Admin Dashboard
           </h1>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             System administration and configuration
           </p>
         </div>
@@ -344,15 +344,15 @@ export default function AdminDashboard() {
         {/* Collapsible Sections */}
         <div className="space-y-3">
           {sections.map((section) => (
-            <div key={section.title} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div key={section.title} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               {/* Section Header (Clickable) */}
               <button
                 onClick={() => toggleSection(section.title)}
-                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
               >
                 <div className="flex items-center gap-2">
                   <svg
-                    className={`w-4 h-4 text-gray-500 transition-transform ${
+                    className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
                       expandedSection === section.title ? 'rotate-90' : ''
                     }`}
                     fill="none"
@@ -361,23 +361,23 @@ export default function AdminDashboard() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span className="font-medium text-gray-900">{section.title}</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{section.title}</span>
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
                   {section.items.filter(i => i.status === 'active').length} / {section.items.length} active
                 </span>
               </button>
 
               {/* Section Content (Expandable) */}
               {expandedSection === section.title && (
-                <div className="border-t border-gray-200 bg-gray-50">
+                <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                   {section.items.map((item) => (
                     <a
                       key={item.path}
                       href={item.status === 'active' ? item.path : undefined}
-                      className={`block px-4 py-3 border-b border-gray-100 last:border-b-0 ${
+                      className={`block px-4 py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${
                         item.status === 'active'
-                          ? 'hover:bg-white cursor-pointer'
+                          ? 'hover:bg-white dark:hover:bg-gray-800 cursor-pointer'
                           : 'cursor-not-allowed opacity-60'
                       }`}
                       onClick={(e) => {
@@ -389,22 +389,22 @@ export default function AdminDashboard() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium text-gray-900 text-sm">
+                            <span className="font-medium text-gray-900 dark:text-white text-sm">
                               {item.title}
                             </span>
                             {item.status === 'coming-soon' && (
-                              <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded">
+                              <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">
                                 Coming Soon
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-600 leading-relaxed">
+                          <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                             {item.description}
                           </p>
                         </div>
                         {item.status === 'active' && (
                           <svg
-                            className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5"
+                            className="w-4 h-4 text-gray-400 dark:text-gray-500 dark:text-gray-400 flex-shrink-0 mt-0.5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -423,12 +423,12 @@ export default function AdminDashboard() {
 
 
         {/* Quick Links */}
-        <div className="mt-6 text-xs text-gray-500 flex items-center gap-3">
-          <a href="/" className="hover:text-gray-700">Home</a>
+        <div className="mt-6 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-3">
+          <a href="/" className="hover:text-gray-700 dark:hover:text-gray-300 dark:hover:text-gray-300">Home</a>
           <span>•</span>
-          <a href="/bridge" className="hover:text-gray-700">Bridge</a>
+          <a href="/bridge" className="hover:text-gray-700 dark:hover:text-gray-300 dark:hover:text-gray-300">Bridge</a>
           <span>•</span>
-          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700">
+          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 dark:hover:text-gray-300">
             GitHub
           </a>
         </div>

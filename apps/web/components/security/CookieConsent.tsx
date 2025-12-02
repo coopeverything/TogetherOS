@@ -87,7 +87,7 @@ export function CookieConsent() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white dark:bg-gray-800 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg">
       <div className="max-w-7xl mx-auto">
         {!showPreferences ? (
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -95,7 +95,7 @@ export function CookieConsent() {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                 Cookie Preferences
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                 We use cookies to ensure the basic functionality of our site and to enhance your experience.
                 We only use privacy-respecting tools and never sell your data.{' '}
                 <a
@@ -109,13 +109,13 @@ export function CookieConsent() {
             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
               <button
                 onClick={() => setShowPreferences(true)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-700 transition-colors"
               >
                 Customize
               </button>
               <button
                 onClick={handleAcceptNecessary}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors"
               >
                 Necessary Only
               </button>
@@ -135,7 +135,7 @@ export function CookieConsent() {
               </h3>
               <button
                 onClick={() => setShowPreferences(false)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="text-gray-500 dark:text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:text-gray-400 dark:hover:text-gray-200"
                 aria-label="Close preferences"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,58 +146,58 @@ export function CookieConsent() {
 
             <div className="space-y-3">
               {/* Necessary cookies */}
-              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
                 <input
                   type="checkbox"
                   checked={true}
                   disabled
-                  className="mt-1 h-4 w-4 rounded border-gray-300"
+                  className="mt-1 h-4 w-4 rounded border-gray-300 dark:border-gray-600"
                 />
                 <div>
                   <label className="font-medium text-gray-900 dark:text-white">
                     Necessary Cookies
                   </label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Required for authentication, security, and basic functionality. Cannot be disabled.
                   </p>
                 </div>
               </div>
 
               {/* Functional cookies */}
-              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
                 <input
                   type="checkbox"
                   checked={preferences.functional}
                   onChange={(e) =>
                     setPreferences({ ...preferences, functional: e.target.checked })
                   }
-                  className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="mt-1 h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                 />
                 <div>
                   <label className="font-medium text-gray-900 dark:text-white">
                     Functional Cookies
                   </label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Remember your preferences like theme, language, and display settings.
                   </p>
                 </div>
               </div>
 
               {/* Analytics cookies */}
-              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
                 <input
                   type="checkbox"
                   checked={preferences.analytics}
                   onChange={(e) =>
                     setPreferences({ ...preferences, analytics: e.target.checked })
                   }
-                  className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="mt-1 h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                 />
                 <div>
                   <label className="font-medium text-gray-900 dark:text-white">
                     Analytics Cookies
                   </label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Help us understand how you use the site. We use privacy-respecting Vercel Analytics (no personal data tracked).
                   </p>
                 </div>
@@ -207,7 +207,7 @@ export function CookieConsent() {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={handleAcceptNecessary}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors"
               >
                 Necessary Only
               </button>

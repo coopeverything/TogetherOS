@@ -62,36 +62,36 @@ export default function LearnPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-600">Loading learning paths...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading learning paths...</div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-red-600">{error}</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
               Learn
             </h1>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
               Explore learning paths to understand how TogetherOS works
             </p>
           </div>
           <Link
             href="/learn/badges"
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
             <span className="text-lg">🏆</span>
             <span>Badges</span>
@@ -100,14 +100,14 @@ export default function LearnPage() {
 
         {/* Overall Progress */}
         {totalLessons > 0 && (
-          <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Overall Progress</span>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Overall Progress</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 {completedLessons} / {totalLessons} lessons
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div
                 className="bg-green-500 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${overallProgress}%` }}
@@ -136,7 +136,7 @@ export default function LearnPage() {
         {/* Learning Paths */}
         <div className="space-y-4">
           {filteredPaths.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400 dark:text-gray-500">
               No learning paths available yet.
             </div>
           ) : (
@@ -144,7 +144,7 @@ export default function LearnPage() {
               <Link
                 key={path.id}
                 href={`/learn/${path.slug}`}
-                className="block bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
+                className="block bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start gap-4">
                   {/* Icon */}
@@ -155,7 +155,7 @@ export default function LearnPage() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-medium text-gray-900 truncate">
+                      <h3 className="font-medium text-gray-900 dark:text-white truncate">
                         {path.title}
                       </h3>
                       {path.userProgress?.status === 'completed' && (
@@ -164,13 +164,13 @@ export default function LearnPage() {
                     </div>
 
                     {path.description && (
-                      <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2 line-clamp-2">
                         {path.description}
                       </p>
                     )}
 
                     {/* Meta info */}
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                       <span>{path.lessonCount} lessons</span>
                       <span>~{path.estimatedMinutes} min</span>
                       <span className="text-green-600 font-medium">
@@ -181,13 +181,13 @@ export default function LearnPage() {
                     {/* Progress bar */}
                     {path.lessonCount > 0 && (
                       <div className="mt-3">
-                        <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-1">
                           <span>Progress</span>
                           <span>
                             {path.completedLessonCount} / {path.lessonCount}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-100 rounded-full h-1.5">
+                        <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5">
                           <div
                             className={`h-1.5 rounded-full transition-all duration-300 ${
                               path.completedLessonCount === path.lessonCount
@@ -205,7 +205,7 @@ export default function LearnPage() {
 
                   {/* Arrow */}
                   <svg
-                    className="w-5 h-5 text-gray-400 flex-shrink-0"
+                    className="w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

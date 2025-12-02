@@ -119,15 +119,15 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-600">Loading quiz...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading quiz...</div>
       </div>
     )
   }
 
   if (error || !quiz) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Quiz not found'}</p>
           <button onClick={() => router.push('/learn')} className="text-blue-600 hover:underline">
@@ -141,12 +141,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   // Already passed or no attempts remaining
   if (quiz.hasPassed && !result) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
             <div className="text-5xl mb-4">🎉</div>
-            <h1 className="text-xl font-semibold text-gray-900 mb-2">Quiz Already Passed</h1>
-            <p className="text-gray-600 mb-6">You&apos;ve already passed this quiz.</p>
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Quiz Already Passed</h1>
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">You&apos;ve already passed this quiz.</p>
             {quiz.pathSlug && quiz.lessonSlug && (
               <Link
                 href={`/learn/${quiz.pathSlug}`}
@@ -163,12 +163,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
 
   if (quiz.attemptsRemaining === 0 && !result) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
             <div className="text-5xl mb-4">😔</div>
-            <h1 className="text-xl font-semibold text-gray-900 mb-2">No Attempts Remaining</h1>
-            <p className="text-gray-600 mb-6">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Attempts Remaining</h1>
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
               You&apos;ve used all {quiz.maxAttempts} attempts for this quiz.
             </p>
             <Link href="/learn" className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
@@ -183,7 +183,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   // Show result
   if (result) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
         <div className="max-w-2xl mx-auto">
           <div className={`rounded-lg border p-8 text-center mb-6 ${
             result.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
@@ -199,7 +199,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
             }`}>
               {result.score}%
             </p>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
               {result.earnedPoints} / {result.totalPoints} points
               {result.passed && ` • Passing score: ${quiz.passingScore}%`}
             </p>
@@ -207,7 +207,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
               <p className="text-green-600 font-medium">+{result.rpAwarded} RP earned!</p>
             )}
             {!result.passed && result.attemptsRemaining > 0 && (
-              <p className="text-gray-500 text-sm mt-2">
+              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm mt-2">
                 {result.attemptsRemaining} attempt{result.attemptsRemaining !== 1 ? 's' : ''} remaining
               </p>
             )}
@@ -216,9 +216,9 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
           {/* Review button */}
           <button
             onClick={() => setShowReview(!showReview)}
-            className="w-full bg-white border border-gray-200 rounded-lg p-4 text-left mb-4 hover:bg-gray-50"
+            className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-left mb-4 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
-            <span className="font-medium text-gray-900">
+            <span className="font-medium text-gray-900 dark:text-white">
               {showReview ? 'Hide Review' : 'Review Answers'}
             </span>
           </button>
@@ -242,10 +242,10 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                         {qResult?.correct ? '✓' : '✗'}
                       </span>
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {index + 1}. {question.questionText}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                           {qResult?.pointsEarned || 0} / {question.points} points
                         </p>
                       </div>
@@ -275,7 +275,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                     </div>
 
                     {qResult?.explanation && (
-                      <p className="ml-8 mt-2 text-sm text-gray-600 italic">
+                      <p className="ml-8 mt-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 italic">
                         {qResult.explanation}
                       </p>
                     )}
@@ -326,12 +326,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   const canProceed = answers[question.id] !== undefined
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-          <h1 className="font-semibold text-gray-900 mb-1">{quiz.title}</h1>
-          <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
+          <h1 className="font-semibold text-gray-900 dark:text-white mb-1">{quiz.title}</h1>
+          <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
             <span>
               Question {currentQuestion + 1} of {quiz.questionCount}
             </span>
@@ -340,7 +340,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
             </span>
           </div>
           {/* Progress bar */}
-          <div className="mt-2 w-full bg-gray-100 rounded-full h-1.5">
+          <div className="mt-2 w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5">
             <div
               className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${((currentQuestion + 1) / quiz.questionCount) * 100}%` }}
@@ -349,13 +349,13 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
         </div>
 
         {/* Question */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-          <p className="text-lg font-medium text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <p className="text-lg font-medium text-gray-900 dark:text-white mb-4">
             {question.questionText}
           </p>
 
           {question.questionType === 'multi_select' && (
-            <p className="text-sm text-gray-500 mb-3">Select all that apply</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-3">Select all that apply</p>
           )}
 
           <div className="space-y-2">
@@ -411,7 +411,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
           <button
             onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
             disabled={currentQuestion === 0}
-            className="px-4 py-2 text-gray-600 hover:text-gray-900 disabled:opacity-50"
+            className="px-4 py-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-white disabled:opacity-50"
           >
             ← Previous
           </button>

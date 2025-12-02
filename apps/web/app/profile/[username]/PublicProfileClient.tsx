@@ -43,7 +43,7 @@ export function PublicProfileClient({ user }: { user: User }) {
 
   return (
     <div className="min-h-screen bg-bg-0">
-      <header className="bg-white border-b border-border">
+      <header className="bg-white dark:bg-gray-800 border-b border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-ink-900">

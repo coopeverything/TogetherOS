@@ -50,35 +50,35 @@ function ResultCard({ result, query }: { result: SearchResult; query: string }) 
 
   return (
     <Link href={result.url} className="block">
-      <div className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:shadow-md hover:border-blue-300">
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 transition-all hover:shadow-md hover:border-blue-300">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <h3
               className="text-lg font-semibold"
               dangerouslySetInnerHTML={{ __html: highlightText(result.title, query) }}
             />
-            <div className="mt-1 flex items-center gap-2 text-xs text-gray-600">
+            <div className="mt-1 flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500">
               <span>{formatDate(result.metadata.created_at)}</span>
               {result.metadata.path && (
                 <>
                   <span>•</span>
-                  <span className="rounded border border-gray-300 px-2 py-0.5 text-xs">
+                  <span className="rounded border border-gray-300 dark:border-gray-600 px-2 py-0.5 text-xs">
                     {pathLabels[result.metadata.path] || result.metadata.path}
                   </span>
                 </>
               )}
             </div>
           </div>
-          <span className="rounded bg-gray-100 px-2 py-1 text-xs">
+          <span className="rounded bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs">
             {result.type}
           </span>
         </div>
         <p
-          className="mt-2 text-sm text-gray-700"
+          className="mt-2 text-sm text-gray-700 dark:text-gray-300"
           dangerouslySetInnerHTML={{ __html: highlightText(result.excerpt, query) }}
         />
         {result.metadata.engagement && (
-          <div className="mt-3 flex items-center gap-4 text-xs text-gray-600">
+          <div className="mt-3 flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500">
             {result.metadata.engagement.comments !== undefined && (
               <span>{result.metadata.engagement.comments} comments</span>
             )}

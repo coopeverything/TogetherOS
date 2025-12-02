@@ -77,7 +77,7 @@ export default function EconomyClient() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-gray-600">Loading Support Points...</p>
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading Support Points...</p>
         </div>
       </div>
     );
@@ -98,12 +98,12 @@ export default function EconomyClient() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-4xl font-bold text-gray-900">4-Ledger Economic System</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">4-Ledger Economic System</h1>
           <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
             Active
           </span>
         </div>
-        <p className="text-lg text-gray-600 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl">
           A comprehensive cooperative economy with four interlinked ledgers: Support Points (governance), Reward Points (economic claims), Timebank Credits (mutual aid), and Social Horizon (cooperative currency).
         </p>
       </div>
@@ -114,7 +114,7 @@ export default function EconomyClient() {
         <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Support Points</h3>
-            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">SP</span>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">SP</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{balance?.available || 0}</p>
@@ -135,7 +135,7 @@ export default function EconomyClient() {
         <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Reward Points</h3>
-            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">RP</span>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">RP</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{sampleRewardPoints.available}</p>
@@ -155,7 +155,7 @@ export default function EconomyClient() {
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Timebank Credits</h3>
-            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">TBC</span>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">TBC</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{sampleTimebank.balance}</p>
@@ -175,7 +175,7 @@ export default function EconomyClient() {
         <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Social Horizon</h3>
-            <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">SH</span>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">SH</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{sampleSocialHorizon.balance}</p>
@@ -194,26 +194,26 @@ export default function EconomyClient() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Active Allocations */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Active Allocations</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Active Allocations</h2>
           {allocations.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500">No active allocations yet</p>
-              <p className="text-sm text-gray-400 mt-2">
+              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">No active allocations yet</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
                 Allocate Support Points to proposals you support
               </p>
             </div>
           ) : (
             <div className="space-y-3">
               {allocations.map((alloc) => (
-                <div key={alloc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div key={alloc.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
                   <div>
-                    <p className="font-medium text-gray-900">{alloc.target_type}</p>
-                    <p className="text-sm text-gray-500">ID: {alloc.target_id.slice(0, 8)}...</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{alloc.target_type}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">ID: {alloc.target_id.slice(0, 8)}...</p>
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-orange-600">{alloc.amount} SP</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                       {new Date(alloc.allocated_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -224,16 +224,16 @@ export default function EconomyClient() {
         </div>
 
         {/* Recent Transactions */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Recent Transactions</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Recent Transactions</h2>
           {transactions.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500">No transactions yet</p>
+              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">No transactions yet</p>
             </div>
           ) : (
             <div className="space-y-2">
               {transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+                <div key={tx.id} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-0">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className={`
@@ -250,8 +250,8 @@ export default function EconomyClient() {
                         {tx.amount > 0 ? '+' : ''}{tx.amount} SP
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">{tx.reason || 'Support Points transaction'}</p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">{tx.reason || 'Support Points transaction'}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                       {new Date(tx.created_at).toLocaleString()}
                     </p>
                   </div>
@@ -264,7 +264,7 @@ export default function EconomyClient() {
 
       {/* Comprehensive Specification */}
       <div className="mt-8 space-y-6">
-        <h2 className="text-3xl font-bold text-gray-900">4-Ledger System Specification</h2>
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">4-Ledger System Specification</h2>
 
         {/* Core Invariants */}
         <div className="bg-red-50 border-2 border-red-300 rounded-lg p-6">
@@ -385,9 +385,9 @@ export default function EconomyClient() {
         </div>
 
         {/* Budget & Financial Flows */}
-        <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Budget & Financial Flows</h3>
-          <div className="text-sm text-gray-700 space-y-2">
+        <div className="bg-gray-50 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Budget & Financial Flows</h3>
+          <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
             <p><strong>Monthly Membership Dues ($5/month):</strong></p>
             <ul className="list-disc list-inside ml-2 space-y-1">
               <li>Member receives: 100 RP</li>

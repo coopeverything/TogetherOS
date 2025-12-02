@@ -248,7 +248,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/admin/status">
-              <Button size="lg" variant="ghost" className="border-white/20 text-white hover:bg-white/10">
+              <Button size="lg" variant="ghost" className="border-white/20 text-white hover:bg-white dark:bg-gray-800/10">
                 View Progress
               </Button>
             </Link>

@@ -187,8 +187,8 @@ export default function AdminForumTagsPage() {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-64"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64"></div>
+          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     )
@@ -214,7 +214,7 @@ export default function AdminForumTagsPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white dark:text-gray-100">
           Forum Tag Management
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -250,7 +250,7 @@ export default function AdminForumTagsPage() {
                 if (e.key === 'Escape') setShowSuggestions(false)
               }}
               placeholder="Enter tag name (e.g., climate-action)"
-              className="w-full px-3 py-2 border border-green-300 dark:border-green-700 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2 border border-green-300 dark:border-green-700 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
               disabled={creatingTag}
             />
             {/* Autocomplete suggestions dropdown */}
@@ -268,9 +268,9 @@ export default function AdminForumTagsPage() {
                       setNewTag(tag)
                       setShowSuggestions(false)
                     }}
-                    className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 flex justify-between items-center"
+                    className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 flex justify-between items-center"
                   >
-                    <span className="text-gray-900 dark:text-gray-100">#{tag}</span>
+                    <span className="text-gray-900 dark:text-white dark:text-gray-100">#{tag}</span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">{count} topics</span>
                   </button>
                 ))}
@@ -300,7 +300,7 @@ export default function AdminForumTagsPage() {
             {tags.map(({ tag, count }) => (
               <div
                 key={tag}
-                className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:bg-gray-700/50 transition-colors"
               >
                 {editingTag === tag ? (
                   /* Edit Mode */
@@ -313,7 +313,7 @@ export default function AdminForumTagsPage() {
                         if (e.key === 'Enter') handleRenameTag(tag)
                         if (e.key === 'Escape') handleCancelEdit()
                       }}
-                      className="flex-1 px-3 py-1 border border-blue-500 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 px-3 py-1 border border-blue-500 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       disabled={renaming}
                       autoFocus
                     />
@@ -330,7 +330,7 @@ export default function AdminForumTagsPage() {
                     <button
                       onClick={handleCancelEdit}
                       disabled={renaming}
-                      className="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
+                      className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:bg-gray-600 text-gray-900 dark:text-white dark:text-gray-100 text-sm rounded-md hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-50 dark:hover:bg-gray-8000 disabled:opacity-50"
                     >
                       Cancel
                     </button>

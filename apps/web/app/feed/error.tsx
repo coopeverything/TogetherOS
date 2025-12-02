@@ -16,8 +16,8 @@ export default function FeedError({
   }, [error])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
         <div className="mb-6">
           <svg
             className="mx-auto h-16 w-16 text-red-500"
@@ -35,11 +35,11 @@ export default function FeedError({
           </svg>
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           Something went wrong
         </h2>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
           We encountered an error while loading the feed. This has been logged and we'll look into it.
         </p>
 
@@ -61,7 +61,7 @@ export default function FeedError({
 
           <Link
             href="/"
-            className="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium rounded-md transition-colors"
+            className="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium rounded-md transition-colors"
           >
             Go home
           </Link>
