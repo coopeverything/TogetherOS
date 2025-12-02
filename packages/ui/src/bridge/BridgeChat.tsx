@@ -101,7 +101,7 @@ export function BridgeChat({ className }: BridgeChatProps) {
       let accumulatedAnswer = '';
 
       // Add assistant message placeholder
-      const assistantMessageIndex = messages.length + 1;
+      // Use functional update to get correct index after user message was added
       setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
       while (true) {
@@ -112,9 +112,10 @@ export function BridgeChat({ className }: BridgeChatProps) {
         accumulatedAnswer += chunk;
 
         // Update assistant message in real-time
+        // Always update the LAST message (the assistant's response)
         setMessages((prev) => {
           const updated = [...prev];
-          updated[assistantMessageIndex] = { role: 'assistant', content: accumulatedAnswer };
+          updated[updated.length - 1] = { role: 'assistant', content: accumulatedAnswer };
           return updated;
         });
       }
