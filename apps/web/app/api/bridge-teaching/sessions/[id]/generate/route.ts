@@ -358,7 +358,6 @@ export async function POST(
     // Save the turn
     const turn = await addTurn(sessionId, mode, 'bridge', bridgeMessage, {
       role,
-      intent: session.intent,
     })
 
     return NextResponse.json({
