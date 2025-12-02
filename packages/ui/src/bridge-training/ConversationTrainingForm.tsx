@@ -443,6 +443,23 @@ export function ConversationTrainingForm({ onSubmit }: ConversationTrainingFormP
           </div>
         )}
 
+        {/* Error display for fetch/API errors */}
+        {error && ratingMessageIndex === null && (
+          <div
+            style={{
+              padding: '1rem',
+              margin: '1rem 0',
+              background: 'var(--danger-bg, #fef2f2)',
+              color: 'var(--danger, #dc2626)',
+              borderRadius: '0.5rem',
+              border: '1px solid var(--danger, #dc2626)',
+              fontSize: '0.875rem',
+            }}
+          >
+            <strong>Error:</strong> {error}
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
 
