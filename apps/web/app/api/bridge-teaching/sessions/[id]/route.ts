@@ -1,8 +1,9 @@
 // GET /api/bridge-teaching/sessions/[id] - Get session by ID
 // PATCH /api/bridge-teaching/sessions/[id] - Update session (status, topic, archetype)
+// DELETE /api/bridge-teaching/sessions/[id] - Delete session and related training data
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getTeachingSessionById, updateSession } from '@togetheros/db'
+import { getTeachingSessionById, updateSession, deleteSession } from '@togetheros/db'
 import { requireAdmin } from '@/lib/auth/middleware'
 import type { SessionStatus } from '@togetheros/types'
 
@@ -84,6 +85,47 @@ export async function PATCH(
 
     return NextResponse.json(
       { error: error.message || 'Failed to update session' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    // Require admin authentication
+    await requireAdmin(request)
+
+    const { id } = await params
+
+    // Verify session exists first
+    const session = await getTeachingSessionById(id)
+    if (!session) {
+      return NextResponse.json({ error: 'Session not found' }, { status: 404 })
+    }
+
+    // Delete session and all related data (turns, patterns, pattern usage)
+    const deleted = await deleteSession(id)
+
+    if (!deleted) {
+      return NextResponse.json({ error: 'Failed to delete session' }, { status: 500 })
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Session and related training data deleted successfully',
+    })
+  } catch (error: any) {
+    console.error('DELETE /api/bridge-teaching/sessions/[id] error:', error)
+
+    if (error.message === 'Unauthorized' || error.message === 'Admin access required') {
+      return NextResponse.json({ error: error.message }, { status: 403 })
+    }
+
+    return NextResponse.json(
+      { error: error.message || 'Failed to delete session' },
       { status: 500 }
     )
   }

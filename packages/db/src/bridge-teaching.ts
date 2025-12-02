@@ -245,6 +245,54 @@ export async function updateSessionStatus(
 }
 
 /**
+ * Delete a teaching session and all related data
+ * Cascades to: turns, patterns, and clears related training examples
+ */
+export async function deleteSession(id: string): Promise<boolean> {
+  const client = await getClient()
+
+  try {
+    await client.query('BEGIN')
+
+    // Delete pattern usage records for patterns in this session
+    await client.query(
+      `DELETE FROM bridge_pattern_usage
+       WHERE pattern_id IN (
+         SELECT id FROM bridge_learned_patterns WHERE session_id = $1
+       )`,
+      [id]
+    )
+
+    // Delete patterns associated with this session
+    await client.query(
+      `DELETE FROM bridge_learned_patterns WHERE session_id = $1`,
+      [id]
+    )
+
+    // Delete turns associated with this session
+    await client.query(
+      `DELETE FROM bridge_teaching_turns WHERE session_id = $1`,
+      [id]
+    )
+
+    // Delete the session itself
+    const result = await client.query(
+      `DELETE FROM bridge_teaching_sessions WHERE id = $1`,
+      [id]
+    )
+
+    await client.query('COMMIT')
+
+    return (result.rowCount ?? 0) > 0
+  } catch (error) {
+    await client.query('ROLLBACK')
+    throw error
+  } finally {
+    client.release()
+  }
+}
+
+/**
  * Update session details (topic, archetype, intent)
  */
 export async function updateSession(

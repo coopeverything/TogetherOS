@@ -252,6 +252,29 @@ export default function TeachingSessionPage({ params }: PageProps) {
     }
   }
 
+  const deleteSessionAndRedirect = async () => {
+    if (!confirm('Are you sure you want to delete this session?\n\nThis will permanently remove:\n- All conversation messages\n- Any learned patterns from this session\n- Related training data\n\nThis action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const res = await fetch(`/api/bridge-teaching/sessions/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to delete session')
+      }
+
+      // Redirect to teaching sessions list
+      window.location.href = '/admin/bridge-teaching'
+    } catch (err: any) {
+      alert(err.message)
+    }
+  }
+
   const getModeColor = (m: ConversationMode) => {
     switch (m) {
       case 'demo': return '#8b5cf6'
@@ -334,6 +357,22 @@ export default function TeachingSessionPage({ params }: PageProps) {
                 Complete Session
               </button>
             )}
+            <button
+              onClick={deleteSessionAndRedirect}
+              style={{
+                fontSize: '0.75rem',
+                padding: '0.25rem 0.5rem',
+                background: '#ef4444',
+                color: 'white',
+                border: 'none',
+                borderRadius: '0.25rem',
+                cursor: 'pointer',
+                marginLeft: '0.5rem',
+              }}
+              title="Delete session and remove from training memory"
+            >
+              Delete
+            </button>
           </div>
 
           {isEditing ? (
