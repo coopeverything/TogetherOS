@@ -1,12 +1,280 @@
 /**
  * POST /api/bridge-teaching/sessions/[id]/generate
- * Generate Bridge response for practice mode
+ * Generate Bridge response for teaching sessions using OpenAI LLM
+ *
+ * Supports multiple modes:
+ * - demo: Bridge plays the archetype (for roleplay sessions)
+ * - practice: Bridge attempts to respond correctly
+ * - discussion: Bridge analyzes the session as itself
+ *
+ * Supports multiple intents (non-archetype sessions):
+ * - information: Knowledge lookup mode
+ * - brainstorm: Idea exploration mode
+ * - articulation: Help expressing thoughts
+ * - general: Unspecified intent
+ * - roleplay: Traditional archetype-based training
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getTeachingSessionById, addTurn, findMatchingPatterns } from '@togetheros/db'
 import { requireAdmin } from '@/lib/auth/middleware'
-import type { ConversationMode } from '@togetheros/types'
+import type { ConversationMode, SessionIntent } from '@togetheros/types'
+import { join } from 'path'
+import { readFileSync } from 'fs'
+
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+
+// Load Bridge's base knowledge for teaching sessions
+let BRIDGE_BASE_KNOWLEDGE: string | null = null
+
+function getBridgeBaseKnowledge(): string {
+  if (!BRIDGE_BASE_KNOWLEDGE) {
+    try {
+      const promptPath = join(process.cwd(), 'apps', 'web', 'lib', 'bridge', 'system-prompt.md')
+      BRIDGE_BASE_KNOWLEDGE = readFileSync(promptPath, 'utf-8')
+      console.log('[Bridge Teaching] Loaded base knowledge from file')
+    } catch (error) {
+      console.error('[Bridge Teaching] Error loading base knowledge:', error)
+      BRIDGE_BASE_KNOWLEDGE = 'You are Bridge, the assistant of Coopeverything. Your role is to guide people through cooperation.'
+    }
+  }
+  return BRIDGE_BASE_KNOWLEDGE
+}
+
+/**
+ * Build system prompt for teaching session based on mode and intent
+ */
+function buildSystemPrompt(
+  mode: ConversationMode,
+  intent: SessionIntent | undefined,
+  archetype: { name: string; mindset: string; needs: string[]; antiPatterns: string[] } | null,
+  topic: string,
+  patterns: { responseGuidelines?: Record<string, any> }[]
+): string {
+  const baseKnowledge = getBridgeBaseKnowledge()
+
+  // For non-archetype sessions (information, brainstorm, articulation, general)
+  if (!archetype && intent !== 'roleplay') {
+    return buildIntentBasedPrompt(intent, topic, baseKnowledge)
+  }
+
+  // For archetype-based roleplay sessions
+  switch (mode) {
+    case 'demo':
+      return buildDemoPrompt(archetype!, topic)
+    case 'practice':
+      return buildPracticePrompt(archetype, topic, patterns, baseKnowledge)
+    case 'discussion':
+    default:
+      return buildDiscussionPrompt(topic, baseKnowledge)
+  }
+}
+
+/**
+ * Build prompt for intent-based sessions (no archetype)
+ */
+function buildIntentBasedPrompt(
+  intent: SessionIntent | undefined,
+  topic: string,
+  baseKnowledge: string
+): string {
+  const intentInstructions: Record<string, string> = {
+    information: `You are Bridge in INFORMATION mode. The member is looking up knowledge from CoopEverything's documentation and understanding.
+
+Your role:
+- Provide accurate, factual information about "${topic}"
+- Cite sources when relevant using [Source: title]
+- Be clear and structured in your explanations
+- If you don't know something, say so honestly
+- Draw from the knowledge base below`,
+
+    brainstorm: `You are Bridge in BRAINSTORM mode. The member is exploring an idea and wants to develop it further.
+
+Your role:
+- Build on their ideas enthusiastically but critically
+- Suggest variations and connections to existing initiatives
+- Ask clarifying questions to help shape the idea
+- Point out potential challenges constructively
+- Connect ideas to TogetherOS concepts when relevant
+- The topic they're exploring: "${topic}"`,
+
+    articulation: `You are Bridge in ARTICULATION mode. The member is trying to put words to something they've been thinking about.
+
+Your role:
+- Listen carefully and reflect back what you hear
+- Ask clarifying questions to help them find the right words
+- Suggest possible framings or concepts that might fit
+- Be patient and supportive
+- Help name feelings, concerns, or ideas they're struggling to express
+- The area they're exploring: "${topic}"`,
+
+    general: `You are Bridge having a conversation about "${topic}".
+
+Your role:
+- Be helpful and conversational
+- Draw from your knowledge of cooperation and community
+- Engage naturally with whatever the member shares
+- Provide guidance when asked`,
+
+    roleplay: `You are Bridge. The topic is "${topic}".
+Be helpful and draw from your knowledge of cooperation and community.`
+  }
+
+  const instruction = intentInstructions[intent || 'general']
+
+  return `${instruction}
+
+---
+BASE KNOWLEDGE:
+${baseKnowledge}
+---
+
+Remember: This is a teaching/training session with an admin. Engage authentically based on the mode.`
+}
+
+/**
+ * Build prompt for demo mode (Bridge plays the archetype)
+ */
+function buildDemoPrompt(
+  archetype: { name: string; mindset: string; needs: string[]; antiPatterns: string[] },
+  topic: string
+): string {
+  return `You are role-playing as a "${archetype.name}" archetype for training purposes.
+
+CHARACTER PROFILE:
+- Name/Type: ${archetype.name}
+- Mindset: ${archetype.mindset}
+- Needs: ${archetype.needs.join(', ')}
+
+CONVERSATION TOPIC: ${topic}
+
+YOUR ROLE:
+- Respond AS this archetype would - embody their perspective
+- Express their concerns, questions, and reactions authentically
+- Challenge Bridge (the trainer) in ways this archetype would
+- Stay in character throughout the conversation
+- Use language and emotional tone appropriate to this archetype
+
+Remember: You are simulating a real person with this mindset to help train Bridge responses.`
+}
+
+/**
+ * Build prompt for practice mode (Bridge tries to respond correctly)
+ */
+function buildPracticePrompt(
+  archetype: { name: string; mindset: string; needs: string[]; antiPatterns: string[] } | null,
+  topic: string,
+  patterns: { responseGuidelines?: Record<string, any> }[],
+  baseKnowledge: string
+): string {
+  let prompt = `You are Bridge practicing your response skills. You are receiving a message from a trainer who is role-playing as a user.
+
+TOPIC: ${topic}
+`
+
+  if (archetype) {
+    prompt += `
+USER ARCHETYPE INFO (use this to tailor your response):
+- Type: ${archetype.name}
+- Mindset: ${archetype.mindset}
+- Needs: ${archetype.needs.join(', ')}
+- Avoid: ${archetype.antiPatterns.join(', ')}
+`
+  }
+
+  if (patterns.length > 0) {
+    const guidelines = patterns[0].responseGuidelines || {}
+    prompt += `
+RESPONSE GUIDELINES (from training patterns):
+- Tone: ${guidelines.tone || 'empathetic and helpful'}
+- Open with: ${guidelines.openWith || 'acknowledgment of their perspective'}
+- Include: ${(guidelines.includeElements || []).join(', ') || 'concrete examples'}
+- Nudge toward: ${guidelines.nudgeToward || 'curiosity and engagement'}
+- Avoid: ${(guidelines.avoid || []).join(', ') || 'being dismissive'}
+`
+  }
+
+  prompt += `
+YOUR ROLE:
+- Respond as Bridge would to a real community member
+- Be empathetic, accurate, and helpful
+- Address their specific concerns and questions
+- Draw from your knowledge of TogetherOS and cooperation
+- This is practice - aim for an ideal response
+
+---
+BASE KNOWLEDGE:
+${baseKnowledge}
+---`
+
+  return prompt
+}
+
+/**
+ * Build prompt for discussion mode (analyzing the session)
+ */
+function buildDiscussionPrompt(topic: string, baseKnowledge: string): string {
+  return `You are Bridge in discussion mode, analyzing a training session with an admin.
+
+TOPIC: ${topic}
+
+YOUR ROLE:
+- Engage in meta-discussion about the session
+- Analyze patterns in the conversation
+- Suggest improvements or observations
+- Be collaborative and reflective
+- Help the trainer understand what worked and what could be improved
+
+---
+BASE KNOWLEDGE:
+${baseKnowledge}
+---`
+}
+
+/**
+ * Call OpenAI API to generate response
+ */
+async function callOpenAI(
+  systemPrompt: string,
+  conversationHistory: { speaker: string; message: string }[],
+  currentMessage: string
+): Promise<string> {
+  if (!OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY not configured')
+  }
+
+  // Build messages array
+  const messages = [
+    { role: 'system', content: systemPrompt },
+    ...conversationHistory.map(turn => ({
+      role: turn.speaker === 'trainer' ? 'user' : 'assistant',
+      content: turn.message
+    })),
+    { role: 'user', content: currentMessage }
+  ]
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      messages,
+      max_tokens: 500,
+      temperature: 0.7,
+    }),
+  })
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}))
+    throw new Error(error.error?.message || `OpenAI API error: ${response.status}`)
+  }
+
+  const data = await response.json()
+  return data.choices?.[0]?.message?.content || 'I apologize, I was unable to generate a response.'
+}
 
 export async function POST(
   request: NextRequest,
@@ -29,6 +297,15 @@ export async function POST(
       )
     }
 
+    // Check OpenAI API key
+    if (!OPENAI_API_KEY) {
+      console.error('[Bridge Teaching] OPENAI_API_KEY not configured')
+      return NextResponse.json(
+        { error: 'LLM service not configured. Please set OPENAI_API_KEY.' },
+        { status: 503 }
+      )
+    }
+
     const session = await getTeachingSessionById(sessionId)
     if (!session) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 })
@@ -41,42 +318,47 @@ export async function POST(
       3
     )
 
-    // Generate response based on mode
-    let bridgeMessage: string
-    let role: string
+    // Build system prompt based on mode and intent
+    const systemPrompt = buildSystemPrompt(
+      mode,
+      session.intent,
+      session.archetype ? {
+        name: session.archetype.name,
+        mindset: session.archetype.mindset,
+        needs: session.archetype.needs,
+        antiPatterns: session.archetype.antiPatterns
+      } : null,
+      session.topic,
+      patterns
+    )
 
+    // Build conversation history for context
+    const conversationHistory = session.turns.map(turn => ({
+      speaker: turn.speaker,
+      message: turn.message
+    }))
+
+    // Call OpenAI to generate response
+    const bridgeMessage = await callOpenAI(
+      systemPrompt,
+      conversationHistory,
+      trainerMessage
+    )
+
+    // Determine role label
+    let role: string
     if (mode === 'demo') {
-      // In demo mode, Bridge plays the archetype
       role = `as ${session.archetype?.name || 'user'}`
-      bridgeMessage = await generateArchetypeMessage(
-        session.archetype,
-        session.topic,
-        trainerMessage,
-        session.turns
-      )
     } else if (mode === 'practice') {
-      // In practice mode, Bridge attempts to respond like a trained assistant
       role = 'practicing response'
-      bridgeMessage = await generatePracticeResponse(
-        session.archetype,
-        session.topic,
-        trainerMessage,
-        session.turns,
-        patterns
-      )
     } else {
-      // Discussion mode - Bridge as itself
       role = 'discussing'
-      bridgeMessage = await generateDiscussionResponse(
-        session.topic,
-        trainerMessage,
-        session.turns
-      )
     }
 
     // Save the turn
     const turn = await addTurn(sessionId, mode, 'bridge', bridgeMessage, {
       role,
+      intent: session.intent,
     })
 
     return NextResponse.json({
@@ -90,157 +372,16 @@ export async function POST(
       return NextResponse.json({ error: error.message }, { status: 403 })
     }
 
+    if (error.message === 'OPENAI_API_KEY not configured') {
+      return NextResponse.json(
+        { error: 'LLM service not configured' },
+        { status: 503 }
+      )
+    }
+
     return NextResponse.json(
       { error: error.message || 'Failed to generate response' },
       { status: 500 }
     )
   }
-}
-
-/**
- * Generate archetype message (Demo mode - Bridge plays the user archetype)
- */
-async function generateArchetypeMessage(
-  archetype: any,
-  topic: string,
-  lastTrainerResponse: string,
-  conversationHistory: any[]
-): Promise<string> {
-  // TODO: Replace with actual LLM call when API key is configured
-  // For now, generate a contextual placeholder based on archetype
-
-  const archetypeName = archetype?.name || 'User'
-  const mindset = archetype?.mindset || 'curious about this topic'
-
-  // Simple rule-based response for demo purposes
-  const turnCount = conversationHistory.length
-
-  if (turnCount === 0) {
-    // Opening question
-    return getArchetypeOpener(archetypeName, topic, mindset)
-  }
-
-  // Follow-up based on archetype style
-  return getArchetypeFollowUp(archetypeName, topic, lastTrainerResponse, mindset)
-}
-
-/**
- * Generate practice response (Practice mode - Bridge tries to respond correctly)
- */
-async function generatePracticeResponse(
-  archetype: any,
-  topic: string,
-  trainerMessage: string,
-  conversationHistory: any[],
-  patterns: any[]
-): Promise<string> {
-  // TODO: Replace with actual LLM call
-  // For now, use patterns to guide a template response
-
-  const archetypeName = archetype?.name || 'User'
-
-  if (patterns.length > 0) {
-    const pattern = patterns[0]
-    const guidelines = pattern.responseGuidelines || {}
-
-    let response = guidelines.openWith || "I understand your perspective."
-
-    if (guidelines.tone === 'empathetic') {
-      response += " It sounds like you have some valid concerns."
-    }
-
-    if (guidelines.includeElements?.includes('concrete examples')) {
-      response += ` In TogetherOS, we address this through ${topic.toLowerCase()}.`
-    }
-
-    if (guidelines.nudgeToward) {
-      response += ` Would you like to explore ${guidelines.nudgeToward}?`
-    }
-
-    return response
-  }
-
-  // Fallback template responses based on archetype
-  return getPracticeResponse(archetypeName, trainerMessage, topic)
-}
-
-/**
- * Generate discussion response (Discussion mode - analyzing the session)
- */
-async function generateDiscussionResponse(
-  topic: string,
-  trainerMessage: string,
-  conversationHistory: any[]
-): Promise<string> {
-  // Simple acknowledgment for discussion mode
-  const demoTurns = conversationHistory.filter(t => t.mode === 'demo').length
-  const practiceTurns = conversationHistory.filter(t => t.mode === 'practice').length
-
-  return `Good point about "${trainerMessage.slice(0, 50)}...". Looking at this session on "${topic}", we have ${demoTurns} demo turns and ${practiceTurns} practice turns. What patterns do you see emerging?`
-}
-
-// Helper functions for rule-based responses (temporary until LLM integration)
-
-function getArchetypeOpener(archetype: string, topic: string, mindset: string): string {
-  const openers: Record<string, string> = {
-    'Skeptic': `I've heard about ${topic}, but honestly, it sounds too good to be true. What's the catch?`,
-    'Enthusiast': `This ${topic} concept is fascinating! I've been looking for exactly this kind of approach. Tell me everything!`,
-    'Pragmatist': `Interesting. But how does ${topic} actually work in practice? I need concrete examples.`,
-    'Wounded Helper': `I used to believe in cooperative systems, but I've been burned before. Why would ${topic} be any different?`,
-    'Curious Observer': `I'm not sure I fully understand ${topic}. Could you explain it in simple terms?`,
-  }
-
-  return openers[archetype] || `I'd like to learn more about ${topic}. ${mindset}`
-}
-
-function getArchetypeFollowUp(archetype: string, topic: string, lastResponse: string, mindset: string): string {
-  const followUps: Record<string, string[]> = {
-    'Skeptic': [
-      "That sounds nice in theory, but who enforces these rules?",
-      "And what happens when someone abuses the system?",
-      "I'm still not convinced. What's in it for the people running this?",
-    ],
-    'Enthusiast': [
-      "That's amazing! How can I get started right away?",
-      "I love this approach! Can I share this with my community?",
-      "This aligns perfectly with my values. What else should I know?",
-    ],
-    'Pragmatist': [
-      "Okay, but how does that scale?",
-      "What's the timeline for seeing results?",
-      "Can you give me a specific example of this working?",
-    ],
-    'Wounded Helper': [
-      "I've heard promises like this before...",
-      "What happens when the initial enthusiasm fades?",
-      "How do you prevent burnout in your core contributors?",
-    ],
-    'Curious Observer': [
-      "That makes sense. What about [related topic]?",
-      "I see. So if I understand correctly...",
-      "Interesting. How does this connect to everyday life?",
-    ],
-  }
-
-  const options = followUps[archetype] || [`Tell me more about ${topic}.`]
-  return options[Math.floor(Math.random() * options.length)]
-}
-
-function getPracticeResponse(archetype: string, userMessage: string, topic: string): string {
-  // Generic empathetic response template
-  const lowerMessage = userMessage.toLowerCase()
-
-  if (lowerMessage.includes('catch') || lowerMessage.includes('skeptic') || lowerMessage.includes('suspicious')) {
-    return `That's a fair question, and healthy skepticism is valuable. In ${topic}, transparency is built into the design - all decisions are logged, all finances are visible, and any member can audit any process. Would you like me to walk you through a specific example?`
-  }
-
-  if (lowerMessage.includes('burned') || lowerMessage.includes('hurt') || lowerMessage.includes('before')) {
-    return `I hear that you've had difficult experiences with cooperative efforts before. That pain is real and valid. What TogetherOS tries to do differently is build in safeguards from the start - things like graduated trust, small reversible steps, and clear exit paths. What specifically concerned you in past experiences?`
-  }
-
-  if (lowerMessage.includes('how') || lowerMessage.includes('work') || lowerMessage.includes('example')) {
-    return `Great question about the practical side. Let me give you a concrete example: when a community uses ${topic}, they might start with something small like coordinating a skill share. Members log their contributions, and the system tracks reciprocity without requiring perfect balance. Would a walkthrough of that process help?`
-  }
-
-  return `Thank you for sharing that. I want to make sure I understand your perspective on ${topic}. Could you tell me more about what's most important to you in this area?`
 }
