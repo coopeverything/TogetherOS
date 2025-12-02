@@ -182,8 +182,8 @@ export async function POST(request: NextRequest) {
 
     // Get relevant documentation context (RAG)
     const index = getDocsIndex();
-    const context = getRelevantExcerpts(index, question, 1500);
-    const sources = getSources(index, question, 3);
+    const context = getRelevantExcerpts(index, question, 8000);
+    const sources = getSources(index, question, 5);
 
     // Build enhanced system prompt with context
     let enhancedSystemPrompt = getSystemPrompt();
