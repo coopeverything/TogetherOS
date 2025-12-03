@@ -348,7 +348,7 @@ export default function AdminDashboard() {
               {/* Section Header (Clickable) */}
               <button
                 onClick={() => toggleSection(section.title)}
-                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
+                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
               >
                 <div className="flex items-center gap-2">
                   <svg
@@ -375,9 +375,9 @@ export default function AdminDashboard() {
                     <a
                       key={item.path}
                       href={item.status === 'active' ? item.path : undefined}
-                      className={`block px-4 py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${
+                      className={`block px-4 py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500 ${
                         item.status === 'active'
-                          ? 'hover:bg-white dark:bg-gray-800 dark:hover:bg-gray-800 cursor-pointer'
+                          ? 'hover:bg-white dark:hover:bg-gray-800 cursor-pointer'
                           : 'cursor-not-allowed opacity-60'
                       }`}
                       onClick={(e) => {
@@ -404,7 +404,7 @@ export default function AdminDashboard() {
                         </div>
                         {item.status === 'active' && (
                           <svg
-                            className="w-4 h-4 text-gray-400 dark:text-gray-500 dark:text-gray-400 flex-shrink-0 mt-0.5"
+                            className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0 mt-0.5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -423,12 +423,12 @@ export default function AdminDashboard() {
 
 
         {/* Quick Links */}
-        <div className="mt-6 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-3">
-          <a href="/" className="hover:text-gray-700 dark:hover:text-gray-300 dark:hover:text-gray-300">Home</a>
+        <div className="mt-6 text-xs text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-3">
+          <a href="/" className="hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">Home</a>
           <span>•</span>
-          <a href="/bridge" className="hover:text-gray-700 dark:hover:text-gray-300 dark:hover:text-gray-300">Bridge</a>
+          <a href="/bridge" className="hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">Bridge</a>
           <span>•</span>
-          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 dark:hover:text-gray-300">
+          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">
             GitHub
           </a>
         </div>

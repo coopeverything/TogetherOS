@@ -16,7 +16,7 @@ export default function TermsPage() {
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Terms of Service</h1>
 
-      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-8">
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
         Last updated: November 13, 2025
       </p>
 
@@ -42,7 +42,7 @@ export default function TermsPage() {
         </p>
         <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
           <li>Comply with these Terms of Service</li>
-          <li>Comply with our <Link href="/privacy" className="text-orange-600 hover:text-orange-700 underline">Privacy Policy</Link></li>
+          <li>Comply with our <Link href="/privacy" className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded">Privacy Policy</Link></li>
           <li>Use TogetherOS in a lawful and respectful manner</li>
           <li>Be at least 13 years of age</li>
         </ul>
@@ -144,7 +144,7 @@ export default function TermsPage() {
             href="https://github.com/coopeverything/TogetherOS"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-orange-600 hover:text-orange-700 underline"
+            className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
           >
             GitHub repository
           </a>{' '}
@@ -228,7 +228,7 @@ export default function TermsPage() {
             <strong>Contact us first:</strong> Email{' '}
             <a
               href="mailto:privacy@coopeverything.org"
-              className="text-orange-600 hover:text-orange-700 underline"
+              className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
             >
               privacy@coopeverything.org
             </a>{' '}
@@ -260,7 +260,7 @@ export default function TermsPage() {
         </ul>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           You may terminate your account at any time by requesting account deletion
-          (see our <Link href="/privacy" className="text-orange-600 hover:text-orange-700 underline">Privacy Policy</Link> for details).
+          (see our <Link href="/privacy" className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded">Privacy Policy</Link> for details).
         </p>
         <p className="text-gray-700 dark:text-gray-300">
           Upon termination, your right to use TogetherOS immediately ceases, but these
@@ -323,7 +323,7 @@ export default function TermsPage() {
             <strong>Email:</strong>{' '}
             <a
               href="mailto:privacy@coopeverything.org"
-              className="text-orange-600 hover:text-orange-700 underline"
+              className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
             >
               privacy@coopeverything.org
             </a>
@@ -334,7 +334,7 @@ export default function TermsPage() {
               href="https://github.com/coopeverything/TogetherOS/issues"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-orange-600 hover:text-orange-700 underline"
+              className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
             >
               github.com/coopeverything/TogetherOS/issues
             </a>
@@ -344,8 +344,8 @@ export default function TermsPage() {
 
       {/* Footer Links */}
       <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-        <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
-          Related: <Link href="/privacy" className="text-orange-600 hover:text-orange-700 underline">Privacy Policy</Link>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Related: <Link href="/privacy" className="text-orange-600 hover:text-orange-700 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded">Privacy Policy</Link>
         </p>
       </div>
     </main>

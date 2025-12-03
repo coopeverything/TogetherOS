@@ -97,7 +97,7 @@ export default function NotificationsPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Notifications</h1>
-          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
             {counts.unread > 0 ? `${counts.unread} unread` : 'All caught up!'}
           </p>
         </div>
@@ -105,14 +105,14 @@ export default function NotificationsPage() {
           {counts.unread > 0 && (
             <button
               onClick={handleMarkAllAsRead}
-              className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+              className="text-sm text-orange-600 hover:text-orange-700 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
             >
               Mark all as read
             </button>
           )}
           <Link
             href="/notifications/settings"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -129,10 +129,10 @@ export default function NotificationsPage() {
           <button
             key={filter.key}
             onClick={() => setActiveFilter(filter.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 ${
               activeFilter === filter.key
                 ? 'bg-orange-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             {filter.label}
@@ -154,7 +154,7 @@ export default function NotificationsPage() {
         <div className="text-center py-12">
           <div className="text-4xl mb-4">🔔</div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No notifications</h3>
-          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">
+          <p className="text-gray-600 dark:text-gray-400">
             {activeFilter === 'unread'
               ? "You're all caught up!"
               : 'No notifications to show for this filter.'}
@@ -181,8 +181,8 @@ export default function NotificationsPage() {
                   >
                     {notif.title}
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2 line-clamp-2">{notif.message}</p>
-                  <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">{notif.message}</p>
+                  <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
                     <span>
                       {new Date(notif.createdAt).toLocaleDateString('en-US', {
                         month: 'short',
@@ -194,7 +194,7 @@ export default function NotificationsPage() {
                     {notif.status === 'unread' && (
                       <button
                         onClick={() => handleMarkAsRead(notif.id)}
-                        className="text-orange-600 hover:text-orange-700 font-medium"
+                        className="text-orange-600 hover:text-orange-700 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
                       >
                         Mark as read
                       </button>
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
                     {notif.reference?.url && (
                       <Link
                         href={notif.reference.url}
-                        className="text-orange-600 hover:text-orange-700 font-medium"
+                        className="text-orange-600 hover:text-orange-700 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
                       >
                         View →
                       </Link>
