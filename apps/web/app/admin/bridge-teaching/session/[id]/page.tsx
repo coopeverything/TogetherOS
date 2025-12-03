@@ -60,6 +60,9 @@ export default function TeachingSessionPage({ params }: PageProps) {
   const [editTopic, setEditTopic] = useState('')
   const [editArchetypeId, setEditArchetypeId] = useState('')
 
+  // Track if we've triggered auto-response for this session
+  const [hasTriggeredAutoResponse, setHasTriggeredAutoResponse] = useState(false)
+
   useEffect(() => {
     loadSession()
     loadArchetypes()
@@ -68,6 +71,22 @@ export default function TeachingSessionPage({ params }: PageProps) {
   useEffect(() => {
     scrollToBottom()
   }, [session?.turns])
+
+  // Auto-generate Bridge's first response for non-roleplay sessions
+  // The topic IS the question, so Bridge should respond immediately
+  useEffect(() => {
+    if (
+      session &&
+      !hasTriggeredAutoResponse &&
+      session.turns.length === 0 &&
+      session.intent !== 'roleplay' &&
+      session.status === 'active'
+    ) {
+      setHasTriggeredAutoResponse(true)
+      // Generate Bridge's response to the topic (which is the user's question)
+      generateBridgeResponse(session.topic)
+    }
+  }, [session, hasTriggeredAutoResponse])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })

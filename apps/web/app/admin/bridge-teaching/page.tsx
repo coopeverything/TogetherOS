@@ -116,11 +116,10 @@ export default function BridgeTeachingPage() {
         throw new Error(data.error || 'Failed to create session')
       }
 
-      setNewSessionTopic('')
-      setNewSessionIntent('general')
-      setNewSessionArchetype('')
-      setShowNewSession(false)
-      await loadData()
+      const data = await res.json()
+
+      // Navigate directly to the session page
+      window.location.href = `/admin/bridge-teaching/session/${data.session.id}`
     } catch (err: any) {
       alert(err.message || 'Failed to create session')
     }
@@ -327,6 +326,12 @@ export default function BridgeTeachingPage() {
                         type="text"
                         value={newSessionTopic}
                         onChange={(e) => setNewSessionTopic(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault()
+                            createSession()
+                          }
+                        }}
                         placeholder={
                           newSessionIntent === 'information' ? 'What do you want to know? (e.g., "How do support points work?")'
                           : newSessionIntent === 'brainstorm' ? 'What idea do you want to explore?'
@@ -334,6 +339,7 @@ export default function BridgeTeachingPage() {
                           : newSessionIntent === 'roleplay' ? 'Training topic (e.g., "Explaining support points")'
                           : 'What would you like to discuss?'
                         }
+                        autoFocus
                         style={{
                           flex: '1 1 300px',
                           padding: '0.5rem 0.75rem',
