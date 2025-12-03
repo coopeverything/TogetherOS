@@ -48,12 +48,20 @@ export default function TeachingSessionPage({ params }: PageProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [isSending, setIsSending] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   // Conversation state
   const [mode, setMode] = useState<ConversationMode>('demo')
   const [message, setMessage] = useState('')
   const [explanation, setExplanation] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Abort controller for cancelling Bridge generation
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Edit message state
+  const [editingTurnId, setEditingTurnId] = useState<string | null>(null)
+  const [editingMessage, setEditingMessage] = useState('')
 
   // Edit session state
   const [isEditing, setIsEditing] = useState(false)
@@ -193,6 +201,10 @@ export default function TeachingSessionPage({ params }: PageProps) {
   }
 
   const generateBridgeResponse = async (trainerMessage: string) => {
+    // Create new abort controller for this request
+    abortControllerRef.current = new AbortController()
+    setIsGenerating(true)
+
     try {
       const res = await fetch(`/api/bridge-teaching/sessions/${id}/generate`, {
         method: 'POST',
@@ -202,6 +214,7 @@ export default function TeachingSessionPage({ params }: PageProps) {
           mode,
           trainerMessage,
         }),
+        signal: abortControllerRef.current.signal,
       })
 
       if (!res.ok) {
@@ -213,7 +226,55 @@ export default function TeachingSessionPage({ params }: PageProps) {
 
       await loadSession()
     } catch (err: any) {
+      if (err.name === 'AbortError') {
+        console.log('Bridge generation cancelled by user')
+        return
+      }
       console.error('Bridge generation error:', err)
+    } finally {
+      setIsGenerating(false)
+      abortControllerRef.current = null
+    }
+  }
+
+  const stopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      setIsGenerating(false)
+    }
+  }
+
+  const startEditingTurn = (turn: ConversationTurn) => {
+    setEditingTurnId(turn.id)
+    setEditingMessage(turn.message)
+  }
+
+  const cancelEditingTurn = () => {
+    setEditingTurnId(null)
+    setEditingMessage('')
+  }
+
+  const saveEditedTurn = async (turnId: string) => {
+    if (!editingMessage.trim()) return
+
+    try {
+      const res = await fetch(`/api/bridge-teaching/sessions/${id}/turns`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          turnId,
+          message: editingMessage.trim(),
+        }),
+      })
+
+      if (!res.ok) throw new Error('Failed to update message')
+
+      setEditingTurnId(null)
+      setEditingMessage('')
+      await loadSession()
+    } catch (err: any) {
+      alert(err.message)
     }
   }
 
@@ -650,57 +711,141 @@ export default function TeachingSessionPage({ params }: PageProps) {
                       <span style={{ fontSize: '0.75rem', color: 'var(--ink-600)' }}>
                         {turn.speaker === 'trainer' ? 'You' : 'Bridge'} {turn.role && `(${turn.role})`}
                       </span>
-                      {session.status === 'active' && (
-                        <button
-                          onClick={() => deleteTurn(turn.id)}
-                          style={{
-                            fontSize: '0.6875rem',
-                            padding: '0.0625rem 0.25rem',
-                            background: 'transparent',
-                            color: 'var(--ink-400)',
-                            border: 'none',
-                            borderRadius: '0.25rem',
-                            cursor: 'pointer',
-                            opacity: 0.6,
-                          }}
-                          title="Delete message"
-                        >
-                          ×
-                        </button>
+                      {session.status === 'active' && !isGenerating && (
+                        <>
+                          <button
+                            onClick={() => startEditingTurn(turn)}
+                            style={{
+                              fontSize: '0.6875rem',
+                              padding: '0.0625rem 0.25rem',
+                              background: 'transparent',
+                              color: 'var(--ink-400)',
+                              border: 'none',
+                              borderRadius: '0.25rem',
+                              cursor: 'pointer',
+                              opacity: 0.6,
+                            }}
+                            title="Edit message"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => deleteTurn(turn.id)}
+                            style={{
+                              fontSize: '0.6875rem',
+                              padding: '0.0625rem 0.25rem',
+                              background: 'transparent',
+                              color: 'var(--ink-400)',
+                              border: 'none',
+                              borderRadius: '0.25rem',
+                              cursor: 'pointer',
+                              opacity: 0.6,
+                            }}
+                            title="Delete message"
+                          >
+                            ×
+                          </button>
+                        </>
                       )}
                     </div>
 
-                    {/* Message bubble */}
-                    <div style={{
-                      background: style.bg,
-                      border: `1px solid ${style.border}30`,
-                      borderRadius: '0.75rem',
-                      padding: '0.625rem 0.875rem',
-                      maxWidth: '85%',
-                    }}>
-                      <p style={{
-                        margin: 0,
-                        fontSize: '0.9375rem',
-                        lineHeight: 1.5,
-                        color: 'var(--ink-900)',
-                        whiteSpace: 'pre-wrap',
+                    {/* Message bubble - either edit mode or display mode */}
+                    {editingTurnId === turn.id ? (
+                      <div style={{
+                        background: style.bg,
+                        border: `2px solid ${style.border}`,
+                        borderRadius: '0.75rem',
+                        padding: '0.625rem 0.875rem',
+                        maxWidth: '85%',
                       }}>
-                        {turn.message}
-                      </p>
-
-                      {turn.explanation && (
+                        <textarea
+                          value={editingMessage}
+                          onChange={(e) => setEditingMessage(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault()
+                              saveEditedTurn(turn.id)
+                            }
+                            if (e.key === 'Escape') {
+                              cancelEditingTurn()
+                            }
+                          }}
+                          autoFocus
+                          style={{
+                            width: '100%',
+                            minHeight: '4rem',
+                            padding: '0.5rem',
+                            border: '1px solid var(--border)',
+                            borderRadius: '0.375rem',
+                            fontSize: '0.9375rem',
+                            lineHeight: 1.5,
+                            fontFamily: 'inherit',
+                            resize: 'vertical',
+                          }}
+                        />
+                        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                          <button
+                            onClick={() => saveEditedTurn(turn.id)}
+                            style={{
+                              padding: '0.25rem 0.5rem',
+                              fontSize: '0.75rem',
+                              background: 'var(--brand-600)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '0.25rem',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={cancelEditingTurn}
+                            style={{
+                              padding: '0.25rem 0.5rem',
+                              fontSize: '0.75rem',
+                              background: 'transparent',
+                              color: 'var(--ink-600)',
+                              border: '1px solid var(--border)',
+                              borderRadius: '0.25rem',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{
+                        background: style.bg,
+                        border: `1px solid ${style.border}30`,
+                        borderRadius: '0.75rem',
+                        padding: '0.625rem 0.875rem',
+                        maxWidth: '85%',
+                      }}>
                         <p style={{
-                          margin: '0.5rem 0 0 0',
-                          fontSize: '0.8125rem',
-                          color: 'var(--ink-600)',
-                          fontStyle: 'italic',
-                          borderTop: '1px solid var(--border)',
-                          paddingTop: '0.5rem',
+                          margin: 0,
+                          fontSize: '0.9375rem',
+                          lineHeight: 1.5,
+                          color: 'var(--ink-900)',
+                          whiteSpace: 'pre-wrap',
                         }}>
-                          Explanation: {turn.explanation}
+                          {turn.message}
                         </p>
-                      )}
-                    </div>
+
+                        {turn.explanation && (
+                          <p style={{
+                            margin: '0.5rem 0 0 0',
+                            fontSize: '0.8125rem',
+                            color: 'var(--ink-600)',
+                            fontStyle: 'italic',
+                            borderTop: '1px solid var(--border)',
+                            paddingTop: '0.5rem',
+                          }}>
+                            Explanation: {turn.explanation}
+                          </p>
+                        )}
+                      </div>
+                    )}
 
                     {/* Feedback for Bridge turns */}
                     {turn.speaker === 'bridge' && turn.mode === 'practice' && (
@@ -775,6 +920,53 @@ export default function TeachingSessionPage({ params }: PageProps) {
                 )
               })}
               <div ref={messagesEndRef} />
+            </div>
+          )}
+
+          {/* Generating indicator */}
+          {isGenerating && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              padding: '0.75rem',
+              background: 'var(--bg-1)',
+              borderRadius: '0.5rem',
+              marginTop: '0.5rem',
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                flex: 1,
+              }}>
+                <span style={{
+                  display: 'inline-block',
+                  width: '0.5rem',
+                  height: '0.5rem',
+                  background: '#8b5cf6',
+                  borderRadius: '50%',
+                  animation: 'pulse 1.5s infinite',
+                }} />
+                <span style={{ fontSize: '0.875rem', color: 'var(--ink-600)' }}>
+                  Bridge is thinking...
+                </span>
+              </div>
+              <button
+                onClick={stopGeneration}
+                style={{
+                  padding: '0.375rem 0.75rem',
+                  fontSize: '0.8125rem',
+                  background: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '0.375rem',
+                  cursor: 'pointer',
+                  fontWeight: 500,
+                }}
+              >
+                Stop
+              </button>
             </div>
           )}
         </div>

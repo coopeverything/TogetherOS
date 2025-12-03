@@ -3,7 +3,7 @@
 // DELETE /api/bridge-teaching/sessions/[id]/turns - Delete a turn
 
 import { NextRequest, NextResponse } from 'next/server'
-import { addTurn, provideFeedback, deleteTurn } from '@togetheros/db'
+import { addTurn, provideFeedback, deleteTurn, updateTurnMessage } from '@togetheros/db'
 import { requireAdmin } from '@/lib/auth/middleware'
 import type { ConversationMode, Speaker, FeedbackRating } from '@togetheros/types'
 
@@ -70,7 +70,7 @@ export async function POST(
   }
 }
 
-// PATCH /api/bridge-teaching/sessions/[id]/turns - Provide feedback on turn
+// PATCH /api/bridge-teaching/sessions/[id]/turns - Provide feedback or edit message
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -80,16 +80,36 @@ export async function PATCH(
     await requireAdmin(request)
 
     const body = await request.json()
-    const { turnId, rating, comment, retryRequested } = body as {
+    const { turnId, rating, comment, retryRequested, message } = body as {
       turnId: string
-      rating: FeedbackRating
+      rating?: FeedbackRating
       comment?: string
       retryRequested?: boolean
+      message?: string
     }
 
-    if (!turnId || !rating) {
+    if (!turnId) {
       return NextResponse.json(
-        { error: 'turnId and rating are required' },
+        { error: 'turnId is required' },
+        { status: 400 }
+      )
+    }
+
+    // If message is provided, update the message content
+    if (message !== undefined) {
+      const turn = await updateTurnMessage(turnId, message)
+
+      if (!turn) {
+        return NextResponse.json({ error: 'Turn not found' }, { status: 404 })
+      }
+
+      return NextResponse.json({ turn })
+    }
+
+    // Otherwise, handle feedback
+    if (!rating) {
+      return NextResponse.json(
+        { error: 'Either message or rating is required' },
         { status: 400 }
       )
     }

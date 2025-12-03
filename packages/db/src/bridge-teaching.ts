@@ -454,6 +454,25 @@ export async function provideFeedback(
 }
 
 /**
+ * Update a turn's message content
+ */
+export async function updateTurnMessage(
+  turnId: string,
+  message: string
+): Promise<ConversationTurn | null> {
+  const result = await query<any>(
+    `UPDATE bridge_teaching_turns
+     SET message = $1
+     WHERE id = $2
+     RETURNING *`,
+    [message, turnId]
+  )
+
+  if (result.rows.length === 0) return null
+  return mapRowToTurn(result.rows[0])
+}
+
+/**
  * Delete a turn
  */
 export async function deleteTurn(turnId: string): Promise<boolean> {
