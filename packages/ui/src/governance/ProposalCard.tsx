@@ -32,19 +32,19 @@ function getStatusBadgeColor(status: ProposalStatus): string {
     case 'draft':
       return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
     case 'research':
-      return 'bg-yellow-100 text-yellow-800'
+      return 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
     case 'deliberation':
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
     case 'voting':
-      return 'bg-purple-100 text-purple-800'
+      return 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
     case 'decided':
-      return 'bg-green-100 text-green-800'
+      return 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
     case 'delivery':
-      return 'bg-indigo-100 text-indigo-800'
+      return 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200'
     case 'reviewed':
-      return 'bg-teal-100 text-teal-800'
+      return 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200'
     case 'archived':
-      return 'bg-slate-100 text-slate-600'
+      return 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
   }
 }
 
@@ -95,7 +95,7 @@ export function ProposalCard({
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
             {proposal.title}
           </h3>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
             <span>
               by {authorName || `User ${proposal.authorId.slice(0, 8)}`}
             </span>
@@ -113,12 +113,12 @@ export function ProposalCard({
           {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
         </span>
       </div>
-      <p className="text-gray-700 line-clamp-2">{proposal.summary}</p>
+      <p className="text-gray-700 dark:text-gray-300 line-clamp-2">{proposal.summary}</p>
 
       {(proposal.evidence.length > 0 ||
         proposal.options.length > 0 ||
         proposal.positions.length > 0) && (
-        <div className="flex items-center gap-4 mt-4 text-sm text-gray-500">
+        <div className="flex items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
           {proposal.evidence.length > 0 && (
             <span>{proposal.evidence.length} evidence</span>
           )}
