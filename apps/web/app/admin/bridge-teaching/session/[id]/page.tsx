@@ -164,10 +164,8 @@ export default function TeachingSessionPage({ params }: PageProps) {
       setExplanation('')
       await loadSession()
 
-      // Auto-generate Bridge response in practice and demo modes
-      if (mode === 'practice' || mode === 'demo') {
-        await generateBridgeResponse(message.trim())
-      }
+      // Auto-generate Bridge response in all modes (practice, demo, discussion)
+      await generateBridgeResponse(message.trim())
     } catch (err: any) {
       alert(err.message)
     } finally {
