@@ -1,3 +1,15 @@
+---
+name: ux-designer
+description: |
+  **AUTO-TRIGGER when user says:** "use UX skill", "audit page", "check CSS", "dark mode issues", "accessibility audit", "responsive check", or requests UI/CSS validation.
+
+  UX/UI design and validation for TogetherOS. Runs CSS validation, checks dark mode support, verifies accessibility, and audits responsive design. Creates ultra-modern, fully responsive interfaces.
+
+  **Key capability:** When invoked, EXECUTES validation steps (runs scripts, reads files, reports issues) - does NOT just describe what the skill does.
+
+  Use proactively for any UI work or when user reports visual issues.
+---
+
 # TogetherOS UX Designer Skill
 
 Specialized UX/UI design agent for TogetherOS. Creates ultra-modern, fully responsive interfaces with dynamic theme selection, intelligent multilingual support, and cooperation-first design patterns.

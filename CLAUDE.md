@@ -34,6 +34,78 @@
 - Check: Are all CRUD operations accessible from the interface?
 - Lesson learned: Teaching Sessions had complete backend but no conversation UI (Dec 2025)
 
+**Skill Execution Rule** (REQUIRED when user requests a skill):
+- See: "Skill Execution Protocol" section below
+- When user says "use X skill" - EXECUTE the skill steps, don't just read them
+- Reading a skill file ≠ executing the skill
+- Lesson learned: Read UX skill but didn't run validation script or check dark mode classes (Dec 2025)
+
+---
+
+## Skill Execution Protocol
+
+**MANDATORY when user says "use X skill", "run X skill", or similar:**
+
+### The Problem This Solves
+
+Reading a skill's documentation and understanding what it describes is NOT the same as executing the steps. Skills are **executable procedures**, not just reference material.
+
+**Anti-pattern (causes bugs):**
+```
+User: "use UX skill to audit governance page"
+Claude: *reads SKILL.md* *understands it checks CSS* *makes assumptions about what to fix*
+Result: Fixed wrong component, missed actual issues
+```
+
+**Correct pattern:**
+```
+User: "use UX skill to audit governance page"
+Claude: *reads SKILL.md* *executes Step 1* *executes Step 2* *reports output* ...
+Result: Found actual issues via systematic execution
+```
+
+### Execution Steps
+
+1. **Locate the skill file:**
+   - Check `.claude/skills/{skill-name}/SKILL.md`
+   - Or `.claude/skills/{skill-name}.md`
+
+2. **Read the skill file completely**
+
+3. **Find the procedure section** (often titled "Manual Invocation", "Workflow", "Steps", etc.)
+
+4. **Execute EVERY step in order:**
+   - If step says "run command" → actually run the command
+   - If step says "check file" → actually read the file
+   - If step says "report output" → actually show the output to user
+   - Do NOT skip steps
+   - Do NOT assume outcomes
+
+5. **Report results in the format specified by the skill**
+
+### Example: UX Skill Execution
+
+```
+User: "use UX skill on governance page"
+
+Step 1: Identify files
+→ Read apps/web/app/governance/page.tsx
+→ Find imports: ProposalList from @togetheros/ui/governance
+→ Read packages/ui/src/governance/ProposalList.tsx
+→ Find imports: ProposalCard
+→ Read packages/ui/src/governance/ProposalCard.tsx
+
+Step 2: Run validation
+→ Execute: ./scripts/validate-css.sh
+→ Report ALL output
+
+Step 3: Manual dark mode check
+→ For EACH file, grep for light-only classes
+→ Report: file:line - class needs dark:variant
+
+Step 4-7: Continue executing each step...
+```
+
 ---
 
 ## Pre-Work Verification Protocol
