@@ -383,6 +383,23 @@ git fetch origin <branch-name>
 - Always explain why error is accepted in `docs/dev/tech-debt.md`
 - Include runtime behavior (does it work or not?)
 
+❌ **Don't use relative paths to import from `packages/*` in monorepo**
+- Wrong: `import { x } from '../../../../../../packages/db/src/module'`
+- Right: `import { x } from '@togetheros/db'`
+- Cost: Works locally but FAILS in CI (TS2307: Cannot find module)
+- Root cause: CI has different module resolution context than local dev
+- **Always use package aliases** for internal monorepo packages
+- Source: [Nx Blog - Managing TS Packages](https://nx.dev/blog/managing-ts-packages-in-monorepos)
+
+### Session Reference: 2025-12-03 Monorepo Import Fix
+
+**Problem:** Deploy failed with TS2307 after changing import to relative path
+**Error:** `Cannot find module '../../../../../../packages/db/src/proposals'`
+**Context:** Changed from `apps/api/src/modules/governance/handlers/crud` to relative path
+**Root Cause:** Relative paths to `packages/*/src/*` resolve locally but fail in CI
+**Solution:** Use package alias `@togetheros/db` instead of relative path
+**Lesson:** ALWAYS use `@togetheros/*` aliases for internal package imports, NEVER relative paths
+
 ### Session Reference: 2025-11-08 TypeScript Error Fixes
 
 #### Morning Session: Reduced Errors 100+ → 13

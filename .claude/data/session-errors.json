@@ -22,6 +22,27 @@
       "first_seen": "2025-12-01T21:35:00Z",
       "last_seen": "2025-12-01T21:35:00Z",
       "occurrence_count": 1
+    },
+    {
+      "id": "err-005",
+      "signature": {
+        "type": "process",
+        "code": "YOLO1_INCOMPLETE",
+        "pattern": "Not following complete yolo1 workflow - missing deploy monitoring step"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-03",
+          "commit_sha": "94d111a",
+          "file": null,
+          "message": "Did ad-hoc fixes without following yolo1 skill. Missed deploy failure for ~30 minutes.",
+          "context": "UX audit and proposals API fix done without proper deploy monitoring. User had to ask if deploy triggered."
+        }
+      ],
+      "status": "watching",
+      "first_seen": "2025-12-03T16:00:00Z",
+      "last_seen": "2025-12-03T16:00:00Z",
+      "occurrence_count": 1
     }
   ],
   "resolved_patterns": [
@@ -48,7 +69,19 @@
       "kb_file_updated": ".claude/knowledge/ci-cd-discipline.md",
       "resolved_date": "2025-12-01T22:10:00Z",
       "source": "https://gist.github.com/calaway/ea880263b0c0495bb00ee877f001dc59"
+    },
+    {
+      "id": "err-004",
+      "signature": {
+        "type": "typescript",
+        "code": "TS2307_RELATIVE_MONOREPO",
+        "pattern": "Relative path imports to packages/* fail in CI despite working locally"
+      },
+      "resolution": "Added anti-pattern entry and session reference to togetheros-kb.md. Solution: ALWAYS use package aliases (@togetheros/db) for internal monorepo imports, NEVER relative paths to packages/*/src/*.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-03T17:10:00Z",
+      "source": "https://nx.dev/blog/managing-ts-packages-in-monorepos"
     }
   ],
-  "last_updated": "2025-12-01T22:10:00Z"
+  "last_updated": "2025-12-03T17:10:00Z"
 }
