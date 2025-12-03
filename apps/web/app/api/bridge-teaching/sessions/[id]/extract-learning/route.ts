@@ -1,11 +1,13 @@
 /**
  * POST /api/bridge-teaching/sessions/[id]/extract-learning
  * Have Bridge reflect on the session and extract what it learned
- * Saves the learning as a pattern in the database
+ * Returns the draft learning for review/editing before saving
+ *
+ * This is step 1 of 2. Use /save-learning to save after review.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getTeachingSessionById, createPattern } from '@togetheros/db'
+import { getTeachingSessionById } from '@togetheros/db'
 import { requireAdmin } from '@/lib/auth/middleware'
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
@@ -141,7 +143,7 @@ export async function POST(
       )
     }
 
-    // Extract learning from the conversation
+    // Extract learning from the conversation (draft only, not saved yet)
     const learning = await extractLearning(
       session.topic,
       session.turns.map(t => ({
@@ -152,33 +154,12 @@ export async function POST(
       session.intent
     )
 
-    // Save as a pattern
-    const pattern = await createPattern(
-      sessionId,
-      session.archetype?.name || session.intent || 'general',
-      learning.principle,
-      {
-        topicContext: learning.topicContext,
-        responseGuidelines: learning.guidelines,
-        examples: [{
-          topic: session.topic,
-          reflection: learning.reflection,
-          conversationSummary: session.turns.slice(0, 4).map(t => ({
-            speaker: t.speaker,
-            message: t.message.slice(0, 200),
-          })),
-        }],
-        confidence: 0.7, // Start with moderate confidence
-        createdBy: user.id,
-      }
-    )
-
+    // Return the draft for review/editing
     return NextResponse.json({
       success: true,
-      reflection: learning.reflection,
-      pattern: {
-        id: pattern.id,
-        principle: pattern.principle,
+      draft: {
+        reflection: learning.reflection,
+        principle: learning.principle,
         guidelines: learning.guidelines,
         topicContext: learning.topicContext,
       },

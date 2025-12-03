@@ -71,8 +71,15 @@ export default function TeachingSessionPage({ params }: PageProps) {
   // Track if we've triggered auto-response for this session
   const [hasTriggeredAutoResponse, setHasTriggeredAutoResponse] = useState(false)
 
-  // Save learning state
+  // Save learning state - two step: draft then confirm
+  const [isExtractingLearning, setIsExtractingLearning] = useState(false)
   const [isSavingLearning, setIsSavingLearning] = useState(false)
+  const [learningDraft, setLearningDraft] = useState<{
+    reflection: string
+    principle: string
+    guidelines: any
+    topicContext: string[]
+  } | null>(null)
   const [savedLearning, setSavedLearning] = useState<{
     reflection: string
     principle: string
@@ -360,13 +367,15 @@ export default function TeachingSessionPage({ params }: PageProps) {
     }
   }
 
-  const saveLearning = async () => {
+  // Step 1: Extract learning (get draft for review)
+  const extractLearning = async () => {
     if (!session || session.turns.length < 2) {
       alert('Need at least 2 messages in the conversation to extract learning')
       return
     }
 
-    setIsSavingLearning(true)
+    setIsExtractingLearning(true)
+    setLearningDraft(null)
     setSavedLearning(null)
 
     try {
@@ -381,10 +390,39 @@ export default function TeachingSessionPage({ params }: PageProps) {
       }
 
       const data = await res.json()
-      setSavedLearning({
-        reflection: data.reflection,
-        principle: data.pattern.principle,
+      setLearningDraft(data.draft)
+    } catch (err: any) {
+      alert(err.message)
+    } finally {
+      setIsExtractingLearning(false)
+    }
+  }
+
+  // Step 2: Save the reviewed/edited learning
+  const confirmSaveLearning = async () => {
+    if (!learningDraft) return
+
+    setIsSavingLearning(true)
+
+    try {
+      const res = await fetch(`/api/bridge-teaching/sessions/${id}/save-learning`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(learningDraft),
       })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to save learning')
+      }
+
+      const data = await res.json()
+      setSavedLearning({
+        reflection: learningDraft.reflection,
+        principle: learningDraft.principle,
+      })
+      setLearningDraft(null)
 
       // Reload session to show the new pattern
       await loadSession()
@@ -393,6 +431,10 @@ export default function TeachingSessionPage({ params }: PageProps) {
     } finally {
       setIsSavingLearning(false)
     }
+  }
+
+  const cancelLearningDraft = () => {
+    setLearningDraft(null)
   }
 
   const getModeColor = (m: ConversationMode) => {
@@ -464,20 +506,20 @@ export default function TeachingSessionPage({ params }: PageProps) {
             {session.status === 'active' && (
               <>
                 <button
-                  onClick={saveLearning}
-                  disabled={isSavingLearning || session.turns.length < 2}
+                  onClick={extractLearning}
+                  disabled={isExtractingLearning || session.turns.length < 2 || learningDraft !== null}
                   style={{
                     fontSize: '0.75rem',
                     padding: '0.25rem 0.5rem',
-                    background: isSavingLearning || session.turns.length < 2 ? '#6b728050' : '#8b5cf6',
+                    background: isExtractingLearning || session.turns.length < 2 || learningDraft !== null ? '#6b728050' : '#8b5cf6',
                     color: 'white',
                     border: 'none',
                     borderRadius: '0.25rem',
-                    cursor: isSavingLearning || session.turns.length < 2 ? 'not-allowed' : 'pointer',
+                    cursor: isExtractingLearning || session.turns.length < 2 || learningDraft !== null ? 'not-allowed' : 'pointer',
                   }}
-                  title={session.turns.length < 2 ? 'Need at least 2 messages' : 'Have Bridge reflect on and save what it learned'}
+                  title={session.turns.length < 2 ? 'Need at least 2 messages' : 'Have Bridge reflect on what it learned'}
                 >
-                  {isSavingLearning ? 'Saving...' : 'Save Learning'}
+                  {isExtractingLearning ? 'Reflecting...' : 'Save Learning'}
                 </button>
                 <button
                   onClick={() => updateStatus('completed')}
@@ -1027,6 +1069,95 @@ export default function TeachingSessionPage({ params }: PageProps) {
               >
                 Stop
               </button>
+            </div>
+          )}
+
+          {/* Learning Draft - Editable before saving */}
+          {learningDraft && (
+            <div style={{
+              background: '#8b5cf615',
+              border: '2px solid #8b5cf640',
+              borderRadius: '0.5rem',
+              padding: '1rem',
+              marginTop: '0.75rem',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <strong style={{ color: '#8b5cf6', fontSize: '0.875rem' }}>Review Bridge's Learning</strong>
+                <span style={{ fontSize: '0.75rem', color: 'var(--ink-500)' }}>(edit if needed)</span>
+              </div>
+
+              <div style={{ marginBottom: '0.75rem' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--ink-600)', marginBottom: '0.25rem' }}>
+                  What Bridge learned:
+                </label>
+                <textarea
+                  value={learningDraft.reflection}
+                  onChange={(e) => setLearningDraft({ ...learningDraft, reflection: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid var(--border)',
+                    borderRadius: '0.375rem',
+                    fontSize: '0.875rem',
+                    minHeight: '3rem',
+                    resize: 'vertical',
+                    fontFamily: 'inherit',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '0.75rem' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--ink-600)', marginBottom: '0.25rem' }}>
+                  Core principle to remember:
+                </label>
+                <textarea
+                  value={learningDraft.principle}
+                  onChange={(e) => setLearningDraft({ ...learningDraft, principle: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid var(--border)',
+                    borderRadius: '0.375rem',
+                    fontSize: '0.875rem',
+                    minHeight: '2rem',
+                    resize: 'vertical',
+                    fontFamily: 'inherit',
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={cancelLearningDraft}
+                  style={{
+                    padding: '0.375rem 0.75rem',
+                    fontSize: '0.8125rem',
+                    background: 'transparent',
+                    color: 'var(--ink-600)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '0.375rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmSaveLearning}
+                  disabled={isSavingLearning || !learningDraft.reflection.trim() || !learningDraft.principle.trim()}
+                  style={{
+                    padding: '0.375rem 0.75rem',
+                    fontSize: '0.8125rem',
+                    background: isSavingLearning ? '#6b728050' : '#10b981',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '0.375rem',
+                    cursor: isSavingLearning ? 'not-allowed' : 'pointer',
+                    fontWeight: 500,
+                  }}
+                >
+                  {isSavingLearning ? 'Saving...' : 'Confirm & Save'}
+                </button>
+              </div>
             </div>
           )}
 
