@@ -154,9 +154,78 @@ else
 fi
 
 # ==========================================
-# 5. Check Tailwind class validity (basic)
+# 5. Check for missing dark mode variants
 # ==========================================
-echo -e "\n${YELLOW}[5/5] Checking Tailwind classes...${NC}"
+echo -e "\n${YELLOW}[5/6] Checking dark mode support...${NC}"
+
+# Common light-mode-only patterns that need dark: variants
+# These are text/bg colors that become illegible in dark mode
+DARK_MODE_ISSUES=0
+
+# Patterns: light-mode classes that typically need dark variants
+# Format: "pattern|suggestion"
+DARK_MODE_PATTERNS=(
+  'text-gray-700[^0-9]|needs dark:text-gray-300'
+  'text-gray-600[^0-9]|needs dark:text-gray-400'
+  'text-gray-500[^0-9]|needs dark:text-gray-400'
+  'bg-gray-50[^0-9]|needs dark:bg-gray-900'
+  'bg-white[^0-9]|needs dark:bg-gray-800'
+  'bg-blue-50[^0-9]|needs dark:bg-blue-900'
+  'text-blue-900[^0-9]|needs dark:text-blue-100'
+  'text-blue-800[^0-9]|needs dark:text-blue-200'
+  'text-blue-700[^0-9]|needs dark:text-blue-300'
+  'bg-yellow-100[^0-9]|needs dark:bg-yellow-900'
+  'text-yellow-800[^0-9]|needs dark:text-yellow-200'
+  'bg-green-100[^0-9]|needs dark:bg-green-900'
+  'text-green-800[^0-9]|needs dark:text-green-200'
+  'bg-red-50[^0-9]|needs dark:bg-red-900'
+  'text-red-900[^0-9]|needs dark:text-red-100'
+  'bg-purple-100[^0-9]|needs dark:bg-purple-900'
+  'text-purple-800[^0-9]|needs dark:text-purple-200'
+)
+
+# Check each pattern in TSX files
+for entry in "${DARK_MODE_PATTERNS[@]}"; do
+  pattern="${entry%%|*}"
+  suggestion="${entry##*|}"
+
+  # Find files with the light-mode class but missing corresponding dark: class
+  for file in apps/web/app/**/page.tsx packages/ui/src/**/*.tsx; do
+    if [ -f "$file" ]; then
+      # Check if file has the light pattern
+      if grep -qE "$pattern" "$file" 2>/dev/null; then
+        # Extract the base class name for dark check
+        base_class=$(echo "$pattern" | sed 's/\[.*//g')
+        dark_class="dark:${base_class/text-gray-700/text-gray-300}"
+        dark_class="${dark_class/text-gray-600/text-gray-400}"
+        dark_class="${dark_class/text-gray-500/text-gray-400}"
+
+        # Check if dark variant exists on the same line or nearby
+        if ! grep -E "(dark:|dark:text-|dark:bg-)" "$file" | grep -qE "$base_class" 2>/dev/null; then
+          # Get line numbers with the issue
+          LINE_NUMS=$(grep -nE "$pattern" "$file" 2>/dev/null | head -3 | cut -d: -f1 | tr '\n' ',' | sed 's/,$//')
+          if [ -n "$LINE_NUMS" ]; then
+            echo -e "${YELLOW}  ⚠ $file:$LINE_NUMS - $base_class $suggestion${NC}"
+            DARK_MODE_ISSUES=$((DARK_MODE_ISSUES + 1))
+          fi
+        fi
+      fi
+    fi
+  done 2>/dev/null || true
+done
+
+if [ "$DARK_MODE_ISSUES" -eq 0 ]; then
+  echo -e "${GREEN}✓ Dark mode support looks good${NC}"
+else
+  echo -e "${RED}✗ Found $DARK_MODE_ISSUES potential dark mode issues${NC}"
+  echo -e "${YELLOW}  Run with theme toggle to verify readability${NC}"
+  ERRORS=$((ERRORS + 1))
+fi
+
+# ==========================================
+# 6. Check Tailwind class validity (basic)
+# ==========================================
+echo -e "\n${YELLOW}[6/6] Checking Tailwind classes...${NC}"
 
 # Look for potentially invalid Tailwind classes (common mistakes)
 INVALID_CLASSES=0

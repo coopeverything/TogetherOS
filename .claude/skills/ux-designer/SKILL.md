@@ -23,6 +23,102 @@ Specialized UX/UI design agent for TogetherOS. Creates ultra-modern, fully respo
 - Responsive implementation
 - Accessibility audits
 - CSS validation before deployment
+- **User explicitly asks for UX audit** (e.g., "use UX skill", "audit this page")
+
+---
+
+## Manual UX Audit (MANDATORY when user requests)
+
+When user asks to "use UX skill", "audit page", "check CSS", or similar:
+
+### Step 1: Identify Target Files
+
+```
+User says: "audit governance page"
+→ Find: apps/web/app/governance/page.tsx
+→ Find all imported components (check imports at top of file)
+→ If imports from @togetheros/ui/*, find those files too
+```
+
+### Step 2: Run Validation Script
+
+```bash
+./scripts/validate-css.sh
+```
+
+Report ALL output to user, especially any warnings or errors.
+
+### Step 3: Manual Dark Mode Audit
+
+For EACH file identified in Step 1, check every Tailwind class:
+
+| Light-Only Class | Required Dark Variant |
+|------------------|----------------------|
+| `text-gray-700` | `dark:text-gray-300` |
+| `text-gray-600` | `dark:text-gray-400` |
+| `text-gray-500` | `dark:text-gray-400` |
+| `bg-white` | `dark:bg-gray-800` |
+| `bg-gray-50` | `dark:bg-gray-900` |
+| `bg-blue-50` | `dark:bg-blue-900` |
+| `text-blue-900` | `dark:text-blue-100` |
+| `text-blue-800` | `dark:text-blue-200` |
+| `bg-yellow-100` | `dark:bg-yellow-900` |
+| `text-yellow-800` | `dark:text-yellow-200` |
+| `bg-green-100` | `dark:bg-green-900` |
+| `text-green-800` | `dark:text-green-200` |
+| `bg-red-50` | `dark:bg-red-900` |
+| `text-red-900` | `dark:text-red-100` |
+| `bg-purple-100` | `dark:bg-purple-900` |
+| `text-purple-800` | `dark:text-purple-200` |
+
+**For each class found WITHOUT its dark variant, report:**
+```
+FILE:LINE - text-gray-700 missing dark:text-gray-300
+```
+
+### Step 4: Check Form Controls
+
+Form elements (select, input, textarea) need BOTH:
+- Background: `bg-white dark:bg-gray-800`
+- Text: `text-gray-900 dark:text-white`
+- Border: `border-gray-300 dark:border-gray-600`
+
+### Step 5: Check Labels
+
+All `<label>` elements need dark variants:
+- `text-gray-700 dark:text-gray-300` (or similar)
+
+### Step 6: Report Format
+
+```
+## UX Audit Results: [page name]
+
+### Files Analyzed
+- apps/web/app/[path]/page.tsx
+- packages/ui/src/[component].tsx
+
+### Issues Found
+
+#### Dark Mode (X issues)
+- file.tsx:42 - text-gray-700 needs dark:text-gray-300
+- file.tsx:58 - bg-white needs dark:bg-gray-800
+
+#### Accessibility (X issues)
+- file.tsx:100 - button missing focus-visible styles
+
+#### Responsive (X issues)
+- file.tsx:30 - no responsive breakpoints in 150-line component
+
+### Recommended Fixes
+[List specific edits needed]
+```
+
+### Step 7: Apply Fixes (if user approves)
+
+After reporting, ask:
+> "Found X issues. Should I fix them now?"
+
+If yes, apply all fixes following yolo1 workflow.
 
 ---
 
@@ -224,10 +320,14 @@ Run before every deployment to catch CSS errors:
 2. **Contrast ratios** - WCAG AA compliance
 3. **Missing variables** - Undefined CSS custom properties
 4. **Responsive issues** - Missing mobile styles
-5. **Unused classes** - Dead CSS (optional)
+5. **Dark mode support** - Light-only classes missing dark: variants
+6. **Unused classes** - Dead CSS (optional)
 
 ### Integration with yolo1
 The yolo1 skill automatically runs CSS validation before creating PRs for pages that include `.tsx` or `.css` files.
+
+### Manual Invocation
+When user explicitly requests UX audit, follow the "Manual UX Audit" section above - don't just run the script, also do manual file inspection.
 
 ---
 
