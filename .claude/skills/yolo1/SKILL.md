@@ -159,6 +159,40 @@ When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
 - If validation fails, fix issues and retry
 - These proof lines should be included in PR body
 
+### 6.5. CSS/UX Validation (MANDATORY for UI Changes)
+
+**IMPORTANT:** If this PR includes `.tsx` or `.css` files with UI components, run CSS validation BEFORE creating PR:
+
+```bash
+# Run CSS validation
+./scripts/validate-css.sh
+
+# Expected output: CSS=OK
+# If CSS=FAILED: Fix issues and re-run
+```
+
+**What it checks:**
+1. CSS syntax errors (via stylelint if installed)
+2. Undefined CSS variables (missing `--var-name` definitions)
+3. Responsive breakpoints (pages should have mobile styles)
+4. Accessibility focus states (interactive elements need focus styles)
+5. Tailwind class validity (catches common mistakes)
+
+**When to skip:**
+- Backend-only changes (API routes, database, scripts)
+- Documentation-only changes
+- Changes that don't modify UI components
+
+**Integration with UX Designer Skill:**
+For complex UI work, invoke the `ux-designer` skill for guidance on:
+- Theme system (6 color palettes)
+- Fluid typography (CSS clamp() patterns)
+- 2025 UI trends (bento grids, micro-interactions)
+- Accessibility (WCAG 2.1 AA)
+- Multilingual patterns (i18n)
+
+**See:** `.claude/skills/ux-designer/SKILL.md` for full design system reference
+
 ### 7. Security Check (P1 Alerts in Modified Files)
 - **IMPORTANT:** Danger.js will automatically block merge if P1 alerts exist in modified files
 - Check if any of YOUR modified files have open P1 (error severity) CodeQL alerts
@@ -542,6 +576,7 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 - **pr-formatter**: PR creation, formatting, validation, AI feedback loop
 - **status-tracker**: Progress tracking, next steps management, Notion memory
 - **error-learner**: Session error analysis, cross-session pattern detection, KB updates
+- **ux-designer**: UI/UX design system, themes, accessibility, responsive patterns
 
 **See those skills for:**
 - Keyword generation details → `pr-formatter`
@@ -551,3 +586,7 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 - PR verification checklist → `pr-formatter`
 - Error pattern detection → `error-learner`
 - Cross-session learning → `error-learner`
+- Theme system (6 palettes) → `ux-designer`
+- Fluid typography patterns → `ux-designer`
+- Accessibility checklist → `ux-designer`
+- CSS validation script → `scripts/validate-css.sh`
