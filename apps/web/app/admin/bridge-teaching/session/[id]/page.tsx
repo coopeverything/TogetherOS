@@ -71,6 +71,13 @@ export default function TeachingSessionPage({ params }: PageProps) {
   // Track if we've triggered auto-response for this session
   const [hasTriggeredAutoResponse, setHasTriggeredAutoResponse] = useState(false)
 
+  // Save learning state
+  const [isSavingLearning, setIsSavingLearning] = useState(false)
+  const [savedLearning, setSavedLearning] = useState<{
+    reflection: string
+    principle: string
+  } | null>(null)
+
   useEffect(() => {
     loadSession()
     loadArchetypes()
@@ -353,6 +360,41 @@ export default function TeachingSessionPage({ params }: PageProps) {
     }
   }
 
+  const saveLearning = async () => {
+    if (!session || session.turns.length < 2) {
+      alert('Need at least 2 messages in the conversation to extract learning')
+      return
+    }
+
+    setIsSavingLearning(true)
+    setSavedLearning(null)
+
+    try {
+      const res = await fetch(`/api/bridge-teaching/sessions/${id}/extract-learning`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to extract learning')
+      }
+
+      const data = await res.json()
+      setSavedLearning({
+        reflection: data.reflection,
+        principle: data.pattern.principle,
+      })
+
+      // Reload session to show the new pattern
+      await loadSession()
+    } catch (err: any) {
+      alert(err.message)
+    } finally {
+      setIsSavingLearning(false)
+    }
+  }
+
   const getModeColor = (m: ConversationMode) => {
     switch (m) {
       case 'demo': return '#8b5cf6'
@@ -420,20 +462,38 @@ export default function TeachingSessionPage({ params }: PageProps) {
               {session.status}
             </span>
             {session.status === 'active' && (
-              <button
-                onClick={() => updateStatus('completed')}
-                style={{
-                  fontSize: '0.75rem',
-                  padding: '0.25rem 0.5rem',
-                  background: '#10b981',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '0.25rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Complete Session
-              </button>
+              <>
+                <button
+                  onClick={saveLearning}
+                  disabled={isSavingLearning || session.turns.length < 2}
+                  style={{
+                    fontSize: '0.75rem',
+                    padding: '0.25rem 0.5rem',
+                    background: isSavingLearning || session.turns.length < 2 ? '#6b728050' : '#8b5cf6',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '0.25rem',
+                    cursor: isSavingLearning || session.turns.length < 2 ? 'not-allowed' : 'pointer',
+                  }}
+                  title={session.turns.length < 2 ? 'Need at least 2 messages' : 'Have Bridge reflect on and save what it learned'}
+                >
+                  {isSavingLearning ? 'Saving...' : 'Save Learning'}
+                </button>
+                <button
+                  onClick={() => updateStatus('completed')}
+                  style={{
+                    fontSize: '0.75rem',
+                    padding: '0.25rem 0.5rem',
+                    background: '#10b981',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '0.25rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Complete Session
+                </button>
+              </>
             )}
             <button
               onClick={deleteSessionAndRedirect}
@@ -967,6 +1027,50 @@ export default function TeachingSessionPage({ params }: PageProps) {
               >
                 Stop
               </button>
+            </div>
+          )}
+
+          {/* Saved Learning Display */}
+          {savedLearning && (
+            <div style={{
+              background: '#10b98115',
+              border: '1px solid #10b98140',
+              borderRadius: '0.5rem',
+              padding: '1rem',
+              marginTop: '0.75rem',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span style={{ fontSize: '1rem' }}>✓</span>
+                <strong style={{ color: '#10b981', fontSize: '0.875rem' }}>Learning Saved</strong>
+                <button
+                  onClick={() => setSavedLearning(null)}
+                  style={{
+                    marginLeft: 'auto',
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--ink-400)',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+              <p style={{
+                margin: '0 0 0.5rem 0',
+                fontSize: '0.875rem',
+                color: 'var(--ink-700)',
+                fontStyle: 'italic',
+              }}>
+                "{savedLearning.reflection}"
+              </p>
+              <p style={{
+                margin: 0,
+                fontSize: '0.8125rem',
+                color: 'var(--ink-600)',
+              }}>
+                <strong>Principle:</strong> {savedLearning.principle}
+              </p>
             </div>
           )}
         </div>
