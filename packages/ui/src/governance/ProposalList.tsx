@@ -67,13 +67,13 @@ export function ProposalList({
         <div className="flex flex-wrap gap-4">
           {/* Status Filter */}
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Status
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as ProposalStatus | 'all')}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Statuses</option>
               <option value="draft">Draft</option>
@@ -89,13 +89,13 @@ export function ProposalList({
 
           {/* Scope Filter */}
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Scope
             </label>
             <select
               value={scopeFilter}
               onChange={(e) => setScopeFilter(e.target.value as ProposalScopeType | 'all')}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Types</option>
               <option value="individual">Individual</option>
@@ -105,7 +105,7 @@ export function ProposalList({
         </div>
 
         {/* Results Count */}
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-600 dark:text-gray-400">
           Showing {filteredProposals.length} of {proposals.length} proposals
         </div>
       </div>
@@ -113,8 +113,8 @@ export function ProposalList({
       {/* Proposals List */}
       {filteredProposals.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-500 text-lg mb-2">No proposals found</p>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">No proposals found</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">
             {proposals.length === 0
               ? 'Be the first to create a proposal'
               : 'Try adjusting your filters'}
