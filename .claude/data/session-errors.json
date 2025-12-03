@@ -22,27 +22,6 @@
       "first_seen": "2025-12-01T21:35:00Z",
       "last_seen": "2025-12-01T21:35:00Z",
       "occurrence_count": 1
-    },
-    {
-      "id": "err-005",
-      "signature": {
-        "type": "process",
-        "code": "YOLO1_INCOMPLETE",
-        "pattern": "Not following complete yolo1 workflow - missing deploy monitoring step"
-      },
-      "occurrences": [
-        {
-          "session_date": "2025-12-03",
-          "commit_sha": "94d111a",
-          "file": null,
-          "message": "Did ad-hoc fixes without following yolo1 skill. Missed deploy failure for ~30 minutes.",
-          "context": "UX audit and proposals API fix done without proper deploy monitoring. User had to ask if deploy triggered."
-        }
-      ],
-      "status": "watching",
-      "first_seen": "2025-12-03T16:00:00Z",
-      "last_seen": "2025-12-03T16:00:00Z",
-      "occurrence_count": 1
     }
   ],
   "resolved_patterns": [
@@ -80,8 +59,36 @@
       "resolution": "Added anti-pattern entry and session reference to togetheros-kb.md. Solution: ALWAYS use package aliases (@togetheros/db) for internal monorepo imports, NEVER relative paths to packages/*/src/*.",
       "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
       "resolved_date": "2025-12-03T17:10:00Z",
-      "source": "https://nx.dev/blog/managing-ts-packages-in-monorepos"
+      "source": "https://nx.dev/blog/managing-ts-packages-in-monorepo"
+    },
+    {
+      "id": "err-005",
+      "signature": {
+        "type": "process",
+        "code": "FIX_WITHOUT_VERIFICATION",
+        "pattern": "Applied fix without verifying it actually solved the reported problem"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-03",
+          "commit_sha": "94d111a",
+          "file": null,
+          "message": "Did ad-hoc fixes without following yolo1 skill. Missed deploy failure for ~30 minutes.",
+          "context": "UX audit and proposals API fix done without proper deploy monitoring. User had to ask if deploy triggered."
+        },
+        {
+          "session_date": "2025-12-03",
+          "commit_sha": "40cc226",
+          "file": "packages/ui/src/governance/ProposalCard.tsx",
+          "message": "Fixed wrong component. User reported Status/Scope illegible, I fixed ProposalCard status badges instead of ProposalList filter labels.",
+          "context": "User reported dark mode issue in 'status and scope fields'. Fixed ProposalCard.tsx, but actual issue was in ProposalList.tsx filter controls."
+        }
+      ],
+      "resolution": "Added 'UX Fix Verification Protocol' section to togetheros-kb.md. Solution: ALWAYS trace user-reported UI element to exact source component, verify fix matches report before committing.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-03T18:40:00Z",
+      "source": "https://www.applause.com/blog/bug-fix-verification-speed-up-development/"
     }
   ],
-  "last_updated": "2025-12-03T17:10:00Z"
+  "last_updated": "2025-12-03T18:40:00Z"
 }

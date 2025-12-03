@@ -63,6 +63,35 @@ TogetherOS helps people **unlearn division and learn coordination**. It resets d
 - **Consent-based:** Not majority-rule; amendments must address objections
 - **Empathy-first moderation:** De-escalation rules, AI-assisted discourse management
 
+### UX Fix Verification Protocol (MANDATORY)
+
+**When user reports a UI issue:**
+
+1. **Trace to exact source** - Don't assume which component to fix
+   - User says "status field" → Find where "Status" label actually renders
+   - Search codebase for the exact text/element mentioned
+   - Follow component hierarchy: page → imported component → sub-component
+
+2. **Verify component ownership**
+   - A page may import components from `@togetheros/ui/*`
+   - The actual issue may be in the imported component, not the page
+   - Check BOTH the page file AND all imported UI components
+
+3. **Match fix to report**
+   - User reports "Status and Scope fields" → Fix must affect Status AND Scope labels
+   - If your fix doesn't touch elements with those exact labels, you're fixing the wrong thing
+
+4. **Verify before committing**
+   - Ask yourself: "Does my fix change what the user specifically complained about?"
+   - If uncertain, check production or ask user to confirm
+
+**Anti-pattern (err-005):**
+- User: "Status/Scope fields illegible in dark mode"
+- Wrong: Fixed `ProposalCard.tsx` status badges (card content)
+- Right: Fixed `ProposalList.tsx` Status/Scope filter labels (the actual controls)
+
+**Source:** [Bug Fix Verification Best Practices](https://www.applause.com/blog/bug-fix-verification-speed-up-development/)
+
 ---
 
 ## Current Phase: Pre-MVP
