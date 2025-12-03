@@ -11,7 +11,7 @@ import {
   listProposals,
   type CreateProposalInput,
   type ListProposalsFilter,
-} from '../../../../../../packages/db/src/proposals';
+} from '@togetheros/db';
 import { reputationService } from '@/lib/services/ReputationService';
 
 export async function POST(request: NextRequest) {
