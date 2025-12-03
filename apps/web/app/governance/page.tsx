@@ -72,7 +72,7 @@ export default function GovernancePage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading proposals...</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Loading proposals...</p>
         </div>
       </div>
     )
@@ -101,7 +101,7 @@ export default function GovernancePage() {
             </span>
           </div>
         </div>
-        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
           Create, deliberate, and decide on proposals using transparent, consent-based governance with minority protections.
         </p>
       </div>
@@ -112,7 +112,7 @@ export default function GovernancePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-400 dark:text-gray-500">
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
                 Create individual or group proposals
