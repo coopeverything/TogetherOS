@@ -41,7 +41,7 @@
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^2.6.0",
-    "ulid": "^3.0.1"
+    "ulid": "^3.0.2"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
