@@ -9,9 +9,12 @@ import {
 } from '@togetheros/ui/economy';
 
 interface TBCAccount {
+  memberId: string;
   balance: number;
   totalEarned: number;
   totalSpent: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface FairExchangeIndex {

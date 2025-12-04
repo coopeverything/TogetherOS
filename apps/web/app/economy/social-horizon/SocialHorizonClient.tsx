@@ -4,8 +4,12 @@ import { useState, useEffect } from 'react';
 import { SHWalletCard } from '@togetheros/ui/economy';
 
 interface SHWallet {
+  memberId: string;
   shBalance: number;
   totalIssued: number;
+  totalTransferred: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface SHAllocation {
