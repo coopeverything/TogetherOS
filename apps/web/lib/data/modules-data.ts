@@ -87,9 +87,9 @@ export const modules: Module[] = [
   {
     title: 'Social Economy Primitives',
     description:
-      '4-ledger cooperative economic system with anti-plutocracy safeguards: Support Points (SP) for governance power, Reward Points (RP) for economic claims, Timebank Credits (TBC) for bartering goods/services, and Social Horizon (SH) for stable local currency. Core invariant: Money/RP can NEVER become SP - governance power only from contributions. TBC + SH APIs complete with service browser, fair exchange index, admin issuance cycles.',
-    progress: 65,
-    status: 'in-progress',
+      '4-ledger cooperative economic system with anti-plutocracy safeguards: Support Points (SP) for governance power, Reward Points (RP) for economic claims, Timebank Credits (TBC) for bartering goods/services, and Social Horizon (SH) for stable local currency. Complete: APIs, UI pages, wallet dashboards, service browser, RP→TBC conversion, SH purchase events, admin settings.',
+    progress: 100,
+    status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/social-economy.md`,
     docsPath: '/docs/modules/social-economy',
     category: 'Social Economy',
