@@ -59,8 +59,9 @@ ssh-keygen -t ed25519 -C "github-actions@togetheros" -f ~/.ssh/togetheros_deploy
 # Copy the public key
 cat ~/.ssh/togetheros_deploy.pub
 
-# SSH into VPS
-ssh root@72.60.27.167
+# SSH into VPS (use your configured VPS_HOST or default IP)
+# Default: ssh root@72.60.27.167
+ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}
 
 # Add the public key to authorized_keys
 echo "ssh-ed25519 AAAA... github-actions@togetheros" >> ~/.ssh/authorized_keys
@@ -158,8 +159,8 @@ gh pr create --base yolo --head feature/my-feature
 If deployment breaks production:
 
 ```bash
-# SSH into VPS
-ssh root@72.60.27.167
+# SSH into VPS (use your configured host or default)
+ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}
 
 # Rollback to previous commit
 cd /var/www/togetheros
@@ -226,7 +227,7 @@ gh workflow run auto-deploy-production.yml -f force=true
 
 **Check:**
 1. Was the build step successful in logs?
-2. Did PM2 restart? Run: `ssh root@72.60.27.167 "pm2 status"`
+2. Did PM2 restart? Run: `ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167} "pm2 status"`
 3. Hard refresh browser: Ctrl+Shift+R (may be cached)
 
 ### TypeScript check fails
@@ -259,8 +260,8 @@ Watch live deployment:
 ### VPS Logs
 
 ```bash
-# SSH into VPS
-ssh root@72.60.27.167
+# SSH into VPS (use your configured host or default)
+ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}
 
 # Check PM2 status
 pm2 status
@@ -305,9 +306,10 @@ on:
 
 - **Private key** (`VPS_SSH_PRIVATE_KEY`) must NEVER be committed to repo
 - **Use deploy-specific keys**, not your personal SSH key
-- **Rotate keys** every 90 days
+- **Rotate keys** every 90 days (see [SSH Key Rotation](./ssh-key-rotation.md))
 - **Monitor** deployment logs for suspicious activity
 - **Limit** SSH key to only the deploy user (not root, ideally)
+- **Environment variables:** Set `VPS_IP` and `VPS_USER` to override defaults
 
 ---
 
@@ -328,8 +330,8 @@ Migrations run automatically on every deployment:
 ### Manual Migration Run
 
 ```bash
-# SSH into production
-ssh root@72.60.27.167
+# SSH into production (use your configured host or default)
+ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}
 
 # Navigate to project
 cd /var/www/togetheros

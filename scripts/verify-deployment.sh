@@ -194,7 +194,7 @@ else
     echo "Database: ⚠ Not configured or not accessible"
     echo ""
     echo "To complete setup, run on VPS:"
-    echo "  ssh root@72.60.27.167"
+    echo "  ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}"
     echo "  sudo -u postgres psql -d togetheros -f /var/www/togetheros/db/schema.sql"
     echo "  cd /var/www/togetheros && nano .env  # Add JWT_SECRET and DB_* vars"
     echo "  pm2 restart togetheros"

@@ -10,12 +10,12 @@ export { SPWalletCard } from './SPWalletCard'
 // Reward Points (RP)
 export type { BadgeProgressCardProps } from './BadgeProgressCard'
 export type { RPEarningsTableProps } from './RPEarningsTable'
-export type { RPWalletCardProps } from './RPWalletCard'
 export type { RPToTBCConverterProps } from './RPToTBCConverter'
+export type { RPWalletCardProps } from './RPWalletCard'
 export { BadgeProgressCard } from './BadgeProgressCard'
 export { RPEarningsTable } from './RPEarningsTable'
-export { RPWalletCard } from './RPWalletCard'
 export { RPToTBCConverter } from './RPToTBCConverter'
+export { RPWalletCard } from './RPWalletCard'
 
 // Timebank Credits (TBC)
 export type { TBCWalletCardProps } from './TBCWalletCard'

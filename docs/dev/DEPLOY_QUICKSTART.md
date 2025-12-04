@@ -40,7 +40,8 @@ ssh-keygen -t ed25519 -f ~/.ssh/togetheros_deploy
 cat ~/.ssh/togetheros_deploy.pub
 # Copy output
 
-ssh root@72.60.27.167
+# SSH into VPS (default: root@72.60.27.167)
+ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}
 echo "PASTE_PUBLIC_KEY_HERE" >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 exit
@@ -98,7 +99,8 @@ You push to yolo → GitHub Actions runs checks → Deploys to VPS → Live in ~
 ## Emergency Rollback
 
 ```bash
-ssh root@72.60.27.167
+# SSH into VPS (default: root@72.60.27.167)
+ssh ${VPS_USER:-root}@${VPS_IP:-72.60.27.167}
 cd /var/www/togetheros
 git log --oneline -5  # Find working commit
 git reset --hard <commit-hash>

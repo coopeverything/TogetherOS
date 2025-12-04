@@ -16,7 +16,9 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Configuration
-VPS_HOST="${1:-root@72.60.27.167}"
+# Use environment variables with fallback to hardcoded defaults
+# Set VPS_IP and VPS_USER env vars to override
+VPS_HOST="${1:-${VPS_USER:-root}@${VPS_IP:-72.60.27.167}}"
 
 echo "=================================================="
 echo "TogetherOS VPS Setup Checker"

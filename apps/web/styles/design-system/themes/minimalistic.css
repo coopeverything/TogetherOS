@@ -1,0 +1,328 @@
+/* TogetherOS Minimalistic Themes
+ * Grayscale palettes for reduced visual noise
+ * Use data-theme attribute to apply: <html data-theme="zinc-minimal">
+ */
+
+/* ZINC MINIMAL (Light) - Ultra-clean, professional */
+[data-theme="zinc-minimal"] {
+  --color-primary: #3F3F46;
+  --color-primary-rgb: 63, 63, 70;
+  --color-primary-hover: #27272A;
+  --color-primary-light: #52525B;
+  --color-accent: #71717A;
+  --color-accent-rgb: 113, 113, 122;
+  --color-accent-hover: #52525B;
+  --color-bg: #FAFAFA;
+  --color-bg-rgb: 250, 250, 250;
+  --color-bg-secondary: #F4F4F5;
+  --color-bg-tertiary: #E4E4E7;
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #F4F4F5;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #09090B;
+  --color-text-rgb: 9, 9, 11;
+  --color-text-secondary: #3F3F46;
+  --color-text-tertiary: #52525B;
+  --color-text-muted: #A1A1AA;
+  --color-text-inverse: #FAFAFA;
+  --color-border: #E4E4E7;
+  --color-border-hover: #D4D4D8;
+  --color-success: #3F3F46;
+  --color-success-bg: #F4F4F5;
+  --color-success-text: #09090B;
+  --color-warning: #52525B;
+  --color-warning-bg: #F4F4F5;
+  --color-warning-text: #09090B;
+  --color-error: #27272A;
+  --color-error-bg: #E4E4E7;
+  --color-error-text: #09090B;
+  --color-info: #71717A;
+  --color-info-bg: #F4F4F5;
+  --color-info-text: #09090B;
+  --color-focus-ring: rgba(63, 63, 70, 0.5);
+}
+
+/* ZINC MINIMAL (Dark) - Ultra-clean, focused */
+[data-theme="zinc-minimal-dark"] {
+  --color-primary: #D4D4D8;
+  --color-primary-rgb: 212, 212, 216;
+  --color-primary-hover: #E4E4E7;
+  --color-primary-light: #A1A1AA;
+  --color-accent: #A1A1AA;
+  --color-accent-rgb: 161, 161, 170;
+  --color-accent-hover: #D4D4D8;
+  --color-bg: #09090B;
+  --color-bg-rgb: 9, 9, 11;
+  --color-bg-secondary: #18181B;
+  --color-bg-tertiary: #27272A;
+  --color-surface: #18181B;
+  --color-surface-rgb: 24, 24, 27;
+  --color-surface-hover: #27272A;
+  --color-surface-elevated: #27272A;
+  --color-text: #FAFAFA;
+  --color-text-rgb: 250, 250, 250;
+  --color-text-secondary: #D4D4D8;
+  --color-text-tertiary: #A1A1AA;
+  --color-text-muted: #52525B;
+  --color-text-inverse: #09090B;
+  --color-border: #27272A;
+  --color-border-hover: #3F3F46;
+  --color-success: #D4D4D8;
+  --color-success-bg: #27272A;
+  --color-success-text: #FAFAFA;
+  --color-warning: #A1A1AA;
+  --color-warning-bg: #27272A;
+  --color-warning-text: #FAFAFA;
+  --color-error: #E4E4E7;
+  --color-error-bg: #3F3F46;
+  --color-error-text: #FAFAFA;
+  --color-info: #A1A1AA;
+  --color-info-bg: #27272A;
+  --color-info-text: #FAFAFA;
+  --color-focus-ring: rgba(212, 212, 216, 0.5);
+  --color-overlay: rgba(9, 9, 11, 0.8);
+}
+
+/* ZINC + SAGE (Light) - Minimal with organic accent */
+[data-theme="zinc-sage"] {
+  --color-primary: #3F3F46;
+  --color-primary-rgb: 63, 63, 70;
+  --color-primary-hover: #27272A;
+  --color-primary-light: #52525B;
+  --color-accent: #6B7C6B;
+  --color-accent-rgb: 107, 124, 107;
+  --color-accent-hover: #5A6B5A;
+  --color-bg: #FAFAFA;
+  --color-bg-rgb: 250, 250, 250;
+  --color-bg-secondary: #F4F4F5;
+  --color-bg-tertiary: #E4E4E7;
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #F4F4F5;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #09090B;
+  --color-text-rgb: 9, 9, 11;
+  --color-text-secondary: #3F3F46;
+  --color-text-tertiary: #52525B;
+  --color-text-muted: #A1A1AA;
+  --color-text-inverse: #FAFAFA;
+  --color-border: #E4E4E7;
+  --color-border-hover: #D4D4D8;
+  --color-success: #6B7C6B;
+  --color-success-bg: #F4F4F5;
+  --color-success-text: #09090B;
+  --color-warning: #52525B;
+  --color-warning-bg: #F4F4F5;
+  --color-warning-text: #09090B;
+  --color-error: #27272A;
+  --color-error-bg: #E4E4E7;
+  --color-error-text: #09090B;
+  --color-info: #6B7C6B;
+  --color-info-bg: #F4F4F5;
+  --color-info-text: #09090B;
+  --color-focus-ring: rgba(107, 124, 107, 0.5);
+}
+
+/* ZINC + SAGE (Dark) */
+[data-theme="zinc-sage-dark"] {
+  --color-primary: #D4D4D8;
+  --color-primary-rgb: 212, 212, 216;
+  --color-primary-hover: #E4E4E7;
+  --color-primary-light: #A1A1AA;
+  --color-accent: #8B9C8B;
+  --color-accent-rgb: 139, 156, 139;
+  --color-accent-hover: #9CAD9C;
+  --color-bg: #09090B;
+  --color-bg-rgb: 9, 9, 11;
+  --color-bg-secondary: #18181B;
+  --color-bg-tertiary: #27272A;
+  --color-surface: #18181B;
+  --color-surface-rgb: 24, 24, 27;
+  --color-surface-hover: #27272A;
+  --color-surface-elevated: #27272A;
+  --color-text: #FAFAFA;
+  --color-text-rgb: 250, 250, 250;
+  --color-text-secondary: #D4D4D8;
+  --color-text-tertiary: #A1A1AA;
+  --color-text-muted: #52525B;
+  --color-text-inverse: #09090B;
+  --color-border: #27272A;
+  --color-border-hover: #3F3F46;
+  --color-success: #8B9C8B;
+  --color-success-bg: #27272A;
+  --color-success-text: #FAFAFA;
+  --color-warning: #A1A1AA;
+  --color-warning-bg: #27272A;
+  --color-warning-text: #FAFAFA;
+  --color-error: #E4E4E7;
+  --color-error-bg: #3F3F46;
+  --color-error-text: #FAFAFA;
+  --color-info: #8B9C8B;
+  --color-info-bg: #27272A;
+  --color-info-text: #FAFAFA;
+  --color-focus-ring: rgba(139, 156, 139, 0.5);
+  --color-overlay: rgba(9, 9, 11, 0.8);
+}
+
+/* STONE WARM (Light) - Warm neutrals, approachable */
+[data-theme="stone-warm"] {
+  --color-primary: #44403C;
+  --color-primary-rgb: 68, 64, 60;
+  --color-primary-hover: #292524;
+  --color-primary-light: #57534E;
+  --color-accent: #78716C;
+  --color-accent-rgb: 120, 113, 108;
+  --color-accent-hover: #57534E;
+  --color-bg: #FAF9F7;
+  --color-bg-rgb: 250, 249, 247;
+  --color-bg-secondary: #F5F5F4;
+  --color-bg-tertiary: #E7E5E4;
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #F5F5F4;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #1C1917;
+  --color-text-rgb: 28, 25, 23;
+  --color-text-secondary: #44403C;
+  --color-text-tertiary: #57534E;
+  --color-text-muted: #A8A29E;
+  --color-text-inverse: #FAF9F7;
+  --color-border: #E7E5E4;
+  --color-border-hover: #D6D3D1;
+  --color-success: #57534E;
+  --color-success-bg: #F5F5F4;
+  --color-success-text: #1C1917;
+  --color-warning: #78716C;
+  --color-warning-bg: #F5F5F4;
+  --color-warning-text: #1C1917;
+  --color-error: #44403C;
+  --color-error-bg: #E7E5E4;
+  --color-error-text: #1C1917;
+  --color-info: #78716C;
+  --color-info-bg: #F5F5F4;
+  --color-info-text: #1C1917;
+  --color-focus-ring: rgba(68, 64, 60, 0.5);
+}
+
+/* STONE WARM (Dark) - Warm neutrals, cozy */
+[data-theme="stone-warm-dark"] {
+  --color-primary: #D6D3D1;
+  --color-primary-rgb: 214, 211, 209;
+  --color-primary-hover: #E7E5E4;
+  --color-primary-light: #A8A29E;
+  --color-accent: #A8A29E;
+  --color-accent-rgb: 168, 162, 158;
+  --color-accent-hover: #D6D3D1;
+  --color-bg: #1C1917;
+  --color-bg-rgb: 28, 25, 23;
+  --color-bg-secondary: #292524;
+  --color-bg-tertiary: #44403C;
+  --color-surface: #292524;
+  --color-surface-rgb: 41, 37, 36;
+  --color-surface-hover: #44403C;
+  --color-surface-elevated: #44403C;
+  --color-text: #FAF9F7;
+  --color-text-rgb: 250, 249, 247;
+  --color-text-secondary: #D6D3D1;
+  --color-text-tertiary: #A8A29E;
+  --color-text-muted: #57534E;
+  --color-text-inverse: #1C1917;
+  --color-border: #44403C;
+  --color-border-hover: #57534E;
+  --color-success: #D6D3D1;
+  --color-success-bg: #44403C;
+  --color-success-text: #FAF9F7;
+  --color-warning: #A8A29E;
+  --color-warning-bg: #44403C;
+  --color-warning-text: #FAF9F7;
+  --color-error: #E7E5E4;
+  --color-error-bg: #57534E;
+  --color-error-text: #FAF9F7;
+  --color-info: #A8A29E;
+  --color-info-bg: #44403C;
+  --color-info-text: #FAF9F7;
+  --color-focus-ring: rgba(214, 211, 209, 0.5);
+  --color-overlay: rgba(28, 25, 23, 0.8);
+}
+
+/* PURE GRAYSCALE (Light) - Zero chromatic, maximum focus */
+[data-theme="pure-grayscale"] {
+  --color-primary: #1A1A1A;
+  --color-primary-rgb: 26, 26, 26;
+  --color-primary-hover: #000000;
+  --color-primary-light: #333333;
+  --color-accent: #666666;
+  --color-accent-rgb: 102, 102, 102;
+  --color-accent-hover: #4D4D4D;
+  --color-bg: #FFFFFF;
+  --color-bg-rgb: 255, 255, 255;
+  --color-bg-secondary: #F5F5F5;
+  --color-bg-tertiary: #E0E0E0;
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #F5F5F5;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-rgb: 26, 26, 26;
+  --color-text-secondary: #4D4D4D;
+  --color-text-tertiary: #666666;
+  --color-text-muted: #999999;
+  --color-text-inverse: #FFFFFF;
+  --color-border: #E0E0E0;
+  --color-border-hover: #CCCCCC;
+  --color-success: #333333;
+  --color-success-bg: #F5F5F5;
+  --color-success-text: #1A1A1A;
+  --color-warning: #666666;
+  --color-warning-bg: #F5F5F5;
+  --color-warning-text: #1A1A1A;
+  --color-error: #1A1A1A;
+  --color-error-bg: #E0E0E0;
+  --color-error-text: #1A1A1A;
+  --color-info: #666666;
+  --color-info-bg: #F5F5F5;
+  --color-info-text: #1A1A1A;
+  --color-focus-ring: rgba(26, 26, 26, 0.5);
+}
+
+/* PURE GRAYSCALE (Dark) - Zero chromatic, maximum focus */
+[data-theme="pure-grayscale-dark"] {
+  --color-primary: #F0F0F0;
+  --color-primary-rgb: 240, 240, 240;
+  --color-primary-hover: #FFFFFF;
+  --color-primary-light: #CCCCCC;
+  --color-accent: #999999;
+  --color-accent-rgb: 153, 153, 153;
+  --color-accent-hover: #B3B3B3;
+  --color-bg: #111111;
+  --color-bg-rgb: 17, 17, 17;
+  --color-bg-secondary: #1A1A1A;
+  --color-bg-tertiary: #2A2A2A;
+  --color-surface: #1A1A1A;
+  --color-surface-rgb: 26, 26, 26;
+  --color-surface-hover: #2A2A2A;
+  --color-surface-elevated: #2A2A2A;
+  --color-text: #F0F0F0;
+  --color-text-rgb: 240, 240, 240;
+  --color-text-secondary: #CCCCCC;
+  --color-text-tertiary: #999999;
+  --color-text-muted: #666666;
+  --color-text-inverse: #111111;
+  --color-border: #2A2A2A;
+  --color-border-hover: #3D3D3D;
+  --color-success: #F0F0F0;
+  --color-success-bg: #2A2A2A;
+  --color-success-text: #F0F0F0;
+  --color-warning: #CCCCCC;
+  --color-warning-bg: #2A2A2A;
+  --color-warning-text: #F0F0F0;
+  --color-error: #FFFFFF;
+  --color-error-bg: #3D3D3D;
+  --color-error-text: #F0F0F0;
+  --color-info: #999999;
+  --color-info-bg: #2A2A2A;
+  --color-info-text: #F0F0F0;
+  --color-focus-ring: rgba(240, 240, 240, 0.5);
+  --color-overlay: rgba(17, 17, 17, 0.9);
+}

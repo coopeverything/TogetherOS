@@ -159,6 +159,8 @@ export default function AdminSettingsPage() {
     sp_weights: 'Support Points Weights',
     rp_earnings: 'Reputation Points Earnings',
     conversion_rates: 'Conversion Rates',
+    tbc_settings: 'Timebank Credits (TBC)',
+    sh_settings: 'Social Horizon (SH)',
     constraints: 'System Constraints',
   }
 

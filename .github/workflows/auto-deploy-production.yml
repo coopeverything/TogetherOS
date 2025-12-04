@@ -71,7 +71,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.VPS_HOST }}
         run: |
-          mkdir -p ~/.ssh
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
@@ -82,7 +82,7 @@ jobs:
           SSH_USER: ${{ secrets.VPS_USER }}
         run: |
           set +e
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} bash -s << 'ENDSSH'
+          ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} bash -s << 'ENDSSH'
             set -exuo pipefail
             echo "🚀 Starting deployment..."
 
@@ -133,8 +133,8 @@ jobs:
           set -e
 
           if [ $SSH_EXIT -ne 0 ]; then
-            echo "⚠️  SSH deployment script returned exit code $SSH_EXIT"
-            echo "Deployment may have encountered issues - health checks will verify"
+            echo "::error::SSH deployment failed with exit code $SSH_EXIT"
+            exit 1
           fi
 
       - name: Verify deployment health
@@ -150,6 +150,15 @@ jobs:
 
           if [ "$PM2_STATUS" -eq "0" ]; then
             echo "❌ PM2 process not running, initiating rollback..."
+
+            # Verify rollback target exists and is valid
+            ROLLBACK_COMMIT=$(ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git rev-parse HEAD~1 2>/dev/null || echo 'invalid'")
+            if [ "$ROLLBACK_COMMIT" = "invalid" ]; then
+              echo "::error::Cannot rollback - no previous commit available"
+              exit 1
+            fi
+            echo "Rollback target: $ROLLBACK_COMMIT"
+
             ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && echo '→ Rolling back to previous commit...' && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
             exit 1
           fi
@@ -159,6 +168,15 @@ jobs:
 
           if [ "$HEALTH_STATUS" != "ok" ] && [ "$HEALTH_STATUS" != "degraded" ]; then
             echo "❌ Health check failed (status: $HEALTH_STATUS), initiating rollback..."
+
+            # Verify rollback target exists and is valid
+            ROLLBACK_COMMIT=$(ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git rev-parse HEAD~1 2>/dev/null || echo 'invalid'")
+            if [ "$ROLLBACK_COMMIT" = "invalid" ]; then
+              echo "::error::Cannot rollback - no previous commit available"
+              exit 1
+            fi
+            echo "Rollback target: $ROLLBACK_COMMIT"
+
             ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && echo '→ Rolling back to previous commit...' && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros && echo '→ Rollback complete, waiting for recovery...' && sleep 10"
 
             # Verify rollback succeeded
@@ -174,13 +192,25 @@ jobs:
           echo "🧪 Testing critical endpoints..."
           curl -f https://coopeverything.org/ || {
             echo "❌ Homepage failed, initiating rollback..."
-            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            ROLLBACK_COMMIT=$(ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git rev-parse HEAD~1 2>/dev/null || echo 'invalid'")
+            if [ "$ROLLBACK_COMMIT" != "invalid" ]; then
+              echo "Rollback target: $ROLLBACK_COMMIT"
+              ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            else
+              echo "::error::Cannot rollback - no previous commit available"
+            fi
             exit 1
           }
 
           curl -f https://coopeverything.org/signup || {
             echo "❌ Signup page failed, initiating rollback..."
-            ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            ROLLBACK_COMMIT=$(ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git rev-parse HEAD~1 2>/dev/null || echo 'invalid'")
+            if [ "$ROLLBACK_COMMIT" != "invalid" ]; then
+              echo "Rollback target: $ROLLBACK_COMMIT"
+              ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} "cd /var/www/togetheros && git reset --hard HEAD~1 && npm run build:packages && cd apps/web && npm run build && pm2 restart togetheros"
+            else
+              echo "::error::Cannot rollback - no previous commit available"
+            fi
             exit 1
           }
 

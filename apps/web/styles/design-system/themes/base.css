@@ -4,6 +4,7 @@
  */
 
 @import '../tokens.css';
+@import './minimalistic.css';
 
 :root,
 [data-theme="arctic-minimal"] {

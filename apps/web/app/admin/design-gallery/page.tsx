@@ -65,6 +65,63 @@ const themes: Theme[] = [
     personality: 'Grounded, authentic',
     mode: 'light',
     colors: { primary: '#CC5500', accent: '#E6D5AC', bg: '#FAF7F2', text: '#2C2C2C' }
+  },
+  // Minimalistic themes
+  {
+    id: 'zinc-minimal',
+    name: 'Zinc Minimal',
+    personality: 'Ultra-clean, professional',
+    mode: 'light',
+    colors: { primary: '#3F3F46', accent: '#71717A', bg: '#FAFAFA', text: '#09090B' }
+  },
+  {
+    id: 'zinc-minimal-dark',
+    name: 'Zinc Minimal Dark',
+    personality: 'Ultra-clean, focused',
+    mode: 'dark',
+    colors: { primary: '#D4D4D8', accent: '#A1A1AA', bg: '#09090B', text: '#FAFAFA' }
+  },
+  {
+    id: 'zinc-sage',
+    name: 'Zinc + Sage',
+    personality: 'Minimal with organic accent',
+    mode: 'light',
+    colors: { primary: '#3F3F46', accent: '#6B7C6B', bg: '#FAFAFA', text: '#09090B' }
+  },
+  {
+    id: 'zinc-sage-dark',
+    name: 'Zinc + Sage Dark',
+    personality: 'Minimal with organic accent',
+    mode: 'dark',
+    colors: { primary: '#D4D4D8', accent: '#8B9C8B', bg: '#09090B', text: '#FAFAFA' }
+  },
+  {
+    id: 'stone-warm',
+    name: 'Stone Warm',
+    personality: 'Warm neutrals, approachable',
+    mode: 'light',
+    colors: { primary: '#44403C', accent: '#78716C', bg: '#FAF9F7', text: '#1C1917' }
+  },
+  {
+    id: 'stone-warm-dark',
+    name: 'Stone Warm Dark',
+    personality: 'Warm neutrals, cozy',
+    mode: 'dark',
+    colors: { primary: '#D6D3D1', accent: '#A8A29E', bg: '#1C1917', text: '#FAF9F7' }
+  },
+  {
+    id: 'pure-grayscale',
+    name: 'Pure Grayscale',
+    personality: 'Zero chromatic, maximum focus',
+    mode: 'light',
+    colors: { primary: '#1A1A1A', accent: '#666666', bg: '#FFFFFF', text: '#1A1A1A' }
+  },
+  {
+    id: 'pure-grayscale-dark',
+    name: 'Pure Grayscale Dark',
+    personality: 'Zero chromatic, maximum focus',
+    mode: 'dark',
+    colors: { primary: '#F0F0F0', accent: '#999999', bg: '#111111', text: '#F0F0F0' }
   }
 ]
 
@@ -146,7 +203,7 @@ export default function DesignGalleryPage() {
                   onClick={() => setSelectedTheme(selectedTheme === theme.id ? null : theme.id)}
                   className={`rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${
                     selectedTheme === theme.id
-                      ? 'border-emerald-500 ring-2 ring-emerald-500/20'
+                      ? 'border-zinc-500 ring-2 ring-zinc-500/20'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
@@ -278,7 +335,7 @@ export default function DesignGalleryPage() {
                 {spacingScale.map(item => (
                   <div key={item.name} className="flex flex-col items-center gap-1">
                     <div
-                      className="bg-emerald-500 rounded"
+                      className="bg-zinc-500 rounded"
                       style={{ width: item.value, height: item.value }}
                     />
                     <code className="text-xs text-gray-600 dark:text-gray-400">
@@ -323,7 +380,7 @@ export default function DesignGalleryPage() {
                 ].map(item => (
                   <div key={item.name} className="flex flex-col items-center gap-2">
                     <div
-                      className={`w-16 h-16 bg-emerald-500 ${item.class}`}
+                      className={`w-16 h-16 bg-zinc-500 ${item.class}`}
                     />
                     <code className="text-xs text-gray-600 dark:text-gray-400">
                       {item.name}
