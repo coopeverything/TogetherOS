@@ -19,11 +19,14 @@ import DashboardDemos from '../dashboard-demos/page'
 import DashboardTest2 from '../dashboard-test2/page'
 import DashboardTest3 from '../dashboard-test3/page'
 
+// Import compact design
+import { CompactZincSage } from '../dashboard-designs/CompactZincSage'
+
 // Import theme CSS
 import '@/styles/design-system/tokens.css'
 import '@/styles/design-system/themes/base.css'
 
-type MainTab = 'demos' | 'styles' | 'themes'
+type MainTab = 'demos' | 'styles' | 'themes' | 'compact'
 type ThemeVariant = 'forest-canvas' | 'zinc-sage' | 'zinc-minimal' | 'pebble' | 'night-sands'
 
 const themeVariants: Record<ThemeVariant, { name: string; description: string; isDark: boolean }> = {
@@ -426,6 +429,13 @@ export default function DashboardShowcase() {
             >
               Styles
             </Button>
+            <Button
+              variant={mainTab === 'compact' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setMainTab('compact')}
+            >
+              Compact Design
+            </Button>
           </div>
 
           {/* Sub-tabs for UX Themes */}
@@ -499,6 +509,7 @@ export default function DashboardShowcase() {
         {mainTab === 'demos' && <DashboardDemos />}
         {mainTab === 'styles' && styleVariant === 'default' && <DashboardTest2 />}
         {mainTab === 'styles' && styleVariant === 'compact' && <DashboardTest3 />}
+        {mainTab === 'compact' && <CompactZincSage />}
       </main>
     </div>
   )
