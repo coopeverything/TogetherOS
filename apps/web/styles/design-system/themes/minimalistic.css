@@ -326,3 +326,84 @@
   --color-focus-ring: rgba(240, 240, 240, 0.5);
   --color-overlay: rgba(17, 17, 17, 0.9);
 }
+
+/* PEBBLE (Light) - Natural stone tones, warm grays, muted earth */
+[data-theme="pebble"] {
+  --color-primary: #6B6560;
+  --color-primary-rgb: 107, 101, 96;
+  --color-primary-hover: #5A5450;
+  --color-primary-light: #7C766F;
+  --color-accent: #8B8680;
+  --color-accent-rgb: 139, 134, 128;
+  --color-accent-hover: #7A756F;
+  --color-bg: #F5F3F0;
+  --color-bg-rgb: 245, 243, 240;
+  --color-bg-secondary: #EEEBE6;
+  --color-bg-tertiary: #E5E1DB;
+  --color-surface: #FDFCFB;
+  --color-surface-rgb: 253, 252, 251;
+  --color-surface-hover: #F5F3F0;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #3D3935;
+  --color-text-rgb: 61, 57, 53;
+  --color-text-secondary: #5C5752;
+  --color-text-tertiary: #7A756F;
+  --color-text-muted: #A8A29C;
+  --color-text-inverse: #F5F3F0;
+  --color-border: #DCD8D2;
+  --color-border-hover: #CCC7C0;
+  --color-success: #6B6560;
+  --color-success-bg: #EEEBE6;
+  --color-success-text: #3D3935;
+  --color-warning: #7A756F;
+  --color-warning-bg: #EEEBE6;
+  --color-warning-text: #3D3935;
+  --color-error: #5C5752;
+  --color-error-bg: #E5E1DB;
+  --color-error-text: #3D3935;
+  --color-info: #8B8680;
+  --color-info-bg: #EEEBE6;
+  --color-info-text: #3D3935;
+  --color-focus-ring: rgba(107, 101, 96, 0.5);
+}
+
+/* NIGHT SANDS (Dark) - Dark desert palette, deep sandy browns, subtle warmth */
+[data-theme="night-sands"] {
+  --color-primary: #C4B8A8;
+  --color-primary-rgb: 196, 184, 168;
+  --color-primary-hover: #D4C8B8;
+  --color-primary-light: #A89C8C;
+  --color-accent: #9C907C;
+  --color-accent-rgb: 156, 144, 124;
+  --color-accent-hover: #B0A490;
+  --color-bg: #1A1816;
+  --color-bg-rgb: 26, 24, 22;
+  --color-bg-secondary: #242220;
+  --color-bg-tertiary: #302C28;
+  --color-surface: #242220;
+  --color-surface-rgb: 36, 34, 32;
+  --color-surface-hover: #302C28;
+  --color-surface-elevated: #3A3632;
+  --color-text: #E8E2D8;
+  --color-text-rgb: 232, 226, 216;
+  --color-text-secondary: #C4B8A8;
+  --color-text-tertiary: #9C907C;
+  --color-text-muted: #6C6258;
+  --color-text-inverse: #1A1816;
+  --color-border: #3A3632;
+  --color-border-hover: #4A4640;
+  --color-success: #C4B8A8;
+  --color-success-bg: #302C28;
+  --color-success-text: #E8E2D8;
+  --color-warning: #9C907C;
+  --color-warning-bg: #302C28;
+  --color-warning-text: #E8E2D8;
+  --color-error: #D4C8B8;
+  --color-error-bg: #3A3632;
+  --color-error-text: #E8E2D8;
+  --color-info: #9C907C;
+  --color-info-bg: #302C28;
+  --color-info-text: #E8E2D8;
+  --color-focus-ring: rgba(196, 184, 168, 0.5);
+  --color-overlay: rgba(26, 24, 22, 0.85);
+}

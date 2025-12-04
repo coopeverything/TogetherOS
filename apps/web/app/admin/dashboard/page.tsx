@@ -19,87 +19,41 @@ import DashboardDemos from '../dashboard-demos/page'
 import DashboardTest2 from '../dashboard-test2/page'
 import DashboardTest3 from '../dashboard-test3/page'
 
-// Import designs page sub-components
-import { NeonNoir } from '../dashboard-designs/NeonNoir'
-import { DesertBloom } from '../dashboard-designs/DesertBloom'
-import { NordicVoid } from '../dashboard-designs/NordicVoid'
-import { BaroqueMaximalist } from '../dashboard-designs/BaroqueMaximalist'
-import { BrutalistRave } from '../dashboard-designs/BrutalistRave'
-
 // Import theme CSS
 import '@/styles/design-system/tokens.css'
 import '@/styles/design-system/themes/base.css'
 
-type MainTab = 'demos' | 'styles' | 'designs' | 'themes'
-type ThemeVariant = 'arctic-minimal' | 'horizon-dawn' | 'ocean-depth' | 'forest-canvas' | 'cosmic-violet' | 'terracotta-earth'
+type MainTab = 'demos' | 'styles' | 'themes'
+type ThemeVariant = 'forest-canvas' | 'zinc-sage' | 'zinc-minimal' | 'pebble' | 'night-sands'
 
 const themeVariants: Record<ThemeVariant, { name: string; description: string; isDark: boolean }> = {
-  'arctic-minimal': {
-    name: 'Arctic Minimal',
-    description: 'Clean, accessible, professional',
-    isDark: false,
-  },
-  'horizon-dawn': {
-    name: 'Horizon Dawn',
-    description: 'Warm, optimistic, energizing',
-    isDark: false,
-  },
-  'ocean-depth': {
-    name: 'Ocean Depth',
-    description: 'Calm, deep, professional dark',
-    isDark: true,
-  },
   'forest-canvas': {
     name: 'Forest Canvas',
-    description: 'Organic, sustainable, grounded',
+    description: 'Organic greens, sustainable feel, nature-inspired',
     isDark: false,
   },
-  'cosmic-violet': {
-    name: 'Cosmic Violet',
-    description: 'Bold, futuristic, creative dark',
+  'zinc-sage': {
+    name: 'Zinc + Sage',
+    description: 'Minimalist zinc with organic sage accent',
+    isDark: false,
+  },
+  'zinc-minimal': {
+    name: 'Zinc Minimal',
+    description: 'Ultra-clean grayscale, zero chromatic distraction',
+    isDark: false,
+  },
+  'pebble': {
+    name: 'Pebble',
+    description: 'Natural stone tones, warm grays, muted earth',
+    isDark: false,
+  },
+  'night-sands': {
+    name: 'Night Sands',
+    description: 'Dark desert palette, deep sandy browns, subtle warmth',
     isDark: true,
-  },
-  'terracotta-earth': {
-    name: 'Terracotta Earth',
-    description: 'Warm, authentic, handcrafted',
-    isDark: false,
   },
 }
 type StyleVariant = 'default' | 'compact'
-type DesignVariant = 'neon' | 'desert' | 'nordic' | 'baroque' | 'brutalist'
-
-const designVariants = {
-  neon: {
-    name: 'Neon Noir Tokyo',
-    description: 'Cyberpunk aesthetic with electric colors',
-    colors: ['#ff00ff', '#00ffff', '#0a0a14'],
-    component: NeonNoir
-  },
-  desert: {
-    name: 'Desert Bloom',
-    description: 'Psychedelic southwest with terracotta',
-    colors: ['#E07A5F', '#81B29A', '#F2CC8F'],
-    component: DesertBloom
-  },
-  nordic: {
-    name: 'Nordic Void',
-    description: 'Inverted Scandinavian minimalism',
-    colors: ['#000000', '#00ff9f', '#ffffff'],
-    component: NordicVoid
-  },
-  baroque: {
-    name: 'Baroque Maximalist',
-    description: 'Digital rococo with vaporwave pastels',
-    colors: ['#FFD700', '#FF6FD8', '#B4A7D6'],
-    component: BaroqueMaximalist
-  },
-  brutalist: {
-    name: 'Brutalist Rave',
-    description: 'Post-Soviet techno with concrete',
-    colors: ['#ff0000', '#00ff00', '#808080'],
-    component: BrutalistRave
-  }
-}
 
 // Themed demo content component that uses CSS custom properties
 function ThemedDemoContent({ theme }: { theme: ThemeVariant }) {
@@ -423,12 +377,9 @@ function ThemedDemoContent({ theme }: { theme: ThemeVariant }) {
 }
 
 export default function DashboardShowcase() {
-  const [mainTab, setMainTab] = useState<MainTab>('demos')
+  const [mainTab, setMainTab] = useState<MainTab>('themes')
   const [styleVariant, setStyleVariant] = useState<StyleVariant>('default')
-  const [designVariant, setDesignVariant] = useState<DesignVariant>('neon')
-  const [themeVariant, setThemeVariant] = useState<ThemeVariant>('arctic-minimal')
-
-  const CurrentDesign = designVariants[designVariant].component
+  const [themeVariant, setThemeVariant] = useState<ThemeVariant>('forest-canvas')
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
@@ -474,13 +425,6 @@ export default function DashboardShowcase() {
               onClick={() => setMainTab('styles')}
             >
               Styles
-            </Button>
-            <Button
-              variant={mainTab === 'designs' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setMainTab('designs')}
-            >
-              Creative Designs
             </Button>
           </div>
 
@@ -535,43 +479,6 @@ export default function DashboardShowcase() {
             </div>
           )}
 
-          {/* Sub-tabs for Designs */}
-          {mainTab === 'designs' && (
-            <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
-              <div className="flex flex-wrap gap-2">
-                {(Object.keys(designVariants) as DesignVariant[]).map((key) => (
-                  <button
-                    key={key}
-                    onClick={() => setDesignVariant(key)}
-                    className="px-3 py-1.5 rounded text-xs font-medium transition-all"
-                    style={{
-                      background: designVariant === key ? designVariants[key].colors[0] : '#e5e5e5',
-                      color: designVariant === key ? '#000' : '#666',
-                      border: '2px solid',
-                      borderColor: designVariant === key ? designVariants[key].colors[0] : '#ccc'
-                    }}
-                  >
-                    {designVariants[key].name}
-                  </button>
-                ))}
-              </div>
-              <div className="mt-3 flex items-center gap-3">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {designVariants[designVariant].description}
-                </div>
-                <div className="flex gap-1">
-                  {designVariants[designVariant].colors.map((color, i) => (
-                    <div
-                      key={i}
-                      className="w-5 h-5 rounded"
-                      style={{ background: color }}
-                      title={color}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </header>
 
@@ -592,7 +499,6 @@ export default function DashboardShowcase() {
         {mainTab === 'demos' && <DashboardDemos />}
         {mainTab === 'styles' && styleVariant === 'default' && <DashboardTest2 />}
         {mainTab === 'styles' && styleVariant === 'compact' && <DashboardTest3 />}
-        {mainTab === 'designs' && <CurrentDesign />}
       </main>
     </div>
   )
