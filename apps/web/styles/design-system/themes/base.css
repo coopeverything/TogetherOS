@@ -1,0 +1,283 @@
+/* TogetherOS Theme Base
+ * Default theme variables - Arctic Minimal (clean, accessible)
+ * Other themes override these via data-theme attribute
+ */
+
+@import '../tokens.css';
+
+:root,
+[data-theme="arctic-minimal"] {
+  /* Primary palette */
+  --color-primary: #4A6FA5;
+  --color-primary-rgb: 74, 111, 165;
+  --color-primary-hover: #3D5C8A;
+  --color-primary-light: #6B8FC5;
+
+  /* Accent palette */
+  --color-accent: #F0F4F8;
+  --color-accent-rgb: 240, 244, 248;
+  --color-accent-hover: #E1E8F0;
+
+  /* Background */
+  --color-bg: #FFFFFF;
+  --color-bg-rgb: 255, 255, 255;
+  --color-bg-secondary: #F8FAFC;
+  --color-bg-tertiary: #F1F5F9;
+
+  /* Surface (cards, modals) */
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #F8FAFC;
+  --color-surface-elevated: #FFFFFF;
+
+  /* Text */
+  --color-text: #1A1A1A;
+  --color-text-rgb: 26, 26, 26;
+  --color-text-secondary: #4A5568;
+  --color-text-tertiary: #718096;
+  --color-text-muted: #A0AEC0;
+  --color-text-inverse: #FFFFFF;
+
+  /* Border */
+  --color-border: #E2E8F0;
+  --color-border-hover: #CBD5E0;
+  --color-border-focus: var(--color-primary);
+
+  /* Semantic colors */
+  --color-success: #10B981;
+  --color-success-bg: #D1FAE5;
+  --color-success-text: #065F46;
+
+  --color-warning: #F59E0B;
+  --color-warning-bg: #FEF3C7;
+  --color-warning-text: #92400E;
+
+  --color-error: #EF4444;
+  --color-error-bg: #FEE2E2;
+  --color-error-text: #991B1B;
+
+  --color-info: #3B82F6;
+  --color-info-bg: #DBEAFE;
+  --color-info-text: #1E40AF;
+
+  /* Focus ring */
+  --color-focus-ring: rgba(74, 111, 165, 0.5);
+
+  /* Overlay */
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-overlay-light: rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+ * HORIZON DAWN - Optimistic, energizing
+ * ======================================== */
+[data-theme="horizon-dawn"] {
+  --color-primary: #FF6B6B;
+  --color-primary-rgb: 255, 107, 107;
+  --color-primary-hover: #FF5252;
+  --color-primary-light: #FF8A8A;
+
+  --color-accent: #FFE66D;
+  --color-accent-rgb: 255, 230, 109;
+  --color-accent-hover: #FFD93D;
+
+  --color-bg: #FFF9E6;
+  --color-bg-rgb: 255, 249, 230;
+  --color-bg-secondary: #FFF5D6;
+  --color-bg-tertiary: #FFEFC2;
+
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #FFF9E6;
+
+  --color-text: #2D2A26;
+  --color-text-rgb: 45, 42, 38;
+  --color-text-secondary: #5C5651;
+  --color-text-tertiary: #8A827A;
+  --color-text-muted: #B8AEA3;
+
+  --color-border: #E8DCC8;
+  --color-border-hover: #D9C9AF;
+
+  --color-focus-ring: rgba(255, 107, 107, 0.5);
+}
+
+/* ========================================
+ * OCEAN DEPTH - Calm, professional
+ * ======================================== */
+[data-theme="ocean-depth"] {
+  --color-primary: #0A8F8F;
+  --color-primary-rgb: 10, 143, 143;
+  --color-primary-hover: #0A7A7A;
+  --color-primary-light: #0DA4A4;
+
+  --color-accent: #7FDBDA;
+  --color-accent-rgb: 127, 219, 218;
+  --color-accent-hover: #5CCFCE;
+
+  --color-bg: #0F1419;
+  --color-bg-rgb: 15, 20, 25;
+  --color-bg-secondary: #1A2129;
+  --color-bg-tertiary: #252D38;
+
+  --color-surface: #1A2129;
+  --color-surface-rgb: 26, 33, 41;
+  --color-surface-hover: #252D38;
+  --color-surface-elevated: #2A3441;
+
+  --color-text: #E8F1F2;
+  --color-text-rgb: 232, 241, 242;
+  --color-text-secondary: #B8C9CC;
+  --color-text-tertiary: #8AA0A5;
+  --color-text-muted: #5C787E;
+  --color-text-inverse: #0F1419;
+
+  --color-border: #2A3441;
+  --color-border-hover: #3A4654;
+
+  --color-focus-ring: rgba(127, 219, 218, 0.5);
+  --color-overlay: rgba(15, 20, 25, 0.8);
+}
+
+/* ========================================
+ * FOREST CANVAS - Organic, sustainable
+ * ======================================== */
+[data-theme="forest-canvas"] {
+  --color-primary: #4A7C59;
+  --color-primary-rgb: 74, 124, 89;
+  --color-primary-hover: #3D6A4A;
+  --color-primary-light: #5A9269;
+
+  --color-accent: #A3C9A8;
+  --color-accent-rgb: 163, 201, 168;
+  --color-accent-hover: #8FBD96;
+
+  --color-bg: #F5F5F5;
+  --color-bg-rgb: 245, 245, 245;
+  --color-bg-secondary: #EAEAEA;
+  --color-bg-tertiary: #E0E0E0;
+
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #F5F5F5;
+
+  --color-text: #1A1A2E;
+  --color-text-rgb: 26, 26, 46;
+  --color-text-secondary: #3D3D5C;
+  --color-text-tertiary: #6B6B8A;
+  --color-text-muted: #9999B3;
+
+  --color-border: #D4D4D4;
+  --color-border-hover: #BFBFBF;
+
+  --color-focus-ring: rgba(74, 124, 89, 0.5);
+}
+
+/* ========================================
+ * COSMIC VIOLET - Bold, futuristic
+ * ======================================== */
+[data-theme="cosmic-violet"] {
+  --color-primary: #7B2CBF;
+  --color-primary-rgb: 123, 44, 191;
+  --color-primary-hover: #6B24A8;
+  --color-primary-light: #9B4DD6;
+
+  --color-accent: #00D9FF;
+  --color-accent-rgb: 0, 217, 255;
+  --color-accent-hover: #00C4E6;
+
+  --color-bg: #0D0D0D;
+  --color-bg-rgb: 13, 13, 13;
+  --color-bg-secondary: #1A1A1A;
+  --color-bg-tertiary: #262626;
+
+  --color-surface: #1A1A1A;
+  --color-surface-rgb: 26, 26, 26;
+  --color-surface-hover: #262626;
+  --color-surface-elevated: #333333;
+
+  --color-text: #E0AAFF;
+  --color-text-rgb: 224, 170, 255;
+  --color-text-secondary: #C77DFF;
+  --color-text-tertiary: #9D4EDD;
+  --color-text-muted: #7B2CBF;
+  --color-text-inverse: #0D0D0D;
+
+  --color-border: #333333;
+  --color-border-hover: #4D4D4D;
+
+  --color-focus-ring: rgba(0, 217, 255, 0.5);
+  --color-overlay: rgba(13, 13, 13, 0.9);
+}
+
+/* ========================================
+ * TERRACOTTA EARTH - Grounded, authentic
+ * ======================================== */
+[data-theme="terracotta-earth"] {
+  --color-primary: #CC5500;
+  --color-primary-rgb: 204, 85, 0;
+  --color-primary-hover: #B34A00;
+  --color-primary-light: #E66600;
+
+  --color-accent: #E6D5AC;
+  --color-accent-rgb: 230, 213, 172;
+  --color-accent-hover: #DCC896;
+
+  --color-bg: #FAF7F2;
+  --color-bg-rgb: 250, 247, 242;
+  --color-bg-secondary: #F5F0E6;
+  --color-bg-tertiary: #EDE5D6;
+
+  --color-surface: #FFFFFF;
+  --color-surface-rgb: 255, 255, 255;
+  --color-surface-hover: #FAF7F2;
+
+  --color-text: #2C2C2C;
+  --color-text-rgb: 44, 44, 44;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #787878;
+  --color-text-muted: #A3A3A3;
+
+  --color-border: #E0D5C4;
+  --color-border-hover: #D1C2AB;
+
+  --color-focus-ring: rgba(204, 85, 0, 0.5);
+}
+
+/* ========================================
+ * UTILITY CLASSES
+ * ======================================== */
+
+/* Background colors */
+.bg-primary { background-color: var(--color-primary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-secondary { background-color: var(--color-bg-secondary); }
+
+/* Text colors */
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-default { color: var(--color-text); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+
+/* Border colors */
+.border-default { border-color: var(--color-border); }
+.border-primary { border-color: var(--color-primary); }
+
+/* Focus states */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Transitions */
+.transition-colors {
+  transition: color var(--transition-fast),
+              background-color var(--transition-fast),
+              border-color var(--transition-fast);
+}
+
+.transition-all {
+  transition: all var(--transition-base);
+}
