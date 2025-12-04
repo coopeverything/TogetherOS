@@ -30,6 +30,7 @@ Each module keeps tiny public metrics or proof-lines (e.g., dashboards or `LINT=
 - [Admin Accountability](./admin-accountability.md) — Decision implementation tracking with cooperative safeguards (0% — spec only)
 - [Support Points & Reward Points UI](./support-points-ui.md) — Member-facing SP allocation + RP dashboard + admin panels (100% — production-ready ✅)
 - [Moderation Transparency](./moderation-transparency.md) — Quality-scored moderation with RP incentives (0% — spec only)
+- [Metrics & Review](./metrics.md) — Success tracking, evaluation scheduling, minority report validation, improvement proposals (75% — types + UI + pages ✅)
 
 ## Knowledge Base (Comprehensive Specs)
 

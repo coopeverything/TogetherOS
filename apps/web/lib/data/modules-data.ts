@@ -233,9 +233,9 @@ export const modules: Module[] = [
   {
     title: 'Metrics & Review',
     description:
-      'Success tracking and continuous improvement system. Define metrics for initiatives, measure outcomes vs expectations, trigger re-evaluations when metrics fail, validate minority reports, and auto-generate improvement proposals. Creates a feedback loop from implementation back to governance, ensuring the commons learns from experience.',
-    progress: 0,
-    status: 'planned',
+      'Success tracking and continuous improvement system. Define metrics for initiatives, measure outcomes vs expectations, trigger re-evaluations when metrics fail, validate minority reports, and auto-generate improvement proposals. Creates a feedback loop from implementation back to governance. Types, 6 UI components, and 3 pages complete. Needs: PostgreSQL schema and API handlers.',
+    progress: 75,
+    status: 'in-progress',
     repoPath: `${GITHUB_BASE}/docs/modules/metrics.md`,
     docsPath: '/docs/modules/metrics',
     category: 'Collective Governance',

@@ -2,7 +2,7 @@
 
 **Purpose:** Track whether decisions actually achieve their goals, trigger re-evaluation when they don't, and create a feedback loop for continuous improvement.
 
-**Status:** 0% — Specification Complete
+**Status:** 75% — Types + UI + Pages Complete
 
 ---
 
@@ -161,4 +161,4 @@ For developers interested in the entity schemas, API endpoints, evaluation algor
 
 ---
 
-<!-- progress:metrics=0 -->
+<!-- progress:metrics=75 -->

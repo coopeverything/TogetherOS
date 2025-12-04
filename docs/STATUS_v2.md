@@ -42,7 +42,7 @@ Implementation, tracking, and accountability for approved decisions.
 | --- | --- | ---:| --- | --- |
 | **Admin Accountability** | Decision → implementation → verification pipeline, admin queue, settings classification (assembly vote vs admin discretion), NDJSON audit logs, recall mechanism, delivery reports | <!-- progress:admin-accountability=0 --> 0% | Initiative entity + conversion logic | Spec complete (docs/modules/admin-accountability.md), no code yet |
 | **Events & Calendar** | Event management, milestone tracking, meeting scheduling, attendance tracking, auto-creation from initiatives, workgroup meetings, review sessions, RSVP management, meeting notes | <!-- progress:events=100 --> 100% | Production-ready ✅ | All features complete: PostgreSQL schema ✅, CRUD API ✅, calendar UI ✅, RSVP system ✅, recurring events ✅ |
-| **Metrics & Review** | Success tracking, outcome measurement, evaluation scheduling, re-evaluation triggers, minority report validation, feedback loops, improvement proposal auto-generation, institutional learning | <!-- progress:metrics=0 --> 0% | Metrics definition + evaluation MVP | Spec complete (docs/modules/metrics.md), creates feedback loop to Governance |
+| **Metrics & Review** | Success tracking, outcome measurement, evaluation scheduling, re-evaluation triggers, minority report validation, feedback loops, improvement proposal auto-generation, institutional learning | <!-- progress:metrics=75 --> 75% | API handlers + database schema | Types ✅, UI components (6) ✅, Web pages (3) ✅, fixture data ✅. Needs: PostgreSQL schema, API handlers |
 
 ### Foundation Modules
 
