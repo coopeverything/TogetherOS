@@ -62,3 +62,17 @@ export function canModifyResource(
 export function isAdmin(user: AuthenticatedUser): boolean {
   return user.is_admin;
 }
+
+/**
+ * Get current user from request (returns null if not authenticated)
+ * Unlike requireAuth, this doesn't throw - returns null for unauthenticated requests
+ */
+export async function getCurrentUser(
+  request: NextRequest
+): Promise<AuthenticatedUser | null> {
+  try {
+    return await requireAuth(request);
+  } catch {
+    return null;
+  }
+}
