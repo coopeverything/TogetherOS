@@ -47,6 +47,46 @@ Simply retry the operation with the original correct UUID. Second attempt usuall
 
 ## Internal Tech Debt
 
+### SSH Deploy User - Direct Root Access (2025-12-04)
+
+**Status:** Deferred
+**Severity:** Medium (security improvement)
+**Documented In:** `docs/dev/ssh-key-rotation.md`, `.claude/plans/serene-mapping-popcorn.md`
+
+**Description:**
+Current deployment uses `root@72.60.27.167` for SSH access. This grants full server control to anyone with the SSH key. A dedicated `deploy` user with limited sudo privileges would reduce attack surface.
+
+**Risk:**
+- If SSH key is compromised (GitHub breach, laptop theft), attacker gets full root access
+- Can delete files, install backdoors, access database credentials
+- No audit trail separation between deployment actions and admin actions
+
+**Recommended Fix:**
+1. Create `deploy` user on VPS with limited sudo:
+   ```bash
+   sudo useradd -m -s /bin/bash deploy
+   echo 'deploy ALL=(ALL) NOPASSWD: /usr/bin/git, /usr/local/bin/pm2, /usr/bin/npm' | sudo tee /etc/sudoers.d/deploy
+   ```
+2. Copy SSH authorized_keys to deploy user
+3. Update GitHub Secret `VPS_USER` from `root` to `deploy`
+4. Update workflow commands to use `sudo` where needed
+
+**Why Deferred:**
+- Requires server access (not just code changes)
+- Current setup works and team is small (1 operator + Claude)
+- Other security fixes were higher priority
+
+**When to Implement:**
+- Before sharing SSH keys with additional team members
+- If security audit requires it
+- When scaling to multiple deploy sources
+
+**Related:**
+- SSH security fixes implemented: Commits `1d2f1e3`, `a5523be`
+- Plan file: `.claude/plans/serene-mapping-popcorn.md` (Future Work section)
+
+---
+
 ### TypeScript Build Errors - 14 Remaining (2025-11-07)
 
 **Status:** In Progress
