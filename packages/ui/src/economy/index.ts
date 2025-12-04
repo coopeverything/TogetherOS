@@ -18,14 +18,10 @@ export { RPToTBCConverter } from './RPToTBCConverter'
 export { RPWalletCard } from './RPWalletCard'
 
 // Timebank Credits (TBC)
+export type { ServiceBrowserProps, ServiceFilters, TimebankServiceItem } from './ServiceBrowser'
 export type { TBCWalletCardProps } from './TBCWalletCard'
-export type {
-  ServiceBrowserProps,
-  TimebankServiceItem,
-  ServiceFilters,
-} from './ServiceBrowser'
-export { TBCWalletCard } from './TBCWalletCard'
 export { ServiceBrowser } from './ServiceBrowser'
+export { TBCWalletCard } from './TBCWalletCard'
 
 // Social Horizon (SH)
 export type { SHWalletCardProps } from './SHWalletCard'
