@@ -109,7 +109,29 @@
       "kb_file_updated": ".claude/knowledge/ci-cd-discipline.md",
       "resolved_date": "2025-12-04T02:50:00Z",
       "source": "https://stackoverflow.com/questions/19308790/git-branch-merged-no-merged-and-squash-option"
+    },
+    {
+      "id": "err-007",
+      "signature": {
+        "type": "config",
+        "code": "SKILL_NOT_REGISTERED",
+        "pattern": "Skill exists in .claude/skills/ but not in settings.local.json permissions"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-04",
+          "commit_sha": null,
+          "file": ".claude/skills/error-learner/SKILL.md",
+          "message": "Skill(error-learner) invocation failed - skill exists but wasn't registered in settings.local.json allow list",
+          "context": "User asked to use error-learner skill. Skill tool returned 'Unknown skill'. Had to manually read SKILL.md and execute steps."
+        }
+      ],
+      "resolution": "Added Skill(error-learner) and Skill(ux-designer) to .claude/settings.local.json permissions allow list. Note: settings.local.json is gitignored (local config per machine).",
+      "kb_file_updated": ".claude/settings.local.json (local, not tracked)",
+      "resolved_date": "2025-12-04T03:15:00Z",
+      "source": null
     }
   ],
-  "last_updated": "2025-12-04T02:50:00Z"
+  "last_updated": "2025-12-04T03:15:00Z"
 }
+
