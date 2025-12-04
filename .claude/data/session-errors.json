@@ -88,7 +88,28 @@
       "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
       "resolved_date": "2025-12-03T18:40:00Z",
       "source": "https://www.applause.com/blog/bug-fix-verification-speed-up-development/"
+    },
+    {
+      "id": "err-006",
+      "signature": {
+        "type": "process",
+        "code": "INCOMPLETE_BRANCH_ANALYSIS",
+        "pattern": "Analyzed only PRs when asked about branches AND PRs, missed squash-merged branches"
+      },
+      "occurrences": [
+        {
+          "session_date": "2025-12-04",
+          "commit_sha": null,
+          "file": null,
+          "message": "User asked to check 'which branches and PRs are safe to merge'. Only checked open PRs, missed feature/onboarding-mystery-unlock which had commits ahead but was already squash-merged via PR #361.",
+          "context": "Branch appeared in 'git branch --no-merged' output but was actually merged via squash. Should have cross-referenced with gh pr list --state all."
+        }
+      ],
+      "resolution": "Added 'Branch/PR Merge Analysis Protocol' section to ci-cd-discipline.md. Solution: Always cross-reference 'not merged' branches with PR status using `gh pr list --head <branch> --state all` to detect squash-merged branches.",
+      "kb_file_updated": ".claude/knowledge/ci-cd-discipline.md",
+      "resolved_date": "2025-12-04T02:50:00Z",
+      "source": "https://stackoverflow.com/questions/19308790/git-branch-merged-no-merged-and-squash-option"
     }
   ],
-  "last_updated": "2025-12-03T18:40:00Z"
+  "last_updated": "2025-12-04T02:50:00Z"
 }

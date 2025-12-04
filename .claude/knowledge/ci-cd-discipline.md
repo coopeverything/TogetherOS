@@ -389,6 +389,40 @@ git checkout wrong-branch
 git reset --hard HEAD~1           # Remove from wrong branch (CAREFUL!)
 ```
 
+#### Branch/PR Merge Analysis Protocol
+
+**When checking what's safe to merge:**
+
+1. **Check open PRs:**
+   ```bash
+   gh pr list --state open --json number,title,headRefName,mergeable
+   ```
+
+2. **Check branches with commits ahead of base:**
+   ```bash
+   git fetch --prune origin
+   git branch -r --no-merged origin/yolo | grep feature
+   ```
+
+3. **CRITICAL: Cross-reference with PR status**
+   - `git branch --no-merged` does NOT detect squash-merged branches
+   - For each "not merged" branch, check if PR was already merged:
+   ```bash
+   gh pr list --head <branch-name> --state all --json number,state,mergedAt
+   ```
+   - If `state: "MERGED"` → branch is stale, safe to delete
+   - If no PR exists → investigate (orphaned work or needs PR)
+
+4. **Clean up stale branches:**
+   ```bash
+   git fetch --prune origin  # Removes deleted remote refs
+   git push origin --delete <branch-name>  # Delete stale remote branches
+   ```
+
+**Why this matters:** Squash merges create new commits without parent links to feature branches. Git's `--no-merged` flag only checks commit ancestry, not content. A squash-merged branch appears "not merged" even though its changes are in the target branch.
+
+**Source:** [Stack Overflow - Git branch --merged with squash](https://stackoverflow.com/questions/19308790/git-branch-merged-no-merged-and-squash-option)
+
 ### Path Labels & Taxonomy
 
 **Use these exact labels** (validated against `codex/taxonomy/CATEGORY_TREE.json`):
