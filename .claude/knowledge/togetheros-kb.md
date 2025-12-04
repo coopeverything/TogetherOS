@@ -570,6 +570,74 @@ When TypeScript error messages flip or contradict themselves after you "fix" the
 
 ---
 
+### Session Reference: 2025-12-04 Admin Pages 500 Errors
+
+**Task:** Fix internal server errors on admin pages (/admin/support-points, /admin/reward-points, /admin/badges)
+
+**Runtime Module Resolution Errors:**
+
+**Problem Encountered:**
+- Admin pages returned 500 Internal Server Error
+- API routes imported `getCurrentUser` from `@/lib/auth/middleware`
+- Function was never exported from the middleware file
+- Badges route also imported from `@/lib/db/badges` which didn't exist
+- TypeScript did NOT catch these errors at compile time
+
+**Root Cause:**
+- TypeScript module resolution succeeds if the FILE exists
+- TypeScript does NOT verify named exports exist at compile time for all patterns
+- Runtime fails when the JavaScript module loader can't find the export
+- This is a gap between TypeScript checking and runtime behavior
+
+**Solution:**
+```typescript
+// Added to apps/web/lib/auth/middleware.ts
+export async function getCurrentUser(
+  request: NextRequest
+): Promise<AuthenticatedUser | null> {
+  try {
+    return await requireAuth(request);
+  } catch {
+    return null;
+  }
+}
+
+// Created apps/web/lib/db/badges.ts with required exports
+```
+
+**Prevention Protocol (API Route Pre-Flight):**
+
+Before creating/modifying API routes that import from internal modules:
+
+1. **Verify export exists:**
+   ```bash
+   grep "export.*functionName" path/to/module.ts
+   ```
+
+2. **Verify module file exists:**
+   ```bash
+   ls path/to/imported/module.ts
+   ```
+
+3. **After writing route, test endpoint:**
+   ```bash
+   curl -s localhost:3000/api/your-route
+   ```
+
+**Pattern Recognition:**
+- 500 error + "export not found" in logs = missing export
+- 500 error + "Cannot find module" = missing file
+- Multiple routes failing with same import = shared dependency issue
+
+**Lesson Learned:**
+1. TypeScript doesn't catch all module resolution errors
+2. Always verify exports exist before importing from internal modules
+3. Create helper files BEFORE writing routes that depend on them
+4. Test API endpoints locally before pushing
+5. When 500 errors affect multiple admin pages, check shared imports first
+
+---
+
 ## Related KB Files
 
 - [Tech Stack Details](./tech-stack.md) — Framework versions, dependencies, tooling
