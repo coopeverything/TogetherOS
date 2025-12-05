@@ -129,6 +129,83 @@
   --danger-bg: #3d2828;
 }
 
+/* ============================================
+   FRESH-PEACH Theme
+   Warm, vibrant palette with lime accents
+   Toggle via URL: ?theme=fresh-peach
+   ============================================ */
+
+/* Fresh Peach Light Mode */
+[data-theme="fresh-peach"] {
+  /* Backgrounds - warm peach scale */
+  --bg-0: #FFD3AC;           /* light peach */
+  --bg-1: #FFF4EB;           /* creamy white */
+  --bg-2: #FFE5D1;           /* soft peach */
+
+  /* Text - warm brown scale */
+  --ink-900: #3A2A1F;        /* dark warm brown */
+  --ink-700: #5C4A3E;        /* medium brown */
+  --ink-400: #A08676;        /* muted tan */
+  --border: #E8C9B3;         /* peachy border */
+
+  /* Brand - lime/olive green */
+  --brand-600: #8A9A2A;      /* deep lime */
+  --brand-500: #BDD06B;      /* lime green */
+  --brand-100: #E8F0C8;      /* light lime */
+  --brand-700: #6A7A1A;      /* darker lime */
+
+  /* Joy - coral/terracotta */
+  --joy-600: #E39A7B;        /* terracotta */
+  --joy-500: #FFB5AB;        /* soft coral */
+  --joy-100: #FFE8E4;        /* light coral */
+
+  /* Semantic - adjusted for theme */
+  --success: #8A9A2A;
+  --success-bg: #E8F0C8;
+  --info: #5C4A3E;
+  --info-bg: #FFE5D1;
+  --warn: #E39A7B;
+  --warn-bg: #FFE8E4;
+  --danger: #C45D5D;
+  --danger-bg: #FFE4E4;
+}
+
+/* Fresh Peach Dark Mode */
+[data-theme="fresh-peach"].dark,
+.dark[data-theme="fresh-peach"] {
+  /* Backgrounds - deep warm brown */
+  --bg-0: #2A1F1A;           /* very dark brown */
+  --bg-1: #3A2A20;           /* dark brown */
+  --bg-2: #4A3A30;           /* medium dark brown */
+
+  /* Text - peach/cream scale */
+  --ink-900: #FFD3AC;        /* light peach */
+  --ink-700: #E8C9B3;        /* medium peach */
+  --ink-400: #A08676;        /* muted tan */
+  --border: #5C4A3E;         /* brown border */
+
+  /* Brand - brighter lime for dark */
+  --brand-600: #BDD06B;      /* lime green */
+  --brand-500: #D4E58B;      /* lighter lime */
+  --brand-100: #3A3D20;      /* dark lime bg */
+  --brand-700: #A8C050;      /* mid lime */
+
+  /* Joy - brighter coral for dark */
+  --joy-600: #FFB5AB;        /* soft coral */
+  --joy-500: #FFC8C0;        /* lighter coral */
+  --joy-100: #3D2A28;        /* dark coral bg */
+
+  /* Semantic - dark mode adjusted */
+  --success: #BDD06B;
+  --success-bg: #3A3D20;
+  --info: #E8C9B3;
+  --info-bg: #3A2A20;
+  --warn: #FFB5AB;
+  --warn-bg: #3D2A28;
+  --danger: #FF9090;
+  --danger-bg: #3D2020;
+}
+
 /* Teaching Session Inputs - Dark Mode Compatible */
 .teaching-input,
 .teaching-input:focus {

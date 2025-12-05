@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 // Available themes
-export const THEMES = ['default', 'sage-earth'] as const;
+export const THEMES = ['default', 'sage-earth', 'fresh-peach'] as const;
 export type Theme = (typeof THEMES)[number];
 
 interface DarkModeContextType {
@@ -127,6 +127,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       >
         <option value="default">Default</option>
         <option value="sage-earth">Sage Earth</option>
+        <option value="fresh-peach">Fresh Peach</option>
       </select>
       <button
         onClick={toggleDarkMode}
