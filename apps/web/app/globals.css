@@ -54,6 +54,81 @@
   --joy-500: #FBBF24;
 }
 
+/* ============================================
+   SAGE-EARTH Theme
+   Earthy, calming palette with teal-navy accents
+   Toggle via URL: ?theme=sage-earth
+   ============================================ */
+
+/* Sage-Earth Light Mode */
+[data-theme="sage-earth"] {
+  /* Backgrounds - warm cream to lichen */
+  --bg-0: #e3d8bf;           /* warm cream */
+  --bg-1: #f0e9da;           /* lighter cream */
+  --bg-2: #c4c5af;           /* pale lichen */
+
+  /* Text - teal-navy scale */
+  --ink-900: #2c4a5e;        /* deep teal-navy */
+  --ink-700: #3d5a6e;        /* medium navy */
+  --ink-400: #a9aa9d;        /* muted sage */
+  --border: #b9b4a2;         /* warm taupe */
+
+  /* Brand - sage greens */
+  --brand-600: #5c7d6e;      /* deep sage */
+  --brand-500: #a3b8a7;      /* soft sage */
+  --brand-100: #d4e4da;      /* very light sage */
+
+  /* Joy - warm amber that complements */
+  --joy-600: #c4956a;        /* warm amber */
+  --joy-500: #d4a574;        /* soft amber */
+  --joy-100: #f5efe4;        /* cream amber */
+
+  /* Semantic - adjusted for theme */
+  --success: #5c7d6e;
+  --success-bg: #d4e4da;
+  --info: #2c4a5e;
+  --info-bg: #cdd8de;
+  --warn: #c4956a;
+  --warn-bg: #f5efe4;
+  --danger: #a65d5d;
+  --danger-bg: #f2dede;
+}
+
+/* Sage-Earth Dark Mode */
+[data-theme="sage-earth"].dark,
+.dark[data-theme="sage-earth"] {
+  /* Backgrounds - deep navy scale */
+  --bg-0: #1e3344;           /* midnight navy */
+  --bg-1: #243b4d;           /* slate navy */
+  --bg-2: #2c4a5e;           /* medium navy */
+
+  /* Text - cream/sage scale */
+  --ink-900: #e3d8bf;        /* warm cream */
+  --ink-700: #c4c5af;        /* pale lichen */
+  --ink-400: #a9aa9d;        /* muted sage */
+  --border: #3d5a6e;         /* navy border */
+
+  /* Brand - brighter sage for dark */
+  --brand-600: #a3b8a7;      /* soft sage */
+  --brand-500: #b9c9bd;      /* lighter sage */
+  --brand-100: #2a3d35;      /* dark sage bg */
+
+  /* Joy - warmer for dark mode */
+  --joy-600: #d4a574;
+  --joy-500: #e4b584;
+  --joy-100: #3d3428;
+
+  /* Semantic - dark mode adjusted */
+  --success: #a3b8a7;
+  --success-bg: #2a3d35;
+  --info: #7a9cad;
+  --info-bg: #1e3344;
+  --warn: #d4a574;
+  --warn-bg: #3d3428;
+  --danger: #c98585;
+  --danger-bg: #3d2828;
+}
+
 /* Teaching Session Inputs - Dark Mode Compatible */
 .teaching-input,
 .teaching-input:focus {

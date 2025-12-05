@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { Topic } from '@togetheros/types/forum'
 import { TopicList, TopicComposer, type CreateTopicData } from '@togetheros/ui/forum'
+import { ThemeToggle } from '@/components/dark-mode-provider'
 
 export default function ForumPage() {
   const router = useRouter()
@@ -178,6 +179,11 @@ export default function ForumPage() {
   return (
     <>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Theme Toggle - top right corner */}
+        <div className="flex justify-end mb-4">
+          <ThemeToggle />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
           {/* Main content */}
           <div>
