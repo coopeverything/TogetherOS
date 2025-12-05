@@ -505,6 +505,305 @@
   --warn: #C0A040; --warn-bg: #302810; --danger: #A05050; --danger-bg: #301818;
 }
 
+/* ============================================
+   BREAKFAST-TEA Theme
+   Warm creamy browns
+   ============================================ */
+[data-theme="breakfast-tea"] {
+  --bg-0: #FFD3AC; --bg-1: #FFF4EB; --bg-2: #CCBEB1;
+  --ink-900: #331C08; --ink-700: #4A3018; --ink-400: #664C36;
+  --border: #C0A890;
+  --brand-600: #664C36; --brand-500: #806050; --brand-100: #F8EEE4;
+  --joy-600: #A08060; --joy-500: #B89070; --joy-100: #FFF4E8;
+  --success: #5A7050; --success-bg: #E8F0E0; --info: #506070; --info-bg: #E8EEF4;
+  --warn: #907050; --warn-bg: #F8F0E4; --danger: #804040; --danger-bg: #F8E4E4;
+}
+[data-theme="breakfast-tea"].dark, .dark[data-theme="breakfast-tea"] {
+  --bg-0: #1A1008; --bg-1: #281810; --bg-2: #382820;
+  --ink-900: #FFD3AC; --ink-700: #CCBEB1; --ink-400: #664C36;
+  --border: #4A3828;
+  --brand-600: #A08870; --brand-500: #B89880; --brand-100: #2A2010;
+  --joy-600: #B89070; --joy-500: #C8A080; --joy-100: #302010;
+  --success: #80A070; --success-bg: #203018; --info: #8090A0; --info-bg: #182028;
+  --warn: #B89060; --warn-bg: #302810; --danger: #A06060; --danger-bg: #301818;
+}
+
+/* ============================================
+   STONE-PATH Theme
+   Earthy sage and taupe
+   ============================================ */
+[data-theme="stone-path"] {
+  --bg-0: #E8E5DF; --bg-1: #F8F6F2; --bg-2: #D8D4CE;
+  --ink-900: #4A4840; --ink-700: #5A5850; --ink-400: #968F83;
+  --border: #C0B8B0;
+  --brand-600: #A5A58D; --brand-500: #B8B8A0; --brand-100: #F0F0E8;
+  --joy-600: #A49A87; --joy-500: #B8AE9A; --joy-100: #F8F4F0;
+  --success: #8A9A7A; --success-bg: #F0F4E8; --info: #7A8A8A; --info-bg: #E8F0F0;
+  --warn: #9A8A6A; --warn-bg: #F8F4E8; --danger: #8A6A6A; --danger-bg: #F4E8E8;
+}
+[data-theme="stone-path"].dark, .dark[data-theme="stone-path"] {
+  --bg-0: #1A1A18; --bg-1: #242420; --bg-2: #2E2E2A;
+  --ink-900: #E8E5DF; --ink-700: #C8C5BF; --ink-400: #968F83;
+  --border: #404038;
+  --brand-600: #B8B8A0; --brand-500: #C8C8B0; --brand-100: #282820;
+  --joy-600: #B8AE9A; --joy-500: #C8BEAA; --joy-100: #282420;
+  --success: #A0B090; --success-bg: #202818; --info: #90A0A0; --info-bg: #182020;
+  --warn: #B0A080; --warn-bg: #282418; --danger: #A08080; --danger-bg: #281818;
+}
+
+/* ============================================
+   URBAN-LOFT Theme
+   Industrial with terracotta accent
+   ============================================ */
+[data-theme="urban-loft"] {
+  --bg-0: #9C9A9A; --bg-1: #D0CECD; --bg-2: #B0AEAE;
+  --ink-900: #000000; --ink-700: #2A2A2A; --ink-400: #464646;
+  --border: #808080;
+  --brand-600: #A35E47; --brand-500: #B87060; --brand-100: #F0E4E0;
+  --joy-600: #A35E47; --joy-500: #B87060; --joy-100: #F0E4E0;
+  --success: #5A7A5A; --success-bg: #E0F0E0; --info: #5A5A7A; --info-bg: #E0E0F0;
+  --warn: #8A7040; --warn-bg: #F0E8D8; --danger: #8A4040; --danger-bg: #F0E0E0;
+}
+[data-theme="urban-loft"].dark, .dark[data-theme="urban-loft"] {
+  --bg-0: #0A0A0A; --bg-1: #181818; --bg-2: #242424;
+  --ink-900: #D0CECD; --ink-700: #A0A0A0; --ink-400: #464646;
+  --border: #383838;
+  --brand-600: #B87060; --brand-500: #C88070; --brand-100: #2A1A18;
+  --joy-600: #B87060; --joy-500: #C88070; --joy-100: #2A1A18;
+  --success: #80A080; --success-bg: #182018; --info: #8080A0; --info-bg: #181820;
+  --warn: #B09050; --warn-bg: #282010; --danger: #A06060; --danger-bg: #281818;
+}
+
+/* ============================================
+   SPICED-MOCHA Theme
+   Rich coffee with orange
+   ============================================ */
+[data-theme="spiced-mocha"] {
+  --bg-0: #F5F5DC; --bg-1: #FFFDF4; --bg-2: #E8E8C8;
+  --ink-900: #6D3B07; --ink-700: #7A4810; --ink-400: #9A7850;
+  --border: #D0C0A0;
+  --brand-600: #6F4E37; --brand-500: #8A6248; --brand-100: #F0E8E0;
+  --joy-600: #D47E30; --joy-500: #E89048; --joy-100: #FFF0E0;
+  --success: #5A7040; --success-bg: #E8F0D8; --info: #4A5A6A; --info-bg: #E0E8F0;
+  --warn: #C07030; --warn-bg: #FFF0E0; --danger: #A04040; --danger-bg: #F8E0E0;
+}
+[data-theme="spiced-mocha"].dark, .dark[data-theme="spiced-mocha"] {
+  --bg-0: #1A1408; --bg-1: #281C10; --bg-2: #382818;
+  --ink-900: #F5F5DC; --ink-700: #D8D8C0; --ink-400: #9A7850;
+  --border: #4A3820;
+  --brand-600: #A08060; --brand-500: #B89070; --brand-100: #2A2010;
+  --joy-600: #E89048; --joy-500: #F8A060; --joy-100: #302010;
+  --success: #80A060; --success-bg: #203010; --info: #8090A0; --info-bg: #182028;
+  --warn: #E08040; --warn-bg: #302010; --danger: #C06060; --danger-bg: #301818;
+}
+
+/* ============================================
+   BEACHFRONT-VIEW Theme
+   Cream with lavender and blue
+   ============================================ */
+[data-theme="beachfront-view"] {
+  --bg-0: #EDE8D0; --bg-1: #FBF8F0; --bg-2: #E0DCC8;
+  --ink-900: #3A3820; --ink-700: #4A4830; --ink-400: #6E632E;
+  --border: #C8C4B0;
+  --brand-600: #8888C0; --brand-500: #ABBEED; --brand-100: #E8E8F8;
+  --joy-600: #C8C0E8; --joy-500: #DBD1ED; --joy-100: #F4F0F8;
+  --success: #6A8A5A; --success-bg: #E8F0E0; --info: #6A6A9A; --info-bg: #E8E8F4;
+  --warn: #9A8A4A; --warn-bg: #F8F4E0; --danger: #8A5A5A; --danger-bg: #F4E4E4;
+}
+[data-theme="beachfront-view"].dark, .dark[data-theme="beachfront-view"] {
+  --bg-0: #18180E; --bg-1: #242418; --bg-2: #303020;
+  --ink-900: #EDE8D0; --ink-700: #C8C4B0; --ink-400: #6E632E;
+  --border: #404030;
+  --brand-600: #ABBEED; --brand-500: #C0D0F8; --brand-100: #202030;
+  --joy-600: #DBD1ED; --joy-500: #E8E0F4; --joy-100: #282028;
+  --success: #90B080; --success-bg: #182810; --info: #9090C0; --info-bg: #181828;
+  --warn: #C0B060; --warn-bg: #282810; --danger: #B08080; --danger-bg: #281818;
+}
+
+/* ============================================
+   UNDER-THE-MOONLIGHT Theme
+   Deep purples and periwinkle
+   ============================================ */
+[data-theme="under-the-moonlight"] {
+  --bg-0: #CCCCFF; --bg-1: #E8E8FF; --bg-2: #B8B8F0;
+  --ink-900: #292966; --ink-700: #3A3A80; --ink-400: #5C5C99;
+  --border: #A0A0D0;
+  --brand-600: #5C5C99; --brand-500: #7070B0; --brand-100: #E0E0F8;
+  --joy-600: #A3AE3C; --joy-500: #B8C050; --joy-100: #F0F4E0;
+  --success: #5A8A5A; --success-bg: #E0F0E0; --info: #5A5A8A; --info-bg: #E0E0F0;
+  --warn: #9A8A4A; --warn-bg: #F8F4E0; --danger: #8A5A5A; --danger-bg: #F4E0E0;
+}
+[data-theme="under-the-moonlight"].dark, .dark[data-theme="under-the-moonlight"] {
+  --bg-0: #101020; --bg-1: #181830; --bg-2: #202040;
+  --ink-900: #CCCCFF; --ink-700: #A8A8E0; --ink-400: #5C5C99;
+  --border: #303050;
+  --brand-600: #8080C0; --brand-500: #9898D0; --brand-100: #181830;
+  --joy-600: #B8C050; --joy-500: #C8D060; --joy-100: #282810;
+  --success: #80B080; --success-bg: #183018; --info: #8080B0; --info-bg: #181830;
+  --warn: #C0B060; --warn-bg: #282810; --danger: #B08080; --danger-bg: #281818;
+}
+
+/* ============================================
+   SILTSTONE Theme
+   Sandy golden warm tones
+   ============================================ */
+[data-theme="siltstone"] {
+  --bg-0: #FFF5B8; --bg-1: #FFFCE8; --bg-2: #F0E8A8;
+  --ink-900: #4A4020; --ink-700: #5A5030; --ink-400: #8A7850;
+  --border: #D8C880;
+  --brand-600: #CCA25A; --brand-500: #DDB06A; --brand-100: #FFF8E0;
+  --joy-600: #FFB16E; --joy-500: #FFC080; --joy-100: #FFF4E4;
+  --success: #6A8A4A; --success-bg: #E8F4D8; --info: #5A6A7A; --info-bg: #E0E8F0;
+  --warn: #C09030; --warn-bg: #FFF8D8; --danger: #A05040; --danger-bg: #F8E4E0;
+}
+[data-theme="siltstone"].dark, .dark[data-theme="siltstone"] {
+  --bg-0: #181408; --bg-1: #282010; --bg-2: #382C18;
+  --ink-900: #FFF5B8; --ink-700: #E0D8A0; --ink-400: #8A7850;
+  --border: #484028;
+  --brand-600: #DDB06A; --brand-500: #EEC07A; --brand-100: #282010;
+  --joy-600: #FFC080; --joy-500: #FFD090; --joy-100: #302010;
+  --success: #90B070; --success-bg: #203010; --info: #8090A0; --info-bg: #182028;
+  --warn: #E0A040; --warn-bg: #302810; --danger: #C07060; --danger-bg: #301810;
+}
+
+/* ============================================
+   PEACH-SKYLINE Theme
+   Soft peach with sky blues
+   ============================================ */
+[data-theme="peach-skyline"] {
+  --bg-0: #FFDBBB; --bg-1: #FFF4EB; --bg-2: #F0D0B0;
+  --ink-900: #3A4050; --ink-700: #496580; --ink-400: #7A8898;
+  --border: #D0C0B0;
+  --brand-600: #60A0C0; --brand-500: #BADDFF; --brand-100: #E8F4FF;
+  --joy-600: #80D0D0; --joy-500: #BAFFF5; --joy-100: #E8FFFC;
+  --success: #60A080; --success-bg: #E0F8F0; --info: #496580; --info-bg: #E0E8F0;
+  --warn: #C09050; --warn-bg: #FFF4E0; --danger: #A05050; --danger-bg: #F8E4E4;
+}
+[data-theme="peach-skyline"].dark, .dark[data-theme="peach-skyline"] {
+  --bg-0: #181A20; --bg-1: #202430; --bg-2: #282C38;
+  --ink-900: #FFDBBB; --ink-700: #E0C0A0; --ink-400: #7A8898;
+  --border: #384050;
+  --brand-600: #BADDFF; --brand-500: #D0EAFF; --brand-100: #182030;
+  --joy-600: #BAFFF5; --joy-500: #D0FFF8; --joy-100: #183030;
+  --success: #80C0A0; --success-bg: #183028; --info: #7090B0; --info-bg: #182030;
+  --warn: #E0B060; --warn-bg: #302810; --danger: #C07070; --danger-bg: #301818;
+}
+
+/* ============================================
+   MOUNTAIN-MIST Theme
+   Cool slate blues with teal accent
+   ============================================ */
+[data-theme="mountain-mist"] {
+  --bg-0: #B0C4DE; --bg-1: #E0E8F0; --bg-2: #A0B4D0;
+  --ink-900: #2A2A3A; --ink-700: #3A3A4A; --ink-400: #5A5A5A;
+  --border: #90A0B8;
+  --brand-600: #01796F; --brand-500: #20908A; --brand-100: #D0F0F0;
+  --joy-600: #6D8196; --joy-500: #8090A8; --joy-100: #E8EEF4;
+  --success: #01796F; --success-bg: #D0F0F0; --info: #5A6A8A; --info-bg: #E0E8F4;
+  --warn: #8A7A4A; --warn-bg: #F4F0E0; --danger: #8A4A4A; --danger-bg: #F4E0E0;
+}
+[data-theme="mountain-mist"].dark, .dark[data-theme="mountain-mist"] {
+  --bg-0: #101820; --bg-1: #182028; --bg-2: #202830;
+  --ink-900: #B0C4DE; --ink-700: #90A4C0; --ink-400: #5A5A5A;
+  --border: #304050;
+  --brand-600: #40B0A8; --brand-500: #60C0B8; --brand-100: #102828;
+  --joy-600: #8090A8; --joy-500: #98A8B8; --joy-100: #182028;
+  --success: #40B0A8; --success-bg: #102828; --info: #7080A0; --info-bg: #182030;
+  --warn: #B0A060; --warn-bg: #282410; --danger: #B07070; --danger-bg: #281818;
+}
+
+/* ============================================
+   FROZEN-LAKE Theme
+   Icy blues with navy depth
+   ============================================ */
+[data-theme="frozen-lake"] {
+  --bg-0: #ADD8E6; --bg-1: #E8F4F8; --bg-2: #90C8D8;
+  --ink-900: #000080; --ink-700: #203060; --ink-400: #6D8196;
+  --border: #80B0C8;
+  --brand-600: #000080; --brand-500: #2040A0; --brand-100: #D8E8F8;
+  --joy-600: #6D8196; --joy-500: #8898A8; --joy-100: #F0F4F8;
+  --success: #207070; --success-bg: #D0F0F0; --info: #203060; --info-bg: #D8E8F8;
+  --warn: #907040; --warn-bg: #F8F0E0; --danger: #804040; --danger-bg: #F8E0E0;
+}
+[data-theme="frozen-lake"].dark, .dark[data-theme="frozen-lake"] {
+  --bg-0: #081020; --bg-1: #101830; --bg-2: #182040;
+  --ink-900: #ADD8E6; --ink-700: #80B0C8; --ink-400: #6D8196;
+  --border: #203050;
+  --brand-600: #4060C0; --brand-500: #6080D0; --brand-100: #101830;
+  --joy-600: #8898A8; --joy-500: #98A8B8; --joy-100: #182030;
+  --success: #40A0A0; --success-bg: #103030; --info: #4060A0; --info-bg: #101830;
+  --warn: #B09050; --warn-bg: #282010; --danger: #A06060; --danger-bg: #281818;
+}
+
+/* ============================================
+   EUCALYPTUS-GROVE Theme
+   Soft greens with warm grays
+   ============================================ */
+[data-theme="eucalyptus-grove"] {
+  --bg-0: #F2F0EF; --bg-1: #FAFAF9; --bg-2: #E8E6E4;
+  --ink-900: #2A3830; --ink-700: #3A4840; --ink-400: #6A7870;
+  --border: #C0C8C0;
+  --brand-600: #4B6E48; --brand-500: #5A8058; --brand-100: #E0F0E0;
+  --joy-600: #B2AC88; --joy-500: #C0BA98; --joy-100: #F8F4E8;
+  --success: #4B6E48; --success-bg: #E0F0E0; --info: #5A6A7A; --info-bg: #E0E8F0;
+  --warn: #9A8A5A; --warn-bg: #F8F4E4; --danger: #8A5050; --danger-bg: #F8E4E4;
+}
+[data-theme="eucalyptus-grove"].dark, .dark[data-theme="eucalyptus-grove"] {
+  --bg-0: #101810; --bg-1: #182018; --bg-2: #202820;
+  --ink-900: #E8F0E8; --ink-700: #C8D0C8; --ink-400: #6A7870;
+  --border: #304030;
+  --brand-600: #70A068; --brand-500: #80B078; --brand-100: #182818;
+  --joy-600: #C0BA98; --joy-500: #D0CAA8; --joy-100: #282418;
+  --success: #70A068; --success-bg: #182818; --info: #7888A0; --info-bg: #181828;
+  --warn: #B8A870; --warn-bg: #282410; --danger: #A87070; --danger-bg: #281818;
+}
+
+/* ============================================
+   WINTER-CHILL Theme
+   Cool teal and deep green
+   ============================================ */
+[data-theme="winter-chill"] {
+  --bg-0: #B8E3E9; --bg-1: #E8F8FA; --bg-2: #A0D0D8;
+  --ink-900: #0B2E33; --ink-700: #183A40; --ink-400: #4F7C82;
+  --border: #80B0B8;
+  --brand-600: #4F7C82; --brand-500: #6090A0; --brand-100: #D8F0F4;
+  --joy-600: #93B1B5; --joy-500: #A8C0C8; --joy-100: #E8F4F4;
+  --success: #408080; --success-bg: #D0F0F0; --info: #4A6A7A; --info-bg: #D8E8F0;
+  --warn: #8A8050; --warn-bg: #F8F4E0; --danger: #8A5050; --danger-bg: #F8E4E4;
+}
+[data-theme="winter-chill"].dark, .dark[data-theme="winter-chill"] {
+  --bg-0: #0A1818; --bg-1: #102020; --bg-2: #182828;
+  --ink-900: #B8E3E9; --ink-700: #90C0C8; --ink-400: #4F7C82;
+  --border: #204040;
+  --brand-600: #70A0A8; --brand-500: #88B0B8; --brand-100: #102028;
+  --joy-600: #A8C0C8; --joy-500: #B8D0D8; --joy-100: #182828;
+  --success: #60B0B0; --success-bg: #103030; --info: #6888A0; --info-bg: #182030;
+  --warn: #B0A060; --warn-bg: #282410; --danger: #A87070; --danger-bg: #281818;
+}
+
+/* ============================================
+   SUMMER-BREEZE Theme
+   Coral, peach, and sky blue
+   ============================================ */
+[data-theme="summer-breeze"] {
+  --bg-0: #E6D8C4; --bg-1: #FFF8F0; --bg-2: #D8C8B0;
+  --ink-900: #3A2020; --ink-700: #5A3838; --ink-400: #8A6868;
+  --border: #C8B8A0;
+  --brand-600: #4A90B0; --brand-500: #82C8E5; --brand-100: #E0F4FF;
+  --joy-600: #FF3B3B; --joy-500: #F88379; --joy-100: #FFE8E4;
+  --success: #4A9080; --success-bg: #D8F4F0; --info: #4A70A0; --info-bg: #E0ECF8;
+  --warn: #C09040; --warn-bg: #FFF8E0; --danger: #D04040; --danger-bg: #FFE4E4;
+}
+[data-theme="summer-breeze"].dark, .dark[data-theme="summer-breeze"] {
+  --bg-0: #181410; --bg-1: #241C18; --bg-2: #302820;
+  --ink-900: #F8E8D8; --ink-700: #D8C8B8; --ink-400: #8A6868;
+  --border: #4A3830;
+  --brand-600: #82C8E5; --brand-500: #98D8F0; --brand-100: #102030;
+  --joy-600: #F88379; --joy-500: #FF9890; --joy-100: #301818;
+  --success: #70C0B0; --success-bg: #103028; --info: #70A0D0; --info-bg: #102038;
+  --warn: #E0A850; --warn-bg: #302810; --danger: #E06060; --danger-bg: #301818;
+}
+
 /* Teaching Session Inputs - Dark Mode Compatible */
 .teaching-input,
 .teaching-input:focus {

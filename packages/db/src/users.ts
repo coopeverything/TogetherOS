@@ -45,6 +45,8 @@ export interface User {
   oauth_raw_profile?: any;
   // Admin fields
   is_admin: boolean;
+  // Preferences
+  preferred_theme?: string;
   created_at: Date;
   updated_at: Date;
 }

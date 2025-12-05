@@ -20,6 +20,19 @@ export const THEMES = [
   'cobalt-sky',
   'salt-pepper',
   'quite-clear',
+  'breakfast-tea',
+  'stone-path',
+  'urban-loft',
+  'spiced-mocha',
+  'beachfront-view',
+  'under-the-moonlight',
+  'siltstone',
+  'peach-skyline',
+  'mountain-mist',
+  'frozen-lake',
+  'eucalyptus-grove',
+  'winter-chill',
+  'summer-breeze',
 ] as const;
 export type Theme = (typeof THEMES)[number];
 
@@ -41,6 +54,19 @@ export const THEME_INFO: Record<Theme, { name: string; colors: string[] }> = {
   'cobalt-sky': { name: 'Cobalt Sky', colors: ['#0047AB', '#000080', '#82C8E5', '#6D8196'] },
   'salt-pepper': { name: 'Salt & Pepper', colors: ['#FFFFFF', '#D4D4D4', '#B3B3B3', '#2B2B2B'] },
   'quite-clear': { name: 'Quite Clear', colors: ['#CBCBCB', '#F2F2F2', '#174D38', '#4D1717'] },
+  'breakfast-tea': { name: 'Breakfast Tea', colors: ['#FFD3AC', '#CCBEB1', '#664C36', '#331C08'] },
+  'stone-path': { name: 'Stone Path', colors: ['#A49A87', '#A5A58D', '#968F83', '#E8E5DF'] },
+  'urban-loft': { name: 'Urban Loft', colors: ['#9C9A9A', '#A35E47', '#000000', '#464646'] },
+  'spiced-mocha': { name: 'Spiced Mocha', colors: ['#6F4E37', '#D47E30', '#F5F5DC', '#6D3B07'] },
+  'beachfront-view': { name: 'Beachfront View', colors: ['#EDE8D0', '#6E632E', '#DBD1ED', '#ABBEED'] },
+  'under-the-moonlight': { name: 'Under the Moonlight', colors: ['#CCCCFF', '#A3AE3C', '#5C5C99', '#292966'] },
+  'siltstone': { name: 'Siltstone', colors: ['#CBBD93', '#FFF5B8', '#FFB16E', '#CCA25A'] },
+  'peach-skyline': { name: 'Peach Skyline', colors: ['#FFDBBB', '#BADDFF', '#BAFFF5', '#496580'] },
+  'mountain-mist': { name: 'Mountain Mist', colors: ['#6D8196', '#B0C4DE', '#01796F', '#5A5A5A'] },
+  'frozen-lake': { name: 'Frozen Lake', colors: ['#6D8196', '#ADD8E6', '#FFFAFA', '#000080'] },
+  'eucalyptus-grove': { name: 'Eucalyptus Grove', colors: ['#B2AC88', '#898989', '#F2F0EF', '#4B6E48'] },
+  'winter-chill': { name: 'Winter Chill', colors: ['#B8E3E9', '#93B1B5', '#4F7C82', '#0B2E33'] },
+  'summer-breeze': { name: 'Summer Breeze', colors: ['#FF3B3B', '#F88379', '#82C8E5', '#E6D8C4'] },
 };
 
 interface DarkModeContextType {
@@ -57,7 +83,7 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkModeState] = React.useState(false);
   const [theme, setThemeState] = React.useState<Theme>('default');
 
-  // Load preferences from localStorage and URL on mount
+  // Load preferences from localStorage, URL, and user profile on mount
   React.useEffect(() => {
     // Dark mode
     const stored = localStorage.getItem('darkMode');
@@ -68,7 +94,7 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
       setDarkModeState(prefersDark);
     }
 
-    // Theme - check URL first, then localStorage
+    // Theme - check URL first, then localStorage, then user profile
     const urlParams = new URLSearchParams(window.location.search);
     const urlTheme = urlParams.get('theme') as Theme | null;
     if (urlTheme && THEMES.includes(urlTheme)) {
@@ -77,6 +103,19 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
       const storedTheme = localStorage.getItem('theme') as Theme | null;
       if (storedTheme && THEMES.includes(storedTheme)) {
         setThemeState(storedTheme);
+      } else {
+        // Fetch user's saved theme preference from backend
+        fetch('/api/user/theme')
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.theme && THEMES.includes(data.theme as Theme)) {
+              setThemeState(data.theme as Theme);
+              localStorage.setItem('theme', data.theme);
+            }
+          })
+          .catch(() => {
+            // Ignore errors - user may not be logged in
+          });
       }
     }
   }, []);
@@ -119,6 +158,15 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
       url.searchParams.set('theme', newTheme);
     }
     window.history.replaceState({}, '', url.toString());
+
+    // Save to user profile (fire and forget - don't block UI)
+    fetch('/api/user/theme', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ theme: newTheme }),
+    }).catch(() => {
+      // Ignore errors - user may not be logged in
+    });
   }, []);
 
   const value = React.useMemo(

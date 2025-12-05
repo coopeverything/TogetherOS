@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Card, Button, Badge, Avatar } from '@/components/ui';
 import { cn } from '@/lib/utils';
+import { ThemePicker } from '@/components/dark-mode-provider';
 
 interface User {
   id: string;
@@ -50,7 +51,8 @@ export default function DashboardClient({ user }: { user: User }) {
                 Welcome back{user.name ? `, ${user.name}` : ''}!
               </h1>
             </div>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
+              <ThemePicker />
               <Button variant="secondary" onClick={() => router.push('/profile')}>
                 Profile
               </Button>
