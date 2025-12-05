@@ -1,7 +1,6 @@
 /**
  * Metrics Module Handlers - Barrel Export
  */
-
 export {
   createInitiativeMetrics,
   getInitiativeMetrics,

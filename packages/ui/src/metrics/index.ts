@@ -1,20 +1,14 @@
 // packages/ui/src/metrics/index.ts
 // Barrel export for metrics UI components
-
-export { MetricCard } from './MetricCard'
 export type { MetricCardProps } from './MetricCard'
-
-export { MetricsList } from './MetricsList'
+export { MetricCard } from './MetricCard'
 export type { MetricsListProps } from './MetricsList'
-
-export { MetricsForm } from './MetricsForm'
+export { MetricsList } from './MetricsList'
 export type { MetricsFormProps, MetricsFormData } from './MetricsForm'
-
-export { MetricsEvaluationForm } from './MetricsEvaluationForm'
+export { MetricsForm } from './MetricsForm'
 export type { MetricsEvaluationFormProps, MetricMeasurement } from './MetricsEvaluationForm'
-
-export { MetricsDashboard } from './MetricsDashboard'
+export { MetricsEvaluationForm } from './MetricsEvaluationForm'
 export type { MetricsDashboardProps } from './MetricsDashboard'
-
-export { MetricTemplateList } from './MetricTemplateList'
+export { MetricsDashboard } from './MetricsDashboard'
 export type { MetricTemplateListProps } from './MetricTemplateList'
+export { MetricTemplateList } from './MetricTemplateList'
