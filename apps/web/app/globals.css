@@ -206,6 +206,190 @@
   --danger-bg: #3D2020;
 }
 
+/* ============================================
+   MANGO-POPSICLE Theme
+   Warm yellows and vibrant orange
+   ============================================ */
+[data-theme="mango-popsicle"] {
+  --bg-0: #EDD377; --bg-1: #FFF8E1; --bg-2: #F2E829;
+  --ink-900: #4A3A0A; --ink-700: #6A5A2A; --ink-400: #A08A4A;
+  --border: #F2B949;
+  --brand-600: #F27430; --brand-500: #F2944D; --brand-100: #FFE8D9;
+  --joy-600: #F2E829; --joy-500: #F5EE6D; --joy-100: #FFFCE8;
+  --success: #8A9A2A; --success-bg: #F5F8D9; --info: #6A5A2A; --info-bg: #FFF8E1;
+  --warn: #F27430; --warn-bg: #FFE8D9; --danger: #D44D00; --danger-bg: #FFE4D9;
+}
+[data-theme="mango-popsicle"].dark, .dark[data-theme="mango-popsicle"] {
+  --bg-0: #2A2008; --bg-1: #3A3018; --bg-2: #4A4028;
+  --ink-900: #EDD377; --ink-700: #D4BA60; --ink-400: #A08A4A;
+  --border: #5A4A20;
+  --brand-600: #F2944D; --brand-500: #F5A86D; --brand-100: #3A2A10;
+  --joy-600: #F5EE6D; --joy-500: #F8F490; --joy-100: #3A3810;
+  --success: #BDD06B; --success-bg: #2A3010; --info: #D4BA60; --info-bg: #3A3018;
+  --warn: #F2944D; --warn-bg: #3A2A10; --danger: #FF8060; --danger-bg: #3A2020;
+}
+
+/* ============================================
+   SUNNY-DAY Theme
+   Amber and electric blues
+   ============================================ */
+[data-theme="sunny-day"] {
+  --bg-0: #FFF5CC; --bg-1: #FFFDF5; --bg-2: #FFE699;
+  --ink-900: #2400FF; --ink-700: #4020FF; --ink-400: #807040;
+  --border: #FFBF00;
+  --brand-600: #007EFF; --brand-500: #40A0FF; --brand-100: #E0F0FF;
+  --joy-600: #FFBF00; --joy-500: #FFD040; --joy-100: #FFF8E0;
+  --success: #007EFF; --success-bg: #E0F0FF; --info: #2400FF; --info-bg: #E8E0FF;
+  --warn: #FFBF00; --warn-bg: #FFF8E0; --danger: #FF4040; --danger-bg: #FFE8E8;
+}
+[data-theme="sunny-day"].dark, .dark[data-theme="sunny-day"] {
+  --bg-0: #0A0820; --bg-1: #141230; --bg-2: #1E1C40;
+  --ink-900: #FFD040; --ink-700: #E0B830; --ink-400: #807040;
+  --border: #2A2850;
+  --brand-600: #40A0FF; --brand-500: #60B0FF; --brand-100: #1A2840;
+  --joy-600: #FFD040; --joy-500: #FFE060; --joy-100: #2A2810;
+  --success: #40A0FF; --success-bg: #1A2840; --info: #8080FF; --info-bg: #1A1A40;
+  --warn: #FFD040; --warn-bg: #2A2810; --danger: #FF6060; --danger-bg: #401818;
+}
+
+/* ============================================
+   COOL-REVIVAL Theme
+   Cyan, teal, and vibrant greens
+   ============================================ */
+[data-theme="cool-revival"] {
+  --bg-0: #C0FFFF; --bg-1: #E8FFFF; --bg-2: #A0FFEE;
+  --ink-900: #003030; --ink-700: #004848; --ink-400: #408080;
+  --border: #00AEFF;
+  --brand-600: #00DE94; --brand-500: #40E8A8; --brand-100: #D0FFE8;
+  --joy-600: #00FF52; --joy-500: #40FF70; --joy-100: #D0FFD8;
+  --success: #00DE94; --success-bg: #D0FFE8; --info: #00AEFF; --info-bg: #D0F0FF;
+  --warn: #00FF52; --warn-bg: #D0FFD8; --danger: #FF4080; --danger-bg: #FFE0E8;
+}
+[data-theme="cool-revival"].dark, .dark[data-theme="cool-revival"] {
+  --bg-0: #081818; --bg-1: #102020; --bg-2: #182828;
+  --ink-900: #00FFFF; --ink-700: #00E0E0; --ink-400: #408080;
+  --border: #204040;
+  --brand-600: #40E8A8; --brand-500: #60F0B8; --brand-100: #103028;
+  --joy-600: #40FF70; --joy-500: #60FF88; --joy-100: #102818;
+  --success: #40E8A8; --success-bg: #103028; --info: #40C0FF; --info-bg: #102830;
+  --warn: #40FF70; --warn-bg: #102818; --danger: #FF6090; --danger-bg: #301820;
+}
+
+/* ============================================
+   SHARP-EDGE Theme
+   Grayscale with red and mint accents
+   ============================================ */
+[data-theme="sharp-edge"] {
+  --bg-0: #D9D9D9; --bg-1: #F5F5F5; --bg-2: #E8E8E8;
+  --ink-900: #2A2A2A; --ink-700: #4A4A4A; --ink-400: #898989;
+  --border: #B0B0B0;
+  --brand-600: #3DD9A0; --brand-500: #4DFFBC; --brand-100: #D8FFF0;
+  --joy-600: #FF4D4D; --joy-500: #FF7070; --joy-100: #FFE8E8;
+  --success: #3DD9A0; --success-bg: #D8FFF0; --info: #4A4A4A; --info-bg: #E8E8E8;
+  --warn: #FFB020; --warn-bg: #FFF8E0; --danger: #FF4D4D; --danger-bg: #FFE8E8;
+}
+[data-theme="sharp-edge"].dark, .dark[data-theme="sharp-edge"] {
+  --bg-0: #1A1A1A; --bg-1: #242424; --bg-2: #2E2E2E;
+  --ink-900: #E8E8E8; --ink-700: #D0D0D0; --ink-400: #898989;
+  --border: #404040;
+  --brand-600: #4DFFBC; --brand-500: #70FFD0; --brand-100: #1A3028;
+  --joy-600: #FF7070; --joy-500: #FF9090; --joy-100: #301818;
+  --success: #4DFFBC; --success-bg: #1A3028; --info: #A0A0A0; --info-bg: #2E2E2E;
+  --warn: #FFD040; --warn-bg: #302810; --danger: #FF7070; --danger-bg: #301818;
+}
+
+/* ============================================
+   TROPICAL-PUNCH Theme
+   Orange, pink, yellow, and teal
+   ============================================ */
+[data-theme="tropical-punch"] {
+  --bg-0: #FFC0CB; --bg-1: #FFF0F3; --bg-2: #FCE883;
+  --ink-900: #3A2020; --ink-700: #5A3838; --ink-400: #8A6868;
+  --border: #FFB0B8;
+  --brand-600: #069494; --brand-500: #20AAAA; --brand-100: #D0F0F0;
+  --joy-600: #FF8243; --joy-500: #FF9960; --joy-100: #FFE8D8;
+  --success: #069494; --success-bg: #D0F0F0; --info: #5A3838; --info-bg: #FFF0F3;
+  --warn: #FF8243; --warn-bg: #FFE8D8; --danger: #D04040; --danger-bg: #FFE0E0;
+}
+[data-theme="tropical-punch"].dark, .dark[data-theme="tropical-punch"] {
+  --bg-0: #201818; --bg-1: #2A2020; --bg-2: #342828;
+  --ink-900: #FFC0CB; --ink-700: #E0A0A8; --ink-400: #8A6868;
+  --border: #4A3838;
+  --brand-600: #20AAAA; --brand-500: #40C0C0; --brand-100: #103030;
+  --joy-600: #FF9960; --joy-500: #FFB080; --joy-100: #302010;
+  --success: #20AAAA; --success-bg: #103030; --info: #E0A0A8; --info-bg: #2A2020;
+  --warn: #FF9960; --warn-bg: #302010; --danger: #FF7070; --danger-bg: #301818;
+}
+
+/* ============================================
+   COBALT-SKY Theme
+   Deep and light blues
+   ============================================ */
+[data-theme="cobalt-sky"] {
+  --bg-0: #82C8E5; --bg-1: #E8F4FC; --bg-2: #A8D8F0;
+  --ink-900: #000080; --ink-700: #0047AB; --ink-400: #6D8196;
+  --border: #6090B0;
+  --brand-600: #0047AB; --brand-500: #2060C0; --brand-100: #D8E8F8;
+  --joy-600: #6D8196; --joy-500: #8898A8; --joy-100: #E8EEF4;
+  --success: #2060C0; --success-bg: #D8E8F8; --info: #000080; --info-bg: #D0E0F0;
+  --warn: #C0A020; --warn-bg: #F8F0D0; --danger: #C04040; --danger-bg: #F8E0E0;
+}
+[data-theme="cobalt-sky"].dark, .dark[data-theme="cobalt-sky"] {
+  --bg-0: #0A1020; --bg-1: #101830; --bg-2: #182040;
+  --ink-900: #82C8E5; --ink-700: #60A8C8; --ink-400: #6D8196;
+  --border: #203050;
+  --brand-600: #4080D0; --brand-500: #60A0E0; --brand-100: #102040;
+  --joy-600: #8898A8; --joy-500: #A0B0C0; --joy-100: #182030;
+  --success: #4080D0; --success-bg: #102040; --info: #6090C0; --info-bg: #101830;
+  --warn: #E0C040; --warn-bg: #302810; --danger: #E06060; --danger-bg: #301818;
+}
+
+/* ============================================
+   SALT-PEPPER Theme
+   Clean grayscale
+   ============================================ */
+[data-theme="salt-pepper"] {
+  --bg-0: #D4D4D4; --bg-1: #FFFFFF; --bg-2: #E8E8E8;
+  --ink-900: #2B2B2B; --ink-700: #4A4A4A; --ink-400: #B3B3B3;
+  --border: #C0C0C0;
+  --brand-600: #4A4A4A; --brand-500: #6A6A6A; --brand-100: #E8E8E8;
+  --joy-600: #808080; --joy-500: #A0A0A0; --joy-100: #F0F0F0;
+  --success: #4A8A4A; --success-bg: #E0F0E0; --info: #4A4A8A; --info-bg: #E0E0F0;
+  --warn: #8A8A4A; --warn-bg: #F0F0E0; --danger: #8A4A4A; --danger-bg: #F0E0E0;
+}
+[data-theme="salt-pepper"].dark, .dark[data-theme="salt-pepper"] {
+  --bg-0: #1A1A1A; --bg-1: #2B2B2B; --bg-2: #3A3A3A;
+  --ink-900: #FFFFFF; --ink-700: #D4D4D4; --ink-400: #808080;
+  --border: #4A4A4A;
+  --brand-600: #B3B3B3; --brand-500: #D0D0D0; --brand-100: #3A3A3A;
+  --joy-600: #A0A0A0; --joy-500: #C0C0C0; --joy-100: #2A2A2A;
+  --success: #70A070; --success-bg: #203020; --info: #7070A0; --info-bg: #202030;
+  --warn: #A0A070; --warn-bg: #303020; --danger: #A07070; --danger-bg: #302020;
+}
+
+/* ============================================
+   QUITE-CLEAR Theme
+   Light grays with forest green and burgundy
+   ============================================ */
+[data-theme="quite-clear"] {
+  --bg-0: #F2F2F2; --bg-1: #FFFFFF; --bg-2: #CBCBCB;
+  --ink-900: #174D38; --ink-700: #2A6A4A; --ink-400: #6A8A7A;
+  --border: #B8B8B8;
+  --brand-600: #174D38; --brand-500: #2A6A4A; --brand-100: #D8F0E0;
+  --joy-600: #4D1717; --joy-500: #6A2A2A; --joy-100: #F0D8D8;
+  --success: #174D38; --success-bg: #D8F0E0; --info: #2A6A4A; --info-bg: #E0F0E8;
+  --warn: #8A6A20; --warn-bg: #F8F0D8; --danger: #4D1717; --danger-bg: #F0D8D8;
+}
+[data-theme="quite-clear"].dark, .dark[data-theme="quite-clear"] {
+  --bg-0: #101810; --bg-1: #182018; --bg-2: #202820;
+  --ink-900: #D8E8D8; --ink-700: #B8D0B8; --ink-400: #6A8A7A;
+  --border: #304030;
+  --brand-600: #40A060; --brand-500: #60B080; --brand-100: #183020;
+  --joy-600: #A05050; --joy-500: #C07070; --joy-100: #301818;
+  --success: #40A060; --success-bg: #183020; --info: #60B080; --info-bg: #182820;
+  --warn: #C0A040; --warn-bg: #302810; --danger: #A05050; --danger-bg: #301818;
+}
+
 /* Teaching Session Inputs - Dark Mode Compatible */
 .teaching-input,
 .teaching-input:focus {
