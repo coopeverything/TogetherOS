@@ -65,11 +65,11 @@ export function TopicList({
     <div className={className}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Community Discussions</h1>
+        <h1 className="text-3xl font-bold text-ink-900">Community Discussions</h1>
         {showCreateButton && onCreateTopic && (
           <button
             onClick={onCreateTopic}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
+            className="px-4 py-2 bg-joy-600 text-white rounded-md hover:bg-joy-500 transition-colors font-medium"
           >
             New Topic
           </button>
@@ -81,7 +81,7 @@ export function TopicList({
         <div className="flex flex-wrap gap-4">
           {/* Category Filter - Clickable Buttons */}
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-ink-700 mb-2">
               Category
             </label>
             <div className="flex flex-wrap gap-2">
@@ -89,8 +89,8 @@ export function TopicList({
                 onClick={() => setCategoryFilter('all')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   categoryFilter === 'all'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-joy-600 text-white'
+                    : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
                 }`}
               >
                 All Categories
@@ -99,8 +99,8 @@ export function TopicList({
                 onClick={() => setCategoryFilter('general')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   categoryFilter === 'general'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-joy-600 text-white'
+                    : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
                 }`}
               >
                 💬 General
@@ -109,8 +109,8 @@ export function TopicList({
                 onClick={() => setCategoryFilter('proposal')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   categoryFilter === 'proposal'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-joy-600 text-white'
+                    : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
                 }`}
               >
                 💡 Ideas
@@ -119,8 +119,8 @@ export function TopicList({
                 onClick={() => setCategoryFilter('question')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   categoryFilter === 'question'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-joy-600 text-white'
+                    : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
                 }`}
               >
                 ❓ Q&A
@@ -129,8 +129,8 @@ export function TopicList({
                 onClick={() => setCategoryFilter('deliberation')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   categoryFilter === 'deliberation'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-joy-600 text-white'
+                    : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
                 }`}
               >
                 ⚖️ Deliberation
@@ -139,8 +139,8 @@ export function TopicList({
                 onClick={() => setCategoryFilter('announcement')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   categoryFilter === 'announcement'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-joy-600 text-white'
+                    : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
                 }`}
               >
                 📢 Announcements
@@ -150,7 +150,7 @@ export function TopicList({
 
           {/* Status Filter */}
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-ink-700 mb-2">
               Status
             </label>
             <select
@@ -158,7 +158,7 @@ export function TopicList({
               onChange={(e) =>
                 setStatusFilter(e.target.value as TopicStatus | 'all')
               }
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-joy-500 bg-bg-1 text-ink-900"
             >
               <option value="all">All Statuses</option>
               <option value="open">Open</option>
@@ -172,9 +172,9 @@ export function TopicList({
 
       {/* Topic List */}
       {sortedTopics.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-600 dark:text-gray-400 mb-2">No topics found</p>
-          <p className="text-sm text-gray-500 dark:text-gray-500">
+        <div className="text-center py-12 bg-bg-2 rounded-lg border border-border">
+          <p className="text-ink-700 mb-2">No topics found</p>
+          <p className="text-sm text-ink-400">
             {categoryFilter !== 'all' || statusFilter !== 'all'
               ? 'Try adjusting your filters'
               : 'Be the first to start a discussion!'}
@@ -194,7 +194,7 @@ export function TopicList({
       )}
 
       {/* Results Count */}
-      <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center">
+      <div className="mt-4 text-sm text-ink-400 text-center">
         Showing {sortedTopics.length} of {topics.length} topics
       </div>
     </div>

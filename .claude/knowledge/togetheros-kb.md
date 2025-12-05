@@ -92,6 +92,34 @@ TogetherOS helps people **unlearn division and learn coordination**. It resets d
 
 **Source:** [Bug Fix Verification Best Practices](https://www.applause.com/blog/bug-fix-verification-speed-up-development/)
 
+### Theme Implementation Protocol (MANDATORY for CSS/Tailwind theming)
+
+**When implementing themes or color changes:**
+
+1. **Define CSS variables** in `globals.css` (light + dark + theme variants)
+2. **Map to Tailwind** in `tailwind.config.js` under `extend.colors`
+3. **IDENTIFY all affected components** - grep for hardcoded color classes
+4. **UPDATE EACH COMPONENT** to use design system classes:
+
+| Hardcoded (wrong) | Design System (correct) |
+|-------------------|------------------------|
+| `bg-white`, `bg-gray-800` | `bg-bg-1` |
+| `bg-gray-50/100` | `bg-bg-2` |
+| `text-gray-900`, `text-white` | `text-ink-900` |
+| `text-gray-700/300` | `text-ink-700` |
+| `text-gray-500/400` | `text-ink-400` |
+| `border-gray-200/700` | `border-border` |
+| `bg-orange-*` | `bg-joy-*` |
+| `bg-emerald-*` | `bg-brand-*` |
+
+5. **TEST with theme toggle** - ALL elements must change, not just body
+
+**Anti-pattern (err-008):**
+- Wrong: Define CSS vars → Ship (only body changes)
+- Right: Define CSS vars → Update ALL components → Test → Ship
+
+**Source:** [CSS-Tricks Theming](https://css-tricks.com/color-theming-with-css-custom-properties-and-tailwind/)
+
 ---
 
 ## Current Phase: Pre-MVP

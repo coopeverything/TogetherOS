@@ -38,7 +38,13 @@ Context: Current session transcript, commit SHA
 │     ├─ Count occurrences of each error type in THIS session     │
 │     └─ Group by error signature (type + normalized message)     │
 │                                                                 │
-│  3. BRANCH: REPETITIVE OR ONE-OFF?                              │
+│  3. BRANCH: USER-REPORTED, REPETITIVE, OR ONE-OFF?              │
+│     │                                                           │
+│     ├─ IF user explicitly reports a process error:              │
+│     │   ├─ Treat as CONFIRMED PATTERN immediately               │
+│     │   ├─ Skip occurrence counting (user feedback = pattern)   │
+│     │   ├─ Research + document + update KB                      │
+│     │   └─ Record with trigger: "user-reported" in JSON         │
 │     │                                                           │
 │     ├─ IF 2+ same-type errors in session:                       │
 │     │   ├─ Research root cause                                  │

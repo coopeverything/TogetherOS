@@ -80,21 +80,21 @@ export function ReplyComposer({
         placeholder="Write your reply..."
         rows={3}
         className={cn(
-          'w-full px-3 py-2 rounded-md border bg-white dark:bg-gray-800 dark:bg-gray-900',
-          'text-gray-900 dark:text-white dark:text-gray-100 placeholder:text-gray-400',
-          'focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+          'w-full px-3 py-2 rounded-md border bg-bg-1',
+          'text-ink-900 placeholder:text-ink-400',
+          'focus:ring-2 focus:ring-brand-500 focus:border-transparent',
           'resize-vertical text-sm',
-          error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600 dark:border-gray-600'
+          error ? 'border-danger' : 'border-border'
         )}
         disabled={isSubmitting}
       />
 
       {error && (
-        <p className="text-sm text-red-600">{error}</p>
+        <p className="text-sm text-danger">{error}</p>
       )}
 
       <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-ink-400">
           {content.length} / 2000 characters
         </p>
 
@@ -103,7 +103,7 @@ export function ReplyComposer({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:text-white dark:hover:text-gray-100 transition-colors"
+              className="px-3 py-1.5 text-sm font-medium text-ink-700 hover:text-ink-900 transition-colors"
               disabled={isSubmitting}
             >
               Cancel
@@ -115,8 +115,8 @@ export function ReplyComposer({
             disabled={isSubmitting || !content.trim()}
             className={cn(
               'px-3 py-1.5 text-sm font-medium rounded-md',
-              'bg-blue-600 text-white hover:bg-blue-700',
-              'focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+              'bg-brand-600 text-white hover:bg-brand-700',
+              'focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
               'disabled:opacity-50 disabled:cursor-not-allowed',
               'transition-colors'
             )}

@@ -3,6 +3,25 @@
   "errors": [],
   "resolved_patterns": [
     {
+      "id": "err-008",
+      "signature": {
+        "type": "ux-process",
+        "code": "INCOMPLETE_THEME_IMPLEMENTATION",
+        "pattern": "CSS variables defined but components not updated to use design system classes"
+      },
+      "trigger": "user-reported",
+      "occurrences": [
+        {
+          "session_date": "2025-12-05",
+          "context": "Created sage-earth theme in globals.css, mapped to Tailwind config, but forum components still used hardcoded classes (bg-orange-600, bg-white). User saw only body background change."
+        }
+      ],
+      "resolution": "Added Theme Implementation Protocol to togetheros-kb.md. Checklist: 1) Define CSS vars, 2) Map to Tailwind, 3) IDENTIFY affected components, 4) UPDATE EACH component to use design system classes, 5) TEST with toggle.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-05T16:15:00Z",
+      "source": "https://css-tricks.com/color-theming-with-css-custom-properties-and-tailwind/"
+    },
+    {
       "signature": {
         "type": "runtime",
         "code": "MISSING_EXPORT",
@@ -82,5 +101,5 @@
       "source": null
     }
   ],
-  "last_updated": "2025-12-04T03:15:00Z"
+  "last_updated": "2025-12-05T16:15:00Z"
 }
