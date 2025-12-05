@@ -11,56 +11,6 @@ import Link from 'next/link'
 import { MetricsDashboard } from '@togetheros/ui/metrics'
 import type { MetricsAnalytics } from '@togetheros/types'
 
-// Fixture data for development
-const fixtureAnalytics: MetricsAnalytics = {
-  totalInitiatives: 47,
-  evaluatedCount: 32,
-  overallSuccessRate: 68,
-  successByCategory: {
-    community_project: 72,
-    platform_feature: 58,
-    event: 81,
-    policy: 55,
-    infrastructure: 70,
-    education: 85,
-    custom: 50,
-  },
-  failurePatterns: [
-    {
-      description: 'Unrealistic timelines set during planning phase',
-      frequency: 8,
-      affectedCategories: ['platform_feature', 'infrastructure'],
-      preventiveMeasures: [
-        'Add buffer time (20-30%) to initial estimates',
-        'Break initiatives into smaller phases',
-        'Include risk assessment in planning',
-      ],
-    },
-    {
-      description: 'Insufficient community engagement before launch',
-      frequency: 6,
-      affectedCategories: ['community_project', 'policy'],
-      preventiveMeasures: [
-        'Conduct stakeholder interviews during research phase',
-        'Create feedback loops during implementation',
-        'Set engagement metrics as mandatory success criteria',
-      ],
-    },
-    {
-      description: 'Metrics defined too late in project lifecycle',
-      frequency: 5,
-      affectedCategories: ['community_project', 'platform_feature', 'event'],
-      preventiveMeasures: [
-        'Define metrics during proposal phase (not delivery)',
-        'Use metric templates for common initiative types',
-        'Review metrics definition before voting phase',
-      ],
-    },
-  ],
-  minorityValidationRate: 0.42,
-  improvementSuccessRate: 0.71,
-}
-
 export default function MetricsAnalyticsPage() {
   const [analytics, setAnalytics] = useState<MetricsAnalytics | null>(null)
   const [loading, setLoading] = useState(true)
@@ -71,15 +21,12 @@ export default function MetricsAnalyticsPage() {
       try {
         setLoading(true)
 
-        // TODO: Replace with actual API call when implemented
-        // const response = await fetch('/api/metrics/analytics')
-        // if (!response.ok) throw new Error(`Failed to fetch analytics: ${response.statusText}`)
-        // const data = await response.json()
-        // setAnalytics(data)
-
-        // Using fixture data for now
-        await new Promise(resolve => setTimeout(resolve, 500))
-        setAnalytics(fixtureAnalytics)
+        const response = await fetch('/api/initiative-metrics/analytics')
+        if (!response.ok) {
+          throw new Error(`Failed to fetch analytics: ${response.statusText}`)
+        }
+        const data = await response.json()
+        setAnalytics(data.analytics)
       } catch (err: unknown) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to load analytics'
         console.error('Error fetching analytics:', err)
@@ -190,14 +137,6 @@ export default function MetricsAnalyticsPage() {
         </div>
       </div>
 
-      {/* Data Note */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mt-8">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          <strong>Note:</strong> Analytics are displayed using sample data for demonstration.
-          Production data will be aggregated from actual initiative metrics once the module is
-          fully integrated with the database.
-        </p>
-      </div>
     </div>
   )
 }
