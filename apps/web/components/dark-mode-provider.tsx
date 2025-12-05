@@ -7,7 +7,12 @@ export const THEMES = [
   'default',
   'sage-earth',
   'fresh-peach',
-  'mango-popsicle',
+  'gothic-noir',
+  'yacht-club',
+  'quiet-luxury',
+  'night-sands',
+  'old-photograph',
+  'cappuccino',
   'sunny-day',
   'cool-revival',
   'sharp-edge',
@@ -17,6 +22,26 @@ export const THEMES = [
   'quite-clear',
 ] as const;
 export type Theme = (typeof THEMES)[number];
+
+// Theme display info with color swatches
+export const THEME_INFO: Record<Theme, { name: string; colors: string[] }> = {
+  'default': { name: 'Default', colors: ['#FAFAF9', '#059669', '#F59E0B', '#0F172A'] },
+  'sage-earth': { name: 'Sage Earth', colors: ['#e3d8bf', '#a3b8a7', '#c4956a', '#2c4a5e'] },
+  'fresh-peach': { name: 'Fresh Peach', colors: ['#FFD3AC', '#FFB5AB', '#E39A7B', '#BDD06B'] },
+  'gothic-noir': { name: 'Gothic Noir', colors: ['#000000', '#D1D0D0', '#988686', '#5C4E4E'] },
+  'yacht-club': { name: 'Yacht Club', colors: ['#F2F0EF', '#BBBDBC', '#245F73', '#733E24'] },
+  'quiet-luxury': { name: 'Quiet Luxury', colors: ['#F7E6CA', '#E8D59E', '#D9BBB0', '#AD9C8E'] },
+  'night-sands': { name: 'Night Sands', colors: ['#CBBD93', '#FAE8B4', '#80775C', '#574A24'] },
+  'old-photograph': { name: 'Old Photograph', colors: ['#FDFBD4', '#D9B7B6', '#878672', '#545333'] },
+  'cappuccino': { name: 'Cappuccino', colors: ['#D6B588', '#C6C0B9', '#705E46', '#422701'] },
+  'sunny-day': { name: 'Sunny Day', colors: ['#FFBF00', '#807040', '#007EFF', '#2400FF'] },
+  'cool-revival': { name: 'Cool Revival', colors: ['#00FFFF', '#00AEFF', '#00DE94', '#00FF52'] },
+  'sharp-edge': { name: 'Sharp Edge', colors: ['#898989', '#D9D9D9', '#FF4D4D', '#4DFFBC'] },
+  'tropical-punch': { name: 'Tropical Punch', colors: ['#FF8243', '#FFC0CB', '#FCE883', '#069494'] },
+  'cobalt-sky': { name: 'Cobalt Sky', colors: ['#0047AB', '#000080', '#82C8E5', '#6D8196'] },
+  'salt-pepper': { name: 'Salt & Pepper', colors: ['#FFFFFF', '#D4D4D4', '#B3B3B3', '#2B2B2B'] },
+  'quite-clear': { name: 'Quite Clear', colors: ['#CBCBCB', '#F2F2F2', '#174D38', '#4D1717'] },
+};
 
 interface DarkModeContextType {
   darkMode: boolean;
@@ -137,17 +162,9 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
         className="px-3 py-1.5 rounded-md border text-sm bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
         aria-label="Select theme"
       >
-        <option value="default">Default</option>
-        <option value="sage-earth">Sage Earth</option>
-        <option value="fresh-peach">Fresh Peach</option>
-        <option value="mango-popsicle">Mango Popsicle</option>
-        <option value="sunny-day">Sunny Day</option>
-        <option value="cool-revival">Cool Revival</option>
-        <option value="sharp-edge">Sharp Edge</option>
-        <option value="tropical-punch">Tropical Punch</option>
-        <option value="cobalt-sky">Cobalt Sky</option>
-        <option value="salt-pepper">Salt & Pepper</option>
-        <option value="quite-clear">Quite Clear</option>
+        {THEMES.map((t) => (
+          <option key={t} value={t}>{THEME_INFO[t].name}</option>
+        ))}
       </select>
       <button
         onClick={toggleDarkMode}
@@ -157,5 +174,114 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
         {darkMode ? '☀️' : '🌙'}
       </button>
     </div>
+  );
+}
+
+export function ThemePicker({ className = '' }: { className?: string }) {
+  const { theme, setTheme, darkMode, toggleDarkMode } = useDarkMode();
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleSelect = (newTheme: Theme) => {
+    setTheme(newTheme);
+    setIsOpen(false);
+  };
+
+  return (
+    <>
+      {/* Trigger Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className={`px-4 py-2 rounded-md border text-sm font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-2 ${className}`}
+      >
+        <span className="flex gap-0.5">
+          {THEME_INFO[theme].colors.map((color, i) => (
+            <span
+              key={i}
+              className="w-3 h-3 rounded-sm border border-black/20"
+              style={{ backgroundColor: color }}
+            />
+          ))}
+        </span>
+        Pick Theme
+      </button>
+
+      {/* Modal Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
+        >
+          {/* Modal Panel */}
+          <div
+            className="bg-[var(--bg-1)] border border-[var(--border)] rounded-xl shadow-2xl w-full max-w-md lg:max-w-lg mx-4 max-h-[80vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)]">
+              <h2 className="text-lg font-semibold text-[var(--ink-900)]">Pick Your Theme</h2>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleDarkMode}
+                  className="px-3 py-1.5 rounded-md border text-sm bg-[var(--bg-2)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-0)] transition-colors"
+                >
+                  {darkMode ? '☀️ Light' : '🌙 Dark'}
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-[var(--ink-400)] hover:text-[var(--ink-900)] transition-colors"
+                  aria-label="Close"
+                >
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Theme List */}
+            <div className="p-4 overflow-y-auto max-h-[60vh]">
+              <div className="grid gap-2">
+                {THEMES.map((t) => {
+                  const info = THEME_INFO[t];
+                  const isSelected = theme === t;
+                  return (
+                    <button
+                      key={t}
+                      onClick={() => handleSelect(t)}
+                      className={`flex items-center gap-4 px-4 py-3 rounded-lg border transition-all text-left ${
+                        isSelected
+                          ? 'border-[var(--brand-500)] bg-[var(--brand-100)] ring-2 ring-[var(--brand-500)]'
+                          : 'border-[var(--border)] hover:bg-[var(--bg-2)] hover:border-[var(--ink-400)]'
+                      }`}
+                    >
+                      {/* Color Swatches */}
+                      <div className="flex gap-1">
+                        {info.colors.map((color, i) => (
+                          <span
+                            key={i}
+                            className="w-6 h-6 rounded border border-black/20 shadow-sm"
+                            style={{ backgroundColor: color }}
+                          />
+                        ))}
+                      </div>
+                      {/* Theme Name */}
+                      <span className={`font-medium ${isSelected ? 'text-[var(--brand-600)]' : 'text-[var(--ink-900)]'}`}>
+                        {info.name}
+                      </span>
+                      {/* Checkmark */}
+                      {isSelected && (
+                        <svg className="w-5 h-5 ml-auto text-[var(--brand-600)]" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

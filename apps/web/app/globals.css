@@ -207,26 +207,141 @@
 }
 
 /* ============================================
-   MANGO-POPSICLE Theme
-   Warm yellows and vibrant orange
+   GOTHIC-NOIR Theme
+   Dark elegance with mauve accents
    ============================================ */
-[data-theme="mango-popsicle"] {
-  --bg-0: #EDD377; --bg-1: #FFF8E1; --bg-2: #F2E829;
-  --ink-900: #4A3A0A; --ink-700: #6A5A2A; --ink-400: #A08A4A;
-  --border: #F2B949;
-  --brand-600: #F27430; --brand-500: #F2944D; --brand-100: #FFE8D9;
-  --joy-600: #F2E829; --joy-500: #F5EE6D; --joy-100: #FFFCE8;
-  --success: #8A9A2A; --success-bg: #F5F8D9; --info: #6A5A2A; --info-bg: #FFF8E1;
-  --warn: #F27430; --warn-bg: #FFE8D9; --danger: #D44D00; --danger-bg: #FFE4D9;
+[data-theme="gothic-noir"] {
+  --bg-0: #D1D0D0; --bg-1: #E8E8E8; --bg-2: #C0BFBF;
+  --ink-900: #000000; --ink-700: #2A2A2A; --ink-400: #5C4E4E;
+  --border: #988686;
+  --brand-600: #5C4E4E; --brand-500: #6E6060; --brand-100: #E8E0E0;
+  --joy-600: #988686; --joy-500: #A89898; --joy-100: #F0E8E8;
+  --success: #5C6E5C; --success-bg: #E0E8E0; --info: #4E5C5C; --info-bg: #E0E8E8;
+  --warn: #6E5C4E; --warn-bg: #F0E8E0; --danger: #6E4E4E; --danger-bg: #F0E0E0;
 }
-[data-theme="mango-popsicle"].dark, .dark[data-theme="mango-popsicle"] {
-  --bg-0: #2A2008; --bg-1: #3A3018; --bg-2: #4A4028;
-  --ink-900: #EDD377; --ink-700: #D4BA60; --ink-400: #A08A4A;
-  --border: #5A4A20;
-  --brand-600: #F2944D; --brand-500: #F5A86D; --brand-100: #3A2A10;
-  --joy-600: #F5EE6D; --joy-500: #F8F490; --joy-100: #3A3810;
-  --success: #BDD06B; --success-bg: #2A3010; --info: #D4BA60; --info-bg: #3A3018;
-  --warn: #F2944D; --warn-bg: #3A2A10; --danger: #FF8060; --danger-bg: #3A2020;
+[data-theme="gothic-noir"].dark, .dark[data-theme="gothic-noir"] {
+  --bg-0: #000000; --bg-1: #1A1818; --bg-2: #2A2828;
+  --ink-900: #D1D0D0; --ink-700: #B0AFAF; --ink-400: #5C4E4E;
+  --border: #3A3838;
+  --brand-600: #988686; --brand-500: #A89898; --brand-100: #2A2020;
+  --joy-600: #A89898; --joy-500: #B8A8A8; --joy-100: #2A2020;
+  --success: #8A9A8A; --success-bg: #202820; --info: #8A9A9A; --info-bg: #202828;
+  --warn: #9A8A7A; --warn-bg: #282420; --danger: #9A7A7A; --danger-bg: #282020;
+}
+
+/* ============================================
+   YACHT-CLUB Theme
+   Coastal elegance with teal and rust
+   ============================================ */
+[data-theme="yacht-club"] {
+  --bg-0: #F2F0EF; --bg-1: #FFFFFF; --bg-2: #E8E6E5;
+  --ink-900: #245F73; --ink-700: #3A7080; --ink-400: #BBBDBC;
+  --border: #D0D2D1;
+  --brand-600: #245F73; --brand-500: #3A7888; --brand-100: #D8F0F8;
+  --joy-600: #733E24; --joy-500: #8A5038; --joy-100: #F8E8E0;
+  --success: #245F73; --success-bg: #D8F0F8; --info: #3A7080; --info-bg: #E0F0F4;
+  --warn: #733E24; --warn-bg: #F8E8E0; --danger: #8A3030; --danger-bg: #F8E0E0;
+}
+[data-theme="yacht-club"].dark, .dark[data-theme="yacht-club"] {
+  --bg-0: #102028; --bg-1: #182830; --bg-2: #203038;
+  --ink-900: #F2F0EF; --ink-700: #D0D2D1; --ink-400: #6A7878;
+  --border: #304048;
+  --brand-600: #4A98A8; --brand-500: #5AA8B8; --brand-100: #183038;
+  --joy-600: #A86850; --joy-500: #B87860; --joy-100: #302018;
+  --success: #4A98A8; --success-bg: #183038; --info: #5AA8B8; --info-bg: #182830;
+  --warn: #A86850; --warn-bg: #302018; --danger: #A85050; --danger-bg: #301818;
+}
+
+/* ============================================
+   QUIET-LUXURY Theme
+   Warm beiges and blush tones
+   ============================================ */
+[data-theme="quiet-luxury"] {
+  --bg-0: #F7E6CA; --bg-1: #FFF8F0; --bg-2: #E8D59E;
+  --ink-900: #5C4A3A; --ink-700: #7A6858; --ink-400: #AD9C8E;
+  --border: #D9BBB0;
+  --brand-600: #8A7868; --brand-500: #9A8878; --brand-100: #F8F0E8;
+  --joy-600: #D9BBB0; --joy-500: #E8CAC0; --joy-100: #FFF8F4;
+  --success: #7A8A6A; --success-bg: #F0F8E8; --info: #6A7A8A; --info-bg: #E8F0F8;
+  --warn: #A88A6A; --warn-bg: #F8F0E0; --danger: #A86A6A; --danger-bg: #F8E8E8;
+}
+[data-theme="quiet-luxury"].dark, .dark[data-theme="quiet-luxury"] {
+  --bg-0: #2A2418; --bg-1: #3A3028; --bg-2: #4A4038;
+  --ink-900: #F7E6CA; --ink-700: #E8D59E; --ink-400: #8A7868;
+  --border: #5A4A3A;
+  --brand-600: #C8B8A8; --brand-500: #D8C8B8; --brand-100: #3A3028;
+  --joy-600: #E8CAC0; --joy-500: #F0D8D0; --joy-100: #3A2828;
+  --success: #A0B090; --success-bg: #283020; --info: #90A0B0; --info-bg: #202830;
+  --warn: #C8A880; --warn-bg: #302818; --danger: #C08080; --danger-bg: #302020;
+}
+
+/* ============================================
+   NIGHT-SANDS Theme
+   Sandy golden desert tones
+   ============================================ */
+[data-theme="night-sands"] {
+  --bg-0: #FAE8B4; --bg-1: #FFF8E8; --bg-2: #CBBD93;
+  --ink-900: #574A24; --ink-700: #6A5A30; --ink-400: #80775C;
+  --border: #C0B080;
+  --brand-600: #80775C; --brand-500: #908868; --brand-100: #F8F0D8;
+  --joy-600: #A89860; --joy-500: #B8A870; --joy-100: #FFF8E0;
+  --success: #6A8050; --success-bg: #E8F0D8; --info: #5A6A70; --info-bg: #E0E8F0;
+  --warn: #A88840; --warn-bg: #F8F0D0; --danger: #A06040; --danger-bg: #F8E8E0;
+}
+[data-theme="night-sands"].dark, .dark[data-theme="night-sands"] {
+  --bg-0: #1A1810; --bg-1: #282418; --bg-2: #383020;
+  --ink-900: #FAE8B4; --ink-700: #CBBD93; --ink-400: #80775C;
+  --border: #4A4030;
+  --brand-600: #B8A870; --brand-500: #C8B880; --brand-100: #2A2818;
+  --joy-600: #C8B070; --joy-500: #D8C080; --joy-100: #302810;
+  --success: #90A870; --success-bg: #203010; --info: #8090A0; --info-bg: #182028;
+  --warn: #C8A050; --warn-bg: #302810; --danger: #C08060; --danger-bg: #301810;
+}
+
+/* ============================================
+   OLD-PHOTOGRAPH Theme
+   Vintage sepia tones
+   ============================================ */
+[data-theme="old-photograph"] {
+  --bg-0: #FDFBD4; --bg-1: #FFFEF0; --bg-2: #F0EEC8;
+  --ink-900: #545333; --ink-700: #6A6848; --ink-400: #878672;
+  --border: #D9B7B6;
+  --brand-600: #6A6848; --brand-500: #7A7858; --brand-100: #F0F0E0;
+  --joy-600: #D9B7B6; --joy-500: #E8C8C8; --joy-100: #FFF0F0;
+  --success: #5A6A4A; --success-bg: #E8F0E0; --info: #5A5A6A; --info-bg: #E8E8F0;
+  --warn: #8A7A4A; --warn-bg: #F8F0D8; --danger: #8A5A5A; --danger-bg: #F8E8E8;
+}
+[data-theme="old-photograph"].dark, .dark[data-theme="old-photograph"] {
+  --bg-0: #1A1A10; --bg-1: #282818; --bg-2: #383820;
+  --ink-900: #FDFBD4; --ink-700: #D0CEB0; --ink-400: #6A6848;
+  --border: #4A4838;
+  --brand-600: #A0A080; --brand-500: #B0B090; --brand-100: #282818;
+  --joy-600: #E8C8C8; --joy-500: #F0D8D8; --joy-100: #302020;
+  --success: #90A880; --success-bg: #203018; --info: #9090A0; --info-bg: #202028;
+  --warn: #B8A060; --warn-bg: #302810; --danger: #B08080; --danger-bg: #302020;
+}
+
+/* ============================================
+   CAPPUCCINO Theme
+   Rich coffee browns
+   ============================================ */
+[data-theme="cappuccino"] {
+  --bg-0: #D6B588; --bg-1: #F0E8E0; --bg-2: #C6C0B9;
+  --ink-900: #422701; --ink-700: #5A3A10; --ink-400: #705E46;
+  --border: #B0A090;
+  --brand-600: #705E46; --brand-500: #806E56; --brand-100: #F0E8D8;
+  --joy-600: #A08060; --joy-500: #B09070; --joy-100: #F8F0E0;
+  --success: #5A7050; --success-bg: #E0F0D8; --info: #506070; --info-bg: #E0E8F0;
+  --warn: #907040; --warn-bg: #F8F0D8; --danger: #804040; --danger-bg: #F8E0E0;
+}
+[data-theme="cappuccino"].dark, .dark[data-theme="cappuccino"] {
+  --bg-0: #1A1008; --bg-1: #2A1810; --bg-2: #3A2818;
+  --ink-900: #D6B588; --ink-700: #C6A578; --ink-400: #705E46;
+  --border: #4A3820;
+  --brand-600: #A08870; --brand-500: #B09880; --brand-100: #2A2010;
+  --joy-600: #B09070; --joy-500: #C0A080; --joy-100: #302010;
+  --success: #80A070; --success-bg: #182810; --info: #8090A0; --info-bg: #181820;
+  --warn: #B09050; --warn-bg: #302010; --danger: #A06060; --danger-bg: #301818;
 }
 
 /* ============================================
