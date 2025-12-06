@@ -44,8 +44,9 @@ export function BrutalistRave() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="bg-gray-700 border-4 p-6 relative overflow-hidden"
+              className="border-4 p-6 relative overflow-hidden"
               style={{
+                background: '#4a4a4a',
                 borderColor: stat.color,
                 boxShadow: `8px 8px 0 ${stat.color}40`,
               }}
@@ -82,7 +83,7 @@ export function BrutalistRave() {
         </div>
 
         {/* Main Content - Concrete Slab */}
-        <div className="bg-gray-600 border-4 border-black mb-6">
+        <div className="border-4 border-black mb-6" style={{ background: '#5a5a5a' }}>
           <div
             className="p-4 border-b-4 border-lime-500"
             style={{ background: '#000000' }}
@@ -100,9 +101,10 @@ export function BrutalistRave() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between p-4 border-b-2 border-gray-700"
+                className="flex items-center justify-between p-4 border-b-2"
                 style={{
                   background: item.alert ? '#1a0000' : '#4a4a4a',
+                  borderColor: '#3a3a3a',
                 }}
               >
                 <div className="flex items-center gap-4">

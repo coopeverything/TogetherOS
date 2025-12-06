@@ -178,17 +178,17 @@ export default function ForumDesignsPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col h-screen bg-bg-1">
       {/* Header Controls */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex-shrink-0">
+      <div className="bg-bg-0 border-b border-border p-4 flex-shrink-0">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-2xl font-bold text-ink-900 mb-4">
             Forum Design Variations
           </h1>
 
           {/* Variant Selector */}
           <div className="flex items-center gap-4 mb-4">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Design:</label>
+            <label className="text-sm font-medium text-ink-700">Design:</label>
             <div className="flex gap-2 flex-wrap">
               {(Object.keys(variants) as VariantKey[]).map((key) => (
                 <button
@@ -197,7 +197,7 @@ export default function ForumDesignsPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                     selectedVariant === key
                       ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-bg-2 text-ink-700 hover:bg-bg-3'
                   }`}
                 >
                   {variants[key].name}
@@ -221,13 +221,13 @@ export default function ForumDesignsPage() {
 
           {/* Data Toggle */}
           <div className="mt-4 flex items-center gap-3">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Data:</label>
+            <label className="text-sm font-medium text-ink-700">Data:</label>
             <button
               onClick={() => setShowMockData(!showMockData)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 showMockData
                   ? 'bg-green-600 text-white'
-                  : 'bg-gray-300 text-gray-600'
+                  : 'bg-bg-3 text-ink-600'
               }`}
             >
               {showMockData ? 'Mock Data (7 topics)' : 'Live Data (coming soon)'}
@@ -247,10 +247,10 @@ export default function ForumDesignsPage() {
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">
+              <p className="text-lg text-ink-600 mb-2">
                 Live data integration coming soon
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+              <p className="text-sm text-ink-400">
                 Enable mock data to preview the design
               </p>
             </div>

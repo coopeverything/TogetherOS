@@ -225,6 +225,11 @@ npm run build
 - Breaking changes or major refactoring
 - When explicitly uncertain
 
+**NEVER Ask About:**
+- Continuing work on remaining admin pages (just do it)
+- Whether to proceed with theme/color conversions (just do it)
+- Stopping points for bulk conversion tasks (keep going until done or user interrupts)
+
 ---
 
 ## Available Skills
