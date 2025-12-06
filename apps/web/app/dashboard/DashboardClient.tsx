@@ -1,9 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Card, Button, Badge, Avatar } from '@/components/ui';
+import Link from 'next/link';
+import { Card, Badge, Avatar } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { ThemePicker } from '@/components/dark-mode-provider';
 
 interface User {
   id: string;
@@ -28,42 +27,10 @@ const COOPERATION_PATHS = [
 ];
 
 export default function DashboardClient({ user }: { user: User }) {
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/login');
-  };
-
   const userPaths = user.paths || [];
 
   return (
     <div className="min-h-screen bg-bg-0">
-      {/* Header */}
-      <header className="bg-bg-1 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              {user.avatar_url && (
-                <Avatar src={user.avatar_url} alt={user.name || 'User'} size="lg" />
-              )}
-              <h1 className="text-sm font-bold text-ink-900">
-                Welcome back{user.name ? `, ${user.name}` : ''}!
-              </h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <ThemePicker />
-              <Button variant="secondary" onClick={() => router.push('/profile')}>
-                Profile
-              </Button>
-              <Button variant="link" onClick={handleLogout}>
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
         {/* Stats Cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
@@ -146,14 +113,13 @@ export default function DashboardClient({ user }: { user: User }) {
         <section>
           <h2 className="text-sm font-bold text-ink-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card
-              className="flex flex-col items-center text-center p-4 cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => router.push('/profile')}
-            >
-              <div className="text-sm mb-3">👤</div>
-              <div className="font-semibold text-ink-900 mb-2">Edit Profile</div>
-              <div className="text-sm text-ink-700">Update your bio, skills, and preferences</div>
-            </Card>
+            <Link href="/profile">
+              <Card className="flex flex-col items-center text-center p-4 cursor-pointer hover:shadow-lg transition-shadow">
+                <div className="text-sm mb-3">👤</div>
+                <div className="font-semibold text-ink-900 mb-2">Edit Profile</div>
+                <div className="text-sm text-ink-700">Update your bio, skills, and preferences</div>
+              </Card>
+            </Link>
 
             <Card className="flex flex-col items-center text-center p-4 cursor-pointer hover:shadow-lg transition-shadow">
               <div className="text-sm mb-3">🗳️</div>

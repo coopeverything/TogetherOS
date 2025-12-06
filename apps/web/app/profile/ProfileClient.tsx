@@ -1,11 +1,9 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card, Button, Badge, Avatar, Input, Textarea, Label, Alert } from '@/components/ui';
 import { TagInput, ProfileCompletionIndicator } from '@togetheros/ui/profiles';
 import { AvatarUpload } from '@/components/profile/AvatarUpload';
-import { ThemePicker } from '@/components/dark-mode-provider';
 import { cn } from '@/lib/utils';
 
 interface User {
@@ -79,7 +77,6 @@ const COMMON_SKILLS = [
 ];
 
 export default function ProfileClient({ initialUser }: { initialUser: User }) {
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState(initialUser);
   const [formData, setFormData] = useState({
@@ -148,31 +145,6 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
     // View Mode
     return (
       <div className="min-h-screen bg-bg-0">
-        <header className="bg-white dark:bg-gray-800 border-b border-border">
-          <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-sm font-bold text-ink-900">Your Profile</h1>
-              <div className="flex items-center gap-3">
-                <ThemePicker />
-                {user.username && (
-                  <Button
-                    variant="secondary"
-                    onClick={() => router.push(`/profile/${user.username}`)}
-                  >
-                    View Public Profile
-                  </Button>
-                )}
-                <Button variant="default" onClick={() => setIsEditing(true)}>
-                  Edit Profile
-                </Button>
-                <Button variant="secondary" onClick={() => router.push('/dashboard')}>
-                  Dashboard
-                </Button>
-              </div>
-            </div>
-          </div>
-        </header>
-
         <main className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4 space-y-2">
           {/* Profile Completion Indicator */}
           <ProfileCompletionIndicator user={user} />
@@ -346,17 +318,6 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
   // Edit Mode
   return (
     <div className="min-h-screen bg-bg-0">
-      <header className="bg-white dark:bg-gray-800 border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-sm font-bold text-ink-900">Edit Profile</h1>
-            <Button variant="secondary" onClick={() => setIsEditing(false)}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      </header>
-
       <main className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
         <form onSubmit={handleSubmit}>
           <Card className="p-4 space-y-2">
@@ -656,9 +617,14 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
               </Alert>
             )}
 
-            <Button type="submit" variant="default" disabled={state === 'saving'} className="w-full">
-              {state === 'saving' ? 'Saving...' : 'Save Changes'}
-            </Button>
+            <div className="flex gap-3">
+              <Button type="submit" variant="default" disabled={state === 'saving'} className="flex-1">
+                {state === 'saving' ? 'Saving...' : 'Save Changes'}
+              </Button>
+              <Button type="button" variant="secondary" onClick={() => setIsEditing(false)}>
+                Cancel
+              </Button>
+            </div>
           </Card>
         </form>
       </main>
