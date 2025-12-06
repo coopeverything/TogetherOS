@@ -48,7 +48,7 @@ export default function MetricTemplatesPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-gray-600 dark:text-gray-400">Loading templates...</p>
+          <p className="text-lg text-ink-700">Loading templates...</p>
         </div>
       </div>
     )
@@ -57,11 +57,11 @@ export default function MetricTemplatesPage() {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-900 dark:text-red-100 mb-2">
+        <div className="bg-red-50/20 border border-red-200 rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-red-900 mb-2">
             Error Loading Templates
           </h2>
-          <p className="text-red-700 dark:text-red-300">{error}</p>
+          <p className="text-red-700">{error}</p>
         </div>
       </div>
     )
@@ -71,14 +71,14 @@ export default function MetricTemplatesPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm">
-        <ol className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+        <ol className="flex items-center gap-2 text-ink-400">
           <li>
-            <Link href="/metrics" className="hover:text-orange-600 dark:hover:text-orange-400">
+            <Link href="/metrics" className="hover:text-orange-600">
               Metrics
             </Link>
           </li>
           <li>/</li>
-          <li className="text-gray-900 dark:text-white">Templates</li>
+          <li className="text-ink-900">Templates</li>
         </ol>
       </nav>
 
@@ -89,11 +89,11 @@ export default function MetricTemplatesPage() {
       />
 
       {/* Info Box */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mt-8">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+      <div className="bg-bg-0 rounded-lg border border-border p-6 mt-8">
+        <h3 className="text-lg font-semibold text-ink-900 mb-2">
           About Metric Templates
         </h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-ink-700">
           Templates are reusable sets of metrics for common initiative types. Using templates
           ensures consistent measurement across similar initiatives and helps identify patterns
           over time. Success rates are calculated based on initiatives that used each template
