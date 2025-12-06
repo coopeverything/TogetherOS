@@ -6,6 +6,7 @@
 
 import './globals.css';
 import { DarkModeProvider } from '@/components/dark-mode-provider';
+import { DensityProvider } from '@/components/density-provider';
 import { ToastProvider } from '@/components/ui/toast';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -25,12 +26,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col min-h-screen">
         <DarkModeProvider>
-          <ToastProvider>
-            <Navigation />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <CookieConsent />
-          </ToastProvider>
+          <DensityProvider>
+            <ToastProvider>
+              <Navigation />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <CookieConsent />
+            </ToastProvider>
+          </DensityProvider>
         </DarkModeProvider>
       </body>
     </html>

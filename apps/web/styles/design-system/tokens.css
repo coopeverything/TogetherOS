@@ -132,6 +132,55 @@
   --content-7xl: 80rem;   /* 1280px */
   --content-full: 100%;
   --content-prose: 65ch;  /* Optimal reading width */
+
+  /* ========================================
+   * DENSITY SCALE (Compact Default on Desktop)
+   * Desktop: 110% of base compact (--density: 1.1)
+   * Mobile: 125% for comfortable touch targets
+   * ======================================== */
+  --density: 1.1;
+
+  /* Density-Scaled Spacing */
+  --space-density-1: calc(0.25rem * var(--density));
+  --space-density-2: calc(0.5rem * var(--density));
+  --space-density-3: calc(0.75rem * var(--density));
+  --space-density-4: calc(1rem * var(--density));
+  --space-density-5: calc(1.25rem * var(--density));
+  --space-density-6: calc(1.5rem * var(--density));
+  --space-density-8: calc(2rem * var(--density));
+
+  /* Density-Scaled Typography */
+  --fs-density-xs: calc(0.75rem * var(--density));
+  --fs-density-sm: calc(0.875rem * var(--density));
+  --fs-density-base: calc(1rem * var(--density));
+  --fs-density-lg: calc(1.125rem * var(--density));
+  --fs-density-xl: calc(1.25rem * var(--density));
+  --fs-density-2xl: calc(1.5rem * var(--density));
+
+  /* Density-Scaled Gaps */
+  --gap-density-1: calc(0.25rem * var(--density));
+  --gap-density-2: calc(0.5rem * var(--density));
+  --gap-density-3: calc(0.75rem * var(--density));
+  --gap-density-4: calc(1rem * var(--density));
+  --gap-density-6: calc(1.5rem * var(--density));
+
+  /* Density-Scaled Border Radius */
+  --radius-density-sm: calc(0.125rem * var(--density));
+  --radius-density-md: calc(0.375rem * var(--density));
+  --radius-density-lg: calc(0.5rem * var(--density));
+  --radius-density-xl: calc(0.75rem * var(--density));
+}
+
+/* Mobile: Use comfortable density (larger touch targets) */
+@media (max-width: 768px) {
+  :root {
+    --density: 1.25;
+  }
+}
+
+/* User preference: Comfortable density mode */
+[data-density="comfortable"] {
+  --density: 1.25;
 }
 
 /* ========================================
