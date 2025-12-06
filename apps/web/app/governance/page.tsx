@@ -1,4 +1,4 @@
-*
+/**
  * Governance List Page
  *
  * Displays all proposals with filtering options
@@ -72,7 +72,7 @@ export default function GovernancePage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading proposals...</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Loading proposals...</p>
         </div>
       </div>
     )
@@ -91,28 +91,28 @@ export default function GovernancePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {Header */}
+      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-bold text-ink-900">Governance & Proposals</h1>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Governance & Proposals</h1>
             <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">
               API Complete
             </span>
           </div>
         </div>
-        <p className="text-lg text-ink-700 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
           Create, deliberate, and decide on proposals using transparent, consent-based governance with minority protections.
         </p>
       </div>
 
-      {What This Module Does */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-ink-900 mb-4">What This Module Does</h2>
+      {/* What This Module Does */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">What This Module Does</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-lg font-medium text-ink-900 mb-2">Core Features</h3>
-            <ul className="space-y-2 text-ink-700">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
                 Create individual or group proposals
@@ -140,7 +140,7 @@ export default function GovernancePage() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-ink-900 mb-2">Cooperation Paths</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                 Collective Governance
@@ -153,7 +153,7 @@ export default function GovernancePage() {
         </div>
       </div>
 
-      {Proposal List */}
+      {/* Proposal List */}
       <ProposalList
         proposals={proposals}
         authorNames={authorNames}
@@ -161,7 +161,7 @@ export default function GovernancePage() {
         onCreateProposal={handleCreateProposal}
       />
 
-      {For Developers */}
+      {/* For Developers */}
       <div className="bg-bg-2 rounded-lg border border-border p-4 mt-8">
         <p className="text-ink-700 flex items-center gap-2">
           <span className="font-medium">For Developers:</span>

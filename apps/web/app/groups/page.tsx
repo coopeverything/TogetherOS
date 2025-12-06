@@ -12,12 +12,12 @@ export default function GroupsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {Header */}
+      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-bold text-ink-900">Groups & Organizations</h1>
-            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Groups & Organizations</h1>
+            <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
               100% Complete
             </span>
           </div>
@@ -28,18 +28,18 @@ export default function GroupsPage() {
             Create Group
           </Link>
         </div>
-        <p className="text-lg text-ink-700 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300 max-w-3xl">
           Create and manage cooperative groups, organizations, and communities with transparent governance and shared resources.
         </p>
       </div>
 
-      {What This Module Will Do */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-ink-900 mb-4">What This Module Will Do</h2>
+      {/* What This Module Will Do */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">What This Module Will Do</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-lg font-medium text-ink-900 mb-2">Core Features</h3>
-            <ul className="space-y-2 text-ink-700">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
                 Create and join cooperative groups
@@ -63,15 +63,15 @@ export default function GroupsPage() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-ink-900 mb-2">Cooperation Paths</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm rounded-full">
                 Community Connection
               </span>
-              <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full">
                 Collective Governance
               </span>
-              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded-full">
                 Social Economy
               </span>
             </div>
@@ -79,13 +79,13 @@ export default function GroupsPage() {
         </div>
       </div>
 
-      {Group List */}
+      {/* Group List */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-ink-900 mb-6">Browse Groups</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Browse Groups</h2>
         <GroupList groups={groups} />
       </div>
 
-      {For Developers */}
+      {/* For Developers */}
       <div className="bg-bg-2 rounded-lg border border-border p-4">
         <p className="text-ink-700 flex items-center gap-2">
           <span className="font-medium">For Developers:</span>

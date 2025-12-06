@@ -14,7 +14,7 @@ const EVENT_COLORS: Record<EventType, string> = {
   'gathering.social': 'bg-green-100 border-green-300 text-green-800',
   'gathering.workshop': 'bg-orange-100 border-orange-300 text-orange-800',
   'gathering.celebration': 'bg-pink-100 border-pink-300 text-pink-800',
-  'reminder.custom': 'bg-bg-2 border-border text-ink-900',
+  'reminder.custom': 'bg-gray-100 border-gray-300 text-gray-800',
 }
 
 const EVENT_LABELS: Record<EventType, string> = {
@@ -138,11 +138,11 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {Header */}
+        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-ink-900">Events & Calendar</h1>
-            <p className="text-ink-700 mt-1">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Events & Calendar</h1>
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
               Community events, meetings, and milestones
             </p>
           </div>
@@ -158,35 +158,35 @@ export default function EventsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {Sidebar */}
+          {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
-            {Upcoming Events */}
-            <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
-              <h2 className="font-semibold text-ink-900 mb-4">Upcoming Events</h2>
+            {/* Upcoming Events */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+              <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Upcoming Events</h2>
               {loading ? (
-                <div className="text-ink-400 text-sm">Loading...</div>
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm">Loading...</div>
               ) : upcomingEvents.length === 0 ? (
-                <div className="text-ink-400 text-sm">No upcoming events</div>
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm">No upcoming events</div>
               ) : (
                 <div className="space-y-3">
                   {upcomingEvents.map((event) => (
                     <Link
                       key={event.id}
                       href={`/events/${event.id}`}
-                      className="block p-3 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                      className="block p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
                     >
                       <div className="flex items-start gap-3">
                         <div className="text-center min-w-[50px]">
-                          <div className="text-xs text-ink-400 uppercase">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase">
                             {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
                           </div>
-                          <div className="text-xl font-bold text-ink-900">
+                          <div className="text-xl font-bold text-gray-900 dark:text-white">
                             {new Date(event.startDate).getDate()}
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-ink-900 truncate">{event.title}</div>
-                          <div className="text-sm text-ink-400">{formatTime(event.startDate)}</div>
+                          <div className="font-medium text-gray-900 dark:text-white truncate">{event.title}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{formatTime(event.startDate)}</div>
                           <span className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full ${EVENT_COLORS[event.type]}`}>
                             {EVENT_LABELS[event.type]}
                           </span>
@@ -198,9 +198,9 @@ export default function EventsPage() {
               )}
             </div>
 
-            {Event Type Filter */}
-            <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
-              <h2 className="font-semibold text-ink-900 mb-4">Filter by Type</h2>
+            {/* Event Type Filter */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+              <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Filter by Type</h2>
               <div className="space-y-2">
                 {(Object.keys(EVENT_LABELS) as EventType[]).map((type) => (
                   <label
@@ -217,7 +217,7 @@ export default function EventsPage() {
                           setSelectedTypes(selectedTypes.filter((t) => t !== type))
                         }
                       }}
-                      className="rounded border-border text-blue-600 focus:ring-blue-500"
+                      className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                     />
                     <span className={`text-sm px-2 py-0.5 rounded-full ${EVENT_COLORS[type]}`}>
                       {EVENT_LABELS[type]}
@@ -228,26 +228,26 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {Calendar */}
+          {/* Calendar */}
           <div className="lg:col-span-3">
-            <div className="bg-bg-1 rounded-lg shadow-sm border border-border">
-              {Calendar Header */}
-              <div className="flex items-center justify-between p-4 border-b border-border">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+              {/* Calendar Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => navigateMonth(-1)}
-                    className="p-2 hover:bg-bg-2 rounded-lg transition-colors"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 rounded-lg transition-colors"
                   >
-                    <svg className="w-5 h-5 text-ink-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  <h2 className="text-xl font-semibold text-ink-900">{monthName}</h2>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{monthName}</h2>
                   <button
                     onClick={() => navigateMonth(1)}
-                    className="p-2 hover:bg-bg-2 rounded-lg transition-colors"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 rounded-lg transition-colors"
                   >
-                    <svg className="w-5 h-5 text-ink-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
@@ -260,18 +260,18 @@ export default function EventsPage() {
                 </button>
               </div>
 
-              {Calendar Grid */}
+              {/* Calendar Grid */}
               <div className="p-4">
-                {Weekday Headers */}
+                {/* Weekday Headers */}
                 <div className="grid grid-cols-7 mb-2">
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                    <div key={day} className="text-center text-sm font-medium text-ink-400 py-2">
+                    <div key={day} className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 py-2">
                       {day}
                     </div>
                   ))}
                 </div>
 
-                {Days Grid */}
+                {/* Days Grid */}
                 <div className="grid grid-cols-7 gap-1">
                   {days.map((date, i) => {
                     const isCurrentMonth = date.getMonth() === currentDate.getMonth()
@@ -285,12 +285,12 @@ export default function EventsPage() {
                       <div
                         key={i}
                         className={`min-h-[100px] p-1 border border-gray-100 rounded-lg ${
-                          isCurrentMonth ? 'bg-bg-1' : 'bg-bg-0'
+                          isCurrentMonth ? 'bg-white dark:bg-gray-800' : 'bg-gray-50'
                         } ${isToday ? 'ring-2 ring-blue-500' : ''}`}
                       >
                         <div
                           className={`text-sm font-medium mb-1 ${
-                            isCurrentMonth ? 'text-ink-900' : 'text-ink-400'
+                            isCurrentMonth ? 'text-gray-900 dark:text-white' : 'text-gray-400'
                           } ${isToday ? 'text-blue-600' : ''}`}
                         >
                           {date.getDate()}
@@ -306,7 +306,7 @@ export default function EventsPage() {
                             </Link>
                           ))}
                           {filteredDayEvents.length > 3 && (
-                            <div className="text-xs text-ink-400 pl-1">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 pl-1">
                               +{filteredDayEvents.length - 3} more
                             </div>
                           )}
