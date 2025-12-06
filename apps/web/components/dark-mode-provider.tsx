@@ -9,7 +9,6 @@ export const THEMES = [
   'zinc-minimal',
   'zinc-sage',
   'zinc-sage-ext',
-  'stone-warm',
   'pure-grayscale',
   'pebble',
   // Base themes (from base.css)
@@ -58,7 +57,6 @@ export const THEME_INFO: Record<Theme, { name: string; colors: string[] }> = {
   'zinc-minimal': { name: 'Zinc Minimal', colors: ['#FAFAFA', '#71717A', '#52525B', '#18181B'] },
   'zinc-sage': { name: 'Zinc Sage', colors: ['#FAFAFA', '#84A98C', '#52796F', '#2F3E46'] },
   'zinc-sage-ext': { name: 'Zinc Sage Extended', colors: ['#FAFAFA', '#84A98C', '#B56576', '#2F3E46'] },
-  'stone-warm': { name: 'Stone Warm', colors: ['#F5F5F4', '#A8A29E', '#78716C', '#1C1917'] },
   'pure-grayscale': { name: 'Pure Grayscale', colors: ['#FFFFFF', '#9CA3AF', '#4B5563', '#111827'] },
   'pebble': { name: 'Pebble', colors: ['#E8E4DD', '#A8A8A0', '#706F6C', '#3B3B3A'] },
   // Base themes

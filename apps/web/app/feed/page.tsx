@@ -245,7 +245,7 @@ export default function FeedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-bg-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
         {/* Two-column grid layout: Feed (left) + Sidebar (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -255,13 +255,13 @@ export default function FeedPage() {
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h1 className="text-sm font-bold text-gray-900 dark:text-white">Feed</h1>
-                  <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
+                  <h1 className="text-sm font-bold text-ink-900">Feed</h1>
+                  <p className="text-ink-400 mt-1">
                     Community posts and imported content
                   </p>
                 </div>
                 <button
-                  className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-joy-500 text-white rounded-full hover:bg-joy-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => setComposerOpen(true)}
                   disabled={submitting}
                 >
@@ -271,8 +271,8 @@ export default function FeedPage() {
 
               {/* Error banner */}
               {error && (
-                <div className="mb-4 bg-red-50 rounded-lg border border-red-200 p-4">
-                  <p className="text-sm text-red-800">
+                <div className="mb-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 p-4">
+                  <p className="text-sm text-red-800 dark:text-red-200">
                     <strong>Error:</strong> {error}
                   </p>
                 </div>
@@ -295,8 +295,8 @@ export default function FeedPage() {
 
             {/* Info banner */}
             {!loading && posts.length > 0 && (
-              <div className="mt-4 bg-blue-50 rounded-lg border border-blue-200 p-4">
-                <p className="text-sm text-blue-800">
+              <div className="mt-4 bg-brand-50 dark:bg-brand-900/20 rounded-lg border border-brand-200 dark:border-brand-800 p-4">
+                <p className="text-sm text-brand-800 dark:text-brand-200">
                   <strong>Phase 2:</strong> Post composer added (native + import). Discussion threads in Phase 3.
                 </p>
               </div>
