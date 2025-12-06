@@ -80,7 +80,7 @@ export function MetricsList({
       <div className="mb-6 space-y-4">
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
               Status
             </label>
             <select
@@ -97,7 +97,7 @@ export function MetricsList({
             </select>
           </div>
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
               Outcome
             </label>
             <select
@@ -113,7 +113,7 @@ export function MetricsList({
             </select>
           </div>
         </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="text-base text-gray-600 dark:text-gray-400">
           Showing {filteredMetrics.length} of {metrics.length} initiatives
         </div>
       </div>
@@ -121,8 +121,8 @@ export function MetricsList({
       {/* Metrics List */}
       {filteredMetrics.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">No metrics found</p>
-          <p className="text-gray-400 dark:text-gray-500 text-sm">
+          <p className="text-gray-500 dark:text-gray-400 text-xl mb-2">No metrics found</p>
+          <p className="text-gray-400 dark:text-gray-500 text-base">
             {metrics.length === 0
               ? 'Define metrics for initiatives to track their success'
               : 'Try adjusting your filters'}
@@ -143,16 +143,16 @@ export function MetricsList({
                   <h3 className="font-semibold text-gray-900 dark:text-white">
                     {metric.initiativeTitle}
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-base text-gray-500 dark:text-gray-400 mt-1">
                     From: {metric.proposalTitle}
                   </p>
                 </div>
-                <span className={`px-2 py-1 text-xs font-medium rounded ${statusColors[metric.status]}`}>
+                <span className={`px-3 py-1.5 text-sm font-medium rounded ${statusColors[metric.status]}`}>
                   {statusLabels[metric.status]}
                 </span>
               </div>
 
-              <div className="mt-4 flex items-center gap-6 text-sm">
+              <div className="mt-4 flex items-center gap-6 text-base">
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />

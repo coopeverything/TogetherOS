@@ -73,12 +73,12 @@ export function TopicCard({
       } ${className}`}
     >
       {/* Topic Header */}
-      <div className="flex items-start justify-between gap-3 mb-2">
+      <div className="flex items-start justify-between gap-4 mb-2">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             {/* Category Badge */}
             <span
-              className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${
+              className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-full ${
                 categoryColors[topic.category]
               }`}
             >
@@ -90,34 +90,34 @@ export function TopicCard({
 
             {/* Pinned Badge */}
             {topic.isPinned && (
-              <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-joy-100 text-joy-600 rounded-full">
+              <span className="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-joy-100 text-joy-600 rounded-full">
                 📌 Pinned
               </span>
             )}
 
             {/* Locked Badge */}
             {topic.isLocked && (
-              <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-danger-bg text-danger rounded-full">
+              <span className="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-danger-bg text-danger rounded-full">
                 🔒 Locked
               </span>
             )}
           </div>
 
           {/* Topic Title */}
-          <h3 className="text-lg font-semibold text-ink-900 mb-1">
+          <h3 className="text-xl font-semibold text-ink-900 mb-1">
             {topic.title}
           </h3>
 
           {/* Topic Description */}
           {topic.description && (
-            <p className="text-sm text-ink-700 line-clamp-2 mb-2">
+            <p className="text-base text-ink-700 line-clamp-2 mb-2">
               {topic.description}
             </p>
           )}
         </div>
 
         {/* Status */}
-        <span className={`text-sm font-medium ${statusColors[topic.status]}`}>
+        <span className={`text-base font-medium ${statusColors[topic.status]}`}>
           {topic.status}
         </span>
       </div>
@@ -128,7 +128,7 @@ export function TopicCard({
           {topic.tags.map((tag) => (
             <span
               key={tag}
-              className="inline-block px-2 py-0.5 text-xs bg-bg-2 text-ink-700 rounded"
+              className="inline-block px-3 py-0.5 text-sm bg-bg-2 text-ink-700 rounded"
             >
               {tag}
             </span>
@@ -137,8 +137,8 @@ export function TopicCard({
       )}
 
       {/* Footer Metadata */}
-      <div className="flex items-center justify-between text-sm text-ink-400">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between text-base text-ink-400">
+        <div className="flex items-center gap-4">
           {/* Author */}
           <span>
             by <span className="font-medium">{authorName || 'Unknown'}</span>

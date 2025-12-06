@@ -145,7 +145,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
         <div className="max-w-2xl mx-auto text-center">
           <div className="bg-bg-1 rounded-lg border border-border p-8">
             <div className="text-5xl mb-4">🎉</div>
-            <h1 className="text-xl font-semibold text-ink-900 mb-2">Quiz Already Passed</h1>
+            <h1 className="text-2xl font-semibold text-ink-900 mb-2">Quiz Already Passed</h1>
             <p className="text-ink-700 mb-6">You&apos;ve already passed this quiz.</p>
             {quiz.pathSlug && quiz.lessonSlug && (
               <Link
@@ -167,7 +167,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
         <div className="max-w-2xl mx-auto text-center">
           <div className="bg-bg-1 rounded-lg border border-border p-8">
             <div className="text-5xl mb-4">😔</div>
-            <h1 className="text-xl font-semibold text-ink-900 mb-2">No Attempts Remaining</h1>
+            <h1 className="text-2xl font-semibold text-ink-900 mb-2">No Attempts Remaining</h1>
             <p className="text-ink-700 mb-6">
               You&apos;ve used all {quiz.maxAttempts} attempts for this quiz.
             </p>
@@ -189,12 +189,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
             result.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
           }`}>
             <div className="text-5xl mb-4">{result.passed ? '🎉' : '😔'}</div>
-            <h1 className={`text-xl font-semibold mb-2 ${
+            <h1 className={`text-2xl font-semibold mb-2 ${
               result.passed ? 'text-green-800' : 'text-red-800'
             }`}>
               {result.passed ? 'Quiz Passed!' : 'Quiz Not Passed'}
             </h1>
-            <p className={`text-2xl font-bold mb-2 ${
+            <p className={`text-3xl font-bold mb-2 ${
               result.passed ? 'text-green-700' : 'text-red-700'
             }`}>
               {result.score}%
@@ -207,7 +207,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
               <p className="text-green-600 font-medium">+{result.rpAwarded} RP earned!</p>
             )}
             {!result.passed && result.attemptsRemaining > 0 && (
-              <p className="text-ink-400 text-sm mt-2">
+              <p className="text-ink-400 text-base mt-2">
                 {result.attemptsRemaining} attempt{result.attemptsRemaining !== 1 ? 's' : ''} remaining
               </p>
             )}
@@ -236,7 +236,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                     }`}
                   >
                     <div className="flex items-start gap-2 mb-3">
-                      <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm ${
+                      <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-base ${
                         qResult?.correct ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                       }`}>
                         {qResult?.correct ? '✓' : '✗'}
@@ -245,7 +245,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                         <p className="font-medium text-ink-900">
                           {index + 1}. {question.questionText}
                         </p>
-                        <p className="text-sm text-ink-400">
+                        <p className="text-base text-ink-400">
                           {qResult?.pointsEarned || 0} / {question.points} points
                         </p>
                       </div>
@@ -258,7 +258,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                         return (
                           <div
                             key={opt.id}
-                            className={`text-sm p-2 rounded ${
+                            className={`text-base p-2 rounded ${
                               isCorrect
                                 ? 'bg-green-50 text-green-800'
                                 : isSelected
@@ -275,7 +275,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                     </div>
 
                     {qResult?.explanation && (
-                      <p className="ml-8 mt-2 text-sm text-ink-700 italic">
+                      <p className="ml-8 mt-2 text-base text-ink-700 italic">
                         {qResult.explanation}
                       </p>
                     )}
@@ -331,7 +331,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
         {/* Header */}
         <div className="bg-bg-1 rounded-lg border border-border p-4 mb-6">
           <h1 className="font-semibold text-ink-900 mb-1">{quiz.title}</h1>
-          <div className="flex items-center justify-between text-sm text-ink-400">
+          <div className="flex items-center justify-between text-base text-ink-400">
             <span>
               Question {currentQuestion + 1} of {quiz.questionCount}
             </span>
@@ -350,12 +350,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
 
         {/* Question */}
         <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
-          <p className="text-lg font-medium text-ink-900 mb-4">
+          <p className="text-xl font-medium text-ink-900 mb-4">
             {question.questionText}
           </p>
 
           {question.questionType === 'multi_select' && (
-            <p className="text-sm text-ink-400 mb-3">Select all that apply</p>
+            <p className="text-base text-ink-400 mb-3">Select all that apply</p>
           )}
 
           <div className="space-y-2">
@@ -378,13 +378,13 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                       handleAnswer(question.id, option.id)
                     }
                   }}
-                  className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                  className={`w-full text-left p-4 rounded-lg border transition-colors ${
                     isSelected
                       ? 'bg-blue-50 border-blue-500 text-blue-900'
                       : 'bg-bg-1 border-border hover:bg-bg-0 text-ink-700'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                       isSelected ? 'border-blue-500 bg-blue-500' : 'border-border'
                     }`}>

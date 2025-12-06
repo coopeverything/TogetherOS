@@ -58,12 +58,12 @@ export function RPToTBCConverter({
 
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
         Convert RP to TBC
       </h3>
 
       {/* Status Display */}
-      <div className="mb-4 space-y-2 text-sm">
+      <div className="mb-4 space-y-2 text-base">
         <div className="flex justify-between">
           <span className="text-gray-600 dark:text-gray-400">RP Available</span>
           <span className="font-medium text-purple-600">{rpAvailable} RP</span>
@@ -88,7 +88,7 @@ export function RPToTBCConverter({
       {canConvert ? (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
               Amount to Convert
             </label>
             <div className="flex items-center gap-2">
@@ -108,25 +108,25 @@ export function RPToTBCConverter({
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-900 rounded-md p-3">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-md p-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600 dark:text-gray-400">You will receive</span>
-              <span className="text-xl font-bold text-teal-600">{tbcToReceive.toFixed(2)} TBC</span>
+              <span className="text-base text-gray-600 dark:text-gray-400">You will receive</span>
+              <span className="text-2xl font-bold text-teal-600">{tbcToReceive.toFixed(2)} TBC</span>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Rate: {rpPerTBC} RP = 1 TBC
             </p>
           </div>
 
           {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-md">
-              <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+            <div className="p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-md">
+              <p className="text-base text-red-700 dark:text-red-400">{error}</p>
             </div>
           )}
 
           {success && (
-            <div className="p-3 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-md">
-              <p className="text-sm text-green-700 dark:text-green-400">{success}</p>
+            <div className="p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-md">
+              <p className="text-base text-green-700 dark:text-green-400">{success}</p>
             </div>
           )}
 
@@ -142,7 +142,7 @@ export function RPToTBCConverter({
         </div>
       ) : (
         <div className="p-4 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-md">
-          <p className="text-sm text-yellow-700 dark:text-yellow-400">
+          <p className="text-base text-yellow-700 dark:text-yellow-400">
             {rpAvailable < rpPerTBC
               ? `You need at least ${rpPerTBC} RP to convert to 1 TBC.`
               : 'You have reached your monthly conversion limit. Come back next month!'}
@@ -150,7 +150,7 @@ export function RPToTBCConverter({
         </div>
       )}
 
-      <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+      <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
         Monthly conversion limit: {monthlyAllowance / rpPerTBC} TBC per month
       </p>
     </div>

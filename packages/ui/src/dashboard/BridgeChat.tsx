@@ -59,9 +59,9 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
         onClick={() => setIsExpanded(true)}
         className={`fixed bottom-4 right-4 flex items-center gap-2 px-4 py-3 bg-orange-600 text-white rounded-full shadow-lg hover:bg-orange-700 transition-all z-50 ${className}`}
       >
-        <span className="text-lg">💬</span>
+        <span className="text-xl">💬</span>
         <span className="font-medium">Bridge</span>
-        <span className="text-sm opacity-90">Ask me anything</span>
+        <span className="text-base opacity-90">Ask me anything</span>
       </button>
     )
   }
@@ -74,7 +74,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-orange-50">
         <div className="flex items-center gap-2">
-          <span className="text-lg">💬</span>
+          <span className="text-xl">💬</span>
           <span className="font-semibold text-gray-900 dark:text-white">Bridge AI Assistant</span>
         </div>
         <button
@@ -106,7 +106,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
 
         {messages.length === 1 && (
           <div className="space-y-2">
-            <p className="text-sm text-gray-600">Quick suggestions:</p>
+            <p className="text-base text-gray-600">Quick suggestions:</p>
             <div className="flex flex-wrap gap-2">
               {quickSuggestions.map((suggestion, index) => (
                 <button
@@ -115,7 +115,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
                     setInput(suggestion)
                     handleSendMessage()
                   }}
-                  className="text-xs px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-full transition-colors"
+                  className="text-sm px-3 py-1.5.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-full transition-colors"
                 >
                   {suggestion}
                 </button>

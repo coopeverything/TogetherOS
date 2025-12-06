@@ -98,7 +98,7 @@ export default function LearningBadgesPage() {
     <div className="min-h-screen bg-bg-0 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-sm text-ink-700 mb-4">
+        <nav className="text-base text-ink-700 mb-4">
           <Link href="/learn" className="hover:text-blue-600">Learn</Link>
           <span className="mx-2">/</span>
           <span className="text-ink-900">Badges</span>
@@ -108,7 +108,7 @@ export default function LearningBadgesPage() {
         <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+              <h1 className="text-3xl font-semibold text-ink-900 mb-2">
                 Learning Badges
               </h1>
               <p className="text-ink-700">
@@ -119,13 +119,13 @@ export default function LearningBadgesPage() {
               <div className="text-3xl font-bold text-green-600">
                 {data.summary.earned}/{data.summary.total}
               </div>
-              <div className="text-sm text-ink-400">badges earned</div>
+              <div className="text-base text-ink-400">badges earned</div>
             </div>
           </div>
 
           {/* Progress bar */}
           <div className="mt-4">
-            <div className="flex items-center justify-between text-sm mb-1">
+            <div className="flex items-center justify-between text-base mb-1">
               <span className="text-ink-700">Collection Progress</span>
               <span className="font-medium text-ink-900">{data.summary.percentage}%</span>
             </div>
@@ -144,7 +144,7 @@ export default function LearningBadgesPage() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 text-sm rounded-lg transition-colors ${
+              className={`px-4 py-2 text-base rounded-lg transition-colors ${
                 filter === f
                   ? 'bg-blue-600 text-white'
                   : 'bg-bg-1 text-ink-700 border border-border hover:bg-bg-0'
@@ -158,7 +158,7 @@ export default function LearningBadgesPage() {
         {/* Badges by Category */}
         {Object.entries(groupedBadges).map(([category, badges]) => (
           <div key={category} className="mb-6">
-            <h2 className="text-lg font-medium text-ink-900 mb-3">
+            <h2 className="text-xl font-medium text-ink-900 mb-3">
               {categoryLabels[category] || category}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -171,7 +171,7 @@ export default function LearningBadgesPage() {
                       : 'border-border'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-4">
                     <div
                       className={`text-3xl ${
                         badge.earnedAt ? '' : 'grayscale opacity-50'
@@ -183,19 +183,19 @@ export default function LearningBadgesPage() {
                       <div className="flex items-center gap-2">
                         <h3 className="font-medium text-ink-900">{badge.name}</h3>
                         {badge.earnedAt && (
-                          <span className="text-green-600 text-sm">✓</span>
+                          <span className="text-green-600 text-base">✓</span>
                         )}
                       </div>
-                      <p className="text-sm text-ink-700 mt-1">{badge.description}</p>
+                      <p className="text-base text-ink-700 mt-1">{badge.description}</p>
 
                       {/* Progress or earned date */}
                       {badge.earnedAt ? (
-                        <p className="text-xs text-green-600 mt-2">
+                        <p className="text-sm text-green-600 mt-2">
                           Earned {new Date(badge.earnedAt).toLocaleDateString()}
                         </p>
                       ) : badge.progress ? (
                         <div className="mt-2">
-                          <div className="flex items-center justify-between text-xs text-ink-400 mb-1">
+                          <div className="flex items-center justify-between text-sm text-ink-400 mb-1">
                             <span>Progress</span>
                             <span>
                               {badge.progress.current}/{badge.progress.threshold}

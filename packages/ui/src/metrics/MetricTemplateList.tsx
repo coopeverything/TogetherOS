@@ -68,7 +68,7 @@ export function MetricTemplateList({
       <div className="mb-6 space-y-4">
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
               Search
             </label>
             <input
@@ -80,7 +80,7 @@ export function MetricTemplateList({
             />
           </div>
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
               Category
             </label>
             <select
@@ -97,7 +97,7 @@ export function MetricTemplateList({
             </select>
           </div>
         </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="text-base text-gray-600 dark:text-gray-400">
           Showing {filteredTemplates.length} of {templates.length} templates
         </div>
       </div>
@@ -105,8 +105,8 @@ export function MetricTemplateList({
       {/* Templates Grid */}
       {filteredTemplates.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">No templates found</p>
-          <p className="text-gray-400 dark:text-gray-500 text-sm">
+          <p className="text-gray-500 dark:text-gray-400 text-xl mb-2">No templates found</p>
+          <p className="text-gray-400 dark:text-gray-500 text-base">
             {templates.length === 0
               ? 'Templates will be added as initiatives are tracked'
               : 'Try adjusting your search or filters'}
@@ -139,7 +139,7 @@ export function MetricTemplateList({
                     />
                   </svg>
                 </div>
-                <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">
+                <span className="px-3 py-1.5 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">
                   {categoryLabels[template.category]}
                 </span>
               </div>
@@ -148,12 +148,12 @@ export function MetricTemplateList({
               <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                 {template.name}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+              <p className="text-base text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                 {template.description}
               </p>
 
               {/* Stats */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 text-sm">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 text-base">
                 <span className="text-gray-500 dark:text-gray-400">
                   {template.metrics.length} metrics
                 </span>
@@ -176,10 +176,10 @@ export function MetricTemplateList({
               {/* Metric Preview */}
               {template.metrics.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <div className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-2">
+                  <div className="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-2">
                     Included Metrics
                   </div>
-                  <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <ul className="text-base text-gray-600 dark:text-gray-400 space-y-1">
                     {template.metrics.slice(0, 3).map((metric, index) => (
                       <li key={index} className="flex items-center gap-2">
                         <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
@@ -187,7 +187,7 @@ export function MetricTemplateList({
                         </svg>
                         {metric.name}
                         {metric.mandatory && (
-                          <span className="text-xs text-orange-500">*</span>
+                          <span className="text-sm text-orange-500">*</span>
                         )}
                       </li>
                     ))}

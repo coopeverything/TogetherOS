@@ -14,7 +14,7 @@ export default function ManifestoPage() {
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
             TogetherOS Manifesto
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500">
+          <p className="text-2xl text-gray-600 dark:text-gray-400 dark:text-gray-500">
             An operating system for cooperation - helping people unlearn division and learn coordination.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function ManifestoPage() {
               <strong>TogetherOS</strong> is a full-stack social and technological system that helps people unlearn division and learn coordination. It resets default assumptions (individualism, zero-sum thinking) and cultivates cooperative habits—then channels them into real delivery.
             </p>
 
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Core mechanics</h3>
+            <h3 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Core mechanics</h3>
             <ul className="space-y-3 text-gray-700 dark:text-gray-300">
               <li>
                 <strong>Shared decisions, shared power:</strong> Transparent, participatory governance built on consent, rotating and recallable roles, and traceable actions. Open proposals → evidence & options → deliberation → vote → delivery → review, with minority-interest protection and independent audits.
@@ -142,7 +142,7 @@ export default function ManifestoPage() {
 
           {/* Call to Action */}
           <section className="mt-12 p-6 bg-orange-50 border-l-4 border-orange-500 rounded-r-lg">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Help Build TogetherOS</h2>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">Help Build TogetherOS</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               Make cooperation inevitable! Your choice of module raises its priority. The build is dynamic and community-steered—tell us what you want to ship next.
             </p>

@@ -77,8 +77,8 @@ export function PriorityList({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Priorities</h2>
-          <p className="text-sm text-gray-600 mt-1">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Your Priorities</h2>
+          <p className="text-base text-gray-600 mt-1">
             Drag to reorder. Adjust sliders to show how much you care (1-10).
           </p>
         </div>
@@ -107,7 +107,7 @@ export function PriorityList({
                       onAddPriority(topic)
                       setShowAddTopic(false)
                     }}
-                    className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:bg-gray-900 transition-colors"
+                    className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-base hover:bg-gray-50 dark:bg-gray-900 transition-colors"
                   >
                     {topic}
                   </button>
@@ -140,7 +140,7 @@ export function PriorityList({
           <p className="text-gray-600">
             You have not prioritized any topics yet.
           </p>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-base text-gray-500 mt-2">
             Add topics to show what matters most to you.
           </p>
         </div>
@@ -177,7 +177,7 @@ export function PriorityList({
 
                 {/* Rank badge */}
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-orange-100 text-orange-800 rounded-full flex items-center justify-center font-bold text-sm">
+                  <div className="w-8 h-8 bg-orange-100 text-orange-800 rounded-full flex items-center justify-center font-bold text-base">
                     {index + 1}
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export function PriorityList({
 
                   {/* Weight slider */}
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center justify-between text-base">
                       <span className="text-gray-600">How much do you care?</span>
                       <span className="font-medium text-gray-900 dark:text-white">{priority.weight}/10</span>
                     </div>
@@ -200,7 +200,7 @@ export function PriorityList({
                       onChange={e => handleWeightChange(priority.topic, parseInt(e.target.value, 10))}
                       className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-600"
                     />
-                    <div className="flex justify-between text-xs text-gray-500">
+                    <div className="flex justify-between text-sm text-gray-500">
                       <span>A little</span>
                       <span>Somewhat</span>
                       <span>A lot</span>
@@ -231,7 +231,7 @@ export function PriorityList({
       {/* Privacy notice */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h3 className="font-semibold text-gray-900 dark:text-white mb-1">🔒 Your priorities are private</h3>
-        <p className="text-sm text-gray-700">
+        <p className="text-base text-gray-700">
           Only you can see your personal priority list. Only anonymous aggregate statistics
           (like "45% of community prioritizes housing") are public.
         </p>

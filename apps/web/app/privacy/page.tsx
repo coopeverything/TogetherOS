@@ -17,13 +17,13 @@ export default function PrivacyPage() {
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Privacy Policy</h1>
 
-      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-8">
+      <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-8">
         Last updated: November 13, 2025
       </p>
 
       {/* Introduction */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Introduction</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Introduction</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS is a cooperation-first platform designed to help communities self-organize
           through transparent governance, collaborative tools, and shared resources. This Privacy
@@ -37,9 +37,9 @@ export default function PrivacyPage() {
 
       {/* Data We Collect */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Data We Collect</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Data We Collect</h2>
 
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">1. User-Created Posts</h3>
+        <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">1. User-Created Posts</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           When you create posts on TogetherOS, we collect and store:
         </p>
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
           <li>Post status (active, archived, flagged, or hidden)</li>
         </ul>
 
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">2. Social Media Imports</h3>
+        <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">2. Social Media Imports</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           When you import a social media post URL (Instagram, TikTok, Twitter, Facebook,
           YouTube, or LinkedIn), we collect and cache:
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
           <li>Raw HTML content from social media posts</li>
         </ul>
 
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">3. Technical Data</h3>
+        <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">3. Technical Data</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           For security and abuse prevention, we temporarily process:
         </p>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
 
       {/* How We Use Your Data */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">How We Use Your Data</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">How We Use Your Data</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           We use the collected data for the following purposes:
         </p>
@@ -115,7 +115,7 @@ export default function PrivacyPage() {
 
       {/* Third-Party Data Sharing */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Third-Party Data Sharing</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Third-Party Data Sharing</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           When you import a social media URL, TogetherOS fetches publicly available metadata
           from that platform (Instagram, TikTok, Twitter, Facebook, YouTube, or LinkedIn).
@@ -137,7 +137,7 @@ export default function PrivacyPage() {
           <li>Any other posts or activity on TogetherOS</li>
         </ul>
 
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3 mt-6">Instagram-Specific Disclosures</h3>
+        <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3 mt-6">Instagram-Specific Disclosures</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           When you import an Instagram post URL:
         </p>
@@ -162,7 +162,7 @@ export default function PrivacyPage() {
 
       {/* Your Rights */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Your Rights</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Your Rights</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           You have the following rights regarding your data:
         </p>
@@ -187,7 +187,7 @@ export default function PrivacyPage() {
 
       {/* Data Deletion */}
       <section className="mb-8 bg-orange-50 border-l-4 border-orange-500 p-6">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Data Deletion</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Data Deletion</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           <strong>How to delete your data:</strong>
         </p>
@@ -236,7 +236,7 @@ export default function PrivacyPage() {
 
       {/* Data Security */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Data Security</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Data Security</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           We implement industry-standard security measures to protect your data:
         </p>
@@ -269,7 +269,7 @@ export default function PrivacyPage() {
 
       {/* Data Retention */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Data Retention</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Data Retention</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           We retain your data as follows:
         </p>
@@ -295,7 +295,7 @@ export default function PrivacyPage() {
 
       {/* Cookies and Tracking */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Cookies and Tracking</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Cookies and Tracking</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS uses minimal cookies:
         </p>
@@ -315,7 +315,7 @@ export default function PrivacyPage() {
 
       {/* Children's Privacy */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Children&apos;s Privacy</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Children&apos;s Privacy</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS is not directed to children under 13 years of age. We do not knowingly
           collect personal information from children under 13. If you believe a child under 13
@@ -332,7 +332,7 @@ export default function PrivacyPage() {
 
       {/* International Users */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">International Users</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">International Users</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS is hosted in the United States. If you access TogetherOS from outside
           the United States, please be aware that your information may be transferred to,
@@ -343,7 +343,7 @@ export default function PrivacyPage() {
 
       {/* Changes to This Policy */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Changes to This Policy</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Changes to This Policy</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           We may update this Privacy Policy from time to time. When we make material changes,
           we will:
@@ -361,7 +361,7 @@ export default function PrivacyPage() {
 
       {/* Contact Us */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Contact Us</h2>
+        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Contact Us</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           If you have questions about this Privacy Policy or how we handle your data, please contact us:
         </p>
@@ -391,7 +391,7 @@ export default function PrivacyPage() {
 
       {/* Footer Links */}
       <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-        <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+        <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">
           Related: <Link href="/terms" className="text-orange-600 hover:text-orange-700 underline">Terms of Service</Link>
         </p>
       </div>

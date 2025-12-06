@@ -36,16 +36,16 @@ export default function DashboardShowcase() {
         <div className="px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-xl font-semibold text-ink-900">
+              <h1 className="text-2xl font-semibold text-ink-900">
                 Dashboard Showcase
               </h1>
-              <p className="text-sm text-ink-700">
+              <p className="text-base text-ink-700">
                 Explore different dashboard layouts, styles, and designs
               </p>
             </div>
             <a
               href="/admin"
-              className="text-sm text-ink-400 hover:text-ink-700"
+              className="text-base text-ink-400 hover:text-ink-700"
             >
               ← Back to Admin
             </a>
@@ -79,7 +79,7 @@ export default function DashboardShowcase() {
           {/* Sub-tabs for Styles */}
           {mainTab === 'styles' && (
             <div className="flex items-center gap-2 pt-2 border-t border-border">
-              <span className="text-xs text-ink-400 mr-2">Style:</span>
+              <span className="text-sm text-ink-400 mr-2">Style:</span>
               <Button
                 variant={styleVariant === 'default' ? 'secondary' : 'ghost'}
                 size="sm"

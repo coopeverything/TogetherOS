@@ -237,7 +237,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value as Theme)}
-        className="px-3 py-1.5 rounded-md border text-sm bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+        className="px-3 py-1.5.5 rounded-md border text-base bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
         aria-label="Select theme"
       >
         {THEMES.map((t) => (
@@ -246,7 +246,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       </select>
       <button
         onClick={toggleDarkMode}
-        className="px-3 py-1.5 rounded-md border text-sm bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors"
+        className="px-3 py-1.5.5 rounded-md border text-base bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors"
         aria-label="Toggle dark mode"
       >
         {darkMode ? '☀️' : '🌙'}
@@ -269,7 +269,7 @@ export function ThemePicker({ className = '' }: { className?: string }) {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`px-4 py-2 rounded-md border text-sm font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-2 ${className}`}
+        className={`px-4 py-2 rounded-md border text-base font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-2 ${className}`}
       >
         <span className="flex gap-0.5">
           {THEME_INFO[theme].colors.map((color, i) => (
@@ -296,11 +296,11 @@ export function ThemePicker({ className = '' }: { className?: string }) {
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)]">
-              <h2 className="text-lg font-semibold text-[var(--ink-900)]">Pick Your Theme</h2>
-              <div className="flex items-center gap-3">
+              <h2 className="text-xl font-semibold text-[var(--ink-900)]">Pick Your Theme</h2>
+              <div className="flex items-center gap-4">
                 <button
                   onClick={toggleDarkMode}
-                  className="px-3 py-1.5 rounded-md border text-sm bg-[var(--bg-2)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-0)] transition-colors"
+                  className="px-3 py-1.5.5 rounded-md border text-base bg-[var(--bg-2)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-0)] transition-colors"
                 >
                   {darkMode ? '☀️ Light' : '🌙 Dark'}
                 </button>

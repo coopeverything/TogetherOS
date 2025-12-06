@@ -11,14 +11,14 @@ export function NeedsYourAction() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">Needs Your Action</CardTitle>
+        <CardTitle className="text-lg">Needs Your Action</CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {actions.map((action) => (
             <li key={action.id} className="flex items-center space-x-2">
-              <span className="text-base">{action.icon}</span>
-              <span className="text-xs font-medium">{action.text}</span>
+              <span className="text-lg">{action.icon}</span>
+              <span className="text-sm font-medium">{action.text}</span>
             </li>
           ))}
         </ul>

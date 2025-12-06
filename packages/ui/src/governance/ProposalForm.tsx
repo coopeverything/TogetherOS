@@ -118,7 +118,7 @@ export function ProposalForm({
     <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
       {/* Scope Type */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-base font-medium text-gray-700 mb-2">
           Proposal Type <span className="text-red-500">*</span>
         </label>
         <div className="flex gap-4">
@@ -149,7 +149,7 @@ export function ProposalForm({
             <span>Group Proposal</span>
           </label>
         </div>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-base text-gray-500">
           {scopeType === 'individual'
             ? 'This proposal is for your own consideration'
             : 'This proposal will be shared with a specific group'}
@@ -161,12 +161,12 @@ export function ProposalForm({
         <div>
           <label
             htmlFor="group-select"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-base font-medium text-gray-700 mb-2"
           >
             Select Group <span className="text-red-500">*</span>
           </label>
           {groups.length === 0 ? (
-            <p className="text-sm text-gray-500 italic">
+            <p className="text-base text-gray-500 italic">
               You are not a member of any groups. Create or join a group first to make
               group proposals.
             </p>
@@ -189,7 +189,7 @@ export function ProposalForm({
                 ))}
               </select>
               {errors.scopeId && (
-                <p className="mt-1 text-sm text-red-600">{errors.scopeId}</p>
+                <p className="mt-1 text-base text-red-600">{errors.scopeId}</p>
               )}
             </>
           )}
@@ -200,7 +200,7 @@ export function ProposalForm({
       <div>
         <label
           htmlFor="title"
-          className="block text-sm font-medium text-gray-700 mb-2"
+          className="block text-base font-medium text-gray-700 mb-2"
         >
           Title <span className="text-red-500">*</span>
         </label>
@@ -218,11 +218,11 @@ export function ProposalForm({
         />
         <div className="mt-1 flex justify-between">
           {errors.title ? (
-            <p className="text-sm text-red-600">{errors.title}</p>
+            <p className="text-base text-red-600">{errors.title}</p>
           ) : (
-            <p className="text-sm text-gray-500">3-200 characters</p>
+            <p className="text-base text-gray-500">3-200 characters</p>
           )}
-          <p className="text-sm text-gray-500">{title.length}/200</p>
+          <p className="text-base text-gray-500">{title.length}/200</p>
         </div>
       </div>
 
@@ -230,7 +230,7 @@ export function ProposalForm({
       <div>
         <label
           htmlFor="summary"
-          className="block text-sm font-medium text-gray-700 mb-2"
+          className="block text-base font-medium text-gray-700 mb-2"
         >
           Summary <span className="text-red-500">*</span>
         </label>
@@ -248,16 +248,16 @@ export function ProposalForm({
         />
         <div className="mt-1 flex justify-between">
           {errors.summary ? (
-            <p className="text-sm text-red-600">{errors.summary}</p>
+            <p className="text-base text-red-600">{errors.summary}</p>
           ) : (
-            <p className="text-sm text-gray-500">10-2000 characters</p>
+            <p className="text-base text-gray-500">10-2000 characters</p>
           )}
-          <p className="text-sm text-gray-500">{summary.length}/2000</p>
+          <p className="text-base text-gray-500">{summary.length}/2000</p>
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-3 pt-4">
+      <div className="flex gap-4 pt-4">
         <button
           type="submit"
           disabled={isSubmitting}

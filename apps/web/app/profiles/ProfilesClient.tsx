@@ -76,7 +76,7 @@ export function ProfilesClient() {
       <header className="bg-white dark:bg-gray-800 border-b border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-ink-900">Member Directory</h1>
+            <h1 className="text-3xl font-bold text-ink-900">Member Directory</h1>
             <Button variant="secondary" onClick={() => router.push('/dashboard')}>
               Back to Dashboard
             </Button>
@@ -89,7 +89,7 @@ export function ProfilesClient() {
         <Card className="p-6 mb-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="search" className="block text-sm font-medium text-ink-900 mb-2">
+              <label htmlFor="search" className="block text-base font-medium text-ink-900 mb-2">
                 Search members
               </label>
               <Input
@@ -103,7 +103,7 @@ export function ProfilesClient() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-ink-900 mb-2">
+              <label className="block text-base font-medium text-ink-900 mb-2">
                 Filter by Cooperation Path
               </label>
               <div className="flex flex-wrap gap-2">
@@ -160,22 +160,22 @@ export function ProfilesClient() {
                   />
 
                   <div className="w-full">
-                    <h3 className="text-lg font-semibold text-ink-900">
+                    <h3 className="text-xl font-semibold text-ink-900">
                       {user.name || user.username || 'Anonymous'}
                     </h3>
                     {user.username && (
-                      <p className="text-sm text-ink-700">@{user.username}</p>
+                      <p className="text-base text-ink-700">@{user.username}</p>
                     )}
                   </div>
 
                   {user.bio && (
-                    <p className="text-sm text-ink-700 line-clamp-2">
+                    <p className="text-base text-ink-700 line-clamp-2">
                       {user.bio}
                     </p>
                   )}
 
                   {(user.city || user.state || user.country) && (
-                    <p className="text-xs text-ink-700">
+                    <p className="text-sm text-ink-700">
                       {[user.city, user.state, user.country]
                         .filter(Boolean)
                         .join(', ')}
@@ -191,14 +191,14 @@ export function ProfilesClient() {
                         .map((path) => (
                           <span
                             key={path.id}
-                            className="text-xs"
+                            className="text-sm"
                             title={path.name}
                           >
                             {path.emoji}
                           </span>
                         ))}
                       {user.paths.length > 3 && (
-                        <span className="text-xs text-ink-700">
+                        <span className="text-sm text-ink-700">
                           +{user.paths.length - 3}
                         </span>
                       )}
@@ -208,12 +208,12 @@ export function ProfilesClient() {
                   {user.skills && user.skills.length > 0 && (
                     <div className="flex flex-wrap gap-1 justify-center">
                       {user.skills.slice(0, 3).map((skill, i) => (
-                        <Badge key={i} variant="default" className="text-xs">
+                        <Badge key={i} variant="default" className="text-sm">
                           {skill}
                         </Badge>
                       ))}
                       {user.skills.length > 3 && (
-                        <Badge variant="default" className="text-xs">
+                        <Badge variant="default" className="text-sm">
                           +{user.skills.length - 3}
                         </Badge>
                       )}
@@ -226,7 +226,7 @@ export function ProfilesClient() {
         )}
 
         {!loading && filteredUsers.length > 0 && (
-          <div className="mt-6 text-center text-sm text-ink-700">
+          <div className="mt-6 text-center text-base text-ink-700">
             Showing {filteredUsers.length} of {users.length} members
           </div>
         )}

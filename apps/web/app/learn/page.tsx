@@ -82,18 +82,18 @@ export default function LearnPage() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white mb-2">
               Learn
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+            <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">
               Explore learning paths to understand how TogetherOS works
             </p>
           </div>
           <Link
             href="/learn/badges"
-            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-base text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
-            <span className="text-lg">🏆</span>
+            <span className="text-xl">🏆</span>
             <span>Badges</span>
           </Link>
         </div>
@@ -102,8 +102,8 @@ export default function LearnPage() {
         {totalLessons > 0 && (
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Overall Progress</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+              <span className="text-base font-medium text-gray-700 dark:text-gray-300">Overall Progress</span>
+              <span className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 {completedLessons} / {totalLessons} lessons
               </span>
             </div>
@@ -122,7 +122,7 @@ export default function LearnPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 text-sm rounded-full whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5.5 text-base rounded-full whitespace-nowrap transition-colors ${
                 selectedCategory === cat
                   ? 'bg-blue-600 text-white'
                   : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-200 hover:bg-gray-50'
@@ -159,18 +159,18 @@ export default function LearnPage() {
                         {path.title}
                       </h3>
                       {path.userProgress?.status === 'completed' && (
-                        <span className="text-green-600 text-sm">✓ Complete</span>
+                        <span className="text-green-600 text-base">✓ Complete</span>
                       )}
                     </div>
 
                     {path.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2 line-clamp-2">
+                      <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2 line-clamp-2">
                         {path.description}
                       </p>
                     )}
 
                     {/* Meta info */}
-                    <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                    <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                       <span>{path.lessonCount} lessons</span>
                       <span>~{path.estimatedMinutes} min</span>
                       <span className="text-green-600 font-medium">
@@ -181,7 +181,7 @@ export default function LearnPage() {
                     {/* Progress bar */}
                     {path.lessonCount > 0 && (
                       <div className="mt-3">
-                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-1">
+                        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-1">
                           <span>Progress</span>
                           <span>
                             {path.completedLessonCount} / {path.lessonCount}

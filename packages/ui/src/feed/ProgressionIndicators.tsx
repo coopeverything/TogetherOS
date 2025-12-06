@@ -99,7 +99,7 @@ export function ProgressionIndicators({
               <button
                 onClick={() => onStageClick?.(stage.stage)}
                 disabled={!stage.completed && !stage.active}
-                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg transition-all ${getStageColor(stage)} ${
+                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-xl transition-all ${getStageColor(stage)} ${
                   stage.completed || stage.active
                     ? 'cursor-pointer hover:scale-110'
                     : 'cursor-not-allowed'
@@ -109,13 +109,13 @@ export function ProgressionIndicators({
               </button>
               <div className="text-center mt-2">
                 <div
-                  className={`font-semibold text-sm ${
+                  className={`font-semibold text-base ${
                     stage.active ? 'text-blue-900' : stage.completed ? 'text-green-900' : 'text-gray-600'
                   }`}
                 >
                   {stage.label}
                 </div>
-                <div className="text-xs text-gray-500 mt-1">{stage.description}</div>
+                <div className="text-sm text-gray-500 mt-1">{stage.description}</div>
               </div>
             </div>
           ))}
@@ -130,7 +130,7 @@ export function ProgressionIndicators({
           <div className="space-y-3">
             {/* Action readiness */}
             <div>
-              <div className="flex items-center justify-between text-sm mb-1">
+              <div className="flex items-center justify-between text-base mb-1">
                 <span className="text-gray-700">Overall Readiness</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {Math.round(actionReadiness * 100)}%
@@ -148,7 +148,7 @@ export function ProgressionIndicators({
 
             {/* Consensus */}
             <div>
-              <div className="flex items-center justify-between text-sm mb-1">
+              <div className="flex items-center justify-between text-base mb-1">
                 <span className="text-gray-700">Consensus</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {Math.round(consensusScore * 100)}%
@@ -164,7 +164,7 @@ export function ProgressionIndicators({
 
             {/* Engagement */}
             <div>
-              <div className="flex items-center justify-between text-sm mb-1">
+              <div className="flex items-center justify-between text-base mb-1">
                 <span className="text-gray-700">Engagement</span>
                 <span className="font-semibold text-gray-900 dark:text-white">{engagementLevel} interactions</span>
               </div>
@@ -179,24 +179,24 @@ export function ProgressionIndicators({
 
           {/* Next step callout */}
           {canProgressToDeliberation ? (
-            <div className="mt-4 bg-green-50 border border-green-200 rounded p-3">
-              <div className="flex items-center gap-2 text-green-900 font-semibold text-sm mb-1">
+            <div className="mt-4 bg-green-50 border border-green-200 rounded p-4">
+              <div className="flex items-center gap-2 text-green-900 font-semibold text-base mb-1">
                 <span>✓</span>
                 <span>Ready for Deliberation</span>
               </div>
-              <p className="text-green-800 text-xs">
+              <p className="text-green-800 text-sm">
                 This topic has high engagement and emerging consensus. Consider moving to structured
                 deliberation.
               </p>
               <button
                 onClick={() => onStageClick?.('deliberation')}
-                className="mt-2 bg-green-600 text-white text-sm font-medium px-4 py-2 rounded hover:bg-green-700"
+                className="mt-2 bg-green-600 text-white text-base font-medium px-4 py-2 rounded hover:bg-green-700"
               >
                 Start Deliberation →
               </button>
             </div>
           ) : (
-            <div className="mt-4 bg-blue-50 border border-blue-200 rounded p-3 text-xs text-blue-800">
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded p-4 text-sm text-blue-800">
               <strong>Next step:</strong> Keep the conversation going. Topics typically need 70%+
               readiness before moving to formal deliberation.
             </div>
@@ -210,7 +210,7 @@ export function ProgressionIndicators({
 
           <div className="space-y-3">
             <div>
-              <div className="flex items-center justify-between text-sm mb-1">
+              <div className="flex items-center justify-between text-base mb-1">
                 <span className="text-gray-700">Consensus Level</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {Math.round(consensusScore * 100)}%
@@ -228,23 +228,23 @@ export function ProgressionIndicators({
           </div>
 
           {canProgressToProposal ? (
-            <div className="mt-4 bg-green-50 border border-green-200 rounded p-3">
-              <div className="flex items-center gap-2 text-green-900 font-semibold text-sm mb-1">
+            <div className="mt-4 bg-green-50 border border-green-200 rounded p-4">
+              <div className="flex items-center gap-2 text-green-900 font-semibold text-base mb-1">
                 <span>✓</span>
                 <span>Ready for Proposal</span>
               </div>
-              <p className="text-green-800 text-xs">
+              <p className="text-green-800 text-sm">
                 Strong consensus achieved. Consider drafting a formal proposal.
               </p>
               <button
                 onClick={() => onStageClick?.('proposal')}
-                className="mt-2 bg-green-600 text-white text-sm font-medium px-4 py-2 rounded hover:bg-green-700"
+                className="mt-2 bg-green-600 text-white text-base font-medium px-4 py-2 rounded hover:bg-green-700"
               >
                 Create Proposal →
               </button>
             </div>
           ) : (
-            <div className="mt-4 bg-orange-50 border border-orange-200 rounded p-3 text-xs text-orange-800">
+            <div className="mt-4 bg-orange-50 border border-orange-200 rounded p-4 text-sm text-orange-800">
               <strong>Next step:</strong> Continue deliberation until consensus reaches 70%+.
             </div>
           )}

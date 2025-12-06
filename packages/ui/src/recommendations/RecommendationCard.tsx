@@ -41,29 +41,29 @@ export function RecommendationCard({
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
             {typeLabels[recommendation.type] || recommendation.type}
           </span>
 
-          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${urgencyColor}`}>
+          <span className={`inline-flex items-center px-3 py-1.5 rounded text-sm font-medium ${urgencyColor}`}>
             {recommendation.urgency?.toUpperCase() || 'NORMAL'}
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-base text-gray-500">
           <span className="font-medium">{recommendation.relevanceScore}</span>
           <span className="text-gray-400">/ 100</span>
         </div>
       </div>
 
       {/* Content */}
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
         {recommendation.title}
       </h3>
       <p className="text-gray-700 mb-4">{recommendation.description}</p>
 
       {/* Metadata */}
-      <div className="flex flex-wrap gap-3 mb-4 text-sm text-gray-600">
+      <div className="flex flex-wrap gap-4 mb-4 text-base text-gray-600">
         {recommendation.matchedInterests.length > 0 && (
           <div>
             <span className="font-medium">Matches:</span>{' '}
@@ -88,7 +88,7 @@ export function RecommendationCard({
 
       {/* Actions */}
       {recommendation.status === 'pending' && (onTakeAction || onDismiss) && (
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           {onTakeAction && (
             <button
               onClick={() => onTakeAction(recommendation.id)}
@@ -114,7 +114,7 @@ export function RecommendationCard({
       {/* Status indicator for non-pending recommendations */}
       {recommendation.status !== 'pending' && (
         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <span className="text-sm text-gray-500">
+          <span className="text-base text-gray-500">
             Status: <span className="font-medium capitalize">{recommendation.status.replace('_', ' ')}</span>
           </span>
         </div>

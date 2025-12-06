@@ -184,7 +184,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Buttons
               </h3>
-              <Card className="flex gap-3 flex-wrap items-center">
+              <Card className="flex gap-4 flex-wrap items-center">
                 <Button variant="default">Primary</Button>
                 <Button variant="secondary">Secondary</Button>
                 <Button variant="ghost">Ghost</Button>
@@ -247,7 +247,7 @@ export default function DesignShowcase() {
                 <Progress value={45} variant="warning" size="lg" showLabel />
                 <button
                   onClick={() => setProgressValue(Math.min(progressValue + 10, 100))}
-                  className="px-4 py-2 bg-brand-600 text-white rounded-md text-sm font-medium"
+                  className="px-4 py-2 bg-brand-600 text-white rounded-md text-base font-medium"
                 >
                   Increase Progress
                 </button>
@@ -523,7 +523,7 @@ export default function DesignShowcase() {
                   />
                 </div>
                 <div>
-                  <p className="text-ink-700 mb-4 text-sm">
+                  <p className="text-ink-700 mb-4 text-base">
                     Without first/last buttons:
                   </p>
                   <Pagination
@@ -543,7 +543,7 @@ export default function DesignShowcase() {
               </h3>
               <Card className="space-y-6">
                 <div>
-                  <p className="text-ink-700 mb-4 text-sm">Sizes:</p>
+                  <p className="text-ink-700 mb-4 text-base">Sizes:</p>
                   <div className="flex gap-4 items-center">
                     <Avatar size="sm" fallback="S" />
                     <Avatar size="md" fallback="M" />
@@ -552,7 +552,7 @@ export default function DesignShowcase() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-ink-700 mb-4 text-sm">With images:</p>
+                  <p className="text-ink-700 mb-4 text-base">With images:</p>
                   <div className="flex gap-4 items-center">
                     <Avatar src="https://i.pravatar.cc/150?img=1" alt="User 1" />
                     <Avatar src="https://i.pravatar.cc/150?img=2" alt="User 2" />
@@ -561,7 +561,7 @@ export default function DesignShowcase() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-ink-700 mb-4 text-sm">Avatar Group:</p>
+                  <p className="text-ink-700 mb-4 text-base">Avatar Group:</p>
                   <AvatarGroup max={3}>
                     <Avatar src="https://i.pravatar.cc/150?img=5" alt="User 1" />
                     <Avatar src="https://i.pravatar.cc/150?img=6" alt="User 2" />
@@ -640,7 +640,7 @@ export default function DesignShowcase() {
               </h3>
               <Card>
                 <p className="text-ink-700 mb-4">
-                  Press <kbd className="px-2 py-1 bg-bg-2 border border-border rounded text-xs font-mono">Cmd/Ctrl + K</kbd> to open the command palette
+                  Press <kbd className="px-3 py-1.5 bg-bg-2 border border-border rounded text-sm font-mono">Cmd/Ctrl + K</kbd> to open the command palette
                 </p>
                 <CommandPalette items={commandItems} />
               </Card>

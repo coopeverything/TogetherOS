@@ -50,7 +50,7 @@ export default async function GlossaryTermPage({ params }: Props) {
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-ink-400">
+          <ol className="flex items-center gap-2 text-base text-ink-400">
             <li>
               <Link href="/glossary" className="hover:text-emerald-600">
                 Glossary
@@ -63,11 +63,11 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* Term Header */}
         <header className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xl">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-2xl">
               📖
             </div>
-            <span className="text-sm font-medium text-emerald-600 uppercase tracking-wide">
+            <span className="text-base font-medium text-emerald-600 uppercase tracking-wide">
               Glossary Term
             </span>
           </div>
@@ -75,7 +75,7 @@ export default async function GlossaryTermPage({ params }: Props) {
           <h1 className="text-4xl font-bold text-ink-900 mb-4">{term.word}</h1>
 
           {term.cooperationPath && (
-            <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm mb-4">
+            <span className="inline-block px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-base mb-4">
               {term.cooperationPath}
             </span>
           )}
@@ -83,10 +83,10 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* Definition Box */}
         <div className="bg-bg-1 rounded-xl border-2 border-emerald-200 p-6 mb-8">
-          <h2 className="text-sm font-medium text-emerald-600 uppercase tracking-wide mb-3">
+          <h2 className="text-base font-medium text-emerald-600 uppercase tracking-wide mb-3">
             Definition
           </h2>
-          <p className="text-xl text-ink-900 leading-relaxed">
+          <p className="text-2xl text-ink-900 leading-relaxed">
             {term.shortDefinition}
           </p>
         </div>
@@ -94,7 +94,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Wiki Article Link */}
         {wikiArticle && (
           <div className="mb-8">
-            <h2 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h2 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Learn More
             </h2>
             <Link
@@ -102,16 +102,16 @@ export default async function GlossaryTermPage({ params }: Props) {
               className="block bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-5 hover:border-blue-400 hover:shadow-md transition-all group"
             >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-lg flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl flex-shrink-0">
                   📖
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-blue-600 uppercase tracking-wide">
+                    <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">
                       Wiki Article
                     </span>
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${
+                      className={`text-sm px-3 py-0.5 rounded-full ${
                         wikiArticle.status === 'stable'
                           ? 'bg-green-100 text-green-800'
                           : wikiArticle.status === 'evolving'
@@ -122,13 +122,13 @@ export default async function GlossaryTermPage({ params }: Props) {
                       {wikiArticle.status}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-ink-900 group-hover:text-blue-600 transition-colors mb-2">
+                  <h3 className="text-2xl font-semibold text-ink-900 group-hover:text-blue-600 transition-colors mb-2">
                     {wikiArticle.title}
                   </h3>
                   <p className="text-ink-700 leading-relaxed mb-3">
                     {wikiArticle.summary}
                   </p>
-                  <div className="flex items-center gap-4 text-sm text-ink-400">
+                  <div className="flex items-center gap-4 text-base text-ink-400">
                     <span>{wikiArticle.readTimeMinutes} min read</span>
                     <span>
                       {wikiArticle.contributorCount} contributor
@@ -159,22 +159,22 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Related Terms */}
         {relatedTerms.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h2 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Terms
             </h2>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {relatedTerms.map((related) => (
                 <Link
                   key={related.id}
                   href={`/glossary/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-emerald-300 hover:bg-emerald-50 transition-colors group"
+                  className="flex items-start gap-4 p-4 bg-bg-1 rounded-lg border border-border hover:border-emerald-300 hover:bg-emerald-50 transition-colors group"
                 >
-                  <span className="text-lg">📖</span>
+                  <span className="text-xl">📖</span>
                   <div className="flex-1">
                     <div className="font-medium text-ink-900 group-hover:text-emerald-600 transition-colors">
                       {related.word}
                     </div>
-                    <div className="text-sm text-ink-700">
+                    <div className="text-base text-ink-700">
                       {related.shortDefinition}
                     </div>
                   </div>
@@ -240,7 +240,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         </div>
 
         {/* Usage Note */}
-        <div className="p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
+        <div className="p-4 bg-bg-0 rounded-lg border border-border text-base text-ink-700">
           <p>
             <strong>How terms work on this site:</strong> When you see a term
             with a dotted underline, hover over it to see this definition. Click

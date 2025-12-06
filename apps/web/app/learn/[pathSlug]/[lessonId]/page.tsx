@@ -144,7 +144,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
     <div className="min-h-screen bg-bg-0 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-sm text-ink-700 mb-4">
+        <nav className="text-base text-ink-700 mb-4">
           <Link href="/learn" className="hover:text-blue-600">Learn</Link>
           <span className="mx-2">/</span>
           <Link href={`/learn/${lesson.pathSlug}`} className="hover:text-blue-600">
@@ -156,9 +156,9 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
 
         {/* Lesson Content */}
         <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
-          <h1 className="text-xl font-semibold text-ink-900 mb-2">{lesson.title}</h1>
+          <h1 className="text-2xl font-semibold text-ink-900 mb-2">{lesson.title}</h1>
 
-          <div className="flex items-center gap-4 text-sm text-ink-400 mb-6">
+          <div className="flex items-center gap-4 text-base text-ink-400 mb-6">
             <span>{lesson.durationMinutes} min read</span>
             <span className="text-green-600">+{lesson.rpReward} RP</span>
             {isCompleted && (
@@ -202,7 +202,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
               </svg>
               Lesson Completed!
             </div>
-            <p className="text-green-700 text-sm">
+            <p className="text-green-700 text-base">
               You earned <strong>+{completionResult.rpAwarded} RP</strong>
               {completionResult.pathProgress?.pathCompleted && (
                 <> and completed the path for an extra <strong>+{completionResult.pathProgress.pathRpAwarded} RP</strong>!</>
@@ -218,7 +218,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
             {lesson.previousLesson && (
               <Link
                 href={`/learn/${pathSlug}/${lesson.previousLesson.id}`}
-                className="text-sm text-ink-700 hover:text-blue-600 flex items-center gap-1"
+                className="text-base text-ink-700 hover:text-blue-600 flex items-center gap-1"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -228,7 +228,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
             )}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Mark Complete Button */}
             {!isCompleted && (
               <button
@@ -410,21 +410,21 @@ function MarkdownContentView({ content }: { content: MarkdownContent }) {
       if (trimmed.startsWith('### ')) {
         flushList()
         elements.push(
-          <h3 key={i} className="text-lg font-medium text-ink-900 mt-4 mb-2">
+          <h3 key={i} className="text-xl font-medium text-ink-900 mt-4 mb-2">
             {trimmed.slice(4)}
           </h3>
         )
       } else if (trimmed.startsWith('## ')) {
         flushList()
         elements.push(
-          <h2 key={i} className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+          <h2 key={i} className="text-2xl font-semibold text-ink-900 mt-6 mb-3">
             {trimmed.slice(3)}
           </h2>
         )
       } else if (trimmed.startsWith('# ')) {
         flushList()
         elements.push(
-          <h1 key={i} className="text-2xl font-bold text-ink-900 mt-6 mb-4">
+          <h1 key={i} className="text-3xl font-bold text-ink-900 mt-6 mb-4">
             {trimmed.slice(2)}
           </h1>
         )

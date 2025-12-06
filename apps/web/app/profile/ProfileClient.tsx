@@ -151,8 +151,8 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
         <header className="bg-white dark:bg-gray-800 border-b border-border">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-ink-900">Your Profile</h1>
-              <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-ink-900">Your Profile</h1>
+              <div className="flex items-center gap-4">
                 <ThemePicker />
                 {user.username && (
                   <Button
@@ -186,7 +186,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
 
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">Basic Info</h2>
+                <h2 className="text-2xl font-semibold text-ink-900 mb-4">Basic Info</h2>
                 <div className="space-y-3">
                   <div>
                     <Label className="text-ink-700">Email</Label>
@@ -222,7 +222,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
 
               {(user.city || user.state || user.country) && (
                 <div>
-                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Location</h2>
+                  <h2 className="text-2xl font-semibold text-ink-900 mb-4">Location</h2>
                   <p className="text-ink-900">
                     {[user.city, user.state, user.country].filter(Boolean).join(', ')}
                   </p>
@@ -231,7 +231,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
 
               {user.paths && user.paths.length > 0 && (
                 <div>
-                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Your Cooperation Paths</h2>
+                  <h2 className="text-2xl font-semibold text-ink-900 mb-4">Your Cooperation Paths</h2>
                   <div className="flex flex-wrap gap-2">
                     {COOPERATION_PATHS.filter((p) => user.paths?.includes(p.id)).map((path) => (
                       <Badge key={path.id} variant="brand">
@@ -244,7 +244,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
 
               {user.skills && user.skills.length > 0 && (
                 <div>
-                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Skills</h2>
+                  <h2 className="text-2xl font-semibold text-ink-900 mb-4">Skills</h2>
                   <div className="flex flex-wrap gap-2">
                     {user.skills.map((skill, i) => (
                       <Badge key={i} variant="default">
@@ -257,28 +257,28 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
 
               {user.can_offer && (
                 <div>
-                  <h2 className="text-xl font-semibold text-ink-900 mb-4">What I Can Offer</h2>
+                  <h2 className="text-2xl font-semibold text-ink-900 mb-4">What I Can Offer</h2>
                   <p className="text-ink-900">{user.can_offer}</p>
                 </div>
               )}
 
               {user.seeking_help && (
                 <div>
-                  <h2 className="text-xl font-semibold text-ink-900 mb-4">What I'm Seeking</h2>
+                  <h2 className="text-2xl font-semibold text-ink-900 mb-4">What I'm Seeking</h2>
                   <p className="text-ink-900">{user.seeking_help}</p>
                 </div>
               )}
 
               {user.social_links && Object.values(user.social_links).some(v => v) && (
                 <div>
-                  <h2 className="text-xl font-semibold text-ink-900 mb-4">Connect</h2>
-                  <div className="flex flex-wrap gap-3">
+                  <h2 className="text-2xl font-semibold text-ink-900 mb-4">Connect</h2>
+                  <div className="flex flex-wrap gap-4">
                     {user.social_links.github && (
                       <a
                         href={`https://github.com/${user.social_links.github}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5.5 bg-bg-1 hover:bg-bg-2 rounded-md text-base text-ink-900 transition-colors"
                       >
                         <span>GitHub</span>
                       </a>
@@ -288,7 +288,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                         href={`https://twitter.com/${user.social_links.twitter}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5.5 bg-bg-1 hover:bg-bg-2 rounded-md text-base text-ink-900 transition-colors"
                       >
                         <span>Twitter</span>
                       </a>
@@ -298,7 +298,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                         href={`https://linkedin.com/in/${user.social_links.linkedin}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5.5 bg-bg-1 hover:bg-bg-2 rounded-md text-base text-ink-900 transition-colors"
                       >
                         <span>LinkedIn</span>
                       </a>
@@ -308,7 +308,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                         href={user.social_links.mastodon.startsWith('http') ? user.social_links.mastodon : `https://mastodon.social/@${user.social_links.mastodon}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5.5 bg-bg-1 hover:bg-bg-2 rounded-md text-base text-ink-900 transition-colors"
                       >
                         <span>Mastodon</span>
                       </a>
@@ -318,7 +318,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                         href={`https://bsky.app/profile/${user.social_links.bluesky}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5.5 bg-bg-1 hover:bg-bg-2 rounded-md text-base text-ink-900 transition-colors"
                       >
                         <span>Bluesky</span>
                       </a>
@@ -328,7 +328,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                         href={user.social_links.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-bg-1 hover:bg-bg-2 rounded-md text-sm text-ink-900 transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5.5 bg-bg-1 hover:bg-bg-2 rounded-md text-base text-ink-900 transition-colors"
                       >
                         <span>Website</span>
                       </a>
@@ -349,7 +349,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
       <header className="bg-white dark:bg-gray-800 border-b border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-ink-900">Edit Profile</h1>
+            <h1 className="text-3xl font-bold text-ink-900">Edit Profile</h1>
             <Button variant="secondary" onClick={() => setIsEditing(false)}>
               Cancel
             </Button>
@@ -361,7 +361,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
         <form onSubmit={handleSubmit}>
           <Card className="p-8 space-y-6">
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-4">Basic Info</h2>
+              <h2 className="text-2xl font-semibold text-ink-900 mb-4">Basic Info</h2>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="name">Name</Label>
@@ -383,7 +383,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     placeholder="username"
                   />
-                  <p className="text-sm text-ink-700 mt-1">
+                  <p className="text-base text-ink-700 mt-1">
                     3-50 characters, letters, numbers, underscores, hyphens
                   </p>
                 </div>
@@ -411,7 +411,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-4">Location</h2>
+              <h2 className="text-2xl font-semibold text-ink-900 mb-4">Location</h2>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="city">City</Label>
@@ -449,9 +449,9 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-2">Cooperation Paths</h2>
-              <p className="text-sm text-ink-700 mb-4">Select the paths that resonate with you</p>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <h2 className="text-2xl font-semibold text-ink-900 mb-2">Cooperation Paths</h2>
+              <p className="text-base text-ink-700 mb-4">Select the paths that resonate with you</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {COOPERATION_PATHS.map((path) => {
                   const isSelected = formData.paths.includes(path.id);
                   return (
@@ -464,7 +464,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                       onClick={() => togglePath(path.id)}
                     >
                       <div className="text-3xl mb-2">{path.emoji}</div>
-                      <div className="text-sm text-center font-medium">{path.name}</div>
+                      <div className="text-base text-center font-medium">{path.name}</div>
                     </Card>
                   );
                 })}
@@ -472,7 +472,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-4">Skills & Interests</h2>
+              <h2 className="text-2xl font-semibold text-ink-900 mb-4">Skills & Interests</h2>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="skills">Skills</Label>
@@ -483,7 +483,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                     suggestions={COMMON_SKILLS}
                     maxTags={20}
                   />
-                  <p className="text-sm text-ink-700 mt-1">Add up to 20 skills. Start typing to see suggestions.</p>
+                  <p className="text-base text-ink-700 mt-1">Add up to 20 skills. Start typing to see suggestions.</p>
                 </div>
 
                 <div>
@@ -511,7 +511,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-4">Social Links</h2>
+              <h2 className="text-2xl font-semibold text-ink-900 mb-4">Social Links</h2>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="github">GitHub Username</Label>
@@ -600,10 +600,10 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-2">Privacy Settings</h2>
-              <p className="text-sm text-ink-700 mb-4">Control who can see your profile</p>
+              <h2 className="text-2xl font-semibold text-ink-900 mb-2">Privacy Settings</h2>
+              <p className="text-base text-ink-700 mb-4">Control who can see your profile</p>
               <div className="space-y-3">
-                <label className="flex items-start gap-3 p-3 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
+                <label className="flex items-start gap-4 p-4 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
                   <input
                     type="radio"
                     name="profile_visibility"
@@ -614,11 +614,11 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                   />
                   <div>
                     <div className="font-medium text-ink-900">Public</div>
-                    <div className="text-sm text-ink-700">Anyone can view your profile</div>
+                    <div className="text-base text-ink-700">Anyone can view your profile</div>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 p-3 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
+                <label className="flex items-start gap-4 p-4 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
                   <input
                     type="radio"
                     name="profile_visibility"
@@ -629,11 +629,11 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                   />
                   <div>
                     <div className="font-medium text-ink-900">Members Only</div>
-                    <div className="text-sm text-ink-700">Only logged-in members can view your profile</div>
+                    <div className="text-base text-ink-700">Only logged-in members can view your profile</div>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 p-3 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
+                <label className="flex items-start gap-4 p-4 border border-border rounded-md cursor-pointer hover:bg-bg-1 transition-colors">
                   <input
                     type="radio"
                     name="profile_visibility"
@@ -644,7 +644,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
                   />
                   <div>
                     <div className="font-medium text-ink-900">Private</div>
-                    <div className="text-sm text-ink-700">Only you can view your profile</div>
+                    <div className="text-base text-ink-700">Only you can view your profile</div>
                   </div>
                 </label>
               </div>

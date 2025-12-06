@@ -167,7 +167,7 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div className="p-8">
-        <h1 className="text-2xl font-bold mb-4">System Settings</h1>
+        <h1 className="text-3xl font-bold mb-4">System Settings</h1>
         <p>Loading...</p>
       </div>
     )
@@ -208,23 +208,23 @@ export default function AdminSettingsPage() {
         <div className="space-y-8">
           {settingsByCategory.map((category) => (
             <div key={category.category} className="bg-bg-0 rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-2xl font-semibold mb-4">
                 {categoryLabels[category.category] || category.category}
               </h2>
 
               <table className="min-w-full divide-y divide-border">
                 <thead className="bg-bg-2">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-sm font-medium text-ink-400 uppercase tracking-wider">
                       Setting
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-sm font-medium text-ink-400 uppercase tracking-wider">
                       Value
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-sm font-medium text-ink-400 uppercase tracking-wider">
                       Range
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-sm font-medium text-ink-400 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -233,10 +233,10 @@ export default function AdminSettingsPage() {
                   {category.settings.map((setting) => (
                     <tr key={setting.key}>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-medium text-ink-900">
+                        <div className="text-base font-medium text-ink-900">
                           {setting.key.split('.')[1]}
                         </div>
-                        <div className="text-xs text-ink-400">{setting.description}</div>
+                        <div className="text-sm text-ink-400">{setting.description}</div>
                       </td>
                       <td className="px-6 py-4">
                         {editingKey === setting.key ? (
@@ -244,13 +244,13 @@ export default function AdminSettingsPage() {
                             type="text"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border border-border rounded px-2 py-1 w-24"
+                            className="border border-border rounded px-3 py-1.5 w-24"
                           />
                         ) : (
-                          <span className="text-sm font-semibold">{String(setting.value)}</span>
+                          <span className="text-base font-semibold">{String(setting.value)}</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-ink-400">
+                      <td className="px-6 py-4 text-base text-ink-400">
                         {setting.minValue !== null && setting.maxValue !== null
                           ? `${setting.minValue} - ${setting.maxValue}`
                           : '-'}
@@ -263,19 +263,19 @@ export default function AdminSettingsPage() {
                               placeholder="Reason for change (min 10 chars)"
                               value={editReason}
                               onChange={(e) => setEditReason(e.target.value)}
-                              className="border border-border rounded px-2 py-1 w-full text-sm"
+                              className="border border-border rounded px-3 py-1.5 w-full text-base"
                               minLength={10}
                             />
                             <div className="flex space-x-2">
                               <button
                                 onClick={() => handleUpdate(setting.key)}
-                                className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+                                className="bg-blue-600 text-white px-3 py-1.5 rounded text-base hover:bg-blue-700"
                               >
                                 Save
                               </button>
                               <button
                                 onClick={cancelEdit}
-                                className="bg-bg-2 text-ink-700 px-3 py-1 rounded text-sm hover:bg-bg-1"
+                                className="bg-bg-2 text-ink-700 px-3 py-1.5 rounded text-base hover:bg-bg-1"
                               >
                                 Cancel
                               </button>
@@ -285,13 +285,13 @@ export default function AdminSettingsPage() {
                           <div className="flex space-x-2">
                             <button
                               onClick={() => startEdit(setting)}
-                              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                              className="text-blue-600 hover:text-blue-800 text-base font-medium"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => handleDelete(setting.key, setting.description)}
-                              className="text-red-600 hover:text-red-800 text-sm font-medium"
+                              className="text-red-600 hover:text-red-800 text-base font-medium"
                             >
                               Delete
                             </button>
@@ -311,14 +311,14 @@ export default function AdminSettingsPage() {
       {activeTab === 'audit' && (
         <div className="bg-bg-0 rounded-lg shadow">
           <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Recent Changes</h2>
+            <h2 className="text-2xl font-semibold mb-4">Recent Changes</h2>
             <div className="space-y-4">
               {auditLog.map((entry) => (
                 <div key={entry.id} className="border-l-4 border-blue-500 pl-4 py-2">
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-medium text-ink-900">{entry.settingKey}</p>
-                      <p className="text-sm text-ink-400">
+                      <p className="text-base text-ink-400">
                         {entry.oldValue !== null ? (
                           <>
                             Changed from <span className="font-mono">{String(entry.oldValue)}</span>{' '}
@@ -331,10 +331,10 @@ export default function AdminSettingsPage() {
                         )}
                       </p>
                       {entry.reason && (
-                        <p className="text-sm text-ink-400 mt-1">Reason: {entry.reason}</p>
+                        <p className="text-base text-ink-400 mt-1">Reason: {entry.reason}</p>
                       )}
                     </div>
-                    <div className="text-right text-sm text-ink-400">
+                    <div className="text-right text-base text-ink-400">
                       <p>{new Date(entry.changedAt).toLocaleString()}</p>
                       <p>by {entry.changedBy}</p>
                     </div>

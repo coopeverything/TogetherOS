@@ -92,10 +92,10 @@ export function CookieConsent() {
         {!showPreferences ? (
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
                 Cookie Preferences
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+              <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                 We use cookies to ensure the basic functionality of our site and to enhance your experience.
                 We only use privacy-respecting tools and never sell your data.{' '}
                 <a
@@ -109,19 +109,19 @@ export function CookieConsent() {
             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
               <button
                 onClick={() => setShowPreferences(true)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-700 transition-colors"
               >
                 Customize
               </button>
               <button
                 onClick={handleAcceptNecessary}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors"
+                className="px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors"
               >
                 Necessary Only
               </button>
               <button
                 onClick={handleAcceptAll}
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Accept All
               </button>
@@ -130,7 +130,7 @@ export function CookieConsent() {
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 Cookie Preferences
               </h3>
               <button
@@ -146,7 +146,7 @@ export function CookieConsent() {
 
             <div className="space-y-3">
               {/* Necessary cookies */}
-              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
                 <input
                   type="checkbox"
                   checked={true}
@@ -157,14 +157,14 @@ export function CookieConsent() {
                   <label className="font-medium text-gray-900 dark:text-white">
                     Necessary Cookies
                   </label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                  <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Required for authentication, security, and basic functionality. Cannot be disabled.
                   </p>
                 </div>
               </div>
 
               {/* Functional cookies */}
-              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
                 <input
                   type="checkbox"
                   checked={preferences.functional}
@@ -177,14 +177,14 @@ export function CookieConsent() {
                   <label className="font-medium text-gray-900 dark:text-white">
                     Functional Cookies
                   </label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                  <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Remember your preferences like theme, language, and display settings.
                   </p>
                 </div>
               </div>
 
               {/* Analytics cookies */}
-              <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg">
                 <input
                   type="checkbox"
                   checked={preferences.analytics}
@@ -197,7 +197,7 @@ export function CookieConsent() {
                   <label className="font-medium text-gray-900 dark:text-white">
                     Analytics Cookies
                   </label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                  <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     Help us understand how you use the site. We use privacy-respecting Vercel Analytics (no personal data tracked).
                   </p>
                 </div>
@@ -207,13 +207,13 @@ export function CookieConsent() {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={handleAcceptNecessary}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors"
+                className="px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 transition-colors"
               >
                 Necessary Only
               </button>
               <button
                 onClick={handleSavePreferences}
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Save Preferences
               </button>

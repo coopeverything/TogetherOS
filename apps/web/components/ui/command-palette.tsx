@@ -144,7 +144,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
             aria-autocomplete="list"
             aria-controls="command-list"
           />
-          <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-border bg-bg-2 px-2 py-1 text-xs text-ink-700">
+          <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-border bg-bg-2 px-3 py-1.5 text-sm text-ink-700">
             ESC
           </kbd>
         </div>
@@ -156,7 +156,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
           className="overflow-y-auto max-h-[calc(60vh-65px)] p-2"
         >
           {filteredItems.length === 0 ? (
-            <div className="py-12 text-center text-ink-400 text-sm">
+            <div className="py-12 text-center text-ink-400 text-base">
               {emptyMessage}
             </div>
           ) : (
@@ -171,7 +171,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                 role="option"
                 aria-selected={index === selectedIndex}
                 className={cn(
-                  'w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors',
+                  'w-full flex items-center gap-4 px-4 py-3 rounded-lg text-left transition-colors',
                   index === selectedIndex
                     ? 'bg-brand-100 text-brand-600'
                     : 'text-ink-900 hover:bg-bg-2'
@@ -186,7 +186,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <div className="font-medium">{item.label}</div>
                   {item.description && (
                     <div className={cn(
-                      'text-sm truncate',
+                      'text-base truncate',
                       index === selectedIndex ? 'text-brand-600/70' : 'text-ink-700'
                     )}>
                       {item.description}

@@ -117,7 +117,7 @@ export default function RecommendationsTestPage() {
         <div className="bg-bg-0 rounded-lg shadow p-6 mb-6">
           <div className="flex gap-4 items-end">
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">User ID</label>
+              <label className="block text-base font-medium mb-2">User ID</label>
               <input
                 type="text"
                 value={userId}
@@ -143,7 +143,7 @@ export default function RecommendationsTestPage() {
           </div>
 
           {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded text-red-700">
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded text-red-700">
               {error}
             </div>
           )}
@@ -152,7 +152,7 @@ export default function RecommendationsTestPage() {
         {/* Recommendations */}
         {recommendations.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-xl font-bold">
+            <h2 className="text-2xl font-bold">
               Recommendations ({recommendations.length})
             </h2>
 
@@ -160,24 +160,24 @@ export default function RecommendationsTestPage() {
               <div key={rec.id} className="bg-bg-0 rounded-lg shadow p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                    <div className="flex items-center gap-4 mb-2">
+                      <span className="px-3 py-1.5 bg-blue-100 text-blue-800 text-sm font-medium rounded">
                         {getTypeLabel(rec.type)}
                       </span>
-                      <span className={`text-sm font-medium ${getUrgencyColor(rec.urgency)}`}>
+                      <span className={`text-base font-medium ${getUrgencyColor(rec.urgency)}`}>
                         {rec.urgency?.toUpperCase() || 'NORMAL'} URGENCY
                       </span>
-                      <span className="text-sm text-ink-400">
+                      <span className="text-base text-ink-400">
                         Score: {rec.relevanceScore}/100
                       </span>
-                      <span className="px-2 py-1 bg-bg-2 text-ink-700 text-xs rounded">
+                      <span className="px-3 py-1.5 bg-bg-2 text-ink-700 text-sm rounded">
                         {rec.status.toUpperCase()}
                       </span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">{rec.title}</h3>
+                    <h3 className="text-xl font-semibold mb-2">{rec.title}</h3>
                     <p className="text-ink-700 mb-3">{rec.description}</p>
 
-                    <div className="flex flex-wrap gap-4 text-sm text-ink-400">
+                    <div className="flex flex-wrap gap-4 text-base text-ink-400">
                       {rec.matchedInterests.length > 0 && (
                         <div>
                           <span className="font-medium">Matched Interests:</span>{' '}
@@ -232,7 +232,7 @@ export default function RecommendationsTestPage() {
         {/* Info Panel */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
           <h3 className="font-bold mb-3">How It Works</h3>
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-2 text-base">
             <li>
               <strong>Generate:</strong> Creates new recommendations based on user context (location, interests, engagement)
               and city context (groups, events, trending topics)
@@ -249,8 +249,8 @@ export default function RecommendationsTestPage() {
           </ul>
 
           <div className="mt-4 pt-4 border-t border-blue-300">
-            <p className="text-sm"><strong>Test User ID:</strong> {userId}</p>
-            <p className="text-sm text-ink-400">
+            <p className="text-base"><strong>Test User ID:</strong> {userId}</p>
+            <p className="text-base text-ink-400">
               Mock data includes: Portland, Oregon location with interests in housing, climate, food systems
             </p>
           </div>

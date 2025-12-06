@@ -52,7 +52,7 @@ export function UrlPreviewCard({ url, preview, className = '' }: UrlPreviewCardP
               className="w-full h-full object-cover"
             />
             {/* Platform badge */}
-            <div className={`absolute top-2 right-2 ${bgColor} text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg`}>
+            <div className={`absolute top-2 right-2 ${bgColor} text-white px-3 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg`}>
               <span>{icon}</span>
               <span className="capitalize">{preview.platform}</span>
             </div>
@@ -68,20 +68,20 @@ export function UrlPreviewCard({ url, preview, className = '' }: UrlPreviewCardP
 
           {/* Description */}
           {preview.description && (
-            <p className="text-sm text-gray-600 line-clamp-3 mb-2">
+            <p className="text-base text-gray-600 line-clamp-3 mb-2">
               {preview.description}
             </p>
           )}
 
           {/* Author */}
           {preview.authorName && (
-            <p className="text-xs text-gray-500">
+            <p className="text-sm text-gray-500">
               by {preview.authorName}
             </p>
           )}
 
           {/* URL */}
-          <p className="text-xs text-gray-400 mt-2 truncate">
+          <p className="text-sm text-gray-400 mt-2 truncate">
             {url}
           </p>
         </div>

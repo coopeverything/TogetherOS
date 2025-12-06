@@ -93,11 +93,11 @@ export function NotificationInbox({
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notifications</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Notifications</h2>
         {unreadCount > 0 && (
           <button
             onClick={onMarkAllAsRead}
-            className="text-sm text-blue-600 hover:text-blue-800"
+            className="text-base text-blue-600 hover:text-blue-800"
           >
             Mark all as read
           </button>
@@ -108,7 +108,7 @@ export function NotificationInbox({
       <div className="flex gap-2 p-4 border-b">
         <button
           onClick={() => setFilter('all')}
-          className={`px-3 py-1 text-sm rounded-full ${
+          className={`px-3 py-1.5 text-base rounded-full ${
             filter === 'all'
               ? 'bg-blue-100 text-blue-800'
               : 'bg-gray-100 dark:bg-gray-700 text-gray-600 hover:bg-gray-200'
@@ -118,7 +118,7 @@ export function NotificationInbox({
         </button>
         <button
           onClick={() => setFilter('unread')}
-          className={`px-3 py-1 text-sm rounded-full ${
+          className={`px-3 py-1.5 text-base rounded-full ${
             filter === 'unread'
               ? 'bg-blue-100 text-blue-800'
               : 'bg-gray-100 dark:bg-gray-700 text-gray-600 hover:bg-gray-200'
@@ -128,7 +128,7 @@ export function NotificationInbox({
         </button>
         <button
           onClick={() => setFilter('archived')}
-          className={`px-3 py-1 text-sm rounded-full ${
+          className={`px-3 py-1.5 text-base rounded-full ${
             filter === 'archived'
               ? 'bg-blue-100 text-blue-800'
               : 'bg-gray-100 dark:bg-gray-700 text-gray-600 hover:bg-gray-200'
@@ -153,7 +153,7 @@ export function NotificationInbox({
             <div
               key={notification.id}
               className={`
-                flex items-start gap-3 p-4
+                flex items-start gap-4 p-4
                 hover:bg-gray-50 dark:bg-gray-900 cursor-pointer transition-colors
                 ${notification.status === 'unread' ? 'bg-blue-50' : ''}
               `}
@@ -165,19 +165,19 @@ export function NotificationInbox({
               )}
 
               {/* Icon */}
-              <div className="flex-shrink-0 text-2xl">
+              <div className="flex-shrink-0 text-3xl">
                 {getNotificationIcon(notification.type)}
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                <p className="text-base font-medium text-gray-900 dark:text-white">
                   {notification.title}
                 </p>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="mt-1 text-base text-gray-600">
                   {notification.message}
                 </p>
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-sm text-gray-500">
                   {formatTimeAgo(notification.createdAt)}
                 </p>
               </div>
@@ -190,7 +190,7 @@ export function NotificationInbox({
                       e.stopPropagation()
                       onUpdateStatus?.(notification.id, 'read')
                     }}
-                    className="text-xs text-blue-600 hover:text-blue-800"
+                    className="text-sm text-blue-600 hover:text-blue-800"
                   >
                     Mark read
                   </button>
@@ -202,7 +202,7 @@ export function NotificationInbox({
                         e.stopPropagation()
                         onUpdateStatus?.(notification.id, 'archived')
                       }}
-                      className="text-xs text-gray-600 hover:text-gray-800 dark:text-gray-200"
+                      className="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-200"
                     >
                       Archive
                     </button>
@@ -211,7 +211,7 @@ export function NotificationInbox({
                         e.stopPropagation()
                         onUpdateStatus?.(notification.id, 'unread')
                       }}
-                      className="text-xs text-gray-600 hover:text-gray-800 dark:text-gray-200"
+                      className="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-200"
                     >
                       Mark unread
                     </button>
@@ -223,7 +223,7 @@ export function NotificationInbox({
                       e.stopPropagation()
                       onDelete?.(notification.id)
                     }}
-                    className="text-xs text-red-600 hover:text-red-800"
+                    className="text-sm text-red-600 hover:text-red-800"
                   >
                     Delete
                   </button>

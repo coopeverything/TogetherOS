@@ -48,7 +48,7 @@ export default function MetricTemplatesPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading templates...</p>
+          <p className="text-xl text-ink-700">Loading templates...</p>
         </div>
       </div>
     )
@@ -58,7 +58,7 @@ export default function MetricTemplatesPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-red-50/20 border border-red-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-900 mb-2">
+          <h2 className="text-2xl font-semibold text-red-900 mb-2">
             Error Loading Templates
           </h2>
           <p className="text-red-700">{error}</p>
@@ -70,7 +70,7 @@ export default function MetricTemplatesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumb */}
-      <nav className="mb-6 text-sm">
+      <nav className="mb-6 text-base">
         <ol className="flex items-center gap-2 text-ink-400">
           <li>
             <Link href="/metrics" className="hover:text-orange-600">
@@ -90,7 +90,7 @@ export default function MetricTemplatesPage() {
 
       {/* Info Box */}
       <div className="bg-bg-0 rounded-lg border border-border p-6 mt-8">
-        <h3 className="text-lg font-semibold text-ink-900 mb-2">
+        <h3 className="text-xl font-semibold text-ink-900 mb-2">
           About Metric Templates
         </h3>
         <p className="text-ink-700">

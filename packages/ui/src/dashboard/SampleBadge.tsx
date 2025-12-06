@@ -26,9 +26,9 @@ const positionClasses = {
 }
 
 const sizeClasses = {
-  sm: 'text-[10px] px-2 py-0.5',
-  md: 'text-xs px-3 py-1',
-  lg: 'text-sm px-4 py-1.5',
+  sm: 'text-[10px] px-3 py-0.5',
+  md: 'text-sm px-3 py-1.5',
+  lg: 'text-base px-4 py-1.5.5',
 }
 
 export function SampleBadge({

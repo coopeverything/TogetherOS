@@ -37,8 +37,8 @@ export function DuplicateThreadModal({
         <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Similar Discussions Found</h2>
-              <p className="text-sm text-gray-600 mt-1">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Similar Discussions Found</h2>
+              <p className="text-base text-gray-600 mt-1">
                 Bridge found {similarThreads.length} similar discussion{similarThreads.length !== 1 ? 's' : ''}.
                 Join an existing one or start a new discussion.
               </p>
@@ -56,13 +56,13 @@ export function DuplicateThreadModal({
 
         {/* Your proposed discussion */}
         <div className="px-6 py-4 bg-blue-50 border-b border-blue-200">
-          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Your proposed discussion:</h3>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Your proposed discussion:</h3>
           <p className="text-gray-700">{proposedTitle}</p>
         </div>
 
         {/* Similar threads list */}
         <div className="px-6 py-4">
-          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Existing discussions:</h3>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-3">Existing discussions:</h3>
           <div className="space-y-3">
             {similarThreads.map(({ thread, similarity, matchedKeywords }) => (
               <div
@@ -72,16 +72,16 @@ export function DuplicateThreadModal({
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{thread.title}</h4>
-                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                    <div className="flex items-center gap-4 text-base text-gray-600">
                       <span>💬 {thread.postCount} {thread.postCount === 1 ? 'post' : 'posts'}</span>
                       <span>👥 {thread.participantCount} {thread.participantCount === 1 ? 'participant' : 'participants'}</span>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-sm text-gray-500">
                         Last activity: {new Date(thread.lastActivityAt).toLocaleDateString()}
                       </span>
                     </div>
                   </div>
                   <div
-                    className="ml-4 px-3 py-1 rounded-full text-xs font-medium flex-shrink-0"
+                    className="ml-4 px-3 py-1.5 rounded-full text-sm font-medium flex-shrink-0"
                     style={{
                       backgroundColor: similarity > 0.7
                         ? '#dcfce7'
@@ -101,11 +101,11 @@ export function DuplicateThreadModal({
 
                 {matchedKeywords.length > 0 && (
                   <div className="mb-3">
-                    <span className="text-xs text-gray-500">Matched keywords: </span>
+                    <span className="text-sm text-gray-500">Matched keywords: </span>
                     {matchedKeywords.map((keyword, i) => (
                       <span
                         key={i}
-                        className="inline-block text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 px-2 py-0.5 rounded-full mr-1 mb-1"
+                        className="inline-block text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 px-3 py-0.5 rounded-full mr-1 mb-1"
                       >
                         {keyword}
                       </span>
@@ -126,19 +126,19 @@ export function DuplicateThreadModal({
 
         {/* Footer - option to create new anyway */}
         <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-900">
-          <div className="flex items-start gap-3 mb-3">
+          <div className="flex items-start gap-4 mb-3">
             <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-yellow-600 text-xs">⚠️</span>
+              <span className="text-yellow-600 text-sm">⚠️</span>
             </div>
             <div className="flex-1">
-              <p className="text-sm text-gray-700">
+              <p className="text-base text-gray-700">
                 <strong>Note:</strong> Creating duplicate discussions fragments the conversation
                 and makes it harder for the community to reach consensus. Consider joining an
                 existing thread if your topic is covered.
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex items-center justify-end gap-4">
             <button
               onClick={onClose}
               className="px-4 py-2 text-gray-700 hover:bg-gray-100 dark:bg-gray-700 rounded-lg font-medium transition-colors"

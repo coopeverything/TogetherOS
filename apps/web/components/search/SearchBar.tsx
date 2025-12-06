@@ -204,11 +204,11 @@ export function SearchBar({
       {query && (
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
           {isDebouncing && (
-            <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">Searching...</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Searching...</span>
           )}
           <button
             onClick={handleClear}
-            className="rounded px-2 py-1 text-sm hover:bg-gray-100 dark:bg-gray-800"
+            className="rounded px-3 py-1.5 text-base hover:bg-gray-100 dark:bg-gray-800"
             aria-label="Clear search"
           >
             Clear
@@ -230,19 +230,19 @@ export function SearchBar({
               role="option"
               aria-selected={index === selectedIndex}
               onClick={() => selectSuggestion(suggestion)}
-              className={`flex w-full items-center gap-3 px-4 py-2 text-left text-sm ${
+              className={`flex w-full items-center gap-4 px-4 py-2 text-left text-base ${
                 index === selectedIndex ? 'bg-blue-50' : 'hover:bg-gray-50'
               }`}
             >
               {getSuggestionIcon(suggestion.type)}
               <span className="flex-1 truncate">{suggestion.text}</span>
               {suggestion.metadata?.result_count !== undefined && (
-                <span className="text-xs text-gray-400 dark:text-gray-500">
+                <span className="text-sm text-gray-400 dark:text-gray-500">
                   {suggestion.metadata.result_count} results
                 </span>
               )}
               {suggestion.metadata?.content_type && (
-                <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                   {suggestion.metadata.content_type}
                 </span>
               )}
@@ -251,7 +251,7 @@ export function SearchBar({
         </div>
       )}
 
-      <div className="mt-1 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+      <div className="mt-1 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
         Press Cmd/Ctrl+K to focus search
       </div>
     </div>

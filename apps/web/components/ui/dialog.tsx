@@ -76,7 +76,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h2
     ref={ref}
-    className={cn('text-xl font-bold text-ink-900', className)}
+    className={cn('text-2xl font-bold text-ink-900', className)}
     {...props}
   />
 ));
@@ -88,7 +88,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn('text-sm text-ink-700 mt-1', className)}
+    className={cn('text-base text-ink-700 mt-1', className)}
     {...props}
   />
 ));

@@ -69,16 +69,16 @@ export function ServiceBrowser({
     <div className={`space-y-6 ${className}`}>
       {/* Filters */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Filter Services</h3>
+        <h3 className="text-base font-medium text-gray-700 dark:text-gray-300 mb-3">Filter Services</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Service Type */}
           <div>
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Service Type</label>
+            <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">Service Type</label>
             <select
               value={filters.type || ''}
               onChange={(e) => handleFilterChange('type', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-base"
             >
               <option value="">All Types</option>
               {serviceTypes.map(type => (
@@ -89,12 +89,12 @@ export function ServiceBrowser({
 
           {/* Location */}
           <div>
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Location</label>
+            <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">Location</label>
             <select
               value={filters.location || ''}
               onChange={(e) => handleFilterChange('location', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-base"
             >
               {LOCATION_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -104,7 +104,7 @@ export function ServiceBrowser({
 
           {/* Max Price */}
           <div>
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Max TBC/Hour</label>
+            <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">Max TBC/Hour</label>
             <input
               type="number"
               min="1"
@@ -113,7 +113,7 @@ export function ServiceBrowser({
               onChange={(e) => handleFilterChange('maxPrice', e.target.value ? Number(e.target.value) : undefined)}
               placeholder="Any"
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-base"
             />
           </div>
         </div>
@@ -138,26 +138,26 @@ export function ServiceBrowser({
                        hover:shadow-md transition-shadow"
             >
               <div className="flex justify-between items-start mb-2">
-                <span className="inline-block px-2 py-1 text-xs font-medium bg-teal-100 dark:bg-teal-900
+                <span className="inline-block px-3 py-1.5 text-sm font-medium bg-teal-100 dark:bg-teal-900
                                text-teal-800 dark:text-teal-200 rounded">
                   {formatServiceType(service.serviceType)}
                 </span>
-                <span className="text-lg font-bold text-teal-600">
+                <span className="text-xl font-bold text-teal-600">
                   {service.tbcPerHour} TBC/hr
                 </span>
               </div>
 
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 {service.title}
               </h4>
 
               {service.description && (
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                <p className="text-base text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                   {service.description}
                 </p>
               )}
 
-              <div className="flex flex-wrap gap-2 mb-3 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex flex-wrap gap-2 mb-3 text-sm text-gray-500 dark:text-gray-400">
                 {service.locationPreference && (
                   <span className="flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,12 +182,12 @@ export function ServiceBrowser({
               </div>
 
               <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-base text-gray-600 dark:text-gray-400">
                   by {service.provider.name || 'Anonymous'}
                 </span>
                 <button
                   onClick={() => onRequestService(service.id)}
-                  className="px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium
+                  className="px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-base font-medium
                            rounded transition-colors"
                 >
                   Request

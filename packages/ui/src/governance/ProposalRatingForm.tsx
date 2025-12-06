@@ -76,9 +76,9 @@ export function ProposalRatingForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Clarity Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+        <label className="block text-base font-medium text-gray-900 dark:text-white mb-2">
           Clarity
-          <span className="text-gray-600 text-xs ml-2">(How well-written and understandable?)</span>
+          <span className="text-gray-600 text-sm ml-2">(How well-written and understandable?)</span>
         </label>
         <div className="flex gap-4">
           {[
@@ -103,9 +103,9 @@ export function ProposalRatingForm({
 
       {/* Importance Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+        <label className="block text-base font-medium text-gray-900 dark:text-white mb-2">
           Importance
-          <span className="text-gray-600 text-xs ml-2">(How critical/impactful?)</span>
+          <span className="text-gray-600 text-sm ml-2">(How critical/impactful?)</span>
         </label>
         <div className="flex gap-2">
           {[1, 2, 3, 4, 5].map((value) => (
@@ -128,9 +128,9 @@ export function ProposalRatingForm({
 
       {/* Urgency Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+        <label className="block text-base font-medium text-gray-900 dark:text-white mb-2">
           Urgency
-          <span className="text-gray-600 text-xs ml-2">(How time-sensitive?)</span>
+          <span className="text-gray-600 text-sm ml-2">(How time-sensitive?)</span>
         </label>
         <div className="flex gap-2">
           {[1, 2, 3, 4, 5].map((value) => (
@@ -153,7 +153,7 @@ export function ProposalRatingForm({
 
       {/* Innovation Indicator */}
       <div>
-        <label className="flex items-center gap-3 cursor-pointer">
+        <label className="flex items-center gap-4 cursor-pointer">
           <input
             type="checkbox"
             checked={isInnovative}
@@ -161,19 +161,19 @@ export function ProposalRatingForm({
             disabled={disabled || isSubmitting}
             className="w-5 h-5 text-yellow-500 rounded focus:ring-2 focus:ring-yellow-500 disabled:opacity-50"
           />
-          <span className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
-            <span className="text-2xl">💡</span>
+          <span className="text-base font-medium text-gray-900 dark:text-white flex items-center gap-2">
+            <span className="text-3xl">💡</span>
             Great New Idea
-            <span className="text-gray-600 text-xs">(Mark innovative/creative proposals)</span>
+            <span className="text-gray-600 text-sm">(Mark innovative/creative proposals)</span>
           </span>
         </label>
       </div>
 
       {/* Constructiveness Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+        <label className="block text-base font-medium text-gray-900 dark:text-white mb-2">
           Constructiveness
-          <span className="text-gray-600 text-xs ml-2">(Tone and respectfulness)</span>
+          <span className="text-gray-600 text-sm ml-2">(Tone and respectfulness)</span>
         </label>
         <div className="flex gap-4">
           {[
@@ -196,7 +196,7 @@ export function ProposalRatingForm({
           ))}
         </div>
         {constructiveness === 1 && (
-          <p className="mt-2 text-sm text-red-600">
+          <p className="mt-2 text-base text-red-600">
             ⚠️ Red ratings trigger human moderator review
           </p>
         )}
@@ -204,9 +204,9 @@ export function ProposalRatingForm({
 
       {/* Feedback */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+        <label className="block text-base font-medium text-gray-900 dark:text-white mb-2">
           Feedback (Optional)
-          <span className="text-gray-600 text-xs ml-2">(Explain your ratings)</span>
+          <span className="text-gray-600 text-sm ml-2">(Explain your ratings)</span>
         </label>
         <textarea
           value={feedback}
@@ -217,7 +217,7 @@ export function ProposalRatingForm({
           maxLength={2000}
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
         />
-        <p className="mt-1 text-xs text-gray-500 text-right">
+        <p className="mt-1 text-sm text-gray-500 text-right">
           {feedback.length}/2000 characters
         </p>
       </div>

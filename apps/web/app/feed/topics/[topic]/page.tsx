@@ -143,7 +143,7 @@ export default function TopicFeedPage() {
           </div>
         ) : (
           <div className="bg-bg-1 rounded-lg border border-border p-12 text-center">
-            <p className="text-ink-700 text-lg">
+            <p className="text-ink-700 text-xl">
               No posts found for topic "{topic}"
             </p>
             <button
@@ -162,11 +162,11 @@ export default function TopicFeedPage() {
           <h3 className="font-semibold text-ink-900 mb-2">
             🤖 Phase 3: Bridge Topic Intelligence
           </h3>
-          <p className="text-sm text-ink-700">
+          <p className="text-base text-ink-700">
             This topic feed uses Bridge's semantic understanding to group related posts.
             Future enhancements will include:
           </p>
-          <ul className="text-sm text-ink-700 mt-2 space-y-1 list-disc list-inside">
+          <ul className="text-base text-ink-700 mt-2 space-y-1 list-disc list-inside">
             <li>Smart topic suggestions when creating posts</li>
             <li>Semantic similarity matching (not just keyword matching)</li>
             <li>Related post recommendations</li>

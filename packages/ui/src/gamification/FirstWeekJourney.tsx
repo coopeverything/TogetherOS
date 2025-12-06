@@ -109,7 +109,7 @@ export function FirstWeekJourney({
         <p className="text-red-700">Error: {error}</p>
         <button
           onClick={fetchProgress}
-          className="mt-2 text-red-600 underline text-sm"
+          className="mt-2 text-red-600 underline text-base"
         >
           Try again
         </button>
@@ -127,17 +127,17 @@ export function FirstWeekJourney({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">First Week Journey</h2>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">First Week Journey</h2>
+          <p className="text-base text-gray-600">
             Complete daily challenges to earn RP and unlock bonuses
           </p>
         </div>
         <div className="text-right">
-          <span className="text-2xl font-bold text-brand-600">
+          <span className="text-3xl font-bold text-brand-600">
             {summary.totalRPEarned} RP
           </span>
           {summary.streakBonusRP > 0 && (
-            <p className="text-xs text-orange-600">
+            <p className="text-sm text-orange-600">
               +{summary.streakBonusRP} bonus
             </p>
           )}
@@ -146,7 +146,7 @@ export function FirstWeekJourney({
 
       {/* Progress bar */}
       <div className="mb-6">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="flex justify-between text-base text-gray-600 mb-2">
           <span>{completedCount}/7 days completed</span>
           <span>{Math.round(progressPercent)}%</span>
         </div>
@@ -178,7 +178,7 @@ export function FirstWeekJourney({
             >
               <div
                 className={`
-                  w-10 h-10 rounded-full flex items-center justify-center font-medium text-sm
+                  w-10 h-10 rounded-full flex items-center justify-center font-medium text-base
                   transition-all duration-200
                   ${isCompleted ? 'bg-green-500 text-white' : ''}
                   ${isAvailable && !isActive ? 'bg-brand-100 text-brand-700 ring-2 ring-brand-300' : ''}
@@ -188,7 +188,7 @@ export function FirstWeekJourney({
               >
                 {isCompleted ? '✓' : day.dayNumber}
               </div>
-              <span className={`text-xs ${isActive ? 'text-brand-600 font-medium' : 'text-gray-500'}`}>
+              <span className={`text-sm ${isActive ? 'text-brand-600 font-medium' : 'text-gray-500'}`}>
                 {DAY_LABELS[index]}
               </span>
             </button>
@@ -200,7 +200,7 @@ export function FirstWeekJourney({
       {summary.isComplete && (
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6 mb-6 text-center">
           <span className="text-5xl mb-3 block">🎉</span>
-          <h3 className="text-xl font-bold text-green-800 mb-2">
+          <h3 className="text-2xl font-bold text-green-800 mb-2">
             First Week Complete!
           </h3>
           <p className="text-green-700">

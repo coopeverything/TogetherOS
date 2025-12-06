@@ -133,14 +133,14 @@ export default function LogsTestPage() {
               onChange={(e) => setAutoRefresh(e.target.checked)}
               className="w-4 h-4"
             />
-            <span className="text-sm text-ink-700">Auto-refresh (5s)</span>
+            <span className="text-base text-ink-700">Auto-refresh (5s)</span>
           </label>
         </div>
 
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
             <p className="text-red-800 font-medium">Error</p>
-            <p className="text-red-600 text-sm">{error}</p>
+            <p className="text-red-600 text-base">{error}</p>
           </div>
         )}
 
@@ -148,42 +148,42 @@ export default function LogsTestPage() {
           <div className="space-y-6">
             {/* Overall Status */}
             <div className={`p-6 rounded-lg ${getStatusBg(metrics.status)}`}>
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="text-2xl font-semibold mb-2">
                 System Status:{' '}
                 <span className={`uppercase ${getStatusColor(metrics.status)}`}>
                   {metrics.status}
                 </span>
               </h2>
-              <p className="text-sm text-ink-700">
+              <p className="text-base text-ink-700">
                 Last updated: {new Date(metrics.timestamp).toLocaleString()}
               </p>
             </div>
 
             {/* Process Metrics */}
             <div className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">Process Metrics</h2>
+              <h2 className="text-2xl font-semibold mb-4">Process Metrics</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-ink-700">Uptime</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">Uptime</p>
+                  <p className="text-3xl font-mono">
                     {formatUptime(metrics.process.uptime_seconds)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">Heap Used</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">Heap Used</p>
+                  <p className="text-3xl font-mono">
                     {formatBytes(metrics.process.memory.heap_used)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">Heap Total</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">Heap Total</p>
+                  <p className="text-3xl font-mono">
                     {formatBytes(metrics.process.memory.heap_total)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">RSS</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">RSS</p>
+                  <p className="text-3xl font-mono">
                     {formatBytes(metrics.process.memory.rss)}
                   </p>
                 </div>
@@ -192,15 +192,15 @@ export default function LogsTestPage() {
 
             {/* System Memory */}
             <div className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">System Memory</h2>
+              <h2 className="text-2xl font-semibold mb-4">System Memory</h2>
               <div className="mb-4">
                 <div className="flex justify-between mb-2">
-                  <span className="text-sm text-ink-700">
+                  <span className="text-base text-ink-700">
                     {formatBytes(metrics.system.memory.used)} /{' '}
                     {formatBytes(metrics.system.memory.total)}
                   </span>
                   <span
-                    className={`text-sm font-medium ${getStatusColor(
+                    className={`text-base font-medium ${getStatusColor(
                       metrics.system.memory.status
                     )}`}
                   >
@@ -222,20 +222,20 @@ export default function LogsTestPage() {
               </div>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
-                  <p className="text-sm text-ink-700">Total</p>
-                  <p className="text-lg font-mono">
+                  <p className="text-base text-ink-700">Total</p>
+                  <p className="text-xl font-mono">
                     {formatBytes(metrics.system.memory.total)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">Used</p>
-                  <p className="text-lg font-mono">
+                  <p className="text-base text-ink-700">Used</p>
+                  <p className="text-xl font-mono">
                     {formatBytes(metrics.system.memory.used)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">Free</p>
-                  <p className="text-lg font-mono">
+                  <p className="text-base text-ink-700">Free</p>
+                  <p className="text-xl font-mono">
                     {formatBytes(metrics.system.memory.free)}
                   </p>
                 </div>
@@ -244,30 +244,30 @@ export default function LogsTestPage() {
 
             {/* CPU Load */}
             <div className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">CPU Load Average</h2>
+              <h2 className="text-2xl font-semibold mb-4">CPU Load Average</h2>
               <div className="grid grid-cols-4 gap-4">
                 <div>
-                  <p className="text-sm text-ink-700">1 min</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">1 min</p>
+                  <p className="text-3xl font-mono">
                     {metrics.system.load_average['1min'].toFixed(2)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">5 min</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">5 min</p>
+                  <p className="text-3xl font-mono">
                     {metrics.system.load_average['5min'].toFixed(2)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">15 min</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-base text-ink-700">15 min</p>
+                  <p className="text-3xl font-mono">
                     {metrics.system.load_average['15min'].toFixed(2)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-ink-700">Normalized</p>
+                  <p className="text-base text-ink-700">Normalized</p>
                   <p
-                    className={`text-2xl font-mono ${getStatusColor(
+                    className={`text-3xl font-mono ${getStatusColor(
                       metrics.system.load_average.status
                     )}`}
                   >
@@ -275,17 +275,17 @@ export default function LogsTestPage() {
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-ink-700 mt-4">
+              <p className="text-base text-ink-700 mt-4">
                 CPUs: {metrics.system.cpu_count} cores
               </p>
             </div>
 
             {/* Raw JSON */}
             <details className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <summary className="text-xl font-semibold cursor-pointer">
+              <summary className="text-2xl font-semibold cursor-pointer">
                 Raw JSON Response
               </summary>
-              <pre className="mt-4 p-4 bg-bg-2 rounded-md overflow-x-auto text-sm">
+              <pre className="mt-4 p-4 bg-bg-2 rounded-md overflow-x-auto text-base">
                 {JSON.stringify(metrics, null, 2)}
               </pre>
             </details>

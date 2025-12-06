@@ -26,7 +26,7 @@ export default function ModulesPage() {
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Coopeverything Modules Hub
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto leading-relaxed">
             These modules work together as a <strong>unified governance pipeline</strong>: from ideation to decision to execution to continuous improvement. Each module represents a key capability powered by TogetherOS, the technology stack enabling cooperation.
           </p>
           <div className="mt-4">
@@ -45,31 +45,31 @@ export default function ModulesPage() {
             <div className="text-3xl font-bold text-blue-600 mb-2">
               {modules.length}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Total Modules</div>
+            <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">Total Modules</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div className="text-3xl font-bold text-green-600 mb-2">
               {completeModules.length}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Production Ready</div>
+            <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">Production Ready</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div className="text-3xl font-bold text-orange-600 mb-2">
               {inProgressModules.length}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">In Development</div>
+            <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">In Development</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div className="text-3xl font-bold text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">
               {plannedModules.length}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Planned</div>
+            <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">Planned</div>
           </div>
         </div>
 
         {/* Complete Modules */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-4">
             <span className="w-1 h-8 bg-green-600 rounded-full"></span>
             Production Ready
           </h2>
@@ -82,7 +82,7 @@ export default function ModulesPage() {
 
         {/* In Progress Modules */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-4">
             <span className="w-1 h-8 bg-orange-600 rounded-full"></span>
             In Development
           </h2>
@@ -95,7 +95,7 @@ export default function ModulesPage() {
 
         {/* Planned Modules */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-4">
             <span className="w-1 h-8 bg-gray-400 rounded-full"></span>
             Planned Modules
           </h2>
@@ -108,7 +108,7 @@ export default function ModulesPage() {
 
         {/* Footer */}
         <div className="mt-16 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Contributing
           </h3>
           <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4 leading-relaxed">

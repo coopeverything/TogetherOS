@@ -164,7 +164,7 @@ function PaginationButton({ className, active, disabled, children, ...props }: P
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center min-w-[2.5rem] h-10 px-3 rounded-md text-sm font-medium transition-colors',
+        'inline-flex items-center justify-center min-w-[2.5rem] h-10 px-3 rounded-md text-base font-medium transition-colors',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
         active
           ? 'bg-brand-500 text-white'

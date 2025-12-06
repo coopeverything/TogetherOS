@@ -32,7 +32,7 @@ export function NordicVoid() {
             className="h-px w-32 mb-4"
             style={{ background: 'linear-gradient(90deg, #00ff9f 0%, transparent 100%)' }}
           />
-          <p className="text-sm uppercase tracking-widest" style={{ color: '#666666' }}>
+          <p className="text-base uppercase tracking-widest" style={{ color: '#666666' }}>
             Extreme minimalism meets northern lights
           </p>
         </div>
@@ -57,7 +57,7 @@ export function NordicVoid() {
                 {stat.value}
               </div>
               <div
-                className="text-xs uppercase tracking-widest"
+                className="text-sm uppercase tracking-widest"
                 style={{ color: i === 1 ? '#00ff9f' : '#666666' }}
               >
                 {stat.label}
@@ -76,7 +76,7 @@ export function NordicVoid() {
         {/* Main Content - Void Space */}
         <div className="mb-12 border" style={{ borderColor: '#222222' }}>
           <div className="p-8 border-b" style={{ borderColor: '#222222' }}>
-            <h2 className="text-2xl font-thin tracking-wide mb-1">Recent Activity</h2>
+            <h2 className="text-3xl font-thin tracking-wide mb-1">Recent Activity</h2>
             <div className="h-px w-16" style={{ background: '#00ff9f' }} />
           </div>
           <div>
@@ -107,7 +107,7 @@ export function NordicVoid() {
                       {item.text}
                     </span>
                   </div>
-                  <span className="text-xs" style={{ color: '#666666' }}>
+                  <span className="text-sm" style={{ color: '#666666' }}>
                     {i === 0 ? '2h' : i === 1 ? '5h' : i === 2 ? '1d' : '3d'}
                   </span>
                 </div>
@@ -135,10 +135,10 @@ export function NordicVoid() {
           />
           <div className="relative z-10 text-center">
             <div className="text-4xl font-thin mb-4 tracking-widest">∞</div>
-            <p className="text-xl font-light mb-2" style={{ color: '#ffffff' }}>
+            <p className="text-2xl font-light mb-2" style={{ color: '#ffffff' }}>
               Less is more. Silence is golden.
             </p>
-            <p className="text-sm uppercase tracking-widest" style={{ color: '#00ff9f' }}>
+            <p className="text-base uppercase tracking-widest" style={{ color: '#00ff9f' }}>
               Nordic Philosophy
             </p>
           </div>

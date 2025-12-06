@@ -168,10 +168,10 @@ export default function NotificationsTestPage() {
             Testing interface for notification components: bell, toast, and inbox.
           </p>
           <div className="mt-3 flex gap-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-medium bg-blue-100 text-blue-800">
               MVP Ready
             </span>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-medium bg-green-100 text-green-800">
               UI Components
             </span>
           </div>
@@ -189,7 +189,7 @@ export default function NotificationsTestPage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  py-4 px-1 border-b-2 font-medium text-sm transition-colors
+                  py-4 px-1 border-b-2 font-medium text-base transition-colors
                   ${
                     activeTab === tab.id
                       ? 'border-blue-500 text-blue-600'
@@ -209,28 +209,28 @@ export default function NotificationsTestPage() {
           {activeTab === 'showcase' && (
             <div className="space-y-10">
               <section>
-                <h2 className="text-2xl font-semibold mb-4">NotificationBell Component</h2>
+                <h2 className="text-3xl font-semibold mb-4">NotificationBell Component</h2>
                 <p className="text-ink-600 mb-6">
                   Bell icon with unread count badge, typically displayed in the app header.
                 </p>
                 <div className="flex gap-6 items-center p-6 bg-bg-2 rounded">
                   <div>
-                    <p className="text-sm text-ink-600 mb-2">No unread</p>
+                    <p className="text-base text-ink-600 mb-2">No unread</p>
                     <NotificationBell unreadCount={0} />
                   </div>
                   <div>
-                    <p className="text-sm text-ink-600 mb-2">3 unread</p>
+                    <p className="text-base text-ink-600 mb-2">3 unread</p>
                     <NotificationBell unreadCount={3} />
                   </div>
                   <div>
-                    <p className="text-sm text-ink-600 mb-2">99+ unread</p>
+                    <p className="text-base text-ink-600 mb-2">99+ unread</p>
                     <NotificationBell unreadCount={150} />
                   </div>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">NotificationToast Component</h2>
+                <h2 className="text-3xl font-semibold mb-4">NotificationToast Component</h2>
                 <p className="text-ink-600 mb-6">
                   Temporary toast notification that appears in the top-right corner.
                 </p>
@@ -245,7 +245,7 @@ export default function NotificationsTestPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">NotificationInbox Component</h2>
+                <h2 className="text-3xl font-semibold mb-4">NotificationInbox Component</h2>
                 <p className="text-ink-600 mb-6">
                   Full inbox view with filtering, status updates, and actions.
                 </p>
@@ -262,7 +262,7 @@ export default function NotificationsTestPage() {
           {/* Interactive Demo Tab */}
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold mb-4">Interactive Demo</h2>
+              <h2 className="text-3xl font-semibold mb-4">Interactive Demo</h2>
               <p className="text-ink-600 mb-6">
                 Simulate real-world notification scenarios.
               </p>
@@ -286,17 +286,17 @@ export default function NotificationsTestPage() {
                 <div>
                   <h3 className="font-semibold mb-3">Current State</h3>
                   <div className="p-4 bg-bg-2 rounded space-y-2">
-                    <p className="text-sm">
+                    <p className="text-base">
                       <span className="font-medium">Total:</span> {notifications.length}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-base">
                       <span className="font-medium">Unread:</span> {unreadCount}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-base">
                       <span className="font-medium">Read:</span>{' '}
                       {notifications.filter((n) => n.status === 'read').length}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-base">
                       <span className="font-medium">Archived:</span>{' '}
                       {notifications.filter((n) => n.status === 'archived').length}
                     </p>
@@ -316,65 +316,65 @@ export default function NotificationsTestPage() {
           {/* API Documentation Tab */}
           {activeTab === 'api' && (
             <div className="space-y-8">
-              <h2 className="text-2xl font-semibold mb-4">API Endpoints</h2>
+              <h2 className="text-3xl font-semibold mb-4">API Endpoints</h2>
 
               <div className="space-y-6">
                 <div className="border border-border rounded p-4">
-                  <h3 className="font-mono text-sm font-semibold mb-2">
+                  <h3 className="font-mono text-base font-semibold mb-2">
                     GET /api/notifications
                   </h3>
-                  <p className="text-sm text-ink-600 mb-3">
+                  <p className="text-base text-ink-600 mb-3">
                     List notifications for user with optional filters
                   </p>
-                  <div className="bg-bg-2 p-3 rounded text-xs font-mono">
+                  <div className="bg-bg-2 p-4 rounded text-sm font-mono">
                     Query params: userId, status, type, priority, unreadOnly, offset, limit
                   </div>
                 </div>
 
                 <div className="border border-border rounded p-4">
-                  <h3 className="font-mono text-sm font-semibold mb-2">
+                  <h3 className="font-mono text-base font-semibold mb-2">
                     GET /api/notifications/counts
                   </h3>
-                  <p className="text-sm text-ink-600 mb-3">
+                  <p className="text-base text-ink-600 mb-3">
                     Get unread and total notification counts
                   </p>
-                  <div className="bg-bg-2 p-3 rounded text-xs font-mono">
+                  <div className="bg-bg-2 p-4 rounded text-sm font-mono">
                     Query params: userId
                   </div>
                 </div>
 
                 <div className="border border-border rounded p-4">
-                  <h3 className="font-mono text-sm font-semibold mb-2">
+                  <h3 className="font-mono text-base font-semibold mb-2">
                     PATCH /api/notifications/[id]
                   </h3>
-                  <p className="text-sm text-ink-600 mb-3">
+                  <p className="text-base text-ink-600 mb-3">
                     Update notification status (read, unread, archived)
                   </p>
-                  <div className="bg-bg-2 p-3 rounded text-xs font-mono">
+                  <div className="bg-bg-2 p-4 rounded text-sm font-mono">
                     Body: {JSON.stringify({ userId: 'uuid', status: 'read' })}
                   </div>
                 </div>
 
                 <div className="border border-border rounded p-4">
-                  <h3 className="font-mono text-sm font-semibold mb-2">
+                  <h3 className="font-mono text-base font-semibold mb-2">
                     POST /api/notifications/mark-all-read
                   </h3>
-                  <p className="text-sm text-ink-600 mb-3">
+                  <p className="text-base text-ink-600 mb-3">
                     Mark all notifications as read for user
                   </p>
-                  <div className="bg-bg-2 p-3 rounded text-xs font-mono">
+                  <div className="bg-bg-2 p-4 rounded text-sm font-mono">
                     Body: {JSON.stringify({ userId: 'uuid' })}
                   </div>
                 </div>
 
                 <div className="border border-border rounded p-4">
-                  <h3 className="font-mono text-sm font-semibold mb-2">
+                  <h3 className="font-mono text-base font-semibold mb-2">
                     POST /api/notifications/bulk
                   </h3>
-                  <p className="text-sm text-ink-600 mb-3">
+                  <p className="text-base text-ink-600 mb-3">
                     Create multiple notifications (broadcast)
                   </p>
-                  <div className="bg-bg-2 p-3 rounded text-xs font-mono overflow-x-auto">
+                  <div className="bg-bg-2 p-4 rounded text-sm font-mono overflow-x-auto">
                     Body: {JSON.stringify({ notifications: [{ userId: 'uuid', type: 'system_message', title: '...', message: '...' }] })}
                   </div>
                 </div>

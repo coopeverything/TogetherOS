@@ -190,7 +190,7 @@ export function TopicComposer({
       )}>
         {/* Header */}
         <div className="sticky top-0 bg-bg-1 border-b border-border px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-ink-900">
+          <h2 className="text-2xl font-semibold text-ink-900">
             Create New Topic
           </h2>
           <button
@@ -208,7 +208,7 @@ export function TopicComposer({
         <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-ink-900 mb-2">
+            <label htmlFor="title" className="block text-base font-medium text-ink-900 mb-2">
               Title <span className="text-danger">*</span>
             </label>
             <input
@@ -226,16 +226,16 @@ export function TopicComposer({
               disabled={isSubmitting}
             />
             {errors.title && (
-              <p className="mt-1 text-sm text-danger">{errors.title}</p>
+              <p className="mt-1 text-base text-danger">{errors.title}</p>
             )}
-            <p className="mt-1 text-xs text-ink-400">
+            <p className="mt-1 text-sm text-ink-400">
               {title.length} / 200 characters
             </p>
           </div>
 
           {/* Category */}
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-ink-900 mb-2">
+            <label htmlFor="category" className="block text-base font-medium text-ink-900 mb-2">
               Category <span className="text-danger">*</span>
             </label>
             <select
@@ -256,13 +256,13 @@ export function TopicComposer({
           {/* Description */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label htmlFor="description" className="block text-sm font-medium text-ink-900">
+              <label htmlFor="description" className="block text-base font-medium text-ink-900">
                 Description (optional)
               </label>
               <button
                 type="button"
                 onClick={() => setShowPreview(!showPreview)}
-                className="text-xs text-brand-600 hover:underline"
+                className="text-sm text-brand-600 hover:underline"
                 disabled={isSubmitting}
               >
                 {showPreview ? 'Edit' : 'Preview'}
@@ -303,10 +303,10 @@ export function TopicComposer({
             )}
 
             {errors.description && (
-              <p className="mt-1 text-sm text-danger">{errors.description}</p>
+              <p className="mt-1 text-base text-danger">{errors.description}</p>
             )}
             {description && (
-              <p className="mt-1 text-xs text-ink-400">
+              <p className="mt-1 text-sm text-ink-400">
                 {description.length} / 2000 characters
               </p>
             )}
@@ -314,7 +314,7 @@ export function TopicComposer({
 
           {/* Tags */}
           <div>
-            <label htmlFor="tags" className="block text-sm font-medium text-ink-900 mb-2">
+            <label htmlFor="tags" className="block text-base font-medium text-ink-900 mb-2">
               Tags <span className="text-danger">*</span>
             </label>
             <TagInput
@@ -325,19 +325,19 @@ export function TopicComposer({
               placeholder="Start typing (suggestions will appear)..."
             />
             {errors.tags && (
-              <p className="mt-1 text-sm text-danger">{errors.tags}</p>
+              <p className="mt-1 text-base text-danger">{errors.tags}</p>
             )}
-            <p className="mt-1 text-xs text-ink-400">
-              💡 Type and press <kbd className="px-1.5 py-0.5 bg-bg-2 rounded border border-border text-xs font-mono">Enter</kbd> to add tags. Choose from suggestions or create your own (e.g., mutual-aid, open-source, governance).
+            <p className="mt-1 text-sm text-ink-400">
+              💡 Type and press <kbd className="px-1.5 py-0.5 bg-bg-2 rounded border border-border text-sm font-mono">Enter</kbd> to add tags. Choose from suggestions or create your own (e.g., mutual-aid, open-source, governance).
             </p>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-border">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium text-ink-700 hover:text-ink-900 transition-colors"
+              className="px-4 py-2 text-base font-medium text-ink-700 hover:text-ink-900 transition-colors"
               disabled={isSubmitting}
             >
               Cancel
@@ -346,7 +346,7 @@ export function TopicComposer({
               type="submit"
               disabled={isSubmitting}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-md',
+                'px-4 py-2 text-base font-medium rounded-md',
                 'bg-brand-600 text-white hover:bg-brand-700',
                 'focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
                 'disabled:opacity-50 disabled:cursor-not-allowed',

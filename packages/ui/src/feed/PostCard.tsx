@@ -120,9 +120,9 @@ export function PostCard({
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow ${className}`}>
       {/* Header */}
-      <div className="flex items-start gap-3 mb-3">
+      <div className="flex items-start gap-4 mb-3">
         <div className="w-10 h-10 bg-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
-          <span className="text-orange-800 font-bold text-sm">
+          <span className="text-orange-800 font-bold text-base">
             {authorName.charAt(0).toUpperCase()}
           </span>
         </div>
@@ -130,11 +130,11 @@ export function PostCard({
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-semibold text-gray-900 dark:text-white">{authorName}</span>
             {post.type !== 'native' && (
-              <span className={`px-2 py-0.5 rounded text-xs font-medium ${platformColor}`}>
+              <span className={`px-3 py-0.5 rounded text-sm font-medium ${platformColor}`}>
                 {post.type}
               </span>
             )}
-            <span className="text-sm text-gray-500">{formatTimeAgo(post.createdAt)}</span>
+            <span className="text-base text-gray-500">{formatTimeAgo(post.createdAt)}</span>
           </div>
           {/* Topics (Phase 3: clickable for filtering) */}
           <div className="flex gap-1 mt-1 flex-wrap items-center">
@@ -143,7 +143,7 @@ export function PostCard({
                 key={topic}
                 type="button"
                 onClick={() => onTopicClick?.(topic)}
-                className="text-xs text-orange-600 hover:underline cursor-pointer hover:text-orange-800 transition-colors"
+                className="text-sm text-orange-600 hover:underline cursor-pointer hover:text-orange-800 transition-colors"
                 title={`Filter by ${topic}`}
               >
                 #{topic.replace(/\s+/g, '')}
@@ -153,7 +153,7 @@ export function PostCard({
               <button
                 type="button"
                 onClick={() => onShowRelated(post.id)}
-                className="ml-2 text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                className="ml-2 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
                 title="Show related posts"
               >
                 🔗 Show related
@@ -167,7 +167,7 @@ export function PostCard({
       {post.type === 'native' ? (
         <div className="mb-4">
           {post.title && (
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
           )}
           {post.content && (
             <p className="text-gray-700 whitespace-pre-line mb-3">{post.content}</p>
@@ -196,17 +196,17 @@ export function PostCard({
                 className="w-full h-64 object-cover"
               />
             )}
-            <div className="p-3">
+            <div className="p-4">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                 {post.sourcePreview.title}
               </h4>
               {post.sourcePreview.description && (
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-base text-gray-600 mb-2">
                   {post.sourcePreview.description}
                 </p>
               )}
               {post.sourcePreview.authorName && (
-                <p className="text-xs text-gray-500">
+                <p className="text-sm text-gray-500">
                   by {post.sourcePreview.authorName}
                 </p>
               )}
@@ -215,7 +215,7 @@ export function PostCard({
                   href={post.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-orange-600 hover:underline mt-2 inline-block"
+                  className="text-sm text-orange-600 hover:underline mt-2 inline-block"
                 >
                   View original →
                 </a>
@@ -233,7 +233,7 @@ export function PostCard({
             {onEdit && (
               <button
                 onClick={() => onEdit(post.id)}
-                className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
+                className="px-3 py-1.5 rounded-full text-base bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
                 title="Edit post"
               >
                 ✏️ Edit
@@ -246,7 +246,7 @@ export function PostCard({
                     onDelete(post.id)
                   }
                 }}
-                className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+                className="px-3 py-1.5 rounded-full text-base bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
                 title="Delete post"
               >
                 🗑️ Delete
@@ -261,7 +261,7 @@ export function PostCard({
             <button
               key={type}
               onClick={() => onReact?.(post.id, type)}
-              className={`px-3 py-1 rounded-full text-sm transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-base transition-colors ${
                 userReaction === type
                   ? 'bg-orange-100 text-orange-800 font-medium'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
@@ -282,7 +282,7 @@ export function PostCard({
         {/* Discuss button */}
         <button
           onClick={() => onDiscuss?.(post.id)}
-          className="ml-auto px-4 py-1 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-sm font-medium text-gray-700 transition-colors"
+          className="ml-auto px-4 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-base font-medium text-gray-700 transition-colors"
         >
           💬 Discuss
           {post.discussionCount > 0 && (
@@ -292,7 +292,7 @@ export function PostCard({
       </div>
 
       {totalReactions > 0 && (
-        <div className="text-xs text-gray-500 mt-2">
+        <div className="text-sm text-gray-500 mt-2">
           {totalReactions} {totalReactions === 1 ? 'reaction' : 'reactions'}
         </div>
       )}

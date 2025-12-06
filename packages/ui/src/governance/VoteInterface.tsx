@@ -70,10 +70,10 @@ export function VoteInterface({
       {/* Current Vote Display */}
       {currentVote && (
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm font-medium text-blue-900">
+          <p className="text-base font-medium text-blue-900">
             Your current vote: <span className="font-bold capitalize">{currentVote}</span>
           </p>
-          <p className="text-xs text-blue-700 mt-1">You can change your vote at any time</p>
+          <p className="text-sm text-blue-700 mt-1">You can change your vote at any time</p>
         </div>
       )}
 
@@ -81,19 +81,19 @@ export function VoteInterface({
       <div className="grid grid-cols-4 gap-4">
         <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
           <div className="text-3xl font-bold text-green-700">{tally.consent}</div>
-          <div className="text-sm text-green-600">Consent</div>
+          <div className="text-base text-green-600">Consent</div>
         </div>
         <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
           <div className="text-3xl font-bold text-yellow-700">{tally.concern}</div>
-          <div className="text-sm text-yellow-600">Concern</div>
+          <div className="text-base text-yellow-600">Concern</div>
         </div>
         <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="text-3xl font-bold text-gray-700">{tally.abstain}</div>
-          <div className="text-sm text-gray-600">Abstain</div>
+          <div className="text-base text-gray-600">Abstain</div>
         </div>
         <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
           <div className="text-3xl font-bold text-red-700">{tally.block}</div>
-          <div className="text-sm text-red-600">Block</div>
+          <div className="text-base text-red-600">Block</div>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export function VoteInterface({
             ? '✅ Threshold met - Proposal can be approved'
             : '⏳ Awaiting more votes - Threshold not yet met'}
         </p>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-base text-gray-600 mt-1">
           Total votes: {tally.total} (excluding {tally.abstain} abstentions)
         </p>
       </div>
@@ -144,7 +144,7 @@ export function VoteInterface({
               >
                 {btn.label}
               </button>
-              <p className="text-xs text-gray-600">{btn.description}</p>
+              <p className="text-sm text-gray-600">{btn.description}</p>
 
               {/* Reasoning textarea */}
               {showReasoningFor === btn.type && (

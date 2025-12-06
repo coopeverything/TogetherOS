@@ -21,12 +21,12 @@ export default function Error({
         <h2 className="mt-4 text-3xl font-semibold text-ink-900">
           Something Went Wrong
         </h2>
-        <p className="mt-4 text-lg text-ink-700 dark:text-ink-400 dark:text-ink-400">
+        <p className="mt-4 text-xl text-ink-700 dark:text-ink-400 dark:text-ink-400">
           We encountered an unexpected error. Our team has been notified and we're working on it.
         </p>
 
         {error.digest && (
-          <p className="mt-2 text-sm text-ink-400 dark:text-ink-400 dark:text-ink-400 font-mono">
+          <p className="mt-2 text-base text-ink-400 dark:text-ink-400 dark:text-ink-400 font-mono">
             Error ID: {error.digest}
           </p>
         )}
@@ -47,7 +47,7 @@ export default function Error({
         </div>
 
         <div className="mt-8">
-          <p className="text-sm text-ink-400 dark:text-ink-400 dark:text-ink-400">
+          <p className="text-base text-ink-400 dark:text-ink-400 dark:text-ink-400">
             Still having trouble?{' '}
             <Link href="/bridge" className="text-orange-600 hover:text-orange-700 font-medium">
               Contact Support via Bridge

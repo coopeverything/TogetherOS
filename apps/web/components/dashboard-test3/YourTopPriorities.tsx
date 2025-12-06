@@ -13,18 +13,18 @@ export function YourTopPriorities() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">Your Top Priorities</CardTitle>
+        <CardTitle className="text-lg">Your Top Priorities</CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {priorities.map((priority) => (
             <li key={priority.id} className="flex items-center justify-between">
-              <span className="text-xs font-medium">{priority.name}</span>
-              <Badge variant="default" className="text-xs py-0 px-1.5">{priority.score}/10</Badge>
+              <span className="text-sm font-medium">{priority.name}</span>
+              <Badge variant="default" className="text-sm py-0 px-1.5">{priority.score}/10</Badge>
             </li>
           ))}
         </ul>
-        <div className="mt-3 text-xs text-blue-600 hover:underline">
+        <div className="mt-3 text-sm text-blue-600 hover:underline">
           <a href="#">Manage Priorities &rarr;</a>
         </div>
       </CardContent>

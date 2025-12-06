@@ -151,7 +151,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
         <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create Post</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Post</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -166,7 +166,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
           <div className="px-6 py-4 space-y-4">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="title" className="block text-base font-medium text-gray-700 mb-1">
                 Title (optional)
               </label>
               <input
@@ -178,14 +178,14 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 maxLength={200}
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 mt-1">
                 {title.length}/200 characters
               </p>
             </div>
 
             {/* Content */}
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="content" className="block text-base font-medium text-gray-700 mb-1">
                 Content <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -198,28 +198,28 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                 maxLength={5000}
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 mt-1">
                 {content.length}/5000 characters • Markdown supported • URLs auto-detected
               </p>
             </div>
 
             {/* URL detection indicator */}
             {detectedUrls.length > 0 && (
-              <div className={`rounded-lg p-3 ${hasSocialMedia ? 'bg-green-50 border border-green-200' : 'bg-blue-50 border border-blue-200'}`}>
+              <div className={`rounded-lg p-4 ${hasSocialMedia ? 'bg-green-50 border border-green-200' : 'bg-blue-50 border border-blue-200'}`}>
                 <div className="flex items-start gap-2">
-                  <span className="text-lg">{hasSocialMedia ? '✅' : 'ℹ️'}</span>
+                  <span className="text-xl">{hasSocialMedia ? '✅' : 'ℹ️'}</span>
                   <div className="flex-1">
-                    <p className={`text-sm font-medium ${hasSocialMedia ? 'text-green-800' : 'text-blue-800'}`}>
+                    <p className={`text-base font-medium ${hasSocialMedia ? 'text-green-800' : 'text-blue-800'}`}>
                       {hasSocialMedia ? `${detectedUrls.length} social media ${detectedUrls.length === 1 ? 'URL' : 'URLs'} detected` : `${detectedUrls.length} ${detectedUrls.length === 1 ? 'URL' : 'URLs'} detected`}
                     </p>
                     {hasSocialMedia && (
-                      <p className="text-xs text-green-700 mt-1">
+                      <p className="text-sm text-green-700 mt-1">
                         We'll automatically fetch preview cards (thumbnail, title, description) when you submit.
                       </p>
                     )}
                     <ul className="mt-2 space-y-1">
                       {detectedUrls.map((url, idx) => (
-                        <li key={idx} className="text-xs text-gray-600 truncate">
+                        <li key={idx} className="text-sm text-gray-600 truncate">
                           {url}
                         </li>
                       ))}
@@ -233,14 +233,14 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
             {onSuggestTopics && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-base font-semibold text-gray-900 dark:text-white">
                     🤖 AI Topic Suggestions
                   </h3>
                   <button
                     type="button"
                     onClick={handleGetSuggestions}
                     disabled={!content.trim()}
-                    className="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Get Suggestions
                   </button>
@@ -255,11 +255,11 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                       >
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm text-gray-900 dark:text-white">
+                            <span className="font-medium text-base text-gray-900 dark:text-white">
                               {suggestion.topic}
                             </span>
                             <span
-                              className="text-xs px-2 py-0.5 rounded-full"
+                              className="text-sm px-3 py-0.5 rounded-full"
                               style={{
                                 backgroundColor: suggestion.confidence > 0.7
                                   ? '#dcfce7'
@@ -276,25 +276,25 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                               {Math.round(suggestion.confidence * 100)}% match
                             </span>
                           </div>
-                          <p className="text-xs text-gray-600 mt-1">{suggestion.reason}</p>
+                          <p className="text-sm text-gray-600 mt-1">{suggestion.reason}</p>
                         </div>
                         {!selectedTopics.includes(suggestion.topic) && selectedTopics.length < 5 && (
                           <button
                             type="button"
                             onClick={() => addSuggestedTopic(suggestion.topic)}
-                            className="ml-2 px-3 py-1 bg-orange-600 text-white text-xs rounded-lg hover:bg-orange-700 transition-colors"
+                            className="ml-2 px-3 py-1.5 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
                           >
                             Add
                           </button>
                         )}
                         {selectedTopics.includes(suggestion.topic) && (
-                          <span className="ml-2 text-xs text-green-600 font-medium">✓ Added</span>
+                          <span className="ml-2 text-sm text-green-600 font-medium">✓ Added</span>
                         )}
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-gray-600">
+                  <p className="text-sm text-gray-600">
                     Click "Get Suggestions" to let Bridge analyze your content and suggest relevant topics.
                   </p>
                 )}
@@ -303,7 +303,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
 
             {/* Topic selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-base font-medium text-gray-700 mb-2">
                 Topics <span className="text-red-500">*</span> (select 1-5)
               </label>
               <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
@@ -312,7 +312,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                     key={topic}
                     type="button"
                     onClick={() => toggleTopic(topic)}
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 rounded-full text-base font-medium transition-colors ${
                       selectedTopics.includes(topic)
                         ? 'bg-orange-600 text-white'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
@@ -322,14 +322,14 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                   </button>
                 ))}
               </div>
-              <p className={`text-xs mt-2 ${selectedTopics.length === 0 ? 'text-red-600 font-medium' : 'text-gray-500'}`}>
+              <p className={`text-sm mt-2 ${selectedTopics.length === 0 ? 'text-red-600 font-medium' : 'text-gray-500'}`}>
                 Selected: {selectedTopics.length}/5 {selectedTopics.length === 0 ? '• At least 1 topic required' : '• Topics help others discover your post'}
               </p>
             </div>
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3">
+          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-4">
             <button
               type="button"
               onClick={onClose}

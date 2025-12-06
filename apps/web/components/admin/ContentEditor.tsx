@@ -104,8 +104,8 @@ export function ContentEditor({
     return (
       <div className="h-full flex items-center justify-center bg-bg-1">
         <div className="text-center text-ink-500">
-          <p className="text-lg mb-2">Select content to edit</p>
-          <p className="text-sm">Or create new content from the sidebar</p>
+          <p className="text-xl mb-2">Select content to edit</p>
+          <p className="text-base">Or create new content from the sidebar</p>
         </div>
       </div>
     );
@@ -117,11 +117,11 @@ export function ContentEditor({
       <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white dark:bg-gray-800">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-brand-600">
+            <span className="text-base font-medium text-brand-600">
               {CONTENT_TYPE_LABELS[content.type]}
             </span>
             <span className={cn(
-              'text-xs px-2 py-0.5 rounded',
+              'text-sm px-3 py-0.5 rounded',
               content.status === 'published'
                 ? 'bg-green-100 text-green-700'
                 : 'bg-gray-100 text-gray-600'
@@ -129,13 +129,13 @@ export function ContentEditor({
               {content.status}
             </span>
           </div>
-          <p className="text-xs text-ink-500 mt-0.5">
+          <p className="text-sm text-ink-500 mt-0.5">
             {CONTENT_TYPE_DESCRIPTIONS[content.type]}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           {lastSaved && (
-            <span className="text-xs text-ink-500">
+            <span className="text-sm text-ink-500">
               Saved {formatTime(lastSaved)}
             </span>
           )}
@@ -162,7 +162,7 @@ export function ContentEditor({
         <div className="max-w-2xl mx-auto space-y-6">
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-2">
+            <label className="block text-base font-medium text-ink-700 mb-2">
               Title
             </label>
             <input
@@ -170,7 +170,7 @@ export function ContentEditor({
               value={content.title}
               onChange={(e) => onChange({ title: e.target.value })}
               placeholder="Enter a compelling title..."
-              className="w-full px-4 py-3 text-xl font-semibold border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-2xl font-semibold border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
           </div>
 
@@ -344,7 +344,7 @@ function MicrolessonFields({
       <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-lg">🌉</span>
+            <span className="text-xl">🌉</span>
             <span className="font-medium text-purple-900">Bridge AI Assistant</span>
           </div>
           <Button
@@ -364,13 +364,13 @@ function MicrolessonFields({
             )}
           </Button>
         </div>
-        <p className="text-sm text-purple-700">
+        <p className="text-base text-purple-700">
           Let Bridge suggest a compelling real-world scenario, statistic, and reflection question
         </p>
 
         {bridgeSuggestion && (
-          <div className="mt-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-purple-200">
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-3">{bridgeSuggestion}</p>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-purple-200">
+            <p className="text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-3">{bridgeSuggestion}</p>
             <div className="flex gap-2">
               <Button size="sm" onClick={applyBridgeSuggestion}>
                 Apply Suggestion
@@ -385,39 +385,39 @@ function MicrolessonFields({
 
       {/* Add Card Buttons */}
       <div className="flex flex-wrap gap-2">
-        <span className="text-sm text-ink-600 self-center mr-2">Add card:</span>
+        <span className="text-base text-ink-600 self-center mr-2">Add card:</span>
         <button
           type="button"
           onClick={() => addCard('text')}
-          className="px-3 py-1.5 text-sm bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors flex items-center gap-1"
+          className="px-3 py-1.5.5 text-base bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors flex items-center gap-1"
         >
           📝 Text
         </button>
         <button
           type="button"
           onClick={() => addCard('image')}
-          className="px-3 py-1.5 text-sm bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors flex items-center gap-1"
+          className="px-3 py-1.5.5 text-base bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors flex items-center gap-1"
         >
           🖼️ Image
         </button>
         <button
           type="button"
           onClick={() => addCard('video')}
-          className="px-3 py-1.5 text-sm bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
+          className="px-3 py-1.5.5 text-base bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
         >
           🎬 Video
         </button>
         <button
           type="button"
           onClick={() => addCard('statistic')}
-          className="px-3 py-1.5 text-sm bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors flex items-center gap-1"
+          className="px-3 py-1.5.5 text-base bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors flex items-center gap-1"
         >
           📊 Statistic
         </button>
         <button
           type="button"
           onClick={() => addCard('reflection')}
-          className="px-3 py-1.5 text-sm bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors flex items-center gap-1"
+          className="px-3 py-1.5.5 text-base bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors flex items-center gap-1"
         >
           💭 Reflection
         </button>
@@ -427,7 +427,7 @@ function MicrolessonFields({
       {cards.length === 0 ? (
         <div className="text-center py-12 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg">
           <p className="text-ink-500 mb-2">No cards yet</p>
-          <p className="text-sm text-ink-400">
+          <p className="text-base text-ink-400">
             Add cards to build your microlesson, or let Bridge suggest a scenario
           </p>
         </div>
@@ -450,7 +450,7 @@ function MicrolessonFields({
       {/* Legacy fields for backward compatibility - hidden if cards exist */}
       {cards.length === 0 && (
         <div className="border-t border-border pt-6 mt-6">
-          <p className="text-xs text-ink-500 mb-4">
+          <p className="text-sm text-ink-500 mb-4">
             Or use legacy single-field format:
           </p>
           <RichTextField
@@ -497,8 +497,8 @@ function MicrolessonCardEditor({
       {/* Card Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-lg">{config.icon}</span>
-          <span className="text-sm font-medium text-ink-700">
+          <span className="text-xl">{config.icon}</span>
+          <span className="text-base font-medium text-ink-700">
             Card {index + 1}: {config.label}
           </span>
         </div>
@@ -546,7 +546,7 @@ function MicrolessonCardEditor({
       {card.type === 'image' && (
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-1">
+            <label className="block text-base font-medium text-ink-700 mb-1">
               Image URL
             </label>
             <input
@@ -570,7 +570,7 @@ function MicrolessonCardEditor({
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-1">
+            <label className="block text-base font-medium text-ink-700 mb-1">
               Caption
             </label>
             <input
@@ -582,7 +582,7 @@ function MicrolessonCardEditor({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-1">
+            <label className="block text-base font-medium text-ink-700 mb-1">
               Alt Text (Accessibility)
             </label>
             <input
@@ -599,7 +599,7 @@ function MicrolessonCardEditor({
       {card.type === 'video' && (
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-1">
+            <label className="block text-base font-medium text-ink-700 mb-1">
               Video URL
             </label>
             <input
@@ -609,7 +609,7 @@ function MicrolessonCardEditor({
               placeholder="YouTube, Vimeo, or direct video URL..."
               className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
-            <p className="text-xs text-ink-500 mt-1">
+            <p className="text-sm text-ink-500 mt-1">
               Supports YouTube, Vimeo, and direct video links
             </p>
           </div>
@@ -635,7 +635,7 @@ function MicrolessonCardEditor({
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-1">
+            <label className="block text-base font-medium text-ink-700 mb-1">
               Caption
             </label>
             <input
@@ -651,9 +651,9 @@ function MicrolessonCardEditor({
 
       {card.type === 'statistic' && (
         <div className="space-y-3">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">
+              <label className="block text-base font-medium text-ink-700 mb-1">
                 Number
               </label>
               <input
@@ -661,11 +661,11 @@ function MicrolessonCardEditor({
                 value={card.statistic || ''}
                 onChange={(e) => onUpdate({ statistic: e.target.value })}
                 placeholder="40%"
-                className="w-full px-3 py-2 text-2xl font-bold text-center border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3 py-2 text-3xl font-bold text-center border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-ink-700 mb-1">
+              <label className="block text-base font-medium text-ink-700 mb-1">
                 Label
               </label>
               <input
@@ -681,7 +681,7 @@ function MicrolessonCardEditor({
           {(card.statistic || card.statisticLabel) && (
             <div className="p-4 bg-white dark:bg-gray-800 rounded-lg text-center">
               <span className="text-4xl font-bold text-orange-600">{card.statistic || '—'}</span>
-              <span className="text-lg text-ink-700 ml-2">{card.statisticLabel}</span>
+              <span className="text-xl text-ink-700 ml-2">{card.statisticLabel}</span>
             </div>
           )}
         </div>
@@ -690,7 +690,7 @@ function MicrolessonCardEditor({
       {card.type === 'reflection' && (
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-1">
+            <label className="block text-base font-medium text-ink-700 mb-1">
               Reflection Question
             </label>
             <textarea
@@ -700,7 +700,7 @@ function MicrolessonCardEditor({
               rows={2}
               className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
             />
-            <p className="text-xs text-ink-500 mt-1">
+            <p className="text-sm text-ink-500 mt-1">
               Open-ended question connecting to personal experience
             </p>
           </div>
@@ -747,7 +747,7 @@ function ChallengeFields({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-ink-700 mb-2">
+          <label className="block text-base font-medium text-ink-700 mb-2">
             Category
           </label>
           <select
@@ -761,7 +761,7 @@ function ChallengeFields({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-ink-700 mb-2">
+          <label className="block text-base font-medium text-ink-700 mb-2">
             Difficulty
           </label>
           <select
@@ -778,7 +778,7 @@ function ChallengeFields({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-ink-700 mb-2">
+          <label className="block text-base font-medium text-ink-700 mb-2">
             RP Reward
           </label>
           <input
@@ -791,7 +791,7 @@ function ChallengeFields({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-ink-700 mb-2">
+          <label className="block text-base font-medium text-ink-700 mb-2">
             Action Type
           </label>
           <select
@@ -809,7 +809,7 @@ function ChallengeFields({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Icon (optional)
         </label>
         <input
@@ -823,7 +823,7 @@ function ChallengeFields({
 
       {/* First Week Scheduling */}
       <div className="p-4 bg-bg-2 rounded-lg border border-border">
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-4 mb-3">
           <input
             type="checkbox"
             id="isFirstWeek"
@@ -831,13 +831,13 @@ function ChallengeFields({
             onChange={(e) => onChange({ isFirstWeek: e.target.checked })}
             className="w-4 h-4 text-brand-600 border-border rounded focus:ring-brand-500"
           />
-          <label htmlFor="isFirstWeek" className="text-sm font-medium text-ink-700">
+          <label htmlFor="isFirstWeek" className="text-base font-medium text-ink-700">
             First Week Challenge
           </label>
         </div>
         {content.isFirstWeek && (
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-2">
+            <label className="block text-base font-medium text-ink-700 mb-2">
               Day Number (1-7)
             </label>
             <select
@@ -849,7 +849,7 @@ function ChallengeFields({
                 <option key={day} value={day}>Day {day}</option>
               ))}
             </select>
-            <p className="text-xs text-ink-500 mt-1">
+            <p className="text-sm text-ink-500 mt-1">
               This challenge will be shown to new users on Day {content.dayNumber || 1} of onboarding
             </p>
           </div>
@@ -880,13 +880,13 @@ function BiasChallengeFields({
       />
 
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Options (A or B choice)
         </label>
         <div className="space-y-2">
           {options.map((option, index) => (
             <div key={index} className="flex items-center gap-2">
-              <span className="text-sm font-medium text-ink-500 w-6">
+              <span className="text-base font-medium text-ink-500 w-6">
                 {String.fromCharCode(65 + index)}
               </span>
               <input
@@ -906,7 +906,7 @@ function BiasChallengeFields({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Reveal (The Bias Explained)
         </label>
         <textarea
@@ -941,7 +941,7 @@ function MicroChallengeFields({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-ink-700 mb-2">
+          <label className="block text-base font-medium text-ink-700 mb-2">
             RP Reward
           </label>
           <input
@@ -956,7 +956,7 @@ function MicroChallengeFields({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Completion Criteria
         </label>
         <textarea
@@ -984,7 +984,7 @@ function QuizFields({
   return (
     <>
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Question
         </label>
         <textarea
@@ -997,7 +997,7 @@ function QuizFields({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Answer Options
         </label>
         <div className="space-y-2">
@@ -1007,7 +1007,7 @@ function QuizFields({
                 type="button"
                 onClick={() => onChange({ correctAnswer: index })}
                 className={cn(
-                  'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors',
+                  'w-8 h-8 rounded-full flex items-center justify-center text-base font-medium transition-colors',
                   content.correctAnswer === index
                     ? 'bg-green-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-3'
@@ -1030,13 +1030,13 @@ function QuizFields({
             </div>
           ))}
         </div>
-        <p className="text-xs text-ink-500 mt-2">
+        <p className="text-sm text-ink-500 mt-2">
           Click a letter to mark the correct answer
         </p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-ink-700 mb-2">
+        <label className="block text-base font-medium text-ink-700 mb-2">
           Explanation
         </label>
         <textarea
@@ -1092,7 +1092,7 @@ function RichTextField({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-ink-700 mb-2">
+      <label className="block text-base font-medium text-ink-700 mb-2">
         {label}
       </label>
       <div className="border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-transparent">
@@ -1100,7 +1100,7 @@ function RichTextField({
         <EditorContent editor={editor} />
       </div>
       {hint && (
-        <p className="text-xs text-ink-500 mt-1">{hint}</p>
+        <p className="text-sm text-ink-500 mt-1">{hint}</p>
       )}
     </div>
   );
@@ -1111,7 +1111,7 @@ function EditorToolbar({ editor }: { editor: Editor | null }) {
   if (!editor) return null;
 
   return (
-    <div className="flex items-center gap-1 px-2 py-1 border-b border-border bg-bg-2">
+    <div className="flex items-center gap-1 px-3 py-1.5 border-b border-border bg-bg-2">
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
         isActive={editor.isActive('bold')}

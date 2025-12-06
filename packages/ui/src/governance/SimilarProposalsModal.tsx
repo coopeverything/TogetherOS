@@ -60,10 +60,10 @@ export function SimilarProposalsModal({
         <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Similar Proposals Found
               </h2>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-base text-gray-600 mt-1">
                 We found {similarProposals.length} similar{' '}
                 {similarProposals.length === 1 ? 'proposal' : 'proposals'} with
                 up to {Math.round(highestSimilarity * 100)}% similarity.
@@ -73,7 +73,7 @@ export function SimilarProposalsModal({
 
           {/* Warning Banner */}
           {requiresClarification && (
-            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
               <div className="flex items-start">
                 <svg
                   className="h-5 w-5 text-yellow-600 mt-0.5 mr-2"
@@ -89,10 +89,10 @@ export function SimilarProposalsModal({
                   />
                 </svg>
                 <div>
-                  <h3 className="text-sm font-medium text-yellow-800">
+                  <h3 className="text-base font-medium text-yellow-800">
                     High Similarity Detected
                   </h3>
-                  <p className="text-sm text-yellow-700 mt-1">
+                  <p className="text-base text-yellow-700 mt-1">
                     Your proposal is very similar to existing proposals. Please
                     clarify how your proposal differs or consider supporting an
                     existing proposal instead.
@@ -110,7 +110,7 @@ export function SimilarProposalsModal({
               {/* Similarity Badge */}
               <div className="absolute -top-2 -right-2 z-10">
                 <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  className={`inline-flex items-center px-3.5 py-0.5 rounded-full text-sm font-medium ${
                     proposal.similarity > 0.85
                       ? 'bg-red-100 text-red-800'
                       : proposal.similarity > 0.75
@@ -149,21 +149,21 @@ export function SimilarProposalsModal({
 
         {/* Footer Actions */}
         <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <div className="text-sm text-gray-600">
+          <div className="text-base text-gray-600">
             {requiresClarification
               ? 'Please review and clarify your proposal'
               : 'You can proceed or go back to edit'}
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <button
               onClick={onGoBack}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="px-4 py-2 text-base font-medium text-gray-700 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Go Back & Edit
             </button>
             <button
               onClick={onProceed}
-              className={`px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              className={`px-4 py-2 text-base font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                 requiresClarification
                   ? 'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500'
                   : 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500'

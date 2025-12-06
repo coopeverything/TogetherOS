@@ -59,7 +59,7 @@ export function EvidenceDisplay({ evidence, postId }: EvidenceDisplayProps) {
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg"
+                  className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
@@ -72,23 +72,23 @@ export function EvidenceDisplay({ evidence, postId }: EvidenceDisplayProps) {
                         {new URL(item.url).hostname}
                       </a>
                       {item.verified && (
-                        <span className="ml-2 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-0.5 rounded">
+                        <span className="ml-2 text-sm bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-3 py-0.5 rounded">
                           Verified
                         </span>
                       )}
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-sm text-gray-500">
                       {new Date(item.created_at).toLocaleDateString()}
                     </span>
                   </div>
 
                   {item.description && (
-                    <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                    <p className="mt-2 text-base text-gray-700 dark:text-gray-300">
                       {item.description}
                     </p>
                   )}
 
-                  <div className="mt-2 text-xs text-gray-500">
+                  <div className="mt-2 text-sm text-gray-500">
                     Added by {item.added_by}
                   </div>
                 </div>

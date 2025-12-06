@@ -171,21 +171,21 @@ export function MilestoneCelebration({
           </div>
 
           {/* Group name */}
-          <p className="text-sm text-gray-500 text-center mb-1">
+          <p className="text-base text-gray-500 text-center mb-1">
             {celebration.groupName}
           </p>
 
           {/* Milestone label */}
           <h2
             id="celebration-title"
-            className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-2"
+            className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-2"
           >
             {milestone.label}
           </h2>
 
           {/* Member count badge */}
           <div className="flex justify-center mb-4">
-            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+            <span className="px-3 py-1.5 bg-green-100 text-green-800 text-base font-medium rounded-full">
               {celebration.memberCount} members
             </span>
           </div>
@@ -197,10 +197,10 @@ export function MilestoneCelebration({
 
           {/* Unlocks preview */}
           <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-6">
-            <p className="text-sm font-medium text-gray-700 mb-2">🔓 Now unlocked:</p>
+            <p className="text-base font-medium text-gray-700 mb-2">🔓 Now unlocked:</p>
             <ul className="space-y-1">
               {milestone.unlocks.map((unlock, i) => (
-                <li key={i} className="text-sm text-gray-600 flex items-center gap-2">
+                <li key={i} className="text-base text-gray-600 flex items-center gap-2">
                   <span className="text-green-500">✓</span>
                   {unlock}
                 </li>
@@ -215,7 +215,7 @@ export function MilestoneCelebration({
                 prefersReducedMotion ? '' : 'animate-fade-in'
               }`}
             >
-              <p className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+              <p className="text-base font-medium text-gray-900 dark:text-white mb-3">
                 {milestone.actionNudge.text}
               </p>
               <button
@@ -241,7 +241,7 @@ export function MilestoneCelebration({
           {(state === 'actionPrompt' || prefersReducedMotion) && milestone.actionNudge && (
             <button
               onClick={handleSkip}
-              className="w-full mt-2 text-sm text-gray-500 hover:text-gray-700"
+              className="w-full mt-2 text-base text-gray-500 hover:text-gray-700"
             >
               Maybe later
             </button>

@@ -65,11 +65,11 @@ function StatusBadge({
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium border ${styles[status]}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5.5 rounded-lg text-base font-medium border ${styles[status]}`}
     >
-      <span className="text-xs">{icons[status]}</span>
+      <span className="text-sm">{icons[status]}</span>
       <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
-      <span className="text-xs opacity-75">· {descriptions[status]}</span>
+      <span className="text-sm opacity-75">· {descriptions[status]}</span>
     </div>
   )
 }
@@ -101,7 +101,7 @@ export default async function WikiArticlePage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-ink-400">
+          <ol className="flex items-center gap-2 text-base text-ink-400">
             <li>
               <Link href="/wiki" className="hover:text-blue-600">
                 Wiki
@@ -114,11 +114,11 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Article Header */}
         <header className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-lg">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl">
               📖
             </div>
-            <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">
+            <span className="text-base font-medium text-blue-600 uppercase tracking-wide">
               Wiki Article
             </span>
           </div>
@@ -127,7 +127,7 @@ export default async function WikiArticlePage({ params }: Props) {
             {article.title}
           </h1>
 
-          <p className="text-xl text-ink-700 leading-relaxed mb-6">
+          <p className="text-2xl text-ink-700 leading-relaxed mb-6">
             {article.summary}
           </p>
 
@@ -135,8 +135,8 @@ export default async function WikiArticlePage({ params }: Props) {
             <StatusBadge status={article.status} />
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-sm text-ink-400 pb-6 border-b border-border">
-            <span className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-6 text-base text-ink-400 pb-6 border-b border-border">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -152,7 +152,7 @@ export default async function WikiArticlePage({ params }: Props) {
               </svg>
               {article.readTimeMinutes} min read
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -169,7 +169,7 @@ export default async function WikiArticlePage({ params }: Props) {
               {article.contributorCount} contributor
               {article.contributorCount !== 1 ? 's' : ''}
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -198,12 +198,12 @@ export default async function WikiArticlePage({ params }: Props) {
                 </h1>
               ),
               h2: ({ children }: MarkdownComponentProps) => (
-                <h2 className="text-2xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
+                <h2 className="text-3xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
                   {children}
                 </h2>
               ),
               h3: ({ children }: MarkdownComponentProps) => (
-                <h3 className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+                <h3 className="text-2xl font-semibold text-ink-900 mt-6 mb-3">
                   {children}
                 </h3>
               ),
@@ -229,7 +229,7 @@ export default async function WikiArticlePage({ params }: Props) {
                 </blockquote>
               ),
               code: ({ children }: MarkdownComponentProps) => (
-                <code className="bg-bg-2 rounded px-1.5 py-0.5 text-sm font-mono text-ink-900">
+                <code className="bg-bg-2 rounded px-1.5 py-0.5 text-base font-mono text-ink-900">
                   {children}
                 </code>
               ),
@@ -246,12 +246,12 @@ export default async function WikiArticlePage({ params }: Props) {
                 </div>
               ),
               th: ({ children }: MarkdownComponentProps) => (
-                <th className="px-4 py-3 bg-bg-0 text-left text-sm font-semibold text-ink-900">
+                <th className="px-4 py-3 bg-bg-0 text-left text-base font-semibold text-ink-900">
                   {children}
                 </th>
               ),
               td: ({ children }: MarkdownComponentProps) => (
-                <td className="px-4 py-3 text-sm text-ink-700 border-t border-border">
+                <td className="px-4 py-3 text-base text-ink-700 border-t border-border">
                   {children}
                 </td>
               ),
@@ -276,14 +276,14 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Tags */}
         <div className="mb-8 pb-8 border-b border-border">
-          <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+          <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
             Tags
           </h3>
           <div className="flex flex-wrap gap-2">
             {article.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-bg-2 text-ink-700 rounded-full text-sm"
+                className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded-full text-base"
               >
                 {tag}
               </span>
@@ -294,14 +294,14 @@ export default async function WikiArticlePage({ params }: Props) {
         {/* Cooperation Paths */}
         {article.cooperationPaths && article.cooperationPaths.length > 0 && (
           <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Cooperation Paths
             </h3>
             <div className="flex flex-wrap gap-2">
               {article.cooperationPaths.map((path) => (
                 <span
                   key={path}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                  className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-base"
                 >
                   {path}
                 </span>
@@ -313,20 +313,20 @@ export default async function WikiArticlePage({ params }: Props) {
         {/* Related Terms */}
         {articleTerms.length > 0 && (
           <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Key Terms in This Article
             </h3>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {articleTerms.map((term) => (
                 <Link
                   key={term.id}
                   href={`/glossary/${term.slug}`}
-                  className="flex items-start gap-3 p-3 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-4 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
-                  <span className="text-xl">📖</span>
+                  <span className="text-2xl">📖</span>
                   <div>
                     <div className="font-medium text-ink-900">{term.word}</div>
-                    <div className="text-sm text-ink-700">
+                    <div className="text-base text-ink-700">
                       {term.shortDefinition}
                     </div>
                   </div>
@@ -339,24 +339,24 @@ export default async function WikiArticlePage({ params }: Props) {
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Articles
             </h3>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {relatedArticles.map((related) => (
                 <Link
                   key={related.id}
                   href={`/wiki/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-4 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-base flex-shrink-0">
                     📖
                   </div>
                   <div>
                     <div className="font-medium text-ink-900">
                       {related.title}
                     </div>
-                    <div className="text-sm text-ink-700 line-clamp-2">
+                    <div className="text-base text-ink-700 line-clamp-2">
                       {related.summary}
                     </div>
                   </div>
@@ -409,7 +409,7 @@ export default async function WikiArticlePage({ params }: Props) {
         </div>
 
         {/* Footer Note */}
-        <div className="p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
+        <div className="p-4 bg-bg-0 rounded-lg border border-border text-base text-ink-700">
           <p>
             <strong>This is community knowledge.</strong> If you have
             suggestions, corrections, or want to contribute, start a discussion

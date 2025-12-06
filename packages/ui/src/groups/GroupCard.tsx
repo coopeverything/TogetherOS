@@ -83,34 +83,34 @@ export function GroupCard({
       className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow ${className}`}
     >
       {/* Header: Avatar + Name + Type Badge */}
-      <div className="flex items-start gap-3 mb-3">
+      <div className="flex items-start gap-4 mb-3">
         <div
           className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${avatarColor}`}
         >
-          <span className="font-bold text-sm">{initials}</span>
+          <span className="font-bold text-base">{initials}</span>
         </div>
 
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 dark:text-white truncate">{group.name}</h3>
-          <p className="text-sm text-gray-500">@{group.handle}</p>
+          <p className="text-base text-gray-500">@{group.handle}</p>
         </div>
 
         <span
-          className={`px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap ${typeBadgeColor}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-full whitespace-nowrap ${typeBadgeColor}`}
         >
           {formatType(group.type)}
         </span>
       </div>
 
       {/* Member count and location */}
-      <div className="flex items-center gap-4 mb-3 text-sm text-gray-600">
+      <div className="flex items-center gap-4 mb-3 text-base text-gray-600">
         <span>{group.members.length} members</span>
         {group.location && <span>📍 {group.location}</span>}
       </div>
 
       {/* Description */}
       {group.description && (
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+        <p className="text-base text-gray-600 mb-3 line-clamp-2">
           {group.description}
         </p>
       )}
@@ -120,14 +120,14 @@ export function GroupCard({
         {showJoinButton && onJoin ? (
           <button
             onClick={() => onJoin(group.id)}
-            className="w-full px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium"
+            className="w-full px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-base font-medium"
           >
             Join Group
           </button>
         ) : (
           <a
             href={`/groups/${group.id}`}
-            className="block w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md hover:bg-gray-200 transition-colors text-sm font-medium text-center"
+            className="block w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md hover:bg-gray-200 transition-colors text-base font-medium text-center"
           >
             View Group
           </a>

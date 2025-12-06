@@ -41,13 +41,13 @@ export function CompactZincSage() {
         <div className="flex items-center justify-between">
           <div>
             <h1
-              className="text-xl font-bold"
+              className="text-2xl font-bold"
               style={{ color: 'var(--color-text)' }}
             >
               Compact Dashboard
             </h1>
             <p
-              className="text-xs mt-0.5"
+              className="text-sm mt-0.5"
               style={{ color: 'var(--color-text-tertiary)' }}
             >
               Zinc + Sage Extended with dusty rose & slate blue
@@ -55,7 +55,7 @@ export function CompactZincSage() {
           </div>
           <a
             href="/admin/dashboard"
-            className="text-xs px-3 py-1.5 rounded-md border transition-colors hover:opacity-80"
+            className="text-sm px-3 py-1.5.5 rounded-md border transition-colors hover:opacity-80"
             style={{
               borderColor: 'var(--color-border)',
               color: 'var(--color-text-secondary)',
@@ -66,7 +66,7 @@ export function CompactZincSage() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
           {/* Stats - Small Cards */}
           {[
             { label: 'Members', value: '2,847', color: 'var(--color-primary)' },
@@ -76,7 +76,7 @@ export function CompactZincSage() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="p-3 rounded-lg border transition-all duration-200 hover:scale-[1.02] hover:shadow-md cursor-default"
+              className="p-4 rounded-lg border transition-all duration-200 hover:scale-[1.02] hover:shadow-md cursor-default"
               style={{
                 backgroundColor: 'var(--color-surface)',
                 borderColor: 'var(--color-border)',
@@ -89,7 +89,7 @@ export function CompactZincSage() {
                 {stat.label}
               </div>
               <div
-                className="text-xl font-bold mt-0.5"
+                className="text-2xl font-bold mt-0.5"
                 style={{ color: stat.color }}
               >
                 {stat.value}
@@ -99,23 +99,23 @@ export function CompactZincSage() {
 
           {/* Cooperation Paths - 2 columns wide */}
           <div
-            className="col-span-2 row-span-2 p-3 rounded-lg border"
+            className="col-span-2 row-span-2 p-4 rounded-lg border"
             style={{
               backgroundColor: 'var(--color-surface)',
               borderColor: 'var(--color-border)',
             }}
           >
             <h3
-              className="text-xs font-semibold mb-2"
+              className="text-sm font-semibold mb-2"
               style={{ color: 'var(--color-text)' }}
             >
               Cooperation Paths
             </h3>
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-2 gap-2">
               {COOPERATION_PATHS.map((path) => (
                 <div
                   key={path.id}
-                  className="flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-colors hover:opacity-80 cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded text-sm transition-colors hover:opacity-80 cursor-pointer"
                   style={{
                     backgroundColor: 'var(--color-bg-secondary)',
                     color: 'var(--color-text-secondary)',
@@ -130,23 +130,23 @@ export function CompactZincSage() {
 
           {/* Recent Activity */}
           <div
-            className="col-span-2 sm:col-span-2 row-span-2 p-3 rounded-lg border"
+            className="col-span-2 sm:col-span-2 row-span-2 p-4 rounded-lg border"
             style={{
               backgroundColor: 'var(--color-surface)',
               borderColor: 'var(--color-border)',
             }}
           >
             <h3
-              className="text-xs font-semibold mb-2"
+              className="text-sm font-semibold mb-2"
               style={{ color: 'var(--color-text)' }}
             >
               Recent Activity
             </h3>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {RECENT_ACTIVITY.map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between text-xs py-1 border-b last:border-b-0"
+                  className="flex items-center justify-between text-sm py-1.5 border-b last:border-b-0"
                   style={{ borderColor: 'var(--color-border)' }}
                 >
                   <span>
@@ -161,21 +161,21 @@ export function CompactZincSage() {
 
           {/* Quick Actions */}
           <div
-            className="col-span-2 p-3 rounded-lg border"
+            className="col-span-2 p-4 rounded-lg border"
             style={{
               backgroundColor: 'var(--color-surface)',
               borderColor: 'var(--color-border)',
             }}
           >
             <h3
-              className="text-xs font-semibold mb-2"
+              className="text-sm font-semibold mb-2"
               style={{ color: 'var(--color-text)' }}
             >
               Quick Actions
             </h3>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               <button
-                className="px-2 py-1 rounded text-xs font-medium transition-colors hover:opacity-90"
+                className="px-3 py-1.5 rounded text-sm font-medium transition-colors hover:opacity-90"
                 style={{
                   backgroundColor: 'var(--color-primary)',
                   color: 'white',
@@ -184,7 +184,7 @@ export function CompactZincSage() {
                 New Proposal
               </button>
               <button
-                className="px-2 py-1 rounded text-xs font-medium transition-colors hover:opacity-90"
+                className="px-3 py-1.5 rounded text-sm font-medium transition-colors hover:opacity-90"
                 style={{
                   backgroundColor: 'var(--color-accent)',
                   color: 'white',
@@ -193,7 +193,7 @@ export function CompactZincSage() {
                 Allocate SP
               </button>
               <button
-                className="px-2 py-1 rounded text-xs font-medium transition-colors hover:opacity-90"
+                className="px-3 py-1.5 rounded text-sm font-medium transition-colors hover:opacity-90"
                 style={{
                   backgroundColor: 'var(--color-complement-warm)',
                   color: 'white',
@@ -202,7 +202,7 @@ export function CompactZincSage() {
                 Join Group
               </button>
               <button
-                className="px-2 py-1 rounded text-xs font-medium transition-colors hover:opacity-90"
+                className="px-3 py-1.5 rounded text-sm font-medium transition-colors hover:opacity-90"
                 style={{
                   backgroundColor: 'var(--color-complement-cool)',
                   color: 'white',
@@ -216,19 +216,19 @@ export function CompactZincSage() {
 
         {/* Color Palette Reference */}
         <div
-          className="p-3 rounded-lg border"
+          className="p-4 rounded-lg border"
           style={{
             backgroundColor: 'var(--color-surface)',
             borderColor: 'var(--color-border)',
           }}
         >
           <h3
-            className="text-xs font-semibold mb-2"
+            className="text-sm font-semibold mb-2"
             style={{ color: 'var(--color-text)' }}
           >
             Extended 4-Color Palette
           </h3>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-4">
             {[
               { name: 'Zinc', var: '--color-primary', hex: '#3F3F46' },
               { name: 'Sage', var: '--color-accent', hex: '#6B7C6B' },
@@ -245,7 +245,7 @@ export function CompactZincSage() {
                 />
                 <div>
                   <div
-                    className="text-xs font-medium"
+                    className="text-sm font-medium"
                     style={{ color: 'var(--color-text)' }}
                   >
                     {color.name}

@@ -272,7 +272,7 @@ export default function FeedPage() {
               {/* Error banner */}
               {error && (
                 <div className="mb-4 bg-red-50 rounded-lg border border-red-200 p-4">
-                  <p className="text-sm text-red-800">
+                  <p className="text-base text-red-800">
                     <strong>Error:</strong> {error}
                   </p>
                 </div>
@@ -296,7 +296,7 @@ export default function FeedPage() {
             {/* Info banner */}
             {!loading && posts.length > 0 && (
               <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-4">
-                <p className="text-sm text-blue-800">
+                <p className="text-base text-blue-800">
                   <strong>Phase 2:</strong> Post composer added (native + import). Discussion threads in Phase 3.
                 </p>
               </div>

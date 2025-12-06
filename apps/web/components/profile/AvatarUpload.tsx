@@ -143,7 +143,7 @@ export function AvatarUpload({
                 >
                   Choose Image
                 </Button>
-                <p className="text-xs text-ink-700">
+                <p className="text-sm text-ink-700">
                   Max file size: {maxSizeMB}MB. Supported formats: JPG, PNG, GIF, WebP
                 </p>
               </div>
@@ -152,7 +152,7 @@ export function AvatarUpload({
         ]}
       />
 
-      {error && <p className="text-sm text-[#DC2626]">{error}</p>}
+      {error && <p className="text-base text-[#DC2626]">{error}</p>}
     </div>
   );
 }

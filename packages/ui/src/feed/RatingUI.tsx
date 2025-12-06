@@ -86,7 +86,7 @@ export function RatingUI({ postId, existingRating, onSubmit }: RatingUIProps) {
             onMouseEnter={() => setHovering({ dimension, value })}
             onMouseLeave={() => setHovering(null)}
             onClick={() => handleRate(dimension, value)}
-            className={`text-2xl transition ${
+            className={`text-3xl transition ${
               value <= displayValue
                 ? 'text-yellow-500'
                 : 'text-gray-300 dark:text-gray-600'
@@ -109,8 +109,8 @@ export function RatingUI({ postId, existingRating, onSubmit }: RatingUIProps) {
           <div key={key} className="flex flex-col gap-1">
             <div className="flex justify-between items-center">
               <div>
-                <div className="font-medium text-sm">{label}</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{description}</div>
+                <div className="font-medium text-base">{label}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{description}</div>
               </div>
               {renderStars(key)}
             </div>
@@ -126,7 +126,7 @@ export function RatingUI({ postId, existingRating, onSubmit }: RatingUIProps) {
         Submit Rating
       </button>
 
-      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
+      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 text-center">
         Your rating helps build reputation and quality signals for the community
       </p>
     </div>
@@ -147,7 +147,7 @@ export function RatingDisplay({ ratings }: RatingDisplayProps) {
     (ratings.language + ratings.originality + ratings.tone + ratings.argument) / 4;
 
   return (
-    <div className="inline-flex items-center gap-2 text-sm">
+    <div className="inline-flex items-center gap-2 text-base">
       <div className="flex">
         {[1, 2, 3, 4, 5].map((star) => (
           <span

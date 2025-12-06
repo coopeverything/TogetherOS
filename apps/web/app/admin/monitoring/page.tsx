@@ -127,7 +127,7 @@ export default function MonitoringTestPage() {
                 onChange={(e) => setAutoRefresh(e.target.checked)}
                 className="w-4 h-4"
               />
-              <span className="text-sm">Auto-refresh (5s)</span>
+              <span className="text-base">Auto-refresh (5s)</span>
             </label>
 
             <button
@@ -158,12 +158,12 @@ export default function MonitoringTestPage() {
               {/* Overall Status */}
               <div className={`p-4 rounded-lg ${getStatusBg(health.status)}`}>
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold">System Status</h2>
-                  <span className={`text-2xl font-bold ${getStatusColor(health.status)}`}>
+                  <h2 className="text-2xl font-semibold">System Status</h2>
+                  <span className={`text-3xl font-bold ${getStatusColor(health.status)}`}>
                     {health.status.toUpperCase()}
                   </span>
                 </div>
-                <div className="mt-2 text-sm text-ink-700">
+                <div className="mt-2 text-base text-ink-700">
                   <p>Last checked: {new Date(health.timestamp).toLocaleString()}</p>
                   <p>Uptime: {Math.floor(health.uptime)}s</p>
                 </div>
@@ -171,19 +171,19 @@ export default function MonitoringTestPage() {
 
               {/* Database Check */}
               <div className="border border-border rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-2 flex items-center justify-between">
+                <h3 className="text-xl font-semibold mb-2 flex items-center justify-between">
                   Database
-                  <span className={`text-sm font-medium ${getStatusColor(health.checks.database.status)}`}>
+                  <span className={`text-base font-medium ${getStatusColor(health.checks.database.status)}`}>
                     {health.checks.database.status.toUpperCase()}
                   </span>
                 </h3>
                 {health.checks.database.latency !== undefined && (
-                  <p className="text-sm text-ink-700">
+                  <p className="text-base text-ink-700">
                     Latency: {health.checks.database.latency}ms
                   </p>
                 )}
                 {health.checks.database.error && (
-                  <p className="text-sm text-red-600">
+                  <p className="text-base text-red-600">
                     Error: {health.checks.database.error}
                   </p>
                 )}
@@ -191,14 +191,14 @@ export default function MonitoringTestPage() {
 
               {/* Memory Check */}
               <div className="border border-border rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-2 flex items-center justify-between">
+                <h3 className="text-xl font-semibold mb-2 flex items-center justify-between">
                   Memory
-                  <span className={`text-sm font-medium ${getStatusColor(health.checks.memory.status)}`}>
+                  <span className={`text-base font-medium ${getStatusColor(health.checks.memory.status)}`}>
                     {health.checks.memory.status.toUpperCase()}
                   </span>
                 </h3>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between text-base">
                     <span className="text-ink-700">Usage:</span>
                     <span className="font-medium">{health.checks.memory.percentage}%</span>
                   </div>
@@ -214,7 +214,7 @@ export default function MonitoringTestPage() {
                       style={{ width: `${health.checks.memory.percentage}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-xs text-ink-400">
+                  <div className="flex justify-between text-sm text-ink-400">
                     <span>Used: {(health.checks.memory.used / 1024 / 1024).toFixed(2)} MB</span>
                     <span>Total: {(health.checks.memory.total / 1024 / 1024).toFixed(2)} MB</span>
                   </div>
@@ -226,7 +226,7 @@ export default function MonitoringTestPage() {
                 <summary className="p-4 cursor-pointer font-semibold hover:bg-bg-1">
                   View Raw Response
                 </summary>
-                <pre className="p-4 bg-bg-2 overflow-x-auto text-xs">
+                <pre className="p-4 bg-bg-2 overflow-x-auto text-sm">
                   {JSON.stringify(health, null, 2)}
                 </pre>
               </details>
@@ -236,7 +236,7 @@ export default function MonitoringTestPage() {
           {/* Documentation */}
           <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <h3 className="font-semibold text-blue-900 mb-2">Monitoring Documentation</h3>
-            <ul className="text-sm text-blue-800 space-y-1">
+            <ul className="text-base text-blue-800 space-y-1">
               <li>• Health endpoint: <code className="bg-blue-100 px-1">/api/health</code></li>
               <li>• Auto-rollback: Enabled in deployment workflow</li>
               <li>• Error tracking: Sentry (check dashboard for test errors)</li>

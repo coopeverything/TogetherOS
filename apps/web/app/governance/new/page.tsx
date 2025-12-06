@@ -96,7 +96,7 @@ export default function NewProposalPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading...</p>
+          <p className="text-xl text-ink-700">Loading...</p>
         </div>
       </div>
     )
@@ -106,7 +106,7 @@ export default function NewProposalPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-yellow-900 mb-2">Authentication Required</h2>
+          <h2 className="text-2xl font-semibold text-yellow-900 mb-2">Authentication Required</h2>
           <p className="text-yellow-700 mb-4">You must be logged in to create proposals.</p>
           <button
             onClick={() => router.push('/login?redirect=/governance/new')}
@@ -123,7 +123,7 @@ export default function NewProposalPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-8">
-        <nav className="mb-4 text-sm text-ink-700">
+        <nav className="mb-4 text-base text-ink-700">
           <Link href="/governance" className="hover:text-orange-600">
             Proposals
           </Link>
@@ -156,8 +156,8 @@ export default function NewProposalPage() {
 
       {/* Help Text */}
       <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-blue-900 mb-2">Tips for Good Proposals</h2>
-        <ul className="space-y-2 text-sm text-blue-800">
+        <h2 className="text-xl font-semibold text-blue-900 mb-2">Tips for Good Proposals</h2>
+        <ul className="space-y-2 text-base text-blue-800">
           <li className="flex items-start">
             <span className="text-blue-600 mr-2">•</span>
             <span><strong>Be specific:</strong> Clear, concrete proposals are easier to evaluate and implement</span>

@@ -31,13 +31,13 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
 
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
-      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Your Invitation Stats</h3>
+      <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-3">Your Invitation Stats</h3>
 
       {/* Quality Score */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-gray-500">Quality Score</span>
-          <span className={`text-sm font-bold ${getQualityColor()}`}>
+          <span className="text-sm text-gray-500">Quality Score</span>
+          <span className={`text-base font-bold ${getQualityColor()}`}>
             {qualityPercent}% - {getQualityLabel()}
           </span>
         </div>
@@ -53,41 +53,41 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
             style={{ width: `${Math.min(100, qualityPercent)}%` }}
           />
         </div>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-sm text-gray-400 mt-1">
           Based on invitees who become active members
         </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-4">
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-gray-900 dark:text-white">{stats.totalSent}</div>
-          <div className="text-xs text-gray-500">Sent</div>
+          <div className="text-xl font-bold text-gray-900 dark:text-white">{stats.totalSent}</div>
+          <div className="text-sm text-gray-500">Sent</div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-green-600">{stats.totalAccepted}</div>
-          <div className="text-xs text-gray-500">Accepted</div>
+          <div className="text-xl font-bold text-green-600">{stats.totalAccepted}</div>
+          <div className="text-sm text-gray-500">Accepted</div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-brand-600">{stats.totalContributed}</div>
-          <div className="text-xs text-gray-500">Active</div>
+          <div className="text-xl font-bold text-brand-600">{stats.totalContributed}</div>
+          <div className="text-sm text-gray-500">Active</div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-gray-900 dark:text-white">{acceptanceRate}%</div>
-          <div className="text-xs text-gray-500">Accept Rate</div>
+          <div className="text-xl font-bold text-gray-900 dark:text-white">{acceptanceRate}%</div>
+          <div className="text-sm text-gray-500">Accept Rate</div>
         </div>
       </div>
 
       {/* Weekly Limit */}
       <div className="mt-4 pt-3 border-t border-gray-100">
         <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">Remaining this week</span>
-          <span className={`text-sm font-medium ${remainingThisWeek > 0 ? 'text-gray-900 dark:text-white' : 'text-red-600'}`}>
+          <span className="text-sm text-gray-500">Remaining this week</span>
+          <span className={`text-base font-medium ${remainingThisWeek > 0 ? 'text-gray-900 dark:text-white' : 'text-red-600'}`}>
             {remainingThisWeek} / {stats.weeklyLimit}
           </span>
         </div>
         {remainingThisWeek === 0 && (
-          <p className="text-xs text-red-500 mt-1">
+          <p className="text-sm text-red-500 mt-1">
             Weekly limit reached. Resets Monday.
           </p>
         )}

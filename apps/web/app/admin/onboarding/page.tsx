@@ -538,15 +538,15 @@ export default function OnboardingEditorPage() {
     <div className="h-full flex flex-col bg-bg-2">
       {/* Top Bar with Exit Button and View Mode Toggle */}
       <div className="flex items-center justify-between px-4 py-2 bg-ink-900 text-white flex-shrink-0">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Link
             href="/admin"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-bg-0/10 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5.5 rounded-md hover:bg-bg-0/10 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-            <span className="text-sm font-medium">Exit Editor</span>
+            <span className="text-base font-medium">Exit Editor</span>
           </Link>
           <div className="h-4 w-px bg-bg-0/20" />
 
@@ -554,7 +554,7 @@ export default function OnboardingEditorPage() {
           <div className="flex items-center gap-1 bg-bg-0/10 rounded-lg p-1">
             <button
               onClick={() => setViewMode('editor')}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+              className={`px-3 py-1.5 text-base font-medium rounded-md transition-colors ${
                 viewMode === 'editor'
                   ? 'bg-bg-0 text-ink-900'
                   : 'text-white/70 hover:text-white hover:bg-bg-0/10'
@@ -564,7 +564,7 @@ export default function OnboardingEditorPage() {
             </button>
             <button
               onClick={() => setViewMode('first-week')}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+              className={`px-3 py-1.5 text-base font-medium rounded-md transition-colors ${
                 viewMode === 'first-week'
                   ? 'bg-bg-0 text-ink-900'
                   : 'text-white/70 hover:text-white hover:bg-bg-0/10'
@@ -575,7 +575,7 @@ export default function OnboardingEditorPage() {
           </div>
         </div>
         {error && (
-          <div className="flex items-center gap-2 px-3 py-1 bg-red-500/20 rounded text-red-200 text-sm">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500/20 rounded text-red-200 text-base">
             <span>{error}</span>
             <button onClick={() => setError(null)} className="hover:text-white">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -680,7 +680,7 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
     <div className="flex-1 overflow-y-auto bg-bg-1 p-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-ink-900">First Week Onboarding Flow</h2>
+          <h2 className="text-3xl font-bold text-ink-900">First Week Onboarding Flow</h2>
           <p className="text-ink-600 mt-1">
             Challenges scheduled for new users during their first 7 days. Click on a challenge to edit it.
           </p>
@@ -694,12 +694,12 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
               <div key={day} className="relative">
                 {/* Day Header */}
                 <div className="flex items-center gap-4 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-xl">
                     {day}
                   </div>
                   <div>
                     <h3 className="font-semibold text-ink-900">Day {day}</h3>
-                    <p className="text-sm text-ink-500">
+                    <p className="text-base text-ink-500">
                       {dayChallenges.length === 0
                         ? 'No challenges scheduled'
                         : `${dayChallenges.length} challenge${dayChallenges.length > 1 ? 's' : ''}`}
@@ -722,23 +722,23 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
                           onClick={() => onEditChallenge(ch.id)}
                           className="bg-bg-0 rounded-lg border border-border p-4 hover:border-brand-300 hover:shadow-sm cursor-pointer transition-all"
                         >
-                          <div className="flex items-start gap-3">
-                            <span className="text-2xl">{raw?.icon || '⭐'}</span>
+                          <div className="flex items-start gap-4">
+                            <span className="text-3xl">{raw?.icon || '⭐'}</span>
                             <div className="flex-1">
                               <h4 className="font-medium text-ink-900">{ch.title}</h4>
-                              <div className="flex items-center gap-4 mt-2 text-sm text-ink-600">
+                              <div className="flex items-center gap-4 mt-2 text-base text-ink-600">
                                 <span className="capitalize">{raw?.category || 'social'}</span>
                                 <span>{raw?.rpReward || 25} RP</span>
                                 <span className="capitalize">{raw?.difficulty || 'easy'}</span>
                               </div>
                               {linkedMicrolesson && (
-                                <div className="mt-2 text-sm text-brand-600 flex items-center gap-1">
+                                <div className="mt-2 text-base text-brand-600 flex items-center gap-1">
                                   <span>📖</span>
                                   <span>Linked: {linkedMicrolesson.title}</span>
                                 </div>
                               )}
                             </div>
-                            <span className={`text-xs px-2 py-1 rounded ${
+                            <span className={`text-sm px-3 py-1.5 rounded ${
                               ch.status === 'published'
                                 ? 'bg-green-100 text-green-700'
                                 : 'bg-bg-2 text-ink-600'
@@ -765,7 +765,7 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
         {/* Summary */}
         <div className="mt-8 p-4 bg-brand-50 rounded-lg border border-brand-200">
           <h3 className="font-semibold text-brand-900 mb-2">Summary</h3>
-          <div className="grid grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-3 gap-4 text-base">
             <div>
               <span className="text-brand-700">Total First Week Challenges:</span>
               <span className="ml-2 font-semibold text-brand-900">{firstWeekChallenges.length}</span>

@@ -64,7 +64,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       {open && (
         <div
           className={cn(
-            'absolute z-50 min-w-[160px] bg-bg-1 border border-border rounded-md shadow-lg py-1',
+            'absolute z-50 min-w-[160px] bg-bg-1 border border-border rounded-md shadow-lg py-1.5',
             positionStyles[position],
             className
           )}
@@ -80,7 +80,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               }}
               disabled={item.disabled}
               className={cn(
-                'w-full text-left px-4 py-2 text-sm transition-colors',
+                'w-full text-left px-4 py-2 text-base transition-colors',
                 item.disabled
                   ? 'text-ink-400 cursor-not-allowed'
                   : 'text-ink-900 hover:bg-bg-2 cursor-pointer'

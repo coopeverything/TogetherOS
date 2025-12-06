@@ -198,7 +198,7 @@ export default function NewArticlePage() {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
           <div className="text-6xl mb-4">🔐</div>
-          <h1 className="text-2xl font-bold text-ink-900 mb-4">
+          <h1 className="text-3xl font-bold text-ink-900 mb-4">
             Sign in to write an article
           </h1>
           <p className="text-ink-700 mb-6">
@@ -231,7 +231,7 @@ export default function NewArticlePage() {
           <nav className="mb-4">
             <Link
               href="/articles"
-              className="text-sm text-ink-400 hover:text-orange-600 flex items-center gap-1"
+              className="text-base text-ink-400 hover:text-orange-600 flex items-center gap-1"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -240,22 +240,22 @@ export default function NewArticlePage() {
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-2xl">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-3xl">
               ✍️
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-ink-900">Write an Article</h1>
+              <h1 className="text-3xl font-bold text-ink-900">Write an Article</h1>
               <p className="text-ink-700">Share your perspective with the community</p>
             </div>
           </div>
 
           {/* Author preview */}
-          <div className="flex items-center gap-3 p-3 bg-bg-1 rounded-lg border border-border">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-sm font-medium">
+          <div className="flex items-center gap-4 p-4 bg-bg-1 rounded-lg border border-border">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-base font-medium">
               {currentUser?.name.charAt(0) || '?'}
             </div>
-            <div className="text-sm">
+            <div className="text-base">
               <span className="text-ink-400">Writing as </span>
               <span className="font-medium text-ink-900">{currentUser?.name}</span>
             </div>
@@ -274,7 +274,7 @@ export default function NewArticlePage() {
           <button
             type="button"
             onClick={() => setShowPreview(false)}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
               !showPreview
                 ? 'bg-bg-1 text-ink-900 shadow-sm'
                 : 'text-ink-700 hover:text-ink-900'
@@ -285,7 +285,7 @@ export default function NewArticlePage() {
           <button
             type="button"
             onClick={() => setShowPreview(true)}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
               showPreview
                 ? 'bg-bg-1 text-ink-900 shadow-sm'
                 : 'text-ink-700 hover:text-ink-900'
@@ -298,16 +298,16 @@ export default function NewArticlePage() {
         {showPreview ? (
           /* Preview Mode */
           <div className="bg-bg-1 rounded-xl border border-border p-8">
-            <div className="text-sm text-orange-600 uppercase tracking-wide font-medium mb-2">
+            <div className="text-base text-orange-600 uppercase tracking-wide font-medium mb-2">
               Expert Opinion
             </div>
             <h1 className="text-3xl font-bold text-ink-900 mb-4">
               {title || 'Your title here...'}
             </h1>
-            <p className="text-lg text-ink-700 mb-6">
+            <p className="text-xl text-ink-700 mb-6">
               {summary || 'Your summary here...'}
             </p>
-            <div className="flex items-center gap-4 text-sm text-ink-400 mb-6 pb-6 border-b border-border">
+            <div className="flex items-center gap-4 text-base text-ink-400 mb-6 pb-6 border-b border-border">
               <span>{readTimeMinutes} min read</span>
               <span>{wordCount} words</span>
             </div>
@@ -324,7 +324,7 @@ export default function NewArticlePage() {
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-bg-2 text-ink-700 rounded-full text-sm"
+                      className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded-full text-base"
                     >
                       {tag}
                     </span>
@@ -338,7 +338,7 @@ export default function NewArticlePage() {
           <form className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-ink-900 mb-2">
+              <label htmlFor="title" className="block text-base font-medium text-ink-900 mb-2">
                 Title <span className="text-red-500">*</span>
               </label>
               <input
@@ -352,13 +352,13 @@ export default function NewArticlePage() {
                 }`}
                 disabled={isSubmitting}
               />
-              {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
-              <p className="mt-1 text-xs text-ink-400">{title.length} / 200 characters</p>
+              {errors.title && <p className="mt-1 text-base text-red-600">{errors.title}</p>}
+              <p className="mt-1 text-sm text-ink-400">{title.length} / 200 characters</p>
             </div>
 
             {/* Summary */}
             <div>
-              <label htmlFor="summary" className="block text-sm font-medium text-ink-900 mb-2">
+              <label htmlFor="summary" className="block text-base font-medium text-ink-900 mb-2">
                 Summary <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -372,43 +372,43 @@ export default function NewArticlePage() {
                 }`}
                 disabled={isSubmitting}
               />
-              {errors.summary && <p className="mt-1 text-sm text-red-600">{errors.summary}</p>}
-              <p className="mt-1 text-xs text-ink-400">{summary.length} / 500 characters</p>
+              {errors.summary && <p className="mt-1 text-base text-red-600">{errors.summary}</p>}
+              <p className="mt-1 text-sm text-ink-400">{summary.length} / 500 characters</p>
             </div>
 
             {/* Content */}
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-ink-900 mb-2">
+              <label htmlFor="content" className="block text-base font-medium text-ink-900 mb-2">
                 Content <span className="text-red-500">*</span>
               </label>
-              <div className="text-xs text-ink-400 mb-2">Supports Markdown formatting</div>
+              <div className="text-sm text-ink-400 mb-2">Supports Markdown formatting</div>
               <textarea
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your article here... Use Markdown for formatting (# Heading, **bold**, *italic*, - lists)"
                 rows={15}
-                className={`w-full px-4 py-3 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical font-mono text-sm ${
+                className={`w-full px-4 py-3 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical font-mono text-base ${
                   errors.content ? 'border-red-500' : 'border-border'
                 }`}
                 disabled={isSubmitting}
               />
-              {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content}</p>}
-              <p className="mt-1 text-xs text-ink-400">
+              {errors.content && <p className="mt-1 text-base text-red-600">{errors.content}</p>}
+              <p className="mt-1 text-sm text-ink-400">
                 {wordCount} words · ~{readTimeMinutes} min read
               </p>
             </div>
 
             {/* Tags */}
             <div>
-              <label htmlFor="tags" className="block text-sm font-medium text-ink-900 mb-2">
+              <label htmlFor="tags" className="block text-base font-medium text-ink-900 mb-2">
                 Tags <span className="text-red-500">*</span>
               </label>
               <div className="flex flex-wrap gap-2 mb-2">
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 rounded-full text-base"
                   >
                     {tag}
                     <button
@@ -443,11 +443,11 @@ export default function NewArticlePage() {
                   Add
                 </button>
               </div>
-              {errors.tags && <p className="mt-1 text-sm text-red-600">{errors.tags}</p>}
+              {errors.tags && <p className="mt-1 text-base text-red-600">{errors.tags}</p>}
 
               {/* Tag suggestions */}
               <div className="mt-2 flex flex-wrap gap-1">
-                <span className="text-xs text-ink-400 mr-2">Suggestions:</span>
+                <span className="text-sm text-ink-400 mr-2">Suggestions:</span>
                 {TAG_SUGGESTIONS.filter((t) => !tags.includes(t))
                   .slice(0, 8)
                   .map((tag) => (
@@ -459,7 +459,7 @@ export default function NewArticlePage() {
                           setTags([...tags, tag])
                         }
                       }}
-                      className="px-2 py-0.5 bg-bg-2 text-ink-700 rounded text-xs hover:bg-bg-2"
+                      className="px-3 py-0.5 bg-bg-2 text-ink-700 rounded text-sm hover:bg-bg-2"
                     >
                       + {tag}
                     </button>
@@ -469,10 +469,10 @@ export default function NewArticlePage() {
 
             {/* Cooperation Paths */}
             <div>
-              <label className="block text-sm font-medium text-ink-900 mb-2">
+              <label className="block text-base font-medium text-ink-900 mb-2">
                 Cooperation Paths (optional)
               </label>
-              <p className="text-xs text-ink-400 mb-3">
+              <p className="text-sm text-ink-400 mb-3">
                 Select paths that relate to your article's topic
               </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -481,7 +481,7 @@ export default function NewArticlePage() {
                     key={path}
                     type="button"
                     onClick={() => togglePath(path)}
-                    className={`px-3 py-2 rounded-lg text-sm text-left transition-colors ${
+                    className={`px-3 py-2 rounded-lg text-base text-left transition-colors ${
                       cooperationPaths.includes(path)
                         ? 'bg-blue-100 text-blue-800 border-2 border-blue-300'
                         : 'bg-bg-0 text-ink-700 border border-border hover:border-border'
@@ -501,7 +501,7 @@ export default function NewArticlePage() {
               >
                 Cancel
               </Link>
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <button
                   type="button"
                   onClick={() => handleSubmit('draft')}
@@ -524,7 +524,7 @@ export default function NewArticlePage() {
         )}
 
         {/* Help Text */}
-        <div className="mt-8 p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
+        <div className="mt-8 p-4 bg-bg-0 rounded-lg border border-border text-base text-ink-700">
           <h4 className="font-medium text-ink-900 mb-2">Writing Tips</h4>
           <ul className="list-disc list-inside space-y-1">
             <li>Use clear, descriptive titles that capture your main argument</li>

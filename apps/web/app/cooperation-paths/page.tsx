@@ -89,7 +89,7 @@ export default function CooperationPathsPage() {
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Eight Cooperation Paths
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto">
+          <p className="text-2xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto">
             Pathways for building resilience, prosperity, and cooperation in communities. These are the canonical categories used across TogetherOS docs, issues, and UI.
           </p>
         </div>
@@ -102,11 +102,11 @@ export default function CooperationPathsPage() {
               className={`border ${path.borderColor} ${path.bgColor} rounded-lg p-6 hover:shadow-lg transition-shadow`}
             >
               <div className="flex items-start gap-4">
-                <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${path.color} flex items-center justify-center text-white font-bold text-xl`}>
+                <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${path.color} flex items-center justify-center text-white font-bold text-2xl`}>
                   {path.number}
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {path.name}
                   </h2>
                   <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
@@ -116,7 +116,7 @@ export default function CooperationPathsPage() {
                     {path.keywords.map((keyword) => (
                       <span
                         key={keyword}
-                        className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500"
+                        className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-base text-gray-600 dark:text-gray-400 dark:text-gray-500"
                       >
                         {keyword}
                       </span>
@@ -130,7 +130,7 @@ export default function CooperationPathsPage() {
 
         {/* Usage Guidelines */}
         <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Usage Guidelines</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Usage Guidelines</h2>
           <ul className="space-y-2 text-gray-700 dark:text-gray-300">
             <li className="flex items-start">
               <span className="text-green-600 mr-2">✓</span>
@@ -149,7 +149,7 @@ export default function CooperationPathsPage() {
 
         {/* Related Links */}
         <div className="mt-8 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Related Documentation</h3>
+          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Related Documentation</h3>
           <div className="space-y-2">
             <a
               href="/manifesto"

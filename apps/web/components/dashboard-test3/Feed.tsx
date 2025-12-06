@@ -55,20 +55,20 @@ export function Feed() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center justify-between text-base">
+        <CardTitle className="flex items-center justify-between text-lg">
           Feed
-          <Button size="sm" className="h-7 text-xs px-2">
+          <Button size="sm" className="h-7 text-sm px-3">
             + Create Post
           </Button>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
         <div className="flex space-x-1.5 border-b pb-2 mb-3">
-          <Button variant="secondary" size="sm" className="h-7 text-xs px-2">All</Button>
-          <Button variant="ghost" size="sm" className="h-7 text-xs px-2">For you</Button>
-          <Button variant="ghost" size="sm" className="h-7 text-xs px-2">Events</Button>
-          <Button variant="ghost" size="sm" className="h-7 text-xs px-2">Governance</Button>
-          <Button variant="ghost" size="sm" className="h-7 text-xs px-2">Trending</Button>
+          <Button variant="secondary" size="sm" className="h-7 text-sm px-3">All</Button>
+          <Button variant="ghost" size="sm" className="h-7 text-sm px-3">For you</Button>
+          <Button variant="ghost" size="sm" className="h-7 text-sm px-3">Events</Button>
+          <Button variant="ghost" size="sm" className="h-7 text-sm px-3">Governance</Button>
+          <Button variant="ghost" size="sm" className="h-7 text-sm px-3">Trending</Button>
         </div>
 
         <div className="space-y-4">
@@ -76,56 +76,56 @@ export function Feed() {
             <div key={item.id} className="border-b pb-3 last:border-b-0 last:pb-0">
               {item.type === "Post" && (
                 <div>
-                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
-                    <Badge variant="default" className="text-xs py-0 px-1.5">{item.type}</Badge>
+                  <div className="flex items-center space-x-1.5 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                    <Badge variant="default" className="text-sm py-0 px-1.5">{item.type}</Badge>
                     <span>by {item.author}</span>
                     <span>• {item.time}</span>
                     <span>• {item.topic}</span>
                     {item.platform && <span>• {item.platform}</span>}
                   </div>
-                  <h3 className="mt-1.5 text-sm font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
+                  <h3 className="mt-1.5 text-base font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
                     {item.content}
                   </p>
-                  <div className="flex items-center justify-between mt-2 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center justify-between mt-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
                     <div className="flex space-x-3">
                       <span>❤️ {item.likes}</span>
                       <span>💡 {item.ideas}</span>
                       <span>✓ {item.views}</span>
                       <span>⚡ {item.spark}</span>
                     </div>
-                    <Button variant="ghost" size="sm" className="h-6 text-xs px-2">💬 Discuss ({item.comments})</Button>
+                    <Button variant="ghost" size="sm" className="h-6 text-sm px-3">💬 Discuss ({item.comments})</Button>
                   </div>
                 </div>
               )}
               {item.type === "Proposal" && (
                 <div>
-                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
-                    <Badge variant="default" className="text-xs py-0 px-1.5">{item.type}</Badge>
+                  <div className="flex items-center space-x-1.5 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                    <Badge variant="default" className="text-sm py-0 px-1.5">{item.type}</Badge>
                     <span>{item.status}</span>
                     <span>• {item.timeLeft}</span>
                     <span>• {item.voted}</span>
                   </div>
-                  <h3 className="mt-1.5 text-sm font-semibold">{item.title}</h3>
+                  <h3 className="mt-1.5 text-base font-semibold">{item.title}</h3>
                   <div className="flex justify-end mt-2 space-x-1.5">
-                    <Button size="sm" className="h-7 text-xs px-2">Vote Now</Button>
-                    <Button variant="secondary" size="sm" className="h-7 text-xs px-2">View Details</Button>
+                    <Button size="sm" className="h-7 text-sm px-3">Vote Now</Button>
+                    <Button variant="secondary" size="sm" className="h-7 text-sm px-3">View Details</Button>
                   </div>
                 </div>
               )}
               {item.type === "Event" && (
                 <div>
-                  <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
-                    <Badge variant="default" className="text-xs py-0 px-1.5">{item.type}</Badge>
+                  <div className="flex items-center space-x-1.5 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                    <Badge variant="default" className="text-sm py-0 px-1.5">{item.type}</Badge>
                     <span>{item.time}</span>
                     <span>• 📍 {item.location}</span>
                     <span>• {item.attendees} attending</span>
                   </div>
-                  <h3 className="mt-1.5 text-sm font-semibold">{item.title}</h3>
+                  <h3 className="mt-1.5 text-base font-semibold">{item.title}</h3>
                   <div className="flex justify-end mt-2 space-x-1.5">
-                    <Button size="sm" className="h-7 text-xs px-2">RSVP Going</Button>
-                    <Button variant="secondary" size="sm" className="h-7 text-xs px-2">Details</Button>
-                    <Button variant="secondary" size="sm" className="h-7 text-xs px-2">Share</Button>
+                    <Button size="sm" className="h-7 text-sm px-3">RSVP Going</Button>
+                    <Button variant="secondary" size="sm" className="h-7 text-sm px-3">Details</Button>
+                    <Button variant="secondary" size="sm" className="h-7 text-sm px-3">Share</Button>
                   </div>
                 </div>
               )}

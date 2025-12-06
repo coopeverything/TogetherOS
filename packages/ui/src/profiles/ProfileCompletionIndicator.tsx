@@ -77,9 +77,9 @@ export function ProfileCompletionIndicator({
       <div className="space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-ink-900">Profile Completion</h3>
+          <h3 className="text-base font-semibold text-ink-900">Profile Completion</h3>
           <span className={cn(
-            'inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold border',
+            'inline-flex items-center px-3 py-0.5 rounded text-sm font-semibold border',
             statusColor.bg,
             statusColor.text
           )}>
@@ -100,12 +100,12 @@ export function ProfileCompletionIndicator({
         {/* Details */}
         {showDetails && incompleteItems.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs text-ink-700">
+            <p className="text-sm text-ink-700">
               Complete these sections to strengthen your profile:
             </p>
             <ul className="space-y-1">
               {incompleteItems.slice(0, 5).map((item) => (
-                <li key={item.label} className="flex items-center gap-2 text-xs text-ink-700">
+                <li key={item.label} className="flex items-center gap-2 text-sm text-ink-700">
                   <span className="w-1.5 h-1.5 rounded-full bg-ink-400" />
                   {item.label}
                 </li>
@@ -115,7 +115,7 @@ export function ProfileCompletionIndicator({
         )}
 
         {percentage === 100 && (
-          <p className="text-xs text-[#16A34A] font-medium">
+          <p className="text-sm text-[#16A34A] font-medium">
             Your profile is complete!
           </p>
         )}

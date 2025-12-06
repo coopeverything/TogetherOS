@@ -155,8 +155,8 @@ export default function DashboardTestPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-ink-900">Dashboard Test</h1>
-              <p className="text-sm text-ink-700 mt-1">
+              <h1 className="text-3xl font-bold text-ink-900">Dashboard Test</h1>
+              <p className="text-base text-ink-700 mt-1">
                 Comprehensive demo of proposed dashboard layout
               </p>
             </div>
@@ -187,17 +187,17 @@ export default function DashboardTestPage() {
                   {userGroups.map((group) => (
                     <div
                       key={group.id}
-                      className="p-3 bg-bg-0 rounded-lg hover:bg-bg-2 cursor-pointer transition-colors"
+                      className="p-4 bg-bg-0 rounded-lg hover:bg-bg-2 cursor-pointer transition-colors"
                     >
                       <div className="font-medium text-ink-900">{group.name}</div>
-                      <div className="text-sm text-ink-700 mt-1 space-y-0.5">
+                      <div className="text-base text-ink-700 mt-1 space-y-0.5">
                         {group.newPosts > 0 && <div>🔔 {group.newPosts} new posts</div>}
                         {group.upcomingEvents > 0 && <div>📅 Event tomorrow</div>}
                         {group.activeVotes > 0 && <div>🗳️ Vote ending soon</div>}
                       </div>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <button className="w-full text-base text-brand-600 hover:text-brand-500 font-medium mt-2">
                     Browse All Groups →
                   </button>
                 </div>
@@ -207,7 +207,7 @@ export default function DashboardTestPage() {
             {/* Your Activity */}
             <SampleContainer>
               <CollapsibleModule title="Your Activity">
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2 text-base">
                   <div className="flex justify-between">
                     <span className="text-ink-700">Posts this week:</span>
                     <span className="font-medium text-ink-900">3</span>
@@ -237,14 +237,14 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Your Top Priorities">
                 <div className="space-y-2">
                   {priorities.map((priority) => (
-                    <div key={priority.rank} className="flex items-center justify-between text-sm">
+                    <div key={priority.rank} className="flex items-center justify-between text-base">
                       <span className="text-ink-900">
                         {priority.rank}. {priority.topic}
                       </span>
                       <span className="text-ink-700">({priority.weight}/10)</span>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3">
+                  <button className="w-full text-base text-brand-600 hover:text-brand-500 font-medium mt-3">
                     Manage Priorities →
                   </button>
                 </div>
@@ -256,12 +256,12 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Your Paths">
                 <div className="space-y-2">
                   {cooperationPaths.map((path) => (
-                    <div key={path.id} className="flex items-center gap-2 text-sm">
-                      <span className="text-base">{path.emoji}</span>
+                    <div key={path.id} className="flex items-center gap-2 text-base">
+                      <span className="text-lg">{path.emoji}</span>
                       <span className="text-ink-900">{path.name}</span>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-joy-600 hover:text-joy-500 font-medium mt-3">
+                  <button className="w-full text-base text-joy-600 hover:text-joy-500 font-medium mt-3">
                     + Add more paths
                   </button>
                 </div>
@@ -274,7 +274,7 @@ export default function DashboardTestPage() {
                 <div className="space-y-3">
                   {communityFocus.map((item) => (
                     <div key={item.topic}>
-                      <div className="flex justify-between text-sm mb-1">
+                      <div className="flex justify-between text-base mb-1">
                         <span className="text-ink-900">{item.topic}</span>
                         <span className="text-ink-700">{item.percentage}%</span>
                       </div>
@@ -286,7 +286,7 @@ export default function DashboardTestPage() {
                       </div>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3">
+                  <button className="w-full text-base text-brand-600 hover:text-brand-500 font-medium mt-3">
                     View Full Map →
                   </button>
                 </div>
@@ -299,7 +299,7 @@ export default function DashboardTestPage() {
             {/* Feed Header */}
             <div className="bg-bg-1 rounded-lg border border-border p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-ink-900">Feed</h2>
+                <h2 className="text-2xl font-bold text-ink-900">Feed</h2>
                 <button className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                   + Create Post
                 </button>
@@ -311,7 +311,7 @@ export default function DashboardTestPage() {
                   <button
                     key={filter}
                     onClick={() => setFeedFilter(filter)}
-                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5.5 rounded-full text-base font-medium transition-colors ${
                       feedFilter === filter
                         ? 'bg-brand-600 text-bg-1'
                         : 'bg-bg-2 text-ink-700 hover:bg-bg-0'
@@ -332,10 +332,10 @@ export default function DashboardTestPage() {
                       <div className="bg-bg-1 rounded-lg border border-border p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
+                            <h3 className="text-xl font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm text-ink-400">
+                            <div className="flex items-center gap-2 text-base text-ink-400">
                               <span>by {post.author}</span>
                               <span>•</span>
                               <span>{post.time}</span>
@@ -351,7 +351,7 @@ export default function DashboardTestPage() {
                           </div>
                         </div>
                         <p className="text-ink-700 mb-4">{post.summary}</p>
-                        <div className="flex items-center gap-4 text-sm text-ink-400">
+                        <div className="flex items-center gap-4 text-base text-ink-400">
                           <span>❤️ {post.reactions?.care}</span>
                           <span>💡 {post.reactions?.insightful}</span>
                           <span>✓ {post.reactions?.agree}</span>
@@ -371,14 +371,14 @@ export default function DashboardTestPage() {
                       <div className="bg-brand-100 border-2 border-brand-500 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <div className="text-xs font-bold text-brand-600 mb-1">
+                            <div className="text-sm font-bold text-brand-600 mb-1">
                               🗳️ PROPOSAL
                             </div>
-                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
+                            <h3 className="text-xl font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm">
-                              <span className="px-2 py-0.5 bg-joy-100 text-joy-600 rounded-full font-medium">
+                            <div className="flex items-center gap-2 text-base">
+                              <span className="px-3 py-0.5 bg-joy-100 text-joy-600 rounded-full font-medium">
                                 {post.status}
                               </span>
                               <span className="text-brand-600">
@@ -388,7 +388,7 @@ export default function DashboardTestPage() {
                           </div>
                         </div>
                         <p className="text-ink-700 mb-4">{post.summary}</p>
-                        <div className="flex gap-3">
+                        <div className="flex gap-4">
                           <button className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                             Vote Now
                           </button>
@@ -407,26 +407,26 @@ export default function DashboardTestPage() {
                       <div className="bg-joy-100 border-2 border-joy-500 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <div className="text-xs font-bold text-joy-600 mb-1">
+                            <div className="text-sm font-bold text-joy-600 mb-1">
                               📅 EVENT
                             </div>
-                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
+                            <h3 className="text-xl font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm text-ink-700">
+                            <div className="flex items-center gap-2 text-base text-ink-700">
                               <span>{post.date}</span>
                               <span>•</span>
                               <span>📍 {post.location}</span>
                               <span>•</span>
                               <span>{post.attendees} attending</span>
                             </div>
-                            <div className="text-sm text-ink-400 mt-1">
+                            <div className="text-base text-ink-400 mt-1">
                               Hosted by {post.host}
                             </div>
                           </div>
                         </div>
                         <p className="text-ink-700 mb-4">{post.summary}</p>
-                        <div className="flex gap-3">
+                        <div className="flex gap-4">
                           <button className="px-4 py-2 bg-joy-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                             RSVP Going
                           </button>
@@ -452,7 +452,7 @@ export default function DashboardTestPage() {
             {/* Pending Actions */}
             <SampleContainer>
               <CollapsibleModule title="Needs Your Action">
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2 text-base">
                   <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
                     <span className="text-ink-900">🗳️ 5 proposals to vote</span>
                   </button>
@@ -474,18 +474,18 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Upcoming Events">
                 <div className="space-y-3">
                   {upcomingEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="p-3 bg-bg-0 rounded-lg hover:bg-bg-2 cursor-pointer transition-colors">
-                      <div className="text-xs text-ink-700 mb-1">{event.date}</div>
+                    <div key={event.id} className="p-4 bg-bg-0 rounded-lg hover:bg-bg-2 cursor-pointer transition-colors">
+                      <div className="text-sm text-ink-700 mb-1">{event.date}</div>
                       <div className="font-medium text-ink-900 mb-1">{event.title}</div>
-                      <div className="text-sm text-ink-700">
+                      <div className="text-base text-ink-700">
                         📍 {event.location} • {event.attendees} going
                       </div>
-                      <button className="text-sm text-joy-600 hover:text-joy-500 font-medium mt-2">
+                      <button className="text-base text-joy-600 hover:text-joy-500 font-medium mt-2">
                         RSVP
                       </button>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <button className="w-full text-base text-brand-600 hover:text-brand-500 font-medium mt-2">
                     View All Events →
                   </button>
                 </div>
@@ -496,17 +496,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Upcoming Votes">
                 <div className="space-y-3">
-                  <div className="p-3 bg-bg-0 rounded-lg">
+                  <div className="p-4 bg-bg-0 rounded-lg">
                     <div className="font-medium text-ink-900 mb-1">Farmers Market</div>
-                    <div className="text-sm text-ink-700 mb-2">2 days left • 67% voted</div>
-                    <button className="w-full px-3 py-1.5 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors text-sm font-medium">
+                    <div className="text-base text-ink-700 mb-2">2 days left • 67% voted</div>
+                    <button className="w-full px-3 py-1.5.5 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors text-base font-medium">
                       Vote Now
                     </button>
                   </div>
-                  <div className="p-3 bg-bg-0 rounded-lg">
+                  <div className="p-4 bg-bg-0 rounded-lg">
                     <div className="font-medium text-ink-900 mb-1">Community Garden</div>
-                    <div className="text-sm text-ink-700 mb-2">5 days left • 45% voted</div>
-                    <button className="w-full px-3 py-1.5 bg-bg-1 border border-border text-ink-700 rounded-lg hover:bg-bg-2 transition-colors text-sm font-medium">
+                    <div className="text-base text-ink-700 mb-2">5 days left • 45% voted</div>
+                    <button className="w-full px-3 py-1.5.5 bg-bg-1 border border-border text-ink-700 rounded-lg hover:bg-bg-2 transition-colors text-base font-medium">
                       View Details
                     </button>
                   </div>
@@ -519,18 +519,18 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Groups For You">
                 <div className="space-y-3">
                   {suggestedGroups.slice(0, 3).map((group) => (
-                    <div key={group.id} className="p-3 bg-bg-0 rounded-lg">
+                    <div key={group.id} className="p-4 bg-bg-0 rounded-lg">
                       <div className="font-medium text-ink-900 mb-1">{group.name}</div>
-                      <div className="text-sm text-ink-700 mb-2">
+                      <div className="text-base text-ink-700 mb-2">
                         {group.location} • {group.members} members
                       </div>
-                      <div className="text-xs text-joy-600 mb-2">Matches: {group.match}%</div>
-                      <button className="w-full px-3 py-1.5 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors text-sm font-medium">
+                      <div className="text-sm text-joy-600 mb-2">Matches: {group.match}%</div>
+                      <button className="w-full px-3 py-1.5.5 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors text-base font-medium">
                         Join
                       </button>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <button className="w-full text-base text-brand-600 hover:text-brand-500 font-medium mt-2">
                     Explore Groups →
                   </button>
                 </div>
@@ -543,15 +543,15 @@ export default function DashboardTestPage() {
                 <div className="space-y-2">
                   <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
                     <div className="font-medium text-ink-900">🔥 Housing Crisis</div>
-                    <div className="text-sm text-ink-700">47 participants</div>
+                    <div className="text-base text-ink-700">47 participants</div>
                   </button>
                   <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
                     <div className="font-medium text-ink-900">🔥 Climate Action</div>
-                    <div className="text-sm text-ink-700">32 participants</div>
+                    <div className="text-base text-ink-700">32 participants</div>
                   </button>
                   <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
                     <div className="font-medium text-ink-900">💬 Local Farmers Markets</div>
-                    <div className="text-sm text-ink-700">18 participants</div>
+                    <div className="text-base text-ink-700">18 participants</div>
                   </button>
                 </div>
               </CollapsibleModule>
@@ -560,14 +560,14 @@ export default function DashboardTestPage() {
             {/* Recommended Actions */}
             <SampleContainer>
               <CollapsibleModule title="For You">
-                <div className="space-y-3 text-sm">
-                  <div className="p-3 bg-brand-100 rounded-lg">
+                <div className="space-y-3 text-base">
+                  <div className="p-4 bg-brand-100 rounded-lg">
                     <div className="text-ink-900 mb-1">You care about Housing</div>
                     <button className="text-brand-600 hover:text-brand-500 font-medium">
                       → Join Housing Task Force
                     </button>
                   </div>
-                  <div className="p-3 bg-joy-100 rounded-lg">
+                  <div className="p-4 bg-joy-100 rounded-lg">
                     <div className="text-ink-900 mb-1">3 people near you care about Climate</div>
                     <button className="text-joy-600 hover:text-joy-500 font-medium">
                       → Invite to group

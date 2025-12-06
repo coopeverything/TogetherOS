@@ -182,19 +182,19 @@ export default function ForumDesignsPage() {
       {/* Header Controls */}
       <div className="bg-bg-0 border-b border-border p-4 flex-shrink-0">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-ink-900 mb-4">
+          <h1 className="text-3xl font-bold text-ink-900 mb-4">
             Forum Design Variations
           </h1>
 
           {/* Variant Selector */}
           <div className="flex items-center gap-4 mb-4">
-            <label className="text-sm font-medium text-ink-700">Design:</label>
+            <label className="text-base font-medium text-ink-700">Design:</label>
             <div className="flex gap-2 flex-wrap">
               {(Object.keys(variants) as VariantKey[]).map((key) => (
                 <button
                   key={key}
                   onClick={() => setSelectedVariant(key)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-lg text-base font-medium transition-all ${
                     selectedVariant === key
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-bg-2 text-ink-700 hover:bg-bg-3'
@@ -208,23 +208,23 @@ export default function ForumDesignsPage() {
 
           {/* Current Variant Info */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h2 className="text-lg font-semibold text-blue-900 mb-1">
+            <h2 className="text-xl font-semibold text-blue-900 mb-1">
               {currentVariant.name}
             </h2>
-            <p className="text-sm text-blue-800 mb-2">
+            <p className="text-base text-blue-800 mb-2">
               {currentVariant.description}
             </p>
-            <p className="text-xs text-blue-700 italic">
+            <p className="text-sm text-blue-700 italic">
               {currentVariant.philosophy}
             </p>
           </div>
 
           {/* Data Toggle */}
-          <div className="mt-4 flex items-center gap-3">
-            <label className="text-sm font-medium text-ink-700">Data:</label>
+          <div className="mt-4 flex items-center gap-4">
+            <label className="text-base font-medium text-ink-700">Data:</label>
             <button
               onClick={() => setShowMockData(!showMockData)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-4 py-2 rounded-lg text-base font-medium transition-all ${
                 showMockData
                   ? 'bg-green-600 text-white'
                   : 'bg-bg-3 text-ink-600'
@@ -247,10 +247,10 @@ export default function ForumDesignsPage() {
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <p className="text-lg text-ink-600 mb-2">
+              <p className="text-xl text-ink-600 mb-2">
                 Live data integration coming soon
               </p>
-              <p className="text-sm text-ink-400">
+              <p className="text-base text-ink-400">
                 Enable mock data to preview the design
               </p>
             </div>

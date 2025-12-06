@@ -27,7 +27,7 @@ export function DesertBloom() {
           >
             Desert Bloom
           </h1>
-          <p className="text-xl" style={{ color: '#3D405B' }}>
+          <p className="text-2xl" style={{ color: '#3D405B' }}>
             Warm earth tones meet psychedelic patterns
           </p>
         </div>
@@ -53,7 +53,7 @@ export function DesertBloom() {
                 <div className="text-3xl font-bold mb-1" style={{ color: '#3D405B' }}>
                   {stat.value}
                 </div>
-                <div className="text-sm uppercase tracking-wide" style={{ color: '#81B29A' }}>
+                <div className="text-base uppercase tracking-wide" style={{ color: '#81B29A' }}>
                   {stat.label}
                 </div>
               </div>
@@ -104,7 +104,7 @@ export function DesertBloom() {
                     {item.action}
                   </span>
                 </div>
-                <span className="text-sm" style={{ color: '#81B29A' }}>
+                <span className="text-base" style={{ color: '#81B29A' }}>
                   {item.time}
                 </span>
               </div>
@@ -122,10 +122,10 @@ export function DesertBloom() {
           }}
         >
           <div className="text-6xl mb-4">🌺</div>
-          <p className="text-2xl italic mb-3" style={{ color: '#FEF6E4' }}>
+          <p className="text-3xl italic mb-3" style={{ color: '#FEF6E4' }}>
             "Like desert flowers after rain, communities bloom through cooperation"
           </p>
-          <p className="text-sm uppercase tracking-widest" style={{ color: '#F4F1DE' }}>
+          <p className="text-base uppercase tracking-widest" style={{ color: '#F4F1DE' }}>
             — Southwest Wisdom
           </p>
         </div>

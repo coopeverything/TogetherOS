@@ -66,7 +66,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-ink-400">
+          <ol className="flex items-center gap-2 text-base text-ink-400">
             <li>
               <Link href="/articles" className="hover:text-orange-600">
                 Articles
@@ -81,11 +81,11 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Article Header */}
         <header className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-lg">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-xl">
               ✍️
             </div>
-            <span className="text-sm font-medium text-orange-600 uppercase tracking-wide">
+            <span className="text-base font-medium text-orange-600 uppercase tracking-wide">
               Expert Opinion
             </span>
           </div>
@@ -94,27 +94,27 @@ export default async function ArticleDetailPage({ params }: Props) {
             {article.title}
           </h1>
 
-          <p className="text-xl text-ink-700 leading-relaxed mb-6">
+          <p className="text-2xl text-ink-700 leading-relaxed mb-6">
             {article.summary}
           </p>
 
           {/* Author Info */}
           <div className="flex items-center gap-4 p-4 bg-bg-1 rounded-xl border border-border mb-6">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-lg font-medium">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-xl font-medium">
               {article.authorName.charAt(0)}
             </div>
             <div className="flex-1">
               <div className="font-semibold text-ink-900">{article.authorName}</div>
               {article.authorBio && (
-                <div className="text-sm text-ink-700">{article.authorBio}</div>
+                <div className="text-base text-ink-700">{article.authorBio}</div>
               )}
             </div>
           </div>
 
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-ink-400 pb-6 border-b border-border">
+          <div className="flex flex-wrap items-center gap-6 text-base text-ink-400 pb-6 border-b border-border">
             {formattedDate && (
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-2">
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -131,7 +131,7 @@ export default async function ArticleDetailPage({ params }: Props) {
                 {formattedDate}
               </span>
             )}
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -147,7 +147,7 @@ export default async function ArticleDetailPage({ params }: Props) {
               </svg>
               {article.readTimeMinutes} min read
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -169,7 +169,7 @@ export default async function ArticleDetailPage({ params }: Props) {
               </svg>
               {article.viewCount} views
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -198,12 +198,12 @@ export default async function ArticleDetailPage({ params }: Props) {
                 </h1>
               ),
               h2: ({ children }: MarkdownComponentProps) => (
-                <h2 className="text-2xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
+                <h2 className="text-3xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
                   {children}
                 </h2>
               ),
               h3: ({ children }: MarkdownComponentProps) => (
-                <h3 className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+                <h3 className="text-2xl font-semibold text-ink-900 mt-6 mb-3">
                   {children}
                 </h3>
               ),
@@ -227,7 +227,7 @@ export default async function ArticleDetailPage({ params }: Props) {
                 </blockquote>
               ),
               code: ({ children }: MarkdownComponentProps) => (
-                <code className="bg-bg-2 rounded px-1.5 py-0.5 text-sm font-mono text-ink-900">
+                <code className="bg-bg-2 rounded px-1.5 py-0.5 text-base font-mono text-ink-900">
                   {children}
                 </code>
               ),
@@ -254,14 +254,14 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Tags */}
         <div className="mb-8 pb-8 border-b border-border">
-          <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+          <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
             Tags
           </h3>
           <div className="flex flex-wrap gap-2">
             {article.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-bg-2 text-ink-700 rounded-full text-sm"
+                className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded-full text-base"
               >
                 {tag}
               </span>
@@ -272,14 +272,14 @@ export default async function ArticleDetailPage({ params }: Props) {
         {/* Cooperation Paths */}
         {article.cooperationPaths && article.cooperationPaths.length > 0 && (
           <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Cooperation Paths
             </h3>
             <div className="flex flex-wrap gap-2">
               {article.cooperationPaths.map((path) => (
                 <span
                   key={path}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                  className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-base"
                 >
                   {path}
                 </span>
@@ -291,22 +291,22 @@ export default async function ArticleDetailPage({ params }: Props) {
         {/* Related Wiki Articles */}
         {relatedWikiArticles && relatedWikiArticles.length > 0 && (
           <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Wiki Articles
             </h3>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {relatedWikiArticles.map((wiki) => (
                 <Link
                   key={wiki!.id}
                   href={`/wiki/${wiki!.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-4 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-base flex-shrink-0">
                     📖
                   </div>
                   <div>
                     <div className="font-medium text-ink-900">{wiki!.title}</div>
-                    <div className="text-sm text-ink-700 line-clamp-2">
+                    <div className="text-base text-ink-700 line-clamp-2">
                       {wiki!.summary}
                     </div>
                   </div>
@@ -319,22 +319,22 @@ export default async function ArticleDetailPage({ params }: Props) {
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h3 className="text-base font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Articles
             </h3>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {relatedArticles.map((related) => (
                 <Link
                   key={related.id}
                   href={`/articles/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-orange-300 hover:bg-orange-50 transition-colors"
+                  className="flex items-start gap-4 p-4 bg-bg-1 rounded-lg border border-border hover:border-orange-300 hover:bg-orange-50 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-sm flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-base flex-shrink-0">
                     ✍️
                   </div>
                   <div>
                     <div className="font-medium text-ink-900">{related.title}</div>
-                    <div className="text-sm text-ink-700">
+                    <div className="text-base text-ink-700">
                       By {related.authorName}
                     </div>
                   </div>
@@ -387,7 +387,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         </div>
 
         {/* Footer Note */}
-        <div className="p-4 bg-orange-50 rounded-lg border border-orange-200 text-sm text-ink-700">
+        <div className="p-4 bg-orange-50 rounded-lg border border-orange-200 text-base text-ink-700">
           <p>
             <strong>This is an author-owned opinion article.</strong> The views
             expressed here belong to the author and may not represent community

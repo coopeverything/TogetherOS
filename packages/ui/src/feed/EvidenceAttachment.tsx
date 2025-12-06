@@ -46,11 +46,11 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4">
-        <h2 className="text-2xl font-bold mb-4">Add Evidence</h2>
+        <h2 className="text-3xl font-bold mb-4">Add Evidence</h2>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">URL *</label>
+            <label className="block text-base font-medium mb-2">URL *</label>
             <input
               type="url"
               value={url}
@@ -58,18 +58,18 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
               placeholder="https://example.com/article"
               className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-1">
               Link to article, study, video, or other evidence
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Viewpoint *</label>
+            <label className="block text-base font-medium mb-2">Viewpoint *</label>
             <div className="space-y-2">
               {viewpoints.map((vp) => (
                 <label
                   key={vp.value}
-                  className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700"
+                  className="flex items-center gap-2 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700"
                 >
                   <input
                     type="radio"
@@ -86,7 +86,7 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Description (optional)</label>
+            <label className="block text-base font-medium mb-2">Description (optional)</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -97,7 +97,7 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
           </div>
         </div>
 
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-4 mt-6">
           <button
             onClick={handleSubmit}
             className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -112,7 +112,7 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
           </button>
         </div>
 
-        <p className="text-xs text-gray-500 mt-4 text-center">
+        <p className="text-sm text-gray-500 mt-4 text-center">
           Evidence will be verified by moderators and Bridge AI. Include sources that advance the discussion.
         </p>
       </div>

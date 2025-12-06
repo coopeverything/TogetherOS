@@ -67,7 +67,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
   return (
     <Card className={className}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg">Allocation History</CardTitle>
+        <CardTitle className="text-xl">Allocation History</CardTitle>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mt-3">
@@ -76,7 +76,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
               variant={filter === 'all' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setFilter('all')}
-              className="h-7 text-xs px-2"
+              className="h-7 text-sm px-3"
             >
               All
             </Button>
@@ -84,7 +84,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
               variant={filter === 'active' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setFilter('active')}
-              className="h-7 text-xs px-2"
+              className="h-7 text-sm px-3"
             >
               Active
             </Button>
@@ -92,7 +92,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
               variant={filter === 'reclaimed' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setFilter('reclaimed')}
-              className="h-7 text-xs px-2"
+              className="h-7 text-sm px-3"
             >
               Reclaimed
             </Button>
@@ -103,7 +103,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
               variant={dateRange === '7d' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setDateRange('7d')}
-              className="h-7 text-xs px-2"
+              className="h-7 text-sm px-3"
             >
               7 days
             </Button>
@@ -111,7 +111,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
               variant={dateRange === '30d' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setDateRange('30d')}
-              className="h-7 text-xs px-2"
+              className="h-7 text-sm px-3"
             >
               30 days
             </Button>
@@ -119,7 +119,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
               variant={dateRange === 'all' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setDateRange('all')}
-              className="h-7 text-xs px-2"
+              className="h-7 text-sm px-3"
             >
               All time
             </Button>
@@ -129,7 +129,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
 
       <CardContent className="pt-0">
         {sortedTransactions.length === 0 ? (
-          <div className="text-center py-8 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+          <div className="text-center py-8 text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">
             No transactions found for the selected filters
           </div>
         ) : (
@@ -139,24 +139,24 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
                 key={tx.id}
                 className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-b-0 last:pb-0"
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <Badge
                         variant={getTypeVariant(tx.type)}
-                        className="text-xs py-0 px-2 capitalize"
+                        className="text-sm py-0 px-3 capitalize"
                       >
                         {tx.type}
                       </Badge>
-                      <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                      <span className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                         {formatDate(tx.timestamp)}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-900 dark:text-white mb-1">
+                    <p className="text-base text-gray-900 dark:text-white mb-1">
                       {tx.description}
                     </p>
                     {tx.sourceType && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                         Source: {tx.sourceType}
                         {tx.sourceId && ` • ID: ${tx.sourceId.slice(0, 8)}...`}
                       </p>
@@ -164,7 +164,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
                   </div>
                   <div className="flex-shrink-0 text-right">
                     <span
-                      className={`text-sm font-semibold ${
+                      className={`text-base font-semibold ${
                         tx.amount > 0
                           ? 'text-green-600'
                           : 'text-gray-600'

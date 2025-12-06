@@ -81,13 +81,13 @@ export function TopicList({
         <div className="flex flex-wrap gap-4">
           {/* Category Filter - Clickable Buttons */}
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-ink-700 mb-2">
+            <label className="block text-base font-medium text-ink-700 mb-2">
               Category
             </label>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setCategoryFilter('all')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
                   categoryFilter === 'all'
                     ? 'bg-joy-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
@@ -97,7 +97,7 @@ export function TopicList({
               </button>
               <button
                 onClick={() => setCategoryFilter('general')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
                   categoryFilter === 'general'
                     ? 'bg-joy-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
@@ -107,7 +107,7 @@ export function TopicList({
               </button>
               <button
                 onClick={() => setCategoryFilter('proposal')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
                   categoryFilter === 'proposal'
                     ? 'bg-joy-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
@@ -117,7 +117,7 @@ export function TopicList({
               </button>
               <button
                 onClick={() => setCategoryFilter('question')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
                   categoryFilter === 'question'
                     ? 'bg-joy-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
@@ -127,7 +127,7 @@ export function TopicList({
               </button>
               <button
                 onClick={() => setCategoryFilter('deliberation')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
                   categoryFilter === 'deliberation'
                     ? 'bg-joy-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
@@ -137,7 +137,7 @@ export function TopicList({
               </button>
               <button
                 onClick={() => setCategoryFilter('announcement')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors ${
                   categoryFilter === 'announcement'
                     ? 'bg-joy-600 text-white'
                     : 'bg-bg-2 text-ink-700 hover:bg-bg-1'
@@ -150,7 +150,7 @@ export function TopicList({
 
           {/* Status Filter */}
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-ink-700 mb-2">
+            <label className="block text-base font-medium text-ink-700 mb-2">
               Status
             </label>
             <select
@@ -174,7 +174,7 @@ export function TopicList({
       {sortedTopics.length === 0 ? (
         <div className="text-center py-12 bg-bg-2 rounded-lg border border-border">
           <p className="text-ink-700 mb-2">No topics found</p>
-          <p className="text-sm text-ink-400">
+          <p className="text-base text-ink-400">
             {categoryFilter !== 'all' || statusFilter !== 'all'
               ? 'Try adjusting your filters'
               : 'Be the first to start a discussion!'}
@@ -194,7 +194,7 @@ export function TopicList({
       )}
 
       {/* Results Count */}
-      <div className="mt-4 text-sm text-ink-400 text-center">
+      <div className="mt-4 text-base text-ink-400 text-center">
         Showing {sortedTopics.length} of {topics.length} topics
       </div>
     </div>

@@ -16,7 +16,7 @@ export default function HowWeDecidePage() {
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
             How We Decide Together
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-2xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto leading-relaxed">
             Coopeverything uses a <strong>consent-based governance pipeline</strong>{' '}
             that transforms ideas into action, tracks outcomes, and learns from
             experience. Everyone participates. The commons improves the process.
@@ -25,7 +25,7 @@ export default function HowWeDecidePage() {
 
         {/* Disclaimer */}
         <div className="mb-12 p-6 bg-orange-50 border border-orange-200 rounded-lg">
-          <h2 className="text-lg font-semibold text-orange-900 mb-2">
+          <h2 className="text-xl font-semibold text-orange-900 mb-2">
             This is a Living System
           </h2>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -332,7 +332,7 @@ export default function HowWeDecidePage() {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Ready to Participate?
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-8 max-w-2xl mx-auto">
             Every voice matters. Every decision is transparent. The commons evolves
             together.
           </p>
@@ -375,11 +375,11 @@ function PipelineStep({
 }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center text-2xl font-bold mb-2">
+      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center text-3xl font-bold mb-2">
         {number}
       </div>
       <div className="font-semibold text-gray-900 dark:text-white">{title}</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{subtitle}</div>
+      <div className="text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">{subtitle}</div>
     </div>
   )
 }
@@ -419,10 +419,10 @@ function ModuleCard({
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md border-2 ${colorClasses[color]} overflow-hidden`}>
       <div className={`bg-gradient-to-r ${colorClasses[color]} p-6 text-white`}>
         <div className="flex items-center gap-4 mb-2">
-          <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 bg-opacity-20 flex items-center justify-center text-2xl font-bold">
+          <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 bg-opacity-20 flex items-center justify-center text-3xl font-bold">
             {number}
           </div>
-          <h3 className="text-2xl font-bold">{title}</h3>
+          <h3 className="text-3xl font-bold">{title}</h3>
         </div>
         <p className="text-white text-opacity-90">{description}</p>
       </div>
@@ -433,7 +433,7 @@ function ModuleCard({
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full text-sm text-gray-700 dark:text-gray-300">
+    <span className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full text-base text-gray-700 dark:text-gray-300">
       {text}
     </span>
   )
@@ -448,7 +448,7 @@ function PhilosophyCard({
 }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{title}</h3>
+      <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">{title}</h3>
       <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed">{description}</p>
     </div>
   )

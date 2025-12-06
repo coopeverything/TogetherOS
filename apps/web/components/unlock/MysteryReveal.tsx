@@ -80,16 +80,16 @@ export function MysteryReveal({
 
   const sizeClasses = {
     sm: {
-      value: 'text-xl',
-      label: 'text-xs',
+      value: 'text-2xl',
+      label: 'text-sm',
     },
     md: {
       value: 'text-4xl',
-      label: 'text-sm',
+      label: 'text-base',
     },
     lg: {
       value: 'text-6xl',
-      label: 'text-base',
+      label: 'text-lg',
     },
   };
 
@@ -150,7 +150,7 @@ export function MysteryReveal({
 
       {/* Unlock hint on hover */}
       {isHovered && unlockHint && (
-        <div className="mt-2 px-3 py-1 bg-brand-50 rounded-lg text-xs text-brand-700 animate-fade-in">
+        <div className="mt-2 px-3 py-1.5 bg-brand-50 rounded-lg text-sm text-brand-700 animate-fade-in">
           {unlockHint}
         </div>
       )}

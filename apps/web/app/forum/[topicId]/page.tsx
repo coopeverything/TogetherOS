@@ -247,7 +247,7 @@ export default function TopicDetailPage({
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <p className="text-red-800 font-medium">Error</p>
-          <p className="text-red-600 text-sm mt-2">{error || 'Topic not found'}</p>
+          <p className="text-red-600 text-base mt-2">{error || 'Topic not found'}</p>
           <button
             onClick={() => router.push('/forum')}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
@@ -267,7 +267,7 @@ export default function TopicDetailPage({
           /* Edit Topic Form */
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-2">
+              <label className="block text-base font-medium text-ink-700 mb-2">
                 Title
               </label>
               <input
@@ -278,7 +278,7 @@ export default function TopicDetailPage({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-2">
+              <label className="block text-base font-medium text-ink-700 mb-2">
                 Description
               </label>
               <textarea
@@ -289,7 +289,7 @@ export default function TopicDetailPage({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-2">
+              <label className="block text-base font-medium text-ink-700 mb-2">
                 Category
               </label>
               <select
@@ -305,7 +305,7 @@ export default function TopicDetailPage({
               </select>
             </div>
             <div className="relative">
-              <label className="block text-sm font-medium text-ink-700 mb-2">
+              <label className="block text-base font-medium text-ink-700 mb-2">
                 Keywords / Tags
               </label>
               <input
@@ -368,14 +368,14 @@ export default function TopicDetailPage({
                           setEditTopicData({ ...editTopicData, tags: [...tags, suggestion] })
                           setShowSuggestions(false)
                         }}
-                        className="w-full px-3 py-2 text-left hover:bg-bg-2 text-sm text-ink-900"
+                        className="w-full px-3 py-2 text-left hover:bg-bg-2 text-base text-ink-900"
                       >
                         #{suggestion}
                       </button>
                     ))}
                 </div>
               )}
-              <p className="mt-1 text-xs text-ink-400">
+              <p className="mt-1 text-sm text-ink-400">
                 Separate tags with commas. Start typing to see suggestions from existing tags.
               </p>
             </div>
@@ -399,11 +399,11 @@ export default function TopicDetailPage({
           <>
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-ink-900 mb-2">
+                <h1 className="text-3xl font-bold text-ink-900 mb-2">
                   {topic.title}
                 </h1>
-                <div className="flex items-center gap-4 text-sm text-ink-700">
-                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
+                <div className="flex items-center gap-4 text-base text-ink-700">
+                  <span className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded text-sm font-medium">
                     {topic.category}
                   </span>
                   <span>{topic.postCount} posts</span>
@@ -413,13 +413,13 @@ export default function TopicDetailPage({
                 <div className="flex gap-2 ml-4">
                   <button
                     onClick={handleEditTopic}
-                    className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
+                    className="px-3 py-1.5 text-base bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
                   >
                     Edit
                   </button>
                   <button
                     onClick={handleDeleteTopic}
-                    className="px-3 py-1 text-sm bg-red-100 text-red-800 rounded hover:bg-red-200"
+                    className="px-3 py-1.5 text-base bg-red-100 text-red-800 rounded hover:bg-red-200"
                   >
                     Delete
                   </button>
@@ -436,7 +436,7 @@ export default function TopicDetailPage({
                 {topic.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-bg-2 text-ink-700 rounded text-xs"
+                    className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded text-sm"
                   >
                     #{tag}
                   </span>
@@ -449,7 +449,7 @@ export default function TopicDetailPage({
 
       {/* Posts */}
       <div className="space-y-4 mb-6">
-        <h2 className="text-lg font-semibold text-ink-900">
+        <h2 className="text-xl font-semibold text-ink-900">
           Discussion ({posts.length})
         </h2>
         {posts.length === 0 ? (
@@ -500,7 +500,7 @@ export default function TopicDetailPage({
                     ))}
                   </div>
                   <div className="mt-4 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between text-sm text-ink-700">
+                    <div className="flex items-center justify-between text-base text-ink-700">
                       <span>Posted {new Date(post.createdAt).toLocaleString()}</span>
                       <div className="flex items-center gap-4">
                         {post.replyCount > 0 && <span>{post.replyCount} replies</span>}
@@ -508,13 +508,13 @@ export default function TopicDetailPage({
                           <div className="flex gap-2">
                             <button
                               onClick={() => handleEditPost(post)}
-                              className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
+                              className="px-3 py-1.5 text-sm bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => handleDeletePost(post.id)}
-                              className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded hover:bg-red-200"
+                              className="px-3 py-1.5 text-sm bg-red-100 text-red-800 rounded hover:bg-red-200"
                             >
                               Delete
                             </button>
@@ -532,7 +532,7 @@ export default function TopicDetailPage({
 
       {/* Post Composer */}
       <div className="bg-bg-1 rounded-lg border border-border p-6">
-        <h3 className="text-lg font-semibold text-ink-900 mb-4">
+        <h3 className="text-xl font-semibold text-ink-900 mb-4">
           Add Your Thoughts
         </h3>
         <form onSubmit={handleSubmitPost}>
@@ -545,7 +545,7 @@ export default function TopicDetailPage({
             disabled={isSubmitting}
           />
           <div className="mt-4 flex items-center justify-between">
-            <p className="text-xs text-ink-400">
+            <p className="text-sm text-ink-400">
               {newPostContent.length} / 5000 characters
             </p>
             <button

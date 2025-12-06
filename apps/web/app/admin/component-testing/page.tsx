@@ -89,14 +89,14 @@ export default function ComponentTestingPage() {
         <div className="mb-8">
           <Link
             href="/admin"
-            className="text-sm text-ink-400 hover:text-ink-700 mb-2 inline-block"
+            className="text-base text-ink-400 hover:text-ink-700 mb-2 inline-block"
           >
             ← Back to Admin
           </Link>
-          <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+          <h1 className="text-3xl font-semibold text-ink-900 mb-2">
             Component Testing Hub
           </h1>
-          <p className="text-sm text-ink-400">
+          <p className="text-base text-ink-400">
             Consolidated testing interface for all TogetherOS UI modules
           </p>
         </div>
@@ -117,11 +117,11 @@ export default function ComponentTestingPage() {
                   <h3 className="font-semibold text-ink-900">
                     {module.name}
                   </h3>
-                  <span className={`text-xs px-2 py-0.5 rounded ${getStatusColor(module.status)}`}>
+                  <span className={`text-sm px-3 py-0.5 rounded ${getStatusColor(module.status)}`}>
                     {module.status === 'active' ? 'Active' : module.status === 'partial' ? 'Partial' : 'Soon'}
                   </span>
                 </div>
-                <p className="text-sm text-ink-400 mb-3">
+                <p className="text-base text-ink-400 mb-3">
                   {module.description}
                 </p>
 
@@ -130,13 +130,13 @@ export default function ComponentTestingPage() {
                   {module.features.slice(0, 4).map((feature) => (
                     <span
                       key={feature}
-                      className="text-xs bg-bg-2 text-ink-400 px-2 py-0.5 rounded"
+                      className="text-sm bg-bg-2 text-ink-400 px-3 py-0.5 rounded"
                     >
                       {feature}
                     </span>
                   ))}
                   {module.features.length > 4 && (
-                    <span className="text-xs text-ink-400">
+                    <span className="text-sm text-ink-400">
                       +{module.features.length - 4} more
                     </span>
                   )}
@@ -144,7 +144,7 @@ export default function ComponentTestingPage() {
 
                 <Link
                   href={module.path}
-                  className="w-full block text-center px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 transition-colors"
+                  className="w-full block text-center px-4 py-2 bg-brand-600 text-white text-base font-medium rounded-md hover:bg-brand-700 transition-colors"
                 >
                   Open Testing Page
                 </Link>
@@ -155,22 +155,22 @@ export default function ComponentTestingPage() {
 
         {/* Quick Access Panel */}
         <div className="bg-bg-1 rounded-lg border border-border p-6">
-          <h2 className="text-lg font-semibold text-ink-900 mb-4">
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">
             Quick Access
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {modules.map((module) => (
               <Link
                 key={module.id}
                 href={module.path}
-                className="flex flex-col items-center p-3 rounded-lg bg-bg-2 hover:bg-bg-1 transition-colors text-center"
+                className="flex flex-col items-center p-4 rounded-lg bg-bg-2 hover:bg-bg-1 transition-colors text-center"
               >
                 <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center mb-2">
-                  <span className="text-brand-600 text-lg font-bold">
+                  <span className="text-brand-600 text-xl font-bold">
                     {module.name.charAt(0)}
                   </span>
                 </div>
-                <span className="text-sm text-ink-700 font-medium">
+                <span className="text-base text-ink-700 font-medium">
                   {module.name}
                 </span>
               </Link>
@@ -181,7 +181,7 @@ export default function ComponentTestingPage() {
         {/* Testing Guidelines */}
         <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="font-semibold text-blue-900 mb-2">Testing Guidelines</h3>
-          <ul className="text-sm text-blue-800 space-y-1">
+          <ul className="text-base text-blue-800 space-y-1">
             <li>• Each module has its own dedicated testing page with interactive demos</li>
             <li>• Test both light and dark mode variants using the theme toggle</li>
             <li>• API testing requires authentication - ensure you&apos;re logged in</li>
