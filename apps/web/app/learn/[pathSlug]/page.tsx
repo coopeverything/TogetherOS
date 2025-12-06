@@ -70,15 +70,15 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-bg-0">
+        <div className="text-ink-700">Loading...</div>
       </div>
     )
   }
 
   if (error || !path) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-bg-0">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Path not found'}</p>
           <button
@@ -102,31 +102,31 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
+        <nav className="text-sm text-ink-700 mb-4">
           <Link href="/learn" className="hover:text-blue-600">
             Learn
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900 dark:text-white">{path.title}</span>
+          <span className="text-ink-900">{path.title}</span>
         </nav>
 
         {/* Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
+        <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
           <div className="flex items-start gap-4">
             <div className="text-4xl">{path.icon || '📚'}</div>
             <div className="flex-1">
-              <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <h1 className="text-xl font-semibold text-ink-900 mb-2">
                 {path.title}
               </h1>
               {path.description && (
-                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">{path.description}</p>
+                <p className="text-ink-700 mb-4">{path.description}</p>
               )}
 
               {/* Meta */}
-              <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-4">
+              <div className="flex items-center gap-4 text-sm text-ink-400 mb-4">
                 <span>{path.lessonCount} lessons</span>
                 <span>~{path.estimatedMinutes} min</span>
                 <span className="text-green-600 font-medium">+{path.rpReward} RP</span>
@@ -135,10 +135,10 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
               {/* Progress */}
               <div className="mb-4">
                 <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Progress</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{progress}%</span>
+                  <span className="text-ink-700">Progress</span>
+                  <span className="text-ink-900 font-medium">{progress}%</span>
                 </div>
-                <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+                <div className="w-full bg-bg-2 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full transition-all duration-300 ${
                       progress === 100 ? 'bg-green-500' : 'bg-blue-500'
@@ -166,9 +166,9 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
         </div>
 
         {/* Lessons List */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="font-medium text-gray-900 dark:text-white">Lessons</h2>
+        <div className="bg-bg-1 rounded-lg border border-border">
+          <div className="px-4 py-3 border-b border-border">
+            <h2 className="font-medium text-ink-900">Lessons</h2>
           </div>
 
           <div className="divide-y divide-gray-100">
@@ -180,7 +180,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
                 <Link
                   key={lesson.id}
                   href={`/learn/${path.slug}/${lesson.id}`}
-                  className={`flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors ${
+                  className={`flex items-center gap-4 p-4 hover:bg-bg-0 transition-colors ${
                     isNext ? 'bg-blue-50' : ''
                   }`}
                 >
@@ -191,7 +191,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
                         ? 'bg-green-100 text-green-600'
                         : isNext
                         ? 'bg-blue-100 text-blue-600'
-                        : 'bg-gray-100 text-gray-600'
+                        : 'bg-bg-2 text-ink-700'
                     }`}
                   >
                     {isCompleted ? (
@@ -210,7 +210,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-medium text-gray-900 dark:text-white truncate">{lesson.title}</h3>
+                      <h3 className="font-medium text-ink-900 truncate">{lesson.title}</h3>
                       {lesson.quizId && (
                         <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">
                           Quiz
@@ -218,16 +218,16 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
                       )}
                     </div>
                     {lesson.description && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 truncate">{lesson.description}</p>
+                      <p className="text-sm text-ink-400 truncate">{lesson.description}</p>
                     )}
-                    <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    <div className="flex items-center gap-3 text-xs text-ink-400 mt-1">
                       <span>{lesson.durationMinutes} min</span>
                       <span className="text-green-600">+{lesson.rpReward} RP</span>
                     </div>
                   </div>
 
                   {/* Arrow */}
-                  <svg className="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>

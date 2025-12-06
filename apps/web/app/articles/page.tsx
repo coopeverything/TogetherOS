@@ -42,33 +42,33 @@ function ArticleCard({
   return (
     <Link
       href={`/articles/${slug}`}
-      className="block bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-orange-300 hover:shadow-lg transition-all duration-200 overflow-hidden group"
+      className="block bg-bg-1 rounded-xl border border-border hover:border-orange-300 hover:shadow-lg transition-all duration-200 overflow-hidden group"
     >
       <div className="p-6">
-        {/* Author & Date */}
+        {Author & Date */}
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-sm font-medium">
             {authorName.charAt(0)}
           </div>
           <div>
-            <div className="text-sm font-medium text-gray-900 dark:text-white">{authorName}</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
+            <div className="text-sm font-medium text-ink-900">{authorName}</div>
+            <div className="text-xs text-ink-400">
               {formattedDate} · {readTimeMinutes} min read
             </div>
           </div>
         </div>
 
-        {/* Title */}
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 transition-colors">
+        {Title */}
+        <h3 className="text-xl font-semibold text-ink-900 mb-2 group-hover:text-orange-600 transition-colors">
           {title}
         </h3>
 
-        {/* Summary */}
-        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 text-sm leading-relaxed mb-4 line-clamp-3">
+        {Summary */}
+        <p className="text-ink-700 text-sm leading-relaxed mb-4 line-clamp-3">
           {summary}
         </p>
 
-        {/* Tags */}
+        {Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {cooperationPaths?.slice(0, 2).map((path) => (
             <span
@@ -81,15 +81,15 @@ function ArticleCard({
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 dark:text-gray-500 rounded text-xs"
+              className="px-2 py-0.5 bg-bg-2 text-ink-700 rounded text-xs"
             >
               {tag}
             </span>
           ))}
         </div>
 
-        {/* Engagement */}
-        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 pt-4 border-t border-gray-100 dark:border-gray-700">
+        {Engagement */}
+        <div className="flex items-center gap-4 text-sm text-ink-400 pt-4 border-t border-gray-100">
           <span className="flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -134,42 +134,42 @@ export default function ArticlesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Header */}
+        {Header */}
         <header className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-2xl">
               ✍️
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Articles</h1>
-              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Expert opinions & perspectives</p>
+              <h1 className="text-3xl font-bold text-ink-900">Articles</h1>
+              <p className="text-ink-700">Expert opinions & perspectives</p>
             </div>
           </div>
 
-          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mb-6">
+          <p className="text-lg text-ink-700 max-w-3xl mb-6">
             Author-owned articles representing individual perspectives on cooperation,
             governance, and alternatives to hierarchy. Unlike wiki articles, these
             maintain clear authorship and represent personal viewpoints.
           </p>
 
-          {/* Stats & Actions */}
-          <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          {Stats & Actions */}
+          <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-bg-1 rounded-xl border border-border">
             <div className="flex flex-wrap gap-6">
               <div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">{articles.length}</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Articles</div>
+                <div className="text-2xl font-bold text-ink-900">{articles.length}</div>
+                <div className="text-sm text-ink-400">Articles</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">{uniqueAuthors}</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Authors</div>
+                <div className="text-2xl font-bold text-ink-900">{uniqueAuthors}</div>
+                <div className="text-sm text-ink-400">Authors</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">{totalViews}</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Total Views</div>
+                <div className="text-2xl font-bold text-ink-900">{totalViews}</div>
+                <div className="text-sm text-ink-400">Total Views</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">{totalLikes}</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Total Likes</div>
+                <div className="text-2xl font-bold text-ink-900">{totalLikes}</div>
+                <div className="text-sm text-ink-400">Total Likes</div>
               </div>
             </div>
 
@@ -190,15 +190,15 @@ export default function ArticlesPage() {
           </div>
         </header>
 
-        {/* Info Box */}
+        {Info Box */}
         <div className="mb-8 p-4 bg-gradient-to-r from-orange-50 to-rose-50 rounded-xl border border-orange-200">
           <div className="flex items-start gap-3">
             <span className="text-2xl">💡</span>
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+              <h3 className="font-semibold text-ink-900 mb-1">
                 Articles vs Wiki
               </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-ink-700">
                 <strong>Articles</strong> are author-owned expert opinions—the author's
                 name stays attached, and they own their perspective.{' '}
                 <strong>Wiki articles</strong> are community-owned and evolve through
@@ -223,14 +223,14 @@ export default function ArticlesPage() {
           </div>
         </div>
 
-        {/* Articles Grid */}
+        {Articles Grid */}
         {articles.length === 0 ? (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📝</div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h2 className="text-xl font-semibold text-ink-900 mb-2">
               No articles yet
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
+            <p className="text-ink-700 mb-6">
               Be the first to share your perspective!
             </p>
             <Link
@@ -260,12 +260,12 @@ export default function ArticlesPage() {
           </div>
         )}
 
-        {/* Call to Action */}
-        <div className="mt-12 p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        {Call to Action */}
+        <div className="mt-12 p-6 bg-bg-1 rounded-xl border border-border text-center">
+          <h3 className="text-lg font-semibold text-ink-900 mb-2">
             Have something to say?
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
+          <p className="text-ink-700 mb-4">
             Share your perspective, experience, or expertise with the community.
             Your voice matters.
           </p>

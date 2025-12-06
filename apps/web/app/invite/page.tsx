@@ -22,14 +22,14 @@ function InvitePageSkeleton() {
     <div className="min-h-screen bg-bg-0 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="animate-pulse">
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-4"></div>
-          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-96 mb-8"></div>
+          <div className="h-10 bg-bg-2 rounded w-64 mb-4"></div>
+          <div className="h-6 bg-bg-2 rounded w-96 mb-8"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-24 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+              <div key={i} className="h-24 bg-bg-2 rounded-xl"></div>
             ))}
           </div>
-          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+          <div className="h-64 bg-bg-2 rounded-xl"></div>
         </div>
       </div>
     </div>

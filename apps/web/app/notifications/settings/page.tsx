@@ -116,7 +116,7 @@ export default function NotificationSettingsPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center py-12">
-          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Failed to load preferences. Please try again.</p>
+          <p className="text-ink-700">Failed to load preferences. Please try again.</p>
         </div>
       </div>
     )
@@ -128,28 +128,28 @@ export default function NotificationSettingsPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/notifications"
-          className="text-gray-500 dark:text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          className="text-ink-400 hover:text-ink-700 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Notification Settings</h1>
-          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Manage how you receive notifications</p>
+          <h1 className="text-2xl font-bold text-ink-900">Notification Settings</h1>
+          <p className="text-ink-700">Manage how you receive notifications</p>
         </div>
         {(saving || saved) && (
-          <span className={`text-sm font-medium ${saved ? 'text-green-600' : 'text-gray-500'}`}>
+          <span className={`text-sm font-medium ${saved ? 'text-green-600' : 'text-ink-400'}`}>
             {saving ? 'Saving...' : 'Saved!'}
           </span>
         )}
       </div>
 
       {/* Notification Types */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Notification Types</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Choose which notifications you want to receive</p>
+      <div className="bg-bg-1 rounded-lg border border-border mb-6">
+        <div className="px-4 py-3 border-b border-border">
+          <h2 className="text-lg font-semibold text-ink-900">Notification Types</h2>
+          <p className="text-sm text-ink-700">Choose which notifications you want to receive</p>
         </div>
         <div className="divide-y divide-gray-100">
           {(Object.keys(NOTIFICATION_TYPE_LABELS) as NotificationType[]).map((type) => {
@@ -162,20 +162,20 @@ export default function NotificationSettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-xl">{icon}</span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{label}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{description}</p>
+                    <p className="font-medium text-ink-900">{label}</p>
+                    <p className="text-sm text-ink-400">{description}</p>
                   </div>
                 </div>
                 <button
                   onClick={() => toggleType(type)}
                   className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-                    isEnabled ? 'bg-orange-600' : 'bg-gray-200'
+                    isEnabled ? 'bg-orange-600' : 'bg-bg-2'
                   }`}
                   role="switch"
                   aria-checked={isEnabled}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out ${
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-bg-1 shadow ring-0 transition duration-200 ease-in-out ${
                       isEnabled ? 'translate-x-5' : 'translate-x-0'
                     }`}
                   />
@@ -187,10 +187,10 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Email Digest */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Email Notifications</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">How often to receive email summaries</p>
+      <div className="bg-bg-1 rounded-lg border border-border mb-6">
+        <div className="px-4 py-3 border-b border-border">
+          <h2 className="text-lg font-semibold text-ink-900">Email Notifications</h2>
+          <p className="text-sm text-ink-700">How often to receive email summaries</p>
         </div>
         <div className="p-4 space-y-3">
           {EMAIL_DIGEST_OPTIONS.map((option) => (
@@ -199,7 +199,7 @@ export default function NotificationSettingsPage() {
               className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                 preferences.emailDigest === option.value
                   ? 'border-orange-500 bg-orange-50'
-                  : 'border-gray-200 hover:bg-gray-50'
+                  : 'border-border hover:bg-bg-0'
               }`}
             >
               <input
@@ -208,11 +208,11 @@ export default function NotificationSettingsPage() {
                 value={option.value}
                 checked={preferences.emailDigest === option.value}
                 onChange={() => updateEmailDigest(option.value)}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 dark:border-gray-600"
+                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-border"
               />
               <div>
-                <p className="font-medium text-gray-900 dark:text-white">{option.label}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{option.description}</p>
+                <p className="font-medium text-ink-900">{option.label}</p>
+                <p className="text-sm text-ink-400">{option.description}</p>
               </div>
             </label>
           ))}
@@ -220,22 +220,22 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Push Notifications */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+      <div className="bg-bg-1 rounded-lg border border-border">
         <div className="px-4 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Push Notifications</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Receive browser notifications for important updates</p>
+            <h2 className="text-lg font-semibold text-ink-900">Push Notifications</h2>
+            <p className="text-sm text-ink-700">Receive browser notifications for important updates</p>
           </div>
           <button
             onClick={togglePush}
             className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-              preferences.pushEnabled ? 'bg-orange-600' : 'bg-gray-200'
+              preferences.pushEnabled ? 'bg-orange-600' : 'bg-bg-2'
             }`}
             role="switch"
             aria-checked={preferences.pushEnabled}
           >
             <span
-              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out ${
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-bg-1 shadow ring-0 transition duration-200 ease-in-out ${
                 preferences.pushEnabled ? 'translate-x-5' : 'translate-x-0'
               }`}
             />

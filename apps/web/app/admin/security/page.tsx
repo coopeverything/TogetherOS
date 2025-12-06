@@ -151,7 +151,7 @@ export default function SecurityAdminPage() {
       case 'down':
         return <span className="text-red-500">↓</span>;
       case 'stable':
-        return <span className="text-gray-400 dark:text-gray-500">→</span>;
+        return <span className="text-ink-400">→</span>;
       default:
         return null;
     }
@@ -159,11 +159,11 @@ export default function SecurityAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+      <div className="min-h-screen bg-bg-1 p-8">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
-            <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div className="h-8 bg-bg-2 rounded w-1/4"></div>
+            <div className="h-32 bg-bg-2 rounded"></div>
           </div>
         </div>
       </div>
@@ -171,15 +171,15 @@ export default function SecurityAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+    <div className="min-h-screen bg-bg-1 p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-ink-900">
               Security Dashboard
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-ink-400 mt-1">
               Monitor security features and compliance status
             </p>
           </div>
@@ -187,7 +187,7 @@ export default function SecurityAdminPage() {
             href="https://github.com/coopeverything/TogetherOS/security/code-scanning"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-700 transition-colors text-sm"
+            className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-1 transition-colors text-sm"
           >
             View CodeQL Alerts →
           </a>
@@ -198,16 +198,16 @@ export default function SecurityAdminPage() {
           {securityMetrics.map((metric) => (
             <div
               key={metric.name}
-              className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700"
+              className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border"
             >
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-ink-400">
                 {metric.name}
               </div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-1">
+              <div className="text-2xl font-bold text-ink-900 flex items-center gap-1">
                 {metric.value}
                 {getTrendIcon(metric.trend)}
               </div>
-              <div className="text-xs text-gray-400 dark:text-gray-500 dark:text-gray-400 mt-1">
+              <div className="text-xs text-ink-400 mt-1">
                 {metric.description}
               </div>
             </div>
@@ -215,13 +215,13 @@ export default function SecurityAdminPage() {
         </div>
 
         {/* Security Features */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className="bg-bg-0 rounded-lg shadow-sm border border-border">
+          <div className="p-6 border-b border-border">
+            <h2 className="text-xl font-semibold text-ink-900">
               Security Features
             </h2>
           </div>
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+          <div className="divide-y divide-border">
             {securityFeatures.map((feature) => (
               <div
                 key={feature.name}
@@ -229,7 +229,7 @@ export default function SecurityAdminPage() {
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <span className="font-medium text-gray-900 dark:text-white">
+                    <span className="font-medium text-ink-900">
                       {feature.name}
                     </span>
                     <span
@@ -240,12 +240,12 @@ export default function SecurityAdminPage() {
                       {feature.status}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-sm text-ink-400 mt-1">
                     {feature.description}
                   </p>
                 </div>
                 {feature.lastChecked && (
-                  <div className="text-xs text-gray-400 dark:text-gray-500 dark:text-gray-400">
+                  <div className="text-xs text-ink-400">
                     Checked: {new Date(feature.lastChecked).toLocaleString()}
                   </div>
                 )}
@@ -255,8 +255,8 @@ export default function SecurityAdminPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-6">
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">
             Quick Actions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -264,12 +264,12 @@ export default function SecurityAdminPage() {
               href="https://github.com/coopeverything/TogetherOS/security/code-scanning"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-bg-2 rounded-lg hover:bg-bg-1 transition-colors"
             >
-              <div className="font-medium text-gray-900 dark:text-white">
+              <div className="font-medium text-ink-900">
                 View Security Alerts
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-ink-400">
                 CodeQL and secret scanning
               </div>
             </a>
@@ -277,35 +277,35 @@ export default function SecurityAdminPage() {
               href="https://github.com/coopeverything/TogetherOS/security/dependabot"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-bg-2 rounded-lg hover:bg-bg-1 transition-colors"
             >
-              <div className="font-medium text-gray-900 dark:text-white">
+              <div className="font-medium text-ink-900">
                 Dependabot Alerts
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-ink-400">
                 Dependency vulnerabilities
               </div>
             </a>
             <a
               href="/privacy"
-              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-bg-2 rounded-lg hover:bg-bg-1 transition-colors"
             >
-              <div className="font-medium text-gray-900 dark:text-white">
+              <div className="font-medium text-ink-900">
                 Privacy Policy
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-ink-400">
                 View public privacy policy
               </div>
             </a>
             <a
               href="/SECURITY.md"
               target="_blank"
-              className="p-4 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+              className="p-4 bg-bg-2 rounded-lg hover:bg-bg-1 transition-colors"
             >
-              <div className="font-medium text-gray-900 dark:text-white">
+              <div className="font-medium text-ink-900">
                 Security Policy
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-ink-400">
                 Vulnerability disclosure
               </div>
             </a>
@@ -313,8 +313,8 @@ export default function SecurityAdminPage() {
         </div>
 
         {/* Implementation Details */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-6">
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">
             Implementation Details
           </h2>
           <div className="prose prose-sm dark:prose-invert max-w-none">

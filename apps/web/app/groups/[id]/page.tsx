@@ -82,8 +82,8 @@ export default function GroupDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Group Not Found</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">The group you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className="text-2xl font-bold text-ink-900 mb-2">Group Not Found</h1>
+          <p className="text-ink-700 mb-6">The group you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/groups"
             className="text-orange-600 hover:text-orange-700 font-medium"
@@ -158,14 +158,14 @@ export default function GroupDetailPage() {
               </span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{group.name}</h1>
-              <p className="text-gray-600 dark:text-gray-400">@{group.handle}</p>
+              <h1 className="text-3xl font-bold text-ink-900 mb-1">{group.name}</h1>
+              <p className="text-ink-700">@{group.handle}</p>
               <div className="flex flex-wrap gap-3 items-center mt-2">
                 <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full">
                   {group.type.charAt(0).toUpperCase() + group.type.slice(1)}
                 </span>
-                <span className="text-gray-600 dark:text-gray-400 text-sm">{group.members.length} members</span>
-                {group.location && <span className="text-gray-600 dark:text-gray-400 text-sm">📍 {group.location}</span>}
+                <span className="text-ink-700 text-sm">{group.members.length} members</span>
+                {group.location && <span className="text-ink-700 text-sm">📍 {group.location}</span>}
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function GroupDetailPage() {
             disabled={isJoining}
             className={`px-5 py-2 rounded-md font-medium text-sm transition-colors ${
               isMember
-                ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-bg-2 text-ink-700 hover:bg-bg-2'
                 : 'bg-orange-600 text-white hover:bg-orange-700'
             } disabled:opacity-50`}
           >
@@ -186,14 +186,14 @@ export default function GroupDetailPage() {
 
         {/* Description */}
         {group.description && (
-          <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed max-w-3xl">
+          <p className="text-ink-700 text-sm leading-relaxed max-w-3xl">
             {group.description}
           </p>
         )}
       </div>
 
       {/* Tab Navigation */}
-      <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+      <div className="border-b border-border mb-6">
         <nav className="flex gap-1 -mb-px overflow-x-auto">
           {tabs.map((tab) => (
             <button
@@ -202,7 +202,7 @@ export default function GroupDetailPage() {
               className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? 'border-orange-600 text-orange-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-ink-400 hover:text-ink-700 hover:border-border'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -237,8 +237,8 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'members' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="bg-bg-1 rounded-lg border border-border p-6">
+              <h2 className="text-lg font-semibold text-ink-900 mb-4">
                 Members ({groupMembers.length})
               </h2>
               <MemberDirectory members={groupMembers} />
@@ -246,11 +246,11 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'events' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-bg-1 rounded-lg border border-border p-6">
               <div className="text-center py-12">
                 <span className="text-4xl mb-4 block">📅</span>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Group Events</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <h3 className="text-lg font-medium text-ink-900 mb-2">Group Events</h3>
+                <p className="text-ink-400 text-sm">
                   Event coordination coming soon
                 </p>
               </div>
@@ -258,11 +258,11 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'proposals' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-bg-1 rounded-lg border border-border p-6">
               <div className="text-center py-12">
                 <span className="text-4xl mb-4 block">📋</span>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Group Proposals</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <h3 className="text-lg font-medium text-ink-900 mb-2">Group Proposals</h3>
+                <p className="text-ink-400 text-sm">
                   Governance integration coming soon
                 </p>
               </div>
@@ -273,45 +273,45 @@ export default function GroupDetailPage() {
         {/* Sidebar */}
         <aside className="space-y-4">
           {/* Group Stats */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
               <span>📊</span> Group Stats
             </h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Posts this week</span>
-                <span className="font-medium text-gray-900 dark:text-white">{groupStats.postsThisWeek}</span>
+                <span className="text-ink-700">Posts this week</span>
+                <span className="font-medium text-ink-900">{groupStats.postsThisWeek}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Active discussions</span>
-                <span className="font-medium text-gray-900 dark:text-white">{groupStats.activeDiscussions}</span>
+                <span className="text-ink-700">Active discussions</span>
+                <span className="font-medium text-ink-900">{groupStats.activeDiscussions}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Total members</span>
-                <span className="font-medium text-gray-900 dark:text-white">{groupStats.totalMembers}</span>
+                <span className="text-ink-700">Total members</span>
+                <span className="font-medium text-ink-900">{groupStats.totalMembers}</span>
               </div>
             </div>
           </div>
 
           {/* Trending in Group */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
               <span className="text-orange-600">🔥</span> Trending in Group
             </h3>
             {trendingTopics.length === 0 ? (
-              <p className="text-sm text-gray-500 dark:text-gray-400">No trending topics yet</p>
+              <p className="text-sm text-ink-400">No trending topics yet</p>
             ) : (
               <div className="space-y-2">
                 {trendingTopics.map((topic) => (
                   <Link
                     key={topic.id}
                     href={`/forum/${topic.slug || topic.id}`}
-                    className="block p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="block p-2 rounded hover:bg-bg-0 transition-colors"
                   >
-                    <div className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
+                    <div className="text-sm font-medium text-ink-900 line-clamp-2">
                       {topic.title}
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <div className="text-xs text-ink-400 mt-1">
                       {topic.postCount} posts
                     </div>
                   </Link>
@@ -321,15 +321,15 @@ export default function GroupDetailPage() {
           </div>
 
           {/* Active Members */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
               <span>👥</span> Active Members
             </h3>
             <div className="flex flex-wrap gap-2">
               {groupMembers.slice(0, 8).map((member) => (
                 <div
                   key={member.id}
-                  className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-xs font-medium text-gray-700 dark:text-gray-300"
+                  className="w-8 h-8 bg-bg-2 rounded-full flex items-center justify-center text-xs font-medium text-ink-700"
                   title={member.displayName}
                 >
                   {member.displayName.charAt(0).toUpperCase()}
@@ -368,10 +368,10 @@ function GroupFeedTab({
     return (
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-3"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-6 animate-pulse">
+            <div className="h-4 bg-bg-2 rounded w-1/4 mb-3"></div>
+            <div className="h-4 bg-bg-2 rounded w-full mb-2"></div>
+            <div className="h-4 bg-bg-2 rounded w-3/4"></div>
           </div>
         ))}
       </div>
@@ -384,18 +384,18 @@ function GroupFeedTab({
       <div className="mb-4">
         <button
           onClick={() => setComposerOpen(true)}
-          className="w-full bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-left hover:border-orange-300 transition-colors"
+          className="w-full bg-bg-1 rounded-lg border border-border p-4 text-left hover:border-orange-300 transition-colors"
         >
-          <span className="text-gray-500 dark:text-gray-400">Share something with {groupName}...</span>
+          <span className="text-ink-400">Share something with {groupName}...</span>
         </button>
       </div>
 
       {/* Posts List */}
       {posts.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 text-center">
+        <div className="bg-bg-1 rounded-lg border border-border p-6 text-center">
           <span className="text-4xl mb-4 block">📝</span>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No posts yet</h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+          <h3 className="text-lg font-medium text-ink-900 mb-2">No posts yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
             Be the first to share something with this group!
           </p>
           <button
@@ -410,26 +410,26 @@ function GroupFeedTab({
           {posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5"
+              className="bg-bg-1 rounded-lg border border-border p-5"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="w-10 h-10 bg-bg-2 rounded-full flex items-center justify-center text-sm font-medium text-ink-700">
                   {post.authorId.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <div className="font-medium text-gray-900 dark:text-white text-sm">
+                  <div className="font-medium text-ink-900 text-sm">
                     User {post.authorId.slice(0, 8)}
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                  <div className="text-xs text-ink-400">
                     {new Date(post.createdAt).toLocaleDateString()}
                   </div>
                 </div>
               </div>
               {post.title && (
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
+                <h3 className="font-semibold text-ink-900 mb-2">{post.title}</h3>
               )}
               {post.content && (
-                <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                <p className="text-ink-700 text-sm leading-relaxed">
                   {post.content}
                 </p>
               )}
@@ -438,7 +438,7 @@ function GroupFeedTab({
                   {post.topics.map((topic) => (
                     <span
                       key={topic}
-                      className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full"
+                      className="px-2 py-0.5 bg-bg-2 text-ink-700 text-xs rounded-full"
                     >
                       {topic}
                     </span>
@@ -483,7 +483,7 @@ function GroupForumTab({
   const [composerOpen, setComposerOpen] = useState(false)
 
   const categoryColors: Record<string, string> = {
-    general: 'bg-gray-100 text-gray-800',
+    general: 'bg-bg-2 text-ink-900',
     proposal: 'bg-orange-100 text-orange-800',
     question: 'bg-blue-100 text-blue-800',
     deliberation: 'bg-purple-100 text-purple-800',
@@ -494,9 +494,9 @@ function GroupForumTab({
     return (
       <div className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 animate-pulse">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
+            <div className="h-4 bg-bg-2 rounded w-3/4 mb-2"></div>
+            <div className="h-3 bg-bg-2 rounded w-1/4"></div>
           </div>
         ))}
       </div>
@@ -511,7 +511,7 @@ function GroupForumTab({
     <div>
       {/* Header with New Topic button */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h2 className="text-lg font-semibold text-ink-900">
           Group Discussions
         </h2>
         <button
@@ -524,10 +524,10 @@ function GroupForumTab({
 
       {/* Topics List */}
       {topics.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 text-center">
+        <div className="bg-bg-1 rounded-lg border border-border p-6 text-center">
           <span className="text-4xl mb-4 block">💬</span>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No discussions yet</h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+          <h3 className="text-lg font-medium text-ink-900 mb-2">No discussions yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
             Start a conversation with your group!
           </p>
           <button
@@ -544,15 +544,15 @@ function GroupForumTab({
             <Link
               key={topic.id}
               href={`/forum/${topic.slug || topic.id}`}
-              className="block bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800 p-4 hover:border-orange-300 transition-colors"
+              className="block bg-orange-50/20 rounded-lg border border-orange-200 p-4 hover:border-orange-300 transition-colors"
             >
               <div className="flex items-start gap-3">
                 <span className="text-orange-600">📌</span>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-gray-900 dark:text-white line-clamp-1">
+                  <h3 className="font-medium text-ink-900 line-clamp-1">
                     {topic.title}
                   </h3>
-                  <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-3 mt-1 text-xs text-ink-400">
                     <span className={`px-2 py-0.5 rounded-full ${categoryColors[topic.category] || categoryColors.general}`}>
                       {topic.category}
                     </span>
@@ -568,15 +568,15 @@ function GroupForumTab({
             <Link
               key={topic.id}
               href={`/forum/${topic.slug || topic.id}`}
-              className="block bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+              className="block bg-bg-1 rounded-lg border border-border p-4 hover:border-border transition-colors"
             >
               <div className="flex items-start gap-3">
-                <span className="text-gray-400">💬</span>
+                <span className="text-ink-400">💬</span>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-gray-900 dark:text-white line-clamp-1">
+                  <h3 className="font-medium text-ink-900 line-clamp-1">
                     {topic.title}
                   </h3>
-                  <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-3 mt-1 text-xs text-ink-400">
                     <span className={`px-2 py-0.5 rounded-full ${categoryColors[topic.category] || categoryColors.general}`}>
                       {topic.category}
                     </span>
@@ -655,12 +655,12 @@ function SimplePostComposer({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full p-6">
+      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-lg font-semibold text-ink-900">
             Post to {groupName}
           </h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
             ✕
           </button>
         </div>
@@ -670,7 +670,7 @@ function SimplePostComposer({
             placeholder="Title (optional)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md mb-3 bg-white dark:bg-gray-800 dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
           />
           <textarea
             placeholder="What's on your mind?"
@@ -678,13 +678,13 @@ function SimplePostComposer({
             onChange={(e) => setContent(e.target.value)}
             rows={4}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4 bg-white dark:bg-gray-800 dark:bg-gray-700 text-gray-900 dark:text-white resize-none"
+            className="w-full px-3 py-2 border border-border rounded-md mb-4 bg-bg-1 text-ink-900 resize-none"
           />
           <div className="flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm font-medium"
+              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
             >
               Cancel
             </button>
@@ -751,12 +751,12 @@ function SimpleTopicComposer({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full p-6">
+      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-lg font-semibold text-ink-900">
             New Discussion in {groupName}
           </h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
             ✕
           </button>
         </div>
@@ -767,19 +767,19 @@ function SimpleTopicComposer({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md mb-3 bg-white dark:bg-gray-800 dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
           />
           <textarea
             placeholder="Description (optional)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md mb-3 bg-white dark:bg-gray-800 dark:bg-gray-700 text-gray-900 dark:text-white resize-none"
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900 resize-none"
           />
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4 bg-white dark:bg-gray-800 dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-border rounded-md mb-4 bg-bg-1 text-ink-900"
           >
             <option value="general">💬 General</option>
             <option value="proposal">📋 Proposal</option>
@@ -791,7 +791,7 @@ function SimpleTopicComposer({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-sm font-medium"
+              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
             >
               Cancel
             </button>

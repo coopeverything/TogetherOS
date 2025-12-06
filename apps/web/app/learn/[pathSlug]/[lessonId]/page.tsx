@@ -119,15 +119,15 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading lesson...</div>
+      <div className="min-h-screen flex items-center justify-center bg-bg-0">
+        <div className="text-ink-700">Loading lesson...</div>
       </div>
     )
   }
 
   if (error || !lesson) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-bg-0">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Lesson not found'}</p>
           <button onClick={() => router.push('/learn')} className="text-blue-600 hover:underline">
@@ -141,24 +141,24 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
   const isCompleted = lesson.userProgress?.status === 'completed'
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
+        <nav className="text-sm text-ink-700 mb-4">
           <Link href="/learn" className="hover:text-blue-600">Learn</Link>
           <span className="mx-2">/</span>
           <Link href={`/learn/${lesson.pathSlug}`} className="hover:text-blue-600">
             {lesson.pathTitle}
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900 dark:text-white">{lesson.title}</span>
+          <span className="text-ink-900">{lesson.title}</span>
         </nav>
 
         {/* Lesson Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{lesson.title}</h1>
+        <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
+          <h1 className="text-xl font-semibold text-ink-900 mb-2">{lesson.title}</h1>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-6">
+          <div className="flex items-center gap-4 text-sm text-ink-400 mb-6">
             <span>{lesson.durationMinutes} min read</span>
             <span className="text-green-600">+{lesson.rpReward} RP</span>
             {isCompleted && (
@@ -218,7 +218,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
             {lesson.previousLesson && (
               <Link
                 href={`/learn/${pathSlug}/${lesson.previousLesson.id}`}
-                className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-blue-600 flex items-center gap-1"
+                className="text-sm text-ink-700 hover:text-blue-600 flex items-center gap-1"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -283,17 +283,17 @@ function StructuredContentView({ content }: { content: StructuredContent }) {
     <div className="space-y-6">
       {/* Introduction */}
       <div>
-        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{structured.introduction}</p>
+        <p className="text-ink-700 leading-relaxed">{structured.introduction}</p>
       </div>
 
       {/* Key Points */}
       <div>
-        <h3 className="font-medium text-gray-900 dark:text-white mb-3">Key Points</h3>
+        <h3 className="font-medium text-ink-900 mb-3">Key Points</h3>
         <ul className="space-y-2">
           {structured.keyPoints.map((point, i) => (
             <li key={i} className="flex items-start gap-2">
               <span className="text-blue-600 mt-1">•</span>
-              <span className="text-gray-700 dark:text-gray-300">{point}</span>
+              <span className="text-ink-700">{point}</span>
             </li>
           ))}
         </ul>
@@ -348,11 +348,11 @@ function VideoContentView({ content }: { content: VideoContent }) {
             />
           </div>
           {video.transcript && (
-            <details className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
-              <summary className="cursor-pointer font-medium text-gray-700 dark:text-gray-300">
+            <details className="bg-bg-0 p-4 rounded-lg">
+              <summary className="cursor-pointer font-medium text-ink-700">
                 View Transcript
               </summary>
-              <p className="mt-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 whitespace-pre-wrap">{video.transcript}</p>
+              <p className="mt-2 text-ink-700 whitespace-pre-wrap">{video.transcript}</p>
             </details>
           )}
         </div>
@@ -400,7 +400,7 @@ function MarkdownContentView({ content }: { content: MarkdownContent }) {
       return text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/`(.*?)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">$1</code>')
+        .replace(/`(.*?)`/g, '<code class="bg-bg-2 px-1 rounded">$1</code>')
     }
 
     lines.forEach((line, i) => {
@@ -410,21 +410,21 @@ function MarkdownContentView({ content }: { content: MarkdownContent }) {
       if (trimmed.startsWith('### ')) {
         flushList()
         elements.push(
-          <h3 key={i} className="text-lg font-medium text-gray-900 dark:text-white mt-4 mb-2">
+          <h3 key={i} className="text-lg font-medium text-ink-900 mt-4 mb-2">
             {trimmed.slice(4)}
           </h3>
         )
       } else if (trimmed.startsWith('## ')) {
         flushList()
         elements.push(
-          <h2 key={i} className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
+          <h2 key={i} className="text-xl font-semibold text-ink-900 mt-6 mb-3">
             {trimmed.slice(3)}
           </h2>
         )
       } else if (trimmed.startsWith('# ')) {
         flushList()
         elements.push(
-          <h1 key={i} className="text-2xl font-bold text-gray-900 dark:text-white mt-6 mb-4">
+          <h1 key={i} className="text-2xl font-bold text-ink-900 mt-6 mb-4">
             {trimmed.slice(2)}
           </h1>
         )
@@ -441,7 +441,7 @@ function MarkdownContentView({ content }: { content: MarkdownContent }) {
       else if (trimmed.startsWith('> ')) {
         flushList()
         elements.push(
-          <blockquote key={i} className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-400 dark:text-gray-500 my-4">
+          <blockquote key={i} className="border-l-4 border-border pl-4 italic text-ink-700 my-4">
             {formatInline(trimmed.slice(2))}
           </blockquote>
         )
@@ -456,7 +456,7 @@ function MarkdownContentView({ content }: { content: MarkdownContent }) {
         elements.push(
           <p
             key={i}
-            className="text-gray-700 dark:text-gray-300 mb-3"
+            className="text-ink-700 mb-3"
             dangerouslySetInnerHTML={{ __html: formatInline(trimmed) }}
           />
         )

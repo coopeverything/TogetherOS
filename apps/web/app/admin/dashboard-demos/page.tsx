@@ -149,22 +149,22 @@ export default function DashboardTestPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-bg-0">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+      <header className="bg-bg-1 border-b border-border sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Test</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
+              <h1 className="text-2xl font-bold text-ink-900">Dashboard Test</h1>
+              <p className="text-sm text-ink-700 mt-1">
                 Comprehensive demo of proposed dashboard layout
               </p>
             </div>
             <div className="flex gap-2">
-              <button className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-md hover:bg-gray-200 dark:bg-gray-700 transition-colors">
+              <button className="px-4 py-2 text-ink-700 bg-bg-2 rounded-md hover:opacity-80 transition-colors">
                 Profile
               </button>
-              <button className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white transition-colors">
+              <button className="px-4 py-2 text-ink-700 hover:text-ink-900 transition-colors">
                 Logout
               </button>
             </div>
@@ -187,17 +187,17 @@ export default function DashboardTestPage() {
                   {userGroups.map((group) => (
                     <div
                       key={group.id}
-                      className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer transition-colors"
+                      className="p-3 bg-bg-0 rounded-lg hover:bg-bg-2 cursor-pointer transition-colors"
                     >
-                      <div className="font-medium text-gray-900 dark:text-white">{group.name}</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1 space-y-0.5">
+                      <div className="font-medium text-ink-900">{group.name}</div>
+                      <div className="text-sm text-ink-700 mt-1 space-y-0.5">
                         {group.newPosts > 0 && <div>🔔 {group.newPosts} new posts</div>}
                         {group.upcomingEvents > 0 && <div>📅 Event tomorrow</div>}
                         {group.activeVotes > 0 && <div>🗳️ Vote ending soon</div>}
                       </div>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-2">
+                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
                     Browse All Groups →
                   </button>
                 </div>
@@ -209,24 +209,24 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Your Activity">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Posts this week:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">3</span>
+                    <span className="text-ink-700">Posts this week:</span>
+                    <span className="font-medium text-ink-900">3</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Reactions:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">47</span>
+                    <span className="text-ink-700">Reactions:</span>
+                    <span className="font-medium text-ink-900">47</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Discussions:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">12</span>
+                    <span className="text-ink-700">Discussions:</span>
+                    <span className="font-medium text-ink-900">12</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Votes cast:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">2</span>
+                    <span className="text-ink-700">Votes cast:</span>
+                    <span className="font-medium text-ink-900">2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Events attended:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">1</span>
+                    <span className="text-ink-700">Events attended:</span>
+                    <span className="font-medium text-ink-900">1</span>
                   </div>
                 </div>
               </CollapsibleModule>
@@ -238,13 +238,13 @@ export default function DashboardTestPage() {
                 <div className="space-y-2">
                   {priorities.map((priority) => (
                     <div key={priority.rank} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-900 dark:text-white">
+                      <span className="text-ink-900">
                         {priority.rank}. {priority.topic}
                       </span>
-                      <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">({priority.weight}/10)</span>
+                      <span className="text-ink-700">({priority.weight}/10)</span>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-3">
+                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3">
                     Manage Priorities →
                   </button>
                 </div>
@@ -258,10 +258,10 @@ export default function DashboardTestPage() {
                   {cooperationPaths.map((path) => (
                     <div key={path.id} className="flex items-center gap-2 text-sm">
                       <span className="text-base">{path.emoji}</span>
-                      <span className="text-gray-900 dark:text-white">{path.name}</span>
+                      <span className="text-ink-900">{path.name}</span>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-3">
+                  <button className="w-full text-sm text-joy-600 hover:text-joy-500 font-medium mt-3">
                     + Add more paths
                   </button>
                 </div>
@@ -275,18 +275,18 @@ export default function DashboardTestPage() {
                   {communityFocus.map((item) => (
                     <div key={item.topic}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-900 dark:text-white">{item.topic}</span>
-                        <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">{item.percentage}%</span>
+                        <span className="text-ink-900">{item.topic}</span>
+                        <span className="text-ink-700">{item.percentage}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-bg-2 rounded-full h-2">
                         <div
-                          className="bg-orange-600 h-2 rounded-full"
+                          className="bg-brand-600 h-2 rounded-full"
                           style={{ width: `${item.percentage}%` }}
                         />
                       </div>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-3">
+                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3">
                     View Full Map →
                   </button>
                 </div>
@@ -297,10 +297,10 @@ export default function DashboardTestPage() {
           {/* CENTRAL FEED (2 columns) */}
           <main className="lg:col-span-2 space-y-6">
             {/* Feed Header */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-bg-1 rounded-lg border border-border p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Feed</h2>
-                <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                <h2 className="text-xl font-bold text-ink-900">Feed</h2>
+                <button className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                   + Create Post
                 </button>
               </div>
@@ -313,8 +313,8 @@ export default function DashboardTestPage() {
                     onClick={() => setFeedFilter(filter)}
                     className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                       feedFilter === filter
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-brand-600 text-bg-1'
+                        : 'bg-bg-2 text-ink-700 hover:bg-bg-0'
                     }`}
                   >
                     {filter.charAt(0).toUpperCase() + filter.slice(1).replace('-', ' ')}
@@ -329,13 +329,13 @@ export default function DashboardTestPage() {
                 if (post.type === 'post') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-bg-1 rounded-lg border border-border p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                            <div className="flex items-center gap-2 text-sm text-ink-400">
                               <span>by {post.author}</span>
                               <span>•</span>
                               <span>{post.time}</span>
@@ -344,19 +344,19 @@ export default function DashboardTestPage() {
                               {post.isImported && (
                                 <>
                                   <span>•</span>
-                                  <span className="text-blue-600">{post.platform}</span>
+                                  <span className="text-brand-600">{post.platform}</span>
                                 </>
                               )}
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300 mb-4">{post.summary}</p>
-                        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                        <p className="text-ink-700 mb-4">{post.summary}</p>
+                        <div className="flex items-center gap-4 text-sm text-ink-400">
                           <span>❤️ {post.reactions?.care}</span>
                           <span>💡 {post.reactions?.insightful}</span>
                           <span>✓ {post.reactions?.agree}</span>
                           <span>⚡ {post.reactions?.act}</span>
-                          <button className="text-blue-600 hover:text-blue-700">
+                          <button className="text-brand-600 hover:text-brand-500">
                             💬 Discuss ({post.discussionCount})
                           </button>
                         </div>
@@ -368,31 +368,31 @@ export default function DashboardTestPage() {
                 if (post.type === 'proposal') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-orange-50 border-2 border-orange-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-brand-100 border-2 border-brand-500 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <div className="text-xs font-bold text-orange-800 mb-1">
+                            <div className="text-xs font-bold text-brand-600 mb-1">
                               🗳️ PROPOSAL
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
                             <div className="flex items-center gap-2 text-sm">
-                              <span className="px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full font-medium">
+                              <span className="px-2 py-0.5 bg-joy-100 text-joy-600 rounded-full font-medium">
                                 {post.status}
                               </span>
-                              <span className="text-orange-700">
+                              <span className="text-brand-600">
                                 {post.daysLeft} days left • {post.participationRate}% voted
                               </span>
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300 mb-4">{post.summary}</p>
+                        <p className="text-ink-700 mb-4">{post.summary}</p>
                         <div className="flex gap-3">
-                          <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                          <button className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                             Vote Now
                           </button>
-                          <button className="px-4 py-2 bg-white dark:bg-gray-800 text-orange-600 border border-orange-600 rounded-lg hover:bg-orange-50 transition-colors">
+                          <button className="px-4 py-2 bg-bg-1 text-brand-600 border border-brand-600 rounded-lg hover:bg-brand-100 transition-colors">
                             View Details
                           </button>
                         </div>
@@ -404,36 +404,36 @@ export default function DashboardTestPage() {
                 if (post.type === 'event') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-joy-100 border-2 border-joy-500 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <div className="text-xs font-bold text-blue-800 mb-1">
+                            <div className="text-xs font-bold text-joy-600 mb-1">
                               📅 EVENT
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+                            <div className="flex items-center gap-2 text-sm text-ink-700">
                               <span>{post.date}</span>
                               <span>•</span>
                               <span>📍 {post.location}</span>
                               <span>•</span>
                               <span>{post.attendees} attending</span>
                             </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-1">
+                            <div className="text-sm text-ink-400 mt-1">
                               Hosted by {post.host}
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300 mb-4">{post.summary}</p>
+                        <p className="text-ink-700 mb-4">{post.summary}</p>
                         <div className="flex gap-3">
-                          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                          <button className="px-4 py-2 bg-joy-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                             RSVP Going
                           </button>
-                          <button className="px-4 py-2 bg-white dark:bg-gray-800 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                          <button className="px-4 py-2 bg-bg-1 text-joy-600 border border-joy-600 rounded-lg hover:bg-joy-100 transition-colors">
                             Details
                           </button>
-                          <button className="px-4 py-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white transition-colors">
+                          <button className="px-4 py-2 text-ink-700 hover:text-ink-900 transition-colors">
                             Share
                           </button>
                         </div>
@@ -453,17 +453,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Needs Your Action">
                 <div className="space-y-2 text-sm">
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <span className="text-gray-900 dark:text-white">🗳️ 5 proposals to vote</span>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <span className="text-ink-900">🗳️ 5 proposals to vote</span>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <span className="text-gray-900 dark:text-white">💬 3 discussions need reply</span>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <span className="text-ink-900">💬 3 discussions need reply</span>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <span className="text-gray-900 dark:text-white">⏰ 12 tasks overdue</span>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <span className="text-ink-900">⏰ 12 tasks overdue</span>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <span className="text-gray-900 dark:text-white">📝 2 drafts to finish</span>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <span className="text-ink-900">📝 2 drafts to finish</span>
                   </button>
                 </div>
               </CollapsibleModule>
@@ -474,18 +474,18 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Upcoming Events">
                 <div className="space-y-3">
                   {upcomingEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer transition-colors">
-                      <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-1">{event.date}</div>
-                      <div className="font-medium text-gray-900 dark:text-white mb-1">{event.title}</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+                    <div key={event.id} className="p-3 bg-bg-0 rounded-lg hover:bg-bg-2 cursor-pointer transition-colors">
+                      <div className="text-xs text-ink-700 mb-1">{event.date}</div>
+                      <div className="font-medium text-ink-900 mb-1">{event.title}</div>
+                      <div className="text-sm text-ink-700">
                         📍 {event.location} • {event.attendees} going
                       </div>
-                      <button className="text-sm text-blue-600 hover:text-blue-700 font-medium mt-2">
+                      <button className="text-sm text-joy-600 hover:text-joy-500 font-medium mt-2">
                         RSVP
                       </button>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-2">
+                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
                     View All Events →
                   </button>
                 </div>
@@ -496,17 +496,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Upcoming Votes">
                 <div className="space-y-3">
-                  <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                    <div className="font-medium text-gray-900 dark:text-white mb-1">Farmers Market</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">2 days left • 67% voted</div>
-                    <button className="w-full px-3 py-1.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium">
+                  <div className="p-3 bg-bg-0 rounded-lg">
+                    <div className="font-medium text-ink-900 mb-1">Farmers Market</div>
+                    <div className="text-sm text-ink-700 mb-2">2 days left • 67% voted</div>
+                    <button className="w-full px-3 py-1.5 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors text-sm font-medium">
                       Vote Now
                     </button>
                   </div>
-                  <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                    <div className="font-medium text-gray-900 dark:text-white mb-1">Community Garden</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">5 days left • 45% voted</div>
-                    <button className="w-full px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium">
+                  <div className="p-3 bg-bg-0 rounded-lg">
+                    <div className="font-medium text-ink-900 mb-1">Community Garden</div>
+                    <div className="text-sm text-ink-700 mb-2">5 days left • 45% voted</div>
+                    <button className="w-full px-3 py-1.5 bg-bg-1 border border-border text-ink-700 rounded-lg hover:bg-bg-2 transition-colors text-sm font-medium">
                       View Details
                     </button>
                   </div>
@@ -519,18 +519,18 @@ export default function DashboardTestPage() {
               <CollapsibleModule title="Groups For You">
                 <div className="space-y-3">
                   {suggestedGroups.slice(0, 3).map((group) => (
-                    <div key={group.id} className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                      <div className="font-medium text-gray-900 dark:text-white mb-1">{group.name}</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">
+                    <div key={group.id} className="p-3 bg-bg-0 rounded-lg">
+                      <div className="font-medium text-ink-900 mb-1">{group.name}</div>
+                      <div className="text-sm text-ink-700 mb-2">
                         {group.location} • {group.members} members
                       </div>
-                      <div className="text-xs text-green-700 mb-2">Matches: {group.match}%</div>
-                      <button className="w-full px-3 py-1.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium">
+                      <div className="text-xs text-joy-600 mb-2">Matches: {group.match}%</div>
+                      <button className="w-full px-3 py-1.5 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors text-sm font-medium">
                         Join
                       </button>
                     </div>
                   ))}
-                  <button className="w-full text-sm text-orange-600 hover:text-orange-700 font-medium mt-2">
+                  <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
                     Explore Groups →
                   </button>
                 </div>
@@ -541,17 +541,17 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="Hot Topics">
                 <div className="space-y-2">
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <div className="font-medium text-gray-900 dark:text-white">🔥 Housing Crisis</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">47 participants</div>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <div className="font-medium text-ink-900">🔥 Housing Crisis</div>
+                    <div className="text-sm text-ink-700">47 participants</div>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <div className="font-medium text-gray-900 dark:text-white">🔥 Climate Action</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">32 participants</div>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <div className="font-medium text-ink-900">🔥 Climate Action</div>
+                    <div className="text-sm text-ink-700">32 participants</div>
                   </button>
-                  <button className="w-full text-left p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors">
-                    <div className="font-medium text-gray-900 dark:text-white">💬 Local Farmers Markets</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">18 participants</div>
+                  <button className="w-full text-left p-2 hover:bg-bg-2 rounded transition-colors">
+                    <div className="font-medium text-ink-900">💬 Local Farmers Markets</div>
+                    <div className="text-sm text-ink-700">18 participants</div>
                   </button>
                 </div>
               </CollapsibleModule>
@@ -561,15 +561,15 @@ export default function DashboardTestPage() {
             <SampleContainer>
               <CollapsibleModule title="For You">
                 <div className="space-y-3 text-sm">
-                  <div className="p-3 bg-blue-50 rounded-lg">
-                    <div className="text-gray-900 dark:text-white mb-1">You care about Housing</div>
-                    <button className="text-blue-600 hover:text-blue-700 font-medium">
+                  <div className="p-3 bg-brand-100 rounded-lg">
+                    <div className="text-ink-900 mb-1">You care about Housing</div>
+                    <button className="text-brand-600 hover:text-brand-500 font-medium">
                       → Join Housing Task Force
                     </button>
                   </div>
-                  <div className="p-3 bg-green-50 rounded-lg">
-                    <div className="text-gray-900 dark:text-white mb-1">3 people near you care about Climate</div>
-                    <button className="text-green-600 hover:text-green-700 font-medium">
+                  <div className="p-3 bg-joy-100 rounded-lg">
+                    <div className="text-ink-900 mb-1">3 people near you care about Climate</div>
+                    <button className="text-joy-600 hover:text-joy-500 font-medium">
                       → Invite to group
                     </button>
                   </div>

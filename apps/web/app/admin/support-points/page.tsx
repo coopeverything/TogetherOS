@@ -77,11 +77,11 @@ export default function AdminSupportPointsPage() {
 
   if (isLoading || !isAuthorized) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+      <div className="min-h-screen bg-bg-1 p-6">
         <div className="max-w-6xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-6"></div>
-            <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded mb-6"></div>
+            <div className="h-8 bg-bg-2 rounded w-64 mb-6"></div>
+            <div className="h-32 bg-bg-2 rounded mb-6"></div>
           </div>
         </div>
       </div>
@@ -98,59 +98,59 @@ export default function AdminSupportPointsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+    <div className="min-h-screen bg-bg-1 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
+          <div className="flex items-center gap-2 text-sm text-ink-700 mb-4">
             <Link href="/admin" className="hover:text-blue-600 transition-colors">
               Admin
             </Link>
             <span>→</span>
-            <span className="text-gray-900 dark:text-white">Support Points</span>
+            <span className="text-ink-900">Support Points</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Support Points Administration</h1>
-          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Monitor SP circulation, allocations, and governance activity</p>
+          <h1 className="text-3xl font-bold text-ink-900 mb-2">Support Points Administration</h1>
+          <p className="text-ink-700">Monitor SP circulation, allocations, and governance activity</p>
         </div>
 
         {/* Stats Grid */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Total SP</div>
+            <div className="bg-bg-0 rounded-lg border border-border p-4">
+              <div className="text-sm text-ink-400">Total SP</div>
               <div className="text-2xl font-bold text-blue-600">{stats.totalSPInCirculation.toLocaleString()}</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Allocated</div>
+            <div className="bg-bg-0 rounded-lg border border-border p-4">
+              <div className="text-sm text-ink-400">Allocated</div>
               <div className="text-2xl font-bold text-orange-600">{stats.totalSPAllocated.toLocaleString()}</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Available</div>
+            <div className="bg-bg-0 rounded-lg border border-border p-4">
+              <div className="text-sm text-ink-400">Available</div>
               <div className="text-2xl font-bold text-green-600">{stats.totalSPAvailable.toLocaleString()}</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Active Allocs</div>
+            <div className="bg-bg-0 rounded-lg border border-border p-4">
+              <div className="text-sm text-ink-400">Active Allocs</div>
               <div className="text-2xl font-bold text-purple-600">{stats.activeAllocations}</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Members</div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalMembers}</div>
+            <div className="bg-bg-0 rounded-lg border border-border p-4">
+              <div className="text-sm text-ink-400">Members</div>
+              <div className="text-2xl font-bold text-ink-900">{stats.totalMembers}</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Avg SP/Member</div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.avgSPPerMember}</div>
+            <div className="bg-bg-0 rounded-lg border border-border p-4">
+              <div className="text-sm text-ink-400">Avg SP/Member</div>
+              <div className="text-2xl font-bold text-ink-900">{stats.avgSPPerMember}</div>
             </div>
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top Allocators */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Top SP Allocators</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Members with highest SP allocation activity</p>
+          <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
+            <div className="p-4 border-b border-border">
+              <h2 className="text-lg font-semibold text-ink-900">Top SP Allocators</h2>
+              <p className="text-sm text-ink-400">Members with highest SP allocation activity</p>
             </div>
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-border">
               {topAllocators.map((allocator, index) => (
                 <div key={allocator.memberId} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -158,8 +158,8 @@ export default function AdminSupportPointsPage() {
                       {index + 1}
                     </span>
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">{allocator.displayName}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{allocator.allocationCount} allocations</div>
+                      <div className="font-medium text-ink-900">{allocator.displayName}</div>
+                      <div className="text-xs text-ink-400">{allocator.allocationCount} allocations</div>
                     </div>
                   </div>
                   <div className="text-lg font-semibold text-blue-600">{allocator.totalAllocated} SP</div>
@@ -169,24 +169,24 @@ export default function AdminSupportPointsPage() {
           </div>
 
           {/* Recent Allocations */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Allocations</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Latest SP allocation activity</p>
+          <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
+            <div className="p-4 border-b border-border">
+              <h2 className="text-lg font-semibold text-ink-900">Recent Allocations</h2>
+              <p className="text-sm text-ink-400">Latest SP allocation activity</p>
             </div>
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-border">
               {recentAllocations.map((alloc) => (
                 <div key={alloc.id} className="p-4">
                   <div className="flex items-center justify-between mb-1">
                     <Link
                       href={`/governance/${alloc.proposalId}`}
-                      className="font-medium text-gray-900 dark:text-white hover:text-blue-600 transition-colors"
+                      className="font-medium text-ink-900 hover:text-blue-600 transition-colors"
                     >
                       {alloc.proposalTitle}
                     </Link>
                     <span className="text-sm font-semibold text-orange-600">+{alloc.amount} SP</span>
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{formatDate(alloc.allocatedAt)}</div>
+                  <div className="text-xs text-ink-400">{formatDate(alloc.allocatedAt)}</div>
                 </div>
               ))}
             </div>
@@ -208,7 +208,7 @@ export default function AdminSupportPointsPage() {
         <div className="mt-8">
           <Link
             href="/admin"
-            className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:bg-gray-600 transition-colors font-medium inline-block"
+            className="px-6 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-bg-1 transition-colors font-medium inline-block"
           >
             ← Back to Admin
           </Link>

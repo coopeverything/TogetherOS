@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { Topic } from '@togetheros/types/forum'
 import { TopicList, TopicComposer, type CreateTopicData } from '@togetheros/ui/forum'
+import { ThemePicker } from '@/components/dark-mode-provider'
 
 export default function ForumPage() {
   const router = useRouter()
@@ -129,10 +130,10 @@ export default function ForumPage() {
     return (
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="animate-pulse">
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-6"></div>
+          <div className="h-10 bg-bg-2 rounded w-64 mb-6"></div>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              <div key={i} className="h-32 bg-bg-2 rounded"></div>
             ))}
           </div>
         </div>
@@ -143,12 +144,12 @@ export default function ForumPage() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-          <p className="text-red-800 font-medium">Error loading topics</p>
-          <p className="text-red-600 text-sm mt-2">{error}</p>
+        <div className="bg-danger-bg border border-danger rounded-lg p-6 text-center">
+          <p className="text-danger font-medium">Error loading topics</p>
+          <p className="text-danger text-sm mt-2">{error}</p>
           <button
             onClick={fetchTopics}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+            className="mt-4 px-4 py-2 bg-danger text-white rounded-md hover:opacity-90 transition-colors"
           >
             Retry
           </button>
@@ -178,6 +179,11 @@ export default function ForumPage() {
   return (
     <>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Theme Picker - top right corner */}
+        <div className="flex justify-end mb-4">
+          <ThemePicker />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
           {/* Main content */}
           <div>
@@ -193,25 +199,25 @@ export default function ForumPage() {
           {/* Right sidebar */}
           <aside className="space-y-6">
             {/* Trending Topics */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                <span className="text-orange-600">🔥</span>
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
+              <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
+                <span className="text-joy-600">🔥</span>
                 Trending
               </h3>
               {trendingTopics.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">No trending topics yet</p>
+                <p className="text-sm text-ink-400">No trending topics yet</p>
               ) : (
                 <div className="space-y-2">
                   {trendingTopics.map((topic) => (
                     <button
                       key={topic.id}
                       onClick={() => handleTopicClick(topic.id)}
-                      className="block w-full text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="block w-full text-left p-2 rounded hover:bg-bg-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                     >
-                      <div className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
+                      <div className="text-sm font-medium text-ink-900 line-clamp-2">
                         {topic.title}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="text-xs text-ink-400 mt-1">
                         {topic.postCount} posts
                       </div>
                     </button>
@@ -221,25 +227,25 @@ export default function ForumPage() {
             </div>
 
             {/* Hot Topics (Most Comments) */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                <span className="text-red-600">💬</span>
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
+              <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
+                <span className="text-danger">💬</span>
                 Hot Topics
               </h3>
               {hotTopics.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">No active discussions yet</p>
+                <p className="text-sm text-ink-400">No active discussions yet</p>
               ) : (
                 <div className="space-y-2">
                   {hotTopics.map((topic) => (
                     <button
                       key={topic.id}
                       onClick={() => handleTopicClick(topic.id)}
-                      className="block w-full text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="block w-full text-left p-2 rounded hover:bg-bg-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                     >
-                      <div className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
+                      <div className="text-sm font-medium text-ink-900 line-clamp-2">
                         {topic.title}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="text-xs text-ink-400 mt-1">
                         {topic.postCount} posts
                       </div>
                     </button>
@@ -249,17 +255,17 @@ export default function ForumPage() {
             </div>
 
             {/* My Posts */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                <span className="text-blue-600">📝</span>
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
+              <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
+                <span className="text-brand-600">📝</span>
                 My Posts
               </h3>
               {!currentUserId ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  <a href="/login" className="text-blue-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Sign in</a> to see your posts
+                <p className="text-sm text-ink-400">
+                  <a href="/login" className="text-brand-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded">Sign in</a> to see your posts
                 </p>
               ) : myTopics.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-ink-400">
                   You haven't created any topics yet
                 </p>
               ) : (
@@ -268,12 +274,12 @@ export default function ForumPage() {
                     <button
                       key={topic.id}
                       onClick={() => handleTopicClick(topic.id)}
-                      className="block w-full text-left p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="block w-full text-left p-2 rounded hover:bg-bg-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                     >
-                      <div className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
+                      <div className="text-sm font-medium text-ink-900 line-clamp-2">
                         {topic.title}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="text-xs text-ink-400 mt-1">
                         {topic.postCount} posts
                       </div>
                     </button>

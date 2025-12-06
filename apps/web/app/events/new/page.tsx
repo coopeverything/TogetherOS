@@ -136,8 +136,8 @@ export default function NewEventPage() {
           Back to Calendar
         </Link>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Create New Event</h1>
+        <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-6">
+          <h1 className="text-2xl font-bold text-ink-900 mb-6">Create New Event</h1>
 
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
@@ -148,14 +148,14 @@ export default function NewEventPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Event Title *
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter event title"
                 required
               />
@@ -163,13 +163,13 @@ export default function NewEventPage() {
 
             {/* Event Type */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Event Type *
               </label>
               <select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value as EventType })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 {EVENT_TYPES.map((type) => (
                   <option key={type.value} value={type.value}>
@@ -182,27 +182,27 @@ export default function NewEventPage() {
             {/* Date & Time */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Start Date *
                 </label>
                 <input
                   type="date"
                   value={formData.startDate}
                   onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
               {!formData.allDay && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-ink-700 mb-1">
                     Start Time
                   </label>
                   <input
                     type="time"
                     value={formData.startTime}
                     onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               )}
@@ -210,26 +210,26 @@ export default function NewEventPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   End Date (optional)
                 </label>
                 <input
                   type="date"
                   value={formData.endDate}
                   onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               {!formData.allDay && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-ink-700 mb-1">
                     End Time
                   </label>
                   <input
                     type="time"
                     value={formData.endTime}
                     onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               )}
@@ -240,14 +240,14 @@ export default function NewEventPage() {
                 type="checkbox"
                 checked={formData.allDay}
                 onChange={(e) => setFormData({ ...formData, allDay: e.target.checked })}
-                className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                className="rounded border-border text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700 dark:text-gray-300">All-day event</span>
+              <span className="text-sm text-ink-700">All-day event</span>
             </label>
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Location Type *
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -259,7 +259,7 @@ export default function NewEventPage() {
                     className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
                       formData.location === loc.value
                         ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white dark:bg-gray-800 text-gray-700 border-gray-300 hover:border-blue-300'
+                        : 'bg-bg-1 text-ink-700 border-border hover:border-blue-300'
                     }`}
                   >
                     {loc.label}
@@ -271,14 +271,14 @@ export default function NewEventPage() {
             {/* Virtual Link */}
             {(formData.location === 'virtual' || formData.location === 'hybrid') && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Virtual Meeting Link *
                 </label>
                 <input
                   type="url"
                   value={formData.virtualLink}
                   onChange={(e) => setFormData({ ...formData, virtualLink: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="https://meet.google.com/..."
                 />
               </div>
@@ -287,14 +287,14 @@ export default function NewEventPage() {
             {/* Physical Address */}
             {(formData.location === 'physical' || formData.location === 'hybrid') && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Physical Address *
                 </label>
                 <input
                   type="text"
                   value={formData.physicalAddress}
                   onChange={(e) => setFormData({ ...formData, physicalAddress: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="123 Main St, City, State"
                 />
               </div>
@@ -302,27 +302,27 @@ export default function NewEventPage() {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Description
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Describe your event..."
               />
             </div>
 
             {/* Visibility */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Visibility
               </label>
               <select
                 value={formData.visibility}
                 onChange={(e) => setFormData({ ...formData, visibility: e.target.value as EventVisibility })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 {VISIBILITY_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -335,14 +335,14 @@ export default function NewEventPage() {
             {/* Capacity & RSVP */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Max Attendees (optional)
                 </label>
                 <input
                   type="number"
                   value={formData.maxAttendees}
                   onChange={(e) => setFormData({ ...formData, maxAttendees: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Unlimited"
                   min="1"
                 />
@@ -353,9 +353,9 @@ export default function NewEventPage() {
                     type="checkbox"
                     checked={formData.rsvpRequired}
                     onChange={(e) => setFormData({ ...formData, rsvpRequired: e.target.checked })}
-                    className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-border text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Require RSVP</span>
+                  <span className="text-sm text-ink-700">Require RSVP</span>
                 </label>
               </div>
             </div>
@@ -371,7 +371,7 @@ export default function NewEventPage() {
               </button>
               <Link
                 href="/events"
-                className="px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors font-medium text-center"
+                className="px-6 py-3 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-2 transition-colors font-medium text-center"
               >
                 Cancel
               </Link>

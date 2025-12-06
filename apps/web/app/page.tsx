@@ -1,4 +1,4 @@
-/**
+*
  * TogetherOS Home Page
  *
  * Welcome page showcasing the UI foundation and core features
@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-bg-0">
-      {/* Hero Section */}
+      {Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-100 via-bg-1 to-joy-100">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(5,150,105,0.1),transparent_50%),radial-gradient(circle_at_70%_50%,rgba(245,158,11,0.1),transparent_50%)]" />
 
@@ -47,7 +47,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {Features Section */}
       <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-ink-900 mb-4">
@@ -60,7 +60,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Path 1: Groups */}
+          {Path 1: Groups */}
           <Card>
             <CardHeader>
               <CardTitle>Groups & Organizations</CardTitle>
@@ -81,7 +81,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 2: Forum */}
+          {Path 2: Forum */}
           <Card>
             <CardHeader>
               <CardTitle>Forum & Deliberation</CardTitle>
@@ -102,7 +102,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 3: Proposals */}
+          {Path 3: Proposals */}
           <Card>
             <CardHeader>
               <CardTitle>Proposals & Governance</CardTitle>
@@ -123,7 +123,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 4: Bridge */}
+          {Path 4: Bridge */}
           <Card>
             <CardHeader>
               <CardTitle>AI Bridge</CardTitle>
@@ -146,7 +146,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 5: Resources */}
+          {Path 5: Resources */}
           <Card>
             <CardHeader>
               <CardTitle>Resource Sharing</CardTitle>
@@ -167,7 +167,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 6: Economic */}
+          {Path 6: Economic */}
           <Card>
             <CardHeader>
               <CardTitle>Economic Commons</CardTitle>
@@ -188,7 +188,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 7: Knowledge */}
+          {Path 7: Knowledge */}
           <Card>
             <CardHeader>
               <CardTitle>Knowledge Commons</CardTitle>
@@ -209,7 +209,7 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 8: External */}
+          {Path 8: External */}
           <Card>
             <CardHeader>
               <CardTitle>External Relations</CardTitle>
@@ -232,7 +232,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {CTA Section */}
       <section className="bg-gradient-to-r from-brand-600 to-brand-500 text-white">
         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
           <h2 className="text-3xl font-bold mb-4">
@@ -248,7 +248,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/admin/status">
-              <Button size="lg" variant="ghost" className="border-white/20 text-white hover:bg-white dark:bg-gray-800/10">
+              <Button size="lg" variant="ghost" className="border-white/20 text-white hover:bg-bg-1/10">
                 View Progress
               </Button>
             </Link>
@@ -256,7 +256,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
+      {Footer */}
       <footer className="bg-bg-2 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
