@@ -255,7 +255,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
   );
 }
 
-export function ThemePicker({ className = '' }: { className?: string }) {
+export function ThemePicker({ className = '', compact = false }: { className?: string; compact?: boolean }) {
   const { theme, setTheme, darkMode, toggleDarkMode } = useDarkMode();
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -267,21 +267,38 @@ export function ThemePicker({ className = '' }: { className?: string }) {
   return (
     <>
       {/* Trigger Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className={`px-4 py-2 rounded-md border text-sm font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-2 ${className}`}
-      >
-        <span className="flex gap-0.5">
-          {THEME_INFO[theme].colors.map((color, i) => (
-            <span
-              key={i}
-              className="w-3 h-3 rounded-sm border border-black/20"
-              style={{ backgroundColor: color }}
-            />
-          ))}
-        </span>
-        Pick Theme
-      </button>
+      <div className={`flex items-center gap-1 ${className}`}>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="px-3 py-1.5 rounded-md border text-sm font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-2"
+        >
+          <span className="flex gap-0.5">
+            {THEME_INFO[theme].colors.slice(0, 2).map((color, i) => (
+              <span
+                key={i}
+                className="w-3 h-3 rounded-sm border border-black/20"
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </span>
+          {compact ? null : <span className="hidden sm:inline">{THEME_INFO[theme].name}</span>}
+        </button>
+        <button
+          onClick={toggleDarkMode}
+          className="p-1.5 rounded-md border text-sm bg-[var(--bg-1)] text-[var(--ink-700)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors"
+          aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {darkMode ? (
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          )}
+        </button>
+      </div>
 
       {/* Modal Overlay */}
       {isOpen && (
