@@ -58,12 +58,12 @@ export default function DashboardDesignsPage() {
       <div className="border-b-2 border-white p-4" style={{ background: '#000' }}>
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-white mb-4">Dashboard Design Variations</h1>
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
             {(Object.keys(variants) as VariantKey[]).map((key) => (
               <button
                 key={key}
                 onClick={() => setSelected(key)}
-                className="px-4 py-2 rounded text-base font-medium transition-all"
+                className="px-4 py-2 rounded text-sm font-medium transition-all"
                 style={{
                   background: selected === key ? variants[key].colors[0] : '#333',
                   color: selected === key ? '#000' : '#fff',
@@ -77,7 +77,7 @@ export default function DashboardDesignsPage() {
           </div>
           <div className="mt-4 p-4 rounded" style={{ background: '#1a1a1a' }}>
             <div className="text-white font-semibold mb-2">{variants[selected].name}</div>
-            <div className="text-ink-400 text-base mb-3">{variants[selected].description}</div>
+            <div className="text-ink-400 text-sm mb-3">{variants[selected].description}</div>
             <div className="flex gap-2">
               {variants[selected].colors.map((color, i) => (
                 <div

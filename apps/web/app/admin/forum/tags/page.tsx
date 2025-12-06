@@ -199,7 +199,7 @@ export default function AdminForumTagsPage() {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <p className="text-red-800 font-medium">Error</p>
-          <p className="text-red-600 text-base mt-2">{error}</p>
+          <p className="text-red-600 text-sm mt-2">{error}</p>
           <button
             onClick={() => fetchTags()}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
@@ -224,17 +224,17 @@ export default function AdminForumTagsPage() {
 
       {/* Success Message Toast */}
       {successMessage && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-800 rounded-lg text-center font-medium">
+        <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-800 rounded-lg text-center font-medium">
           {successMessage}
         </div>
       )}
 
       {/* Create New Tag Form */}
       <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-        <h2 className="text-base font-semibold text-green-900 mb-3">
+        <h2 className="text-sm font-semibold text-green-900 mb-3">
           Create New Tag
         </h2>
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           <div className="relative flex-1">
             <input
               type="text"
@@ -256,7 +256,7 @@ export default function AdminForumTagsPage() {
             {/* Autocomplete suggestions dropdown */}
             {showSuggestions && suggestions.length > 0 && (
               <div className="absolute z-10 w-full mt-1 bg-bg-1 border border-border rounded-md shadow-lg max-h-48 overflow-auto">
-                <div className="px-3 py-1.5 text-sm text-ink-400 border-b border-border">
+                <div className="px-3 py-1 text-xs text-ink-400 border-b border-border">
                   Existing tags:
                 </div>
                 {suggestions.map(({ tag, count }) => (
@@ -271,7 +271,7 @@ export default function AdminForumTagsPage() {
                     className="w-full px-3 py-2 text-left hover:bg-bg-2 flex justify-between items-center"
                   >
                     <span className="text-ink-900">#{tag}</span>
-                    <span className="text-sm text-ink-400">{count} topics</span>
+                    <span className="text-xs text-ink-400">{count} topics</span>
                   </button>
                 ))}
               </div>
@@ -285,7 +285,7 @@ export default function AdminForumTagsPage() {
             {creatingTag ? 'Creating...' : 'Create Tag'}
           </button>
         </div>
-        <p className="text-sm text-green-800 mt-2">
+        <p className="text-xs text-green-800 mt-2">
           Creating a tag makes it available in autocomplete suggestions. Note: The tag will appear with count 0 until used by a topic.
         </p>
       </div>
@@ -304,7 +304,7 @@ export default function AdminForumTagsPage() {
               >
                 {editingTag === tag ? (
                   /* Edit Mode */
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <input
                       type="text"
                       value={newTagName}
@@ -313,24 +313,24 @@ export default function AdminForumTagsPage() {
                         if (e.key === 'Enter') handleRenameTag(tag)
                         if (e.key === 'Escape') handleCancelEdit()
                       }}
-                      className="flex-1 px-3 py-1.5 border border-blue-500 rounded-md bg-bg-1 text-ink-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 px-3 py-1 border border-blue-500 rounded-md bg-bg-1 text-ink-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       disabled={renaming}
                       autoFocus
                     />
-                    <span className="text-base text-ink-400 min-w-[80px]">
+                    <span className="text-sm text-ink-400 min-w-[80px]">
                       {count} topic{count !== 1 ? 's' : ''}
                     </span>
                     <button
                       onClick={() => handleRenameTag(tag)}
                       disabled={renaming}
-                      className="px-3 py-1.5 bg-blue-600 text-white text-base rounded-md hover:bg-blue-700 disabled:opacity-50"
+                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:opacity-50"
                     >
                       {renaming ? 'Saving...' : 'Save'}
                     </button>
                     <button
                       onClick={handleCancelEdit}
                       disabled={renaming}
-                      className="px-3 py-1.5 bg-bg-2 text-ink-900 text-base rounded-md hover:bg-bg-1 disabled:opacity-50"
+                      className="px-3 py-1 bg-bg-2 text-ink-900 text-sm rounded-md hover:bg-bg-1 disabled:opacity-50"
                     >
                       Cancel
                     </button>
@@ -338,11 +338,11 @@ export default function AdminForumTagsPage() {
                 ) : (
                   /* Display Mode */
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <span className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded text-base font-medium">
+                    <div className="flex items-center gap-3">
+                      <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm font-medium">
                         #{tag}
                       </span>
-                      <span className="text-base text-ink-400">
+                      <span className="text-sm text-ink-400">
                         Used in {count} topic{count !== 1 ? 's' : ''}
                       </span>
                     </div>
@@ -350,14 +350,14 @@ export default function AdminForumTagsPage() {
                       <button
                         onClick={() => handleEditClick(tag)}
                         disabled={deleting === tag}
-                        className="px-3 py-1.5 text-base text-blue-600 hover:bg-blue-50 rounded-md disabled:opacity-50"
+                        className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md disabled:opacity-50"
                       >
                         Rename
                       </button>
                       <button
                         onClick={() => handleDeleteTag(tag)}
                         disabled={deleting === tag}
-                        className="px-3 py-1.5 text-base text-red-600 hover:bg-red-50 rounded-md disabled:opacity-50"
+                        className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md disabled:opacity-50"
                       >
                         {deleting === tag ? 'Deleting...' : 'Delete'}
                       </button>
@@ -371,10 +371,10 @@ export default function AdminForumTagsPage() {
       </div>
 
       <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h2 className="text-base font-semibold text-blue-900 mb-2">
+        <h2 className="text-sm font-semibold text-blue-900 mb-2">
           About Tag Management
         </h2>
-        <ul className="text-base text-blue-800 space-y-1">
+        <ul className="text-sm text-blue-800 space-y-1">
           <li>• Renaming a tag updates it across ALL topics that use it</li>
           <li>• Corrected tags will appear in autocomplete suggestions when users create/edit topics</li>
           <li>• Tags are case-sensitive - "Climate" and "climate" are different</li>

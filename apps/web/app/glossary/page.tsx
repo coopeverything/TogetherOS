@@ -30,7 +30,7 @@ export default function GlossaryPage() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white">
               <svg
                 className="w-6 h-6"
@@ -52,7 +52,7 @@ export default function GlossaryPage() {
             </div>
           </div>
 
-          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed max-w-3xl">
+          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed max-w-3xl">
             Terms used throughout TogetherOS. Each term has a brief definition
             and links to wiki articles for deeper understanding. When you see a{' '}
             <span className="border-b border-dotted border-gray-400 cursor-help">
@@ -87,22 +87,22 @@ export default function GlossaryPage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <div className="text-3xl font-bold text-gray-900 dark:text-white">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {glossaryTerms.length}
             </div>
-            <div className="text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">Terms Defined</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Terms Defined</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <div className="text-3xl font-bold text-emerald-600">
+            <div className="text-2xl font-bold text-emerald-600">
               {sortedLetters.length}
             </div>
-            <div className="text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">Letters Used</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Letters Used</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center md:col-span-1 col-span-2">
-            <div className="text-3xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-blue-600">
               {glossaryTerms.filter((t) => t.wikiArticleSlug).length}
             </div>
-            <div className="text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">With Wiki Articles</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">With Wiki Articles</div>
           </div>
         </div>
 
@@ -115,7 +115,7 @@ export default function GlossaryPage() {
                 <a
                   key={letter}
                   href={hasTerms ? `#letter-${letter}` : undefined}
-                  className={`w-8 h-8 flex items-center justify-center rounded text-base font-medium transition-colors ${
+                  className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors ${
                     hasTerms
                       ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
                       : 'bg-gray-50 text-gray-300 cursor-default'
@@ -132,11 +132,11 @@ export default function GlossaryPage() {
         <div className="space-y-10">
           {sortedLetters.map((letter) => (
             <section key={letter} id={`letter-${letter}`}>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-4">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
                 <span className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
                   {letter}
                 </span>
-                <span className="text-base font-normal text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 dark:text-gray-500">
                   {groupedTerms[letter].length} term
                   {groupedTerms[letter].length !== 1 ? 's' : ''}
                 </span>
@@ -156,16 +156,16 @@ export default function GlossaryPage() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors mb-1">
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors mb-1">
                             {term.word}
                           </h3>
                           <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed">
                             {term.shortDefinition}
                           </p>
 
-                          <div className="mt-3 flex flex-wrap items-center gap-4 text-base">
+                          <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
                             {term.cooperationPath && (
-                              <span className="px-3 py-0.5 bg-blue-100 text-blue-800 rounded text-sm">
+                              <span className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs">
                                 {term.cooperationPath}
                               </span>
                             )}
@@ -224,7 +224,7 @@ export default function GlossaryPage() {
             definition could be clearer or more inclusive, start a discussion.
             The glossary evolves through collective input.
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <Link
               href="/forum"
               className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"

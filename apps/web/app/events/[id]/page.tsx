@@ -128,7 +128,7 @@ export default function EventDetailPage({ params }: PageProps) {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-3xl mx-auto px-4 py-8">
           <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-8 text-center">
-            <h1 className="text-2xl font-semibold text-ink-900 mb-2">Event Not Found</h1>
+            <h1 className="text-xl font-semibold text-ink-900 mb-2">Event Not Found</h1>
             <p className="text-ink-700 mb-4">{error || 'This event does not exist.'}</p>
             <Link href="/events" className="text-blue-600 hover:underline">
               Back to Calendar
@@ -162,22 +162,22 @@ export default function EventDetailPage({ params }: PageProps) {
           <div className="p-6 border-b border-border">
             <div className="flex items-start justify-between">
               <div>
-                <div className="flex items-center gap-4 mb-2">
-                  <span className={`px-3 py-1.5 rounded-full text-base font-medium ${EVENT_COLORS[event.type]}`}>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${EVENT_COLORS[event.type]}`}>
                     {EVENT_LABELS[event.type]}
                   </span>
                   {isCanceled && (
-                    <span className="px-3 py-1.5 rounded-full text-base font-medium bg-red-100 text-red-800">
+                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
                       Canceled
                     </span>
                   )}
                   {isPast && !isCanceled && (
-                    <span className="px-3 py-1.5 rounded-full text-base font-medium bg-bg-2 text-ink-700">
+                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-bg-2 text-ink-700">
                       Past Event
                     </span>
                   )}
                 </div>
-                <h1 className="text-3xl font-bold text-ink-900">{event.title}</h1>
+                <h1 className="text-2xl font-bold text-ink-900">{event.title}</h1>
                 {event.groupName && (
                   <p className="text-ink-700 mt-1">Hosted by {event.groupName}</p>
                 )}
@@ -188,7 +188,7 @@ export default function EventDetailPage({ params }: PageProps) {
           {/* Details */}
           <div className="p-6 space-y-6">
             {/* Date & Time */}
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
                 <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -203,7 +203,7 @@ export default function EventDetailPage({ params }: PageProps) {
             </div>
 
             {/* Location */}
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
                 <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -240,7 +240,7 @@ export default function EventDetailPage({ params }: PageProps) {
             {!isCanceled && !isPast && (
               <div className="pt-4 border-t border-border">
                 <h3 className="font-semibold text-ink-900 mb-4">RSVP</h3>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => handleRsvp('going')}
                     disabled={rsvpLoading}
@@ -290,7 +290,7 @@ export default function EventDetailPage({ params }: PageProps) {
                     .map((attendee) => (
                       <div
                         key={attendee.id}
-                        className="px-3 py-1.5.5 bg-bg-2 rounded-full text-base text-ink-700"
+                        className="px-3 py-1.5 bg-bg-2 rounded-full text-sm text-ink-700"
                       >
                         {attendee.memberName || 'Member'}
                         {attendee.role === 'organizer' && (
@@ -304,7 +304,7 @@ export default function EventDetailPage({ params }: PageProps) {
 
             {/* Capacity */}
             {event.maxAttendees && (
-              <div className="text-base text-ink-400">
+              <div className="text-sm text-ink-400">
                 Capacity: {counts.going} / {event.maxAttendees} spots filled
               </div>
             )}

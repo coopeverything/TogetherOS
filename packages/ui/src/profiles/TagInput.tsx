@@ -69,7 +69,7 @@ export function TagInput({
         {value.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1 px-3 py-0.5 rounded text-sm font-semibold border bg-brand-100 text-brand-600 border-brand-500 cursor-pointer hover:bg-brand-200"
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold border bg-brand-100 text-brand-600 border-brand-500 cursor-pointer hover:bg-brand-200"
           >
             {tag}
             <button
@@ -90,7 +90,7 @@ export function TagInput({
           onFocus={() => setShowSuggestions(true)} // Show suggestions on focus
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           placeholder={value.length === 0 ? placeholder : ''}
-          className="flex-1 min-w-[120px] bg-transparent outline-none text-base text-ink-900 placeholder:text-ink-400"
+          className="flex-1 min-w-[120px] bg-transparent outline-none text-sm text-ink-900 placeholder:text-ink-400"
           disabled={maxTags ? value.length >= maxTags : false}
         />
       </div>
@@ -102,7 +102,7 @@ export function TagInput({
               key={suggestion}
               type="button"
               onClick={() => handleSuggestionClick(suggestion)}
-              className="w-full px-3 py-2 text-left text-base text-ink-900 hover:bg-bg-1 transition-colors"
+              className="w-full px-3 py-2 text-left text-sm text-ink-900 hover:bg-bg-1 transition-colors"
             >
               {suggestion}
             </button>
@@ -111,7 +111,7 @@ export function TagInput({
       )}
 
       {maxTags && (
-        <p className="text-sm text-ink-700 mt-1">
+        <p className="text-xs text-ink-700 mt-1">
           {value.length} / {maxTags} tags
         </p>
       )}

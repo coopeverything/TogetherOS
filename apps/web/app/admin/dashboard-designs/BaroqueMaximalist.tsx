@@ -37,12 +37,12 @@ export function BaroqueMaximalist() {
             </h1>
             <div className="flex items-center justify-center gap-4 mb-2">
               <div className="w-16 h-px" style={{ background: '#FFD700' }} />
-              <div className="text-3xl" style={{ color: '#FFD700' }}>
+              <div className="text-2xl" style={{ color: '#FFD700' }}>
                 ✦
               </div>
               <div className="w-16 h-px" style={{ background: '#FFD700' }} />
             </div>
-            <p className="text-2xl italic" style={{ color: '#ffffff' }}>
+            <p className="text-xl italic" style={{ color: '#ffffff' }}>
               Versailles meets Vaporwave
             </p>
           </div>
@@ -67,25 +67,25 @@ export function BaroqueMaximalist() {
             >
               {/* Ornate corner decorations */}
               <div
-                className="absolute top-2 left-2 text-sm"
+                className="absolute top-2 left-2 text-xs"
                 style={{ color: stat.color, opacity: 0.5 }}
               >
                 ╔═
               </div>
               <div
-                className="absolute top-2 right-2 text-sm"
+                className="absolute top-2 right-2 text-xs"
                 style={{ color: stat.color, opacity: 0.5 }}
               >
                 ═╗
               </div>
               <div
-                className="absolute bottom-2 left-2 text-sm"
+                className="absolute bottom-2 left-2 text-xs"
                 style={{ color: stat.color, opacity: 0.5 }}
               >
                 ╚═
               </div>
               <div
-                className="absolute bottom-2 right-2 text-sm"
+                className="absolute bottom-2 right-2 text-xs"
                 style={{ color: stat.color, opacity: 0.5 }}
               >
                 ═╝
@@ -96,7 +96,7 @@ export function BaroqueMaximalist() {
                 <div className="text-4xl font-bold mb-2" style={{ color: '#FFD700' }}>
                   {stat.value}
                 </div>
-                <div className="text-base uppercase tracking-widest" style={{ color: '#ffffff' }}>
+                <div className="text-sm uppercase tracking-widest" style={{ color: '#ffffff' }}>
                   {stat.label}
                 </div>
               </div>
@@ -147,12 +147,12 @@ export function BaroqueMaximalist() {
                   }}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="text-3xl">{item.icon}</div>
+                    <div className="text-2xl">{item.icon}</div>
                     <span className="font-semibold" style={{ color: '#ffffff' }}>
                       {item.action}
                     </span>
                   </div>
-                  <span className="text-base italic" style={{ color: '#FFD700' }}>
+                  <span className="text-sm italic" style={{ color: '#FFD700' }}>
                     {item.time}
                   </span>
                 </div>
@@ -190,14 +190,14 @@ export function BaroqueMaximalist() {
             <p className="text-3xl italic mb-4 font-bold" style={{ color: '#FFD700' }}>
               "More is more, and excess is just enough"
             </p>
-            <div className="flex items-center justify-center gap-4 mb-3">
+            <div className="flex items-center justify-center gap-3 mb-3">
               <div className="w-12 h-px" style={{ background: '#FF6FD8' }} />
-              <div className="text-2xl" style={{ color: '#FFD700' }}>
+              <div className="text-xl" style={{ color: '#FFD700' }}>
                 ❧
               </div>
               <div className="w-12 h-px" style={{ background: '#FF6FD8' }} />
             </div>
-            <p className="text-base uppercase tracking-widest" style={{ color: '#ffffff' }}>
+            <p className="text-sm uppercase tracking-widest" style={{ color: '#ffffff' }}>
               — Rococo Manifesto
             </p>
           </div>

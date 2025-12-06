@@ -123,7 +123,7 @@ export default function SocialHorizonClient() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-8">
-        <a href="/economy" className="text-emerald-600 hover:text-emerald-700 text-base mb-2 inline-block">
+        <a href="/economy" className="text-emerald-600 hover:text-emerald-700 text-sm mb-2 inline-block">
           &larr; Back to Economy
         </a>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Social Horizon</h1>
@@ -139,7 +139,7 @@ export default function SocialHorizonClient() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab as typeof activeTab)}
-              className={`pb-4 px-1 border-b-2 font-medium text-base capitalize ${
+              className={`pb-4 px-1 border-b-2 font-medium text-sm capitalize ${
                 activeTab === tab
                   ? 'border-emerald-500 text-emerald-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
@@ -162,7 +162,7 @@ export default function SocialHorizonClient() {
 
           {/* Recent Allocations */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Recent Allocations</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Allocations</h2>
             {allocations.length === 0 ? (
               <p className="text-gray-500 dark:text-gray-400 text-center py-4">
                 No allocations yet. SH is issued quarterly based on contributions.
@@ -173,9 +173,9 @@ export default function SocialHorizonClient() {
                   <div key={alloc.id} className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 last:border-0">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">{alloc.cycleName}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">{alloc.basis.replace('_', ' ')}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{alloc.basis.replace('_', ' ')}</p>
                     </div>
-                    <span className="text-xl font-semibold text-emerald-600">+{alloc.shAmount.toFixed(4)} SH</span>
+                    <span className="text-lg font-semibold text-emerald-600">+{alloc.shAmount.toFixed(4)} SH</span>
                   </div>
                 ))}
               </div>
@@ -189,11 +189,11 @@ export default function SocialHorizonClient() {
         <div className="space-y-6">
           {/* Active Events */}
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Active Purchase Events</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Active Purchase Events</h2>
             {activeEvents.length === 0 ? (
               <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-center">
                 <p className="text-gray-500 dark:text-gray-400">No active purchase events. Check back later!</p>
-                <p className="text-base text-gray-400 dark:text-gray-500 mt-2">
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
                   SH purchase events are rare and capped to prevent wealth concentration.
                 </p>
               </div>
@@ -202,11 +202,11 @@ export default function SocialHorizonClient() {
                 {activeEvents.map((event) => (
                   <div key={event.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{event.eventName}</h3>
-                      <span className="px-3 py-1.5 bg-green-100 text-green-800 text-sm font-medium rounded">Active</span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{event.eventName}</h3>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">Active</span>
                     </div>
 
-                    <div className="space-y-2 text-base mb-4">
+                    <div className="space-y-2 text-sm mb-4">
                       <div className="flex justify-between">
                         <span className="text-gray-600 dark:text-gray-400">Price</span>
                         <span className="font-medium text-gray-900 dark:text-white">{event.rpPerSH} RP per SH</span>
@@ -227,7 +227,7 @@ export default function SocialHorizonClient() {
                       </div>
                     </div>
 
-                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-4">
                       Ends: {new Date(event.endDate).toLocaleDateString()}
                     </div>
 
@@ -255,13 +255,13 @@ export default function SocialHorizonClient() {
           {/* Past Events */}
           {pastEvents.length > 0 && (
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Past Events</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Past Events</h2>
               <div className="space-y-2">
                 {pastEvents.map((event) => (
                   <div key={event.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 flex justify-between items-center">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">{event.eventName}</p>
-                      <p className="text-base text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {event.shDistributed.toFixed(2)} / {event.globalSHCap} SH distributed
                       </p>
                     </div>
@@ -277,7 +277,7 @@ export default function SocialHorizonClient() {
       {/* History Tab */}
       {activeTab === 'history' && (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Transaction History</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Transaction History</h2>
           {transactions.length === 0 ? (
             <p className="text-gray-500 dark:text-gray-400 text-center py-4">No transactions yet.</p>
           ) : (
@@ -288,11 +288,11 @@ export default function SocialHorizonClient() {
                     <p className="font-medium text-gray-900 dark:text-white capitalize">
                       {tx.transactionType.replace('_', ' ')}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {new Date(tx.createdAt).toLocaleString()}
                     </p>
                   </div>
-                  <span className={`text-xl font-semibold ${tx.amount > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                  <span className={`text-lg font-semibold ${tx.amount > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
                     {tx.amount > 0 ? '+' : ''}{tx.amount.toFixed(4)} SH
                   </span>
                 </div>

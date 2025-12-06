@@ -135,13 +135,13 @@ export default function EconomyClient() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-3 mb-4">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">4-Ledger Economic System</h1>
-          <span className="px-3 py-1.5 bg-green-100 text-green-800 text-base font-medium rounded-full">
+          <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
             Active
           </span>
         </div>
-        <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl">
           A comprehensive cooperative economy with four interlinked ledgers: Support Points (governance), Reward Points (economic claims), Timebank Credits (mutual aid), and Social Horizon (cooperative currency).
         </p>
       </div>
@@ -151,81 +151,81 @@ export default function EconomyClient() {
         {/* Support Points Balance */}
         <a href="/economy/support-points" className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-base font-medium opacity-90">Support Points</h3>
-            <span className="text-sm bg-white dark:bg-gray-800 bg-opacity-20 px-3 py-1.5 rounded">SP</span>
+            <h3 className="text-sm font-medium opacity-90">Support Points</h3>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">SP</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{balance?.available || 0}</p>
-            <p className="text-xl opacity-75">/ {balance?.total || 0}</p>
+            <p className="text-lg opacity-75">/ {balance?.total || 0}</p>
           </div>
-          <p className="text-base opacity-75 mb-1">Available to allocate</p>
+          <p className="text-sm opacity-75 mb-1">Available to allocate</p>
           {balance && balance.allocated > 0 && (
-            <p className="text-sm opacity-90 mt-1">
+            <p className="text-xs opacity-90 mt-1">
               {balance.allocated} allocated to proposals
             </p>
           )}
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-sm opacity-75">Governance power • Non-convertible</p>
+            <p className="text-xs opacity-75">Governance power • Non-convertible</p>
           </div>
         </a>
 
         {/* Reward Points */}
         <a href="/economy/reward-points" className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-base font-medium opacity-90">Reward Points</h3>
-            <span className="text-sm bg-white dark:bg-gray-800 bg-opacity-20 px-3 py-1.5 rounded">RP</span>
+            <h3 className="text-sm font-medium opacity-90">Reward Points</h3>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">RP</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{rpBalance?.available || 0}</p>
-            <p className="text-xl opacity-75">/ {rpBalance?.total_earned || 0}</p>
+            <p className="text-lg opacity-75">/ {rpBalance?.total_earned || 0}</p>
           </div>
-          <p className="text-base opacity-75 mb-1">Available to convert or spend</p>
-          <div className="text-sm opacity-90 space-y-1">
+          <p className="text-sm opacity-75 mb-1">Available to convert or spend</p>
+          <div className="text-xs opacity-90 space-y-1">
             <p>• {rpBalance?.spent_on_tbc || 0} RP → TBC conversions</p>
             <p>• {rpBalance?.spent_on_sh || 0} RP → SH purchases</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-sm opacity-75">Economic claims • Convertible</p>
+            <p className="text-xs opacity-75">Economic claims • Convertible</p>
           </div>
         </a>
 
         {/* Timebank Credits */}
         <a href="/economy/timebank" className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-base font-medium opacity-90">Timebank Credits</h3>
-            <span className="text-sm bg-white dark:bg-gray-800 bg-opacity-20 px-3 py-1.5 rounded">TBC</span>
+            <h3 className="text-sm font-medium opacity-90">Timebank Credits</h3>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">TBC</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{tbcAccount?.balance?.toFixed(1) || '0.0'}</p>
-            <p className="text-xl opacity-75">TBC</p>
+            <p className="text-lg opacity-75">TBC</p>
           </div>
-          <p className="text-base opacity-75 mb-1">Available for exchange</p>
-          <div className="text-sm opacity-90 space-y-1">
+          <p className="text-sm opacity-75 mb-1">Available for exchange</p>
+          <div className="text-xs opacity-90 space-y-1">
             <p>• {tbcAccount?.totalEarned?.toFixed(1) || '0.0'} TBC earned</p>
             <p>• {tbcAccount?.totalSpent?.toFixed(1) || '0.0'} TBC spent</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-sm opacity-75">Bartering economy • 1-10 TBC/hour</p>
+            <p className="text-xs opacity-75">Bartering economy • 1-10 TBC/hour</p>
           </div>
         </a>
 
         {/* Social Horizon */}
         <a href="/economy/social-horizon" className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-base font-medium opacity-90">Social Horizon</h3>
-            <span className="text-sm bg-white dark:bg-gray-800 bg-opacity-20 px-3 py-1.5 rounded">SH</span>
+            <h3 className="text-sm font-medium opacity-90">Social Horizon</h3>
+            <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">SH</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <p className="text-5xl font-bold">{shWallet?.shBalance?.toFixed(2) || '0.00'}</p>
-            <p className="text-xl opacity-75">SH</p>
+            <p className="text-lg opacity-75">SH</p>
           </div>
-          <p className="text-base opacity-75 mb-1">Cooperative ownership stake</p>
-          <div className="text-sm opacity-90 space-y-1">
+          <p className="text-sm opacity-75 mb-1">Cooperative ownership stake</p>
+          <div className="text-xs opacity-90 space-y-1">
             <p>• {shWallet?.totalIssued?.toFixed(2) || '0.00'} SH total received</p>
             <p>• {shWallet?.ownershipPercentage?.toFixed(4) || '0.0000'}% ownership</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-sm opacity-75">Non-tradable • Long-term stake</p>
+            <p className="text-xs opacity-75">Non-tradable • Long-term stake</p>
           </div>
         </a>
       </div>
@@ -233,11 +233,11 @@ export default function EconomyClient() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Active Allocations */}
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Active Allocations</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Active Allocations</h2>
           {allocations.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">No active allocations yet</p>
-              <p className="text-base text-gray-400 dark:text-gray-500 mt-2">
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
                 Allocate Support Points to proposals you support
               </p>
             </div>
@@ -247,11 +247,11 @@ export default function EconomyClient() {
                 <div key={alloc.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{alloc.target_type}</p>
-                    <p className="text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">ID: {alloc.target_id.slice(0, 8)}...</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">ID: {alloc.target_id.slice(0, 8)}...</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-3xl font-bold text-orange-600">{alloc.amount} SP</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+                    <p className="text-2xl font-bold text-orange-600">{alloc.amount} SP</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                       {new Date(alloc.allocated_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -263,7 +263,7 @@ export default function EconomyClient() {
 
         {/* Recent Transactions */}
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Recent Transactions</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Recent Transactions</h2>
           {transactions.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">No transactions yet</p>
@@ -275,21 +275,21 @@ export default function EconomyClient() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className={`
-                        inline-flex items-center px-3 py-0.5 rounded text-sm font-medium
+                        inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
                         ${tx.type === 'earn' || tx.type === 'initial' || tx.type === 'reclaim'
                           ? 'bg-green-100 text-green-800'
                           : 'bg-orange-100 text-orange-800'}
                       `}>
                         {tx.type}
                       </span>
-                      <span className={`text-xl font-semibold ${
+                      <span className={`text-lg font-semibold ${
                         tx.amount > 0 ? 'text-green-600' : 'text-orange-600'
                       }`}>
                         {tx.amount > 0 ? '+' : ''}{tx.amount} SP
                       </span>
                     </div>
-                    <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">{tx.reason || 'Support Points transaction'}</p>
-                    <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">{tx.reason || 'Support Points transaction'}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                       {new Date(tx.created_at).toLocaleString()}
                     </p>
                   </div>
@@ -306,21 +306,21 @@ export default function EconomyClient() {
 
         {/* Core Invariants */}
         <div className="bg-red-50 border-2 border-red-300 rounded-lg p-6">
-          <h3 className="text-2xl font-semibold text-red-900 mb-3">Core Anti-Plutocracy Invariants</h3>
-          <div className="space-y-3 text-base text-red-800">
-            <div className="flex gap-4">
+          <h3 className="text-xl font-semibold text-red-900 mb-3">Core Anti-Plutocracy Invariants</h3>
+          <div className="space-y-3 text-sm text-red-800">
+            <div className="flex gap-3">
               <span className="font-bold text-red-600">1.</span>
               <p><strong>Money/RP ≠ SP:</strong> Governance power (SP) ONLY comes from non-monetary contributions. You cannot buy influence.</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <span className="font-bold text-red-600">2.</span>
               <p><strong>One Person, One Vote:</strong> SP controls agenda (which proposals get considered), NOT vote weight. Every member has equal vote power.</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <span className="font-bold text-red-600">3.</span>
               <p><strong>Support ≠ Reward:</strong> Separate ledgers for governance (SP) vs. economy (RP, TBC, SH). No conversion between SP and other currencies.</p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <span className="font-bold text-red-600">4.</span>
               <p><strong>No Buying Big:</strong> Per-person and global caps on SH acquisition prevent wealth concentration. RP burns on SH purchase (cannot recycle).</p>
             </div>
@@ -331,8 +331,8 @@ export default function EconomyClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Support Points */}
           <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-orange-900 mb-3">Support Points (SP)</h3>
-            <div className="text-base text-orange-800 space-y-2">
+            <h3 className="text-lg font-semibold text-orange-900 mb-3">Support Points (SP)</h3>
+            <div className="text-sm text-orange-800 space-y-2">
               <p><strong>Purpose:</strong> Governance power and agenda control</p>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -351,8 +351,8 @@ export default function EconomyClient() {
 
           {/* Reward Points */}
           <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-purple-900 mb-3">Reward Points (RP)</h3>
-            <div className="text-base text-purple-800 space-y-2">
+            <h3 className="text-lg font-semibold text-purple-900 mb-3">Reward Points (RP)</h3>
+            <div className="text-sm text-purple-800 space-y-2">
               <p><strong>Purpose:</strong> "The commons owes you something" - economic claims</p>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -372,8 +372,8 @@ export default function EconomyClient() {
 
           {/* Timebank Credits */}
           <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-blue-900 mb-3">Timebank Credits (TBC)</h3>
-            <div className="text-base text-blue-800 space-y-2">
+            <h3 className="text-lg font-semibold text-blue-900 mb-3">Timebank Credits (TBC)</h3>
+            <div className="text-sm text-blue-800 space-y-2">
               <p><strong>Purpose:</strong> Bartering economy for goods and services exchange</p>
               <p><strong>What You Can Barter:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -397,8 +397,8 @@ export default function EconomyClient() {
 
           {/* Social Horizon */}
           <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-green-900 mb-3">Social Horizon (SH)</h3>
-            <div className="text-base text-green-800 space-y-2">
+            <h3 className="text-lg font-semibold text-green-900 mb-3">Social Horizon (SH)</h3>
+            <div className="text-sm text-green-800 space-y-2">
               <p><strong>Purpose:</strong> Multi-purpose cooperative currency</p>
               <ul className="list-disc list-inside ml-2 space-y-1">
                 <li>Local and national value exchange</li>
@@ -424,8 +424,8 @@ export default function EconomyClient() {
 
         {/* Budget & Financial Flows */}
         <div className="bg-gray-50 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-lg p-6">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Budget & Financial Flows</h3>
-          <div className="text-base text-gray-700 dark:text-gray-300 space-y-2">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Budget & Financial Flows</h3>
+          <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
             <p><strong>Monthly Membership Dues ($5/month):</strong></p>
             <ul className="list-disc list-inside ml-2 space-y-1">
               <li>Member receives: 100 RP</li>
@@ -446,8 +446,8 @@ export default function EconomyClient() {
 
         {/* Implementation Status */}
         <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-          <h3 className="text-xl font-semibold text-green-900 mb-3">Implementation Status</h3>
-          <div className="space-y-2 text-base text-green-800">
+          <h3 className="text-lg font-semibold text-green-900 mb-3">Implementation Status</h3>
+          <div className="space-y-2 text-sm text-green-800">
             <div className="flex items-center gap-2">
               <span className="text-green-600 font-bold">✓</span>
               <span>Database schema with 15 tables (economy, timebank, social horizon)</span>
@@ -468,7 +468,7 @@ export default function EconomyClient() {
               <span className="text-green-600 font-bold">✓</span>
               <span>Admin settings: TBC pricing, SH caps, fair exchange thresholds</span>
             </div>
-            <p className="mt-4 text-sm opacity-75 flex items-center gap-1">
+            <p className="mt-4 text-xs opacity-75 flex items-center gap-1">
               <span>Full specification:</span>
               <a
                 href="https://github.com/coopeverything/TogetherOS/blob/yolo/docs/guides/4-ledger-system.md"

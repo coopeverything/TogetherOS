@@ -32,29 +32,29 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
 
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Badges</h2>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Badges</h2>
 
       {/* Earned Badges */}
       <div className="mb-6">
-        <h3 className="text-base font-medium text-gray-700 mb-3">
+        <h3 className="text-sm font-medium text-gray-700 mb-3">
           Earned ({earnedBadges.length})
         </h3>
         {earnedBadges.length === 0 ? (
-          <p className="text-base text-gray-500">No badges earned yet. Keep contributing!</p>
+          <p className="text-sm text-gray-500">No badges earned yet. Keep contributing!</p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {earnedBadges.map((badge) => {
               const memberBadge = memberBadges.find((mb) => mb.badgeId === badge.id)
               const colors = CATEGORY_COLORS[badge.category]
               return (
                 <div
                   key={badge.id}
-                  className={`${colors.bg} ${colors.border} border rounded-lg p-4 text-center`}
+                  className={`${colors.bg} ${colors.border} border rounded-lg p-3 text-center`}
                 >
-                  <div className="text-3xl mb-1">{badge.icon}</div>
-                  <div className={`text-base font-medium ${colors.text}`}>{badge.name}</div>
+                  <div className="text-2xl mb-1">{badge.icon}</div>
+                  <div className={`text-sm font-medium ${colors.text}`}>{badge.name}</div>
                   {memberBadge && (
-                    <div className="text-sm text-gray-500 mt-1">
+                    <div className="text-xs text-gray-500 mt-1">
                       {formatDate(memberBadge.earnedAt)}
                     </div>
                   )}
@@ -68,7 +68,7 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
       {/* Upcoming Badges */}
       {unearnedBadges.length > 0 && (
         <div>
-          <h3 className="text-base font-medium text-gray-700 mb-3">
+          <h3 className="text-sm font-medium text-gray-700 mb-3">
             Available ({unearnedBadges.length})
           </h3>
           <div className="space-y-3">
@@ -77,15 +77,15 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
               return (
                 <div
                   key={badge.id}
-                  className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700"
+                  className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700"
                 >
-                  <div className="text-2xl opacity-50">{badge.icon}</div>
+                  <div className="text-xl opacity-50">{badge.icon}</div>
                   <div className="flex-1">
-                    <div className="text-base font-medium text-gray-600">{badge.name}</div>
-                    <div className="text-sm text-gray-500">{badge.criteria}</div>
+                    <div className="text-sm font-medium text-gray-600">{badge.name}</div>
+                    <div className="text-xs text-gray-500">{badge.criteria}</div>
                   </div>
                   <span
-                    className={`text-sm px-3 py-0.5 rounded ${colors.bg} ${colors.text} ${colors.border} border`}
+                    className={`text-xs px-2 py-0.5 rounded ${colors.bg} ${colors.text} ${colors.border} border`}
                   >
                     {badge.category}
                   </span>
@@ -93,7 +93,7 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
               )
             })}
             {unearnedBadges.length > 5 && (
-              <p className="text-sm text-gray-500 text-center">
+              <p className="text-xs text-gray-500 text-center">
                 +{unearnedBadges.length - 5} more badges available
               </p>
             )}

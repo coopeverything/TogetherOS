@@ -51,8 +51,8 @@ export function FederationStatus({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">Federation Status</h2>
-          <p className="text-base text-gray-600 mt-1">@{groupHandle}</p>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Federation Status</h2>
+          <p className="text-sm text-gray-600 mt-1">@{groupHandle}</p>
         </div>
         {onAddConnection && (
           <button
@@ -67,7 +67,7 @@ export function FederationStatus({
       {/* Info Card */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
         <h3 className="font-semibold text-blue-900 mb-2">What is Federation?</h3>
-        <p className="text-base text-blue-800">
+        <p className="text-sm text-blue-800">
           Federation allows your group to connect with groups on other TogetherOS instances,
           enabling cross-instance proposals, events, and coordination while maintaining local
           autonomy.
@@ -76,14 +76,14 @@ export function FederationStatus({
 
       {/* Connections */}
       <div>
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Connections ({connections.length})
         </h3>
 
         {connections.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
             <p className="text-gray-500">No federation connections</p>
-            <p className="text-gray-400 text-base mt-2">
+            <p className="text-gray-400 text-sm mt-2">
               {onAddConnection
                 ? 'Connect with groups on other instances to coordinate across platforms'
                 : 'Federation connections will appear here'}
@@ -101,22 +101,22 @@ export function FederationStatus({
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                       {connection.remoteGroupHandle}
                     </h4>
-                    <p className="text-base text-gray-500">{connection.remoteInstance}</p>
+                    <p className="text-sm text-gray-500">{connection.remoteInstance}</p>
                   </div>
                   <span
-                    className={`px-3 py-1.5 text-base font-medium rounded-full ${getStatusColor(connection.status)}`}
+                    className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(connection.status)}`}
                   >
                     {connection.status.charAt(0).toUpperCase() + connection.status.slice(1)}
                   </span>
                 </div>
 
                 <div className="mb-3">
-                  <p className="text-base text-gray-600 mb-2">Shared operations:</p>
+                  <p className="text-sm text-gray-600 mb-2">Shared operations:</p>
                   <div className="flex flex-wrap gap-2">
                     {connection.operations.map((op) => (
                       <span
                         key={op}
-                        className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 text-sm rounded-full"
+                        className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 text-xs rounded-full"
                       >
                         {op}
                       </span>
@@ -124,7 +124,7 @@ export function FederationStatus({
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-xs text-gray-500">
                   Last synced: {new Date(connection.syncedAt).toLocaleString()}
                 </p>
               </div>

@@ -108,14 +108,14 @@ export function Term({
           {/* Content */}
           <div className="relative">
             <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{word}</h4>
-            <p className="text-base text-gray-600 leading-relaxed mb-3">
+            <p className="text-sm text-gray-600 leading-relaxed mb-3">
               {definition}
             </p>
 
             <div className="flex flex-wrap gap-2">
               <a
                 href={glossaryUrl}
-                className="inline-flex items-center gap-1 px-3.5 py-1.5 bg-emerald-100 text-emerald-700 rounded text-sm font-medium hover:bg-emerald-200 transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-medium hover:bg-emerald-200 transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
                 <svg
@@ -137,7 +137,7 @@ export function Term({
               {wikiUrl && (
                 <a
                   href={wikiUrl}
-                  className="inline-flex items-center gap-1 px-3.5 py-1.5 bg-blue-100 text-blue-700 rounded text-sm font-medium hover:bg-blue-200 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium hover:bg-blue-200 transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <svg
@@ -160,7 +160,7 @@ export function Term({
               {discussionUrl && (
                 <a
                   href={discussionUrl}
-                  className="inline-flex items-center gap-1 px-3.5 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 rounded text-xs font-medium hover:bg-gray-200 transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <svg

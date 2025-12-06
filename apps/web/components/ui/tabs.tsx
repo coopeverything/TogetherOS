@@ -39,7 +39,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultTab, onChange, className = '' 
               aria-selected={isActive}
               aria-controls={`panel-${tab.id}`}
               onClick={() => handleTabClick(tab.id)}
-              className={`px-4 py-2 text-base font-medium whitespace-nowrap transition-colors ${
+              className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
                 isActive
                   ? 'text-brand-600 border-b-2 border-brand-600 -mb-px'
                   : 'text-ink-700 hover:text-ink-900'

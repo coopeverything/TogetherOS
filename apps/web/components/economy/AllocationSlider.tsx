@@ -78,15 +78,15 @@ export function AllocationSlider({
   return (
     <Card className={className}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg">
+        <CardTitle className="text-base">
           {hasAllocation ? 'Adjust Allocation' : 'Allocate Support Points'}
         </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-4">
         {/* Proposal Title */}
-        <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg p-4">
-          <p className="text-base font-medium text-gray-900 dark:text-white">
+        <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg p-3">
+          <p className="text-sm font-medium text-gray-900 dark:text-white">
             {proposalTitle}
           </p>
         </div>
@@ -94,10 +94,10 @@ export function AllocationSlider({
         {/* Allocation Slider */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
+            <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
               Amount to allocate
             </span>
-            <span className="text-xl font-bold text-blue-600">
+            <span className="text-lg font-bold text-blue-600">
               {amount} SP
             </span>
           </div>
@@ -112,7 +112,7 @@ export function AllocationSlider({
             className="w-full"
           />
 
-          <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
             <span>0</span>
             <span>5</span>
             <span>10</span>
@@ -120,21 +120,21 @@ export function AllocationSlider({
         </div>
 
         {/* Available SP Info */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
           <div className="flex items-center justify-between">
-            <span className="text-base text-gray-700 dark:text-gray-300">
+            <span className="text-sm text-gray-700 dark:text-gray-300">
               Available SP
             </span>
-            <span className="text-base font-semibold text-blue-700 dark:text-blue-400">
+            <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
               {availableSP} SP
             </span>
           </div>
           {hasAllocation && (
             <div className="flex items-center justify-between mt-2 pt-2 border-t border-blue-200 dark:border-blue-800">
-              <span className="text-base text-gray-700 dark:text-gray-300">
+              <span className="text-sm text-gray-700 dark:text-gray-300">
                 Currently Allocated
               </span>
-              <span className="text-base font-semibold text-blue-700 dark:text-blue-400">
+              <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
                 {currentAllocation} SP
               </span>
             </div>
@@ -143,8 +143,8 @@ export function AllocationSlider({
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <p className="text-base text-red-700 dark:text-red-400">{error}</p>
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+            <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
           </div>
         )}
 
@@ -177,7 +177,7 @@ export function AllocationSlider({
         </div>
 
         {/* Anti-Plutocracy Notice */}
-        <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
           <p className="flex items-start gap-1">
             <span className="text-blue-600 dark:text-blue-400">ℹ️</span>
             <span>

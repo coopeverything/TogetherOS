@@ -26,7 +26,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         {label && (
           <label
             htmlFor={radioId}
-            className="text-base font-medium text-ink-700 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-sm font-medium text-ink-700 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
             {label}
           </label>

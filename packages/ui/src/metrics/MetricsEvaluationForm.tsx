@@ -93,7 +93,7 @@ export function MetricsEvaluationForm({
     <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
       {/* Header */}
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Evaluate Metrics
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -106,7 +106,7 @@ export function MetricsEvaluationForm({
         <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
           How to Evaluate
         </h3>
-        <ul className="text-base text-blue-800 dark:text-blue-200 space-y-1">
+        <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
           <li>Enter the actual measured value for each metric</li>
           <li>Indicate your confidence level in the measurement</li>
           <li>Add evidence URLs if available (helps validate results)</li>
@@ -133,17 +133,17 @@ export function MetricsEvaluationForm({
                       {metric.name}
                     </h3>
                     {metric.mandatory && (
-                      <span className="px-3 py-0.5 text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 rounded">
+                      <span className="px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 rounded">
                         Required
                       </span>
                     )}
                   </div>
-                  <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {metric.description}
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">
+                  <div className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide">
                     Target
                   </div>
                   <div className="font-semibold text-gray-900 dark:text-white">
@@ -155,7 +155,7 @@ export function MetricsEvaluationForm({
               {/* Measurement Inputs */}
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Actual Value *
                   </label>
                   <div className="flex items-center gap-2">
@@ -177,7 +177,7 @@ export function MetricsEvaluationForm({
                     <span className="text-gray-500 dark:text-gray-400">{metric.unit}</span>
                   </div>
                   {typeof metric.target.value === 'number' && (
-                    <div className={`text-base mt-1 ${
+                    <div className={`text-sm mt-1 ${
                       variance.startsWith('+') || variance === '0%'
                         ? 'text-green-600 dark:text-green-400'
                         : variance === 'N/A'
@@ -190,7 +190,7 @@ export function MetricsEvaluationForm({
                 </div>
 
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Confidence
                   </label>
                   <select
@@ -205,7 +205,7 @@ export function MetricsEvaluationForm({
                 </div>
 
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Evidence URL
                   </label>
                   <input
@@ -222,7 +222,7 @@ export function MetricsEvaluationForm({
 
               {/* Notes */}
               <div className="mt-4">
-                <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Notes
                 </label>
                 <textarea

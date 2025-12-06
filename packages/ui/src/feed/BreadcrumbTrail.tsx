@@ -18,7 +18,7 @@ export function BreadcrumbTrail({ steps, topic }: BreadcrumbTrailProps) {
   if (steps.length === 0) return null;
 
   return (
-    <nav className="flex items-center space-x-2 text-base" aria-label="Breadcrumb">
+    <nav className="flex items-center space-x-2 text-sm" aria-label="Breadcrumb">
       {steps.map((step, index) => (
         <div key={step.url} className="flex items-center">
           {index > 0 && <span className="text-gray-400 mx-2">→</span>}
@@ -37,7 +37,7 @@ export function BreadcrumbTrail({ steps, topic }: BreadcrumbTrailProps) {
       {topic && (
         <>
           <span className="text-gray-400 mx-2">|</span>
-          <span className="text-gray-700 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded text-sm">{topic}</span>
+          <span className="text-gray-700 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">{topic}</span>
         </>
       )}
     </nav>

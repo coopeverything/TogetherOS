@@ -82,7 +82,7 @@ export default function GroupDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-ink-900 mb-2">Group Not Found</h1>
+          <h1 className="text-2xl font-bold text-ink-900 mb-2">Group Not Found</h1>
           <p className="text-ink-700 mb-6">The group you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/groups"
@@ -138,7 +138,7 @@ export default function GroupDetailPage() {
       {/* Back Link */}
       <Link
         href="/groups"
-        className="text-orange-600 hover:text-orange-700 text-base font-medium mb-6 inline-block"
+        className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-6 inline-block"
       >
         ← Back to Groups
       </Link>
@@ -148,7 +148,7 @@ export default function GroupDetailPage() {
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 bg-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-orange-800 font-bold text-2xl">
+              <span className="text-orange-800 font-bold text-xl">
                 {group.name
                   .split(' ')
                   .map((word: string) => word[0])
@@ -160,12 +160,12 @@ export default function GroupDetailPage() {
             <div>
               <h1 className="text-3xl font-bold text-ink-900 mb-1">{group.name}</h1>
               <p className="text-ink-700">@{group.handle}</p>
-              <div className="flex flex-wrap gap-4 items-center mt-2">
-                <span className="px-3 py-0.5 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+              <div className="flex flex-wrap gap-3 items-center mt-2">
+                <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full">
                   {group.type.charAt(0).toUpperCase() + group.type.slice(1)}
                 </span>
-                <span className="text-ink-700 text-base">{group.members.length} members</span>
-                {group.location && <span className="text-ink-700 text-base">📍 {group.location}</span>}
+                <span className="text-ink-700 text-sm">{group.members.length} members</span>
+                {group.location && <span className="text-ink-700 text-sm">📍 {group.location}</span>}
               </div>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function GroupDetailPage() {
           <button
             onClick={handleJoinLeave}
             disabled={isJoining}
-            className={`px-5 py-2 rounded-md font-medium text-base transition-colors ${
+            className={`px-5 py-2 rounded-md font-medium text-sm transition-colors ${
               isMember
                 ? 'bg-bg-2 text-ink-700 hover:bg-bg-2'
                 : 'bg-orange-600 text-white hover:bg-orange-700'
@@ -186,7 +186,7 @@ export default function GroupDetailPage() {
 
         {/* Description */}
         {group.description && (
-          <p className="text-ink-700 text-base leading-relaxed max-w-3xl">
+          <p className="text-ink-700 text-sm leading-relaxed max-w-3xl">
             {group.description}
           </p>
         )}
@@ -199,7 +199,7 @@ export default function GroupDetailPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-3 text-base font-medium whitespace-nowrap border-b-2 transition-colors ${
+              className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? 'border-orange-600 text-orange-600'
                   : 'border-transparent text-ink-400 hover:text-ink-700 hover:border-border'
@@ -238,7 +238,7 @@ export default function GroupDetailPage() {
 
           {activeTab === 'members' && (
             <div className="bg-bg-1 rounded-lg border border-border p-6">
-              <h2 className="text-xl font-semibold text-ink-900 mb-4">
+              <h2 className="text-lg font-semibold text-ink-900 mb-4">
                 Members ({groupMembers.length})
               </h2>
               <MemberDirectory members={groupMembers} />
@@ -249,8 +249,8 @@ export default function GroupDetailPage() {
             <div className="bg-bg-1 rounded-lg border border-border p-6">
               <div className="text-center py-12">
                 <span className="text-4xl mb-4 block">📅</span>
-                <h3 className="text-xl font-medium text-ink-900 mb-2">Group Events</h3>
-                <p className="text-ink-400 text-base">
+                <h3 className="text-lg font-medium text-ink-900 mb-2">Group Events</h3>
+                <p className="text-ink-400 text-sm">
                   Event coordination coming soon
                 </p>
               </div>
@@ -261,8 +261,8 @@ export default function GroupDetailPage() {
             <div className="bg-bg-1 rounded-lg border border-border p-6">
               <div className="text-center py-12">
                 <span className="text-4xl mb-4 block">📋</span>
-                <h3 className="text-xl font-medium text-ink-900 mb-2">Group Proposals</h3>
-                <p className="text-ink-400 text-base">
+                <h3 className="text-lg font-medium text-ink-900 mb-2">Group Proposals</h3>
+                <p className="text-ink-400 text-sm">
                   Governance integration coming soon
                 </p>
               </div>
@@ -277,7 +277,7 @@ export default function GroupDetailPage() {
             <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
               <span>📊</span> Group Stats
             </h3>
-            <div className="space-y-2 text-base">
+            <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-ink-700">Posts this week</span>
                 <span className="font-medium text-ink-900">{groupStats.postsThisWeek}</span>
@@ -299,7 +299,7 @@ export default function GroupDetailPage() {
               <span className="text-orange-600">🔥</span> Trending in Group
             </h3>
             {trendingTopics.length === 0 ? (
-              <p className="text-base text-ink-400">No trending topics yet</p>
+              <p className="text-sm text-ink-400">No trending topics yet</p>
             ) : (
               <div className="space-y-2">
                 {trendingTopics.map((topic) => (
@@ -308,10 +308,10 @@ export default function GroupDetailPage() {
                     href={`/forum/${topic.slug || topic.id}`}
                     className="block p-2 rounded hover:bg-bg-0 transition-colors"
                   >
-                    <div className="text-base font-medium text-ink-900 line-clamp-2">
+                    <div className="text-sm font-medium text-ink-900 line-clamp-2">
                       {topic.title}
                     </div>
-                    <div className="text-sm text-ink-400 mt-1">
+                    <div className="text-xs text-ink-400 mt-1">
                       {topic.postCount} posts
                     </div>
                   </Link>
@@ -329,14 +329,14 @@ export default function GroupDetailPage() {
               {groupMembers.slice(0, 8).map((member) => (
                 <div
                   key={member.id}
-                  className="w-8 h-8 bg-bg-2 rounded-full flex items-center justify-center text-sm font-medium text-ink-700"
+                  className="w-8 h-8 bg-bg-2 rounded-full flex items-center justify-center text-xs font-medium text-ink-700"
                   title={member.displayName}
                 >
                   {member.displayName.charAt(0).toUpperCase()}
                 </div>
               ))}
               {groupMembers.length > 8 && (
-                <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-sm font-medium text-orange-700">
+                <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-xs font-medium text-orange-700">
                   +{groupMembers.length - 8}
                 </div>
               )}
@@ -394,13 +394,13 @@ function GroupFeedTab({
       {posts.length === 0 ? (
         <div className="bg-bg-1 rounded-lg border border-border p-6 text-center">
           <span className="text-4xl mb-4 block">📝</span>
-          <h3 className="text-xl font-medium text-ink-900 mb-2">No posts yet</h3>
-          <p className="text-ink-400 text-base mb-4">
+          <h3 className="text-lg font-medium text-ink-900 mb-2">No posts yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
             Be the first to share something with this group!
           </p>
           <button
             onClick={() => setComposerOpen(true)}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-base font-medium"
+            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium"
           >
             Create Post
           </button>
@@ -412,15 +412,15 @@ function GroupFeedTab({
               key={post.id}
               className="bg-bg-1 rounded-lg border border-border p-5"
             >
-              <div className="flex items-center gap-4 mb-3">
-                <div className="w-10 h-10 bg-bg-2 rounded-full flex items-center justify-center text-base font-medium text-ink-700">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-bg-2 rounded-full flex items-center justify-center text-sm font-medium text-ink-700">
                   {post.authorId.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <div className="font-medium text-ink-900 text-base">
+                  <div className="font-medium text-ink-900 text-sm">
                     User {post.authorId.slice(0, 8)}
                   </div>
-                  <div className="text-sm text-ink-400">
+                  <div className="text-xs text-ink-400">
                     {new Date(post.createdAt).toLocaleDateString()}
                   </div>
                 </div>
@@ -429,7 +429,7 @@ function GroupFeedTab({
                 <h3 className="font-semibold text-ink-900 mb-2">{post.title}</h3>
               )}
               {post.content && (
-                <p className="text-ink-700 text-base leading-relaxed">
+                <p className="text-ink-700 text-sm leading-relaxed">
                   {post.content}
                 </p>
               )}
@@ -438,7 +438,7 @@ function GroupFeedTab({
                   {post.topics.map((topic) => (
                     <span
                       key={topic}
-                      className="px-3 py-0.5 bg-bg-2 text-ink-700 text-sm rounded-full"
+                      className="px-2 py-0.5 bg-bg-2 text-ink-700 text-xs rounded-full"
                     >
                       {topic}
                     </span>
@@ -511,12 +511,12 @@ function GroupForumTab({
     <div>
       {/* Header with New Topic button */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-ink-900">
+        <h2 className="text-lg font-semibold text-ink-900">
           Group Discussions
         </h2>
         <button
           onClick={() => setComposerOpen(true)}
-          className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-base font-medium"
+          className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium"
         >
           + New Topic
         </button>
@@ -526,13 +526,13 @@ function GroupForumTab({
       {topics.length === 0 ? (
         <div className="bg-bg-1 rounded-lg border border-border p-6 text-center">
           <span className="text-4xl mb-4 block">💬</span>
-          <h3 className="text-xl font-medium text-ink-900 mb-2">No discussions yet</h3>
-          <p className="text-ink-400 text-base mb-4">
+          <h3 className="text-lg font-medium text-ink-900 mb-2">No discussions yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
             Start a conversation with your group!
           </p>
           <button
             onClick={() => setComposerOpen(true)}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-base font-medium"
+            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium"
           >
             Create Topic
           </button>
@@ -546,14 +546,14 @@ function GroupForumTab({
               href={`/forum/${topic.slug || topic.id}`}
               className="block bg-orange-50/20 rounded-lg border border-orange-200 p-4 hover:border-orange-300 transition-colors"
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-3">
                 <span className="text-orange-600">📌</span>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium text-ink-900 line-clamp-1">
                     {topic.title}
                   </h3>
-                  <div className="flex items-center gap-4 mt-1 text-sm text-ink-400">
-                    <span className={`px-3 py-0.5 rounded-full ${categoryColors[topic.category] || categoryColors.general}`}>
+                  <div className="flex items-center gap-3 mt-1 text-xs text-ink-400">
+                    <span className={`px-2 py-0.5 rounded-full ${categoryColors[topic.category] || categoryColors.general}`}>
                       {topic.category}
                     </span>
                     <span>{topic.postCount} replies</span>
@@ -570,14 +570,14 @@ function GroupForumTab({
               href={`/forum/${topic.slug || topic.id}`}
               className="block bg-bg-1 rounded-lg border border-border p-4 hover:border-border transition-colors"
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-3">
                 <span className="text-ink-400">💬</span>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium text-ink-900 line-clamp-1">
                     {topic.title}
                   </h3>
-                  <div className="flex items-center gap-4 mt-1 text-sm text-ink-400">
-                    <span className={`px-3 py-0.5 rounded-full ${categoryColors[topic.category] || categoryColors.general}`}>
+                  <div className="flex items-center gap-3 mt-1 text-xs text-ink-400">
+                    <span className={`px-2 py-0.5 rounded-full ${categoryColors[topic.category] || categoryColors.general}`}>
                       {topic.category}
                     </span>
                     <span>{topic.postCount} replies</span>
@@ -657,7 +657,7 @@ function SimplePostComposer({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-bg-1 rounded-lg max-w-lg w-full p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-ink-900">
+          <h2 className="text-lg font-semibold text-ink-900">
             Post to {groupName}
           </h2>
           <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
@@ -680,18 +680,18 @@ function SimplePostComposer({
             required
             className="w-full px-3 py-2 border border-border rounded-md mb-4 bg-bg-1 text-ink-900 resize-none"
           />
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-base font-medium"
+              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !content.trim()}
-              className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-base font-medium"
+              className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-sm font-medium"
             >
               {submitting ? 'Posting...' : 'Post'}
             </button>
@@ -753,7 +753,7 @@ function SimpleTopicComposer({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-bg-1 rounded-lg max-w-lg w-full p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-ink-900">
+          <h2 className="text-lg font-semibold text-ink-900">
             New Discussion in {groupName}
           </h2>
           <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
@@ -787,18 +787,18 @@ function SimpleTopicComposer({
             <option value="deliberation">🤔 Deliberation</option>
             <option value="announcement">📢 Announcement</option>
           </select>
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-base font-medium"
+              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-base font-medium"
+              className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-sm font-medium"
             >
               {submitting ? 'Creating...' : 'Create Topic'}
             </button>

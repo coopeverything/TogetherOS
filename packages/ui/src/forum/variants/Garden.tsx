@@ -60,7 +60,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
             </h1>
             <button
               onClick={onCreateTopic}
-              className="px-6 py-3 bg-[#8B6F3E] text-white rounded-full text-lg font-medium hover:bg-[#6B5B3C] transition-all shadow-md hover:shadow-lg"
+              className="px-6 py-3 bg-[#8B6F3E] text-white rounded-full text-base font-medium hover:bg-[#6B5B3C] transition-all shadow-md hover:shadow-lg"
             >
               🌱 Plant a Topic
             </button>
@@ -72,7 +72,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className="px-4 py-2 rounded-full text-base font-medium capitalize transition-all"
+                className="px-4 py-2 rounded-full text-sm font-medium capitalize transition-all"
                 style={{
                   background: filter === f ? '#8B6F3E' : 'rgba(255, 255, 255, 0.8)',
                   color: filter === f ? 'white' : '#6B5B3C',
@@ -111,7 +111,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
                 <div className="p-4 border-b-2" style={{ borderColor: colors.border }}>
                   <div className="flex items-center justify-between mb-2">
                     <span className={`text-${growth.size}`}>{growth.emoji}</span>
-                    <span className="text-sm font-medium px-3 py-1.5 rounded-full" style={{
+                    <span className="text-xs font-medium px-2 py-1 rounded-full" style={{
                       background: 'rgba(255, 255, 255, 0.6)',
                       color: colors.text
                     }}>
@@ -119,7 +119,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
                     </span>
                   </div>
                   {topic.isPinned && (
-                    <span className="inline-block px-3 py-1.5 bg-[#F5C896] text-[#8B6F3E] rounded-full text-sm font-medium">
+                    <span className="inline-block px-2 py-1 bg-[#F5C896] text-[#8B6F3E] rounded-full text-xs font-medium">
                       📌 Pinned
                     </span>
                   )}
@@ -127,26 +127,26 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
 
                 {/* Topic Content */}
                 <div className="p-4">
-                  <h3 className="text-xl font-bold mb-2 line-clamp-2" style={{ color: colors.text }}>
+                  <h3 className="text-lg font-bold mb-2 line-clamp-2" style={{ color: colors.text }}>
                     {topic.title}
                   </h3>
 
                   {topic.description && (
-                    <p className="text-base mb-3 line-clamp-2 opacity-80" style={{ color: colors.text }}>
+                    <p className="text-sm mb-3 line-clamp-2 opacity-80" style={{ color: colors.text }}>
                       {topic.description}
                     </p>
                   )}
 
                   {/* Category Badge */}
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-sm px-3 py-1.5 rounded-full font-medium" style={{
+                    <span className="text-xs px-3 py-1 rounded-full font-medium" style={{
                       background: 'rgba(255, 255, 255, 0.8)',
                       color: colors.text
                     }}>
                       {topic.category}
                     </span>
                     {topic.status !== 'open' && (
-                      <span className="text-sm px-3 py-1.5 rounded-full font-medium" style={{
+                      <span className="text-xs px-3 py-1 rounded-full font-medium" style={{
                         background: topic.status === 'resolved' ? '#A8E8C9' : '#E8DCC0',
                         color: '#3E8B5B'
                       }}>
@@ -156,12 +156,12 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
                   </div>
 
                   {/* Garden Metrics */}
-                  <div className="flex items-center justify-between text-base" style={{ color: colors.text }}>
-                    <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-between text-sm" style={{ color: colors.text }}>
+                    <div className="flex items-center gap-3">
                       <span>💬 {topic.postCount}</span>
                       <span>👥 {topic.participantCount}</span>
                     </div>
-                    <span className="text-sm opacity-70">
+                    <span className="text-xs opacity-70">
                       {daysSinceActivity === 0 ? 'Today' : `${daysSinceActivity}d ago`}
                     </span>
                   </div>
@@ -184,7 +184,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
                     {topic.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="text-sm px-3 py-0.5 rounded-full"
+                        className="text-xs px-2 py-0.5 rounded-full"
                         style={{
                           background: 'rgba(255, 255, 255, 0.6)',
                           color: colors.text
@@ -194,7 +194,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
                       </span>
                     ))}
                     {topic.tags.length > 3 && (
-                      <span className="text-sm px-3 py-0.5 opacity-60" style={{ color: colors.text }}>
+                      <span className="text-xs px-2 py-0.5 opacity-60" style={{ color: colors.text }}>
                         +{topic.tags.length - 3}
                       </span>
                     )}
@@ -208,8 +208,8 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
         {filteredTopics.length === 0 && (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🌱</div>
-            <p className="text-2xl text-[#6B5B3C] mb-2">No topics in this garden yet</p>
-            <p className="text-base text-[#8B6F3E]">Plant the first seed to start growing your community</p>
+            <p className="text-xl text-[#6B5B3C] mb-2">No topics in this garden yet</p>
+            <p className="text-sm text-[#8B6F3E]">Plant the first seed to start growing your community</p>
           </div>
         )}
       </div>
@@ -217,7 +217,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
       {/* Garden Stats Footer */}
       <div className="border-t-2" style={{ borderColor: '#C9B58A', background: 'rgba(255, 255, 255, 0.6)' }}>
         <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between text-base text-[#6B5B3C]">
+          <div className="flex items-center justify-between text-sm text-[#6B5B3C]">
             <div className="flex items-center gap-6">
               <span>🌱 {topics.filter(t => t.postCount === 0).length} seedlings</span>
               <span>🌿 {topics.filter(t => t.postCount > 0 && t.postCount < 5).length} sprouting</span>

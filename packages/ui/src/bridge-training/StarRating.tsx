@@ -20,7 +20,7 @@ export function StarRating({ label, value, onChange, disabled = false }: StarRat
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-base font-semibold" style={{ color: 'var(--ink-700)' }}>
+      <label className="text-sm font-semibold" style={{ color: 'var(--ink-700)' }}>
         {label}
       </label>
       <div className="flex gap-1">
@@ -32,7 +32,7 @@ export function StarRating({ label, value, onChange, disabled = false }: StarRat
             onMouseLeave={() => setHovering(0)}
             onClick={() => !disabled && onChange(starValue)}
             disabled={disabled}
-            className={`text-3xl transition ${
+            className={`text-2xl transition ${
               starValue <= displayValue
                 ? 'text-amber-400'
                 : 'text-gray-200'
@@ -42,7 +42,7 @@ export function StarRating({ label, value, onChange, disabled = false }: StarRat
             ★
           </button>
         ))}
-        <span className="ml-2 text-base self-center" style={{ color: 'var(--ink-400)' }}>
+        <span className="ml-2 text-sm self-center" style={{ color: 'var(--ink-400)' }}>
           {value > 0 ? `${value}/5` : 'Not rated'}
         </span>
       </div>

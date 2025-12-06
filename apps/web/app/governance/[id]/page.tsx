@@ -246,7 +246,7 @@ export default function ProposalDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-xl text-ink-700">Loading proposal...</p>
+          <p className="text-lg text-ink-700">Loading proposal...</p>
         </div>
       </div>
     )
@@ -256,7 +256,7 @@ export default function ProposalDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-red-900 mb-2">Error</h2>
+          <h2 className="text-xl font-semibold text-red-900 mb-2">Error</h2>
           <p className="text-red-700 mb-4">{error || 'Proposal not found'}</p>
           <Link
             href="/governance"
@@ -272,7 +272,7 @@ export default function ProposalDetailPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumbs */}
-      <nav className="mb-6 text-base text-ink-700">
+      <nav className="mb-6 text-sm text-ink-700">
         <Link href="/governance" className="hover:text-orange-600">
           Proposals
         </Link>
@@ -304,7 +304,7 @@ export default function ProposalDetailPage() {
         {/* Rating Display */}
         {ratingAggregate && (
           <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <h2 className="text-3xl font-bold text-ink-900 mb-6">Community Ratings</h2>
+            <h2 className="text-2xl font-bold text-ink-900 mb-6">Community Ratings</h2>
             <ProposalRatingDisplay aggregate={ratingAggregate} />
           </div>
         )}
@@ -312,7 +312,7 @@ export default function ProposalDetailPage() {
         {/* Rating Form */}
         {currentUserId && (
           <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <h2 className="text-3xl font-bold text-ink-900 mb-6">
+            <h2 className="text-2xl font-bold text-ink-900 mb-6">
               {currentRating ? 'Update Your Rating' : 'Rate This Proposal'}
             </h2>
             <ProposalRatingForm
@@ -328,7 +328,7 @@ export default function ProposalDetailPage() {
       {/* Voting Interface */}
       {currentUserId && voteTally && (
         <div className="mt-12 bg-bg-1 rounded-lg border border-border p-8">
-          <h2 className="text-3xl font-bold text-ink-900 mb-6">Vote on This Proposal</h2>
+          <h2 className="text-2xl font-bold text-ink-900 mb-6">Vote on This Proposal</h2>
           <VoteInterface
             proposalId={id}
             currentVote={currentVote}
@@ -342,7 +342,7 @@ export default function ProposalDetailPage() {
       {/* Login prompt for non-logged-in users */}
       {!currentUserId && (
         <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
-          <h3 className="text-2xl font-semibold text-blue-900 mb-2">Want to vote?</h3>
+          <h3 className="text-xl font-semibold text-blue-900 mb-2">Want to vote?</h3>
           <p className="text-blue-700 mb-4">Log in to participate in this decision</p>
           <Link
             href="/login"

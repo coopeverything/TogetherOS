@@ -87,7 +87,7 @@ function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
     <div
       role="alert"
       className={cn(
-        'flex items-start gap-4 p-4 rounded-lg border shadow-lg animate-in slide-in-from-right',
+        'flex items-start gap-3 p-4 rounded-lg border shadow-lg animate-in slide-in-from-right',
         variantStyles[variant]
       )}
     >
@@ -95,7 +95,7 @@ function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
         {toast.title && (
           <div className="font-semibold mb-1">{toast.title}</div>
         )}
-        <div className={cn('text-base', toast.title ? '' : 'font-medium')}>
+        <div className={cn('text-sm', toast.title ? '' : 'font-medium')}>
           {toast.description}
         </div>
       </div>

@@ -135,11 +135,11 @@ export default function NotificationSettingsPage() {
           </svg>
         </Link>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-ink-900">Notification Settings</h1>
+          <h1 className="text-2xl font-bold text-ink-900">Notification Settings</h1>
           <p className="text-ink-700">Manage how you receive notifications</p>
         </div>
         {(saving || saved) && (
-          <span className={`text-base font-medium ${saved ? 'text-green-600' : 'text-ink-400'}`}>
+          <span className={`text-sm font-medium ${saved ? 'text-green-600' : 'text-ink-400'}`}>
             {saving ? 'Saving...' : 'Saved!'}
           </span>
         )}
@@ -148,8 +148,8 @@ export default function NotificationSettingsPage() {
       {/* Notification Types */}
       <div className="bg-bg-1 rounded-lg border border-border mb-6">
         <div className="px-4 py-3 border-b border-border">
-          <h2 className="text-xl font-semibold text-ink-900">Notification Types</h2>
-          <p className="text-base text-ink-700">Choose which notifications you want to receive</p>
+          <h2 className="text-lg font-semibold text-ink-900">Notification Types</h2>
+          <p className="text-sm text-ink-700">Choose which notifications you want to receive</p>
         </div>
         <div className="divide-y divide-gray-100">
           {(Object.keys(NOTIFICATION_TYPE_LABELS) as NotificationType[]).map((type) => {
@@ -159,11 +159,11 @@ export default function NotificationSettingsPage() {
 
             return (
               <div key={type} className="px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">{icon}</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">{icon}</span>
                   <div>
                     <p className="font-medium text-ink-900">{label}</p>
-                    <p className="text-base text-ink-400">{description}</p>
+                    <p className="text-sm text-ink-400">{description}</p>
                   </div>
                 </div>
                 <button
@@ -189,14 +189,14 @@ export default function NotificationSettingsPage() {
       {/* Email Digest */}
       <div className="bg-bg-1 rounded-lg border border-border mb-6">
         <div className="px-4 py-3 border-b border-border">
-          <h2 className="text-xl font-semibold text-ink-900">Email Notifications</h2>
-          <p className="text-base text-ink-700">How often to receive email summaries</p>
+          <h2 className="text-lg font-semibold text-ink-900">Email Notifications</h2>
+          <p className="text-sm text-ink-700">How often to receive email summaries</p>
         </div>
         <div className="p-4 space-y-3">
           {EMAIL_DIGEST_OPTIONS.map((option) => (
             <label
               key={option.value}
-              className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-colors ${
+              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                 preferences.emailDigest === option.value
                   ? 'border-orange-500 bg-orange-50'
                   : 'border-border hover:bg-bg-0'
@@ -212,7 +212,7 @@ export default function NotificationSettingsPage() {
               />
               <div>
                 <p className="font-medium text-ink-900">{option.label}</p>
-                <p className="text-base text-ink-400">{option.description}</p>
+                <p className="text-sm text-ink-400">{option.description}</p>
               </div>
             </label>
           ))}
@@ -223,8 +223,8 @@ export default function NotificationSettingsPage() {
       <div className="bg-bg-1 rounded-lg border border-border">
         <div className="px-4 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-ink-900">Push Notifications</h2>
-            <p className="text-base text-ink-700">Receive browser notifications for important updates</p>
+            <h2 className="text-lg font-semibold text-ink-900">Push Notifications</h2>
+            <p className="text-sm text-ink-700">Receive browser notifications for important updates</p>
           </div>
           <button
             onClick={togglePush}
@@ -243,7 +243,7 @@ export default function NotificationSettingsPage() {
         </div>
         {preferences.pushEnabled && (
           <div className="px-4 pb-4">
-            <p className="text-base text-amber-600 bg-amber-50 rounded-lg p-4">
+            <p className="text-sm text-amber-600 bg-amber-50 rounded-lg p-3">
               Push notifications require browser permission. Click &quot;Allow&quot; when prompted.
             </p>
           </div>

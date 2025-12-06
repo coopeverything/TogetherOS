@@ -21,7 +21,7 @@ export default function HomePage() {
             <h1 className="text-5xl sm:text-6xl font-bold text-ink-900 mb-6">
               Welcome to TogetherOS
             </h1>
-            <p className="text-2xl text-ink-700 mb-12 max-w-2xl mx-auto">
+            <p className="text-xl text-ink-700 mb-12 max-w-2xl mx-auto">
               A cooperative operating system for collective action. Built on principles of
               democracy, transparency, and shared prosperity.
             </p>
@@ -53,7 +53,7 @@ export default function HomePage() {
           <h2 className="text-4xl font-bold text-ink-900 mb-4">
             Eight Paths of Cooperation
           </h2>
-          <p className="text-xl text-ink-700 max-w-3xl mx-auto">
+          <p className="text-lg text-ink-700 max-w-3xl mx-auto">
             TogetherOS is organized around eight essential cooperation systems,
             each designed to empower collective action and democratic decision-making.
           </p>
@@ -69,7 +69,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Create and join groups with democratic governance structures.
                 Manage roles, permissions, and collaborative workflows.
               </p>
@@ -90,7 +90,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Engage in meaningful dialogue with built-in moderation,
                 threading, and democratic decision-making features.
               </p>
@@ -111,7 +111,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Submit proposals, discuss amendments, and vote on collective
                 decisions with full transparency and accountability.
               </p>
@@ -132,7 +132,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Interact with AI assistants trained on cooperative principles,
                 helping groups make informed decisions together.
               </p>
@@ -155,7 +155,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Share tools, spaces, and resources. Track usage,
                 coordinate access, and ensure equitable distribution.
               </p>
@@ -176,7 +176,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Manage shared funds, track contributions, and distribute
                 value according to democratic principles.
               </p>
@@ -197,7 +197,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Build shared knowledge bases, create learning pathways,
                 and document collective wisdom.
               </p>
@@ -218,7 +218,7 @@ export default function HomePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-base text-ink-700">
+              <p className="text-sm text-ink-700">
                 Build networks, establish partnerships, and coordinate
                 activities across multiple cooperatives.
               </p>
@@ -238,7 +238,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-4">
             Ready to Start Cooperating?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-lg mb-8 opacity-90">
             Join the movement for democratic, transparent, and cooperative technology.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
@@ -260,17 +260,17 @@ export default function HomePage() {
       <footer className="bg-bg-2 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-base text-ink-700">
+            <p className="text-sm text-ink-700">
               © 2025 TogetherOS. Built with cooperation in mind.
             </p>
             <div className="flex gap-6">
-              <Link href="/admin/design" className="text-base text-ink-700 hover:text-brand-600">
+              <Link href="/admin/design" className="text-sm text-ink-700 hover:text-brand-600">
                 Design System
               </Link>
-              <Link href="/admin/status" className="text-base text-ink-700 hover:text-brand-600">
+              <Link href="/admin/status" className="text-sm text-ink-700 hover:text-brand-600">
                 Status
               </Link>
-              <Link href="/bridge" className="text-base text-ink-700 hover:text-brand-600">
+              <Link href="/bridge" className="text-sm text-ink-700 hover:text-brand-600">
                 AI Bridge
               </Link>
             </div>

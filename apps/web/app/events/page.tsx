@@ -164,30 +164,30 @@ export default function EventsPage() {
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
               <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Upcoming Events</h2>
               {loading ? (
-                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-base">Loading...</div>
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm">Loading...</div>
               ) : upcomingEvents.length === 0 ? (
-                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-base">No upcoming events</div>
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm">No upcoming events</div>
               ) : (
                 <div className="space-y-3">
                   {upcomingEvents.map((event) => (
                     <Link
                       key={event.id}
                       href={`/events/${event.id}`}
-                      className="block p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                      className="block p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
                     >
-                      <div className="flex items-start gap-4">
+                      <div className="flex items-start gap-3">
                         <div className="text-center min-w-[50px]">
-                          <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase">
                             {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
                           </div>
-                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                          <div className="text-xl font-bold text-gray-900 dark:text-white">
                             {new Date(event.startDate).getDate()}
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="font-medium text-gray-900 dark:text-white truncate">{event.title}</div>
-                          <div className="text-base text-gray-500 dark:text-gray-400 dark:text-gray-500">{formatTime(event.startDate)}</div>
-                          <span className={`inline-block mt-1 text-sm px-3 py-0.5 rounded-full ${EVENT_COLORS[event.type]}`}>
+                          <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{formatTime(event.startDate)}</div>
+                          <span className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full ${EVENT_COLORS[event.type]}`}>
                             {EVENT_LABELS[event.type]}
                           </span>
                         </div>
@@ -219,7 +219,7 @@ export default function EventsPage() {
                       }}
                       className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                     />
-                    <span className={`text-base px-3 py-0.5 rounded-full ${EVENT_COLORS[type]}`}>
+                    <span className={`text-sm px-2 py-0.5 rounded-full ${EVENT_COLORS[type]}`}>
                       {EVENT_LABELS[type]}
                     </span>
                   </label>
@@ -242,7 +242,7 @@ export default function EventsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">{monthName}</h2>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{monthName}</h2>
                   <button
                     onClick={() => navigateMonth(1)}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 rounded-lg transition-colors"
@@ -254,7 +254,7 @@ export default function EventsPage() {
                 </div>
                 <button
                   onClick={() => setCurrentDate(new Date())}
-                  className="px-3 py-1.5.5 text-base font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                  className="px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                 >
                   Today
                 </button>
@@ -265,7 +265,7 @@ export default function EventsPage() {
                 {/* Weekday Headers */}
                 <div className="grid grid-cols-7 mb-2">
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                    <div key={day} className="text-center text-base font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 py-2">
+                    <div key={day} className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 py-2">
                       {day}
                     </div>
                   ))}
@@ -289,7 +289,7 @@ export default function EventsPage() {
                         } ${isToday ? 'ring-2 ring-blue-500' : ''}`}
                       >
                         <div
-                          className={`text-base font-medium mb-1 ${
+                          className={`text-sm font-medium mb-1 ${
                             isCurrentMonth ? 'text-gray-900 dark:text-white' : 'text-gray-400'
                           } ${isToday ? 'text-blue-600' : ''}`}
                         >
@@ -300,13 +300,13 @@ export default function EventsPage() {
                             <Link
                               key={event.id}
                               href={`/events/${event.id}`}
-                              className={`block text-sm p-1 rounded truncate border ${EVENT_COLORS[event.type]} hover:opacity-80 transition-opacity`}
+                              className={`block text-xs p-1 rounded truncate border ${EVENT_COLORS[event.type]} hover:opacity-80 transition-opacity`}
                             >
                               {event.title}
                             </Link>
                           ))}
                           {filteredDayEvents.length > 3 && (
-                            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 pl-1">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 pl-1">
                               +{filteredDayEvents.length - 3} more
                             </div>
                           )}

@@ -107,7 +107,7 @@ export function InvitationModal({
       <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Invite Someone to {location}
           </h2>
           <button
@@ -132,10 +132,10 @@ export function InvitationModal({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 Invitation Sent!
               </h3>
-              <p className="text-base text-gray-600 mb-4">
+              <p className="text-sm text-gray-600 mb-4">
                 You earned <span className="font-semibold text-orange-600">+{rewardPoints} RP</span>
               </p>
             </div>
@@ -144,12 +144,12 @@ export function InvitationModal({
               {/* Reward Points Banner */}
               <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <span className="text-3xl">⭐</span>
+                  <span className="text-2xl">⭐</span>
                   <div>
-                    <p className="text-base font-medium text-orange-900">
+                    <p className="text-sm font-medium text-orange-900">
                       Earn {rewardPoints} Reward Points
                     </p>
-                    <p className="text-sm text-orange-700">
+                    <p className="text-xs text-orange-700">
                       When your invitee joins the group
                     </p>
                   </div>
@@ -158,7 +158,7 @@ export function InvitationModal({
 
               {/* Email Field */}
               <div className="mb-4">
-                <label htmlFor="inviteeEmail" className="block text-base font-medium text-gray-700 mb-1">
+                <label htmlFor="inviteeEmail" className="block text-sm font-medium text-gray-700 mb-1">
                   Email Address <span className="text-gray-500">(optional)</span>
                 </label>
                 <input
@@ -174,7 +174,7 @@ export function InvitationModal({
 
               {/* Name Field */}
               <div className="mb-4">
-                <label htmlFor="inviteeName" className="block text-base font-medium text-gray-700 mb-1">
+                <label htmlFor="inviteeName" className="block text-sm font-medium text-gray-700 mb-1">
                   Name <span className="text-gray-500">(optional if email provided)</span>
                 </label>
                 <input
@@ -190,7 +190,7 @@ export function InvitationModal({
 
               {/* Message Field */}
               <div className="mb-6">
-                <label htmlFor="message" className="block text-base font-medium text-gray-700 mb-1">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Personal Message <span className="text-gray-500">(optional)</span>
                 </label>
                 <textarea
@@ -206,13 +206,13 @@ export function InvitationModal({
 
               {/* Error Message */}
               {error && (
-                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-base text-red-800">{error}</p>
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-800">{error}</p>
                 </div>
               )}
 
               {/* Actions */}
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <button
                   type="button"
                   onClick={handleClose}

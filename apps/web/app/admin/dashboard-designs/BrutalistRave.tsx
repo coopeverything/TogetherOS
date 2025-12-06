@@ -74,7 +74,7 @@ export function BrutalistRave() {
                 >
                   {stat.value}
                 </div>
-                <div className="text-sm font-black tracking-wider" style={{ color: '#ffffff' }}>
+                <div className="text-xs font-black tracking-wider" style={{ color: '#ffffff' }}>
                   {stat.label}
                 </div>
               </div>
@@ -116,14 +116,14 @@ export function BrutalistRave() {
                     }}
                   />
                   <span
-                    className="font-black text-base"
+                    className="font-black text-sm"
                     style={{ color: item.alert ? '#ff0000' : '#ffffff' }}
                   >
                     {item.text}
                   </span>
                 </div>
                 <div
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-xs font-bold"
                   style={{ color: '#00ff00' }}
                 >
                   [{item.time}]
@@ -139,7 +139,7 @@ export function BrutalistRave() {
             <div className="text-5xl font-black mb-3" style={{ color: '#ff0000' }}>
               ▲
             </div>
-            <div className="text-base font-black mb-2" style={{ color: '#ffffff' }}>
+            <div className="text-sm font-black mb-2" style={{ color: '#ffffff' }}>
               ACTIVE ALERTS
             </div>
             <div className="text-3xl font-black" style={{ color: '#ff0000' }}>
@@ -150,10 +150,10 @@ export function BrutalistRave() {
             <div className="text-5xl font-black mb-3" style={{ color: '#00ff00' }}>
               ►
             </div>
-            <div className="text-base font-black mb-2" style={{ color: '#ffffff' }}>
+            <div className="text-sm font-black mb-2" style={{ color: '#ffffff' }}>
               SYSTEM STATUS
             </div>
-            <div className="text-3xl font-black" style={{ color: '#00ff00' }}>
+            <div className="text-2xl font-black" style={{ color: '#00ff00' }}>
               ONLINE
             </div>
           </div>
@@ -196,7 +196,7 @@ export function BrutalistRave() {
               <div className="h-1 w-1 bg-lime-500" />
               <div className="h-1 w-24 bg-red-600" />
             </div>
-            <p className="text-base font-black tracking-widest" style={{ color: '#ffffff' }}>
+            <p className="text-sm font-black tracking-widest" style={{ color: '#ffffff' }}>
               /// NO COMPROMISES /// NO DECORATIONS ///
             </p>
           </div>
@@ -206,7 +206,7 @@ export function BrutalistRave() {
         <div className="mt-6 bg-black border-4 border-lime-500 p-4 font-mono">
           <div className="flex items-center gap-2">
             <span className="text-lime-500 font-bold">$</span>
-            <span className="text-white text-base">system_running --mode=BRUTAL</span>
+            <span className="text-white text-sm">system_running --mode=BRUTAL</span>
             <span className="text-lime-500 animate-pulse">_</span>
           </div>
         </div>

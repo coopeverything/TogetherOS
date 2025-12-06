@@ -30,7 +30,7 @@ export default function AdminModulesPage() {
             </svg>
             <span className="font-medium">Admin View</span>
           </div>
-          <p className="mt-1 text-base text-amber-700">
+          <p className="mt-1 text-sm text-amber-700">
             This is the admin modules dashboard. Public view available at{' '}
             <Link href="/modules" className="underline hover:no-underline">/modules</Link>.
           </p>
@@ -41,7 +41,7 @@ export default function AdminModulesPage() {
           <h1 className="text-4xl font-bold text-ink-900 mb-4">
             Coopeverything Modules Hub
           </h1>
-          <p className="text-xl text-ink-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-ink-700 max-w-3xl mx-auto leading-relaxed">
             These modules work together as a <strong>unified governance pipeline</strong>: from ideation to decision to execution to continuous improvement. Each module represents a key capability powered by TogetherOS, the technology stack enabling cooperation.
           </p>
           <div className="mt-4">
@@ -60,31 +60,31 @@ export default function AdminModulesPage() {
             <div className="text-3xl font-bold text-blue-600 mb-2">
               {modules.length}
             </div>
-            <div className="text-base text-ink-700">Total Modules</div>
+            <div className="text-sm text-ink-700">Total Modules</div>
           </div>
           <div className="bg-bg-0 rounded-lg shadow-sm p-6 border border-border">
             <div className="text-3xl font-bold text-green-600 mb-2">
               {completeModules.length}
             </div>
-            <div className="text-base text-ink-700">Production Ready</div>
+            <div className="text-sm text-ink-700">Production Ready</div>
           </div>
           <div className="bg-bg-0 rounded-lg shadow-sm p-6 border border-border">
             <div className="text-3xl font-bold text-orange-600 mb-2">
               {inProgressModules.length}
             </div>
-            <div className="text-base text-ink-700">In Development</div>
+            <div className="text-sm text-ink-700">In Development</div>
           </div>
           <div className="bg-bg-0 rounded-lg shadow-sm p-6 border border-border">
             <div className="text-3xl font-bold text-ink-700 mb-2">
               {plannedModules.length}
             </div>
-            <div className="text-base text-ink-700">Planned</div>
+            <div className="text-sm text-ink-700">Planned</div>
           </div>
         </div>
 
         {/* Complete Modules */}
         <section className="mb-12">
-          <h2 className="text-3xl font-bold text-ink-900 mb-6 flex items-center gap-4">
+          <h2 className="text-2xl font-bold text-ink-900 mb-6 flex items-center gap-3">
             <span className="w-1 h-8 bg-green-600 rounded-full"></span>
             Production Ready
           </h2>
@@ -97,7 +97,7 @@ export default function AdminModulesPage() {
 
         {/* In Progress Modules */}
         <section className="mb-12">
-          <h2 className="text-3xl font-bold text-ink-900 mb-6 flex items-center gap-4">
+          <h2 className="text-2xl font-bold text-ink-900 mb-6 flex items-center gap-3">
             <span className="w-1 h-8 bg-orange-600 rounded-full"></span>
             In Development
           </h2>
@@ -110,7 +110,7 @@ export default function AdminModulesPage() {
 
         {/* Planned Modules */}
         <section>
-          <h2 className="text-3xl font-bold text-ink-900 mb-6 flex items-center gap-4">
+          <h2 className="text-2xl font-bold text-ink-900 mb-6 flex items-center gap-3">
             <span className="w-1 h-8 bg-ink-400 rounded-full"></span>
             Planned Modules
           </h2>
@@ -123,7 +123,7 @@ export default function AdminModulesPage() {
 
         {/* Footer */}
         <div className="mt-16 p-8 bg-bg-0 rounded-lg shadow-sm border border-border">
-          <h3 className="text-xl font-semibold text-ink-900 mb-4">
+          <h3 className="text-lg font-semibold text-ink-900 mb-4">
             Contributing
           </h3>
           <p className="text-ink-700 mb-4 leading-relaxed">

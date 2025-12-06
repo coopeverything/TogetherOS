@@ -62,17 +62,17 @@ export function MemberDirectory({ members, className = '' }: MemberDirectoryProp
           return (
             <div
               key={member.id}
-              className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+              className="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
             >
               <div
                 className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 ${avatarColor}`}
               >
-                <span className="font-bold text-xl">{initials}</span>
+                <span className="font-bold text-lg">{initials}</span>
               </div>
-              <p className="font-medium text-gray-900 dark:text-white text-center text-base truncate w-full">
+              <p className="font-medium text-gray-900 dark:text-white text-center text-sm truncate w-full">
                 {member.displayName}
               </p>
-              <p className="text-sm text-gray-500 truncate w-full text-center">
+              <p className="text-xs text-gray-500 truncate w-full text-center">
                 @{member.handle}
               </p>
             </div>

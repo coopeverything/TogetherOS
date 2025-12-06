@@ -247,9 +247,9 @@ export default function OnboardingClient({ user }: { user: User }) {
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-base text-ink-700">Step {step} of {totalSteps}</span>
+              <span className="text-sm text-ink-700">Step {step} of {totalSteps}</span>
               {totalRPEarned > 0 && (
-                <span className="text-base font-medium text-brand-600">
+                <span className="text-sm font-medium text-brand-600">
                   +{totalRPEarned} RP earned
                 </span>
               )}
@@ -262,14 +262,14 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="text-center space-y-6">
               <div className="text-6xl mb-4">🌱</div>
               <h1 className="text-3xl font-bold text-ink-900">Welcome to TogetherOS</h1>
-              <p className="text-xl text-ink-700">
+              <p className="text-lg text-ink-700">
                 You've just joined a community building a new way to organize—where cooperation
                 replaces competition, where communities solve their own problems, and where your
                 skills actually matter.
               </p>
               <div className="bg-brand-50 border border-brand-200 rounded-xl p-4">
                 <p className="text-brand-800 font-medium mb-2">🎮 Earn Reward Points (RP)</p>
-                <p className="text-brand-700 text-base">
+                <p className="text-brand-700 text-sm">
                   Complete each step to earn RP. Use RP to unlock badges, boost proposals, and recognize others!
                 </p>
               </div>
@@ -284,10 +284,10 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-ink-900 mb-2">Tell us about yourself</h1>
-                <p className="text-xl text-ink-700">
+                <p className="text-lg text-ink-700">
                   This helps others connect with you.
                 </p>
-                <p className="text-base text-brand-600 mt-2">+15 RP for completing this step</p>
+                <p className="text-sm text-brand-600 mt-2">+15 RP for completing this step</p>
               </div>
 
               <div className="space-y-4">
@@ -315,7 +315,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                 </div>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button onClick={handleBack} variant="secondary" className="flex-1">
                   Back
                 </Button>
@@ -336,10 +336,10 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-ink-900 mb-2">Where are you based?</h1>
-                <p className="text-xl text-ink-700">
+                <p className="text-lg text-ink-700">
                   This helps us connect you with local initiatives and groups.
                 </p>
-                <p className="text-base text-brand-600 mt-2">+10 RP for completing this step</p>
+                <p className="text-sm text-brand-600 mt-2">+10 RP for completing this step</p>
               </div>
 
               <div>
@@ -351,12 +351,12 @@ export default function OnboardingClient({ user }: { user: User }) {
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                   placeholder="e.g., San Francisco, London, Tokyo"
                 />
-                <p className="text-base text-ink-500 mt-1">
+                <p className="text-sm text-ink-500 mt-1">
                   You can always change this later in your profile settings.
                 </p>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button onClick={handleBack} variant="secondary" className="flex-1">
                   Back
                 </Button>
@@ -372,10 +372,10 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-ink-900 mb-2">Choose Your Paths</h1>
-                <p className="text-xl text-ink-700">
+                <p className="text-lg text-ink-700">
                   Select the areas you're interested in. You can choose as many as you like.
                 </p>
-                <p className="text-base text-brand-600 mt-2">+20 RP for selecting your paths</p>
+                <p className="text-sm text-brand-600 mt-2">+20 RP for selecting your paths</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -390,22 +390,22 @@ export default function OnboardingClient({ user }: { user: User }) {
                       )}
                       onClick={() => togglePath(path.id)}
                     >
-                      <div className="flex items-start gap-4">
+                      <div className="flex items-start gap-3">
                         <div className="text-3xl">{path.emoji}</div>
                         <div>
                           <div className="font-semibold text-ink-900">{path.name}</div>
-                          <div className="text-base text-ink-700">{path.desc}</div>
+                          <div className="text-sm text-ink-700">{path.desc}</div>
                         </div>
                       </div>
                       {isSelected && (
-                        <div className="absolute top-2 right-2 text-brand-600 text-2xl">✓</div>
+                        <div className="absolute top-2 right-2 text-brand-600 text-xl">✓</div>
                       )}
                     </Card>
                   );
                 })}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button onClick={handleBack} variant="secondary" className="flex-1">
                   Back
                 </Button>
@@ -426,10 +426,10 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-ink-900 mb-2">What skills can you share?</h1>
-                <p className="text-xl text-ink-700">
+                <p className="text-lg text-ink-700">
                   Help others know what you can contribute.
                 </p>
-                <p className="text-base text-brand-600 mt-2">+15 RP for sharing your skills</p>
+                <p className="text-sm text-brand-600 mt-2">+15 RP for sharing your skills</p>
               </div>
 
               <div>
@@ -441,10 +441,10 @@ export default function OnboardingClient({ user }: { user: User }) {
                   onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
                   placeholder="e.g., Web Development, Graphic Design, Community Organizing"
                 />
-                <p className="text-base text-ink-500 mt-1">Separate multiple skills with commas</p>
+                <p className="text-sm text-ink-500 mt-1">Separate multiple skills with commas</p>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button onClick={handleBack} variant="secondary" className="flex-1">
                   Back
                 </Button>
@@ -460,10 +460,10 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-ink-900 mb-2">A few quick questions</h1>
-                <p className="text-xl text-ink-700">
+                <p className="text-lg text-ink-700">
                   Help us personalize your experience.
                 </p>
-                <p className="text-base text-brand-600 mt-2">+30 RP for completing questionnaire</p>
+                <p className="text-sm text-brand-600 mt-2">+30 RP for completing questionnaire</p>
               </div>
 
               <div className="space-y-6">
@@ -478,7 +478,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                             key={option}
                             onClick={() => handleQuestionAnswer(q.id, option)}
                             className={cn(
-                              "px-4 py-2 rounded-full text-base transition-all",
+                              "px-4 py-2 rounded-full text-sm transition-all",
                               isSelected
                                 ? "bg-brand-600 text-white"
                                 : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:bg-gray-700"
@@ -493,7 +493,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                 ))}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button onClick={handleBack} variant="secondary" className="flex-1">
                   Back
                 </Button>
@@ -514,10 +514,10 @@ export default function OnboardingClient({ user }: { user: User }) {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-ink-900 mb-2">Join your first group</h1>
-                <p className="text-xl text-ink-700">
+                <p className="text-lg text-ink-700">
                   Groups are where the community comes together. Pick one to start!
                 </p>
-                <p className="text-base text-brand-600 mt-2">+25 RP for joining a group</p>
+                <p className="text-sm text-brand-600 mt-2">+25 RP for joining a group</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -532,23 +532,23 @@ export default function OnboardingClient({ user }: { user: User }) {
                       )}
                       onClick={() => setFormData({ ...formData, selectedGroup: group.id })}
                     >
-                      <div className="flex items-start gap-4">
+                      <div className="flex items-start gap-3">
                         <div className="text-3xl">{group.emoji}</div>
                         <div>
                           <div className="font-semibold text-ink-900">{group.name}</div>
-                          <div className="text-base text-ink-700">{group.desc}</div>
-                          <div className="text-sm text-ink-500 mt-1">{group.members} members</div>
+                          <div className="text-sm text-ink-700">{group.desc}</div>
+                          <div className="text-xs text-ink-500 mt-1">{group.members} members</div>
                         </div>
                       </div>
                       {isSelected && (
-                        <div className="absolute top-2 right-2 text-brand-600 text-2xl">✓</div>
+                        <div className="absolute top-2 right-2 text-brand-600 text-xl">✓</div>
                       )}
                     </Card>
                   );
                 })}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button onClick={handleBack} variant="secondary" className="flex-1">
                   Back
                 </Button>
@@ -566,7 +566,7 @@ export default function OnboardingClient({ user }: { user: User }) {
               <h1 className="text-3xl font-bold text-ink-900">You're all set!</h1>
 
               <div className="bg-gradient-to-r from-brand-50 to-green-50 border border-brand-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-brand-700 mb-2">
+                <p className="text-2xl font-bold text-brand-700 mb-2">
                   {totalRPEarned + 50} RP Total
                 </p>
                 <p className="text-brand-600">
@@ -576,7 +576,7 @@ export default function OnboardingClient({ user }: { user: User }) {
 
               <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
                 <p className="text-orange-800 font-medium mb-2">🔥 First Week Journey</p>
-                <p className="text-orange-700 text-base">
+                <p className="text-orange-700 text-sm">
                   Complete daily challenges this week to earn bonus RP and unlock badges!
                 </p>
               </div>

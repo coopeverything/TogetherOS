@@ -67,7 +67,7 @@ const SkeletonCard = React.forwardRef<HTMLDivElement, SkeletonCardProps>(
         {...props}
       >
         {hasAvatar && (
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-3 mb-4">
             <Skeleton variant="circular" width={40} height={40} />
             <div className="flex-1">
               <Skeleton variant="text" width="60%" />

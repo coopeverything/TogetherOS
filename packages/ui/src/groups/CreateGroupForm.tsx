@@ -118,7 +118,7 @@ export function CreateGroupForm({
     <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
       {/* Group Name */}
       <div>
-        <label htmlFor="name" className="block text-base font-medium text-gray-700 mb-1">
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
           Group Name *
         </label>
         <input
@@ -131,12 +131,12 @@ export function CreateGroupForm({
           placeholder="e.g., Boston Cooperative Network"
           required
         />
-        {errors.name && <p className="mt-1 text-base text-red-600">{errors.name}</p>}
+        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
       </div>
 
       {/* Handle */}
       <div>
-        <label htmlFor="handle" className="block text-base font-medium text-gray-700 mb-1">
+        <label htmlFor="handle" className="block text-sm font-medium text-gray-700 mb-1">
           Handle *
         </label>
         <div className="flex items-center">
@@ -154,15 +154,15 @@ export function CreateGroupForm({
             required
           />
         </div>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-xs text-gray-500">
           Lowercase letters, numbers, and hyphens only
         </p>
-        {errors.handle && <p className="mt-1 text-base text-red-600">{errors.handle}</p>}
+        {errors.handle && <p className="mt-1 text-sm text-red-600">{errors.handle}</p>}
       </div>
 
       {/* Type */}
       <div>
-        <label htmlFor="type" className="block text-base font-medium text-gray-700 mb-1">
+        <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">
           Group Type *
         </label>
         <select
@@ -183,7 +183,7 @@ export function CreateGroupForm({
 
       {/* Cooperation Path */}
       <div>
-        <label htmlFor="cooperationPath" className="block text-base font-medium text-gray-700 mb-1">
+        <label htmlFor="cooperationPath" className="block text-sm font-medium text-gray-700 mb-1">
           Cooperation Path *
         </label>
         <select
@@ -205,7 +205,7 @@ export function CreateGroupForm({
           <option value="Collaborative Media & Culture">Collaborative Media & Culture</option>
           <option value="Common Planet">Common Planet</option>
         </select>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-xs text-gray-500">
           Select the primary category for your group
         </p>
       </div>
@@ -214,7 +214,7 @@ export function CreateGroupForm({
       {formData.type === 'local' && (
         <>
           <div>
-            <label htmlFor="zipCode" className="block text-base font-medium text-gray-700 mb-1">
+            <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
               ZIP Code (optional)
             </label>
             <input
@@ -227,14 +227,14 @@ export function CreateGroupForm({
               placeholder="e.g., 02108"
               maxLength={10}
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-xs text-gray-500">
               Auto-assigns you to your city's group and geocodes location
             </p>
-            {errors.zipCode && <p className="mt-1 text-base text-red-600">{errors.zipCode}</p>}
+            {errors.zipCode && <p className="mt-1 text-sm text-red-600">{errors.zipCode}</p>}
           </div>
 
           <div>
-            <label htmlFor="location" className="block text-base font-medium text-gray-700 mb-1">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
               Location *
             </label>
             <input
@@ -247,14 +247,14 @@ export function CreateGroupForm({
               placeholder="e.g., Boston, MA"
               required
             />
-            {errors.location && <p className="mt-1 text-base text-red-600">{errors.location}</p>}
+            {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location}</p>}
           </div>
         </>
       )}
 
       {/* Description */}
       <div>
-        <label htmlFor="description" className="block text-base font-medium text-gray-700 mb-1">
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
           Description *
         </label>
         <textarea
@@ -267,15 +267,15 @@ export function CreateGroupForm({
           placeholder="Describe your group's purpose and activities..."
           required
         />
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-xs text-gray-500">
           {formData.description?.length || 0} / 500 characters (minimum 10)
         </p>
-        {errors.description && <p className="mt-1 text-base text-red-600">{errors.description}</p>}
+        {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
       </div>
 
       {/* Tags */}
       <div>
-        <label htmlFor="tags" className="block text-base font-medium text-gray-700 mb-1">
+        <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
           Tags (optional, 0-5 tags)
         </label>
         <div className="flex gap-2 mb-2">
@@ -319,7 +319,7 @@ export function CreateGroupForm({
           {formData.tags?.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-800 rounded-full text-base"
+              className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm"
             >
               {tag}
               <button
@@ -335,13 +335,13 @@ export function CreateGroupForm({
             </span>
           ))}
         </div>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-xs text-gray-500">
           Press Enter or comma to add a tag. {formData.tags?.length || 0} / 5 tags
         </p>
       </div>
 
       {/* Actions */}
-      <div className="flex gap-4">
+      <div className="flex gap-3">
         <button
           type="submit"
           disabled={isSubmitting}

@@ -22,7 +22,7 @@ export default function DashboardStyles() {
       {/* Header with style tabs */}
       <header className="bg-bg-1 shadow-sm border-b border-border">
         <div className="px-6 py-4">
-          <h1 className="text-2xl font-semibold text-ink-900 mb-3">
+          <h1 className="text-xl font-semibold text-ink-900 mb-3">
             Dashboard Styles
           </h1>
           <div className="flex items-center gap-2">
@@ -34,8 +34,8 @@ export default function DashboardStyles() {
                 onClick={() => setActiveStyle(style.id)}
                 className="flex flex-col items-start h-auto py-2 px-3"
               >
-                <span className="font-medium text-base">{style.label}</span>
-                <span className="text-sm font-normal opacity-80">{style.description}</span>
+                <span className="font-medium text-sm">{style.label}</span>
+                <span className="text-xs font-normal opacity-80">{style.description}</span>
               </Button>
             ))}
           </div>

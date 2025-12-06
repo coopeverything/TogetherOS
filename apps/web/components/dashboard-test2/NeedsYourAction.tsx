@@ -17,8 +17,8 @@ export function NeedsYourAction() {
         <ul className="space-y-2">
           {actions.map((action) => (
             <li key={action.id} className="flex items-center space-x-2">
-              <span className="text-2xl">{action.icon}</span>
-              <span className="text-base font-medium">{action.text}</span>
+              <span className="text-xl">{action.icon}</span>
+              <span className="text-sm font-medium">{action.text}</span>
             </li>
           ))}
         </ul>

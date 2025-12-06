@@ -95,7 +95,7 @@ export function NotificationToast({
     <div
       className={`
         relative
-        flex items-start gap-4
+        flex items-start gap-3
         w-80 p-4
         border rounded-lg shadow-lg
         ${getNotificationColor(notification.type)}
@@ -106,19 +106,19 @@ export function NotificationToast({
       aria-live="polite"
     >
       {/* Icon */}
-      <div className="flex-shrink-0 text-3xl">
+      <div className="flex-shrink-0 text-2xl">
         {getNotificationIcon(notification.type)}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="text-base font-medium text-gray-900 dark:text-white">
+        <p className="text-sm font-medium text-gray-900 dark:text-white">
           {notification.title}
         </p>
-        <p className="mt-1 text-base text-gray-600 line-clamp-2">
+        <p className="mt-1 text-sm text-gray-600 line-clamp-2">
           {notification.message}
         </p>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-xs text-gray-500">
           {formatTimeAgo(notification.createdAt)}
         </p>
       </div>

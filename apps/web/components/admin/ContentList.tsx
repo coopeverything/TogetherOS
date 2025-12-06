@@ -70,9 +70,9 @@ export function ContentList({ items, selectedId, onSelect, onNew, onDelete }: Co
                       onNew(type);
                       setShowNewMenu(false);
                     }}
-                    className="w-full px-4 py-3 text-left hover:bg-bg-2 flex items-center gap-4 first:rounded-t-lg last:rounded-b-lg"
+                    className="w-full px-4 py-3 text-left hover:bg-bg-2 flex items-center gap-3 first:rounded-t-lg last:rounded-b-lg"
                   >
-                    <span className="text-xl">{config.icon}</span>
+                    <span className="text-lg">{config.icon}</span>
                     <span className="text-ink-900">{config.label}</span>
                   </button>
                 );
@@ -87,7 +87,7 @@ export function ContentList({ items, selectedId, onSelect, onNew, onDelete }: Co
         <button
           onClick={() => setFilter('all')}
           className={cn(
-            'px-3 py-1.5.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors',
+            'px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-colors',
             filter === 'all'
               ? 'bg-brand-600 text-white'
               : 'text-ink-700 hover:bg-bg-2'
@@ -103,7 +103,7 @@ export function ContentList({ items, selectedId, onSelect, onNew, onDelete }: Co
               key={type}
               onClick={() => setFilter(type)}
               className={cn(
-                'px-3 py-1.5.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors',
+                'px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-colors',
                 filter === type
                   ? 'bg-brand-600 text-white'
                   : 'text-ink-700 hover:bg-bg-2'
@@ -119,8 +119,8 @@ export function ContentList({ items, selectedId, onSelect, onNew, onDelete }: Co
       <div className="flex-1 overflow-y-auto">
         {filteredItems.length === 0 ? (
           <div className="p-8 text-center text-ink-500">
-            <p className="text-xl mb-2">No content yet</p>
-            <p className="text-base">Click &quot;+ New Content&quot; to get started</p>
+            <p className="text-lg mb-2">No content yet</p>
+            <p className="text-sm">Click &quot;+ New Content&quot; to get started</p>
           </div>
         ) : filter === 'all' ? (
           // Grouped view
@@ -128,7 +128,7 @@ export function ContentList({ items, selectedId, onSelect, onNew, onDelete }: Co
             const config = CONTENT_TYPE_CONFIG[type as ContentType];
             return (
               <div key={type} className="border-b border-border last:border-b-0">
-                <div className="px-4 py-2 bg-bg-2 text-sm font-semibold text-ink-700 uppercase tracking-wide flex items-center gap-2">
+                <div className="px-4 py-2 bg-bg-2 text-xs font-semibold text-ink-700 uppercase tracking-wide flex items-center gap-2">
                   <span>{config.icon}</span>
                   <span>{config.label}s</span>
                   <span className="ml-auto text-ink-500">{typeItems.length}</span>
@@ -182,8 +182,8 @@ function ContentListItem({ item, isSelected, onSelect, onDelete }: ContentListIt
           : 'border-transparent hover:bg-bg-2'
       )}
     >
-      <div className="flex items-start gap-4">
-        <span className={cn('text-sm px-3 py-0.5 rounded font-medium', config.color)}>
+      <div className="flex items-start gap-3">
+        <span className={cn('text-xs px-2 py-0.5 rounded font-medium', config.color)}>
           {config.icon}
         </span>
         <div className="flex-1 min-w-0">
@@ -195,14 +195,14 @@ function ContentListItem({ item, isSelected, onSelect, onDelete }: ContentListIt
           </h4>
           <div className="flex items-center gap-2 mt-1">
             <span className={cn(
-              'text-sm px-1.5 py-0.5 rounded',
+              'text-xs px-1.5 py-0.5 rounded',
               item.status === 'published'
                 ? 'bg-green-100 text-green-700'
                 : 'bg-gray-100 text-gray-600'
             )}>
               {item.status}
             </span>
-            <span className="text-sm text-ink-500">
+            <span className="text-xs text-ink-500">
               {formatDate(item.updatedAt)}
             </span>
           </div>

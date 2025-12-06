@@ -49,7 +49,7 @@ export default function ActionPage() {
         <>
           <ActionRecommendations limit={10} />
 
-          <div className="mt-8 bg-gray-50 dark:bg-gray-900 rounded-lg p-6 text-base text-gray-600 dark:text-gray-400 dark:text-gray-500">
+          <div className="mt-8 bg-gray-50 dark:bg-gray-900 rounded-lg p-6 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">How Recommendations Work</h3>
             <ul className="list-disc list-inside space-y-1">
               <li>We analyze your engagement patterns (posts, reactions, ratings)</li>

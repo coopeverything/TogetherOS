@@ -77,7 +77,7 @@ export default function AdminBadgesPage() {
     return (
       <div className="min-h-screen bg-bg-0 p-6">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-ink-900 mb-6">Badge Management</h1>
+          <h1 className="text-2xl font-bold text-ink-900 mb-6">Badge Management</h1>
           <div className="animate-pulse space-y-4">
             <div className="h-32 bg-bg-2 rounded-lg"></div>
             <div className="h-64 bg-bg-2 rounded-lg"></div>
@@ -91,7 +91,7 @@ export default function AdminBadgesPage() {
     return (
       <div className="min-h-screen bg-bg-0 p-6">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-ink-900 mb-6">Badge Management</h1>
+          <h1 className="text-2xl font-bold text-ink-900 mb-6">Badge Management</h1>
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-red-800">{error}</p>
           </div>
@@ -105,12 +105,12 @@ export default function AdminBadgesPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-base text-ink-400 mb-2">
+          <div className="flex items-center gap-2 text-sm text-ink-400 mb-2">
             <Link href="/admin" className="hover:text-blue-600">Admin</Link>
             <span>/</span>
             <span>Badges</span>
           </div>
-          <h1 className="text-3xl font-bold text-ink-900">Badge Management</h1>
+          <h1 className="text-2xl font-bold text-ink-900">Badge Management</h1>
           <p className="text-ink-400 mt-1">View and manage member badges and achievements</p>
         </div>
 
@@ -118,24 +118,24 @@ export default function AdminBadgesPage() {
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
-              <div className="text-3xl font-bold text-blue-600">{stats.totalBadges}</div>
-              <div className="text-base text-ink-400">Total Badges</div>
+              <div className="text-2xl font-bold text-blue-600">{stats.totalBadges}</div>
+              <div className="text-sm text-ink-400">Total Badges</div>
             </div>
             <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
-              <div className="text-3xl font-bold text-green-600">{stats.totalAwarded}</div>
-              <div className="text-base text-ink-400">Total Awarded</div>
+              <div className="text-2xl font-bold text-green-600">{stats.totalAwarded}</div>
+              <div className="text-sm text-ink-400">Total Awarded</div>
             </div>
             <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
-              <div className="text-3xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-purple-600">
                 {stats.byCategory.contribution || 0}
               </div>
-              <div className="text-base text-ink-400">Contribution Awards</div>
+              <div className="text-sm text-ink-400">Contribution Awards</div>
             </div>
             <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
-              <div className="text-3xl font-bold text-amber-600">
+              <div className="text-2xl font-bold text-amber-600">
                 {stats.byCategory.special || 0}
               </div>
-              <div className="text-base text-ink-400">Special Awards</div>
+              <div className="text-sm text-ink-400">Special Awards</div>
             </div>
           </div>
         )}
@@ -143,23 +143,23 @@ export default function AdminBadgesPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* All Badges */}
           <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-6">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">All Badges</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">All Badges</h2>
             <div className="space-y-3">
               {badges.length === 0 ? (
-                <p className="text-ink-400 text-base">No badges defined yet.</p>
+                <p className="text-ink-400 text-sm">No badges defined yet.</p>
               ) : (
                 badges.map((badge) => (
                   <div
                     key={badge.id}
-                    className="flex items-center gap-4 p-4 bg-bg-2 rounded-lg border border-border"
+                    className="flex items-center gap-3 p-3 bg-bg-2 rounded-lg border border-border"
                   >
-                    <div className="text-3xl">{badge.icon}</div>
+                    <div className="text-2xl">{badge.icon}</div>
                     <div className="flex-1">
                       <div className="font-medium text-ink-900">{badge.name}</div>
-                      <div className="text-sm text-ink-400">{badge.description}</div>
+                      <div className="text-xs text-ink-400">{badge.description}</div>
                     </div>
                     <span
-                      className={`text-sm px-3 py-1.5 rounded border ${CATEGORY_COLORS[badge.category]}`}
+                      className={`text-xs px-2 py-1 rounded border ${CATEGORY_COLORS[badge.category]}`}
                     >
                       {badge.category}
                     </span>
@@ -171,38 +171,38 @@ export default function AdminBadgesPage() {
 
           {/* Top Badges */}
           <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-6">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">Most Awarded</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">Most Awarded</h2>
             {stats?.topBadges && stats.topBadges.length > 0 ? (
               <div className="space-y-3">
                 {stats.topBadges.map((badge, index) => (
                   <div
                     key={badge.badgeId}
-                    className="flex items-center gap-4 p-4 bg-bg-2 rounded-lg"
+                    className="flex items-center gap-3 p-3 bg-bg-2 rounded-lg"
                   >
-                    <div className="text-xl font-bold text-ink-400 w-6">#{index + 1}</div>
+                    <div className="text-lg font-bold text-ink-400 w-6">#{index + 1}</div>
                     <div className="flex-1">
                       <div className="font-medium text-ink-900">{badge.name}</div>
                     </div>
-                    <div className="text-base font-semibold text-blue-600">
+                    <div className="text-sm font-semibold text-blue-600">
                       {badge.count} awarded
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-ink-400 text-base">No badges awarded yet.</p>
+              <p className="text-ink-400 text-sm">No badges awarded yet.</p>
             )}
           </div>
         </div>
 
         {/* Recent Awards */}
         <div className="mt-6 bg-bg-1 rounded-lg shadow-sm border border-border p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">Recent Awards</h2>
+          <h2 className="text-lg font-semibold text-ink-900 mb-4">Recent Awards</h2>
           {recentAwards.length === 0 ? (
-            <p className="text-ink-400 text-base">No recent awards.</p>
+            <p className="text-ink-400 text-sm">No recent awards.</p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-base">
+              <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left py-2 px-3 font-medium text-ink-700">Badge</th>
@@ -217,7 +217,7 @@ export default function AdminBadgesPage() {
                         <span className="mr-2">{award.badgeIcon}</span>
                         {award.badgeName}
                       </td>
-                      <td className="py-2 px-3 font-mono text-sm text-ink-400">
+                      <td className="py-2 px-3 font-mono text-xs text-ink-400">
                         {award.memberId.substring(0, 8)}...
                       </td>
                       <td className="py-2 px-3 text-ink-400">
@@ -235,7 +235,7 @@ export default function AdminBadgesPage() {
         <div className="mt-6">
           <Link
             href="/admin"
-            className="text-blue-600 hover:text-blue-700 text-base font-medium"
+            className="text-blue-600 hover:text-blue-700 text-sm font-medium"
           >
             ← Back to Admin Dashboard
           </Link>

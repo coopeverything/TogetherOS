@@ -8,7 +8,7 @@ export default function NotFound() {
         <h2 className="mt-4 text-3xl font-semibold text-ink-900">
           Page Not Found
         </h2>
-        <p className="mt-4 text-xl text-ink-700 dark:text-ink-400 dark:text-ink-400 max-w-md mx-auto">
+        <p className="mt-4 text-lg text-ink-700 dark:text-ink-400 dark:text-ink-400 max-w-md mx-auto">
           The page you're looking for doesn't exist or has been moved.
           Let's get you back on track.
         </p>
@@ -27,7 +27,7 @@ export default function NotFound() {
           </Link>
         </div>
         <div className="mt-8">
-          <p className="text-base text-ink-400 dark:text-ink-400 dark:text-ink-400">
+          <p className="text-sm text-ink-400 dark:text-ink-400 dark:text-ink-400">
             Need help?{' '}
             <Link href="/bridge" className="text-orange-600 hover:text-orange-700 font-medium">
               Ask Bridge Assistant

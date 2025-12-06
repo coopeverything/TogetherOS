@@ -53,7 +53,7 @@ export function RPProgressBar({
   return (
     <div className={`space-y-2 ${className}`}>
       {showLabels && (
-        <div className="flex justify-between text-base">
+        <div className="flex justify-between text-sm">
           <span className="text-ink-600">RP Earned</span>
           <span className="font-medium text-brand-700">
             {current} / {max} RP

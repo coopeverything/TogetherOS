@@ -47,11 +47,11 @@ export default function DashboardClient({ user }: { user: User }) {
               {user.avatar_url && (
                 <Avatar src={user.avatar_url} alt={user.name || 'User'} size="lg" />
               )}
-              <h1 className="text-3xl font-bold text-ink-900">
+              <h1 className="text-2xl font-bold text-ink-900">
                 Welcome back{user.name ? `, ${user.name}` : ''}!
               </h1>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <ThemePicker />
               <Button variant="secondary" onClick={() => router.push('/profile')}>
                 Profile
@@ -71,7 +71,7 @@ export default function DashboardClient({ user }: { user: User }) {
             <div className="text-4xl">👥</div>
             <div>
               <div className="text-3xl font-bold text-ink-900">1,247</div>
-              <div className="text-base text-ink-700">Active Members</div>
+              <div className="text-sm text-ink-700">Active Members</div>
             </div>
           </Card>
 
@@ -79,7 +79,7 @@ export default function DashboardClient({ user }: { user: User }) {
             <div className="text-4xl">📋</div>
             <div>
               <div className="text-3xl font-bold text-ink-900">23</div>
-              <div className="text-base text-ink-700">Open Proposals</div>
+              <div className="text-sm text-ink-700">Open Proposals</div>
             </div>
           </Card>
 
@@ -87,7 +87,7 @@ export default function DashboardClient({ user }: { user: User }) {
             <div className="text-4xl">🤲</div>
             <div>
               <div className="text-3xl font-bold text-ink-900">89</div>
-              <div className="text-base text-ink-700">Mutual Aid Requests</div>
+              <div className="text-sm text-ink-700">Mutual Aid Requests</div>
             </div>
           </Card>
 
@@ -95,7 +95,7 @@ export default function DashboardClient({ user }: { user: User }) {
             <div className="text-4xl">✨</div>
             <div>
               <div className="text-3xl font-bold text-joy-600">{userPaths.length}/8</div>
-              <div className="text-base text-ink-700">Your Paths</div>
+              <div className="text-sm text-ink-700">Your Paths</div>
             </div>
           </Card>
         </section>
@@ -103,10 +103,10 @@ export default function DashboardClient({ user }: { user: User }) {
         {/* Your Journey */}
         {userPaths.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-3xl font-bold text-ink-900 mb-4">Your Cooperation Paths</h2>
-            <div className="flex flex-wrap gap-4">
+            <h2 className="text-2xl font-bold text-ink-900 mb-4">Your Cooperation Paths</h2>
+            <div className="flex flex-wrap gap-3">
               {COOPERATION_PATHS.filter((p) => userPaths.includes(p.id)).map((path) => (
-                <Badge key={path.id} variant="brand" className="text-lg px-4 py-2">
+                <Badge key={path.id} variant="brand" className="text-base px-4 py-2">
                   {path.emoji} {path.name}
                 </Badge>
               ))}
@@ -117,7 +117,7 @@ export default function DashboardClient({ user }: { user: User }) {
         {/* Cooperation Paths Explorer */}
         <section className="mb-8">
           <Card>
-            <h2 className="text-3xl font-bold text-ink-900 mb-2">Explore Cooperation Paths</h2>
+            <h2 className="text-2xl font-bold text-ink-900 mb-2">Explore Cooperation Paths</h2>
             <p className="text-ink-700 mb-6">
               Choose the paths that resonate with you. You can always add or remove paths later.
             </p>
@@ -144,7 +144,7 @@ export default function DashboardClient({ user }: { user: User }) {
 
         {/* Quick Actions */}
         <section>
-          <h2 className="text-3xl font-bold text-ink-900 mb-4">Quick Actions</h2>
+          <h2 className="text-2xl font-bold text-ink-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Card
               className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow"
@@ -152,25 +152,25 @@ export default function DashboardClient({ user }: { user: User }) {
             >
               <div className="text-4xl mb-3">👤</div>
               <div className="font-semibold text-ink-900 mb-2">Edit Profile</div>
-              <div className="text-base text-ink-700">Update your bio, skills, and preferences</div>
+              <div className="text-sm text-ink-700">Update your bio, skills, and preferences</div>
             </Card>
 
             <Card className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow">
               <div className="text-4xl mb-3">🗳️</div>
               <div className="font-semibold text-ink-900 mb-2">Browse Proposals</div>
-              <div className="text-base text-ink-700">Vote on community decisions</div>
+              <div className="text-sm text-ink-700">Vote on community decisions</div>
             </Card>
 
             <Card className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow">
               <div className="text-4xl mb-3">🤝</div>
               <div className="font-semibold text-ink-900 mb-2">Offer Help</div>
-              <div className="text-base text-ink-700">Share your skills with the community</div>
+              <div className="text-sm text-ink-700">Share your skills with the community</div>
             </Card>
 
             <Card className="flex flex-col items-center text-center p-6 cursor-pointer hover:shadow-lg transition-shadow">
               <div className="text-4xl mb-3">📚</div>
               <div className="font-semibold text-ink-900 mb-2">Learn & Connect</div>
-              <div className="text-base text-ink-700">Find events and educational resources</div>
+              <div className="text-sm text-ink-700">Find events and educational resources</div>
             </Card>
           </div>
         </section>

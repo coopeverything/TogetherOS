@@ -124,7 +124,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
         <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Post</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create Post</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -167,7 +167,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
               <>
                 {/* Native post fields */}
                 <div>
-                  <label htmlFor="title" className="block text-base font-medium text-gray-700 mb-1">
+                  <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
                     Title (optional)
                   </label>
                   <input
@@ -179,13 +179,13 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     maxLength={200}
                   />
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     {title.length}/200 characters
                   </p>
                 </div>
 
                 <div>
-                  <label htmlFor="content" className="block text-base font-medium text-gray-700 mb-1">
+                  <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
                     Content <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -198,7 +198,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                     maxLength={5000}
                     required
                   />
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     {content.length}/5000 characters • Markdown supported
                   </p>
                 </div>
@@ -207,7 +207,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
               <>
                 {/* Import fields */}
                 <div>
-                  <label htmlFor="sourceUrl" className="block text-base font-medium text-gray-700 mb-1">
+                  <label htmlFor="sourceUrl" className="block text-sm font-medium text-gray-700 mb-1">
                     Social Media URL <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -219,13 +219,13 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     required
                   />
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     Supports: Instagram, TikTok, X/Twitter, Facebook
                   </p>
                 </div>
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-base text-blue-800">
+                  <p className="text-sm text-blue-800">
                     <strong>Note:</strong> We'll fetch preview data (title, description, thumbnail) from the URL.
                     In Phase 1, this uses mock data. Real oEmbed/Open Graph fetching coming in Phase 3.
                   </p>
@@ -237,14 +237,14 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
             {onSuggestTopics && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                     🤖 AI Topic Suggestions
                   </h3>
                   <button
                     type="button"
                     onClick={handleGetSuggestions}
                     disabled={!content && !sourceUrl}
-                    className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Get Suggestions
                   </button>
@@ -259,11 +259,11 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                       >
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-medium text-base text-gray-900 dark:text-white">
+                            <span className="font-medium text-sm text-gray-900 dark:text-white">
                               {suggestion.topic}
                             </span>
                             <span
-                              className="text-sm px-3 py-0.5 rounded-full"
+                              className="text-xs px-2 py-0.5 rounded-full"
                               style={{
                                 backgroundColor: suggestion.confidence > 0.7
                                   ? '#dcfce7'
@@ -280,25 +280,25 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                               {Math.round(suggestion.confidence * 100)}% match
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1">{suggestion.reason}</p>
+                          <p className="text-xs text-gray-600 mt-1">{suggestion.reason}</p>
                         </div>
                         {!selectedTopics.includes(suggestion.topic) && selectedTopics.length < 5 && (
                           <button
                             type="button"
                             onClick={() => addSuggestedTopic(suggestion.topic)}
-                            className="ml-2 px-3 py-1.5 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
+                            className="ml-2 px-3 py-1 bg-orange-600 text-white text-xs rounded-lg hover:bg-orange-700 transition-colors"
                           >
                             Add
                           </button>
                         )}
                         {selectedTopics.includes(suggestion.topic) && (
-                          <span className="ml-2 text-sm text-green-600 font-medium">✓ Added</span>
+                          <span className="ml-2 text-xs text-green-600 font-medium">✓ Added</span>
                         )}
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs text-gray-600">
                     Click "Get Suggestions" to let Bridge analyze your content and suggest relevant topics.
                   </p>
                 )}
@@ -307,7 +307,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
 
             {/* Topic selection */}
             <div>
-              <label className="block text-base font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Topics <span className="text-red-500">*</span> (1-5)
               </label>
               <div className="flex flex-wrap gap-2">
@@ -316,7 +316,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                     key={topic}
                     type="button"
                     onClick={() => toggleTopic(topic)}
-                    className={`px-3 py-1.5 rounded-full text-base font-medium transition-colors ${
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       selectedTopics.includes(topic)
                         ? 'bg-orange-600 text-white'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
@@ -326,14 +326,14 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
                   </button>
                 ))}
               </div>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-2">
                 Selected: {selectedTopics.length}/5
               </p>
             </div>
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-4">
+          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}

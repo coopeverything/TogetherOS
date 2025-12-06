@@ -72,8 +72,8 @@ export function SentimentMap({
   if (topics.length === 0) {
     return (
       <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-12 text-center">
-        <p className="text-gray-600 text-xl">No sentiment data available yet.</p>
-        <p className="text-gray-500 text-base mt-2">
+        <p className="text-gray-600 text-lg">No sentiment data available yet.</p>
+        <p className="text-gray-500 text-sm mt-2">
           Topics will appear here once enough community members have engaged.
         </p>
       </div>
@@ -126,7 +126,7 @@ export function SentimentMap({
   return (
     <div className="space-y-4">
       {/* Legend */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-base">
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
         <div>
           <h4 className="font-semibold text-gray-700 mb-2">Bubble Size</h4>
           <p className="text-gray-600">Larger = more engagement (reactions, ratings, evidence)</p>
@@ -169,7 +169,7 @@ export function SentimentMap({
                 style={{ backgroundColor: color }}
               >
                 {showLabels && size > 80 && (
-                  <span className="text-white font-semibold text-center px-3 text-base">
+                  <span className="text-white font-semibold text-center px-2 text-sm">
                     {topic.topic}
                   </span>
                 )}
@@ -177,7 +177,7 @@ export function SentimentMap({
 
               {/* Action readiness indicator */}
               {topic.action_readiness > 0.7 && (
-                <div className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-sm font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-white">
+                <div className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-white">
                   !
                 </div>
               )}
@@ -190,11 +190,11 @@ export function SentimentMap({
       {topics.filter((t) => t.action_readiness > 0.7).length > 0 && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
           <h4 className="font-semibold text-yellow-900 mb-2">Ready for Deliberation</h4>
-          <p className="text-yellow-800 text-base mb-2">
+          <p className="text-yellow-800 text-sm mb-2">
             These topics show high engagement and consensus, and may be ready to move to structured
             deliberation:
           </p>
-          <ul className="list-disc list-inside text-yellow-800 text-base">
+          <ul className="list-disc list-inside text-yellow-800 text-sm">
             {topics
               .filter((t) => t.action_readiness > 0.7)
               .map((t) => (

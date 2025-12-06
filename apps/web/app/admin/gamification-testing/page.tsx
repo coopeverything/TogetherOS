@@ -66,7 +66,7 @@ export default function GamificationTestPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <Link href="/admin" className="text-base text-ink-400 hover:text-ink-700 mb-2 inline-block">
+            <Link href="/admin" className="text-sm text-ink-400 hover:text-ink-700 mb-2 inline-block">
               ← Back to Admin
             </Link>
             <h1 className="text-3xl font-bold text-ink-900">Gamification Testing</h1>
@@ -75,19 +75,19 @@ export default function GamificationTestPage() {
             </p>
           </div>
           <div className="text-right">
-            <div className="text-base text-ink-400">Module Progress</div>
-            <div className="text-3xl font-bold text-brand-600">100%</div>
+            <div className="text-sm text-ink-400">Module Progress</div>
+            <div className="text-2xl font-bold text-brand-600">100%</div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* RP Animations Section */}
           <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">RP Animations</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">RP Animations</h2>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-base text-ink-700 mb-2">RP Amount</label>
+                <label className="block text-sm text-ink-700 mb-2">RP Amount</label>
                 <input
                   type="number"
                   value={rpAmount}
@@ -125,7 +125,7 @@ export default function GamificationTestPage() {
 
           {/* Milestone Celebration Section */}
           <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">Milestone Celebration</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">Milestone Celebration</h2>
 
             <button
               onClick={() => setShowCelebration(true)}
@@ -134,7 +134,7 @@ export default function GamificationTestPage() {
               Trigger 15 Members Celebration
             </button>
 
-            <p className="text-base text-ink-400 mt-4">
+            <p className="text-sm text-ink-400 mt-4">
               Celebrations can be skipped with ESC or the skip button.
               Respects prefers-reduced-motion.
             </p>
@@ -149,11 +149,11 @@ export default function GamificationTestPage() {
 
           {/* Invitation Components Section */}
           <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">Invitation Components</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">Invitation Components</h2>
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-medium text-ink-700 mb-2">InviteButton Variants</h3>
+                <h3 className="text-sm font-medium text-ink-700 mb-2">InviteButton Variants</h3>
                 <div className="flex flex-wrap gap-2">
                   <InviteButton
                     groupId="test"
@@ -203,7 +203,7 @@ export default function GamificationTestPage() {
 
           {/* Growth Tracker Section */}
           <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">Group Growth Tracker</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">Group Growth Tracker</h2>
 
             <GroupGrowthTracker
               groupId="test-group"
@@ -214,7 +214,7 @@ export default function GamificationTestPage() {
 
           {/* Daily Challenge Card Section */}
           <div className="bg-bg-0 rounded-xl border border-border p-6 lg:col-span-2">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">Daily Challenge Cards</h2>
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">Daily Challenge Cards</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Pending Challenge */}
@@ -270,17 +270,17 @@ export default function GamificationTestPage() {
 
           {/* First Week Journey Section */}
           <div className="bg-bg-0 rounded-xl border border-border p-6 lg:col-span-2">
-            <h2 className="text-xl font-semibold text-ink-900 mb-4">First Week Journey</h2>
-            <p className="text-base text-ink-400 mb-4">
+            <h2 className="text-lg font-semibold text-ink-900 mb-4">First Week Journey</h2>
+            <p className="text-sm text-ink-400 mb-4">
               Note: This component fetches real data from the API. Use sample user ID below:
             </p>
 
             <div className="bg-bg-2 rounded-lg p-4">
-              <code className="text-base">userId: &quot;sample-user-123&quot;</code>
+              <code className="text-sm">userId: &quot;sample-user-123&quot;</code>
             </div>
 
             <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-base text-yellow-800">
+              <p className="text-sm text-yellow-800">
                 FirstWeekJourney component requires API endpoints.
                 Visit /onboarding to see it in action with real data.
               </p>
@@ -290,12 +290,12 @@ export default function GamificationTestPage() {
 
         {/* Feature Summary */}
         <div className="mt-8 bg-bg-0 rounded-xl border border-border p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">Gamification Module Features</h2>
+          <h2 className="text-lg font-semibold text-ink-900 mb-4">Gamification Module Features</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-4 bg-green-50 rounded-lg">
               <h3 className="font-medium text-green-800">Phase 1: Foundation</h3>
-              <ul className="mt-2 text-base text-green-700 space-y-1">
+              <ul className="mt-2 text-sm text-green-700 space-y-1">
                 <li>✓ Database schema</li>
                 <li>✓ Type definitions</li>
                 <li>✓ DB operations</li>
@@ -304,7 +304,7 @@ export default function GamificationTestPage() {
 
             <div className="p-4 bg-green-50 rounded-lg">
               <h3 className="font-medium text-green-800">Phase 2: Progress</h3>
-              <ul className="mt-2 text-base text-green-700 space-y-1">
+              <ul className="mt-2 text-sm text-green-700 space-y-1">
                 <li>✓ GroupGrowthTracker</li>
                 <li>✓ Milestone detection</li>
                 <li>✓ RPProgressBar</li>
@@ -313,7 +313,7 @@ export default function GamificationTestPage() {
 
             <div className="p-4 bg-green-50 rounded-lg">
               <h3 className="font-medium text-green-800">Phase 3: Celebrations</h3>
-              <ul className="mt-2 text-base text-green-700 space-y-1">
+              <ul className="mt-2 text-sm text-green-700 space-y-1">
                 <li>✓ MilestoneCelebration</li>
                 <li>✓ RPEarnedAnimation</li>
                 <li>✓ CelebrationProvider</li>
@@ -322,7 +322,7 @@ export default function GamificationTestPage() {
 
             <div className="p-4 bg-green-50 rounded-lg">
               <h3 className="font-medium text-green-800">Phase 4: Invitations</h3>
-              <ul className="mt-2 text-base text-green-700 space-y-1">
+              <ul className="mt-2 text-sm text-green-700 space-y-1">
                 <li>✓ InvitationModal</li>
                 <li>✓ InviteButton</li>
                 <li>✓ InviteStats</li>

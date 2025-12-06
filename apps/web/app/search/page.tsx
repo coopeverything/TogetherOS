@@ -139,7 +139,7 @@ export default function SearchPage() {
 
       {/* Error Message */}
       {error && (
-        <div className="mb-6 rounded-md border border-destructive/50 bg-destructive/10 p-4 text-base text-destructive">
+        <div className="mb-6 rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
           {error}
         </div>
       )}
@@ -154,7 +154,7 @@ export default function SearchPage() {
 
       {/* Search Metadata (for debugging) */}
       {results && !isLoading && (
-        <div className="mt-8 text-sm text-muted-foreground">
+        <div className="mt-8 text-xs text-muted-foreground">
           Search completed in {results.took_ms}ms
         </div>
       )}

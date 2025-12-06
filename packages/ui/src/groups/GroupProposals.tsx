@@ -71,7 +71,7 @@ export function GroupProposals({
     <div className={className}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">Group Proposals</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Group Proposals</h2>
         {onCreateProposal && (
           <button
             onClick={onCreateProposal}
@@ -180,7 +180,7 @@ export function GroupProposals({
       {filteredProposals.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-gray-500">No proposals yet</p>
-          <p className="text-gray-400 text-base mt-2">
+          <p className="text-gray-400 text-sm mt-2">
             {onCreateProposal
               ? 'Create the first proposal for this group'
               : 'Proposals will appear here'}
@@ -195,23 +195,23 @@ export function GroupProposals({
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                     {proposal.title}
                   </h3>
-                  <p className="text-base text-gray-500">
+                  <p className="text-sm text-gray-500">
                     by {proposal.authorName} •{' '}
                     {new Date(proposal.createdAt).toLocaleDateString()}
                   </p>
                 </div>
                 <span
-                  className={`px-3 py-1.5 text-base font-medium rounded-full ${getStatusColor(proposal.status)}`}
+                  className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(proposal.status)}`}
                 >
                   {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
                 </span>
               </div>
               <p className="text-gray-700 mb-4">{proposal.summary}</p>
               {proposal.voteCount !== undefined && (
-                <p className="text-base text-gray-500">{proposal.voteCount} votes</p>
+                <p className="text-sm text-gray-500">{proposal.voteCount} votes</p>
               )}
             </div>
           ))}

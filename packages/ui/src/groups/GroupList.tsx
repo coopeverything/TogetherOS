@@ -78,7 +78,7 @@ export function GroupList({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div>
-            <label className="block text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Search
             </label>
             <input
@@ -94,7 +94,7 @@ export function GroupList({
 
           {/* Type filter */}
           <div>
-            <label className="block text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Type
             </label>
             <select
@@ -116,7 +116,7 @@ export function GroupList({
 
           {/* Sort */}
           <div>
-            <label className="block text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Sort by
             </label>
             <select
@@ -140,7 +140,7 @@ export function GroupList({
 
       {/* Results count */}
       <div className="mb-4">
-        <p className="text-base text-gray-600">
+        <p className="text-sm text-gray-600">
           {filteredGroups.length} {filteredGroups.length === 1 ? 'group' : 'groups'} found
         </p>
       </div>
@@ -159,8 +159,8 @@ export function GroupList({
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-xl">No groups found</p>
-          <p className="text-gray-400 text-base mt-2">
+          <p className="text-gray-500 text-lg">No groups found</p>
+          <p className="text-gray-400 text-sm mt-2">
             Try adjusting your filters or search terms
           </p>
         </div>

@@ -137,7 +137,7 @@ export default function NewEventPage() {
         </Link>
 
         <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-6">
-          <h1 className="text-3xl font-bold text-ink-900 mb-6">Create New Event</h1>
+          <h1 className="text-2xl font-bold text-ink-900 mb-6">Create New Event</h1>
 
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
@@ -148,7 +148,7 @@ export default function NewEventPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-base font-medium text-ink-700 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Event Title *
               </label>
               <input
@@ -163,7 +163,7 @@ export default function NewEventPage() {
 
             {/* Event Type */}
             <div>
-              <label className="block text-base font-medium text-ink-700 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Event Type *
               </label>
               <select
@@ -182,7 +182,7 @@ export default function NewEventPage() {
             {/* Date & Time */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-base font-medium text-ink-700 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Start Date *
                 </label>
                 <input
@@ -195,7 +195,7 @@ export default function NewEventPage() {
               </div>
               {!formData.allDay && (
                 <div>
-                  <label className="block text-base font-medium text-ink-700 mb-1">
+                  <label className="block text-sm font-medium text-ink-700 mb-1">
                     Start Time
                   </label>
                   <input
@@ -210,7 +210,7 @@ export default function NewEventPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-base font-medium text-ink-700 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   End Date (optional)
                 </label>
                 <input
@@ -222,7 +222,7 @@ export default function NewEventPage() {
               </div>
               {!formData.allDay && (
                 <div>
-                  <label className="block text-base font-medium text-ink-700 mb-1">
+                  <label className="block text-sm font-medium text-ink-700 mb-1">
                     End Time
                   </label>
                   <input
@@ -242,21 +242,21 @@ export default function NewEventPage() {
                 onChange={(e) => setFormData({ ...formData, allDay: e.target.checked })}
                 className="rounded border-border text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-base text-ink-700">All-day event</span>
+              <span className="text-sm text-ink-700">All-day event</span>
             </label>
 
             {/* Location */}
             <div>
-              <label className="block text-base font-medium text-ink-700 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Location Type *
               </label>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-3">
                 {LOCATION_TYPES.map((loc) => (
                   <button
                     key={loc.value}
                     type="button"
                     onClick={() => setFormData({ ...formData, location: loc.value })}
-                    className={`px-4 py-2 rounded-lg border text-base font-medium transition-colors ${
+                    className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
                       formData.location === loc.value
                         ? 'bg-blue-600 text-white border-blue-600'
                         : 'bg-bg-1 text-ink-700 border-border hover:border-blue-300'
@@ -271,7 +271,7 @@ export default function NewEventPage() {
             {/* Virtual Link */}
             {(formData.location === 'virtual' || formData.location === 'hybrid') && (
               <div>
-                <label className="block text-base font-medium text-ink-700 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Virtual Meeting Link *
                 </label>
                 <input
@@ -287,7 +287,7 @@ export default function NewEventPage() {
             {/* Physical Address */}
             {(formData.location === 'physical' || formData.location === 'hybrid') && (
               <div>
-                <label className="block text-base font-medium text-ink-700 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Physical Address *
                 </label>
                 <input
@@ -302,7 +302,7 @@ export default function NewEventPage() {
 
             {/* Description */}
             <div>
-              <label className="block text-base font-medium text-ink-700 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Description
               </label>
               <textarea
@@ -316,7 +316,7 @@ export default function NewEventPage() {
 
             {/* Visibility */}
             <div>
-              <label className="block text-base font-medium text-ink-700 mb-1">
+              <label className="block text-sm font-medium text-ink-700 mb-1">
                 Visibility
               </label>
               <select
@@ -335,7 +335,7 @@ export default function NewEventPage() {
             {/* Capacity & RSVP */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-base font-medium text-ink-700 mb-1">
+                <label className="block text-sm font-medium text-ink-700 mb-1">
                   Max Attendees (optional)
                 </label>
                 <input
@@ -355,7 +355,7 @@ export default function NewEventPage() {
                     onChange={(e) => setFormData({ ...formData, rsvpRequired: e.target.checked })}
                     className="rounded border-border text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="text-base text-ink-700">Require RSVP</span>
+                  <span className="text-sm text-ink-700">Require RSVP</span>
                 </label>
               </div>
             </div>

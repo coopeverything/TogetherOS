@@ -59,12 +59,12 @@ export default function NewGroupPage() {
       <div className="mb-8">
         <Link
           href="/groups"
-          className="text-orange-600 hover:text-orange-700 text-base font-medium mb-4 inline-block"
+          className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-4 inline-block"
         >
           ← Back to Groups
         </Link>
         <h1 className="text-4xl font-bold text-ink-900 mb-2">Create a Group</h1>
-        <p className="text-xl text-ink-700">
+        <p className="text-lg text-ink-700">
           Start a new cooperative community with transparent governance and shared resources.
         </p>
       </div>
@@ -73,7 +73,7 @@ export default function NewGroupPage() {
       {error && (
         <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
           <p className="text-red-800 font-medium">Error creating group</p>
-          <p className="text-red-600 text-base mt-1">{error}</p>
+          <p className="text-red-600 text-sm mt-1">{error}</p>
         </div>
       )}
 
@@ -88,8 +88,8 @@ export default function NewGroupPage() {
 
       {/* Guidelines */}
       <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-6">
-        <h2 className="text-xl font-semibold text-blue-900 mb-3">Group Guidelines</h2>
-        <ul className="space-y-2 text-base text-blue-800">
+        <h2 className="text-lg font-semibold text-blue-900 mb-3">Group Guidelines</h2>
+        <ul className="space-y-2 text-sm text-blue-800">
           <li className="flex items-start">
             <span className="text-blue-600 mr-2">•</span>
             <span>

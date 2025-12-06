@@ -27,7 +27,7 @@ function StatusBadge({ status }: { status: 'stable' | 'evolving' | 'contested' }
 
   return (
     <span
-      className={`inline-flex items-center gap-2 px-3.5 py-0.5 rounded-full text-sm font-medium border ${styles[status]}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${styles[status]}`}
     >
       <span className="text-[10px]">{icons[status]}</span>
       {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -66,7 +66,7 @@ function WikiCard({
       className="block bg-bg-1 rounded-xl border border-border p-6 hover:border-brand-500 hover:shadow-md transition-all duration-200 group"
     >
       <div className="flex items-start justify-between gap-4 mb-3">
-        <h3 className="text-2xl font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
+        <h3 className="text-xl font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
           {title}
         </h3>
         <StatusBadge status={status} />
@@ -78,14 +78,14 @@ function WikiCard({
         {tags.slice(0, 4).map((tag) => (
           <span
             key={tag}
-            className="px-3 py-0.5 bg-bg-2 text-ink-700 rounded text-sm"
+            className="px-2 py-0.5 bg-bg-2 text-ink-700 rounded text-xs"
           >
             {tag}
           </span>
         ))}
       </div>
 
-      <div className="flex items-center gap-4 text-base text-ink-400">
+      <div className="flex items-center gap-4 text-sm text-ink-400">
         <span className="flex items-center gap-1">
           <svg
             className="w-4 h-4"
@@ -138,7 +138,7 @@ export default function WikiPage() {
       <div className="max-w-5xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-xl bg-brand-600 flex items-center justify-center text-white">
               <svg
                 className="w-6 h-6"
@@ -160,14 +160,14 @@ export default function WikiPage() {
             </div>
           </div>
 
-          <p className="text-xl text-ink-700 leading-relaxed max-w-3xl">
+          <p className="text-lg text-ink-700 leading-relaxed max-w-3xl">
             These articles are <strong>collectively maintained</strong> by the
             community. They represent our evolving understanding of cooperation,
             governance, and how we work together. Every concept is open to
             discussion and improvement.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-4">
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/glossary"
               className="inline-flex items-center gap-2 px-4 py-2 bg-bg-1 border border-border rounded-lg text-ink-700 hover:border-brand-500 hover:bg-brand-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
@@ -211,25 +211,25 @@ export default function WikiPage() {
 
         {/* Status Legend */}
         <div className="bg-bg-1 rounded-xl border border-border p-4 mb-8">
-          <h2 className="text-base font-medium text-ink-700 mb-3">
+          <h2 className="text-sm font-medium text-ink-700 mb-3">
             Article Status
           </h2>
           <div className="flex flex-wrap gap-6">
             <div className="flex items-center gap-2">
               <StatusBadge status="stable" />
-              <span className="text-base text-ink-700">
+              <span className="text-sm text-ink-700">
                 Broad consensus, rarely edited
               </span>
             </div>
             <div className="flex items-center gap-2">
               <StatusBadge status="evolving" />
-              <span className="text-base text-ink-700">
+              <span className="text-sm text-ink-700">
                 Active refinement, open to input
               </span>
             </div>
             <div className="flex items-center gap-2">
               <StatusBadge status="contested" />
-              <span className="text-base text-ink-700">
+              <span className="text-sm text-ink-700">
                 Active debate, see discussion
               </span>
             </div>
@@ -239,32 +239,32 @@ export default function WikiPage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-3xl font-bold text-ink-900">
+            <div className="text-2xl font-bold text-ink-900">
               {wikiArticles.length}
             </div>
-            <div className="text-base text-ink-400">Articles</div>
+            <div className="text-sm text-ink-400">Articles</div>
           </div>
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-3xl font-bold text-brand-600">
+            <div className="text-2xl font-bold text-brand-600">
               {stableArticles.length}
             </div>
-            <div className="text-base text-ink-400">Stable</div>
+            <div className="text-sm text-ink-400">Stable</div>
           </div>
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-3xl font-bold text-joy-600">
+            <div className="text-2xl font-bold text-joy-600">
               {evolvingArticles.length}
             </div>
-            <div className="text-base text-ink-400">Evolving</div>
+            <div className="text-sm text-ink-400">Evolving</div>
           </div>
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-3xl font-bold text-joy-600">{tags.length}</div>
-            <div className="text-base text-ink-400">Topics</div>
+            <div className="text-2xl font-bold text-joy-600">{tags.length}</div>
+            <div className="text-sm text-ink-400">Topics</div>
           </div>
         </div>
 
         {/* All Articles */}
         <section>
-          <h2 className="text-2xl font-semibold text-ink-900 mb-6">
+          <h2 className="text-xl font-semibold text-ink-900 mb-6">
             All Articles
           </h2>
           <div className="space-y-4">
@@ -294,7 +294,7 @@ export default function WikiPage() {
             disagree with something or have a better way to explain it, start a
             discussion. That's how we learn together.
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <Link
               href="/forum"
               className="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"

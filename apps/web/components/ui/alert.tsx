@@ -27,7 +27,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {title && (
           <div className="font-semibold mb-1">{title}</div>
         )}
-        <div className={title ? 'text-base' : ''}>{children}</div>
+        <div className={title ? 'text-sm' : ''}>{children}</div>
       </div>
     );
   }

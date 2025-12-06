@@ -87,7 +87,7 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-3xl font-bold text-orange-600 hover:text-orange-700 dark:text-orange-500 dark:hover:text-orange-400">
+            <Link href="/" className="text-2xl font-bold text-orange-600 hover:text-orange-700 dark:text-orange-500 dark:hover:text-orange-400">
               Coopeverything
             </Link>
           </div>
@@ -98,7 +98,7 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -157,12 +157,12 @@ export default function Navigation() {
 
               {/* Dropdown Menu */}
               {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1.5 ring-1 ring-black ring-opacity-5 dark:ring-gray-700">
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 dark:ring-gray-700">
                   {isLoggedIn ? (
                     <>
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         Profile
@@ -170,7 +170,7 @@ export default function Navigation() {
                       {isAdmin && (
                         <Link
                           href="/admin"
-                          className="block px-4 py-2 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                           onClick={() => setUserMenuOpen(false)}
                         >
                           Admin
@@ -179,7 +179,7 @@ export default function Navigation() {
                       <div className="border-t border-gray-100 dark:border-gray-700"></div>
                       <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                       >
                         Sign Out
                       </button>
@@ -188,14 +188,14 @@ export default function Navigation() {
                     <>
                       <Link
                         href="/login"
-                        className="block px-4 py-2 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         Log In
                       </Link>
                       <Link
                         href="/signup"
-                        className="block px-4 py-2 text-base text-orange-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-orange-400 dark:hover:bg-gray-700 font-medium"
+                        className="block px-4 py-2 text-sm text-orange-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-orange-400 dark:hover:bg-gray-700 font-medium"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         Sign Up
@@ -244,13 +244,13 @@ export default function Navigation() {
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200 dark:border-gray-700">
-          <div className="px-3 pt-2 pb-3 space-y-1">
+          <div className="px-2 pt-2 pb-3 space-y-1">
             {/* Main nav items */}
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block px-3 py-2 rounded-md text-lg font-medium ${
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -264,7 +264,7 @@ export default function Navigation() {
             {/* Search */}
             <Link
               href="/search"
-              className={`flex items-center gap-2 px-3 py-2 rounded-md text-lg font-medium ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium ${
                 isActive('/search')
                   ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                   : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -280,7 +280,7 @@ export default function Navigation() {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="flex items-center gap-2 w-full px-3 py-2 rounded-md text-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+              className="flex items-center gap-2 w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
             >
               {darkMode ? (
                 <>
@@ -307,7 +307,7 @@ export default function Navigation() {
               <>
                 <Link
                   href="/notifications"
-                  className={`block px-3 py-2 rounded-md text-lg font-medium ${
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive('/notifications')
                       ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -318,7 +318,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   href="/profile"
-                  className={`block px-3 py-2 rounded-md text-lg font-medium ${
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive('/profile')
                       ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -332,7 +332,7 @@ export default function Navigation() {
                     handleLogout()
                     setMobileMenuOpen(false)
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                 >
                   Sign Out
                 </button>
@@ -341,14 +341,14 @@ export default function Navigation() {
               <>
                 <Link
                   href="/login"
-                  className="block px-3 py-2 rounded-md text-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Log In
                 </Link>
                 <Link
                   href="/signup"
-                  className="block px-3 py-2 rounded-md text-lg font-medium bg-orange-600 text-white hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600"
+                  className="block px-3 py-2 rounded-md text-base font-medium bg-orange-600 text-white hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Sign Up

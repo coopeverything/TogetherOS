@@ -94,7 +94,7 @@ export function DailyChallengeList({
         <p className="text-red-700">Error: {error}</p>
         <button
           onClick={fetchChallenges}
-          className="mt-2 text-red-600 underline text-base"
+          className="mt-2 text-red-600 underline text-sm"
         >
           Try again
         </button>
@@ -110,21 +110,21 @@ export function DailyChallengeList({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Daily Challenges</h2>
-          <p className="text-base text-gray-600">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Daily Challenges</h2>
+          <p className="text-sm text-gray-600">
             {completedCount}/{challenges.length} completed today
           </p>
         </div>
         <div className="flex items-center gap-4">
           {streak > 0 && (
             <div className="flex items-center gap-1 text-orange-600">
-              <span className="text-2xl">🔥</span>
+              <span className="text-xl">🔥</span>
               <span className="font-bold">{streak}</span>
-              <span className="text-base">day streak</span>
+              <span className="text-sm">day streak</span>
             </div>
           )}
           {totalRP > 0 && (
-            <span className="text-xl font-bold text-brand-600">
+            <span className="text-lg font-bold text-brand-600">
               +{totalRP} RP today
             </span>
           )}
@@ -138,7 +138,7 @@ export function DailyChallengeList({
           <p className="text-green-800 font-medium">
             All challenges completed for today!
           </p>
-          <p className="text-green-700 text-base">
+          <p className="text-green-700 text-sm">
             Come back tomorrow for new challenges
           </p>
         </div>

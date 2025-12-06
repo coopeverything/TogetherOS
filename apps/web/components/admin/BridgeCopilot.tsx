@@ -165,7 +165,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
         <div className="text-center text-ink-500">
           <div className="text-4xl mb-3">🤖</div>
           <p className="font-medium">Bridge AI Copilot</p>
-          <p className="text-base mt-1">Select content to get AI assistance</p>
+          <p className="text-sm mt-1">Select content to get AI assistance</p>
         </div>
       </div>
     );
@@ -176,17 +176,17 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center gap-2">
-          <span className="text-3xl">🤖</span>
+          <span className="text-2xl">🤖</span>
           <div>
             <h3 className="font-semibold text-ink-900">Bridge AI Copilot</h3>
-            <p className="text-sm text-ink-500">Ready to help you create great content</p>
+            <p className="text-xs text-ink-500">Ready to help you create great content</p>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
       <div className="p-4 border-b border-border">
-        <h4 className="text-sm font-semibold text-ink-700 uppercase tracking-wide mb-3">
+        <h4 className="text-xs font-semibold text-ink-700 uppercase tracking-wide mb-3">
           Quick Actions
         </h4>
         <div className="grid grid-cols-2 gap-2">
@@ -197,7 +197,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
               disabled={isLoading}
               title={description}
               className={cn(
-                'flex items-center gap-2 px-3 py-2 text-left text-base rounded-lg transition-colors',
+                'flex items-center gap-2 px-3 py-2 text-left text-sm rounded-lg transition-colors',
                 'bg-bg-2 hover:bg-bg-3 disabled:opacity-50',
                 isLoading && 'cursor-wait'
               )}
@@ -211,7 +211,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
 
       {/* Visual Content Actions */}
       <div className="p-4 border-b border-border">
-        <h4 className="text-sm font-semibold text-ink-700 uppercase tracking-wide mb-3">
+        <h4 className="text-xs font-semibold text-ink-700 uppercase tracking-wide mb-3">
           Visual Content
         </h4>
         <div className="grid grid-cols-2 gap-2">
@@ -222,7 +222,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
               disabled={isLoading}
               title={description}
               className={cn(
-                'flex items-center gap-2 px-3 py-2 text-left text-base rounded-lg transition-colors',
+                'flex items-center gap-2 px-3 py-2 text-left text-sm rounded-lg transition-colors',
                 'bg-purple-50 hover:bg-purple-100 text-purple-900 disabled:opacity-50',
                 isLoading && 'cursor-wait'
               )}
@@ -238,7 +238,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
       {suggestion && (
         <div className="p-4 border-b border-border bg-brand-50">
           <div className="flex items-start justify-between mb-2">
-            <h4 className="text-base font-semibold text-brand-700">Suggestion</h4>
+            <h4 className="text-sm font-semibold text-brand-700">Suggestion</h4>
             <button
               onClick={() => setSuggestion(null)}
               className="text-ink-400 hover:text-ink-600"
@@ -248,7 +248,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
               </svg>
             </button>
           </div>
-          <p className="text-base text-ink-700 mb-3 whitespace-pre-wrap">
+          <p className="text-sm text-ink-700 mb-3 whitespace-pre-wrap">
             {suggestion.suggestion}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -287,7 +287,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
             </Button>
           </div>
           {suggestion.confidence < 0.6 && (
-            <p className="text-sm text-ink-500 mt-2">
+            <p className="text-xs text-ink-500 mt-2">
               Low confidence - review carefully before using
             </p>
           )}
@@ -296,7 +296,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
 
       {/* Error Display */}
       {error && (
-        <div className="p-4 bg-red-50 text-red-700 text-base">
+        <div className="p-4 bg-red-50 text-red-700 text-sm">
           {error}
         </div>
       )}
@@ -304,9 +304,9 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
       {/* Chat History */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {chatHistory.length === 0 ? (
-          <div className="text-center text-ink-400 text-base py-8">
+          <div className="text-center text-ink-400 text-sm py-8">
             <p>Ask Bridge anything about your content:</p>
-            <ul className="mt-2 space-y-1 text-sm">
+            <ul className="mt-2 space-y-1 text-xs">
               <li>&quot;Help me write about repair cafés&quot;</li>
               <li>&quot;Make this more engaging&quot;</li>
               <li>&quot;What bias does this reveal?&quot;</li>
@@ -317,7 +317,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
             <div
               key={i}
               className={cn(
-                'rounded-lg p-4 text-base',
+                'rounded-lg p-3 text-sm',
                 msg.role === 'user'
                   ? 'bg-brand-100 text-brand-900 ml-4'
                   : 'bg-bg-2 text-ink-700 mr-4'
@@ -340,7 +340,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
             onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleChat()}
             placeholder="Ask Bridge..."
             disabled={isLoading}
-            className="flex-1 px-3 py-2 text-base border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"
+            className="flex-1 px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"
           />
           <Button
             size="sm"

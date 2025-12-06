@@ -72,11 +72,11 @@ export function GroupGrowthTracker({
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
       {/* Location Header */}
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-xl">📍</span>
-        <span className="text-base font-medium text-gray-700 uppercase tracking-wide">
+        <span className="text-lg">📍</span>
+        <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">
           YOUR AREA
         </span>
-        <span className="text-base font-semibold text-gray-900 dark:text-white">[{location}]</span>
+        <span className="text-sm font-semibold text-gray-900 dark:text-white">[{location}]</span>
       </div>
 
       {/* Member Count with Growth Indicator */}
@@ -85,9 +85,9 @@ export function GroupGrowthTracker({
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
             {currentMemberCount}
           </span>
-          <span className="text-base text-gray-600">members</span>
+          <span className="text-sm text-gray-600">members</span>
           {recentGrowth > 0 && (
-            <span className="text-base font-medium text-green-600">
+            <span className="text-sm font-medium text-green-600">
               (+{recentGrowth} ↗)
             </span>
           )}
@@ -95,17 +95,17 @@ export function GroupGrowthTracker({
       </div>
 
       {/* Section Title */}
-      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
         Community Growth
       </h3>
 
       {/* Current Milestone Badge */}
       {currentMilestone && (
         <div className="mb-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5.5 bg-green-100 text-green-800 rounded-full text-base font-medium">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium">
             <span>✓</span>
             <span>{currentMilestone.label}</span>
-            <span className="text-sm text-green-600">
+            <span className="text-xs text-green-600">
               ({currentMilestone.threshold})
             </span>
           </div>
@@ -116,7 +116,7 @@ export function GroupGrowthTracker({
       {nextMilestone ? (
         <>
           <div className="mb-2">
-            <span className="text-base font-medium text-gray-700">
+            <span className="text-sm font-medium text-gray-700">
               Next: {nextMilestone.label}
             </span>
           </div>
@@ -129,29 +129,29 @@ export function GroupGrowthTracker({
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="mt-1 text-sm font-mono text-gray-500">
+            <div className="mt-1 text-xs font-mono text-gray-500">
               {progressBar}
             </div>
           </div>
 
           {/* Members Remaining */}
-          <div className="mb-2 text-base text-gray-600">
+          <div className="mb-2 text-sm text-gray-600">
             <span className="font-semibold text-gray-900 dark:text-white">{membersToGo}</span>{' '}
             {membersToGo === 1 ? 'member' : 'members'} to go
           </div>
 
           {/* Unlock Preview */}
-          <div className="mb-4 text-base text-gray-600">
+          <div className="mb-4 text-sm text-gray-600">
             <span className="font-medium text-gray-700">Unlocks:</span>{' '}
             {nextMilestone.unlocks[0]}
           </div>
         </>
       ) : (
-        <div className="mb-4 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-          <p className="text-base font-medium text-purple-900">
+        <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+          <p className="text-sm font-medium text-purple-900">
             🎉 Max milestone reached!
           </p>
-          <p className="text-sm text-purple-700 mt-1">
+          <p className="text-xs text-purple-700 mt-1">
             Your community is a regional powerhouse. Keep growing!
           </p>
         </div>
@@ -162,13 +162,13 @@ export function GroupGrowthTracker({
         <div className="mb-4">
           <button
             onClick={handleInviteClick}
-            className="w-full px-4 py-2.5 bg-orange-600 text-white text-base font-medium rounded-full hover:bg-orange-700 transition-colors"
+            className="w-full px-4 py-2.5 bg-orange-600 text-white text-sm font-medium rounded-full hover:bg-orange-700 transition-colors"
           >
             {nextMilestone.actionNudge.text} {location} (+
             {nextMilestone.actionNudge.reward} RP)
           </button>
           {invitationStats && (
-            <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
+            <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
               <span>
                 {invitationStats.sentThisWeek}/{invitationStats.weeklyLimit} invites this week
               </span>
@@ -184,7 +184,7 @@ export function GroupGrowthTracker({
       <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
         <button
           onClick={() => setHistoryExpanded(!historyExpanded)}
-          className="flex items-center justify-between w-full text-base font-medium text-gray-700 hover:text-gray-900 dark:text-white"
+          className="flex items-center justify-between w-full text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-white"
         >
           <span>Milestone History</span>
           <span className="text-gray-400">{historyExpanded ? '▲' : '▼'}</span>
@@ -193,14 +193,14 @@ export function GroupGrowthTracker({
         {historyExpanded && (
           <div className="mt-3 space-y-2">
             {achievedMilestones.length === 0 ? (
-              <p className="text-sm text-gray-500 italic">
+              <p className="text-xs text-gray-500 italic">
                 No milestones achieved yet. Keep growing!
               </p>
             ) : (
               achievedMilestones.map((milestone) => (
                 <div
                   key={milestone.id}
-                  className="flex items-start gap-2 text-sm"
+                  className="flex items-start gap-2 text-xs"
                 >
                   <span className="text-green-600 mt-0.5">✓</span>
                   <div>

@@ -25,11 +25,11 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
             {icon}
           </div>
         )}
-        <h3 className="text-xl font-semibold text-ink-900 mb-2">
+        <h3 className="text-lg font-semibold text-ink-900 mb-2">
           {title}
         </h3>
         {description && (
-          <p className="text-base text-ink-700 max-w-md mb-6">
+          <p className="text-sm text-ink-700 max-w-md mb-6">
             {description}
           </p>
         )}

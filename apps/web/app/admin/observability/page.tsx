@@ -66,7 +66,7 @@ function StatusBadge({ status }: { status: string }) {
   };
 
   return (
-    <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${colors[status] || 'bg-bg-2 text-ink-900'}`}>
+    <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[status] || 'bg-bg-2 text-ink-900'}`}>
       {status}
     </span>
   );
@@ -75,9 +75,9 @@ function StatusBadge({ status }: { status: string }) {
 function MetricCard({ title, value, subtitle }: { title: string; value: string | number; subtitle?: string }) {
   return (
     <div className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border">
-      <h3 className="text-base font-medium text-ink-500">{title}</h3>
-      <p className="mt-1 text-3xl font-semibold text-ink-900">{value}</p>
-      {subtitle && <p className="text-sm text-ink-400 mt-1">{subtitle}</p>}
+      <h3 className="text-sm font-medium text-ink-500">{title}</h3>
+      <p className="mt-1 text-2xl font-semibold text-ink-900">{value}</p>
+      {subtitle && <p className="text-xs text-ink-400 mt-1">{subtitle}</p>}
     </div>
   );
 }
@@ -92,7 +92,7 @@ function LogLevelBadge({ level }: { level: string }) {
   };
 
   return (
-    <span className={`px-1.5 py-0.5 rounded text-sm font-medium ${colors[level] || 'bg-bg-2'}`}>
+    <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${colors[level] || 'bg-bg-2'}`}>
       {level}
     </span>
   );
@@ -109,7 +109,7 @@ function SourceBadge({ source }: { source: string }) {
   };
 
   return (
-    <span className={`px-1.5 py-0.5 rounded text-sm ${colors[source] || 'bg-bg-1'}`}>
+    <span className={`px-1.5 py-0.5 rounded text-xs ${colors[source] || 'bg-bg-1'}`}>
       {source}
     </span>
   );
@@ -161,8 +161,8 @@ export default function ObservabilityDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-ink-900">Observability Dashboard</h1>
-            <p className="text-base text-ink-500">
+            <h1 className="text-2xl font-bold text-ink-900">Observability Dashboard</h1>
+            <p className="text-sm text-ink-500">
               Real-time monitoring and system health
             </p>
           </div>
@@ -170,14 +170,14 @@ export default function ObservabilityDashboard() {
             <select
               value={timeWindow}
               onChange={(e) => setTimeWindow(Number(e.target.value))}
-              className="px-3 py-1.5.5 rounded border border-border bg-bg-0 text-base"
+              className="px-3 py-1.5 rounded border border-border bg-bg-0 text-sm"
             >
               <option value={15}>Last 15 min</option>
               <option value={60}>Last 1 hour</option>
               <option value={360}>Last 6 hours</option>
               <option value={1440}>Last 24 hours</option>
             </select>
-            <label className="flex items-center gap-2 text-base">
+            <label className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
                 checked={autoRefresh}
@@ -188,7 +188,7 @@ export default function ObservabilityDashboard() {
             </label>
             <button
               onClick={fetchData}
-              className="px-3 py-1.5.5 bg-blue-600 text-white rounded text-base hover:bg-blue-700"
+              className="px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
             >
               Refresh
             </button>
@@ -196,7 +196,7 @@ export default function ObservabilityDashboard() {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded text-red-700 dark:text-red-300">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded text-red-700 dark:text-red-300">
             {error}
           </div>
         )}
@@ -206,13 +206,13 @@ export default function ObservabilityDashboard() {
             {/* Health Status Banner */}
             <div className="mb-6 p-4 bg-bg-0 rounded-lg shadow-sm border border-border">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   <StatusBadge status={data.health.status} />
                   <span className="text-ink-700">
                     System is {data.health.status}
                   </span>
                 </div>
-                <div className="text-base text-ink-500">
+                <div className="text-sm text-ink-500">
                   Last updated: {new Date(data.timestamp).toLocaleTimeString()}
                 </div>
               </div>
@@ -224,7 +224,7 @@ export default function ObservabilityDashboard() {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 text-base font-medium border-b-2 -mb-px ${
+                  className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
                     activeTab === tab
                       ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                       : 'border-transparent text-ink-400 hover:text-ink-700 dark:hover:text-gray-300'
@@ -268,7 +268,7 @@ export default function ObservabilityDashboard() {
                       {Object.entries(data.metrics.bySource).map(([source, count]) => (
                         <div key={source} className="flex justify-between items-center">
                           <SourceBadge source={source} />
-                          <span className="text-base text-ink-600">{count}</span>
+                          <span className="text-sm text-ink-600">{count}</span>
                         </div>
                       ))}
                     </div>
@@ -279,7 +279,7 @@ export default function ObservabilityDashboard() {
                       {Object.entries(data.metrics.byLevel).map(([level, count]) => (
                         <div key={level} className="flex justify-between items-center">
                           <LogLevelBadge level={level} />
-                          <span className="text-base text-ink-600">{count}</span>
+                          <span className="text-sm text-ink-600">{count}</span>
                         </div>
                       ))}
                     </div>
@@ -291,7 +291,7 @@ export default function ObservabilityDashboard() {
                   <div className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border">
                     <h3 className="font-medium text-ink-900 mb-3">Top Routes</h3>
                     <div className="overflow-x-auto">
-                      <table className="w-full text-base">
+                      <table className="w-full text-sm">
                         <thead>
                           <tr className="text-left text-ink-500 border-b border-border">
                             <th className="pb-2">Route</th>
@@ -302,7 +302,7 @@ export default function ObservabilityDashboard() {
                         <tbody>
                           {data.metrics.topRoutes.map((route, i) => (
                             <tr key={i} className="border-b border-border">
-                              <td className="py-2 font-mono text-sm">{route.route}</td>
+                              <td className="py-2 font-mono text-xs">{route.route}</td>
                               <td className="py-2 text-right">{route.count}</td>
                               <td className="py-2 text-right">{route.avgDuration.toFixed(0)}ms</td>
                             </tr>
@@ -320,8 +320,8 @@ export default function ObservabilityDashboard() {
                     <div className="space-y-2">
                       {data.metrics.topErrors.map((error, i) => (
                         <div key={i} className="flex justify-between items-start gap-4">
-                          <code className="text-sm text-red-600 break-all">{error.message}</code>
-                          <span className="text-base text-ink-500 whitespace-nowrap">{error.count}x</span>
+                          <code className="text-xs text-red-600 break-all">{error.message}</code>
+                          <span className="text-sm text-ink-500 whitespace-nowrap">{error.count}x</span>
                         </div>
                       ))}
                     </div>
@@ -338,15 +338,15 @@ export default function ObservabilityDashboard() {
                 </div>
                 <div className="divide-y divide-border max-h-[600px] overflow-y-auto">
                   {data.recentLogs.map((log) => (
-                    <div key={log.id} className="p-4 hover:bg-bg-1">
+                    <div key={log.id} className="p-3 hover:bg-bg-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm text-ink-400">{new Date(log.timestamp).toLocaleTimeString()}</span>
+                        <span className="text-xs text-ink-400">{new Date(log.timestamp).toLocaleTimeString()}</span>
                         <SourceBadge source={log.source} />
                         <LogLevelBadge level={log.level} />
-                        {log.route && <span className="text-sm text-ink-500 font-mono">{log.route}</span>}
-                        {log.duration && <span className="text-sm text-ink-400">{log.duration}ms</span>}
+                        {log.route && <span className="text-xs text-ink-500 font-mono">{log.route}</span>}
+                        {log.duration && <span className="text-xs text-ink-400">{log.duration}ms</span>}
                       </div>
-                      <p className="text-base text-ink-700 break-all">{log.message}</p>
+                      <p className="text-sm text-ink-700 break-all">{log.message}</p>
                     </div>
                   ))}
                   {data.recentLogs.length === 0 && (
@@ -369,15 +369,15 @@ export default function ObservabilityDashboard() {
                   </div>
                   <div className="divide-y divide-border">
                     {data.featureFlags.flags.map((flag) => (
-                      <div key={flag.name} className="p-4 flex items-center justify-between">
+                      <div key={flag.name} className="p-3 flex items-center justify-between">
                         <div>
                           <span className="font-medium text-ink-900">{flag.name}</span>
-                          <div className="text-sm text-ink-500 mt-0.5">
+                          <div className="text-xs text-ink-500 mt-0.5">
                             Updated: {new Date(flag.updatedAt).toLocaleString()}
                           </div>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <span className="text-base text-ink-500">{flag.rolloutPercentage}%</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-ink-500">{flag.rolloutPercentage}%</span>
                           <StatusBadge status={flag.enabled ? 'healthy' : 'unhealthy'} />
                         </div>
                       </div>
@@ -400,9 +400,9 @@ export default function ObservabilityDashboard() {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <StatusBadge status={data.canary.current.status} />
-                        <span className="font-mono text-base">{data.canary.current.version}</span>
+                        <span className="font-mono text-sm">{data.canary.current.version}</span>
                       </div>
-                      <div className="grid grid-cols-3 gap-4 text-base">
+                      <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
                           <span className="text-ink-500">Rollout:</span>
                           <span className="ml-2 font-medium">{data.canary.current.percentage}%</span>
@@ -438,10 +438,10 @@ export default function ObservabilityDashboard() {
                   </div>
                   <div className="divide-y divide-border">
                     {data.canary.recentDeployments.map((deployment) => (
-                      <div key={deployment.id} className="p-4 flex items-center justify-between">
+                      <div key={deployment.id} className="p-3 flex items-center justify-between">
                         <div>
-                          <span className="font-mono text-base text-ink-900">{deployment.version}</span>
-                          <div className="text-sm text-ink-500 mt-0.5">
+                          <span className="font-mono text-sm text-ink-900">{deployment.version}</span>
+                          <div className="text-xs text-ink-500 mt-0.5">
                             {new Date(deployment.startedAt).toLocaleString()}
                           </div>
                         </div>

@@ -58,12 +58,12 @@ export function MetricCard({
               {metric.name}
             </h3>
             {metric.mandatory && (
-              <span className="px-3 py-0.5 text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 rounded">
+              <span className="px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 rounded">
                 Required
               </span>
             )}
           </div>
-          <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             {metric.description}
           </p>
         </div>
@@ -82,35 +82,35 @@ export function MetricCard({
       {/* Values */}
       <div className="grid grid-cols-2 gap-4 mb-3">
         <div>
-          <div className="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-1">
+          <div className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-1">
             Target
           </div>
-          <div className="text-xl font-semibold text-gray-900 dark:text-white">
+          <div className="text-lg font-semibold text-gray-900 dark:text-white">
             {String(metric.target.value)} {metric.unit}
           </div>
           {metric.target.confidence && (
-            <div className="text-sm text-gray-500 dark:text-gray-500">
+            <div className="text-xs text-gray-500 dark:text-gray-500">
               {metric.target.confidence} confidence
             </div>
           )}
         </div>
         <div>
-          <div className="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-1">
+          <div className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-1">
             Actual
           </div>
           {hasActual ? (
             <>
-              <div className="text-xl font-semibold text-gray-900 dark:text-white">
+              <div className="text-lg font-semibold text-gray-900 dark:text-white">
                 {String(metric.actual!.value)} {metric.unit}
               </div>
               {varianceDisplay && (
-                <div className={`text-sm ${metric.variance! >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                <div className={`text-xs ${metric.variance! >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                   {varianceDisplay} from target
                 </div>
               )}
             </>
           ) : (
-            <div className="text-xl text-gray-400 dark:text-gray-600">
+            <div className="text-lg text-gray-400 dark:text-gray-600">
               Pending
             </div>
           )}
@@ -119,12 +119,12 @@ export function MetricCard({
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex items-center gap-4 text-base text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
           <span>Weight: {metric.weight}/10</span>
           <span className="capitalize">{metric.measurementMethod.replace('_', ' ')}</span>
         </div>
         {metric.status && (
-          <span className={`px-3 py-1.5 text-sm font-medium rounded ${statusColors[metric.status]}`}>
+          <span className={`px-2 py-1 text-xs font-medium rounded ${statusColors[metric.status]}`}>
             {statusLabels[metric.status]}
           </span>
         )}
@@ -133,10 +133,10 @@ export function MetricCard({
       {/* Notes */}
       {metric.notes && (
         <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-          <div className="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-1">
+          <div className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide mb-1">
             Evaluator Notes
           </div>
-          <p className="text-base text-gray-700 dark:text-gray-300">{metric.notes}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300">{metric.notes}</p>
         </div>
       )}
     </div>

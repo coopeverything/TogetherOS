@@ -52,7 +52,7 @@ export function TrendLines({
       <div className="flex items-center justify-center h-64 bg-gray-50 dark:bg-gray-900 rounded-lg">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-          <p className="text-gray-600 text-base">Loading trends...</p>
+          <p className="text-gray-600 text-sm">Loading trends...</p>
         </div>
       </div>
     );
@@ -61,7 +61,7 @@ export function TrendLines({
   if (error) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p className="text-red-800 text-base">Error loading trends: {error}</p>
+        <p className="text-red-800 text-sm">Error loading trends: {error}</p>
       </div>
     );
   }
@@ -135,12 +135,12 @@ export function TrendLines({
   return (
     <div className="space-y-4">
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Sentiment Trends: {topic}
         </h3>
 
         {/* Legend */}
-        <div className="flex gap-6 mb-4 text-base">
+        <div className="flex gap-6 mb-4 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-4 h-1 bg-blue-600"></div>
             <span className="text-gray-700">Sentiment (-1 to +1)</span>
@@ -263,32 +263,32 @@ export function TrendLines({
         </svg>
 
         {/* Summary stats */}
-        <div className="mt-4 grid grid-cols-3 gap-4 text-base">
-          <div className="bg-blue-50 rounded p-4">
+        <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+          <div className="bg-blue-50 rounded p-3">
             <div className="text-blue-600 font-semibold">Current Sentiment</div>
-            <div className="text-blue-900 text-xl">
+            <div className="text-blue-900 text-lg">
               {data[data.length - 1].avg_sentiment.toFixed(2)}
             </div>
-            <div className="text-blue-600 text-sm">
+            <div className="text-blue-600 text-xs">
               {data[data.length - 1].avg_sentiment > 0 ? 'Positive' : 'Negative'}
             </div>
           </div>
-          <div className="bg-green-50 rounded p-4">
+          <div className="bg-green-50 rounded p-3">
             <div className="text-green-600 font-semibold">Current Consensus</div>
-            <div className="text-green-900 text-xl">
+            <div className="text-green-900 text-lg">
               {Math.round(data[data.length - 1].consensus_score * 100)}%
             </div>
-            <div className="text-green-600 text-sm">
+            <div className="text-green-600 text-xs">
               {data[data.length - 1].consensus_score > 0.7 ? 'High' : 'Divided'}
             </div>
           </div>
           {showEngagement && (
-            <div className="bg-purple-50 rounded p-4">
+            <div className="bg-purple-50 rounded p-3">
               <div className="text-purple-600 font-semibold">Current Engagement</div>
-              <div className="text-purple-900 text-xl">
+              <div className="text-purple-900 text-lg">
                 {data[data.length - 1].engagement_level}
               </div>
-              <div className="text-purple-600 text-sm">Total interactions</div>
+              <div className="text-purple-600 text-xs">Total interactions</div>
             </div>
           )}
         </div>

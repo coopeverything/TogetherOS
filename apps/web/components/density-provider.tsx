@@ -81,7 +81,7 @@ export function DensityToggle({ className = '' }: { className?: string }) {
   return (
     <button
       onClick={() => setDensity(density === 'compact' ? 'comfortable' : 'compact')}
-      className={`px-3 py-1.5.5 rounded-md border text-base bg-bg-1 text-ink-900 border-border hover:bg-bg-2 transition-colors ${className}`}
+      className={`px-3 py-1.5 rounded-md border text-sm bg-bg-1 text-ink-900 border-border hover:bg-bg-2 transition-colors ${className}`}
       aria-label="Toggle density"
     >
       {density === 'compact' ? 'Compact' : 'Comfortable'}

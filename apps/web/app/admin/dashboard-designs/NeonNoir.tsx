@@ -33,7 +33,7 @@ export function NeonNoir() {
           }}>
             NEON DASHBOARD//
           </h1>
-          <div className="flex gap-2 text-sm" style={{ color: '#00ffff', fontFamily: 'monospace' }}>
+          <div className="flex gap-2 text-xs" style={{ color: '#00ffff', fontFamily: 'monospace' }}>
             <span>USERS: 1,247</span>
             <span style={{ color: '#ff00ff' }}>||</span>
             <span>VOTES: 23</span>
@@ -52,7 +52,7 @@ export function NeonNoir() {
               background: 'rgba(255, 0, 255, 0.05)',
               boxShadow: 'inset 0 0 20px rgba(255, 0, 255, 0.1)'
             }}>
-              <h2 className="text-base font-black mb-3" style={{
+              <h2 className="text-sm font-black mb-3" style={{
                 color: '#00ffff',
                 letterSpacing: '0.2em'
               }}>
@@ -69,8 +69,8 @@ export function NeonNoir() {
                 }} onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = 'none'
                 }}>
-                  <div className="text-base font-bold" style={{ color: '#ffffff' }}>{group}</div>
-                  <div className="text-sm" style={{ color: '#ff00ff' }}>3 NEW</div>
+                  <div className="text-sm font-bold" style={{ color: '#ffffff' }}>{group}</div>
+                  <div className="text-xs" style={{ color: '#ff00ff' }}>3 NEW</div>
                 </div>
               ))}
             </div>
@@ -79,7 +79,7 @@ export function NeonNoir() {
               borderColor: '#00ffff',
               background: 'rgba(0, 255, 255, 0.05)'
             }}>
-              <h2 className="text-base font-black mb-3" style={{
+              <h2 className="text-sm font-black mb-3" style={{
                 color: '#ff00ff',
                 letterSpacing: '0.2em'
               }}>
@@ -91,7 +91,7 @@ export function NeonNoir() {
                 { topic: 'TECH', level: 60 }
               ].map((p, i) => (
                 <div key={i} className="mb-3">
-                  <div className="flex justify-between text-sm mb-1">
+                  <div className="flex justify-between text-xs mb-1">
                     <span style={{ color: '#ffffff' }}>{p.topic}</span>
                     <span style={{ color: '#ff00ff' }}>{p.level}%</span>
                   </div>
@@ -118,7 +118,7 @@ export function NeonNoir() {
                   <button
                     key={f}
                     onClick={() => setFilter(f.toLowerCase())}
-                    className="px-4 py-2 text-sm font-black"
+                    className="px-4 py-2 text-xs font-black"
                     style={{
                       background: filter === f.toLowerCase() ? '#ff00ff' : 'transparent',
                       color: filter === f.toLowerCase() ? '#000000' : '#00ffff',
@@ -154,19 +154,19 @@ export function NeonNoir() {
                 e.currentTarget.style.transform = 'skew(-0.5deg) scale(1)'
                 e.currentTarget.style.boxShadow = `0 0 20px ${post.color}40`
               }}>
-                <div className="text-sm font-black mb-2" style={{
+                <div className="text-xs font-black mb-2" style={{
                   color: post.color,
                   letterSpacing: '0.2em'
                 }}>
                   [{post.type}]
                 </div>
-                <h3 className="text-2xl font-black mb-3" style={{
+                <h3 className="text-xl font-black mb-3" style={{
                   color: '#ffffff',
                   textShadow: `0 0 10px ${post.color}`
                 }}>
                   {post.title}
                 </h3>
-                <div className="flex gap-4 text-sm" style={{ fontFamily: 'monospace' }}>
+                <div className="flex gap-4 text-xs" style={{ fontFamily: 'monospace' }}>
                   <span style={{ color: '#00ffff' }}>LIKES: 234</span>
                   <span style={{ color: '#ff00ff' }}>REPLIES: 45</span>
                   <span style={{ color: '#00ff88' }}>SHARES: 12</span>
@@ -182,14 +182,14 @@ export function NeonNoir() {
               background: 'rgba(0, 255, 136, 0.05)',
               boxShadow: '0 0 15px rgba(0, 255, 136, 0.2)'
             }}>
-              <h2 className="text-base font-black mb-3" style={{
+              <h2 className="text-sm font-black mb-3" style={{
                 color: '#00ff88',
                 letterSpacing: '0.2em'
               }}>
                 &gt;&gt; ACTION_REQUIRED
               </h2>
               {['5 VOTES PENDING', '3 REPLIES NEEDED', '12 TASKS OVERDUE'].map((action, i) => (
-                <div key={i} className="mb-2 p-2 text-sm border" style={{
+                <div key={i} className="mb-2 p-2 text-xs border" style={{
                   borderColor: '#ff0055',
                   background: 'rgba(255, 0, 85, 0.1)',
                   color: '#ffffff'
@@ -203,20 +203,20 @@ export function NeonNoir() {
               borderColor: '#ff00ff',
               background: 'rgba(255, 0, 255, 0.05)'
             }}>
-              <h2 className="text-base font-black mb-3" style={{
+              <h2 className="text-sm font-black mb-3" style={{
                 color: '#00ffff',
                 letterSpacing: '0.2em'
               }}>
                 &gt;&gt; EVENTS_STREAM
               </h2>
               {['Garden Meeting', 'Tech Gathering', 'Climate March'].map((event, i) => (
-                <div key={i} className="mb-3 p-4 border" style={{
+                <div key={i} className="mb-3 p-3 border" style={{
                   borderColor: '#00ffff',
                   background: 'rgba(0, 255, 255, 0.05)'
                 }}>
-                  <div className="text-base font-bold" style={{ color: '#ffffff' }}>{event}</div>
-                  <div className="text-sm mt-1" style={{ color: '#ff00ff' }}>TOMORROW • 18:00</div>
-                  <button className="mt-2 px-3 py-1.5 text-sm font-black" style={{
+                  <div className="text-sm font-bold" style={{ color: '#ffffff' }}>{event}</div>
+                  <div className="text-xs mt-1" style={{ color: '#ff00ff' }}>TOMORROW • 18:00</div>
+                  <button className="mt-2 px-3 py-1 text-xs font-black" style={{
                     background: '#00ffff',
                     color: '#000000',
                     border: 'none',

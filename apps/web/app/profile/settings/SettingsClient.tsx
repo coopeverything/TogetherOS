@@ -32,7 +32,7 @@ export default function SettingsClient({ user }: { user: User }) {
       <header className="bg-white dark:bg-gray-800 border-b border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-ink-900">Account Settings</h1>
+            <h1 className="text-2xl font-bold text-ink-900">Account Settings</h1>
             <Button variant="secondary" onClick={() => router.push('/profile')}>
               Back to Profile
             </Button>
@@ -43,7 +43,7 @@ export default function SettingsClient({ user }: { user: User }) {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Account Information */}
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold text-ink-900 mb-4">Account Information</h2>
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">Account Information</h2>
           <div className="space-y-4">
             <div>
               <Label className="text-ink-700">Email</Label>
@@ -88,11 +88,11 @@ export default function SettingsClient({ user }: { user: User }) {
 
         {/* Security Settings */}
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold text-ink-900 mb-4">Security</h2>
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">Security</h2>
           <div className="space-y-4">
             <div>
               <Label className="text-ink-700">Password</Label>
-              <p className="text-base text-ink-600 mt-1">Change your password to keep your account secure</p>
+              <p className="text-sm text-ink-600 mt-1">Change your password to keep your account secure</p>
               <Link href="/reset-password">
                 <Button variant="secondary" className="mt-2">Change Password</Button>
               </Link>
@@ -101,7 +101,7 @@ export default function SettingsClient({ user }: { user: User }) {
             {!user.email_verified && (
               <div>
                 <Label className="text-ink-700">Email Verification</Label>
-                <p className="text-base text-ink-600 mt-1">Verify your email address to secure your account</p>
+                <p className="text-sm text-ink-600 mt-1">Verify your email address to secure your account</p>
                 <Button variant="secondary" className="mt-2">
                   Resend Verification Email
                 </Button>
@@ -112,11 +112,11 @@ export default function SettingsClient({ user }: { user: User }) {
 
         {/* Account Actions */}
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold text-ink-900 mb-4">Account Actions</h2>
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">Account Actions</h2>
           <div className="space-y-4">
             <div>
               <Label className="text-ink-700">Sign Out</Label>
-              <p className="text-base text-ink-600 mt-1">
+              <p className="text-sm text-ink-600 mt-1">
                 Sign out of your account on this device
               </p>
               <Button
@@ -130,7 +130,7 @@ export default function SettingsClient({ user }: { user: User }) {
 
             <div className="border-t border-border pt-4 mt-6">
               <Label className="text-red-700">Danger Zone</Label>
-              <p className="text-base text-ink-600 mt-1">
+              <p className="text-sm text-ink-600 mt-1">
                 Permanently delete your account and all associated data
               </p>
               <Button
@@ -146,7 +146,7 @@ export default function SettingsClient({ user }: { user: User }) {
 
         {/* Quick Links */}
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold text-ink-900 mb-4">Quick Links</h2>
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">Quick Links</h2>
           <div className="space-y-2">
             <Link href="/dashboard" className="block text-brand-600 hover:text-brand-700">
               Dashboard →

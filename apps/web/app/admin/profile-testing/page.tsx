@@ -99,14 +99,14 @@ function SimpleProfileCard({ user }: { user: User }) {
           className="w-16 h-16"
         />
         <div className="flex-1 min-w-0">
-          <h3 className="text-xl font-semibold text-ink-900">
+          <h3 className="text-lg font-semibold text-ink-900">
             {user.name || user.username || 'Anonymous'}
           </h3>
           {user.username && user.name && (
-            <p className="text-base text-ink-400">@{user.username}</p>
+            <p className="text-sm text-ink-400">@{user.username}</p>
           )}
           {(user.city || user.state || user.country) && (
-            <p className="text-base text-ink-400 mt-1">
+            <p className="text-sm text-ink-400 mt-1">
               {[user.city, user.state, user.country].filter(Boolean).join(', ')}
             </p>
           )}
@@ -114,12 +114,12 @@ function SimpleProfileCard({ user }: { user: User }) {
       </div>
 
       {user.bio && (
-        <p className="mt-4 text-ink-700 text-base">{user.bio}</p>
+        <p className="mt-4 text-ink-700 text-sm">{user.bio}</p>
       )}
 
       {userPaths.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-ink-700 mb-2">Cooperation Paths</h4>
+          <h4 className="text-xs font-semibold text-ink-700 mb-2">Cooperation Paths</h4>
           <div className="flex flex-wrap gap-2">
             {userPaths.map(path => (
               <Badge key={path.id} variant="brand">
@@ -132,7 +132,7 @@ function SimpleProfileCard({ user }: { user: User }) {
 
       {user.skills && user.skills.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-ink-700 mb-2">Skills</h4>
+          <h4 className="text-xs font-semibold text-ink-700 mb-2">Skills</h4>
           <div className="flex flex-wrap gap-2">
             {user.skills.map(skill => (
               <Badge key={skill} variant="default">
@@ -145,15 +145,15 @@ function SimpleProfileCard({ user }: { user: User }) {
 
       {user.can_offer && (
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-ink-700 mb-1">Can Offer</h4>
-          <p className="text-base text-ink-400">{user.can_offer}</p>
+          <h4 className="text-xs font-semibold text-ink-700 mb-1">Can Offer</h4>
+          <p className="text-sm text-ink-400">{user.can_offer}</p>
         </div>
       )}
 
       {user.seeking_help && (
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-ink-700 mb-1">Seeking Help</h4>
-          <p className="text-base text-ink-400">{user.seeking_help}</p>
+          <h4 className="text-xs font-semibold text-ink-700 mb-1">Seeking Help</h4>
+          <p className="text-sm text-ink-400">{user.seeking_help}</p>
         </div>
       )}
     </Card>
@@ -229,7 +229,7 @@ export default function ProfileTestPage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  py-4 px-1 border-b-2 font-medium text-base transition-colors
+                  py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-ink-400 hover:text-ink-700 hover:border-border'
@@ -248,57 +248,57 @@ export default function ProfileTestPage() {
           {activeTab === 'showcase' && (
             <div className="space-y-8">
               <section>
-                <h2 className="text-2xl font-semibold mb-4">Profile Cards</h2>
+                <h2 className="text-xl font-semibold mb-4">Profile Cards</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">Complete Profile</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">Complete Profile</h3>
                     <SimpleProfileCard user={SAMPLE_PROFILES.complete} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">Partial Profile</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">Partial Profile</h3>
                     <SimpleProfileCard user={SAMPLE_PROFILES.partial} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">Minimal Profile</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">Minimal Profile</h3>
                     <SimpleProfileCard user={SAMPLE_PROFILES.minimal} />
                   </div>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">ProfileCompletionIndicator</h2>
+                <h2 className="text-xl font-semibold mb-4">ProfileCompletionIndicator</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">Minimal (Getting Started)</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">Minimal (Getting Started)</h3>
                     <ProfileCompletionIndicator user={SAMPLE_PROFILES.minimal} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">Partial (Almost There)</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">Partial (Almost There)</h3>
                     <ProfileCompletionIndicator user={SAMPLE_PROFILES.partial} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">Complete</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">Complete</h3>
                     <ProfileCompletionIndicator user={SAMPLE_PROFILES.complete} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink-700 mb-3">With showDetails=false</h3>
+                    <h3 className="text-sm font-medium text-ink-700 mb-3">With showDetails=false</h3>
                     <ProfileCompletionIndicator user={SAMPLE_PROFILES.complete} showDetails={false} />
-                    <p className="text-base text-ink-400 mt-2">(Hidden when complete and showDetails=false)</p>
+                    <p className="text-sm text-ink-400 mt-2">(Hidden when complete and showDetails=false)</p>
                   </div>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">TagInput Component</h2>
+                <h2 className="text-xl font-semibold mb-4">TagInput Component</h2>
                 <div className="max-w-2xl">
-                  <h3 className="text-base font-medium text-ink-700 mb-3">Interactive Skills Input</h3>
+                  <h3 className="text-sm font-medium text-ink-700 mb-3">Interactive Skills Input</h3>
                   <TagInput
                     value={['TypeScript', 'React']}
                     onChange={(tags) => console.log('Tags changed:', tags)}
                     placeholder="Add skills..."
                     suggestions={COMMON_SKILLS}
                   />
-                  <p className="mt-2 text-base text-ink-400">
+                  <p className="mt-2 text-sm text-ink-400">
                     Type to add tags, press Enter to confirm. Try typing &apos;Type&apos; to see suggestions.
                   </p>
                 </div>
@@ -333,10 +333,10 @@ export default function ProfileTestPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Form Side */}
                 <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">Edit Profile</h2>
+                  <h2 className="text-xl font-semibold">Edit Profile</h2>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">Name</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">Name</label>
                     <input
                       type="text"
                       value={demoProfile.name || ''}
@@ -347,7 +347,7 @@ export default function ProfileTestPage() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">Username</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">Username</label>
                     <input
                       type="text"
                       value={demoProfile.username || ''}
@@ -358,7 +358,7 @@ export default function ProfileTestPage() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">Bio</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">Bio</label>
                     <textarea
                       value={demoProfile.bio || ''}
                       onChange={(e) => handleDemoUpdate('bio', e.target.value)}
@@ -369,7 +369,7 @@ export default function ProfileTestPage() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">City</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">City</label>
                     <input
                       type="text"
                       value={demoProfile.city || ''}
@@ -380,7 +380,7 @@ export default function ProfileTestPage() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">Skills</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">Skills</label>
                     <TagInput
                       value={demoProfile.skills || []}
                       onChange={(skills) => handleDemoUpdate('skills', skills)}
@@ -390,7 +390,7 @@ export default function ProfileTestPage() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">What I Can Offer</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">What I Can Offer</label>
                     <textarea
                       value={demoProfile.can_offer || ''}
                       onChange={(e) => handleDemoUpdate('can_offer', e.target.value)}
@@ -401,7 +401,7 @@ export default function ProfileTestPage() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-ink-700 mb-1">What I&apos;m Seeking</label>
+                    <label className="block text-sm font-medium text-ink-700 mb-1">What I&apos;m Seeking</label>
                     <textarea
                       value={demoProfile.seeking_help || ''}
                       onChange={(e) => handleDemoUpdate('seeking_help', e.target.value)}
@@ -414,7 +414,7 @@ export default function ProfileTestPage() {
 
                 {/* Preview Side */}
                 <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">Live Preview</h2>
+                  <h2 className="text-xl font-semibold">Live Preview</h2>
                   <ProfileCompletionIndicator user={demoProfile} />
                   <SimpleProfileCard user={demoProfile} />
                 </div>
@@ -426,7 +426,7 @@ export default function ProfileTestPage() {
           {activeTab === 'api' && (
             <div className="space-y-8">
               <section>
-                <h2 className="text-2xl font-semibold mb-4">GET /api/profile/[username]</h2>
+                <h2 className="text-xl font-semibold mb-4">GET /api/profile/[username]</h2>
                 <div className="space-y-4">
                   <div className="flex gap-4">
                     <input
@@ -445,18 +445,18 @@ export default function ProfileTestPage() {
                       {apiLoading ? 'Loading...' : 'Fetch Profile'}
                     </Button>
                   </div>
-                  <div className="text-base text-ink-400">
-                    Try: <code className="bg-bg-2 px-3 py-1.5 rounded">alexrivera</code> or any other username
+                  <div className="text-sm text-ink-400">
+                    Try: <code className="bg-bg-2 px-2 py-1 rounded">alexrivera</code> or any other username
                   </div>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">PUT /api/profile</h2>
+                <h2 className="text-xl font-semibold mb-4">PUT /api/profile</h2>
                 <div className="space-y-4">
                   <textarea
                     id="put-data"
-                    className="w-full px-3 py-2 border border-border rounded-md font-mono text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-border rounded-md font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     rows={10}
                     placeholder='{"name": "Test User", "bio": "Testing the API..."}'
                     defaultValue={JSON.stringify({
@@ -476,7 +476,7 @@ export default function ProfileTestPage() {
                   >
                     {apiLoading ? 'Sending...' : 'Update Profile'}
                   </Button>
-                  <div className="text-base text-ink-400">
+                  <div className="text-sm text-ink-400">
                     Note: This will send the JSON to the API. Authentication may be required.
                   </div>
                 </div>
@@ -485,8 +485,8 @@ export default function ProfileTestPage() {
               {/* API Response */}
               {apiResponse && (
                 <section>
-                  <h2 className="text-2xl font-semibold mb-4">Response</h2>
-                  <pre className="bg-bg-0 border border-border text-ink-900 p-4 rounded-md overflow-x-auto text-base">
+                  <h2 className="text-xl font-semibold mb-4">Response</h2>
+                  <pre className="bg-bg-0 border border-border text-ink-900 p-4 rounded-md overflow-x-auto text-sm">
                     {apiResponse}
                   </pre>
                 </section>
@@ -494,7 +494,7 @@ export default function ProfileTestPage() {
 
               <section className="bg-blue-50 border border-blue-200 rounded-md p-4">
                 <h3 className="font-semibold text-blue-900 mb-2">Note about Authentication</h3>
-                <p className="text-base text-blue-800">
+                <p className="text-sm text-blue-800">
                   The actual API endpoints require authentication. This test page demonstrates the UI and client-side
                   validation. To test with real API calls, you&apos;ll need to be logged in. API calls here may return 401
                   errors if you&apos;re not authenticated.

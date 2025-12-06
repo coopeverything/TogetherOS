@@ -89,24 +89,24 @@ export function DailyChallengeCard({
     >
       {/* Completed checkmark */}
       {isCompleted && (
-        <div className="absolute top-2 right-2 text-green-600 text-2xl">✓</div>
+        <div className="absolute top-2 right-2 text-green-600 text-xl">✓</div>
       )}
 
       {/* Lock overlay */}
       {isLocked && unlockDay && (
-        <div className="absolute top-2 right-2 text-gray-400 text-base">
+        <div className="absolute top-2 right-2 text-gray-400 text-sm">
           🔒 Day {unlockDay}
         </div>
       )}
 
       {/* Header */}
-      <div className="flex items-start gap-4 mb-3">
+      <div className="flex items-start gap-3 mb-3">
         <span className="text-3xl">{icon}</span>
         <div className="flex-1">
           <h3 className={`font-semibold ${isLocked ? 'text-gray-500' : 'text-gray-900 dark:text-white'}`}>
             {challenge.name}
           </h3>
-          <p className={`text-base mt-1 ${isLocked ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-sm mt-1 ${isLocked ? 'text-gray-400' : 'text-gray-600'}`}>
             {challenge.description}
           </p>
         </div>
@@ -114,10 +114,10 @@ export function DailyChallengeCard({
 
       {/* Badges */}
       <div className="flex flex-wrap gap-2 mb-3">
-        <span className={`text-sm px-3 py-1.5 rounded-full font-medium ${categoryStyle.bg} ${categoryStyle.text}`}>
+        <span className={`text-xs px-2 py-1 rounded-full font-medium ${categoryStyle.bg} ${categoryStyle.text}`}>
           {challenge.category}
         </span>
-        <span className={`text-sm px-3 py-1.5 rounded-full font-medium ${difficultyStyle.bg} ${difficultyStyle.text}`}>
+        <span className={`text-xs px-2 py-1 rounded-full font-medium ${difficultyStyle.bg} ${difficultyStyle.text}`}>
           {challenge.difficulty}
         </span>
       </div>
@@ -125,11 +125,11 @@ export function DailyChallengeCard({
       {/* Reward */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-brand-600">
+          <span className="text-lg font-bold text-brand-600">
             +{challenge.rpReward} RP
           </span>
           {bonusRP > 0 && !isCompleted && (
-            <span className="text-base text-orange-600 flex items-center gap-1">
+            <span className="text-sm text-orange-600 flex items-center gap-1">
               <span>🔥</span>
               +{bonusRP} streak
             </span>
@@ -141,7 +141,7 @@ export function DailyChallengeCard({
           <button
             onClick={handleComplete}
             disabled={completing}
-            className="px-4 py-2 bg-brand-600 text-white text-base font-medium rounded-lg hover:bg-brand-700 disabled:opacity-50 transition-colors"
+            className="px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 disabled:opacity-50 transition-colors"
           >
             {completing ? 'Completing...' : 'Complete'}
           </button>
@@ -157,7 +157,7 @@ export function DailyChallengeCard({
       {/* Progress bar for multi-step challenges */}
       {userChallenge?.progress?.target && userChallenge.progress.current !== undefined && (
         <div className="mt-3">
-          <div className="flex justify-between text-sm text-gray-600 mb-1">
+          <div className="flex justify-between text-xs text-gray-600 mb-1">
             <span>Progress</span>
             <span>{userChallenge.progress.current}/{userChallenge.progress.target}</span>
           </div>

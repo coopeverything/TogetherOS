@@ -40,12 +40,12 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
       {!readingMode && (
         <div className="w-60 border-r border-[#E5E5E2] bg-white dark:bg-gray-800 overflow-y-auto">
           <div className="p-6 border-b border-[#E5E5E2]">
-            <h2 className="text-base font-semibold text-[#6B6B68] uppercase tracking-wide mb-4">
+            <h2 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-4">
               Topics
             </h2>
             <button
               onClick={onCreateTopic}
-              className="w-full px-4 py-2 bg-[#EA580C] text-white rounded-lg text-base font-medium hover:bg-[#C2410C] transition-colors"
+              className="w-full px-4 py-2 bg-[#EA580C] text-white rounded-lg text-sm font-medium hover:bg-[#C2410C] transition-colors"
             >
               New Topic
             </button>
@@ -56,20 +56,20 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
               <button
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
-                className={`w-full text-left p-4 rounded-lg mb-1 transition-all ${
+                className={`w-full text-left p-3 rounded-lg mb-1 transition-all ${
                   selectedTopic?.id === topic.id
                     ? 'bg-[#FED7AA] shadow-sm'
                     : 'hover:bg-gray-50 dark:bg-gray-900'
                 }`}
               >
                 <div className="flex items-start gap-2 mb-1">
-                  {topic.isPinned && <span className="text-orange-500 text-sm">📌</span>}
-                  <h3 className="text-base font-medium text-[#1A1A19] line-clamp-2 flex-1">
+                  {topic.isPinned && <span className="text-orange-500 text-xs">📌</span>}
+                  <h3 className="text-sm font-medium text-[#1A1A19] line-clamp-2 flex-1">
                     {topic.title}
                   </h3>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[#6B6B68]">
-                  <span className={`px-3 py-0.5 rounded-full text-[10px] ${categoryColors[topic.category]}`}>
+                <div className="flex items-center gap-2 text-xs text-[#6B6B68]">
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] ${categoryColors[topic.category]}`}>
                     {topic.category}
                   </span>
                   <span>{topic.postCount} posts</span>
@@ -86,16 +86,16 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
           <div className={`mx-auto px-12 py-16 ${readingMode ? 'max-w-[680px]' : 'max-w-[720px]'}`}>
             {/* Topic Header */}
             <div className="mb-12">
-              <div className="flex items-center gap-4 mb-4">
-                <span className={`px-4 py-1.5.5 rounded-full text-base font-medium ${categoryColors[selectedTopic.category]}`}>
+              <div className="flex items-center gap-3 mb-4">
+                <span className={`px-4 py-1.5 rounded-full text-sm font-medium ${categoryColors[selectedTopic.category]}`}>
                   {selectedTopic.category}
                 </span>
                 {selectedTopic.isPinned && (
-                  <span className="px-3 py-1.5 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">
                     Pinned
                   </span>
                 )}
-                <span className="text-base text-[#6B6B68] ml-auto font-mono">
+                <span className="text-sm text-[#6B6B68] ml-auto font-mono">
                   {selectedTopic.status}
                 </span>
               </div>
@@ -121,7 +121,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
                   {selectedTopic.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1.5 bg-[#E5E5E2] text-[#1A1A19] rounded text-sm"
+                      className="px-3 py-1 bg-[#E5E5E2] text-[#1A1A19] rounded text-xs"
                     >
                       {tag}
                     </span>
@@ -131,16 +131,16 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
             </div>
 
             {/* Metadata */}
-            <div className="border-t border-[#E5E5E2] pt-6 flex items-center gap-6 text-base text-[#6B6B68]">
+            <div className="border-t border-[#E5E5E2] pt-6 flex items-center gap-6 text-sm text-[#6B6B68]">
               <div className="flex items-center gap-2">
-                <span className="font-mono text-sm">💬</span>
+                <span className="font-mono text-xs">💬</span>
                 <span>{selectedTopic.postCount} posts</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-mono text-sm">👥</span>
+                <span className="font-mono text-xs">👥</span>
                 <span>{selectedTopic.participantCount} participants</span>
               </div>
-              <div className="flex items-center gap-2 ml-auto font-mono text-sm">
+              <div className="flex items-center gap-2 ml-auto font-mono text-xs">
                 Last activity: {new Date(selectedTopic.lastActivityAt).toLocaleDateString()}
               </div>
             </div>
@@ -159,8 +159,8 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
         ) : (
           <div className="flex items-center justify-center h-full text-[#6B6B68]">
             <div className="text-center">
-              <p className="text-xl mb-4">Select a topic to begin</p>
-              <p className="text-base">Use the left panel to browse topics</p>
+              <p className="text-lg mb-4">Select a topic to begin</p>
+              <p className="text-sm">Use the left panel to browse topics</p>
             </div>
           </div>
         )}
@@ -171,19 +171,19 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
         <div className="w-80 border-l border-[#E5E5E2] bg-white dark:bg-gray-800 p-6 overflow-y-auto">
           {/* Reading Controls */}
           <div className="mb-8">
-            <h3 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
+            <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Reading Settings
             </h3>
             <div className="space-y-3">
               <button
                 onClick={() => setReadingMode(!readingMode)}
-                className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-lg text-base transition-colors"
+                className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-lg text-sm transition-colors"
               >
                 {readingMode ? 'Exit' : 'Enter'} Reading Mode
               </button>
 
               <div>
-                <label className="text-sm text-[#6B6B68] mb-1 block">
+                <label className="text-xs text-[#6B6B68] mb-1 block">
                   Font Size: {fontSize}px
                 </label>
                 <input
@@ -200,17 +200,17 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
 
           {/* Quick Actions */}
           <div className="mb-8">
-            <h3 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
+            <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Quick Actions
             </h3>
             <div className="space-y-2">
-              <button className="w-full px-4 py-2 bg-[#EA580C] text-white rounded-lg text-base hover:bg-[#C2410C] transition-colors">
+              <button className="w-full px-4 py-2 bg-[#EA580C] text-white rounded-lg text-sm hover:bg-[#C2410C] transition-colors">
                 Reply
               </button>
-              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-base hover:bg-gray-50 dark:bg-gray-900 transition-colors">
+              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-sm hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                 Subscribe
               </button>
-              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-base hover:bg-gray-50 dark:bg-gray-900 transition-colors">
+              <button className="w-full px-4 py-2 border border-[#E5E5E2] rounded-lg text-sm hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                 Share
               </button>
             </div>
@@ -218,20 +218,20 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
 
           {/* Participants */}
           <div>
-            <h3 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
+            <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Participants
             </h3>
-            <p className="text-base text-[#6B6B68]">
+            <p className="text-sm text-[#6B6B68]">
               {selectedTopic.participantCount} people are participating in this discussion
             </p>
           </div>
 
           {/* Keyboard Shortcuts */}
           <div className="mt-8 pt-8 border-t border-[#E5E5E2]">
-            <h3 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
+            <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Keyboard Shortcuts
             </h3>
-            <div className="space-y-2 text-sm text-[#6B6B68] font-mono">
+            <div className="space-y-2 text-xs text-[#6B6B68] font-mono">
               <div className="flex justify-between">
                 <span>j / k</span>
                 <span>Next / Previous</span>

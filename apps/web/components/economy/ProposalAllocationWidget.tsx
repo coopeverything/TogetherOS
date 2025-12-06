@@ -102,7 +102,7 @@ export function ProposalAllocationWidget({
   if (error) {
     return (
       <div className={`bg-red-50 border border-red-200 rounded-lg p-4 ${className}`}>
-        <p className="text-base text-red-700">{error}</p>
+        <p className="text-sm text-red-700">{error}</p>
       </div>
     )
   }

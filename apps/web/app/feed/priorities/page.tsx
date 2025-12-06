@@ -35,7 +35,7 @@ export default function PrioritiesPage() {
 
       <div className="mt-8 p-4 bg-blue-50/20 rounded-lg">
         <h2 className="font-semibold mb-2">How priorities work</h2>
-        <ul className="space-y-2 text-base text-ink-700">
+        <ul className="space-y-2 text-sm text-ink-700">
           <li>• Your priorities are <strong>private</strong> - only you can see them</li>
           <li>• They help personalize your feed ("For You" mode)</li>
           <li>• Anonymous aggregates show community trends in the <a href="/map" className="text-blue-600 underline">Community Map</a></li>

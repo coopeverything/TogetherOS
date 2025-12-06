@@ -40,7 +40,7 @@ export function RPEarningsTable({ transactions, className = '' }: RPEarningsTabl
   if (transactions.length === 0) {
     return (
       <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">RP Transaction History</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">RP Transaction History</h2>
         <p className="text-gray-500 text-center py-8">No transactions yet</p>
       </div>
     )
@@ -49,24 +49,24 @@ export function RPEarningsTable({ transactions, className = '' }: RPEarningsTabl
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden ${className}`}>
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">RP Transaction History</h2>
-        <p className="text-base text-gray-500 mt-1">{transactions.length} transactions</p>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">RP Transaction History</h2>
+        <p className="text-sm text-gray-500 mt-1">{transactions.length} transactions</p>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 dark:bg-gray-900">
             <tr>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Type
               </th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Source
               </th>
-              <th className="px-6 py-3 text-right text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Amount
               </th>
             </tr>
@@ -74,20 +74,20 @@ export function RPEarningsTable({ transactions, className = '' }: RPEarningsTabl
           <tbody className="divide-y divide-gray-200">
             {transactions.map((tx) => (
               <tr key={tx.id} className="hover:bg-gray-50 dark:bg-gray-900">
-                <td className="px-6 py-4 whitespace-nowrap text-base text-gray-600">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {formatDate(tx.createdAt)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`text-base font-medium ${TYPE_COLORS[tx.type]}`}>
+                  <span className={`text-sm font-medium ${TYPE_COLORS[tx.type]}`}>
                     {TYPE_LABELS[tx.type]}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {tx.source || '-'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <span
-                    className={`text-base font-semibold ${
+                    className={`text-sm font-semibold ${
                       tx.amount >= 0 ? 'text-green-600' : 'text-red-600'
                     }`}
                   >

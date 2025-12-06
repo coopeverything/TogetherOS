@@ -105,7 +105,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
     <div className="min-h-screen bg-bg-0 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-base text-ink-700 mb-4">
+        <nav className="text-sm text-ink-700 mb-4">
           <Link href="/learn" className="hover:text-blue-600">
             Learn
           </Link>
@@ -118,7 +118,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
           <div className="flex items-start gap-4">
             <div className="text-4xl">{path.icon || '📚'}</div>
             <div className="flex-1">
-              <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+              <h1 className="text-xl font-semibold text-ink-900 mb-2">
                 {path.title}
               </h1>
               {path.description && (
@@ -126,7 +126,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
               )}
 
               {/* Meta */}
-              <div className="flex items-center gap-4 text-base text-ink-400 mb-4">
+              <div className="flex items-center gap-4 text-sm text-ink-400 mb-4">
                 <span>{path.lessonCount} lessons</span>
                 <span>~{path.estimatedMinutes} min</span>
                 <span className="text-green-600 font-medium">+{path.rpReward} RP</span>
@@ -134,7 +134,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
 
               {/* Progress */}
               <div className="mb-4">
-                <div className="flex items-center justify-between text-base mb-1">
+                <div className="flex items-center justify-between text-sm mb-1">
                   <span className="text-ink-700">Progress</span>
                   <span className="text-ink-900 font-medium">{progress}%</span>
                 </div>
@@ -203,7 +203,7 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
                         />
                       </svg>
                     ) : (
-                      <span className="text-base font-medium">{index + 1}</span>
+                      <span className="text-sm font-medium">{index + 1}</span>
                     )}
                   </div>
 
@@ -212,15 +212,15 @@ export default function PathDetailPage({ params }: { params: Promise<{ pathSlug:
                     <div className="flex items-center gap-2">
                       <h3 className="font-medium text-ink-900 truncate">{lesson.title}</h3>
                       {lesson.quizId && (
-                        <span className="text-sm bg-purple-100 text-purple-700 px-3 py-0.5 rounded">
+                        <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">
                           Quiz
                         </span>
                       )}
                     </div>
                     {lesson.description && (
-                      <p className="text-base text-ink-400 truncate">{lesson.description}</p>
+                      <p className="text-sm text-ink-400 truncate">{lesson.description}</p>
                     )}
-                    <div className="flex items-center gap-4 text-sm text-ink-400 mt-1">
+                    <div className="flex items-center gap-3 text-xs text-ink-400 mt-1">
                       <span>{lesson.durationMinutes} min</span>
                       <span className="text-green-600">+{lesson.rpReward} RP</span>
                     </div>

@@ -66,7 +66,7 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
       style={{ width, fontFamily: '"Cascadia Code", "Fira Code", monospace' }}
       onClick={() => handleSort(field)}
     >
-      <div className="flex items-center gap-1 text-sm text-[#A3A3A3]">
+      <div className="flex items-center gap-1 text-xs text-[#A3A3A3]">
         {children}
         {sortField === field && (
           <span className="text-[#FACC15]">{sortDirection === 'asc' ? '↑' : '↓'}</span>
@@ -84,14 +84,14 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
             <input
               type="text"
               placeholder="Type a command..."
-              className="w-full px-4 py-3 bg-transparent text-[#E5E5E5] text-base focus:outline-none"
+              className="w-full px-4 py-3 bg-transparent text-[#E5E5E5] text-sm focus:outline-none"
               autoFocus
             />
-            <div className="border-t border-[#2A2A2A] p-2 text-sm text-[#A3A3A3] space-y-1">
-              <div className="hover:bg-[#2A2A2A] px-3 py-1.5 rounded cursor-pointer">New Topic</div>
-              <div className="hover:bg-[#2A2A2A] px-3 py-1.5 rounded cursor-pointer">Filter by Category</div>
-              <div className="hover:bg-[#2A2A2A] px-3 py-1.5 rounded cursor-pointer">Sort by Activity</div>
-              <div className="hover:bg-[#2A2A2A] px-3 py-1.5 rounded cursor-pointer">Export to CSV</div>
+            <div className="border-t border-[#2A2A2A] p-2 text-xs text-[#A3A3A3] space-y-1">
+              <div className="hover:bg-[#2A2A2A] px-2 py-1 rounded cursor-pointer">New Topic</div>
+              <div className="hover:bg-[#2A2A2A] px-2 py-1 rounded cursor-pointer">Filter by Category</div>
+              <div className="hover:bg-[#2A2A2A] px-2 py-1 rounded cursor-pointer">Sort by Activity</div>
+              <div className="hover:bg-[#2A2A2A] px-2 py-1 rounded cursor-pointer">Export to CSV</div>
             </div>
           </div>
         </div>
@@ -99,24 +99,24 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
 
       {/* Toolbar */}
       <div className="bg-[#1F1F1F] border-b border-[#2A2A2A] px-4 py-2 flex items-center gap-4 flex-shrink-0">
-        <span className="text-sm font-bold text-[#A3A3A3]">FORUM.GRID</span>
+        <span className="text-xs font-bold text-[#A3A3A3]">FORUM.GRID</span>
         <input
           type="text"
           placeholder="Filter topics... (Ctrl+F)"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="flex-1 max-w-xs px-3 py-1.5 bg-[#1A1A1A] border border-[#2A2A2A] rounded text-sm text-[#E5E5E5] focus:outline-none focus:border-[#FACC15]"
+          className="flex-1 max-w-xs px-3 py-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded text-xs text-[#E5E5E5] focus:outline-none focus:border-[#FACC15]"
         />
         <button
           onClick={() => setShowCommandPalette(true)}
-          className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333333] rounded text-sm text-[#A3A3A3] flex items-center gap-2"
+          className="px-3 py-1 bg-[#2A2A2A] hover:bg-[#333333] rounded text-xs text-[#A3A3A3] flex items-center gap-2"
         >
           <span>⌘K</span>
           <span>Commands</span>
         </button>
         <button
           onClick={onCreateTopic}
-          className="px-3 py-1.5 bg-[#22C55E] hover:bg-[#16A34A] rounded text-sm text-black font-bold"
+          className="px-3 py-1 bg-[#22C55E] hover:bg-[#16A34A] rounded text-xs text-black font-bold"
         >
           NEW
         </button>
@@ -124,7 +124,7 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
 
       {/* Data Table */}
       <div className="flex-1 overflow-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-xs">
           <thead className="sticky top-0 bg-[#1F1F1F] z-10">
             <tr>
               <Column field="title" width="35%">TITLE</Column>
@@ -133,7 +133,7 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
               <Column field="posts" width="8%">POSTS</Column>
               <Column field="participants" width="10%">PARTS</Column>
               <Column field="activity" width="15%">LAST ACTIVITY</Column>
-              <th className="text-left p-2 border-b border-[#2A2A2A] text-sm text-[#A3A3A3]" style={{ width: '10%' }}>
+              <th className="text-left p-2 border-b border-[#2A2A2A] text-xs text-[#A3A3A3]" style={{ width: '10%' }}>
                 ACTIONS
               </th>
             </tr>
@@ -182,10 +182,10 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
                   </td>
                   <td className="p-2">
                     <div className="flex gap-1">
-                      <button className="px-3 py-0.5 bg-[#2A2A2A] hover:bg-[#333333] rounded text-[10px]">
+                      <button className="px-2 py-0.5 bg-[#2A2A2A] hover:bg-[#333333] rounded text-[10px]">
                         →
                       </button>
-                      <button className="px-3 py-0.5 bg-[#2A2A2A] hover:bg-[#333333] rounded text-[10px]">
+                      <button className="px-2 py-0.5 bg-[#2A2A2A] hover:bg-[#333333] rounded text-[10px]">
                         ⋮
                       </button>
                     </div>
@@ -198,14 +198,14 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
       </div>
 
       {/* Status Bar */}
-      <div className="bg-[#1F1F1F] border-t border-[#2A2A2A] px-4 py-1.5 flex items-center justify-between text-[10px] text-[#A3A3A3] flex-shrink-0">
+      <div className="bg-[#1F1F1F] border-t border-[#2A2A2A] px-4 py-1 flex items-center justify-between text-[10px] text-[#A3A3A3] flex-shrink-0">
         <div className="flex items-center gap-4">
           <span>
             {sortedTopics.length} / {topics.length} topics
           </span>
           {filter && <span className="text-[#FACC15]">Filter active: "{filter}"</span>}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <span>⌘K: Commands</span>
           <span>j/k: Navigate</span>
           <span>?: Help</span>

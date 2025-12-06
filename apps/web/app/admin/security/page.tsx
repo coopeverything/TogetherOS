@@ -187,7 +187,7 @@ export default function SecurityAdminPage() {
             href="https://github.com/coopeverything/TogetherOS/security/code-scanning"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-1 transition-colors text-base"
+            className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-1 transition-colors text-sm"
           >
             View CodeQL Alerts →
           </a>
@@ -200,14 +200,14 @@ export default function SecurityAdminPage() {
               key={metric.name}
               className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border"
             >
-              <div className="text-base text-ink-400">
+              <div className="text-sm text-ink-400">
                 {metric.name}
               </div>
-              <div className="text-3xl font-bold text-ink-900 flex items-center gap-1">
+              <div className="text-2xl font-bold text-ink-900 flex items-center gap-1">
                 {metric.value}
                 {getTrendIcon(metric.trend)}
               </div>
-              <div className="text-sm text-ink-400 mt-1">
+              <div className="text-xs text-ink-400 mt-1">
                 {metric.description}
               </div>
             </div>
@@ -217,7 +217,7 @@ export default function SecurityAdminPage() {
         {/* Security Features */}
         <div className="bg-bg-0 rounded-lg shadow-sm border border-border">
           <div className="p-6 border-b border-border">
-            <h2 className="text-2xl font-semibold text-ink-900">
+            <h2 className="text-xl font-semibold text-ink-900">
               Security Features
             </h2>
           </div>
@@ -228,24 +228,24 @@ export default function SecurityAdminPage() {
                 className="p-4 flex items-center justify-between"
               >
                 <div className="flex-1">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <span className="font-medium text-ink-900">
                       {feature.name}
                     </span>
                     <span
-                      className={`px-3 py-0.5 rounded-full text-sm font-medium ${getStatusColor(
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
                         feature.status
                       )}`}
                     >
                       {feature.status}
                     </span>
                   </div>
-                  <p className="text-base text-ink-400 mt-1">
+                  <p className="text-sm text-ink-400 mt-1">
                     {feature.description}
                   </p>
                 </div>
                 {feature.lastChecked && (
-                  <div className="text-sm text-ink-400">
+                  <div className="text-xs text-ink-400">
                     Checked: {new Date(feature.lastChecked).toLocaleString()}
                   </div>
                 )}
@@ -256,7 +256,7 @@ export default function SecurityAdminPage() {
 
         {/* Quick Actions */}
         <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-6">
-          <h2 className="text-2xl font-semibold text-ink-900 mb-4">
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">
             Quick Actions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -269,7 +269,7 @@ export default function SecurityAdminPage() {
               <div className="font-medium text-ink-900">
                 View Security Alerts
               </div>
-              <div className="text-base text-ink-400">
+              <div className="text-sm text-ink-400">
                 CodeQL and secret scanning
               </div>
             </a>
@@ -282,7 +282,7 @@ export default function SecurityAdminPage() {
               <div className="font-medium text-ink-900">
                 Dependabot Alerts
               </div>
-              <div className="text-base text-ink-400">
+              <div className="text-sm text-ink-400">
                 Dependency vulnerabilities
               </div>
             </a>
@@ -293,7 +293,7 @@ export default function SecurityAdminPage() {
               <div className="font-medium text-ink-900">
                 Privacy Policy
               </div>
-              <div className="text-base text-ink-400">
+              <div className="text-sm text-ink-400">
                 View public privacy policy
               </div>
             </a>
@@ -305,7 +305,7 @@ export default function SecurityAdminPage() {
               <div className="font-medium text-ink-900">
                 Security Policy
               </div>
-              <div className="text-base text-ink-400">
+              <div className="text-sm text-ink-400">
                 Vulnerability disclosure
               </div>
             </a>
@@ -314,7 +314,7 @@ export default function SecurityAdminPage() {
 
         {/* Implementation Details */}
         <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-6">
-          <h2 className="text-2xl font-semibold text-ink-900 mb-4">
+          <h2 className="text-xl font-semibold text-ink-900 mb-4">
             Implementation Details
           </h2>
           <div className="prose prose-sm dark:prose-invert max-w-none">

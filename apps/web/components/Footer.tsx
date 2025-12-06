@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               About
             </h3>
             <ul className="space-y-2">
@@ -28,7 +28,7 @@ export default function Footer() {
 
           {/* Learn */}
           <div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Learn
             </h3>
             <ul className="space-y-2">
@@ -62,7 +62,7 @@ export default function Footer() {
 
           {/* Community */}
           <div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Community
             </h3>
             <ul className="space-y-2">
@@ -91,7 +91,7 @@ export default function Footer() {
 
           {/* Tools */}
           <div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Tools
             </h3>
             <ul className="space-y-2">
@@ -118,10 +118,10 @@ export default function Footer() {
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center gap-4">
-              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 text-base">
+              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 text-sm">
                 © {currentYear} Coopeverything. Powered by TogetherOS.
               </p>
-              <div className="flex space-x-4 text-base">
+              <div className="flex space-x-4 text-sm">
                 <Link href="/privacy" className="text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
                   Privacy
                 </Link>

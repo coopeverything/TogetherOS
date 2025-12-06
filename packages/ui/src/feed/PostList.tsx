@@ -77,7 +77,7 @@ export function PostList({
     return (
       <div className={`text-center py-12 ${className}`}>
         <div className="text-gray-400 text-5xl mb-4">📭</div>
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No posts yet</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No posts yet</h3>
         <p className="text-gray-600">Be the first to share something!</p>
       </div>
     )
@@ -106,7 +106,7 @@ export function PostList({
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 animate-pulse">
-              <div className="flex items-start gap-4 mb-3">
+              <div className="flex items-start gap-3 mb-3">
                 <div className="w-10 h-10 bg-gray-200 rounded-full" />
                 <div className="flex-1">
                   <div className="h-4 bg-gray-200 rounded w-24 mb-2" />

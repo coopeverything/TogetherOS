@@ -7,7 +7,7 @@ export default function DashboardTest2() {
     <div className="flex flex-col h-screen bg-bg-2">
       {/* Header */}
       <header className="flex items-center justify-between p-6 bg-bg-0 shadow-md">
-        <h1 className="text-3xl font-bold text-ink-900">
+        <h1 className="text-2xl font-bold text-ink-900">
           Admin Dashboard
         </h1>
         <nav>

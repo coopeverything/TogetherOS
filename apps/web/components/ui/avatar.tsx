@@ -14,10 +14,10 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     const [imageError, setImageError] = React.useState(false);
 
     const sizeStyles = {
-      sm: 'h-8 w-8 text-sm',
-      md: 'h-10 w-10 text-base',
-      lg: 'h-12 w-12 text-lg',
-      xl: 'h-16 w-16 text-xl',
+      sm: 'h-8 w-8 text-xs',
+      md: 'h-10 w-10 text-sm',
+      lg: 'h-12 w-12 text-base',
+      xl: 'h-16 w-16 text-lg',
     };
 
     const displayFallback = fallback || (alt ? alt.charAt(0).toUpperCase() : '?');

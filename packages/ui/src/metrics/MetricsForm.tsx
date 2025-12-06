@@ -106,7 +106,7 @@ export function MetricsForm({
     <form onSubmit={handleSubmit} className={`space-y-8 ${className}`}>
       {/* Header */}
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Define Success Metrics
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -116,16 +116,16 @@ export function MetricsForm({
 
       {/* Evaluation Schedule */}
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Evaluation Schedule
         </h3>
-        <p className="text-base text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
           When should we measure whether this initiative achieved its goals?
         </p>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Schedule
             </label>
             <select
@@ -143,7 +143,7 @@ export function MetricsForm({
 
           {evaluationSchedule === 'custom' && (
             <div>
-              <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Custom Date
               </label>
               <input
@@ -161,14 +161,14 @@ export function MetricsForm({
       {/* Metrics */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Success Metrics ({metrics.length}/10)
           </h3>
           <button
             type="button"
             onClick={addMetric}
             disabled={metrics.length >= 10}
-            className="px-3 py-1.5 text-base bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             + Add Metric
           </button>
@@ -197,7 +197,7 @@ export function MetricsForm({
             <div className="grid gap-4">
               {/* Name */}
               <div>
-                <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Metric Name *
                 </label>
                 <input
@@ -214,7 +214,7 @@ export function MetricsForm({
 
               {/* Description */}
               <div>
-                <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Description *
                 </label>
                 <textarea
@@ -232,7 +232,7 @@ export function MetricsForm({
               {/* Target Value Row */}
               <div className="grid gap-4 sm:grid-cols-3">
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Target Value *
                   </label>
                   <input
@@ -244,7 +244,7 @@ export function MetricsForm({
                   />
                 </div>
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Unit *
                   </label>
                   <input
@@ -257,7 +257,7 @@ export function MetricsForm({
                   />
                 </div>
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Confidence
                   </label>
                   <select
@@ -275,7 +275,7 @@ export function MetricsForm({
               {/* Measurement Row */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Measurement Method
                   </label>
                   <select
@@ -291,7 +291,7 @@ export function MetricsForm({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Data Source
                   </label>
                   <input
@@ -307,7 +307,7 @@ export function MetricsForm({
               {/* Weight and Mandatory */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Weight (1-10)
                   </label>
                   <input
@@ -318,7 +318,7 @@ export function MetricsForm({
                     onChange={(e) => updateMetric(index, 'weight', parseInt(e.target.value))}
                     className="w-full"
                   />
-                  <div className="text-base text-gray-500 dark:text-gray-400 text-center">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
                     {metric.weight}
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export function MetricsForm({
                       onChange={(e) => updateMetric(index, 'mandatory', e.target.checked)}
                       className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                     />
-                    <span className="text-base font-medium text-gray-700 dark:text-gray-300">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       Required for success
                     </span>
                   </label>

@@ -96,8 +96,8 @@ export function RoleAssignment({
     <div className={className}>
       {/* Add Role Form */}
       <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Assign Role</h3>
-        <div className="flex gap-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Assign Role</h3>
+        <div className="flex gap-3">
           <select
             value={selectedMember}
             onChange={(e) => setSelectedMember(e.target.value)}
@@ -135,7 +135,7 @@ export function RoleAssignment({
 
       {/* Current Roles */}
       <div>
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Current Roles</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Current Roles</h3>
         {rolesWithMembers.length === 0 ? (
           <p className="text-gray-500 text-center py-8">No roles assigned yet</p>
         ) : (
@@ -145,9 +145,9 @@ export function RoleAssignment({
                 key={role.id}
                 className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
-                    <span className="text-blue-800 font-bold text-base">
+                    <span className="text-blue-800 font-bold text-sm">
                       {role.member?.displayName
                         .split(' ')
                         .map((word) => word[0])
@@ -158,18 +158,18 @@ export function RoleAssignment({
                   </div>
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{role.member?.displayName}</p>
-                    <p className="text-base text-gray-500">@{role.member?.handle}</p>
+                    <p className="text-sm text-gray-500">@{role.member?.handle}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <span className={`px-3 py-1.5 text-base font-medium rounded-full ${getRoleBadgeColor(role.role)}`}>
+                <div className="flex items-center gap-3">
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full ${getRoleBadgeColor(role.role)}`}>
                     {role.role.charAt(0).toUpperCase() + role.role.slice(1)}
                   </span>
                   {onRevokeRole && role.memberId !== currentUserId && (
                     <button
                       onClick={() => handleRevoke(role.id)}
-                      className="text-base text-red-600 hover:text-red-700 font-medium"
+                      className="text-sm text-red-600 hover:text-red-700 font-medium"
                     >
                       Revoke
                     </button>

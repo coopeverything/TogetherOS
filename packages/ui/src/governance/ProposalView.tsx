@@ -82,7 +82,7 @@ export function ProposalView({
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {proposal.title}
             </h1>
-            <div className="flex items-center gap-4 text-base text-gray-500">
+            <div className="flex items-center gap-3 text-sm text-gray-500">
               <span>
                 by {authorName || `User ${proposal.authorId.slice(0, 8)}`}
               </span>
@@ -93,7 +93,7 @@ export function ProposalView({
             </div>
           </div>
           <span
-            className={`px-4 py-2 text-base font-medium rounded-full ${getStatusBadgeColor(
+            className={`px-4 py-2 text-sm font-medium rounded-full ${getStatusBadgeColor(
               proposal.status
             )}`}
           >
@@ -103,7 +103,7 @@ export function ProposalView({
 
         {/* Action Buttons */}
         {isAuthor && (
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             {onEdit && (
               <button
                 onClick={onEdit}
@@ -126,14 +126,14 @@ export function ProposalView({
 
       {/* Summary */}
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Summary</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Summary</h2>
         <p className="text-gray-700 whitespace-pre-wrap">{proposal.summary}</p>
       </div>
 
       {/* Evidence */}
       {proposal.evidence.length > 0 && (
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Evidence ({proposal.evidence.length})
           </h2>
           <div className="space-y-4">
@@ -144,17 +144,17 @@ export function ProposalView({
               >
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-semibold text-gray-900 dark:text-white">{evidence.title}</h3>
-                  <span className="px-3 py-1.5 text-sm bg-blue-100 text-blue-800 rounded">
+                  <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded">
                     {evidence.type}
                   </span>
                 </div>
-                <p className="text-gray-700 text-base mb-2">{evidence.summary}</p>
+                <p className="text-gray-700 text-sm mb-2">{evidence.summary}</p>
                 {evidence.url && (
                   <a
                     href={evidence.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-base text-orange-600 hover:text-orange-700 underline"
+                    className="text-sm text-orange-600 hover:text-orange-700 underline"
                   >
                     View source →
                   </a>
@@ -168,7 +168,7 @@ export function ProposalView({
       {/* Options */}
       {proposal.options.length > 0 && (
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Options ({proposal.options.length})
           </h2>
           <div className="space-y-4">
@@ -178,9 +178,9 @@ export function ProposalView({
                 className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
               >
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{option.title}</h3>
-                <p className="text-gray-700 text-base mb-3">{option.description}</p>
+                <p className="text-gray-700 text-sm mb-3">{option.description}</p>
                 {(option.estimatedCost || option.estimatedTime) && (
-                  <div className="flex gap-4 text-base text-gray-600">
+                  <div className="flex gap-4 text-sm text-gray-600">
                     {option.estimatedCost && (
                       <span>Cost: ${option.estimatedCost.toLocaleString()}</span>
                     )}
@@ -198,7 +198,7 @@ export function ProposalView({
       {/* Positions */}
       {proposal.positions.length > 0 && (
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Member Positions ({proposal.positions.length})
           </h2>
           <div className="space-y-4">
@@ -212,7 +212,7 @@ export function ProposalView({
                     User {position.memberId.slice(0, 8)}
                   </span>
                   <span
-                    className={`px-3 py-1.5 text-sm rounded ${
+                    className={`px-2 py-1 text-xs rounded ${
                       position.stance === 'support'
                         ? 'bg-green-100 text-green-800'
                         : position.stance === 'oppose'
@@ -225,7 +225,7 @@ export function ProposalView({
                     {position.stance}
                   </span>
                 </div>
-                <p className="text-gray-700 text-base">{position.reasoning}</p>
+                <p className="text-gray-700 text-sm">{position.reasoning}</p>
               </div>
             ))}
           </div>
@@ -235,7 +235,7 @@ export function ProposalView({
       {/* Minority Report */}
       {proposal.minorityReport && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
             Minority Report
           </h2>
           <p className="text-gray-700 whitespace-pre-wrap">
@@ -247,10 +247,10 @@ export function ProposalView({
       {/* Decision Info */}
       {proposal.decidedAt && (
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
             Decision
           </h2>
-          <div className="space-y-2 text-base">
+          <div className="space-y-2 text-sm">
             <div>
               <span className="font-medium text-gray-700">Decided:</span>{' '}
               <span className="text-gray-600">{formatDate(proposal.decidedAt)}</span>
@@ -259,7 +259,7 @@ export function ProposalView({
               <div>
                 <span className="font-medium text-gray-700">Outcome:</span>{' '}
                 <span
-                  className={`px-3 py-1.5 rounded text-sm ${
+                  className={`px-2 py-1 rounded text-xs ${
                     proposal.decisionOutcome === 'approved'
                       ? 'bg-green-100 text-green-800'
                       : proposal.decisionOutcome === 'rejected'

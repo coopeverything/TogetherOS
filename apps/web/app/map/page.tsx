@@ -22,7 +22,7 @@ export default function CommunityMapPage() {
       <div className="mt-8 grid md:grid-cols-2 gap-6">
         <div className="p-4 bg-green-50/20 rounded-lg">
           <h2 className="font-semibold mb-2 text-green-900">Privacy Protected</h2>
-          <p className="text-base text-ink-700">
+          <p className="text-sm text-ink-700">
             Individual priorities are never shared. We only show anonymous statistics when
             enough people (20+) have prioritized a topic.
           </p>
@@ -30,7 +30,7 @@ export default function CommunityMapPage() {
 
         <div className="p-4 bg-purple-50/20 rounded-lg">
           <h2 className="font-semibold mb-2 text-purple-900">How It Works</h2>
-          <p className="text-base text-ink-700">
+          <p className="text-sm text-ink-700">
             Percentages show how many community members have this topic in their
             top priorities. Arrows show week-over-week trends.
           </p>

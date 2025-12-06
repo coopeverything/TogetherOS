@@ -92,7 +92,7 @@ export default function AdminRewardPointsPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-base text-ink-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-ink-400 mb-4">
             <Link href="/admin" className="hover:text-purple-600 transition-colors">
               Admin
             </Link>
@@ -107,20 +107,20 @@ export default function AdminRewardPointsPage() {
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-base text-ink-400">Total RP Earned</div>
-              <div className="text-3xl font-bold text-purple-600">{stats.totalRPEarned.toLocaleString()}</div>
+              <div className="text-sm text-ink-400">Total RP Earned</div>
+              <div className="text-2xl font-bold text-purple-600">{stats.totalRPEarned.toLocaleString()}</div>
             </div>
             <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-base text-ink-400">In Circulation</div>
-              <div className="text-3xl font-bold text-green-600">{stats.totalRPInCirculation.toLocaleString()}</div>
+              <div className="text-sm text-ink-400">In Circulation</div>
+              <div className="text-2xl font-bold text-green-600">{stats.totalRPInCirculation.toLocaleString()}</div>
             </div>
             <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-base text-ink-400">Converted to TBC</div>
-              <div className="text-3xl font-bold text-blue-600">{stats.spentOnTBC.toLocaleString()}</div>
+              <div className="text-sm text-ink-400">Converted to TBC</div>
+              <div className="text-2xl font-bold text-blue-600">{stats.spentOnTBC.toLocaleString()}</div>
             </div>
             <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-base text-ink-400">Used for SH</div>
-              <div className="text-3xl font-bold text-amber-600">{stats.spentOnSH.toLocaleString()}</div>
+              <div className="text-sm text-ink-400">Used for SH</div>
+              <div className="text-2xl font-bold text-amber-600">{stats.spentOnSH.toLocaleString()}</div>
             </div>
           </div>
         )}
@@ -129,8 +129,8 @@ export default function AdminRewardPointsPage() {
           {/* Earning Breakdown */}
           <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
             <div className="p-4 border-b border-border">
-              <h2 className="text-xl font-semibold text-ink-900">Earning Sources</h2>
-              <p className="text-base text-ink-400">How RP is being earned</p>
+              <h2 className="text-lg font-semibold text-ink-900">Earning Sources</h2>
+              <p className="text-sm text-ink-400">How RP is being earned</p>
             </div>
             <div className="p-4">
               {/* Progress bars */}
@@ -138,8 +138,8 @@ export default function AdminRewardPointsPage() {
                 {breakdown.map((item) => (
                   <div key={item.category}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-base font-medium text-ink-700">{item.label}</span>
-                      <span className="text-base text-ink-400">{item.percentage}%</span>
+                      <span className="text-sm font-medium text-ink-700">{item.label}</span>
+                      <span className="text-sm text-ink-400">{item.percentage}%</span>
                     </div>
                     <div className="w-full bg-bg-2 rounded-full h-2">
                       <div
@@ -147,7 +147,7 @@ export default function AdminRewardPointsPage() {
                         style={{ width: `${item.percentage}%` }}
                       ></div>
                     </div>
-                    <div className="text-sm text-ink-400 mt-1">{item.amount.toLocaleString()} RP</div>
+                    <div className="text-xs text-ink-400 mt-1">{item.amount.toLocaleString()} RP</div>
                   </div>
                 ))}
               </div>
@@ -157,22 +157,22 @@ export default function AdminRewardPointsPage() {
           {/* Top Earners */}
           <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
             <div className="p-4 border-b border-border">
-              <h2 className="text-xl font-semibold text-ink-900">Top RP Earners</h2>
-              <p className="text-base text-ink-400">Members with highest RP earnings</p>
+              <h2 className="text-lg font-semibold text-ink-900">Top RP Earners</h2>
+              <p className="text-sm text-ink-400">Members with highest RP earnings</p>
             </div>
             <div className="divide-y divide-border">
               {topEarners.map((earner, index) => (
                 <div key={earner.memberId} className="p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <span className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 text-base font-medium flex items-center justify-center">
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 text-sm font-medium flex items-center justify-center">
                       {index + 1}
                     </span>
                     <div>
                       <div className="font-medium text-ink-900">{earner.displayName}</div>
-                      <div className="text-sm text-ink-400">{earner.primarySource}</div>
+                      <div className="text-xs text-ink-400">{earner.primarySource}</div>
                     </div>
                   </div>
-                  <div className="text-xl font-semibold text-purple-600">{earner.totalEarned.toLocaleString()} RP</div>
+                  <div className="text-lg font-semibold text-purple-600">{earner.totalEarned.toLocaleString()} RP</div>
                 </div>
               ))}
             </div>
@@ -182,35 +182,35 @@ export default function AdminRewardPointsPage() {
         {/* Conversion Stats */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-bg-0 rounded-lg border border-border p-6">
-            <h3 className="text-xl font-semibold text-ink-900 mb-4">RP → TBC Conversions</h3>
+            <h3 className="text-lg font-semibold text-ink-900 mb-4">RP → TBC Conversions</h3>
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-3xl font-bold text-blue-600">{stats?.spentOnTBC.toLocaleString()}</div>
-                <div className="text-base text-ink-400">Total RP converted</div>
+                <div className="text-sm text-ink-400">Total RP converted</div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnTBC / 100) : 0}</div>
-                <div className="text-base text-ink-400">TBC issued</div>
+                <div className="text-2xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnTBC / 100) : 0}</div>
+                <div className="text-sm text-ink-400">TBC issued</div>
               </div>
             </div>
-            <div className="mt-4 text-sm text-ink-400">
+            <div className="mt-4 text-xs text-ink-400">
               Current rate: 100 RP = 1 TBC
             </div>
           </div>
 
           <div className="bg-bg-0 rounded-lg border border-border p-6">
-            <h3 className="text-xl font-semibold text-ink-900 mb-4">RP → SH Purchases</h3>
+            <h3 className="text-lg font-semibold text-ink-900 mb-4">RP → SH Purchases</h3>
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-3xl font-bold text-amber-600">{stats?.spentOnSH.toLocaleString()}</div>
-                <div className="text-base text-ink-400">Total RP spent</div>
+                <div className="text-sm text-ink-400">Total RP spent</div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnSH / 50) : 0}</div>
-                <div className="text-base text-ink-400">SH purchased</div>
+                <div className="text-2xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnSH / 50) : 0}</div>
+                <div className="text-sm text-ink-400">SH purchased</div>
               </div>
             </div>
-            <div className="mt-4 text-sm text-ink-400">
+            <div className="mt-4 text-xs text-ink-400">
               Rate varies by purchase event
             </div>
           </div>
@@ -218,8 +218,8 @@ export default function AdminRewardPointsPage() {
 
         {/* Information Box */}
         <div className="mt-8 bg-purple-50 border border-purple-200 rounded-lg p-6">
-          <h3 className="text-xl font-semibold text-purple-900 mb-3">About Reward Points</h3>
-          <div className="space-y-2 text-base text-purple-800">
+          <h3 className="text-lg font-semibold text-purple-900 mb-3">About Reward Points</h3>
+          <div className="space-y-2 text-sm text-purple-800">
             <p><strong>Purpose:</strong> RP represents economic claims from contributions to the cooperative.</p>
             <p><strong>Earning:</strong> Technical contributions, membership dues, donations, and gamification activities.</p>
             <p><strong>Spending:</strong> Convert to Timebank Credits (TBC) or purchase Social Horizon (SH) in events.</p>

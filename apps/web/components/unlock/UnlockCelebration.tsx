@@ -112,11 +112,11 @@ export function UnlockCelebration({
           </div>
           <h2
             id="unlock-title"
-            className="text-3xl font-bold text-white mb-1"
+            className="text-2xl font-bold text-white mb-1"
           >
             Level Up!
           </h2>
-          <p className="text-brand-100 text-xl">
+          <p className="text-brand-100 text-lg">
             {levelInfo.name}
           </p>
         </div>
@@ -129,14 +129,14 @@ export function UnlockCelebration({
 
           {/* What's unlocked */}
           <div className="bg-brand-50 rounded-xl p-4 mb-6">
-            <h3 className="text-base font-semibold text-brand-700 uppercase tracking-wide mb-3">
+            <h3 className="text-sm font-semibold text-brand-700 uppercase tracking-wide mb-3">
               New Features Unlocked
             </h3>
             <ul className="space-y-2">
               {levelInfo.unlocks.map((unlock, index) => (
                 <li
                   key={index}
-                  className="flex items-center gap-2 text-base text-ink-700"
+                  className="flex items-center gap-2 text-sm text-ink-700"
                 >
                   <svg
                     className="w-5 h-5 text-green-500 flex-shrink-0"
@@ -158,7 +158,7 @@ export function UnlockCelebration({
           </div>
 
           {/* Actions */}
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <Button
               variant="secondary"
               className="flex-1"

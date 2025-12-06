@@ -35,7 +35,7 @@ export default function BridgeError({
           </svg>
         </div>
 
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           Bridge is temporarily unavailable
         </h2>
 
@@ -45,13 +45,13 @@ export default function BridgeError({
 
         {error.message && (
           <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6 text-left">
-            <p className="text-base text-red-800 font-mono break-words">
+            <p className="text-sm text-red-800 font-mono break-words">
               {error.message}
             </p>
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
             className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"

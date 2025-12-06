@@ -21,7 +21,7 @@ export default function ExampleProfilePage() {
           <Link href="/" className="text-brand-600 hover:text-brand-500 font-semibold">
             ← Back to Home
           </Link>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <Link href="/login">
               <Button variant="secondary" size="sm">Sign In</Button>
             </Link>
@@ -35,7 +35,7 @@ export default function ExampleProfilePage() {
       <main className="max-w-5xl mx-auto px-6 py-8">
         {/* Notice */}
         <div className="bg-joy-100 border border-joy-600/20 rounded-lg p-4 mb-6">
-          <p className="text-base text-ink-900">
+          <p className="text-sm text-ink-900">
             <span className="font-semibold">📋 This is an example profile.</span> Use it as inspiration when creating your own TogetherOS profile.
           </p>
         </div>
@@ -64,13 +64,13 @@ export default function ExampleProfilePage() {
 
                 {/* Badges */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1.5 bg-brand-100 text-brand-600 rounded-full text-base font-medium">
+                  <span className="px-3 py-1 bg-brand-100 text-brand-600 rounded-full text-sm font-medium">
                     🏆 Active Contributor
                   </span>
-                  <span className="px-3 py-1.5 bg-joy-100 text-joy-600 rounded-full text-base font-medium">
+                  <span className="px-3 py-1 bg-joy-100 text-joy-600 rounded-full text-sm font-medium">
                     ⭐ Early Adopter
                   </span>
-                  <span className="px-3 py-1.5 bg-brand-100 text-brand-600 rounded-full text-base font-medium">
+                  <span className="px-3 py-1 bg-brand-100 text-brand-600 rounded-full text-sm font-medium">
                     🤝 Collaborative
                   </span>
                 </div>
@@ -78,16 +78,16 @@ export default function ExampleProfilePage() {
                 {/* Quick Stats */}
                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
                   <div>
-                    <div className="text-3xl font-bold text-ink-900">15</div>
-                    <div className="text-base text-ink-700">Proposals Voted</div>
+                    <div className="text-2xl font-bold text-ink-900">15</div>
+                    <div className="text-sm text-ink-700">Proposals Voted</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-ink-900">47</div>
-                    <div className="text-base text-ink-700">Forum Posts</div>
+                    <div className="text-2xl font-bold text-ink-900">47</div>
+                    <div className="text-sm text-ink-700">Forum Posts</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-ink-900">2</div>
-                    <div className="text-base text-ink-700">Cooperatives</div>
+                    <div className="text-2xl font-bold text-ink-900">2</div>
+                    <div className="text-sm text-ink-700">Cooperatives</div>
                   </div>
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function ExampleProfilePage() {
                     <h4 className="font-semibold text-ink-900 mb-3">Technical Skills</h4>
                     <div className="flex flex-wrap gap-2">
                       {['JavaScript', 'Python', 'React', 'Node.js', 'PostgreSQL', 'Docker'].map(skill => (
-                        <span key={skill} className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded-md text-base">
+                        <span key={skill} className="px-3 py-1 bg-bg-2 text-ink-700 rounded-md text-sm">
                           {skill}
                         </span>
                       ))}
@@ -134,7 +134,7 @@ export default function ExampleProfilePage() {
                     <h4 className="font-semibold text-ink-900 mb-3">Cooperative Skills</h4>
                     <div className="flex flex-wrap gap-2">
                       {['Facilitation', 'Community Organizing', 'Democratic Governance', 'Technical Writing'].map(skill => (
-                        <span key={skill} className="px-3 py-1.5 bg-brand-100 text-brand-600 rounded-md text-base">
+                        <span key={skill} className="px-3 py-1 bg-brand-100 text-brand-600 rounded-md text-sm">
                           {skill}
                         </span>
                       ))}
@@ -143,8 +143,8 @@ export default function ExampleProfilePage() {
                   <div>
                     <h4 className="font-semibold text-ink-900 mb-3">Languages</h4>
                     <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded-md text-base">English (native)</span>
-                      <span className="px-3 py-1.5 bg-bg-2 text-ink-700 rounded-md text-base">Spanish (conversational)</span>
+                      <span className="px-3 py-1 bg-bg-2 text-ink-700 rounded-md text-sm">English (native)</span>
+                      <span className="px-3 py-1 bg-bg-2 text-ink-700 rounded-md text-sm">Spanish (conversational)</span>
                     </div>
                   </div>
                 </div>
@@ -182,11 +182,11 @@ export default function ExampleProfilePage() {
               <CardContent className="space-y-4">
                 <blockquote className="border-l-4 border-brand-500 pl-4 italic text-ink-700">
                   "Alex built our cooperative's entire voting system and trained our whole team on how to use it. Incredibly patient teacher and skilled developer."
-                  <footer className="mt-2 text-base font-semibold text-ink-900">— Maria Santos, Portland Tech Co-op</footer>
+                  <footer className="mt-2 text-sm font-semibold text-ink-900">— Maria Santos, Portland Tech Co-op</footer>
                 </blockquote>
                 <blockquote className="border-l-4 border-joy-500 pl-4 italic text-ink-700">
                   "Their facilitation skills transformed our meetings. We actually get things done now while maintaining consensus."
-                  <footer className="mt-2 text-base font-semibold text-ink-900">— Jordan Lee, Mutual Aid PDX</footer>
+                  <footer className="mt-2 text-sm font-semibold text-ink-900">— Jordan Lee, Mutual Aid PDX</footer>
                 </blockquote>
               </CardContent>
             </Card>
@@ -204,19 +204,19 @@ export default function ExampleProfilePage() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-ink-700">
                     <span>💻</span>
-                    <span className="text-base">Cooperative Technology</span>
+                    <span className="text-sm">Cooperative Technology</span>
                   </div>
                   <div className="flex items-center gap-2 text-ink-700">
                     <span>💰</span>
-                    <span className="text-base">Social Economy</span>
+                    <span className="text-sm">Social Economy</span>
                   </div>
                   <div className="flex items-center gap-2 text-ink-700">
                     <span>🏛️</span>
-                    <span className="text-base">Collective Governance</span>
+                    <span className="text-sm">Collective Governance</span>
                   </div>
                   <div className="flex items-center gap-2 text-ink-700">
                     <span>🤝</span>
-                    <span className="text-base">Community Connection</span>
+                    <span className="text-sm">Community Connection</span>
                   </div>
                 </div>
               </CardContent>
@@ -228,7 +228,7 @@ export default function ExampleProfilePage() {
                 <CardTitle>How I Can Help</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-base text-ink-700">
+                <ul className="space-y-2 text-sm text-ink-700">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-600">✓</span>
                     <span>Code review and technical mentorship</span>
@@ -252,14 +252,14 @@ export default function ExampleProfilePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <div className="font-semibold text-ink-900 text-base">Portland Tech Co-op</div>
-                  <div className="text-sm text-ink-700">Tech Committee Member</div>
-                  <div className="text-sm text-ink-400">2023 - present</div>
+                  <div className="font-semibold text-ink-900 text-sm">Portland Tech Co-op</div>
+                  <div className="text-xs text-ink-700">Tech Committee Member</div>
+                  <div className="text-xs text-ink-400">2023 - present</div>
                 </div>
                 <div>
-                  <div className="font-semibold text-ink-900 text-base">Mutual Aid PDX</div>
-                  <div className="text-sm text-ink-700">Tech Coordinator</div>
-                  <div className="text-sm text-ink-400">2022 - present</div>
+                  <div className="font-semibold text-ink-900 text-sm">Mutual Aid PDX</div>
+                  <div className="text-xs text-ink-700">Tech Coordinator</div>
+                  <div className="text-xs text-ink-400">2022 - present</div>
                 </div>
               </CardContent>
             </Card>
@@ -270,7 +270,7 @@ export default function ExampleProfilePage() {
                 <CardTitle>Connect</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 text-base">
+                <div className="space-y-2 text-sm">
                   <a href="#" className="flex items-center gap-2 text-brand-600 hover:text-brand-500">
                     <span>🐙</span>
                     <span>GitHub</span>
@@ -285,9 +285,9 @@ export default function ExampleProfilePage() {
                   </a>
                 </div>
                 <div className="mt-4 pt-4 border-t border-border">
-                  <div className="text-sm text-ink-700 mb-2">Availability</div>
-                  <div className="text-base text-ink-900 font-medium">~10 hours/week</div>
-                  <div className="text-sm text-ink-700">Pacific Time (UTC-8)</div>
+                  <div className="text-xs text-ink-700 mb-2">Availability</div>
+                  <div className="text-sm text-ink-900 font-medium">~10 hours/week</div>
+                  <div className="text-xs text-ink-700">Pacific Time (UTC-8)</div>
                 </div>
               </CardContent>
             </Card>
@@ -297,9 +297,9 @@ export default function ExampleProfilePage() {
         {/* CTA */}
         <Card className="mt-8 bg-gradient-to-r from-brand-50 to-joy-50 border-brand-200">
           <CardContent className="pt-6 text-center">
-            <h3 className="text-3xl font-bold text-ink-900 mb-2">Ready to create your profile?</h3>
+            <h3 className="text-2xl font-bold text-ink-900 mb-2">Ready to create your profile?</h3>
             <p className="text-ink-700 mb-4">Join TogetherOS and start cooperating with others</p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-3 justify-center">
               <Link href="/signup">
                 <Button size="lg">Create Your Profile</Button>
               </Link>

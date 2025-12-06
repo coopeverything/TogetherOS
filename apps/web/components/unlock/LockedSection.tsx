@@ -61,13 +61,13 @@ export function LockedSection({
     return (
       <span
         className={cn(
-          'inline-flex items-center gap-1 px-3 py-1.5 rounded bg-bg-3 text-ink-500',
+          'inline-flex items-center gap-1 px-2 py-1 rounded bg-bg-3 text-ink-500',
           className
         )}
         title={displayHint}
       >
-        <span className="text-xl">?</span>
-        <span className="text-base">{displayTeaser}</span>
+        <span className="text-lg">?</span>
+        <span className="text-sm">{displayTeaser}</span>
       </span>
     );
   }
@@ -82,14 +82,14 @@ export function LockedSection({
         )}
       >
         <div className="text-6xl mb-6 opacity-50">?</div>
-        <h2 className="text-3xl font-semibold text-ink-700 mb-2">
+        <h2 className="text-2xl font-semibold text-ink-700 mb-2">
           {displayTeaser}
         </h2>
         <p className="text-ink-500 text-center max-w-md mb-6">
           {displayHint}
         </p>
         {nextMilestone && (
-          <div className="px-4 py-2 bg-brand-50 rounded-lg text-base text-brand-700">
+          <div className="px-4 py-2 bg-brand-50 rounded-lg text-sm text-brand-700">
             Next unlock: <strong>{nextMilestone.name}</strong>
           </div>
         )}
@@ -128,16 +128,16 @@ export function LockedSection({
           </svg>
         </div>
 
-        <p className="text-xl text-ink-600 font-medium mb-2 text-center">
+        <p className="text-lg text-ink-600 font-medium mb-2 text-center">
           {displayTeaser}
         </p>
 
-        <p className="text-base text-ink-500 text-center max-w-xs">
+        <p className="text-sm text-ink-500 text-center max-w-xs">
           {displayHint}
         </p>
 
         {nextMilestone && (
-          <div className="mt-4 px-3 py-1.5.5 bg-brand-50 rounded-full text-sm text-brand-700">
+          <div className="mt-4 px-3 py-1.5 bg-brand-50 rounded-full text-xs text-brand-700">
             Level {nextMilestone.id}: {nextMilestone.name}
           </div>
         )}

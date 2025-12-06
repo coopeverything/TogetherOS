@@ -16,7 +16,7 @@ export function ThreadView({ posts, authorNames, onReply }: ThreadViewProps) {
         <div key={post.id} className={`bg-white dark:bg-gray-800 rounded-lg border p-4 ${post.parentId ? 'ml-8' : ''}`}>
           <div className="flex items-center gap-2 mb-2">
             <span className="font-semibold">{authorNames[post.authorId] || 'Unknown'}</span>
-            <span className="text-base text-gray-500">
+            <span className="text-sm text-gray-500">
               {new Date(post.createdAt).toLocaleString()}
             </span>
           </div>
@@ -24,7 +24,7 @@ export function ThreadView({ posts, authorNames, onReply }: ThreadViewProps) {
         </div>
       ))}
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <p className="text-base text-blue-800">
+        <p className="text-sm text-blue-800">
           Phase 2: Thread replies coming soon. Full discussion UI in next iteration.
         </p>
       </div>

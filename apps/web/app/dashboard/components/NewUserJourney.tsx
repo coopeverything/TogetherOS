@@ -82,7 +82,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-bold text-ink-900">Daily Challenges</h3>
-            <p className="text-base text-ink-600">
+            <p className="text-sm text-ink-600">
               {state.streak > 0 ? `${state.streak} day streak` : 'Start your streak today!'}
             </p>
           </div>
@@ -100,16 +100,16 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
       <div className="bg-gradient-to-r from-brand-600 to-brand-700 p-4 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Your Journey</h2>
-            <p className="text-brand-100 text-base">
+            <h2 className="text-xl font-bold">Your Journey</h2>
+            <p className="text-brand-100 text-sm">
               {state.firstWeekActive ? 'First Week Journey' : 'Daily Challenges'}
             </p>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-3xl font-bold">{state.rpBalance} RP</p>
+              <p className="text-2xl font-bold">{state.rpBalance} RP</p>
               {state.streak > 0 && (
-                <p className="text-brand-100 text-base flex items-center gap-1">
+                <p className="text-brand-100 text-sm flex items-center gap-1">
                   <span>🔥</span> {state.streak} day streak
                 </p>
               )}
@@ -132,7 +132,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
         <div className="flex border-b border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setActiveTab('first-week')}
-            className={`flex-1 py-3 px-4 text-base font-medium text-center transition-colors ${
+            className={`flex-1 py-3 px-4 text-sm font-medium text-center transition-colors ${
               activeTab === 'first-week'
                 ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50'
                 : 'text-gray-500 hover:text-gray-700'
@@ -142,7 +142,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
           </button>
           <button
             onClick={() => setActiveTab('daily')}
-            className={`flex-1 py-3 px-4 text-base font-medium text-center transition-colors ${
+            className={`flex-1 py-3 px-4 text-sm font-medium text-center transition-colors ${
               activeTab === 'daily'
                 ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50'
                 : 'text-gray-500 hover:text-gray-700'

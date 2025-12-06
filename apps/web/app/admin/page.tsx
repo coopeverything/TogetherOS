@@ -48,7 +48,7 @@ export default function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg-1">
-        <div className="text-ink-700 text-base">Loading...</div>
+        <div className="text-ink-700 text-sm">Loading...</div>
       </div>
     )
   }
@@ -261,10 +261,10 @@ export default function AdminDashboard() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-ink-900 mb-2">
+          <h1 className="text-2xl font-semibold text-ink-900 mb-2">
             Admin Dashboard
           </h1>
-          <p className="text-base text-ink-700">
+          <p className="text-sm text-ink-700">
             System administration and configuration
           </p>
         </div>
@@ -291,7 +291,7 @@ export default function AdminDashboard() {
                   </svg>
                   <span className="font-medium text-ink-900">{section.title}</span>
                 </div>
-                <span className="text-sm text-ink-400">
+                <span className="text-xs text-ink-400">
                   {section.items.filter(i => i.status === 'active').length} / {section.items.length} active
                 </span>
               </button>
@@ -317,16 +317,16 @@ export default function AdminDashboard() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium text-ink-900 text-base">
+                            <span className="font-medium text-ink-900 text-sm">
                               {item.title}
                             </span>
                             {item.status === 'coming-soon' && (
-                              <span className="text-sm text-ink-400 bg-bg-2 px-3 py-0.5 rounded">
+                              <span className="text-xs text-ink-400 bg-bg-2 px-2 py-0.5 rounded">
                                 Coming Soon
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-ink-700 leading-relaxed">
+                          <p className="text-xs text-ink-700 leading-relaxed">
                             {item.description}
                           </p>
                         </div>
@@ -351,7 +351,7 @@ export default function AdminDashboard() {
 
 
         {/* Quick Links */}
-        <div className="mt-6 text-sm text-ink-400 flex flex-wrap items-center gap-4">
+        <div className="mt-6 text-xs text-ink-400 flex flex-wrap items-center gap-3">
           <a href="/" className="hover:text-ink-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">Home</a>
           <span>•</span>
           <a href="/bridge" className="hover:text-ink-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">Bridge</a>

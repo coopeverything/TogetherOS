@@ -67,15 +67,15 @@ function ModuleCard({ module }: ModuleCardProps) {
       <div className="relative">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="font-semibold text-ink-900 text-base leading-tight group-hover:text-blue-600 transition-colors">
+            <h3 className="font-semibold text-ink-900 text-sm leading-tight group-hover:text-blue-600 transition-colors">
               {module.name}
             </h3>
-            <p className="text-sm text-ink-400 mt-1 font-mono">
+            <p className="text-xs text-ink-400 mt-1 font-mono">
               #{module.key}
             </p>
           </div>
           <div className={`flex-shrink-0 w-12 h-12 rounded-full ring-4 ${ringColor} flex items-center justify-center bg-bg-0 ml-3 shadow-sm`}>
-            <span className="text-sm font-bold text-ink-700">
+            <span className="text-xs font-bold text-ink-700">
               {module.progress}%
             </span>
           </div>
@@ -93,10 +93,10 @@ function ModuleCard({ module }: ModuleCardProps) {
 
         {/* Status badge */}
         <div className="flex items-center justify-between mt-3">
-          <span className="inline-flex items-center px-3.5 py-0.5 rounded-full text-sm font-medium bg-bg-2 text-ink-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-2 text-ink-700">
             {statusText}
           </span>
-          <span className="text-sm text-ink-400">
+          <span className="text-xs text-ink-400">
             {module.progress > 0 && module.progress < 100 && '🚧'}
             {module.progress === 0 && '⏳'}
             {module.progress === 100 && '✅'}
@@ -125,7 +125,7 @@ function ModuleSection({ title, description, modules, icon }: ModuleSectionProps
     <section className="mb-16 animate-fade-in">
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-3">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="text-3xl">{icon}</span>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-ink-900 to-ink-700 bg-clip-text text-transparent">
               {title}
@@ -135,12 +135,12 @@ function ModuleSection({ title, description, modules, icon }: ModuleSectionProps
             <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {avgProgress}%
             </div>
-            <div className="text-sm text-ink-400">average</div>
+            <div className="text-xs text-ink-400">average</div>
           </div>
         </div>
-        <p className="text-ink-700 text-base max-w-2xl">
+        <p className="text-ink-700 text-sm max-w-2xl">
           {description}{' '}
-          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
             {started}/{modules.length} started
           </span>
         </p>
@@ -205,7 +205,7 @@ export default function StatusClient() {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               TogetherOS Progress
             </h1>
-            <p className="mt-2 text-base text-ink-700">Loading status data...</p>
+            <p className="mt-2 text-sm text-ink-700">Loading status data...</p>
           </div>
         </header>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -220,7 +220,7 @@ export default function StatusClient() {
       <div className="min-h-screen bg-gradient-to-br from-bg-1 via-blue-50 to-purple-50 flex items-center justify-center">
         <div className="text-center p-12 bg-bg-0 backdrop-blur-xl rounded-3xl shadow-xl border border-border">
           <div className="text-6xl mb-4">⚠️</div>
-          <h1 className="text-3xl font-bold text-ink-900 mb-2">
+          <h1 className="text-2xl font-bold text-ink-900 mb-2">
             Failed to Load Status
           </h1>
           <p className="text-ink-700">{error}</p>
@@ -245,7 +245,7 @@ export default function StatusClient() {
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
                 TogetherOS Progress
               </h1>
-              <p className="text-base text-ink-700 flex items-center gap-2">
+              <p className="text-sm text-ink-700 flex items-center gap-2">
                 <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 Live tracking • Auto-updated via GitHub Actions
               </p>
@@ -277,7 +277,7 @@ export default function StatusClient() {
           <div className="relative bg-bg-0 backdrop-blur-xl rounded-3xl p-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="text-center">
-                <div className="text-base font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
                   Overall Progress
                 </div>
                 <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -291,35 +291,35 @@ export default function StatusClient() {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-base font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
                   Total Modules
                 </div>
                 <div className="text-5xl font-bold text-ink-900">
                   {data.stats.total}
                 </div>
-                <div className="mt-3 text-sm text-ink-400">
+                <div className="mt-3 text-xs text-ink-400">
                   Across all categories
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-base font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
                   In Progress
                 </div>
                 <div className="text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
                   {data.stats.started}
                 </div>
-                <div className="mt-3 text-sm text-ink-400">
+                <div className="mt-3 text-xs text-ink-400">
                   Active development
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-base font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
                   Completed
                 </div>
                 <div className="text-5xl font-bold bg-gradient-to-r from-emerald-500 to-green-500 bg-clip-text text-transparent">
                   {data.stats.completed}
                 </div>
-                <div className="mt-3 text-sm text-ink-400">
+                <div className="mt-3 text-xs text-ink-400">
                   Ready for production
                 </div>
               </div>
@@ -352,7 +352,7 @@ export default function StatusClient() {
         {/* Footer */}
         <footer className="mt-16 pt-12 border-t border-border">
           <div className="text-center space-y-4">
-            <p className="text-base text-ink-700">
+            <p className="text-sm text-ink-700">
               Progress data synced from{' '}
               <a
                 href="https://github.com/coopeverything/TogetherOS/blob/main/docs/STATUS_v2.md"
@@ -363,14 +363,14 @@ export default function StatusClient() {
                 docs/STATUS_v2.md
               </a>
             </p>
-            <p className="text-sm text-ink-400">
+            <p className="text-xs text-ink-400">
               Automated by{' '}
-              <code className="px-3 py-1.5 bg-bg-2 rounded text-sm font-mono">
+              <code className="px-2 py-1 bg-bg-2 rounded text-xs font-mono">
                 auto-progress-update.yml
               </code>{' '}
               GitHub Action
             </p>
-            <p className="text-sm text-ink-400">
+            <p className="text-xs text-ink-400">
               Last updated: {new Date(data.lastUpdated).toLocaleString()}
             </p>
           </div>

@@ -83,18 +83,18 @@ export function ReplyComposer({
           'w-full px-3 py-2 rounded-md border bg-bg-1',
           'text-ink-900 placeholder:text-ink-400',
           'focus:ring-2 focus:ring-brand-500 focus:border-transparent',
-          'resize-vertical text-base',
+          'resize-vertical text-sm',
           error ? 'border-danger' : 'border-border'
         )}
         disabled={isSubmitting}
       />
 
       {error && (
-        <p className="text-base text-danger">{error}</p>
+        <p className="text-sm text-danger">{error}</p>
       )}
 
       <div className="flex items-center justify-between">
-        <p className="text-sm text-ink-400">
+        <p className="text-xs text-ink-400">
           {content.length} / 2000 characters
         </p>
 
@@ -103,7 +103,7 @@ export function ReplyComposer({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-3 py-1.5.5 text-base font-medium text-ink-700 hover:text-ink-900 transition-colors"
+              className="px-3 py-1.5 text-sm font-medium text-ink-700 hover:text-ink-900 transition-colors"
               disabled={isSubmitting}
             >
               Cancel
@@ -114,7 +114,7 @@ export function ReplyComposer({
             type="submit"
             disabled={isSubmitting || !content.trim()}
             className={cn(
-              'px-3 py-1.5.5 text-base font-medium rounded-md',
+              'px-3 py-1.5 text-sm font-medium rounded-md',
               'bg-brand-600 text-white hover:bg-brand-700',
               'focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
               'disabled:opacity-50 disabled:cursor-not-allowed',

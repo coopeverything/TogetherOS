@@ -40,12 +40,12 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
       <div className="bg-white dark:bg-gray-800 border-b border-[#E2E8F0] sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-[#1E293B]" style={{ fontFamily: 'Lexend, sans-serif' }}>
+            <h1 className="text-2xl font-bold text-[#1E293B]" style={{ fontFamily: 'Lexend, sans-serif' }}>
               Activity Timeline
             </h1>
             <button
               onClick={onCreateTopic}
-              className="px-4 py-2 bg-[#10B981] text-white rounded-lg text-base font-medium hover:bg-[#059669] transition-colors"
+              className="px-4 py-2 bg-[#10B981] text-white rounded-lg text-sm font-medium hover:bg-[#059669] transition-colors"
             >
               New Topic
             </button>
@@ -53,13 +53,13 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
 
           {/* Filters */}
           <div className="flex gap-2 mt-4">
-            <button className="px-3 py-1.5.5 bg-[#E2E8F0] text-[#1E293B] rounded-md text-base font-medium">
+            <button className="px-3 py-1.5 bg-[#E2E8F0] text-[#1E293B] rounded-md text-sm font-medium">
               All
             </button>
-            <button className="px-3 py-1.5.5 text-[#64748B] rounded-md text-base hover:bg-[#E2E8F0]">
+            <button className="px-3 py-1.5 text-[#64748B] rounded-md text-sm hover:bg-[#E2E8F0]">
               Active
             </button>
-            <button className="px-3 py-1.5.5 text-[#64748B] rounded-md text-base hover:bg-[#E2E8F0]">
+            <button className="px-3 py-1.5 text-[#64748B] rounded-md text-sm hover:bg-[#E2E8F0]">
               Following
             </button>
           </div>
@@ -96,34 +96,34 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
                     {/* Header */}
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`px-3 py-1.5 rounded text-sm font-medium ${categoryColors[topic.category]}`}>
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${categoryColors[topic.category]}`}>
                           {topic.category}
                         </span>
                         {topic.isPinned && (
-                          <span className="px-3 py-1.5 bg-orange-100 text-orange-700 rounded text-sm font-medium">
+                          <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-medium">
                             Pinned
                           </span>
                         )}
                         <span
-                          className="px-3 py-1.5 rounded text-sm font-medium text-white"
+                          className="px-2 py-1 rounded text-xs font-medium text-white"
                           style={{ backgroundColor: activity.color }}
                         >
                           {activity.label}
                         </span>
                       </div>
-                      <span className="text-sm text-[#64748B] whitespace-nowrap" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      <span className="text-xs text-[#64748B] whitespace-nowrap" style={{ fontVariantNumeric: 'tabular-nums' }}>
                         {timeAgo < 60 ? `${timeAgo}m ago` : `${Math.floor(timeAgo / 60)}h ago`}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-semibold text-[#1E293B] mb-2">
+                    <h3 className="text-lg font-semibold text-[#1E293B] mb-2">
                       {topic.title}
                     </h3>
 
                     {/* Description */}
                     {topic.description && (
-                      <p className="text-base text-[#64748B] mb-4 line-clamp-2">
+                      <p className="text-sm text-[#64748B] mb-4 line-clamp-2">
                         {topic.description}
                       </p>
                     )}
@@ -142,7 +142,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
                     </div>
 
                     {/* Metadata */}
-                    <div className="flex items-center gap-4 text-base text-[#64748B]">
+                    <div className="flex items-center gap-4 text-sm text-[#64748B]">
                       <span>💬 {topic.postCount} posts</span>
                       <span>👥 {topic.participantCount} participants</span>
                       {topic.tags.length > 0 && (
@@ -158,7 +158,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
 
         {/* Load More */}
         <div className="mt-8 text-center">
-          <button className="px-6 py-3 text-[#64748B] hover:text-[#1E293B] text-base font-medium">
+          <button className="px-6 py-3 text-[#64748B] hover:text-[#1E293B] text-sm font-medium">
             Load more topics...
           </button>
         </div>

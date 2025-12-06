@@ -19,12 +19,12 @@ export function YourTopPriorities() {
         <ul className="space-y-2">
           {priorities.map((priority) => (
             <li key={priority.id} className="flex items-center justify-between">
-              <span className="text-base font-medium">{priority.name}</span>
+              <span className="text-sm font-medium">{priority.name}</span>
               <Badge variant="default">{priority.score}/10</Badge>
             </li>
           ))}
         </ul>
-        <div className="mt-4 text-base text-blue-600 hover:underline">
+        <div className="mt-4 text-sm text-blue-600 hover:underline">
           <a href="#">Manage Priorities &rarr;</a>
         </div>
       </CardContent>
