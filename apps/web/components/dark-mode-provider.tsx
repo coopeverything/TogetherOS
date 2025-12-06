@@ -270,13 +270,13 @@ export function ThemePicker({ className = '', compact = false }: { className?: s
       <div className={`flex items-center gap-1 ${className}`}>
         <button
           onClick={() => setIsOpen(true)}
-          className="px-3 py-1.5 rounded-md border text-sm font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-2"
+          className="px-2 py-1.5 rounded-md border text-sm font-medium bg-[var(--bg-1)] text-[var(--ink-900)] border-[var(--border)] hover:bg-[var(--bg-2)] transition-colors flex items-center gap-1.5"
         >
-          <span className="flex gap-0.5">
-            {THEME_INFO[theme].colors.slice(0, 2).map((color, i) => (
+          <span className="flex gap-px">
+            {THEME_INFO[theme].colors.map((color, i) => (
               <span
                 key={i}
-                className="w-3 h-3 rounded-sm border border-black/20"
+                className="w-2.5 h-2.5 rounded-sm border border-black/20"
                 style={{ backgroundColor: color }}
               />
             ))}
