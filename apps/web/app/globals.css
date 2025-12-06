@@ -13,8 +13,58 @@
 @tailwind utilities;
 
 /* ============================================
-   VARIABLE MAPPING FOR MINIMALISTIC & BASE THEMES
-   These themes use --color-* variables but app uses --bg-*, --ink-*, --brand-*
+   DEFAULT CSS VARIABLES (must come BEFORE theme definitions)
+   ============================================ */
+
+/* CSS Variables - Light Mode (Default) */
+:root {
+  /* Backgrounds & Surfaces */
+  --bg-0: #FAFAF9;
+  --bg-1: #FFFFFF;
+  --bg-2: #F5F5F4;
+
+  /* Text & Neutrals */
+  --ink-900: #0F172A;
+  --ink-700: #334155;
+  --ink-400: #94A3B8;
+  --border: #E5E7EB;
+
+  /* Brand - Cooperative Green */
+  --brand-600: #059669;
+  --brand-500: #10B981;
+  --brand-100: #D1FAE5;
+
+  /* Joy - Apricot */
+  --joy-600: #F59E0B;
+  --joy-500: #FDBA74;
+  --joy-100: #FFF7ED;
+
+  /* Semantic Colors */
+  --success: #16A34A;
+  --success-bg: #DCFCE7;
+  --info: #0EA5E9;
+  --info-bg: #E0F2FE;
+  --warn: #D97706;
+  --warn-bg: #FEF3C7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+}
+
+/* Dark Mode (Default) */
+.dark {
+  --bg-0: #0B0F14;
+  --bg-1: #0F141A;
+  --bg-2: #121922;
+  --ink-900: #E5E7EB;
+  --ink-700: #CBD5E1;
+  --ink-400: #94A3B8;
+  --border: #1F2937;
+  --brand-500: #22C55E;
+  --joy-500: #FBBF24;
+}
+
+/* ============================================
+   THEME DEFINITIONS (override :root defaults when active)
    ============================================ */
 
 /* Zinc Minimal - Ultra-clean, professional grayscale */
@@ -555,53 +605,6 @@
   --warn-bg: #3A3020;
   --danger: #EF4444;
   --danger-bg: #3A2020;
-}
-
-/* CSS Variables - Light Mode (Default) */
-:root {
-  /* Backgrounds & Surfaces */
-  --bg-0: #FAFAF9;
-  --bg-1: #FFFFFF;
-  --bg-2: #F5F5F4;
-
-  /* Text & Neutrals */
-  --ink-900: #0F172A;
-  --ink-700: #334155;
-  --ink-400: #94A3B8;
-  --border: #E5E7EB;
-
-  /* Brand - Cooperative Green */
-  --brand-600: #059669;
-  --brand-500: #10B981;
-  --brand-100: #D1FAE5;
-
-  /* Joy - Apricot */
-  --joy-600: #F59E0B;
-  --joy-500: #FDBA74;
-  --joy-100: #FFF7ED;
-
-  /* Semantic Colors */
-  --success: #16A34A;
-  --success-bg: #DCFCE7;
-  --info: #0EA5E9;
-  --info-bg: #E0F2FE;
-  --warn: #D97706;
-  --warn-bg: #FEF3C7;
-  --danger: #DC2626;
-  --danger-bg: #FEE2E2;
-}
-
-/* Dark Mode */
-.dark {
-  --bg-0: #0B0F14;
-  --bg-1: #0F141A;
-  --bg-2: #121922;
-  --ink-900: #E5E7EB;
-  --ink-700: #CBD5E1;
-  --ink-400: #94A3B8;
-  --border: #1F2937;
-  --brand-500: #22C55E;
-  --joy-500: #FBBF24;
 }
 
 /* ============================================
