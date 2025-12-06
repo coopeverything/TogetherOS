@@ -118,100 +118,100 @@
 
 /* Zinc Sage - Minimal with organic sage green accent */
 [data-theme="zinc-sage"] {
-  --bg-0: #FAFAFA;
+  --bg-0: #F8FAF8;
   --bg-1: #FFFFFF;
-  --bg-2: #F4F4F5;
-  --ink-900: #09090B;
-  --ink-700: #3F3F46;
-  --ink-400: #A1A1AA;
-  --border: #E4E4E7;
-  --brand-600: #6B7C6B;
-  --brand-500: #5A6B5A;
-  --brand-100: #E4E4E7;
-  --joy-600: #52525B;
-  --joy-500: #6B7C6B;
-  --joy-100: #F4F4F5;
-  --success: #6B7C6B;
-  --success-bg: #F4F4F5;
-  --info: #6B7C6B;
-  --info-bg: #F4F4F5;
-  --warn: #52525B;
-  --warn-bg: #F4F4F5;
-  --danger: #27272A;
-  --danger-bg: #E4E4E7;
+  --bg-2: #EEF2EE;
+  --ink-900: #2F3E46;
+  --ink-700: #52796F;
+  --ink-400: #84A98C;
+  --border: #CAD2C5;
+  --brand-600: #52796F;
+  --brand-500: #84A98C;
+  --brand-100: #DAE5DA;
+  --joy-600: #52796F;
+  --joy-500: #84A98C;
+  --joy-100: #EEF2EE;
+  --success: #52796F;
+  --success-bg: #DAE5DA;
+  --info: #84A98C;
+  --info-bg: #EEF2EE;
+  --warn: #6B705C;
+  --warn-bg: #F0EDE5;
+  --danger: #8B4049;
+  --danger-bg: #F2E5E7;
 }
 [data-theme="zinc-sage"].dark,
 .dark[data-theme="zinc-sage"] {
-  --bg-0: #09090B;
-  --bg-1: #18181B;
-  --bg-2: #27272A;
-  --ink-900: #FAFAFA;
-  --ink-700: #D4D4D8;
-  --ink-400: #52525B;
-  --border: #27272A;
-  --brand-600: #8B9C8B;
-  --brand-500: #9CAD9C;
-  --brand-100: #27272A;
-  --joy-600: #A1A1AA;
-  --joy-500: #8B9C8B;
-  --joy-100: #27272A;
-  --success: #8B9C8B;
-  --success-bg: #27272A;
-  --info: #8B9C8B;
-  --info-bg: #27272A;
-  --warn: #A1A1AA;
-  --warn-bg: #27272A;
-  --danger: #E4E4E7;
-  --danger-bg: #3F3F46;
+  --bg-0: #1A2420;
+  --bg-1: #232E28;
+  --bg-2: #2F3E36;
+  --ink-900: #E8F0E8;
+  --ink-700: #B8CDB8;
+  --ink-400: #6B8C6B;
+  --border: #3A4A42;
+  --brand-600: #84A98C;
+  --brand-500: #A3C4A3;
+  --brand-100: #2F3E36;
+  --joy-600: #84A98C;
+  --joy-500: #A3C4A3;
+  --joy-100: #2F3E36;
+  --success: #84A98C;
+  --success-bg: #2F3E36;
+  --info: #A3C4A3;
+  --info-bg: #2F3E36;
+  --warn: #8B8B6B;
+  --warn-bg: #3A3828;
+  --danger: #C4767E;
+  --danger-bg: #3A2428;
 }
 
 /* Zinc Sage Extended - Enhanced with dusty rose & slate blue complements */
 [data-theme="zinc-sage-ext"] {
-  --bg-0: #FAFAFA;
+  --bg-0: #F8FAF8;
   --bg-1: #FFFFFF;
-  --bg-2: #F4F4F5;
-  --ink-900: #09090B;
-  --ink-700: #3F3F46;
-  --ink-400: #A1A1AA;
-  --border: #E4E4E7;
-  --brand-600: #6B7C6B;
-  --brand-500: #5A6B5A;
-  --brand-100: #E4E4E7;
-  --joy-600: #8B7878;
-  --joy-500: #7A6969;
-  --joy-100: #F4F4F5;
-  --success: #6B7C6B;
-  --success-bg: #F4F4F5;
-  --info: #6B7282;
-  --info-bg: #F4F4F5;
-  --warn: #8B7878;
-  --warn-bg: #F4F4F5;
-  --danger: #7A6969;
-  --danger-bg: #E4E4E7;
+  --bg-2: #EDF2ED;
+  --ink-900: #2F3E46;
+  --ink-700: #52796F;
+  --ink-400: #84A98C;
+  --border: #CAD2C5;
+  --brand-600: #52796F;
+  --brand-500: #84A98C;
+  --brand-100: #DAE5DA;
+  --joy-600: #B56576;
+  --joy-500: #C97B8A;
+  --joy-100: #F5E6E8;
+  --success: #52796F;
+  --success-bg: #DAE5DA;
+  --info: #6B8199;
+  --info-bg: #E8EEF4;
+  --warn: #B56576;
+  --warn-bg: #F5E6E8;
+  --danger: #8B4049;
+  --danger-bg: #F2E5E7;
 }
 [data-theme="zinc-sage-ext"].dark,
 .dark[data-theme="zinc-sage-ext"] {
-  --bg-0: #09090B;
-  --bg-1: #18181B;
-  --bg-2: #27272A;
-  --ink-900: #FAFAFA;
-  --ink-700: #D4D4D8;
-  --ink-400: #52525B;
-  --border: #27272A;
-  --brand-600: #8B9C8B;
-  --brand-500: #9CAD9C;
-  --brand-100: #27272A;
-  --joy-600: #B8A5A5;
-  --joy-500: #C9B8B8;
-  --joy-100: #27272A;
-  --success: #8B9C8B;
-  --success-bg: #27272A;
-  --info: #9CA3B3;
-  --info-bg: #27272A;
-  --warn: #B8A5A5;
-  --warn-bg: #27272A;
-  --danger: #C9B8B8;
-  --danger-bg: #3F3F46;
+  --bg-0: #1A2420;
+  --bg-1: #232E28;
+  --bg-2: #2F3E36;
+  --ink-900: #E8F0E8;
+  --ink-700: #B8CDB8;
+  --ink-400: #6B8C6B;
+  --border: #3A4A42;
+  --brand-600: #84A98C;
+  --brand-500: #A3C4A3;
+  --brand-100: #2F3E36;
+  --joy-600: #C97B8A;
+  --joy-500: #D9949F;
+  --joy-100: #3A2428;
+  --success: #84A98C;
+  --success-bg: #2F3E36;
+  --info: #8BA1B9;
+  --info-bg: #283038;
+  --warn: #C97B8A;
+  --warn-bg: #3A2428;
+  --danger: #C4767E;
+  --danger-bg: #3A2428;
 }
 
 /* Stone Warm - Warm neutrals, approachable */
@@ -486,51 +486,51 @@
 
 /* Forest Canvas - Organic, sustainable (light theme) */
 [data-theme="forest-canvas"] {
-  --bg-0: #F5F5F5;
+  --bg-0: #F7FAF7;
   --bg-1: #FFFFFF;
-  --bg-2: #EAEAEA;
-  --ink-900: #1A1A2E;
-  --ink-700: #3D3D5C;
-  --ink-400: #9999B3;
-  --border: #D4D4D4;
-  --brand-600: #4A7C59;
-  --brand-500: #A3C9A8;
-  --brand-100: #E0E0E0;
-  --joy-600: #A3C9A8;
-  --joy-500: #8FBD96;
-  --joy-100: #E0E0E0;
-  --success: #4A7C59;
-  --success-bg: #E0F0E3;
-  --info: #3D3D5C;
-  --info-bg: #E0E0E0;
-  --warn: #D97706;
-  --warn-bg: #FEF3C7;
-  --danger: #DC2626;
-  --danger-bg: #FEE2E2;
+  --bg-2: #EDF5ED;
+  --ink-900: #1A2E1A;
+  --ink-700: #2D4A2D;
+  --ink-400: #6B8C6B;
+  --border: #C5D9C5;
+  --brand-600: #2D6A4F;
+  --brand-500: #52B788;
+  --brand-100: #D8F3DC;
+  --joy-600: #52B788;
+  --joy-500: #74C69D;
+  --joy-100: #D8F3DC;
+  --success: #2D6A4F;
+  --success-bg: #D8F3DC;
+  --info: #40916C;
+  --info-bg: #E8F5E8;
+  --warn: #B08968;
+  --warn-bg: #F5EBE0;
+  --danger: #9B2226;
+  --danger-bg: #F8E5E5;
 }
 [data-theme="forest-canvas"].dark,
 .dark[data-theme="forest-canvas"] {
-  --bg-0: #1A1A2E;
-  --bg-1: #252540;
-  --bg-2: #303050;
-  --ink-900: #F5F5F5;
-  --ink-700: #D0D0D8;
-  --ink-400: #6B6B8A;
-  --border: #3D3D5C;
-  --brand-600: #5A9269;
-  --brand-500: #8FBD96;
-  --brand-100: #303050;
-  --joy-600: #A3C9A8;
-  --joy-500: #8FBD96;
-  --joy-100: #303050;
-  --success: #5A9269;
-  --success-bg: #1A2A20;
-  --info: #8A8AA0;
-  --info-bg: #303050;
-  --warn: #F59E0B;
-  --warn-bg: #2A2920;
-  --danger: #EF4444;
-  --danger-bg: #2A2020;
+  --bg-0: #0D1A0D;
+  --bg-1: #142814;
+  --bg-2: #1B361B;
+  --ink-900: #E8F5E8;
+  --ink-700: #B7DEB7;
+  --ink-400: #5A8A5A;
+  --border: #2A4A2A;
+  --brand-600: #52B788;
+  --brand-500: #74C69D;
+  --brand-100: #1B361B;
+  --joy-600: #74C69D;
+  --joy-500: #95D5B2;
+  --joy-100: #1B361B;
+  --success: #52B788;
+  --success-bg: #1B361B;
+  --info: #74C69D;
+  --info-bg: #1B361B;
+  --warn: #D4A373;
+  --warn-bg: #2A2418;
+  --danger: #E07070;
+  --danger-bg: #2A1818;
 }
 
 /* Cosmic Violet - Bold, futuristic (dark theme) */
