@@ -3,14 +3,14 @@
  * Design System: Warm Minimalism
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Import design system tokens and themes */
+/* Import design system tokens and themes (must come before Tailwind) */
 @import '../styles/design-system/tokens.css';
 @import '../styles/design-system/themes/base.css';
 @import '../styles/design-system/themes/minimalistic.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* CSS Variables - Light Mode (Default) */
 :root {
