@@ -184,6 +184,15 @@
 }
 
 /* ========================================
+ * DENSITY: Apply to root font-size
+ * This makes all rem-based values (spacing, font-sizes)
+ * automatically scale with density
+ * ======================================== */
+html {
+  font-size: calc(16px * var(--density));
+}
+
+/* ========================================
  * ACCESSIBILITY: Reduced Motion
  * ======================================== */
 @media (prefers-reduced-motion: reduce) {

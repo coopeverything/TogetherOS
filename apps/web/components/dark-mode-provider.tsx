@@ -5,6 +5,21 @@ import * as React from 'react';
 // Available themes
 export const THEMES = [
   'default',
+  // Minimalistic themes (from minimalistic.css)
+  'zinc-minimal',
+  'zinc-sage',
+  'zinc-sage-ext',
+  'stone-warm',
+  'pure-grayscale',
+  'pebble',
+  // Base themes (from base.css)
+  'arctic-minimal',
+  'horizon-dawn',
+  'ocean-depth',
+  'forest-canvas',
+  'cosmic-violet',
+  'terracotta-earth',
+  // Additional themes (from globals.css)
   'sage-earth',
   'fresh-peach',
   'gothic-noir',
@@ -39,6 +54,21 @@ export type Theme = (typeof THEMES)[number];
 // Theme display info with color swatches
 export const THEME_INFO: Record<Theme, { name: string; colors: string[] }> = {
   'default': { name: 'Default', colors: ['#FAFAF9', '#059669', '#F59E0B', '#0F172A'] },
+  // Minimalistic themes
+  'zinc-minimal': { name: 'Zinc Minimal', colors: ['#FAFAFA', '#71717A', '#52525B', '#18181B'] },
+  'zinc-sage': { name: 'Zinc Sage', colors: ['#FAFAFA', '#84A98C', '#52796F', '#2F3E46'] },
+  'zinc-sage-ext': { name: 'Zinc Sage Extended', colors: ['#FAFAFA', '#84A98C', '#B56576', '#2F3E46'] },
+  'stone-warm': { name: 'Stone Warm', colors: ['#F5F5F4', '#A8A29E', '#78716C', '#1C1917'] },
+  'pure-grayscale': { name: 'Pure Grayscale', colors: ['#FFFFFF', '#9CA3AF', '#4B5563', '#111827'] },
+  'pebble': { name: 'Pebble', colors: ['#E8E4DD', '#A8A8A0', '#706F6C', '#3B3B3A'] },
+  // Base themes
+  'arctic-minimal': { name: 'Arctic Minimal', colors: ['#F8FAFC', '#64748B', '#0EA5E9', '#0C4A6E'] },
+  'horizon-dawn': { name: 'Horizon Dawn', colors: ['#FFF7ED', '#FB923C', '#EA580C', '#7C2D12'] },
+  'ocean-depth': { name: 'Ocean Depth', colors: ['#F0F9FF', '#0369A1', '#1E3A5F', '#082F49'] },
+  'forest-canvas': { name: 'Forest Canvas', colors: ['#F0FDF4', '#22C55E', '#166534', '#052E16'] },
+  'cosmic-violet': { name: 'Cosmic Violet', colors: ['#FAF5FF', '#A855F7', '#7E22CE', '#3B0764'] },
+  'terracotta-earth': { name: 'Terracotta Earth', colors: ['#FEF2F2', '#DC2626', '#991B1B', '#450A0A'] },
+  // Additional themes
   'sage-earth': { name: 'Sage Earth', colors: ['#e3d8bf', '#a3b8a7', '#c4956a', '#2c4a5e'] },
   'fresh-peach': { name: 'Fresh Peach', colors: ['#FFD3AC', '#FFB5AB', '#E39A7B', '#BDD06B'] },
   'gothic-noir': { name: 'Gothic Noir', colors: ['#000000', '#D1D0D0', '#988686', '#5C4E4E'] },

@@ -7,6 +7,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import design system tokens and themes */
+@import '../styles/design-system/tokens.css';
+@import '../styles/design-system/themes/base.css';
+@import '../styles/design-system/themes/minimalistic.css';
+
 /* CSS Variables - Light Mode (Default) */
 :root {
   /* Backgrounds & Surfaces */

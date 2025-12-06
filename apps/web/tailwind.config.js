@@ -16,6 +16,33 @@ module.exports = {
       },
     },
     extend: {
+      // Density-scaled spacing (uses --density CSS variable)
+      spacing: {
+        'd1': 'var(--space-density-1)',
+        'd2': 'var(--space-density-2)',
+        'd3': 'var(--space-density-3)',
+        'd4': 'var(--space-density-4)',
+        'd5': 'var(--space-density-5)',
+        'd6': 'var(--space-density-6)',
+        'd8': 'var(--space-density-8)',
+      },
+      // Density-scaled font sizes
+      fontSize: {
+        'dxs': 'var(--fs-density-xs)',
+        'dsm': 'var(--fs-density-sm)',
+        'dbase': 'var(--fs-density-base)',
+        'dlg': 'var(--fs-density-lg)',
+        'dxl': 'var(--fs-density-xl)',
+        'd2xl': 'var(--fs-density-2xl)',
+      },
+      // Density-scaled gap
+      gap: {
+        'd1': 'var(--gap-density-1)',
+        'd2': 'var(--gap-density-2)',
+        'd3': 'var(--gap-density-3)',
+        'd4': 'var(--gap-density-4)',
+        'd6': 'var(--gap-density-6)',
+      },
       colors: {
         // TogetherOS Design System - Warm Minimalism
         border: 'var(--border)',
