@@ -12,6 +12,311 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   VARIABLE MAPPING FOR MINIMALISTIC & BASE THEMES
+   These themes use --color-* variables but app uses --bg-*, --ink-*, --brand-*
+   ============================================ */
+
+/* Zinc Minimal */
+[data-theme="zinc-minimal"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-warning);
+  --joy-500: var(--color-accent);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-info);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Zinc Sage */
+[data-theme="zinc-sage"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-accent);
+  --brand-500: var(--color-accent-hover);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-warning);
+  --joy-500: var(--color-accent);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-info);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Zinc Sage Extended */
+[data-theme="zinc-sage-ext"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-accent);
+  --brand-500: var(--color-accent-hover);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-complement-warm);
+  --joy-500: var(--color-complement-warm-hover);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-complement-cool);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Stone Warm */
+[data-theme="stone-warm"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-warning);
+  --joy-500: var(--color-accent);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-info);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Pure Grayscale */
+[data-theme="pure-grayscale"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-warning);
+  --joy-500: var(--color-accent);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-info);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Pebble */
+[data-theme="pebble"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-warning);
+  --joy-500: var(--color-accent);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-info);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Arctic Minimal (also default in base.css) */
+[data-theme="arctic-minimal"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-primary-light);
+  --brand-100: var(--color-accent);
+  --joy-600: var(--color-warning);
+  --joy-500: var(--color-warning-bg);
+  --joy-100: var(--color-warning-bg);
+  --success: var(--color-success);
+  --success-bg: var(--color-success-bg);
+  --info: var(--color-info);
+  --info-bg: var(--color-info-bg);
+  --warn: var(--color-warning);
+  --warn-bg: var(--color-warning-bg);
+  --danger: var(--color-error);
+  --danger-bg: var(--color-error-bg);
+}
+
+/* Horizon Dawn */
+[data-theme="horizon-dawn"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-primary-light);
+  --brand-100: var(--color-accent);
+  --joy-600: var(--color-accent);
+  --joy-500: var(--color-accent-hover);
+  --joy-100: var(--color-bg-tertiary);
+  --success: #10B981;
+  --success-bg: #D1FAE5;
+  --info: var(--color-primary);
+  --info-bg: var(--color-bg-tertiary);
+  --warn: var(--color-primary-light);
+  --warn-bg: var(--color-accent);
+  --danger: var(--color-primary);
+  --danger-bg: var(--color-bg-tertiary);
+}
+
+/* Ocean Depth */
+[data-theme="ocean-depth"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-accent);
+  --joy-500: var(--color-accent-hover);
+  --joy-100: var(--color-bg-tertiary);
+  --success: #10B981;
+  --success-bg: #0F141A;
+  --info: var(--color-primary);
+  --info-bg: var(--color-bg-tertiary);
+  --warn: #F59E0B;
+  --warn-bg: #1A2129;
+  --danger: #EF4444;
+  --danger-bg: #1A2129;
+}
+
+/* Forest Canvas */
+[data-theme="forest-canvas"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-accent);
+  --joy-500: var(--color-accent-hover);
+  --joy-100: var(--color-bg-tertiary);
+  --success: var(--color-primary);
+  --success-bg: var(--color-bg-tertiary);
+  --info: var(--color-text-secondary);
+  --info-bg: var(--color-bg-tertiary);
+  --warn: #D97706;
+  --warn-bg: #FEF3C7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+}
+
+/* Cosmic Violet */
+[data-theme="cosmic-violet"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-accent);
+  --brand-100: var(--color-bg-tertiary);
+  --joy-600: var(--color-accent);
+  --joy-500: var(--color-accent-hover);
+  --joy-100: var(--color-bg-tertiary);
+  --success: #10B981;
+  --success-bg: #1A1A1A;
+  --info: var(--color-accent);
+  --info-bg: var(--color-bg-tertiary);
+  --warn: #F59E0B;
+  --warn-bg: #1A1A1A;
+  --danger: #EF4444;
+  --danger-bg: #1A1A1A;
+}
+
+/* Terracotta Earth */
+[data-theme="terracotta-earth"] {
+  --bg-0: var(--color-bg);
+  --bg-1: var(--color-surface);
+  --bg-2: var(--color-bg-secondary);
+  --ink-900: var(--color-text);
+  --ink-700: var(--color-text-secondary);
+  --ink-400: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand-600: var(--color-primary);
+  --brand-500: var(--color-primary-light);
+  --brand-100: var(--color-accent);
+  --joy-600: var(--color-accent);
+  --joy-500: var(--color-accent-hover);
+  --joy-100: var(--color-bg-tertiary);
+  --success: #10B981;
+  --success-bg: #D1FAE5;
+  --info: var(--color-text-secondary);
+  --info-bg: var(--color-bg-tertiary);
+  --warn: var(--color-primary-light);
+  --warn-bg: var(--color-accent);
+  --danger: var(--color-primary);
+  --danger-bg: var(--color-bg-tertiary);
+}
+
 /* CSS Variables - Light Mode (Default) */
 :root {
   /* Backgrounds & Surfaces */
@@ -877,5 +1182,22 @@ a:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   TABLET RESPONSIVE - Use More Screen Width
+   On tablets (768px-1024px), containers should use
+   more horizontal space to reduce wasted margins.
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Override Tailwind max-w-* classes on tablets to use more screen */
+  .max-w-2xl,
+  .max-w-3xl,
+  .max-w-4xl,
+  .max-w-5xl,
+  .max-w-6xl,
+  .max-w-7xl {
+    max-width: 95% !important;
   }
 }
