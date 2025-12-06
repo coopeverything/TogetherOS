@@ -81,7 +81,7 @@ export default function MonitoringTestPage() {
       case 'error':
         return 'text-red-600';
       default:
-        return 'text-ink-700';
+        return 'text-gray-600';
     }
   };
 
@@ -97,16 +97,16 @@ export default function MonitoringTestPage() {
       case 'error':
         return 'bg-red-100';
       default:
-        return 'bg-bg-2';
+        return 'bg-gray-100';
     }
   };
 
   return (
-    <div className="min-h-screen bg-bg-1 p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-bg-0 rounded-lg shadow-md p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
           <h1 className="text-3xl font-bold mb-2">Monitoring Test Page</h1>
-          <p className="text-ink-700 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
             Test health checks, error tracking, and monitoring systems
           </p>
 
@@ -163,14 +163,14 @@ export default function MonitoringTestPage() {
                     {health.status.toUpperCase()}
                   </span>
                 </div>
-                <div className="mt-2 text-sm text-ink-700">
+                <div className="mt-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                   <p>Last checked: {new Date(health.timestamp).toLocaleString()}</p>
                   <p>Uptime: {Math.floor(health.uptime)}s</p>
                 </div>
               </div>
 
               {/* Database Check */}
-              <div className="border border-border rounded-lg p-4">
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
                 <h3 className="text-lg font-semibold mb-2 flex items-center justify-between">
                   Database
                   <span className={`text-sm font-medium ${getStatusColor(health.checks.database.status)}`}>
@@ -178,7 +178,7 @@ export default function MonitoringTestPage() {
                   </span>
                 </h3>
                 {health.checks.database.latency !== undefined && (
-                  <p className="text-sm text-ink-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                     Latency: {health.checks.database.latency}ms
                   </p>
                 )}
@@ -190,7 +190,7 @@ export default function MonitoringTestPage() {
               </div>
 
               {/* Memory Check */}
-              <div className="border border-border rounded-lg p-4">
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
                 <h3 className="text-lg font-semibold mb-2 flex items-center justify-between">
                   Memory
                   <span className={`text-sm font-medium ${getStatusColor(health.checks.memory.status)}`}>
@@ -199,10 +199,10 @@ export default function MonitoringTestPage() {
                 </h3>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-ink-700">Usage:</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Usage:</span>
                     <span className="font-medium">{health.checks.memory.percentage}%</span>
                   </div>
-                  <div className="w-full bg-bg-2 rounded-full h-4">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4">
                     <div
                       className={`h-4 rounded-full transition-all ${
                         health.checks.memory.percentage > 90
@@ -214,7 +214,7 @@ export default function MonitoringTestPage() {
                       style={{ width: `${health.checks.memory.percentage}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-xs text-ink-400">
+                  <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
                     <span>Used: {(health.checks.memory.used / 1024 / 1024).toFixed(2)} MB</span>
                     <span>Total: {(health.checks.memory.total / 1024 / 1024).toFixed(2)} MB</span>
                   </div>
@@ -222,11 +222,11 @@ export default function MonitoringTestPage() {
               </div>
 
               {/* Raw JSON */}
-              <details className="border border-border rounded-lg">
-                <summary className="p-4 cursor-pointer font-semibold hover:bg-bg-1">
+              <details className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                <summary className="p-4 cursor-pointer font-semibold hover:bg-gray-50 dark:hover:bg-gray-800">
                   View Raw Response
                 </summary>
-                <pre className="p-4 bg-bg-2 overflow-x-auto text-xs">
+                <pre className="p-4 bg-gray-100 dark:bg-gray-800 overflow-x-auto text-xs">
                   {JSON.stringify(health, null, 2)}
                 </pre>
               </details>

@@ -336,12 +336,12 @@ export default function FeedTestPage() {
     : demoPosts;
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-ink-900">Feed Components Test Page</h1>
-          <p className="mt-2 text-ink-400">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Feed Components Test Page</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400 dark:text-gray-500">
             Comprehensive testing interface for all feed-related UI components, interactions, and features.
           </p>
           <div className="mt-3 flex gap-2">
@@ -353,7 +353,7 @@ export default function FeedTestPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-6 border-b border-border">
+        <div className="mb-6 border-b border-gray-200 dark:border-gray-700">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'showcase' as const, label: 'Component Showcase' },
@@ -366,8 +366,8 @@ export default function FeedTestPage() {
                 className={`
                   py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${activeTab === tab.id
-                    ? 'border-brand-500 text-brand-600'
-                    : 'border-transparent text-ink-400 hover:text-ink-700 hover:border-border'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }
                 `}
               >
@@ -378,18 +378,18 @@ export default function FeedTestPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-bg-1 rounded-lg shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
           {/* Component Showcase Tab */}
           {activeTab === 'showcase' && (
             <div className="space-y-10">
               {/* PostCard Variations */}
               <section>
                 <h2 className="text-2xl font-semibold mb-4">PostCard Component</h2>
-                <p className="text-ink-400 mb-6">Display individual posts with reactions and discussion counts.</p>
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">Display individual posts with reactions and discussion counts.</p>
 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Native Post (with title) - Phase 3 ✓</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Native Post (with title) - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[0]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[0].authorId]}
@@ -403,7 +403,7 @@ export default function FeedTestPage() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Native Post (without title) - Phase 3 ✓</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Native Post (without title) - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[1]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[1].authorId]}
@@ -417,7 +417,7 @@ export default function FeedTestPage() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Imported Instagram Post - Phase 3 ✓</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Imported Instagram Post - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[2]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[2].authorId]}
@@ -430,7 +430,7 @@ export default function FeedTestPage() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Imported Twitter/X Post - Phase 3 ✓</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Imported Twitter/X Post - Phase 3 ✓</h3>
                     <PostCard
                       post={SAMPLE_POSTS[3]}
                       authorName={AUTHOR_NAMES[SAMPLE_POSTS[3].authorId]}
@@ -447,11 +447,11 @@ export default function FeedTestPage() {
               {/* PostList States */}
               <section>
                 <h2 className="text-2xl font-semibold mb-4">PostList Component</h2>
-                <p className="text-ink-400 mb-6">Feed display with loading and empty states.</p>
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">Feed display with loading and empty states.</p>
 
                 <div className="space-y-8">
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Normal List</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Normal List</h3>
                     <PostList
                       posts={SAMPLE_POSTS.slice(0, 2)}
                       authorNames={AUTHOR_NAMES}
@@ -463,7 +463,7 @@ export default function FeedTestPage() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Empty State</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Empty State</h3>
                     <PostList
                       posts={[]}
                       authorNames={AUTHOR_NAMES}
@@ -475,7 +475,7 @@ export default function FeedTestPage() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium text-ink-700 mb-3">Loading State</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Loading State</h3>
                     <PostList
                       posts={[]}
                       authorNames={AUTHOR_NAMES}
@@ -488,7 +488,7 @@ export default function FeedTestPage() {
               {/* PostComposer */}
               <section>
                 <h2 className="text-2xl font-semibold mb-4">PostComposer Component - Phase 3 ✓</h2>
-                <p className="text-ink-400 mb-6">Modal for creating native posts or importing social media content. Now with Bridge AI topic suggestions!</p>
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">Modal for creating native posts or importing social media content. Now with Bridge AI topic suggestions!</p>
 
                 <Button onClick={() => setShowcaseComposerOpen(true)}>
                   Open PostComposer Demo (with AI suggestions)
@@ -508,7 +508,7 @@ export default function FeedTestPage() {
               {/* ThreadView */}
               <section>
                 <h2 className="text-2xl font-semibold mb-4">ThreadView Component</h2>
-                <p className="text-ink-400 mb-6">Basic discussion thread display (Phase 2 minimal version).</p>
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">Basic discussion thread display (Phase 2 minimal version).</p>
 
                 <ThreadView
                   posts={SAMPLE_THREAD}
@@ -527,7 +527,7 @@ export default function FeedTestPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-semibold">Live Feed Demo</h2>
-                  <p className="text-ink-400 mt-1">Create posts and interact with the feed in real-time.</p>
+                  <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">Create posts and interact with the feed in real-time.</p>
                 </div>
                 <Button onClick={() => setComposerOpen(true)}>
                   + Create Post
@@ -544,8 +544,8 @@ export default function FeedTestPage() {
                       onClick={() => setSelectedTopic(undefined)}
                       className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                         !selectedTopic
-                          ? 'bg-brand-600 text-white'
-                          : 'bg-bg-1 text-ink-700 border border-border hover:bg-bg-2'
+                          ? 'bg-orange-600 text-white'
+                          : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-300 hover:bg-gray-50'
                       }`}
                     >
                       All Topics
@@ -556,8 +556,8 @@ export default function FeedTestPage() {
                         onClick={() => setSelectedTopic(topic)}
                         className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                           selectedTopic === topic
-                            ? 'bg-brand-600 text-white'
-                            : 'bg-bg-1 text-ink-700 border border-border hover:bg-bg-2'
+                            ? 'bg-orange-600 text-white'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-300 hover:bg-gray-50'
                         }`}
                       >
                         {topic}
@@ -622,17 +622,17 @@ export default function FeedTestPage() {
             <div className="space-y-8">
               <section>
                 <h2 className="text-2xl font-semibold mb-4">Feed API Endpoints</h2>
-                <p className="text-ink-400 mb-6">
+                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
                   API routes for feed operations (Phase 3+). These endpoints will be implemented as the Feed module progresses.
                 </p>
               </section>
 
               <section className="space-y-4">
                 <h3 className="text-xl font-semibold">GET /api/feed</h3>
-                <p className="text-sm text-ink-400">Fetch feed posts with optional filtering.</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Fetch feed posts with optional filtering.</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Query Parameters:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   topic?: string          // Filter by topic
   limit?: number          // Results per page (default: 20)
@@ -642,7 +642,7 @@ export default function FeedTestPage() {
 }`}
                   </pre>
                   <h4 className="font-semibold mt-4 mb-2">Response:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   posts: Post[]
   nextCursor?: string
@@ -654,10 +654,10 @@ export default function FeedTestPage() {
 
               <section className="space-y-4">
                 <h3 className="text-xl font-semibold">POST /api/feed</h3>
-                <p className="text-sm text-ink-400">Create a new post (native or import).</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Create a new post (native or import).</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Request Body:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   type: 'native' | 'import'
   title?: string          // For native posts
@@ -668,7 +668,7 @@ export default function FeedTestPage() {
 }`}
                   </pre>
                   <h4 className="font-semibold mt-4 mb-2">Response:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   post: Post
 }`}
@@ -678,16 +678,16 @@ export default function FeedTestPage() {
 
               <section className="space-y-4">
                 <h3 className="text-xl font-semibold">POST /api/feed/[postId]/react</h3>
-                <p className="text-sm text-ink-400">Add or toggle a reaction to a post.</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Add or toggle a reaction to a post.</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Request Body:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   type: 'care' | 'insightful' | 'agree' | 'disagree' | 'act' | 'question'
 }`}
                   </pre>
                   <h4 className="font-semibold mt-4 mb-2">Response:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   reactionCounts: {
     care: number
@@ -704,10 +704,10 @@ export default function FeedTestPage() {
 
               <section className="space-y-4">
                 <h3 className="text-xl font-semibold">GET /api/feed/[postId]/thread</h3>
-                <p className="text-sm text-ink-400">Get discussion thread for a post (Phase 3).</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">Get discussion thread for a post (Phase 3).</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Response:</h4>
-                  <pre className="bg-bg-2 p-3 rounded text-sm overflow-x-auto">
+                  <pre className="bg-gray-50 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
 {`{
   thread: {
     id: string

@@ -1,4 +1,4 @@
-*
+/**
  * Metrics & Review Page
  *
  * Displays initiative metrics with filtering and status tracking
@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { MetricsList } from '@togetheros/ui/metrics'
 import type { MetricsSummary, InitiativeMetrics } from '@togetheros/types'
 
-*
+/**
  * Transform InitiativeMetrics to MetricsSummary for display
  */
 function toMetricsSummary(im: InitiativeMetrics): MetricsSummary {
@@ -84,7 +84,7 @@ export default function MetricsPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading metrics...</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Loading metrics...</p>
         </div>
       </div>
     )
@@ -93,11 +93,11 @@ export default function MetricsPage() {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-red-50/20 border border-red-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-900 mb-2">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-red-900 dark:text-red-100 mb-2">
             Error Loading Metrics
           </h2>
-          <p className="text-red-700">{error}</p>
+          <p className="text-red-700 dark:text-red-300">{error}</p>
         </div>
       </div>
     )
@@ -105,87 +105,87 @@ export default function MetricsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {Header */}
+      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-bold text-ink-900">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               Metrics & Review
             </h1>
-            <span className="px-3 py-1 bg-green-100/30 text-green-800 text-sm font-medium rounded-full">
+            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-sm font-medium rounded-full">
               UI Complete
             </span>
           </div>
         </div>
-        <p className="text-lg text-ink-700 max-w-3xl">
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
           Track whether decisions achieve their goals, trigger re-evaluation when they don&apos;t,
           and create a feedback loop for continuous improvement.
         </p>
       </div>
 
-      {Quick Links */}
+      {/* Quick Links */}
       <div className="grid gap-4 sm:grid-cols-3 mb-8">
         <Link
           href="/metrics/templates"
-          className="bg-bg-1 rounded-lg border border-border p-4 hover:border-orange-500 transition-colors"
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-orange-500 dark:hover:border-orange-400 transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-orange-100/30 rounded-lg">
-              <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+              <svg className="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-ink-900">Templates</h3>
-              <p className="text-sm text-ink-400">Browse reusable metrics</p>
+              <h3 className="font-semibold text-gray-900 dark:text-white">Templates</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Browse reusable metrics</p>
             </div>
           </div>
         </Link>
 
         <Link
           href="/metrics/analytics"
-          className="bg-bg-1 rounded-lg border border-border p-4 hover:border-orange-500 transition-colors"
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-orange-500 dark:hover:border-orange-400 transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100/30 rounded-lg">
-              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-ink-900">Analytics</h3>
-              <p className="text-sm text-ink-400">Platform-wide insights</p>
+              <h3 className="font-semibold text-gray-900 dark:text-white">Analytics</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Platform-wide insights</p>
             </div>
           </div>
         </Link>
 
         <Link
           href="/governance"
-          className="bg-bg-1 rounded-lg border border-border p-4 hover:border-orange-500 transition-colors"
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-orange-500 dark:hover:border-orange-400 transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100/30 rounded-lg">
-              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+              <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-ink-900">Governance</h3>
-              <p className="text-sm text-ink-400">View all proposals</p>
+              <h3 className="font-semibold text-gray-900 dark:text-white">Governance</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">View all proposals</p>
             </div>
           </div>
         </Link>
       </div>
 
-      {What This Module Does */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-ink-900 mb-4">
+      {/* What This Module Does */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
           What This Module Does
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-lg font-medium text-ink-900 mb-2">Core Features</h3>
-            <ul className="space-y-2 text-ink-700">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
                 Define measurable success metrics for initiatives
@@ -213,12 +213,12 @@ export default function MetricsPage() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-ink-900 mb-2">Cooperation Paths</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-blue-100/30 text-blue-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 text-sm rounded-full">
                 Collective Governance
               </span>
-              <span className="px-3 py-1 bg-purple-100/30 text-purple-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 text-sm rounded-full">
                 Cooperative Technology
               </span>
             </div>
@@ -226,7 +226,7 @@ export default function MetricsPage() {
         </div>
       </div>
 
-      {Metrics List */}
+      {/* Metrics List */}
       <MetricsList
         metrics={metrics}
         showDefineButton={true}
@@ -234,7 +234,7 @@ export default function MetricsPage() {
         onSelectMetric={handleSelectMetric}
       />
 
-      {For Developers */}
+      {/* For Developers */}
       <div className="bg-bg-2 rounded-lg border border-border p-4 mt-8">
         <p className="text-ink-700 flex items-center gap-2">
           <span className="font-medium">For Developers:</span>

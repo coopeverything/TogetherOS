@@ -50,14 +50,14 @@ export default async function GlossaryTermPage({ params }: Props) {
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-ink-400">
+          <ol className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
             <li>
               <Link href="/glossary" className="hover:text-emerald-600">
                 Glossary
               </Link>
             </li>
             <li>/</li>
-            <li className="text-ink-900 font-medium">{term.word}</li>
+            <li className="text-gray-900 dark:text-white font-medium">{term.word}</li>
           </ol>
         </nav>
 
@@ -72,7 +72,7 @@ export default async function GlossaryTermPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-ink-900 mb-4">{term.word}</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{term.word}</h1>
 
           {term.cooperationPath && (
             <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm mb-4">
@@ -82,11 +82,11 @@ export default async function GlossaryTermPage({ params }: Props) {
         </header>
 
         {/* Definition Box */}
-        <div className="bg-bg-1 rounded-xl border-2 border-emerald-200 p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-emerald-200 p-6 mb-8">
           <h2 className="text-sm font-medium text-emerald-600 uppercase tracking-wide mb-3">
             Definition
           </h2>
-          <p className="text-xl text-ink-900 leading-relaxed">
+          <p className="text-xl text-gray-800 dark:text-gray-100 leading-relaxed">
             {term.shortDefinition}
           </p>
         </div>
@@ -94,7 +94,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Wiki Article Link */}
         {wikiArticle && (
           <div className="mb-8">
-            <h2 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Learn More
             </h2>
             <Link
@@ -122,13 +122,13 @@ export default async function GlossaryTermPage({ params }: Props) {
                       {wikiArticle.status}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-ink-900 group-hover:text-blue-600 transition-colors mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors mb-2">
                     {wikiArticle.title}
                   </h3>
-                  <p className="text-ink-700 leading-relaxed mb-3">
+                  <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed mb-3">
                     {wikiArticle.summary}
                   </p>
-                  <div className="flex items-center gap-4 text-sm text-ink-400">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                     <span>{wikiArticle.readTimeMinutes} min read</span>
                     <span>
                       {wikiArticle.contributorCount} contributor
@@ -136,7 +136,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                     </span>
                   </div>
                 </div>
-                <div className="flex-shrink-0 text-ink-400 group-hover:text-blue-500 transition-colors">
+                <div className="flex-shrink-0 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 transition-colors">
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -159,7 +159,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Related Terms */}
         {relatedTerms.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+            <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Related Terms
             </h2>
             <div className="grid gap-3">
@@ -167,19 +167,19 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <Link
                   key={related.id}
                   href={`/glossary/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-emerald-300 hover:bg-emerald-50 transition-colors group"
+                  className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-emerald-300 hover:bg-emerald-50 transition-colors group"
                 >
                   <span className="text-lg">📖</span>
                   <div className="flex-1">
-                    <div className="font-medium text-ink-900 group-hover:text-emerald-600 transition-colors">
+                    <div className="font-medium text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors">
                       {related.word}
                     </div>
-                    <div className="text-sm text-ink-700">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                       {related.shortDefinition}
                     </div>
                   </div>
                   <svg
-                    className="w-5 h-5 text-ink-400 group-hover:text-emerald-500 flex-shrink-0"
+                    className="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -220,7 +220,7 @@ export default async function GlossaryTermPage({ params }: Props) {
           </Link>
           <Link
             href="/glossary"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-bg-1 border border-border text-ink-700 rounded-lg hover:bg-bg-0 transition-colors font-medium"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
           >
             <svg
               className="w-5 h-5"
@@ -240,7 +240,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         </div>
 
         {/* Usage Note */}
-        <div className="p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
+        <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
           <p>
             <strong>How terms work on this site:</strong> When you see a term
             with a dotted underline, hover over it to see this definition. Click

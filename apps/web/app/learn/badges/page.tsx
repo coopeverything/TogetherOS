@@ -55,15 +55,15 @@ export default function LearningBadgesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-0">
-        <div className="text-ink-700">Loading badges...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading badges...</div>
       </div>
     )
   }
 
   if (error || !data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-0">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Failed to load badges'}</p>
           <Link href="/learn" className="text-blue-600 hover:underline">
@@ -95,23 +95,23 @@ export default function LearningBadgesPage() {
   }, {} as Record<string, Badge[]>)
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-sm text-ink-700 mb-4">
+        <nav className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
           <Link href="/learn" className="hover:text-blue-600">Learn</Link>
           <span className="mx-2">/</span>
-          <span className="text-ink-900">Badges</span>
+          <span className="text-gray-900 dark:text-white">Badges</span>
         </nav>
 
         {/* Header */}
-        <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
                 Learning Badges
               </h1>
-              <p className="text-ink-700">
+              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 Track your learning achievements and unlock new badges
               </p>
             </div>
@@ -119,17 +119,17 @@ export default function LearningBadgesPage() {
               <div className="text-3xl font-bold text-green-600">
                 {data.summary.earned}/{data.summary.total}
               </div>
-              <div className="text-sm text-ink-400">badges earned</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">badges earned</div>
             </div>
           </div>
 
           {/* Progress bar */}
           <div className="mt-4">
             <div className="flex items-center justify-between text-sm mb-1">
-              <span className="text-ink-700">Collection Progress</span>
-              <span className="font-medium text-ink-900">{data.summary.percentage}%</span>
+              <span className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Collection Progress</span>
+              <span className="font-medium text-gray-900 dark:text-white">{data.summary.percentage}%</span>
             </div>
-            <div className="w-full bg-bg-2 rounded-full h-2">
+            <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
               <div
                 className="bg-green-500 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${data.summary.percentage}%` }}
@@ -147,7 +147,7 @@ export default function LearningBadgesPage() {
               className={`px-4 py-2 text-sm rounded-lg transition-colors ${
                 filter === f
                   ? 'bg-blue-600 text-white'
-                  : 'bg-bg-1 text-ink-700 border border-border hover:bg-bg-0'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 border border-gray-200 hover:bg-gray-50'
               }`}
             >
               {f === 'all' ? 'All Badges' : f === 'earned' ? 'Earned' : 'In Progress'}
@@ -158,17 +158,17 @@ export default function LearningBadgesPage() {
         {/* Badges by Category */}
         {Object.entries(groupedBadges).map(([category, badges]) => (
           <div key={category} className="mb-6">
-            <h2 className="text-lg font-medium text-ink-900 mb-3">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
               {categoryLabels[category] || category}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {badges.map(badge => (
                 <div
                   key={badge.id}
-                  className={`bg-bg-1 rounded-lg border p-4 ${
+                  className={`bg-white dark:bg-gray-800 rounded-lg border p-4 ${
                     badge.earnedAt
                       ? 'border-green-200 bg-green-50'
-                      : 'border-border'
+                      : 'border-gray-200'
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -181,12 +181,12 @@ export default function LearningBadgesPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-ink-900">{badge.name}</h3>
+                        <h3 className="font-medium text-gray-900 dark:text-white">{badge.name}</h3>
                         {badge.earnedAt && (
                           <span className="text-green-600 text-sm">✓</span>
                         )}
                       </div>
-                      <p className="text-sm text-ink-700 mt-1">{badge.description}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">{badge.description}</p>
 
                       {/* Progress or earned date */}
                       {badge.earnedAt ? (
@@ -195,13 +195,13 @@ export default function LearningBadgesPage() {
                         </p>
                       ) : badge.progress ? (
                         <div className="mt-2">
-                          <div className="flex items-center justify-between text-xs text-ink-400 mb-1">
+                          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-1">
                             <span>Progress</span>
                             <span>
                               {badge.progress.current}/{badge.progress.threshold}
                             </span>
                           </div>
-                          <div className="w-full bg-bg-2 rounded-full h-1.5">
+                          <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5">
                             <div
                               className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
                               style={{ width: `${badge.progress.percentage}%` }}
@@ -218,7 +218,7 @@ export default function LearningBadgesPage() {
         ))}
 
         {filteredBadges.length === 0 && (
-          <div className="text-center py-12 text-ink-400">
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400 dark:text-gray-500">
             No badges found for this filter.
           </div>
         )}

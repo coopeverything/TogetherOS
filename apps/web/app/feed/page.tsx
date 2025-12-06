@@ -1,4 +1,4 @@
-*
+/**
  * Feed Page
  * Social media-style feed with native posts and imported content
  */
@@ -245,18 +245,18 @@ export default function FeedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-0">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {Two-column grid layout: Feed (left) + Sidebar (right) */}
+        {/* Two-column grid layout: Feed (left) + Sidebar (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {Main feed content - 2/3 width on large screens */}
+          {/* Main feed content - 2/3 width on large screens */}
           <div className="lg:col-span-2">
-            {Header */}
+            {/* Header */}
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-ink-900">Feed</h1>
-                  <p className="text-ink-700 mt-1">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Feed</h1>
+                  <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
                     Community posts and imported content
                   </p>
                 </div>
@@ -269,7 +269,7 @@ export default function FeedPage() {
                 </button>
               </div>
 
-              {Error banner */}
+              {/* Error banner */}
               {error && (
                 <div className="mb-4 bg-red-50 rounded-lg border border-red-200 p-4">
                   <p className="text-sm text-red-800">
@@ -279,7 +279,7 @@ export default function FeedPage() {
               )}
             </div>
 
-            {Feed */}
+            {/* Feed */}
             <PostList
               posts={posts}
               authorNames={authorNames}
@@ -293,7 +293,7 @@ export default function FeedPage() {
               onEdit={handleEdit}
             />
 
-            {Info banner */}
+            {/* Info banner */}
             {!loading && posts.length > 0 && (
               <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-4">
                 <p className="text-sm text-blue-800">
@@ -303,7 +303,7 @@ export default function FeedPage() {
             )}
           </div>
 
-          {Sidebar - 1/3 width on large screens, hidden on mobile */}
+          {/* Sidebar - 1/3 width on large screens, hidden on mobile */}
           <aside className="hidden lg:block lg:col-span-1">
             <div className="sticky top-8">
               <GroupGrowthTracker
@@ -317,7 +317,7 @@ export default function FeedPage() {
           </aside>
         </div>
 
-        {Post Composer Modal */}
+        {/* Post Composer Modal */}
         <PostComposerUnified
           isOpen={composerOpen}
           onClose={() => setComposerOpen(false)}
@@ -325,7 +325,7 @@ export default function FeedPage() {
           topics={AVAILABLE_TOPICS}
         />
 
-        {Invitation Modal */}
+        {/* Invitation Modal */}
         <InvitationModal
           isOpen={inviteModalOpen}
           onClose={() => setInviteModalOpen(false)}

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Card, Button, Badge, Avatar, Input, Textarea, Label, Alert } from '@/components/ui';
 import { TagInput, ProfileCompletionIndicator } from '@togetheros/ui/profiles';
 import { AvatarUpload } from '@/components/profile/AvatarUpload';
-import { ThemePicker } from '@/components/dark-mode-provider';
 import { cn } from '@/lib/utils';
 
 interface User {
@@ -152,8 +151,7 @@ export default function ProfileClient({ initialUser }: { initialUser: User }) {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold text-ink-900">Your Profile</h1>
-              <div className="flex items-center gap-3">
-                <ThemePicker />
+              <div className="flex gap-3">
                 {user.username && (
                   <Button
                     variant="secondary"

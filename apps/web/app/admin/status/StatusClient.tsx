@@ -27,7 +27,7 @@ interface StatusData {
 
 // Get status color based on progress
 const getProgressColor = (progress: number): string => {
-  if (progress === 0) return 'bg-bg-2';
+  if (progress === 0) return 'bg-slate-200 dark:bg-slate-700';
   if (progress < 30) return 'bg-gradient-to-r from-rose-400 to-pink-500';
   if (progress < 70) return 'bg-gradient-to-r from-amber-400 to-orange-500';
   return 'bg-gradient-to-r from-emerald-400 to-green-500';
@@ -44,7 +44,7 @@ const getStatusText = (progress: number): string => {
 
 // Get ring color for progress circle
 const getRingColor = (progress: number): string => {
-  if (progress === 0) return 'ring-border';
+  if (progress === 0) return 'ring-slate-200 dark:ring-slate-700';
   if (progress < 30) return 'ring-rose-400';
   if (progress < 70) return 'ring-amber-400';
   return 'ring-emerald-400';
@@ -60,29 +60,29 @@ function ModuleCard({ module }: ModuleCardProps) {
   const ringColor = getRingColor(module.progress);
 
   return (
-    <div className="group relative bg-bg-0 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-border hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-blue-300/50">
+    <div className="group relative bg-white dark:bg-gray-800/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-blue-300/50 dark:hover:border-blue-700/50">
       {/* Glow effect on hover */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500" />
 
       <div className="relative">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="font-semibold text-ink-900 text-sm leading-tight group-hover:text-blue-600 transition-colors">
+            <h3 className="font-semibold text-slate-900 dark:text-white text-sm leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               {module.name}
             </h3>
-            <p className="text-xs text-ink-400 mt-1 font-mono">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-mono">
               #{module.key}
             </p>
           </div>
-          <div className={`flex-shrink-0 w-12 h-12 rounded-full ring-4 ${ringColor} flex items-center justify-center bg-bg-0 ml-3 shadow-sm`}>
-            <span className="text-xs font-bold text-ink-700">
+          <div className={`flex-shrink-0 w-12 h-12 rounded-full ring-4 ${ringColor} flex items-center justify-center bg-white dark:bg-gray-800 dark:bg-slate-900 ml-3 shadow-sm`}>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
               {module.progress}%
             </span>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="relative w-full h-3 bg-bg-2 rounded-full overflow-hidden shadow-inner">
+        <div className="relative w-full h-3 bg-slate-100 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
           <div
             className={`absolute inset-y-0 left-0 ${progressColor} rounded-full transition-all duration-700 ease-out shadow-lg`}
             style={{ width: `${module.progress}%` }}
@@ -93,10 +93,10 @@ function ModuleCard({ module }: ModuleCardProps) {
 
         {/* Status badge */}
         <div className="flex items-center justify-between mt-3">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-2 text-ink-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300">
             {statusText}
           </span>
-          <span className="text-xs text-ink-400">
+          <span className="text-xs text-slate-400 dark:text-slate-500">
             {module.progress > 0 && module.progress < 100 && '🚧'}
             {module.progress === 0 && '⏳'}
             {module.progress === 100 && '✅'}
@@ -127,7 +127,7 @@ function ModuleSection({ title, description, modules, icon }: ModuleSectionProps
         <div className="flex items-baseline justify-between mb-3">
           <div className="flex items-center gap-3">
             <span className="text-3xl">{icon}</span>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-ink-900 to-ink-700 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
               {title}
             </h2>
           </div>
@@ -135,12 +135,12 @@ function ModuleSection({ title, description, modules, icon }: ModuleSectionProps
             <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {avgProgress}%
             </div>
-            <div className="text-xs text-ink-400">average</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">average</div>
           </div>
         </div>
-        <p className="text-ink-700 text-sm max-w-2xl">
+        <p className="text-slate-600 dark:text-slate-400 text-sm max-w-2xl">
           {description}{' '}
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
             {started}/{modules.length} started
           </span>
         </p>
@@ -163,10 +163,10 @@ function ModuleSection({ title, description, modules, icon }: ModuleSectionProps
 function LoadingSkeleton() {
   return (
     <div className="animate-pulse space-y-8">
-      <div className="h-40 bg-gradient-to-r from-bg-2 to-bg-1 rounded-3xl" />
+      <div className="h-40 bg-gradient-to-r from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 rounded-3xl" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-36 bg-bg-2 rounded-2xl" />
+          <div key={i} className="h-36 bg-slate-200 dark:bg-slate-700 rounded-2xl" />
         ))}
       </div>
     </div>
@@ -199,13 +199,13 @@ export default function StatusClient() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-bg-1 via-blue-50 to-purple-50">
-        <header className="bg-bg-0 backdrop-blur-xl border-b border-border sticky top-0 z-50">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+        <header className="bg-white dark:bg-gray-800/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               TogetherOS Progress
             </h1>
-            <p className="mt-2 text-sm text-ink-700">Loading status data...</p>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Loading status data...</p>
           </div>
         </header>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -217,20 +217,20 @@ export default function StatusClient() {
 
   if (error || !data?.success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-bg-1 via-blue-50 to-purple-50 flex items-center justify-center">
-        <div className="text-center p-12 bg-bg-0 backdrop-blur-xl rounded-3xl shadow-xl border border-border">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <div className="text-center p-12 bg-white dark:bg-gray-800/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/50 dark:border-slate-700/50">
           <div className="text-6xl mb-4">⚠️</div>
-          <h1 className="text-2xl font-bold text-ink-900 mb-2">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
             Failed to Load Status
           </h1>
-          <p className="text-ink-700">{error}</p>
+          <p className="text-slate-600 dark:text-slate-400">{error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bg-1 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
       {/* Floating orbs background effect */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-float" />
@@ -238,14 +238,14 @@ export default function StatusClient() {
       </div>
 
       {/* Header */}
-      <header className="relative bg-bg-0 backdrop-blur-xl border-b border-border sticky top-0 z-50 shadow-sm">
+      <header className="relative bg-white dark:bg-gray-800/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
                 TogetherOS Progress
               </h1>
-              <p className="text-sm text-ink-700 flex items-center gap-2">
+              <p className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
                 <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 Live tracking • Auto-updated via GitHub Actions
               </p>
@@ -274,16 +274,16 @@ export default function StatusClient() {
           {/* Animated background */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 animate-gradient-shift" />
 
-          <div className="relative bg-bg-0 backdrop-blur-xl rounded-3xl p-8">
+          <div className="relative bg-white dark:bg-gray-800/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="text-center">
-                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider">
                   Overall Progress
                 </div>
                 <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   {data.stats.overall}%
                 </div>
-                <div className="mt-3 w-full h-2 bg-bg-2 rounded-full overflow-hidden">
+                <div className="mt-3 w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000"
                     style={{ width: `${data.stats.overall}%` }}
@@ -291,35 +291,35 @@ export default function StatusClient() {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider">
                   Total Modules
                 </div>
-                <div className="text-5xl font-bold text-ink-900">
+                <div className="text-5xl font-bold text-slate-900 dark:text-white">
                   {data.stats.total}
                 </div>
-                <div className="mt-3 text-xs text-ink-400">
+                <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
                   Across all categories
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider">
                   In Progress
                 </div>
                 <div className="text-5xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
                   {data.stats.started}
                 </div>
-                <div className="mt-3 text-xs text-ink-400">
+                <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
                   Active development
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-sm font-semibold text-ink-700 mb-2 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider">
                   Completed
                 </div>
                 <div className="text-5xl font-bold bg-gradient-to-r from-emerald-500 to-green-500 bg-clip-text text-transparent">
                   {data.stats.completed}
                 </div>
-                <div className="mt-3 text-xs text-ink-400">
+                <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
                   Ready for production
                 </div>
               </div>
@@ -350,27 +350,27 @@ export default function StatusClient() {
         />
 
         {/* Footer */}
-        <footer className="mt-16 pt-12 border-t border-border">
+        <footer className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-700">
           <div className="text-center space-y-4">
-            <p className="text-sm text-ink-700">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Progress data synced from{' '}
               <a
                 href="https://github.com/coopeverything/TogetherOS/blob/main/docs/STATUS_v2.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline font-medium"
+                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
               >
                 docs/STATUS_v2.md
               </a>
             </p>
-            <p className="text-xs text-ink-400">
+            <p className="text-xs text-slate-500 dark:text-slate-500">
               Automated by{' '}
-              <code className="px-2 py-1 bg-bg-2 rounded text-xs font-mono">
+              <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs font-mono">
                 auto-progress-update.yml
               </code>{' '}
               GitHub Action
             </p>
-            <p className="text-xs text-ink-400">
+            <p className="text-xs text-slate-400 dark:text-slate-600">
               Last updated: {new Date(data.lastUpdated).toLocaleString()}
             </p>
           </div>

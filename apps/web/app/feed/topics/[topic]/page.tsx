@@ -95,9 +95,9 @@ export default function TopicFeedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-0">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-bg-1 border-b border-border">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4 mb-4">
             <button
@@ -107,10 +107,10 @@ export default function TopicFeedPage() {
               ← Back to Feed
             </button>
           </div>
-          <h1 className="text-3xl font-bold text-ink-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             #{topic.replace(/\s+/g, '')}
           </h1>
-          <p className="text-ink-700 mt-2">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-2">
             {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'} about {topic}
           </p>
         </div>
@@ -142,8 +142,8 @@ export default function TopicFeedPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-bg-1 rounded-lg border border-border p-12 text-center">
-            <p className="text-ink-700 text-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-12 text-center">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 text-lg">
               No posts found for topic "{topic}"
             </p>
             <button
@@ -159,14 +159,14 @@ export default function TopicFeedPage() {
       {/* Phase 3 Info Panel */}
       <aside className="max-w-4xl mx-auto px-4 pb-8">
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-ink-900 mb-2">
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
             🤖 Phase 3: Bridge Topic Intelligence
           </h3>
-          <p className="text-sm text-ink-700">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
             This topic feed uses Bridge's semantic understanding to group related posts.
             Future enhancements will include:
           </p>
-          <ul className="text-sm text-ink-700 mt-2 space-y-1 list-disc list-inside">
+          <ul className="text-sm text-gray-700 dark:text-gray-300 mt-2 space-y-1 list-disc list-inside">
             <li>Smart topic suggestions when creating posts</li>
             <li>Semantic similarity matching (not just keyword matching)</li>
             <li>Related post recommendations</li>

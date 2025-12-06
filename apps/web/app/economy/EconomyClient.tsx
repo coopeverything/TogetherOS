@@ -24,34 +24,17 @@ interface Allocation {
   allocated_at: string;
 }
 
-interface RPBalance {
-  total_earned: number;
-  available: number;
-  spent_on_tbc: number;
-  spent_on_sh: number;
-}
-
-interface TBCAccount {
-  balance: number;
-  totalEarned: number;
-  totalSpent: number;
-}
-
-interface SHWallet {
-  shBalance: number;
-  totalIssued: number;
-  ownershipPercentage: number;
-}
-
 export default function EconomyClient() {
   const [balance, setBalance] = useState<SupportPointsBalance | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [allocations, setAllocations] = useState<Allocation[]>([]);
-  const [rpBalance, setRpBalance] = useState<RPBalance | null>(null);
-  const [tbcAccount, setTbcAccount] = useState<TBCAccount | null>(null);
-  const [shWallet, setShWallet] = useState<SHWallet | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Sample data for demonstration (will be replaced with real API calls)
+  const sampleRewardPoints = { earned: 450, available: 250, spentTBC: 100, spentSH: 100 };
+  const sampleTimebank = { balance: 3.5, earned: 8, spent: 4.5 };
+  const sampleSocialHorizon = { balance: 12, issued: 10, purchased: 2 };
 
   useEffect(() => {
     loadData();
@@ -61,52 +44,31 @@ export default function EconomyClient() {
     try {
       setLoading(true);
 
-      // Load SP balance
+      // Load balance
       const balanceResponse = await fetch('/api/support-points/balance');
       if (balanceResponse.ok) {
         const balanceData = await balanceResponse.json();
         setBalance(balanceData.balance);
       }
 
-      // Load SP transactions
+      // Load transactions
       const txResponse = await fetch('/api/support-points/transactions?limit=10');
       if (txResponse.ok) {
         const txData = await txResponse.json();
         setTransactions(txData.transactions || []);
       }
 
-      // Load SP allocations
+      // Load allocations
       const allocResponse = await fetch('/api/support-points/allocations');
       if (allocResponse.ok) {
         const allocData = await allocResponse.json();
         setAllocations(allocData.allocations || []);
       }
 
-      // Load RP balance
-      const rpResponse = await fetch('/api/reward-points/balance');
-      if (rpResponse.ok) {
-        const rpData = await rpResponse.json();
-        setRpBalance(rpData.balance);
-      }
-
-      // Load TBC account
-      const tbcResponse = await fetch('/api/timebank/account');
-      if (tbcResponse.ok) {
-        const tbcData = await tbcResponse.json();
-        setTbcAccount(tbcData.account);
-      }
-
-      // Load SH wallet
-      const shResponse = await fetch('/api/social-horizon/wallet');
-      if (shResponse.ok) {
-        const shData = await shResponse.json();
-        setShWallet(shData.wallet);
-      }
-
       setLoading(false);
     } catch (err) {
       console.error('Load data error:', err);
-      setError('Failed to load economy data');
+      setError('Failed to load Support Points data');
       setLoading(false);
     }
   }
@@ -149,7 +111,7 @@ export default function EconomyClient() {
       {/* Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Support Points Balance */}
-        <a href="/economy/support-points" className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Support Points</h3>
             <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">SP</span>
@@ -167,67 +129,67 @@ export default function EconomyClient() {
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
             <p className="text-xs opacity-75">Governance power • Non-convertible</p>
           </div>
-        </a>
+        </div>
 
         {/* Reward Points */}
-        <a href="/economy/reward-points" className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Reward Points</h3>
             <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">RP</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
-            <p className="text-5xl font-bold">{rpBalance?.available || 0}</p>
-            <p className="text-lg opacity-75">/ {rpBalance?.total_earned || 0}</p>
+            <p className="text-5xl font-bold">{sampleRewardPoints.available}</p>
+            <p className="text-lg opacity-75">/ {sampleRewardPoints.earned}</p>
           </div>
           <p className="text-sm opacity-75 mb-1">Available to convert or spend</p>
           <div className="text-xs opacity-90 space-y-1">
-            <p>• {rpBalance?.spent_on_tbc || 0} RP → TBC conversions</p>
-            <p>• {rpBalance?.spent_on_sh || 0} RP → SH purchases</p>
+            <p>• {sampleRewardPoints.spentTBC} RP → TBC conversions</p>
+            <p>• {sampleRewardPoints.spentSH} RP → SH purchases</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
             <p className="text-xs opacity-75">Economic claims • Convertible</p>
           </div>
-        </a>
+        </div>
 
         {/* Timebank Credits */}
-        <a href="/economy/timebank" className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Timebank Credits</h3>
             <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">TBC</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
-            <p className="text-5xl font-bold">{tbcAccount?.balance?.toFixed(1) || '0.0'}</p>
+            <p className="text-5xl font-bold">{sampleTimebank.balance}</p>
             <p className="text-lg opacity-75">TBC</p>
           </div>
           <p className="text-sm opacity-75 mb-1">Available for exchange</p>
           <div className="text-xs opacity-90 space-y-1">
-            <p>• {tbcAccount?.totalEarned?.toFixed(1) || '0.0'} TBC earned</p>
-            <p>• {tbcAccount?.totalSpent?.toFixed(1) || '0.0'} TBC spent</p>
+            <p>• {sampleTimebank.earned} TBC earned (goods & services sold)</p>
+            <p>• {sampleTimebank.spent} TBC spent (goods & services bought)</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-xs opacity-75">Bartering economy • 1-10 TBC/hour</p>
+            <p className="text-xs opacity-75">Bartering economy • 1-3 TBC/hour</p>
           </div>
-        </a>
+        </div>
 
         {/* Social Horizon */}
-        <a href="/economy/social-horizon" className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Social Horizon</h3>
             <span className="text-xs bg-white dark:bg-gray-800 bg-opacity-20 px-2 py-1 rounded">SH</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
-            <p className="text-5xl font-bold">{shWallet?.shBalance?.toFixed(2) || '0.00'}</p>
+            <p className="text-5xl font-bold">{sampleSocialHorizon.balance}</p>
             <p className="text-lg opacity-75">SH</p>
           </div>
-          <p className="text-sm opacity-75 mb-1">Cooperative ownership stake</p>
+          <p className="text-sm opacity-75 mb-1">Social capital & retirement savings</p>
           <div className="text-xs opacity-90 space-y-1">
-            <p>• {shWallet?.totalIssued?.toFixed(2) || '0.00'} SH total received</p>
-            <p>• {shWallet?.ownershipPercentage?.toFixed(4) || '0.0000'}% ownership</p>
+            <p>• {sampleSocialHorizon.issued} SH issued (from contributions)</p>
+            <p>• {sampleSocialHorizon.purchased} SH purchased (with RP)</p>
           </div>
           <div className="mt-4 pt-4 border-t border-white border-opacity-20">
-            <p className="text-xs opacity-75">Non-tradable • Long-term stake</p>
+            <p className="text-xs opacity-75">Stable local currency • Anti-inflation</p>
           </div>
-        </a>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -445,12 +407,12 @@ export default function EconomyClient() {
         </div>
 
         {/* Implementation Status */}
-        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-green-900 mb-3">Implementation Status</h3>
-          <div className="space-y-2 text-sm text-green-800">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-blue-900 mb-3">Implementation Status</h3>
+          <div className="space-y-2 text-sm text-blue-800">
             <div className="flex items-center gap-2">
               <span className="text-green-600 font-bold">✓</span>
-              <span>Database schema with 15 tables (economy, timebank, social horizon)</span>
+              <span>Database schema with 12 tables (migration 023)</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-600 font-bold">✓</span>
@@ -458,15 +420,11 @@ export default function EconomyClient() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-600 font-bold">✓</span>
-              <span>API endpoints: RP earn/convert, TBC services/transactions, SH wallet/events</span>
+              <span>Backend functions for RP, TBC, SH, and budgets</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
-              <span>UI components: Wallet cards, service browser, RP→TBC converter</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
-              <span>Admin settings: TBC pricing, SH caps, fair exchange thresholds</span>
+              <span className="text-yellow-600 font-bold">⟳</span>
+              <span>API endpoints and UI integration (in progress)</span>
             </div>
             <p className="mt-4 text-xs opacity-75 flex items-center gap-1">
               <span>Full specification:</span>
@@ -474,7 +432,7 @@ export default function EconomyClient() {
                 href="https://github.com/coopeverything/TogetherOS/blob/yolo/docs/guides/4-ledger-system.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-green-600 flex items-center gap-1"
+                className="underline hover:text-blue-600 flex items-center gap-1"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />

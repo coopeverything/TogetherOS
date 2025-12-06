@@ -187,8 +187,8 @@ export default function AdminForumTagsPage() {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-bg-2 rounded w-64"></div>
-          <div className="h-64 bg-bg-2 rounded"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64"></div>
+          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     )
@@ -214,24 +214,24 @@ export default function AdminForumTagsPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-ink-900">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white dark:text-gray-100">
           Forum Tag Management
         </h1>
-        <p className="text-ink-400 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
           Manage and correct forum tags/keywords. Changes apply across all topics.
         </p>
       </div>
 
       {/* Success Message Toast */}
       {successMessage && (
-        <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-800 rounded-lg text-center font-medium">
+        <div className="mb-4 p-3 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-800 dark:text-green-200 rounded-lg text-center font-medium">
           {successMessage}
         </div>
       )}
 
       {/* Create New Tag Form */}
-      <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-        <h2 className="text-sm font-semibold text-green-900 mb-3">
+      <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+        <h2 className="text-sm font-semibold text-green-900 dark:text-green-200 mb-3">
           Create New Tag
         </h2>
         <div className="flex gap-3">
@@ -250,13 +250,13 @@ export default function AdminForumTagsPage() {
                 if (e.key === 'Escape') setShowSuggestions(false)
               }}
               placeholder="Enter tag name (e.g., climate-action)"
-              className="w-full px-3 py-2 border border-green-300 rounded-md bg-bg-1 text-ink-900 placeholder-ink-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2 border border-green-300 dark:border-green-700 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
               disabled={creatingTag}
             />
             {/* Autocomplete suggestions dropdown */}
             {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute z-10 w-full mt-1 bg-bg-1 border border-border rounded-md shadow-lg max-h-48 overflow-auto">
-                <div className="px-3 py-1 text-xs text-ink-400 border-b border-border">
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-48 overflow-auto">
+                <div className="px-3 py-1 text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
                   Existing tags:
                 </div>
                 {suggestions.map(({ tag, count }) => (
@@ -268,10 +268,10 @@ export default function AdminForumTagsPage() {
                       setNewTag(tag)
                       setShowSuggestions(false)
                     }}
-                    className="w-full px-3 py-2 text-left hover:bg-bg-2 flex justify-between items-center"
+                    className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 flex justify-between items-center"
                   >
-                    <span className="text-ink-900">#{tag}</span>
-                    <span className="text-xs text-ink-400">{count} topics</span>
+                    <span className="text-gray-900 dark:text-white dark:text-gray-100">#{tag}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{count} topics</span>
                   </button>
                 ))}
               </div>
@@ -285,22 +285,22 @@ export default function AdminForumTagsPage() {
             {creatingTag ? 'Creating...' : 'Create Tag'}
           </button>
         </div>
-        <p className="text-xs text-green-800 mt-2">
+        <p className="text-xs text-green-800 dark:text-green-300 mt-2">
           Creating a tag makes it available in autocomplete suggestions. Note: The tag will appear with count 0 until used by a topic.
         </p>
       </div>
 
-      <div className="bg-bg-1 rounded-lg border border-border">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         {tags.length === 0 ? (
-          <div className="p-8 text-center text-ink-400">
+          <div className="p-8 text-center text-gray-500 dark:text-gray-400">
             No tags found in forum topics
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {tags.map(({ tag, count }) => (
               <div
                 key={tag}
-                className="p-4 hover:bg-bg-2 transition-colors"
+                className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:bg-gray-700/50 transition-colors"
               >
                 {editingTag === tag ? (
                   /* Edit Mode */
@@ -313,11 +313,11 @@ export default function AdminForumTagsPage() {
                         if (e.key === 'Enter') handleRenameTag(tag)
                         if (e.key === 'Escape') handleCancelEdit()
                       }}
-                      className="flex-1 px-3 py-1 border border-blue-500 rounded-md bg-bg-1 text-ink-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 px-3 py-1 border border-blue-500 rounded-md bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       disabled={renaming}
                       autoFocus
                     />
-                    <span className="text-sm text-ink-400 min-w-[80px]">
+                    <span className="text-sm text-gray-500 dark:text-gray-400 min-w-[80px]">
                       {count} topic{count !== 1 ? 's' : ''}
                     </span>
                     <button
@@ -330,7 +330,7 @@ export default function AdminForumTagsPage() {
                     <button
                       onClick={handleCancelEdit}
                       disabled={renaming}
-                      className="px-3 py-1 bg-bg-2 text-ink-900 text-sm rounded-md hover:bg-bg-1 disabled:opacity-50"
+                      className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:bg-gray-600 text-gray-900 dark:text-white dark:text-gray-100 text-sm rounded-md hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-50 dark:hover:bg-gray-8000 disabled:opacity-50"
                     >
                       Cancel
                     </button>
@@ -339,10 +339,10 @@ export default function AdminForumTagsPage() {
                   /* Display Mode */
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm font-medium">
+                      <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded text-sm font-medium">
                         #{tag}
                       </span>
-                      <span className="text-sm text-ink-400">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
                         Used in {count} topic{count !== 1 ? 's' : ''}
                       </span>
                     </div>
@@ -350,14 +350,14 @@ export default function AdminForumTagsPage() {
                       <button
                         onClick={() => handleEditClick(tag)}
                         disabled={deleting === tag}
-                        className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md disabled:opacity-50"
+                        className="px-3 py-1 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md disabled:opacity-50"
                       >
                         Rename
                       </button>
                       <button
                         onClick={() => handleDeleteTag(tag)}
                         disabled={deleting === tag}
-                        className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md disabled:opacity-50"
+                        className="px-3 py-1 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md disabled:opacity-50"
                       >
                         {deleting === tag ? 'Deleting...' : 'Delete'}
                       </button>
@@ -370,11 +370,11 @@ export default function AdminForumTagsPage() {
         )}
       </div>
 
-      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h2 className="text-sm font-semibold text-blue-900 mb-2">
+      <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <h2 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
           About Tag Management
         </h2>
-        <ul className="text-sm text-blue-800 space-y-1">
+        <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
           <li>• Renaming a tag updates it across ALL topics that use it</li>
           <li>• Corrected tags will appear in autocomplete suggestions when users create/edit topics</li>
           <li>• Tags are case-sensitive - "Climate" and "climate" are different</li>

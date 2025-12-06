@@ -76,11 +76,11 @@ export default function AdminRewardPointsPage() {
 
   if (isLoading || !isAuthorized) {
     return (
-      <div className="min-h-screen bg-bg-1 p-6">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
         <div className="max-w-6xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 bg-bg-2 rounded w-64 mb-6"></div>
-            <div className="h-32 bg-bg-2 rounded mb-6"></div>
+            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-6"></div>
+            <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded mb-6"></div>
           </div>
         </div>
       </div>
@@ -88,38 +88,38 @@ export default function AdminRewardPointsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-1 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-ink-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
             <Link href="/admin" className="hover:text-purple-600 transition-colors">
               Admin
             </Link>
             <span>→</span>
-            <span className="text-ink-900">Reward Points</span>
+            <span className="text-gray-900 dark:text-white">Reward Points</span>
           </div>
-          <h1 className="text-3xl font-bold text-ink-900 mb-2">Reward Points Administration</h1>
-          <p className="text-ink-400">Monitor RP circulation, earnings, and conversion activity</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Reward Points Administration</h1>
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Monitor RP circulation, earnings, and conversion activity</p>
         </div>
 
         {/* Stats Grid */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-sm text-ink-400">Total RP Earned</div>
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Total RP Earned</div>
               <div className="text-2xl font-bold text-purple-600">{stats.totalRPEarned.toLocaleString()}</div>
             </div>
-            <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-sm text-ink-400">In Circulation</div>
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">In Circulation</div>
               <div className="text-2xl font-bold text-green-600">{stats.totalRPInCirculation.toLocaleString()}</div>
             </div>
-            <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-sm text-ink-400">Converted to TBC</div>
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Converted to TBC</div>
               <div className="text-2xl font-bold text-blue-600">{stats.spentOnTBC.toLocaleString()}</div>
             </div>
-            <div className="bg-bg-0 rounded-lg border border-border p-4">
-              <div className="text-sm text-ink-400">Used for SH</div>
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+              <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Used for SH</div>
               <div className="text-2xl font-bold text-amber-600">{stats.spentOnSH.toLocaleString()}</div>
             </div>
           </div>
@@ -127,10 +127,10 @@ export default function AdminRewardPointsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Earning Breakdown */}
-          <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
-            <div className="p-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-ink-900">Earning Sources</h2>
-              <p className="text-sm text-ink-400">How RP is being earned</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Earning Sources</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">How RP is being earned</p>
             </div>
             <div className="p-4">
               {/* Progress bars */}
@@ -138,16 +138,16 @@ export default function AdminRewardPointsPage() {
                 {breakdown.map((item) => (
                   <div key={item.category}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-ink-700">{item.label}</span>
-                      <span className="text-sm text-ink-400">{item.percentage}%</span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{item.label}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{item.percentage}%</span>
                     </div>
-                    <div className="w-full bg-bg-2 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                       <div
                         className={`${item.color} h-2 rounded-full transition-all`}
                         style={{ width: `${item.percentage}%` }}
                       ></div>
                     </div>
-                    <div className="text-xs text-ink-400 mt-1">{item.amount.toLocaleString()} RP</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-1">{item.amount.toLocaleString()} RP</div>
                   </div>
                 ))}
               </div>
@@ -155,12 +155,12 @@ export default function AdminRewardPointsPage() {
           </div>
 
           {/* Top Earners */}
-          <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
-            <div className="p-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-ink-900">Top RP Earners</h2>
-              <p className="text-sm text-ink-400">Members with highest RP earnings</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Top RP Earners</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Members with highest RP earnings</p>
             </div>
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-gray-200">
               {topEarners.map((earner, index) => (
                 <div key={earner.memberId} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -168,8 +168,8 @@ export default function AdminRewardPointsPage() {
                       {index + 1}
                     </span>
                     <div>
-                      <div className="font-medium text-ink-900">{earner.displayName}</div>
-                      <div className="text-xs text-ink-400">{earner.primarySource}</div>
+                      <div className="font-medium text-gray-900 dark:text-white">{earner.displayName}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{earner.primarySource}</div>
                     </div>
                   </div>
                   <div className="text-lg font-semibold text-purple-600">{earner.totalEarned.toLocaleString()} RP</div>
@@ -181,36 +181,36 @@ export default function AdminRewardPointsPage() {
 
         {/* Conversion Stats */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-bg-0 rounded-lg border border-border p-6">
-            <h3 className="text-lg font-semibold text-ink-900 mb-4">RP → TBC Conversions</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">RP → TBC Conversions</h3>
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-3xl font-bold text-blue-600">{stats?.spentOnTBC.toLocaleString()}</div>
-                <div className="text-sm text-ink-400">Total RP converted</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Total RP converted</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnTBC / 100) : 0}</div>
-                <div className="text-sm text-ink-400">TBC issued</div>
+                <div className="text-2xl font-semibold text-gray-700 dark:text-gray-300">{stats ? Math.round(stats.spentOnTBC / 100) : 0}</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">TBC issued</div>
               </div>
             </div>
-            <div className="mt-4 text-xs text-ink-400">
+            <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
               Current rate: 100 RP = 1 TBC
             </div>
           </div>
 
-          <div className="bg-bg-0 rounded-lg border border-border p-6">
-            <h3 className="text-lg font-semibold text-ink-900 mb-4">RP → SH Purchases</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">RP → SH Purchases</h3>
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-3xl font-bold text-amber-600">{stats?.spentOnSH.toLocaleString()}</div>
-                <div className="text-sm text-ink-400">Total RP spent</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Total RP spent</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnSH / 50) : 0}</div>
-                <div className="text-sm text-ink-400">SH purchased</div>
+                <div className="text-2xl font-semibold text-gray-700 dark:text-gray-300">{stats ? Math.round(stats.spentOnSH / 50) : 0}</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">SH purchased</div>
               </div>
             </div>
-            <div className="mt-4 text-xs text-ink-400">
+            <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
               Rate varies by purchase event
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function AdminRewardPointsPage() {
         <div className="mt-8">
           <Link
             href="/admin"
-            className="px-6 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-bg-1 transition-colors font-medium inline-block"
+            className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:bg-gray-600 transition-colors font-medium inline-block"
           >
             ← Back to Admin
           </Link>

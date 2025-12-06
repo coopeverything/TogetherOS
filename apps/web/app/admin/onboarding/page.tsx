@@ -541,23 +541,23 @@ export default function OnboardingEditorPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-bg-0/10 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-white dark:bg-gray-800/10 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
             <span className="text-sm font-medium">Exit Editor</span>
           </Link>
-          <div className="h-4 w-px bg-bg-0/20" />
+          <div className="h-4 w-px bg-white dark:bg-gray-800/20" />
 
           {/* View Mode Toggle */}
-          <div className="flex items-center gap-1 bg-bg-0/10 rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-white dark:bg-gray-800/10 rounded-lg p-1">
             <button
               onClick={() => setViewMode('editor')}
               className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
                 viewMode === 'editor'
-                  ? 'bg-bg-0 text-ink-900'
-                  : 'text-white/70 hover:text-white hover:bg-bg-0/10'
+                  ? 'bg-white dark:bg-gray-800 text-ink-900'
+                  : 'text-white/70 hover:text-white hover:bg-white dark:bg-gray-800/10'
               }`}
             >
               Content Editor
@@ -566,8 +566,8 @@ export default function OnboardingEditorPage() {
               onClick={() => setViewMode('first-week')}
               className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
                 viewMode === 'first-week'
-                  ? 'bg-bg-0 text-ink-900'
-                  : 'text-white/70 hover:text-white hover:bg-bg-0/10'
+                  ? 'bg-white dark:bg-gray-800 text-ink-900'
+                  : 'text-white/70 hover:text-white hover:bg-white dark:bg-gray-800/10'
               }`}
             >
               First Week Flow
@@ -720,7 +720,7 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
                         <div
                           key={ch.id}
                           onClick={() => onEditChallenge(ch.id)}
-                          className="bg-bg-0 rounded-lg border border-border p-4 hover:border-brand-300 hover:shadow-sm cursor-pointer transition-all"
+                          className="bg-white dark:bg-gray-800 rounded-lg border border-border p-4 hover:border-brand-300 hover:shadow-sm cursor-pointer transition-all"
                         >
                           <div className="flex items-start gap-3">
                             <span className="text-2xl">{raw?.icon || '⭐'}</span>
@@ -741,7 +741,7 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
                             <span className={`text-xs px-2 py-1 rounded ${
                               ch.status === 'published'
                                 ? 'bg-green-100 text-green-700'
-                                : 'bg-bg-2 text-ink-600'
+                                : 'bg-gray-100 text-gray-600'
                             }`}>
                               {ch.status}
                             </span>

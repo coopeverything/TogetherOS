@@ -11,24 +11,24 @@ export default function HowWeDecidePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        {Header */}
+        {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-5xl font-bold text-ink-900 mb-4">
+          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
             How We Decide Together
           </h1>
-          <p className="text-xl text-ink-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto leading-relaxed">
             Coopeverything uses a <strong>consent-based governance pipeline</strong>{' '}
             that transforms ideas into action, tracks outcomes, and learns from
             experience. Everyone participates. The commons improves the process.
           </p>
         </div>
 
-        {Disclaimer */}
+        {/* Disclaimer */}
         <div className="mb-12 p-6 bg-orange-50 border border-orange-200 rounded-lg">
           <h2 className="text-lg font-semibold text-orange-900 mb-2">
             This is a Living System
           </h2>
-          <p className="text-ink-700 leading-relaxed">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
             <strong>Important:</strong> These systems are <em>suggestions</em>, not
             mandates. The commons—<strong>all of us together</strong>—will design and
             improve these processes over time. This is a living system that evolves with
@@ -36,14 +36,14 @@ export default function HowWeDecidePage() {
           </p>
         </div>
 
-        {The Complete Pipeline */}
+        {/* The Complete Pipeline */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-ink-900 mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
             The Complete Pipeline
           </h2>
 
-          {Visual Flow */}
-          <div className="bg-bg-1 rounded-lg shadow-md p-8 mb-8">
+          {/* Visual Flow */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 mb-8">
             <div className="flex flex-col md:flex-row items-center justify-between text-center space-y-4 md:space-y-0">
               <PipelineStep number="1" title="Ideation" subtitle="Forum" />
               <Arrow />
@@ -54,7 +54,7 @@ export default function HowWeDecidePage() {
               <PipelineStep number="4" title="Decision" subtitle="Governance" />
             </div>
             <div className="flex items-center justify-center my-6">
-              <div className="text-3xl text-ink-400">↓</div>
+              <div className="text-3xl text-gray-400 dark:text-gray-500">↓</div>
             </div>
             <div className="flex flex-col md:flex-row items-center justify-between text-center space-y-4 md:space-y-0">
               <PipelineStep number="5" title="Initiative" subtitle="Execution" />
@@ -67,28 +67,28 @@ export default function HowWeDecidePage() {
             </div>
           </div>
 
-          <p className="text-ink-700 leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed">
             From casual conversation to concrete action to continuous improvement. Each
             phase connects seamlessly to the next, with transparent tracking throughout.
           </p>
         </section>
 
-        {The 3 Mega-Modules */}
+        {/* The 3 Mega-Modules */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-ink-900 mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
             Three Phases of Governance
           </h2>
 
           <div className="space-y-8">
-            {Module 1: Discussions & Deliberation */}
+            {/* Module 1: Discussions & Deliberation */}
             <ModuleCard
               number="1"
               title="Discussions & Deliberation"
               color="blue"
               description="Explore ideas, build knowledge, and reach readiness"
             >
-              <h4 className="font-semibold text-ink-900 mb-2">What Happens Here:</h4>
-              <ul className="space-y-2 text-ink-700">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">What Happens Here:</h4>
+              <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li className="flex items-start gap-2">
                   <span className="text-blue-600 font-bold mt-0.5">•</span>
                   <span>
@@ -136,15 +136,15 @@ export default function HowWeDecidePage() {
               </div>
             </ModuleCard>
 
-            {Module 2: Governance & Decisions */}
+            {/* Module 2: Governance & Decisions */}
             <ModuleCard
               number="2"
               title="Governance & Decisions"
               color="orange"
               description="Formal proposals, voting, and consent-based decisions"
             >
-              <h4 className="font-semibold text-ink-900 mb-2">What Happens Here:</h4>
-              <ul className="space-y-2 text-ink-700">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">What Happens Here:</h4>
+              <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li className="flex items-start gap-2">
                   <span className="text-orange-600 font-bold mt-0.5">•</span>
                   <span>
@@ -192,15 +192,15 @@ export default function HowWeDecidePage() {
               </div>
             </ModuleCard>
 
-            {Module 3: Execution & Accountability */}
+            {/* Module 3: Execution & Accountability */}
             <ModuleCard
               number="3"
               title="Execution & Accountability"
               color="green"
               description="Implementation, tracking, review, and continuous improvement"
             >
-              <h4 className="font-semibold text-ink-900 mb-2">What Happens Here:</h4>
-              <ul className="space-y-2 text-ink-700">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">What Happens Here:</h4>
+              <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 font-bold mt-0.5">•</span>
                   <span>
@@ -249,9 +249,9 @@ export default function HowWeDecidePage() {
           </div>
         </section>
 
-        {Philosophy */}
+        {/* Philosophy */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-ink-900 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
             Our Philosophy
           </h2>
 
@@ -275,13 +275,13 @@ export default function HowWeDecidePage() {
           </div>
         </section>
 
-        {Example Flow */}
+        {/* Example Flow */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-ink-900 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
             Example: Community Garden Initiative
           </h2>
 
-          <div className="bg-bg-1 rounded-lg shadow-md p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
             <ol className="space-y-6">
               <ExampleStep
                 number="1"
@@ -327,12 +327,12 @@ export default function HowWeDecidePage() {
           </div>
         </section>
 
-        {Call to Action */}
+        {/* Call to Action */}
         <section className="text-center">
-          <h2 className="text-3xl font-bold text-ink-900 mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Ready to Participate?
           </h2>
-          <p className="text-lg text-ink-700 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-8 max-w-2xl mx-auto">
             Every voice matters. Every decision is transparent. The commons evolves
             together.
           </p>
@@ -351,7 +351,7 @@ export default function HowWeDecidePage() {
             </Link>
             <Link
               href="/admin/modules"
-              className="inline-flex items-center justify-center px-8 py-3 bg-bg-2 text-ink-900 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+              className="inline-flex items-center justify-center px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:bg-gray-600 transition-colors font-medium"
             >
               Explore All Modules
             </Link>
@@ -378,15 +378,15 @@ function PipelineStep({
       <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center text-2xl font-bold mb-2">
         {number}
       </div>
-      <div className="font-semibold text-ink-900">{title}</div>
-      <div className="text-sm text-ink-400">{subtitle}</div>
+      <div className="font-semibold text-gray-900 dark:text-white">{title}</div>
+      <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">{subtitle}</div>
     </div>
   )
 }
 
 function Arrow() {
   return (
-    <div className="hidden md:block text-3xl text-ink-400">→</div>
+    <div className="hidden md:block text-3xl text-gray-300">→</div>
   )
 }
 
@@ -416,10 +416,10 @@ function ModuleCard({
   }
 
   return (
-    <div className={`bg-bg-1 rounded-lg shadow-md border-2 ${colorClasses[color]} overflow-hidden`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md border-2 ${colorClasses[color]} overflow-hidden`}>
       <div className={`bg-gradient-to-r ${colorClasses[color]} p-6 text-white`}>
         <div className="flex items-center gap-4 mb-2">
-          <div className="w-12 h-12 rounded-full bg-bg-1 bg-opacity-20 flex items-center justify-center text-2xl font-bold">
+          <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 bg-opacity-20 flex items-center justify-center text-2xl font-bold">
             {number}
           </div>
           <h3 className="text-2xl font-bold">{title}</h3>
@@ -433,7 +433,7 @@ function ModuleCard({
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="px-3 py-1 bg-bg-1 border border-border rounded-full text-sm text-ink-700">
+    <span className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full text-sm text-gray-700 dark:text-gray-300">
       {text}
     </span>
   )
@@ -447,9 +447,9 @@ function PhilosophyCard({
   description: string
 }) {
   return (
-    <div className="bg-bg-1 rounded-lg shadow-sm p-6 border border-border">
-      <h3 className="text-xl font-semibold text-ink-900 mb-3">{title}</h3>
-      <p className="text-ink-700 leading-relaxed">{description}</p>
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{title}</h3>
+      <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed">{description}</p>
     </div>
   )
 }
@@ -472,7 +472,7 @@ function ExampleStep({
       </div>
       <div>
         <div className="font-semibold text-orange-700 mb-1">{phase}</div>
-        <div className="text-ink-700">{description}</div>
+        <div className="text-gray-700 dark:text-gray-300">{description}</div>
       </div>
     </li>
   )

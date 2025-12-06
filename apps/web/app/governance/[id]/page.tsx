@@ -246,7 +246,7 @@ export default function ProposalDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading proposal...</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading proposal...</p>
         </div>
       </div>
     )
@@ -272,12 +272,12 @@ export default function ProposalDetailPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumbs */}
-      <nav className="mb-6 text-sm text-ink-700">
+      <nav className="mb-6 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
         <Link href="/governance" className="hover:text-orange-600">
           Proposals
         </Link>
         <span className="mx-2">→</span>
-        <span className="text-ink-900">{proposal.title}</span>
+        <span className="text-gray-900 dark:text-white">{proposal.title}</span>
       </nav>
 
       {/* Proposal View */}
@@ -303,16 +303,16 @@ export default function ProposalDetailPage() {
       <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Rating Display */}
         {ratingAggregate && (
-          <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-ink-900 mb-6">Community Ratings</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Community Ratings</h2>
             <ProposalRatingDisplay aggregate={ratingAggregate} />
           </div>
         )}
 
         {/* Rating Form */}
         {currentUserId && (
-          <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-ink-900 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               {currentRating ? 'Update Your Rating' : 'Rate This Proposal'}
             </h2>
             <ProposalRatingForm
@@ -327,8 +327,8 @@ export default function ProposalDetailPage() {
 
       {/* Voting Interface */}
       {currentUserId && voteTally && (
-        <div className="mt-12 bg-bg-1 rounded-lg border border-border p-8">
-          <h2 className="text-2xl font-bold text-ink-900 mb-6">Vote on This Proposal</h2>
+        <div className="mt-12 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Vote on This Proposal</h2>
           <VoteInterface
             proposalId={id}
             currentVote={currentVote}
@@ -357,7 +357,7 @@ export default function ProposalDetailPage() {
       <div className="mt-8">
         <Link
           href="/governance"
-          className="px-6 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-gray-300 transition-colors font-medium inline-block"
+          className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:bg-gray-600 transition-colors font-medium inline-block"
         >
           ← Back to All Proposals
         </Link>

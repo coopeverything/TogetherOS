@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { Card, Button, Badge, Avatar } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { ThemePicker } from '@/components/dark-mode-provider';
 
 interface User {
   id: string;
@@ -40,7 +39,7 @@ export default function DashboardClient({ user }: { user: User }) {
   return (
     <div className="min-h-screen bg-bg-0">
       {/* Header */}
-      <header className="bg-bg-1 border-b border-border">
+      <header className="bg-white dark:bg-gray-800 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -51,8 +50,7 @@ export default function DashboardClient({ user }: { user: User }) {
                 Welcome back{user.name ? `, ${user.name}` : ''}!
               </h1>
             </div>
-            <div className="flex items-center gap-3">
-              <ThemePicker />
+            <div className="flex gap-3">
               <Button variant="secondary" onClick={() => router.push('/profile')}>
                 Profile
               </Button>
@@ -91,10 +89,10 @@ export default function DashboardClient({ user }: { user: User }) {
             </div>
           </Card>
 
-          <Card className="flex items-center gap-4 p-6 border-joy-500 bg-joy-100">
+          <Card className="flex items-center gap-4 p-6">
             <div className="text-4xl">✨</div>
             <div>
-              <div className="text-3xl font-bold text-joy-600">{userPaths.length}/8</div>
+              <div className="text-3xl font-bold text-ink-900">{userPaths.length}/8</div>
               <div className="text-sm text-ink-700">Your Paths</div>
             </div>
           </Card>
@@ -134,7 +132,7 @@ export default function DashboardClient({ user }: { user: User }) {
                   >
                     <div className="text-4xl mb-3">{path.emoji}</div>
                     <div className="font-semibold text-ink-900 mb-2">{path.name}</div>
-                    {isActive && <Badge variant="joy">Active</Badge>}
+                    {isActive && <Badge variant="success">Active</Badge>}
                   </Card>
                 );
               })}

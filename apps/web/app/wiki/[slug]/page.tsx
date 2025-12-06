@@ -101,14 +101,14 @@ export default async function WikiArticlePage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-ink-400">
+          <ol className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
             <li>
               <Link href="/wiki" className="hover:text-blue-600">
                 Wiki
               </Link>
             </li>
             <li>/</li>
-            <li className="text-ink-900 font-medium">{article.title}</li>
+            <li className="text-gray-900 dark:text-white font-medium">{article.title}</li>
           </ol>
         </nav>
 
@@ -123,11 +123,11 @@ export default async function WikiArticlePage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-ink-900 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             {article.title}
           </h1>
 
-          <p className="text-xl text-ink-700 leading-relaxed mb-6">
+          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed mb-6">
             {article.summary}
           </p>
 
@@ -135,7 +135,7 @@ export default async function WikiArticlePage({ params }: Props) {
             <StatusBadge status={article.status} />
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-sm text-ink-400 pb-6 border-b border-border">
+          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 pb-6 border-b border-gray-200 dark:border-gray-700">
             <span className="flex items-center gap-1.5">
               <svg
                 className="w-4 h-4"
@@ -193,70 +193,70 @@ export default async function WikiArticlePage({ params }: Props) {
           <ReactMarkdown
             components={{
               h1: ({ children }: MarkdownComponentProps) => (
-                <h1 className="text-3xl font-bold text-ink-900 mt-8 mb-4">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
                   {children}
                 </h1>
               ),
               h2: ({ children }: MarkdownComponentProps) => (
-                <h2 className="text-2xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
                   {children}
                 </h2>
               ),
               h3: ({ children }: MarkdownComponentProps) => (
-                <h3 className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
                   {children}
                 </h3>
               ),
               p: ({ children }: MarkdownComponentProps) => (
-                <p className="text-ink-700 leading-relaxed mb-4">{children}</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{children}</p>
               ),
               ul: ({ children }: MarkdownComponentProps) => (
-                <ul className="list-disc list-inside space-y-2 mb-4 text-ink-700">
+                <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
                   {children}
                 </ul>
               ),
               ol: ({ children }: MarkdownComponentProps) => (
-                <ol className="list-decimal list-inside space-y-2 mb-4 text-ink-700">
+                <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
                   {children}
                 </ol>
               ),
               li: ({ children }: MarkdownComponentProps) => (
-                <li className="text-ink-700">{children}</li>
+                <li className="text-gray-700 dark:text-gray-300">{children}</li>
               ),
               blockquote: ({ children }: MarkdownComponentProps) => (
-                <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-blue-50 rounded-r-lg italic text-ink-700">
+                <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-blue-50 rounded-r-lg italic text-gray-700 dark:text-gray-300">
                   {children}
                 </blockquote>
               ),
               code: ({ children }: MarkdownComponentProps) => (
-                <code className="bg-bg-2 rounded px-1.5 py-0.5 text-sm font-mono text-ink-900">
+                <code className="bg-gray-100 dark:bg-gray-800 rounded px-1.5 py-0.5 text-sm font-mono text-gray-800 dark:text-gray-100">
                   {children}
                 </code>
               ),
               pre: ({ children }: MarkdownComponentProps) => (
-                <pre className="bg-bg-0 text-gray-100 rounded-lg p-4 overflow-x-auto mb-4">
+                <pre className="bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto mb-4">
                   {children}
                 </pre>
               ),
               table: ({ children }: MarkdownComponentProps) => (
                 <div className="overflow-x-auto mb-4">
-                  <table className="min-w-full divide-y divide-gray-200 border border-border rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200 border border-gray-200 dark:border-gray-700 rounded-lg">
                     {children}
                   </table>
                 </div>
               ),
               th: ({ children }: MarkdownComponentProps) => (
-                <th className="px-4 py-3 bg-bg-0 text-left text-sm font-semibold text-ink-900">
+                <th className="px-4 py-3 bg-gray-50 dark:bg-gray-900 text-left text-sm font-semibold text-gray-900 dark:text-white">
                   {children}
                 </th>
               ),
               td: ({ children }: MarkdownComponentProps) => (
-                <td className="px-4 py-3 text-sm text-ink-700 border-t border-border">
+                <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700">
                   {children}
                 </td>
               ),
               strong: ({ children }: MarkdownComponentProps) => (
-                <strong className="font-semibold text-ink-900">
+                <strong className="font-semibold text-gray-900 dark:text-white">
                   {children}
                 </strong>
               ),
@@ -275,15 +275,15 @@ export default async function WikiArticlePage({ params }: Props) {
         </article>
 
         {/* Tags */}
-        <div className="mb-8 pb-8 border-b border-border">
-          <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+        <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
             Tags
           </h3>
           <div className="flex flex-wrap gap-2">
             {article.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-bg-2 text-ink-700 rounded-full text-sm"
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm"
               >
                 {tag}
               </span>
@@ -293,8 +293,8 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Cooperation Paths */}
         {article.cooperationPaths && article.cooperationPaths.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+          <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Cooperation Paths
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -312,8 +312,8 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Related Terms */}
         {articleTerms.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+          <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Key Terms in This Article
             </h3>
             <div className="grid gap-3">
@@ -321,12 +321,12 @@ export default async function WikiArticlePage({ params }: Props) {
                 <Link
                   key={term.id}
                   href={`/glossary/${term.slug}`}
-                  className="flex items-start gap-3 p-3 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
                   <span className="text-xl">📖</span>
                   <div>
-                    <div className="font-medium text-ink-900">{term.word}</div>
-                    <div className="text-sm text-ink-700">
+                    <div className="font-medium text-gray-900 dark:text-white">{term.word}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                       {term.shortDefinition}
                     </div>
                   </div>
@@ -338,8 +338,8 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
-            <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
+          <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">
               Related Articles
             </h3>
             <div className="grid gap-3">
@@ -347,16 +347,16 @@ export default async function WikiArticlePage({ params }: Props) {
                 <Link
                   key={related.id}
                   href={`/wiki/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm flex-shrink-0">
                     📖
                   </div>
                   <div>
-                    <div className="font-medium text-ink-900">
+                    <div className="font-medium text-gray-900 dark:text-white">
                       {related.title}
                     </div>
-                    <div className="text-sm text-ink-700 line-clamp-2">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 line-clamp-2">
                       {related.summary}
                     </div>
                   </div>
@@ -389,7 +389,7 @@ export default async function WikiArticlePage({ params }: Props) {
           </Link>
           <Link
             href="/wiki"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-bg-1 border border-border text-ink-700 rounded-lg hover:bg-bg-0 transition-colors font-medium"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
           >
             <svg
               className="w-5 h-5"
@@ -409,7 +409,7 @@ export default async function WikiArticlePage({ params }: Props) {
         </div>
 
         {/* Footer Note */}
-        <div className="p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
+        <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
           <p>
             <strong>This is community knowledge.</strong> If you have
             suggestions, corrections, or want to contribute, start a discussion

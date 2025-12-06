@@ -63,8 +63,8 @@ export default function NewGroupPage() {
         >
           ← Back to Groups
         </Link>
-        <h1 className="text-4xl font-bold text-ink-900 mb-2">Create a Group</h1>
-        <p className="text-lg text-ink-700">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Create a Group</h1>
+        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500">
           Start a new cooperative community with transparent governance and shared resources.
         </p>
       </div>
@@ -78,7 +78,7 @@ export default function NewGroupPage() {
       )}
 
       {/* Form */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <CreateGroupForm
           onSubmit={handleSubmit}
           onCancel={handleCancel}

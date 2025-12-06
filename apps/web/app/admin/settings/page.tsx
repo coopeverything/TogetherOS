@@ -159,8 +159,6 @@ export default function AdminSettingsPage() {
     sp_weights: 'Support Points Weights',
     rp_earnings: 'Reputation Points Earnings',
     conversion_rates: 'Conversion Rates',
-    tbc_settings: 'Timebank Credits (TBC)',
-    sh_settings: 'Social Horizon (SH)',
     constraints: 'System Constraints',
   }
 
@@ -178,14 +176,14 @@ export default function AdminSettingsPage() {
       <h1 className="text-3xl font-bold mb-6">System Settings</h1>
 
       {/* Tabs */}
-      <div className="border-b border-border mb-6">
+      <div className="border-b mb-6">
         <nav className="flex space-x-8">
           <button
             onClick={() => setActiveTab('settings')}
             className={`pb-4 px-1 border-b-2 font-medium ${
               activeTab === 'settings'
                 ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-ink-400 hover:text-ink-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
             Settings
@@ -195,7 +193,7 @@ export default function AdminSettingsPage() {
             className={`pb-4 px-1 border-b-2 font-medium ${
               activeTab === 'audit'
                 ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-ink-400 hover:text-ink-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
             Audit Log
@@ -207,36 +205,36 @@ export default function AdminSettingsPage() {
       {activeTab === 'settings' && (
         <div className="space-y-8">
           {settingsByCategory.map((category) => (
-            <div key={category.category} className="bg-bg-0 rounded-lg shadow p-6">
+            <div key={category.category} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">
                 {categoryLabels[category.category] || category.category}
               </h2>
 
-              <table className="min-w-full divide-y divide-border">
-                <thead className="bg-bg-2">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50 dark:bg-gray-900">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Setting
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Value
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Range
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-bg-0 divide-y divide-border">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
                   {category.settings.map((setting) => (
                     <tr key={setting.key}>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-medium text-ink-900">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {setting.key.split('.')[1]}
                         </div>
-                        <div className="text-xs text-ink-400">{setting.description}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{setting.description}</div>
                       </td>
                       <td className="px-6 py-4">
                         {editingKey === setting.key ? (
@@ -244,13 +242,13 @@ export default function AdminSettingsPage() {
                             type="text"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border border-border rounded px-2 py-1 w-24"
+                            className="border rounded px-2 py-1 w-24"
                           />
                         ) : (
                           <span className="text-sm font-semibold">{String(setting.value)}</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-ink-400">
+                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                         {setting.minValue !== null && setting.maxValue !== null
                           ? `${setting.minValue} - ${setting.maxValue}`
                           : '-'}
@@ -263,7 +261,7 @@ export default function AdminSettingsPage() {
                               placeholder="Reason for change (min 10 chars)"
                               value={editReason}
                               onChange={(e) => setEditReason(e.target.value)}
-                              className="border border-border rounded px-2 py-1 w-full text-sm"
+                              className="border rounded px-2 py-1 w-full text-sm"
                               minLength={10}
                             />
                             <div className="flex space-x-2">
@@ -275,7 +273,7 @@ export default function AdminSettingsPage() {
                               </button>
                               <button
                                 onClick={cancelEdit}
-                                className="bg-bg-2 text-ink-700 px-3 py-1 rounded text-sm hover:bg-bg-1"
+                                className="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1 rounded text-sm hover:bg-gray-400"
                               >
                                 Cancel
                               </button>
@@ -309,7 +307,7 @@ export default function AdminSettingsPage() {
 
       {/* Audit Log Tab */}
       {activeTab === 'audit' && (
-        <div className="bg-bg-0 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
           <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Recent Changes</h2>
             <div className="space-y-4">
@@ -317,8 +315,8 @@ export default function AdminSettingsPage() {
                 <div key={entry.id} className="border-l-4 border-blue-500 pl-4 py-2">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-medium text-ink-900">{entry.settingKey}</p>
-                      <p className="text-sm text-ink-400">
+                      <p className="font-medium text-gray-900 dark:text-white">{entry.settingKey}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
                         {entry.oldValue !== null ? (
                           <>
                             Changed from <span className="font-mono">{String(entry.oldValue)}</span>{' '}
@@ -331,10 +329,10 @@ export default function AdminSettingsPage() {
                         )}
                       </p>
                       {entry.reason && (
-                        <p className="text-sm text-ink-400 mt-1">Reason: {entry.reason}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-1">Reason: {entry.reason}</p>
                       )}
                     </div>
-                    <div className="text-right text-sm text-ink-400">
+                    <div className="text-right text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                       <p>{new Date(entry.changedAt).toLocaleString()}</p>
                       <p>by {entry.changedBy}</p>
                     </div>

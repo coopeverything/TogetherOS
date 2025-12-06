@@ -22,11 +22,11 @@ export default function GamificationRedirectPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-1">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <div className="text-center">
         <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-4" />
-        <p className="text-ink-700">Redirecting to Content Editor...</p>
-        <p className="text-sm text-ink-400 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Redirecting to Content Editor...</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-2">
           Gamification has been consolidated into the Learning Content Editor.
         </p>
       </div>

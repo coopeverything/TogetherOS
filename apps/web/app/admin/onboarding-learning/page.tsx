@@ -218,8 +218,8 @@ export default function LearningAdminPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-1">
-        <div className="text-ink-700 dark:text-ink-400">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Loading...</div>
       </div>
     )
   }
@@ -227,17 +227,17 @@ export default function LearningAdminPage() {
   if (!isAuthorized) return null
 
   return (
-    <div className="min-h-screen bg-bg-1 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-sm text-ink-400 dark:text-ink-400 mb-2">
-            <a href="/admin" className="hover:text-ink-700 dark:hover:text-gray-300">Admin</a>
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-2">
+            <a href="/admin" className="hover:text-gray-700 dark:hover:text-gray-300">Admin</a>
             <span>/</span>
             <span>Onboarding Learning</span>
           </div>
-          <h1 className="text-2xl font-semibold text-ink-900">Learning Content Management</h1>
-          <p className="text-sm text-ink-700 dark:text-ink-400 mt-1">
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Learning Content Management</h1>
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
             Manage learning paths, lessons, and quizzes for user onboarding
           </p>
         </div>
@@ -257,8 +257,8 @@ export default function LearningAdminPage() {
         )}
 
         {/* Tabs */}
-        <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
-          <div className="border-b border-border flex">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="border-b border-gray-200 dark:border-gray-700 flex">
             {(['paths', 'lessons', 'quizzes'] as Tab[]).map(tab => (
               <button
                 key={tab}
@@ -266,11 +266,11 @@ export default function LearningAdminPage() {
                 className={`px-4 py-3 text-sm font-medium capitalize ${
                   activeTab === tab
                     ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                    : 'text-ink-700 hover:text-ink-900 hover:bg-bg-1'
+                    : 'text-gray-600 hover:text-gray-900 dark:text-white hover:bg-gray-50'
                 }`}
               >
                 {tab}
-                <span className="ml-2 text-xs text-ink-400">
+                <span className="ml-2 text-xs text-gray-400 dark:text-gray-500">
                   ({tab === 'paths' ? paths.length : tab === 'lessons' ? lessons.length : quizzes.length})
                 </span>
               </button>
@@ -282,7 +282,7 @@ export default function LearningAdminPage() {
             {activeTab === 'paths' && (
               <div>
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="font-medium text-ink-900">Learning Paths</h2>
+                  <h2 className="font-medium text-gray-900 dark:text-white">Learning Paths</h2>
                   <button
                     onClick={() => setEditingPath({} as LearningPath)}
                     className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
@@ -292,7 +292,7 @@ export default function LearningAdminPage() {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-bg-1 text-left">
+                    <thead className="bg-gray-50 dark:bg-gray-900 text-left">
                       <tr>
                         <th className="px-3 py-2">Title</th>
                         <th className="px-3 py-2">Category</th>
@@ -305,13 +305,13 @@ export default function LearningAdminPage() {
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       {paths.map(p => (
-                        <tr key={p.id} className="hover:bg-bg-1 dark:hover:bg-gray-800">
+                        <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                           <td className="px-3 py-2">
                             <div className="flex items-center gap-2">
                               <span>{p.icon}</span>
                               <div>
                                 <div className="font-medium">{p.title}</div>
-                                <div className="text-xs text-ink-400 dark:text-ink-400">{p.slug}</div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{p.slug}</div>
                               </div>
                             </div>
                           </td>
@@ -320,7 +320,7 @@ export default function LearningAdminPage() {
                           <td className="px-3 py-2">{p.estimatedMinutes} min</td>
                           <td className="px-3 py-2">{p.orderIndex}</td>
                           <td className="px-3 py-2">
-                            <span className={p.isActive ? 'text-green-600' : 'text-ink-400'}>
+                            <span className={p.isActive ? 'text-green-600' : 'text-gray-400'}>
                               {p.isActive ? 'Yes' : 'No'}
                             </span>
                           </td>
@@ -350,7 +350,7 @@ export default function LearningAdminPage() {
             {activeTab === 'lessons' && (
               <div>
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="font-medium text-ink-900">Lessons</h2>
+                  <h2 className="font-medium text-gray-900 dark:text-white">Lessons</h2>
                   <button
                     onClick={() => setEditingLesson({} as Lesson)}
                     className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
@@ -360,7 +360,7 @@ export default function LearningAdminPage() {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-bg-1 text-left">
+                    <thead className="bg-gray-50 dark:bg-gray-900 text-left">
                       <tr>
                         <th className="px-3 py-2">Title</th>
                         <th className="px-3 py-2">Path</th>
@@ -376,10 +376,10 @@ export default function LearningAdminPage() {
                       {lessons.map(l => {
                         const path = paths.find(p => p.id === l.pathId)
                         return (
-                          <tr key={l.id} className="hover:bg-bg-1 dark:hover:bg-gray-800">
+                          <tr key={l.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                             <td className="px-3 py-2">
                               <div className="font-medium">{l.title}</div>
-                              <div className="text-xs text-ink-400 dark:text-ink-400">{l.slug}</div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{l.slug}</div>
                             </td>
                             <td className="px-3 py-2">{path?.title || 'Unknown'}</td>
                             <td className="px-3 py-2 capitalize">{l.contentType}</td>
@@ -387,7 +387,7 @@ export default function LearningAdminPage() {
                             <td className="px-3 py-2">{l.durationMinutes} min</td>
                             <td className="px-3 py-2">{l.orderIndex}</td>
                             <td className="px-3 py-2">
-                              <span className={l.isActive ? 'text-green-600' : 'text-ink-400'}>
+                              <span className={l.isActive ? 'text-green-600' : 'text-gray-400'}>
                                 {l.isActive ? 'Yes' : 'No'}
                               </span>
                             </td>
@@ -418,7 +418,7 @@ export default function LearningAdminPage() {
             {activeTab === 'quizzes' && (
               <div>
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="font-medium text-ink-900">Quizzes</h2>
+                  <h2 className="font-medium text-gray-900 dark:text-white">Quizzes</h2>
                   <button
                     onClick={() => setEditingQuiz({} as Quiz)}
                     className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
@@ -428,7 +428,7 @@ export default function LearningAdminPage() {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-bg-1 text-left">
+                    <thead className="bg-gray-50 dark:bg-gray-900 text-left">
                       <tr>
                         <th className="px-3 py-2">Title</th>
                         <th className="px-3 py-2">Linked Lesson</th>
@@ -443,17 +443,17 @@ export default function LearningAdminPage() {
                       {quizzes.map(q => {
                         const lesson = lessons.find(l => l.id === q.lessonId)
                         return (
-                          <tr key={q.id} className="hover:bg-bg-1 dark:hover:bg-gray-800">
+                          <tr key={q.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                             <td className="px-3 py-2">
                               <div className="font-medium">{q.title}</div>
-                              <div className="text-xs text-ink-400 dark:text-ink-400">{q.description}</div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">{q.description}</div>
                             </td>
                             <td className="px-3 py-2">{lesson?.title || 'Standalone'}</td>
                             <td className="px-3 py-2">{q.passingScore}%</td>
                             <td className="px-3 py-2">{q.rpReward}</td>
                             <td className="px-3 py-2">{q.maxAttempts}</td>
                             <td className="px-3 py-2">
-                              <span className={q.isActive ? 'text-green-600' : 'text-ink-400'}>
+                              <span className={q.isActive ? 'text-green-600' : 'text-gray-400'}>
                                 {q.isActive ? 'Yes' : 'No'}
                               </span>
                             </td>
@@ -549,63 +549,63 @@ function PathModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-0 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
-          <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-ink-900">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="font-semibold text-gray-900 dark:text-white">
               {path.id ? 'Edit Learning Path' : 'New Learning Path'}
             </h3>
           </div>
           <div className="p-4 space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Slug</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Slug</label>
                 <input
                   type="text"
                   value={form.slug}
                   onChange={e => setForm({ ...form, slug: e.target.value })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   placeholder="e.g. getting-started"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Icon (emoji)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Icon (emoji)</label>
                 <input
                   type="text"
                   value={form.icon}
                   onChange={e => setForm({ ...form, icon: e.target.value })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   placeholder="e.g. 🚀"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Title</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
               <input
                 type="text"
                 value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Description</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
               <textarea
                 value={form.description}
                 onChange={e => setForm({ ...form, description: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 rows={2}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Category</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
                 <select
                   value={form.category}
                   onChange={e => setForm({ ...form, category: e.target.value as LearningPathCategory })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 >
                   {CATEGORIES.map(c => (
                     <option key={c} value={c}>{c}</option>
@@ -613,34 +613,34 @@ function PathModal({
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Order</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Order</label>
                 <input
                   type="number"
                   value={form.orderIndex}
                   onChange={e => setForm({ ...form, orderIndex: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={0}
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">RP Reward</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">RP Reward</label>
                 <input
                   type="number"
                   value={form.rpReward}
                   onChange={e => setForm({ ...form, rpReward: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={0}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Duration (min)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration (min)</label>
                 <input
                   type="number"
                   value={form.estimatedMinutes}
                   onChange={e => setForm({ ...form, estimatedMinutes: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={1}
                 />
               </div>
@@ -651,11 +651,11 @@ function PathModal({
                 checked={form.isActive}
                 onChange={e => setForm({ ...form, isActive: e.target.checked })}
               />
-              <span className="text-sm text-ink-700">Active</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">Active</span>
             </label>
           </div>
-          <div className="p-4 border-t border-border flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-ink-700 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white dark:text-white">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-2">
+            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white">
               Cancel
             </button>
             <button type="submit" className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -717,20 +717,20 @@ function LessonModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-0 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
-          <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-ink-900">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="font-semibold text-gray-900 dark:text-white">
               {lesson.id ? 'Edit Lesson' : 'New Lesson'}
             </h3>
           </div>
           <div className="p-4 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Learning Path</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Learning Path</label>
               <select
                 value={form.pathId}
                 onChange={e => setForm({ ...form, pathId: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 required
               >
                 <option value="">Select a path...</option>
@@ -741,21 +741,21 @@ function LessonModal({
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Slug</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Slug</label>
                 <input
                   type="text"
                   value={form.slug}
                   onChange={e => setForm({ ...form, slug: e.target.value })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Content Type</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Content Type</label>
                 <select
                   value={form.contentType}
                   onChange={e => setForm({ ...form, contentType: e.target.value as LessonContentType })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 >
                   {CONTENT_TYPES.map(t => (
                     <option key={t} value={t}>{t}</option>
@@ -764,62 +764,62 @@ function LessonModal({
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Title</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
               <input
                 type="text"
                 value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Description</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
               <textarea
                 value={form.description}
                 onChange={e => setForm({ ...form, description: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 rows={2}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Content (JSON)</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Content (JSON)</label>
               <textarea
                 value={form.content}
                 onChange={e => setForm({ ...form, content: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm font-mono"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm font-mono"
                 rows={8}
                 required
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Order</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Order</label>
                 <input
                   type="number"
                   value={form.orderIndex}
                   onChange={e => setForm({ ...form, orderIndex: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={0}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Duration</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
                 <input
                   type="number"
                   value={form.durationMinutes}
                   onChange={e => setForm({ ...form, durationMinutes: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={1}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">RP</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">RP</label>
                 <input
                   type="number"
                   value={form.rpReward}
                   onChange={e => setForm({ ...form, rpReward: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={0}
                 />
               </div>
@@ -830,11 +830,11 @@ function LessonModal({
                 checked={form.isActive}
                 onChange={e => setForm({ ...form, isActive: e.target.checked })}
               />
-              <span className="text-sm text-ink-700">Active</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">Active</span>
             </label>
           </div>
-          <div className="p-4 border-t border-border flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-ink-700 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white dark:text-white">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-2">
+            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white">
               Cancel
             </button>
             <button type="submit" className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -884,20 +884,20 @@ function QuizModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-0 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
-          <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-ink-900">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="font-semibold text-gray-900 dark:text-white">
               {quiz.id ? 'Edit Quiz' : 'New Quiz'}
             </h3>
           </div>
           <div className="p-4 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Linked Lesson (optional)</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Linked Lesson (optional)</label>
               <select
                 value={form.lessonId}
                 onChange={e => setForm({ ...form, lessonId: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
               >
                 <option value="">Standalone quiz</option>
                 {lessons.map(l => (
@@ -906,53 +906,53 @@ function QuizModal({
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Title</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
               <input
                 type="text"
                 value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1">Description</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
               <textarea
                 value={form.description}
                 onChange={e => setForm({ ...form, description: e.target.value })}
-                className="w-full border border-border rounded px-3 py-2 text-sm"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                 rows={2}
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Pass %</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pass %</label>
                 <input
                   type="number"
                   value={form.passingScore}
                   onChange={e => setForm({ ...form, passingScore: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={0}
                   max={100}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">RP</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">RP</label>
                 <input
                   type="number"
                   value={form.rpReward}
                   onChange={e => setForm({ ...form, rpReward: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={0}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink-700 mb-1">Attempts</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Attempts</label>
                 <input
                   type="number"
                   value={form.maxAttempts}
                   onChange={e => setForm({ ...form, maxAttempts: Number(e.target.value) })}
-                  className="w-full border border-border rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm"
                   min={1}
                 />
               </div>
@@ -963,14 +963,14 @@ function QuizModal({
                 checked={form.isActive}
                 onChange={e => setForm({ ...form, isActive: e.target.checked })}
               />
-              <span className="text-sm text-ink-700">Active</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">Active</span>
             </label>
-            <p className="text-xs text-ink-400 dark:text-ink-400">
+            <p className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
               Note: Quiz questions are managed separately via the database. Future version will add question editor.
             </p>
           </div>
-          <div className="p-4 border-t border-border flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-ink-700 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white dark:text-white">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-2">
+            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white">
               Cancel
             </button>
             <button type="submit" className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">

@@ -77,7 +77,7 @@ export default function DashboardDesignsPage() {
           </div>
           <div className="mt-4 p-4 rounded" style={{ background: '#1a1a1a' }}>
             <div className="text-white font-semibold mb-2">{variants[selected].name}</div>
-            <div className="text-ink-400 text-sm mb-3">{variants[selected].description}</div>
+            <div className="text-gray-400 dark:text-gray-500 text-sm mb-3">{variants[selected].description}</div>
             <div className="flex gap-2">
               {variants[selected].colors.map((color, i) => (
                 <div

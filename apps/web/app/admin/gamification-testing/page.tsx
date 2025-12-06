@@ -61,38 +61,38 @@ export default function GamificationTestPage() {
   const [currentRP, setCurrentRP] = useState(350);
 
   return (
-    <div className="min-h-screen bg-bg-1 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <Link href="/admin" className="text-sm text-ink-400 hover:text-ink-700 mb-2 inline-block">
+            <Link href="/admin" className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mb-2 inline-block">
               ← Back to Admin
             </Link>
-            <h1 className="text-3xl font-bold text-ink-900">Gamification Testing</h1>
-            <p className="text-ink-700 mt-1">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Gamification Testing</h1>
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
               Test all gamification components in one place
             </p>
           </div>
           <div className="text-right">
-            <div className="text-sm text-ink-400">Module Progress</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Module Progress</div>
             <div className="text-2xl font-bold text-brand-600">100%</div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* RP Animations Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">RP Animations</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">RP Animations</h2>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-ink-700 mb-2">RP Amount</label>
+                <label className="block text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-2">RP Amount</label>
                 <input
                   type="number"
                   value={rpAmount}
                   onChange={(e) => setRpAmount(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-border rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg"
                 />
               </div>
 
@@ -124,8 +124,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Milestone Celebration Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Milestone Celebration</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Milestone Celebration</h2>
 
             <button
               onClick={() => setShowCelebration(true)}
@@ -134,7 +134,7 @@ export default function GamificationTestPage() {
               Trigger 15 Members Celebration
             </button>
 
-            <p className="text-sm text-ink-400 mt-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-4">
               Celebrations can be skipped with ESC or the skip button.
               Respects prefers-reduced-motion.
             </p>
@@ -148,12 +148,12 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Invitation Components Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Invitation Components</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Invitation Components</h2>
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-medium text-ink-700 mb-2">InviteButton Variants</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">InviteButton Variants</h3>
                 <div className="flex flex-wrap gap-2">
                   <InviteButton
                     groupId="test"
@@ -202,8 +202,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Growth Tracker Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Group Growth Tracker</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Group Growth Tracker</h2>
 
             <GroupGrowthTracker
               groupId="test-group"
@@ -213,8 +213,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Daily Challenge Card Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Daily Challenge Cards</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 lg:col-span-2">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Daily Challenge Cards</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Pending Challenge */}
@@ -269,13 +269,13 @@ export default function GamificationTestPage() {
           </div>
 
           {/* First Week Journey Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">First Week Journey</h2>
-            <p className="text-sm text-ink-400 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 lg:col-span-2">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">First Week Journey</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mb-4">
               Note: This component fetches real data from the API. Use sample user ID below:
             </p>
 
-            <div className="bg-bg-2 rounded-lg p-4">
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
               <code className="text-sm">userId: &quot;sample-user-123&quot;</code>
             </div>
 
@@ -289,8 +289,8 @@ export default function GamificationTestPage() {
         </div>
 
         {/* Feature Summary */}
-        <div className="mt-8 bg-bg-0 rounded-xl border border-border p-6">
-          <h2 className="text-lg font-semibold text-ink-900 mb-4">Gamification Module Features</h2>
+        <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Gamification Module Features</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-4 bg-green-50 rounded-lg">

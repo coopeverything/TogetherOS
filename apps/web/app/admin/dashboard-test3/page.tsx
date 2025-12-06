@@ -4,10 +4,10 @@ import { Feed } from "@/components/dashboard-test3/Feed";
 
 export default function DashboardTest3() {
   return (
-    <div className="flex flex-col h-screen bg-bg-1">
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header - More compact */}
-      <header className="flex items-center justify-between px-4 py-3 bg-bg-0 shadow-sm">
-        <h1 className="text-lg font-semibold text-ink-900">
+      <header className="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 shadow-sm dark:bg-gray-800">
+        <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-100 dark:text-white">
           Admin Dashboard
         </h1>
         <nav>

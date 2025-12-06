@@ -9,9 +9,8 @@ import { requireAuth } from '@/lib/auth/middleware';
 import {
   createProposal,
   listProposals,
-  type CreateProposalInput,
-  type ListProposalsFilter,
-} from '@togetheros/db';
+} from '../../../../api/src/modules/governance/handlers/crud';
+import type { CreateProposalInput, ListProposalsFilters } from '@togetheros/validators/governance';
 import { reputationService } from '@/lib/services/ReputationService';
 
 export async function POST(request: NextRequest) {
@@ -88,7 +87,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
 
     // Parse filters
-    const filters: ListProposalsFilter = {
+    const filters: ListProposalsFilters = {
       scopeType: searchParams.get('scopeType') as any,
       scopeId: searchParams.get('scopeId') || undefined,
       status: searchParams.get('status') as any,

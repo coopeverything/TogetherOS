@@ -19,33 +19,74 @@ import DashboardDemos from '../dashboard-demos/page'
 import DashboardTest2 from '../dashboard-test2/page'
 import DashboardTest3 from '../dashboard-test3/page'
 
-// Import compact design
-import { CompactZincSage } from '../dashboard-designs/CompactZincSage'
+// Import designs page sub-components
+import { NeonNoir } from '../dashboard-designs/NeonNoir'
+import { DesertBloom } from '../dashboard-designs/DesertBloom'
+import { NordicVoid } from '../dashboard-designs/NordicVoid'
+import { BaroqueMaximalist } from '../dashboard-designs/BaroqueMaximalist'
+import { BrutalistRave } from '../dashboard-designs/BrutalistRave'
 
-type MainTab = 'demos' | 'styles' | 'compact'
+type MainTab = 'demos' | 'styles' | 'designs'
 type StyleVariant = 'default' | 'compact'
+type DesignVariant = 'neon' | 'desert' | 'nordic' | 'baroque' | 'brutalist'
+
+const designVariants = {
+  neon: {
+    name: 'Neon Noir Tokyo',
+    description: 'Cyberpunk aesthetic with electric colors',
+    colors: ['#ff00ff', '#00ffff', '#0a0a14'],
+    component: NeonNoir
+  },
+  desert: {
+    name: 'Desert Bloom',
+    description: 'Psychedelic southwest with terracotta',
+    colors: ['#E07A5F', '#81B29A', '#F2CC8F'],
+    component: DesertBloom
+  },
+  nordic: {
+    name: 'Nordic Void',
+    description: 'Inverted Scandinavian minimalism',
+    colors: ['#000000', '#00ff9f', '#ffffff'],
+    component: NordicVoid
+  },
+  baroque: {
+    name: 'Baroque Maximalist',
+    description: 'Digital rococo with vaporwave pastels',
+    colors: ['#FFD700', '#FF6FD8', '#B4A7D6'],
+    component: BaroqueMaximalist
+  },
+  brutalist: {
+    name: 'Brutalist Rave',
+    description: 'Post-Soviet techno with concrete',
+    colors: ['#ff0000', '#00ff00', '#808080'],
+    component: BrutalistRave
+  }
+}
 
 export default function DashboardShowcase() {
   const [mainTab, setMainTab] = useState<MainTab>('demos')
   const [styleVariant, setStyleVariant] = useState<StyleVariant>('default')
+  const [designVariant, setDesignVariant] = useState<DesignVariant>('neon')
+
+  const CurrentDesign = designVariants[designVariant].component
 
   return (
-    <div className="flex flex-col h-screen bg-bg-0">
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
       {/* Main Header with Tabs */}
-      <header className="bg-bg-1 shadow-sm border-b border-border">
+      <header className="bg-white dark:bg-gray-800 shadow-sm dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-xl font-semibold text-ink-900">
+              <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100 dark:text-white">
                 Dashboard Showcase
               </h1>
-              <p className="text-sm text-ink-700">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Explore different dashboard layouts, styles, and designs
               </p>
             </div>
             <a
               href="/admin"
-              className="text-sm text-ink-400 hover:text-ink-700"
+              className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:text-gray-400 dark:hover:text-white"
             >
               ← Back to Admin
             </a>
@@ -68,18 +109,18 @@ export default function DashboardShowcase() {
               Styles
             </Button>
             <Button
-              variant={mainTab === 'compact' ? 'default' : 'ghost'}
+              variant={mainTab === 'designs' ? 'default' : 'ghost'}
               size="sm"
-              onClick={() => setMainTab('compact')}
+              onClick={() => setMainTab('designs')}
             >
-              Compact Design
+              Creative Designs
             </Button>
           </div>
 
           {/* Sub-tabs for Styles */}
           {mainTab === 'styles' && (
-            <div className="flex items-center gap-2 pt-2 border-t border-border">
-              <span className="text-xs text-ink-400 mr-2">Style:</span>
+            <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+              <span className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 mr-2">Style:</span>
               <Button
                 variant={styleVariant === 'default' ? 'secondary' : 'ghost'}
                 size="sm"
@@ -97,6 +138,43 @@ export default function DashboardShowcase() {
             </div>
           )}
 
+          {/* Sub-tabs for Designs */}
+          {mainTab === 'designs' && (
+            <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(designVariants) as DesignVariant[]).map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => setDesignVariant(key)}
+                    className="px-3 py-1.5 rounded text-xs font-medium transition-all"
+                    style={{
+                      background: designVariant === key ? designVariants[key].colors[0] : '#e5e5e5',
+                      color: designVariant === key ? '#000' : '#666',
+                      border: '2px solid',
+                      borderColor: designVariant === key ? designVariants[key].colors[0] : '#ccc'
+                    }}
+                  >
+                    {designVariants[key].name}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-3 flex items-center gap-3">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {designVariants[designVariant].description}
+                </div>
+                <div className="flex gap-1">
+                  {designVariants[designVariant].colors.map((color, i) => (
+                    <div
+                      key={i}
+                      className="w-5 h-5 rounded"
+                      style={{ background: color }}
+                      title={color}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -105,7 +183,7 @@ export default function DashboardShowcase() {
         {mainTab === 'demos' && <DashboardDemos />}
         {mainTab === 'styles' && styleVariant === 'default' && <DashboardTest2 />}
         {mainTab === 'styles' && styleVariant === 'compact' && <DashboardTest3 />}
-        {mainTab === 'compact' && <CompactZincSage />}
+        {mainTab === 'designs' && <CurrentDesign />}
       </main>
     </div>
   )
