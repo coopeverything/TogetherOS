@@ -106,7 +106,7 @@ export function NotificationToast({
       aria-live="polite"
     >
       {/* Icon */}
-      <div className="flex-shrink-0 text-2xl">
+      <div className="flex-shrink-0 text-sm">
         {getNotificationIcon(notification.type)}
       </div>
 

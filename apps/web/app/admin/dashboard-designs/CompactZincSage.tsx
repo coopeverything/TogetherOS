@@ -33,15 +33,15 @@ export function CompactZincSage() {
   return (
     <div
       data-theme="zinc-sage-ext"
-      className="min-h-screen p-4 sm:p-6"
+      className="min-h-screen p-4 sm:p-4"
       style={{ backgroundColor: 'var(--color-bg)' }}
     >
-      <div className="max-w-6xl mx-auto space-y-4">
+      <div className="max-w-6xl mx-auto space-y-2">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1
-              className="text-xl font-bold"
+              className="text-sm font-bold"
               style={{ color: 'var(--color-text)' }}
             >
               Compact Dashboard
@@ -89,7 +89,7 @@ export function CompactZincSage() {
                 {stat.label}
               </div>
               <div
-                className="text-xl font-bold mt-0.5"
+                className="text-sm font-bold mt-0.5"
                 style={{ color: stat.color }}
               >
                 {stat.value}

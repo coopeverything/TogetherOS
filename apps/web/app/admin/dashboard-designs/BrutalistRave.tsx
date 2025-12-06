@@ -16,7 +16,7 @@ export function BrutalistRave() {
     >
       {/* Raw Header */}
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6 p-6 bg-black border-4 border-red-600">
+        <div className="mb-3 p-4 bg-black border-4 border-red-600">
           <h1
             className="text-7xl font-black mb-2"
             style={{
@@ -36,7 +36,7 @@ export function BrutalistRave() {
         </div>
 
         {/* Concrete Stats Blocks */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-3">
           {[
             { value: '1247', label: 'MEMBERS', color: '#ff0000' },
             { value: '89', label: 'ACTIONS', color: '#00ff00' },
@@ -44,7 +44,7 @@ export function BrutalistRave() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="border-4 p-6 relative overflow-hidden"
+              className="border-4 p-4 relative overflow-hidden"
               style={{
                 background: '#4a4a4a',
                 borderColor: stat.color,
@@ -83,12 +83,12 @@ export function BrutalistRave() {
         </div>
 
         {/* Main Content - Concrete Slab */}
-        <div className="border-4 border-black mb-6" style={{ background: '#5a5a5a' }}>
+        <div className="border-4 border-black mb-3" style={{ background: '#5a5a5a' }}>
           <div
             className="p-4 border-b-4 border-lime-500"
             style={{ background: '#000000' }}
           >
-            <h2 className="text-3xl font-black" style={{ color: '#ff0000' }}>
+            <h2 className="text-sm font-black" style={{ color: '#ff0000' }}>
               /// SYSTEM LOG
             </h2>
           </div>
@@ -134,26 +134,26 @@ export function BrutalistRave() {
         </div>
 
         {/* Grid Layout - Industrial */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-black border-4 border-red-600 p-6">
-            <div className="text-5xl font-black mb-3" style={{ color: '#ff0000' }}>
+        <div className="grid grid-cols-2 gap-4 mb-3">
+          <div className="bg-black border-4 border-red-600 p-4">
+            <div className="text-sm font-black mb-3" style={{ color: '#ff0000' }}>
               ▲
             </div>
             <div className="text-sm font-black mb-2" style={{ color: '#ffffff' }}>
               ACTIVE ALERTS
             </div>
-            <div className="text-3xl font-black" style={{ color: '#ff0000' }}>
+            <div className="text-sm font-black" style={{ color: '#ff0000' }}>
               3
             </div>
           </div>
-          <div className="bg-black border-4 border-lime-500 p-6">
-            <div className="text-5xl font-black mb-3" style={{ color: '#00ff00' }}>
+          <div className="bg-black border-4 border-lime-500 p-4">
+            <div className="text-sm font-black mb-3" style={{ color: '#00ff00' }}>
               ►
             </div>
             <div className="text-sm font-black mb-2" style={{ color: '#ffffff' }}>
               SYSTEM STATUS
             </div>
-            <div className="text-2xl font-black" style={{ color: '#00ff00' }}>
+            <div className="text-sm font-black" style={{ color: '#00ff00' }}>
               ONLINE
             </div>
           </div>
@@ -161,7 +161,7 @@ export function BrutalistRave() {
 
         {/* Warning Banner */}
         <div
-          className="border-8 p-8 relative overflow-hidden"
+          className="border-8 p-4 relative overflow-hidden"
           style={{
             borderColor: '#ffff00',
             background: '#000000',
@@ -183,7 +183,7 @@ export function BrutalistRave() {
           <div className="relative z-10 text-center">
             <div className="text-6xl mb-4">⚠️</div>
             <p
-              className="text-3xl font-black mb-3"
+              className="text-sm font-black mb-3"
               style={{
                 color: '#ffff00',
                 textShadow: '3px 3px 0 #000000',

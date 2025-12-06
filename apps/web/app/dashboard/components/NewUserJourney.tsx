@@ -67,7 +67,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
 
   if (state.loading) {
     return (
-      <Card className={`p-6 ${className}`}>
+      <Card className={`p-4 ${className}`}>
         <div className="animate-pulse">
           <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4"></div>
           <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
@@ -78,7 +78,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
 
   if (!showChallenges) {
     return (
-      <Card className={`p-6 ${className}`}>
+      <Card className={`p-4 ${className}`}>
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-bold text-ink-900">Daily Challenges</h3>
@@ -100,14 +100,14 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
       <div className="bg-gradient-to-r from-brand-600 to-brand-700 p-4 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold">Your Journey</h2>
+            <h2 className="text-sm font-bold">Your Journey</h2>
             <p className="text-brand-100 text-sm">
               {state.firstWeekActive ? 'First Week Journey' : 'Daily Challenges'}
             </p>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-2xl font-bold">{state.rpBalance} RP</p>
+              <p className="text-sm font-bold">{state.rpBalance} RP</p>
               {state.streak > 0 && (
                 <p className="text-brand-100 text-sm flex items-center gap-1">
                   <span>🔥</span> {state.streak} day streak
@@ -132,7 +132,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
         <div className="flex border-b border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setActiveTab('first-week')}
-            className={`flex-1 py-3 px-4 text-sm font-medium text-center transition-colors ${
+            className={`flex-1 py-2 px-4 text-sm font-medium text-center transition-colors ${
               activeTab === 'first-week'
                 ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50'
                 : 'text-gray-500 hover:text-gray-700'
@@ -142,7 +142,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
           </button>
           <button
             onClick={() => setActiveTab('daily')}
-            className={`flex-1 py-3 px-4 text-sm font-medium text-center transition-colors ${
+            className={`flex-1 py-2 px-4 text-sm font-medium text-center transition-colors ${
               activeTab === 'daily'
                 ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50'
                 : 'text-gray-500 hover:text-gray-700'
@@ -154,7 +154,7 @@ export function NewUserJourney({ userId, className = '' }: NewUserJourneyProps) 
       )}
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-4">
         {activeTab === 'first-week' && state.firstWeekActive ? (
           <FirstWeekJourney userId={userId} onChallengeComplete={handleChallengeComplete} />
         ) : (

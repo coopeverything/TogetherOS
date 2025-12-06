@@ -106,10 +106,10 @@ export default function LogsTestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-1 p-8">
+    <div className="min-h-screen bg-bg-1 p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-ink-900 mb-2">
+        <div className="mb-4">
+          <h1 className="text-sm font-bold text-ink-900 mb-2">
             System Metrics Dashboard
           </h1>
           <p className="text-ink-700">
@@ -117,7 +117,7 @@ export default function LogsTestPage() {
           </p>
         </div>
 
-        <div className="mb-6 flex items-center gap-4">
+        <div className="mb-3 flex items-center gap-4">
           <button
             onClick={fetchMetrics}
             disabled={loading}
@@ -138,17 +138,17 @@ export default function LogsTestPage() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+          <div className="mb-3 p-4 bg-red-50 border border-red-200 rounded-md">
             <p className="text-red-800 font-medium">Error</p>
             <p className="text-red-600 text-sm">{error}</p>
           </div>
         )}
 
         {metrics && (
-          <div className="space-y-6">
+          <div className="space-y-2">
             {/* Overall Status */}
-            <div className={`p-6 rounded-lg ${getStatusBg(metrics.status)}`}>
-              <h2 className="text-xl font-semibold mb-2">
+            <div className={`p-4 rounded-lg ${getStatusBg(metrics.status)}`}>
+              <h2 className="text-sm font-semibold mb-2">
                 System Status:{' '}
                 <span className={`uppercase ${getStatusColor(metrics.status)}`}>
                   {metrics.status}
@@ -160,30 +160,30 @@ export default function LogsTestPage() {
             </div>
 
             {/* Process Metrics */}
-            <div className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">Process Metrics</h2>
+            <div className="bg-bg-0 p-4 rounded-lg shadow-sm">
+              <h2 className="text-sm font-semibold mb-4">Process Metrics</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-ink-700">Uptime</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {formatUptime(metrics.process.uptime_seconds)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">Heap Used</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {formatBytes(metrics.process.memory.heap_used)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">Heap Total</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {formatBytes(metrics.process.memory.heap_total)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">RSS</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {formatBytes(metrics.process.memory.rss)}
                   </p>
                 </div>
@@ -191,8 +191,8 @@ export default function LogsTestPage() {
             </div>
 
             {/* System Memory */}
-            <div className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">System Memory</h2>
+            <div className="bg-bg-0 p-4 rounded-lg shadow-sm">
+              <h2 className="text-sm font-semibold mb-4">System Memory</h2>
               <div className="mb-4">
                 <div className="flex justify-between mb-2">
                   <span className="text-sm text-ink-700">
@@ -223,19 +223,19 @@ export default function LogsTestPage() {
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <p className="text-sm text-ink-700">Total</p>
-                  <p className="text-lg font-mono">
+                  <p className="text-sm font-mono">
                     {formatBytes(metrics.system.memory.total)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">Used</p>
-                  <p className="text-lg font-mono">
+                  <p className="text-sm font-mono">
                     {formatBytes(metrics.system.memory.used)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">Free</p>
-                  <p className="text-lg font-mono">
+                  <p className="text-sm font-mono">
                     {formatBytes(metrics.system.memory.free)}
                   </p>
                 </div>
@@ -243,31 +243,31 @@ export default function LogsTestPage() {
             </div>
 
             {/* CPU Load */}
-            <div className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">CPU Load Average</h2>
+            <div className="bg-bg-0 p-4 rounded-lg shadow-sm">
+              <h2 className="text-sm font-semibold mb-4">CPU Load Average</h2>
               <div className="grid grid-cols-4 gap-4">
                 <div>
                   <p className="text-sm text-ink-700">1 min</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {metrics.system.load_average['1min'].toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">5 min</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {metrics.system.load_average['5min'].toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">15 min</p>
-                  <p className="text-2xl font-mono">
+                  <p className="text-sm font-mono">
                     {metrics.system.load_average['15min'].toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-ink-700">Normalized</p>
                   <p
-                    className={`text-2xl font-mono ${getStatusColor(
+                    className={`text-sm font-mono ${getStatusColor(
                       metrics.system.load_average.status
                     )}`}
                   >
@@ -281,8 +281,8 @@ export default function LogsTestPage() {
             </div>
 
             {/* Raw JSON */}
-            <details className="bg-bg-0 p-6 rounded-lg shadow-sm">
-              <summary className="text-xl font-semibold cursor-pointer">
+            <details className="bg-bg-0 p-4 rounded-lg shadow-sm">
+              <summary className="text-sm font-semibold cursor-pointer">
                 Raw JSON Response
               </summary>
               <pre className="mt-4 p-4 bg-bg-2 rounded-md overflow-x-auto text-sm">

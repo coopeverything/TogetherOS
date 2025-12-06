@@ -15,7 +15,7 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
       <div
         ref={ref}
         className={cn(
-          'flex flex-col items-center justify-center text-center py-12 px-4',
+          'flex flex-col items-center justify-center text-center py-6 px-4',
           className
         )}
         {...props}
@@ -25,11 +25,11 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
             {icon}
           </div>
         )}
-        <h3 className="text-lg font-semibold text-ink-900 mb-2">
+        <h3 className="text-sm font-semibold text-ink-900 mb-2">
           {title}
         </h3>
         {description && (
-          <p className="text-sm text-ink-700 max-w-md mb-6">
+          <p className="text-sm text-ink-700 max-w-md mb-3">
             {description}
           </p>
         )}

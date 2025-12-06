@@ -59,10 +59,10 @@ export function RPEarnedAnimation({
         ${className}
       `}
     >
-      <div className="bg-brand-600 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
-        <span className="text-2xl">🎉</span>
+      <div className="bg-brand-600 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-3">
+        <span className="text-sm">🎉</span>
         <div>
-          <span className="text-xl font-bold">+{amount} RP</span>
+          <span className="text-sm font-bold">+{amount} RP</span>
           {label && <span className="ml-2 text-brand-100">{label}</span>}
         </div>
       </div>

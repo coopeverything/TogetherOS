@@ -64,8 +64,8 @@ export function TopicList({
   return (
     <div className={className}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-ink-900">Community Discussions</h1>
+      <div className="flex items-center justify-between mb-3">
+        <h1 className="text-sm font-bold text-ink-900">Community Discussions</h1>
         {showCreateButton && onCreateTopic && (
           <button
             onClick={onCreateTopic}
@@ -77,7 +77,7 @@ export function TopicList({
       </div>
 
       {/* Filters */}
-      <div className="mb-6 space-y-4">
+      <div className="mb-3 space-y-2">
         <div className="flex flex-wrap gap-4">
           {/* Category Filter - Clickable Buttons */}
           <div className="flex-1 min-w-[200px]">
@@ -172,7 +172,7 @@ export function TopicList({
 
       {/* Topic List */}
       {sortedTopics.length === 0 ? (
-        <div className="text-center py-12 bg-bg-2 rounded-lg border border-border">
+        <div className="text-center py-6 bg-bg-2 rounded-lg border border-border">
           <p className="text-ink-700 mb-2">No topics found</p>
           <p className="text-sm text-ink-400">
             {categoryFilter !== 'all' || statusFilter !== 'all'
@@ -181,7 +181,7 @@ export function TopicList({
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {sortedTopics.map((topic) => (
             <TopicCard
               key={topic.id}

@@ -41,9 +41,9 @@ export default function MetricsAnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading analytics...</p>
+          <p className="text-sm text-ink-700">Loading analytics...</p>
         </div>
       </div>
     )
@@ -51,9 +51,9 @@ export default function MetricsAnalyticsPage() {
 
   if (error || !analytics) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-red-50/20 border border-red-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-900 mb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+        <div className="bg-red-50/20 border border-red-200 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-red-900 mb-2">
             Error Loading Analytics
           </h2>
           <p className="text-red-700">{error || 'Unknown error'}</p>
@@ -63,9 +63,9 @@ export default function MetricsAnalyticsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Breadcrumb */}
-      <nav className="mb-6 text-sm">
+      <nav className="mb-3 text-sm">
         <ol className="flex items-center gap-2 text-ink-400">
           <li>
             <Link href="/metrics" className="hover:text-orange-600">
@@ -81,11 +81,11 @@ export default function MetricsAnalyticsPage() {
       <MetricsDashboard analytics={analytics} />
 
       {/* Key Insights */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6 mt-8">
-        <h2 className="text-lg font-semibold text-ink-900 mb-4">
+      <div className="bg-bg-1 rounded-lg border border-border p-4 mt-4">
+        <h2 className="text-sm font-semibold text-ink-900 mb-4">
           Key Insights
         </h2>
-        <div className="space-y-4 text-ink-700">
+        <div className="space-y-2 text-ink-700">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-green-100/30 rounded-full">
               <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

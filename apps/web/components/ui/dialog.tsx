@@ -64,7 +64,7 @@ const DialogHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('px-6 py-4 border-b border-border', className)}
+    className={cn('px-4 py-4 border-b border-border', className)}
     {...props}
   />
 ));
@@ -76,7 +76,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h2
     ref={ref}
-    className={cn('text-xl font-bold text-ink-900', className)}
+    className={cn('text-sm font-bold text-ink-900', className)}
     {...props}
   />
 ));
@@ -100,7 +100,7 @@ const DialogBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('p-6', className)}
+    className={cn('p-4', className)}
     {...props}
   />
 ));
@@ -112,7 +112,7 @@ const DialogFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('px-6 py-4 border-t border-border flex gap-2 justify-end', className)}
+    className={cn('px-4 py-4 border-t border-border flex gap-2 justify-end', className)}
     {...props}
   />
 ));

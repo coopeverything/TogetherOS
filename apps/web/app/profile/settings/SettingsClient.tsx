@@ -30,9 +30,9 @@ export default function SettingsClient({ user }: { user: User }) {
   return (
     <div className="min-h-screen bg-bg-0">
       <header className="bg-white dark:bg-gray-800 border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-ink-900">Account Settings</h1>
+            <h1 className="text-sm font-bold text-ink-900">Account Settings</h1>
             <Button variant="secondary" onClick={() => router.push('/profile')}>
               Back to Profile
             </Button>
@@ -40,11 +40,11 @@ export default function SettingsClient({ user }: { user: User }) {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4 space-y-2">
         {/* Account Information */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">Account Information</h2>
-          <div className="space-y-4">
+        <Card className="p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">Account Information</h2>
+          <div className="space-y-2">
             <div>
               <Label className="text-ink-700">Email</Label>
               <div className="flex items-center gap-2 mt-1">
@@ -87,9 +87,9 @@ export default function SettingsClient({ user }: { user: User }) {
         </Card>
 
         {/* Security Settings */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">Security</h2>
-          <div className="space-y-4">
+        <Card className="p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">Security</h2>
+          <div className="space-y-2">
             <div>
               <Label className="text-ink-700">Password</Label>
               <p className="text-sm text-ink-600 mt-1">Change your password to keep your account secure</p>
@@ -111,9 +111,9 @@ export default function SettingsClient({ user }: { user: User }) {
         </Card>
 
         {/* Account Actions */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">Account Actions</h2>
-          <div className="space-y-4">
+        <Card className="p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">Account Actions</h2>
+          <div className="space-y-2">
             <div>
               <Label className="text-ink-700">Sign Out</Label>
               <p className="text-sm text-ink-600 mt-1">
@@ -145,8 +145,8 @@ export default function SettingsClient({ user }: { user: User }) {
         </Card>
 
         {/* Quick Links */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">Quick Links</h2>
+        <Card className="p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">Quick Links</h2>
           <div className="space-y-2">
             <Link href="/dashboard" className="block text-brand-600 hover:text-brand-700">
               Dashboard →

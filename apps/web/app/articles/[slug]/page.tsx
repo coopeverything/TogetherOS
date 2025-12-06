@@ -63,9 +63,9 @@ export default async function ArticleDetailPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         {/* Breadcrumb */}
-        <nav className="mb-6">
+        <nav className="mb-3">
           <ol className="flex items-center gap-2 text-sm text-ink-400">
             <li>
               <Link href="/articles" className="hover:text-orange-600">
@@ -80,9 +80,9 @@ export default async function ArticleDetailPage({ params }: Props) {
         </nav>
 
         {/* Article Header */}
-        <header className="mb-8">
+        <header className="mb-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-lg">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-sm">
               ✍️
             </div>
             <span className="text-sm font-medium text-orange-600 uppercase tracking-wide">
@@ -90,17 +90,17 @@ export default async function ArticleDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-ink-900 mb-4">
+          <h1 className="text-sm font-bold text-ink-900 mb-4">
             {article.title}
           </h1>
 
-          <p className="text-xl text-ink-700 leading-relaxed mb-6">
+          <p className="text-sm text-ink-700 leading-relaxed mb-3">
             {article.summary}
           </p>
 
           {/* Author Info */}
-          <div className="flex items-center gap-4 p-4 bg-bg-1 rounded-xl border border-border mb-6">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-lg font-medium">
+          <div className="flex items-center gap-4 p-4 bg-bg-1 rounded-xl border border-border mb-3">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-sm font-medium">
               {article.authorName.charAt(0)}
             </div>
             <div className="flex-1">
@@ -112,7 +112,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           </div>
 
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-ink-400 pb-6 border-b border-border">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-ink-400 pb-6 border-b border-border">
             {formattedDate && (
               <span className="flex items-center gap-1.5">
                 <svg
@@ -193,17 +193,17 @@ export default async function ArticleDetailPage({ params }: Props) {
           <ReactMarkdown
             components={{
               h1: ({ children }: MarkdownComponentProps) => (
-                <h1 className="text-3xl font-bold text-ink-900 mt-8 mb-4">
+                <h1 className="text-sm font-bold text-ink-900 mt-4 mb-4">
                   {children}
                 </h1>
               ),
               h2: ({ children }: MarkdownComponentProps) => (
-                <h2 className="text-2xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
+                <h2 className="text-sm font-semibold text-ink-900 mt-4 mb-4 pb-2 border-b border-border">
                   {children}
                 </h2>
               ),
               h3: ({ children }: MarkdownComponentProps) => (
-                <h3 className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+                <h3 className="text-sm font-semibold text-ink-900 mt-6 mb-3">
                   {children}
                 </h3>
               ),
@@ -253,7 +253,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         </article>
 
         {/* Tags */}
-        <div className="mb-8 pb-8 border-b border-border">
+        <div className="mb-4 pb-8 border-b border-border">
           <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
             Tags
           </h3>
@@ -271,7 +271,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Cooperation Paths */}
         {article.cooperationPaths && article.cooperationPaths.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
+          <div className="mb-4 pb-8 border-b border-border">
             <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Cooperation Paths
             </h3>
@@ -290,7 +290,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Related Wiki Articles */}
         {relatedWikiArticles && relatedWikiArticles.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
+          <div className="mb-4 pb-8 border-b border-border">
             <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Wiki Articles
             </h3>
@@ -318,7 +318,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
+          <div className="mb-4 pb-8 border-b border-border">
             <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Articles
             </h3>
@@ -345,7 +345,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         )}
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-wrap gap-4 mb-4">
           <Link
             href={`/forum?title=${encodeURIComponent(article.title + ' Discussion')}&description=${encodeURIComponent(`Discussion about the article: **${article.title}** by ${article.authorName}\n\n${article.summary}`)}`}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"

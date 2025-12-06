@@ -189,8 +189,8 @@ export function TopicComposer({
         className
       )}>
         {/* Header */}
-        <div className="sticky top-0 bg-bg-1 border-b border-border px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-ink-900">
+        <div className="sticky top-0 bg-bg-1 border-b border-border px-4 py-4 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-ink-900">
             Create New Topic
           </h2>
           <button
@@ -205,7 +205,7 @@ export function TopicComposer({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
+        <form onSubmit={handleSubmit} className="px-4 py-6 space-y-2">
           {/* Title */}
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-ink-900 mb-2">

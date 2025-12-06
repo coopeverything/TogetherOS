@@ -103,10 +103,10 @@ export function MetricsForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-8 ${className}`}>
+    <form onSubmit={handleSubmit} className={`space-y-3 ${className}`}>
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-sm font-bold text-gray-900 dark:text-white">
           Define Success Metrics
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -115,8 +115,8 @@ export function MetricsForm({
       </div>
 
       {/* Evaluation Schedule */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
           Evaluation Schedule
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -159,9 +159,9 @@ export function MetricsForm({
       </div>
 
       {/* Metrics */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
             Success Metrics ({metrics.length}/10)
           </h3>
           <button
@@ -177,7 +177,7 @@ export function MetricsForm({
         {metrics.map((metric, index) => (
           <div
             key={index}
-            className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+            className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
           >
             <div className="flex items-center justify-between mb-4">
               <h4 className="font-medium text-gray-900 dark:text-white">
@@ -355,7 +355,7 @@ export function MetricsForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Saving...' : 'Save Metrics'}
         </button>

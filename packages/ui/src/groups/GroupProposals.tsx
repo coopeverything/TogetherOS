@@ -70,8 +70,8 @@ export function GroupProposals({
   return (
     <div className={className}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Group Proposals</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Group Proposals</h2>
         {onCreateProposal && (
           <button
             onClick={onCreateProposal}
@@ -83,7 +83,7 @@ export function GroupProposals({
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+      <div className="flex gap-2 mb-3 overflow-x-auto pb-2">
         <button
           onClick={() => setFilter('all')}
           className={`px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap ${
@@ -178,7 +178,7 @@ export function GroupProposals({
 
       {/* Proposals List */}
       {filteredProposals.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div className="text-center py-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
           <p className="text-gray-500">No proposals yet</p>
           <p className="text-gray-400 text-sm mt-2">
             {onCreateProposal
@@ -187,15 +187,15 @@ export function GroupProposals({
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {filteredProposals.map((proposal) => (
             <div
               key={proposal.id}
-              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
                     {proposal.title}
                   </h3>
                   <p className="text-sm text-gray-500">

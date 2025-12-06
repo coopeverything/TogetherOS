@@ -232,8 +232,8 @@ export default function TopicDetailPage({
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="animate-pulse space-y-4">
+      <div className="container mx-auto px-4 py-4 max-w-4xl">
+        <div className="animate-pulse space-y-2">
           <div className="h-8 bg-bg-2 rounded w-3/4"></div>
           <div className="h-20 bg-bg-2 rounded"></div>
           <div className="h-32 bg-bg-2 rounded"></div>
@@ -244,8 +244,8 @@ export default function TopicDetailPage({
 
   if (error || !topic) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+      <div className="container mx-auto px-4 py-4 max-w-4xl">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
           <p className="text-red-800 font-medium">Error</p>
           <p className="text-red-600 text-sm mt-2">{error || 'Topic not found'}</p>
           <button
@@ -260,12 +260,12 @@ export default function TopicDetailPage({
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="container mx-auto px-4 py-4 max-w-4xl">
       {/* Topic Header */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
+      <div className="bg-bg-1 rounded-lg border border-border p-4 mb-3">
         {editingTopicId === topic.id ? (
           /* Edit Topic Form */
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div>
               <label className="block text-sm font-medium text-ink-700 mb-2">
                 Title
@@ -399,7 +399,7 @@ export default function TopicDetailPage({
           <>
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-ink-900 mb-2">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">
                   {topic.title}
                 </h1>
                 <div className="flex items-center gap-4 text-sm text-ink-700">
@@ -448,23 +448,23 @@ export default function TopicDetailPage({
       </div>
 
       {/* Posts */}
-      <div className="space-y-4 mb-6">
-        <h2 className="text-lg font-semibold text-ink-900">
+      <div className="space-y-2 mb-3">
+        <h2 className="text-sm font-semibold text-ink-900">
           Discussion ({posts.length})
         </h2>
         {posts.length === 0 ? (
-          <div className="bg-bg-0 border border-border rounded-lg p-8 text-center">
+          <div className="bg-bg-0 border border-border rounded-lg p-4 text-center">
             <p className="text-ink-700">No posts yet. Be the first to contribute!</p>
           </div>
         ) : (
           posts.map((post) => (
             <div
               key={post.id}
-              className="bg-bg-1 rounded-lg border border-border p-6"
+              className="bg-bg-1 rounded-lg border border-border p-4"
             >
               {editingPostId === post.id ? (
                 /* Edit Post Form */
-                <div className="space-y-4">
+                <div className="space-y-2">
                   <textarea
                     value={editPostContent}
                     onChange={(e) => setEditPostContent(e.target.value)}
@@ -531,8 +531,8 @@ export default function TopicDetailPage({
       </div>
 
       {/* Post Composer */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6">
-        <h3 className="text-lg font-semibold text-ink-900 mb-4">
+      <div className="bg-bg-1 rounded-lg border border-border p-4">
+        <h3 className="text-sm font-semibold text-ink-900 mb-4">
           Add Your Thoughts
         </h3>
         <form onSubmit={handleSubmitPost}>

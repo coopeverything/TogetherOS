@@ -677,24 +677,24 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
   });
 
   return (
-    <div className="flex-1 overflow-y-auto bg-bg-1 p-6">
+    <div className="flex-1 overflow-y-auto bg-bg-1 p-4">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-ink-900">First Week Onboarding Flow</h2>
+        <div className="mb-3">
+          <h2 className="text-sm font-bold text-ink-900">First Week Onboarding Flow</h2>
           <p className="text-ink-600 mt-1">
             Challenges scheduled for new users during their first 7 days. Click on a challenge to edit it.
           </p>
         </div>
 
         {/* Timeline */}
-        <div className="space-y-6">
+        <div className="space-y-2">
           {[1, 2, 3, 4, 5, 6, 7].map(day => {
             const dayChallenges = dayGroups.get(day) || [];
             return (
               <div key={day} className="relative">
                 {/* Day Header */}
                 <div className="flex items-center gap-4 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
                     {day}
                   </div>
                   <div>
@@ -723,7 +723,7 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
                           className="bg-bg-0 rounded-lg border border-border p-4 hover:border-brand-300 hover:shadow-sm cursor-pointer transition-all"
                         >
                           <div className="flex items-start gap-3">
-                            <span className="text-2xl">{raw?.icon || '⭐'}</span>
+                            <span className="text-sm">{raw?.icon || '⭐'}</span>
                             <div className="flex-1">
                               <h4 className="font-medium text-ink-900">{ch.title}</h4>
                               <div className="flex items-center gap-4 mt-2 text-sm text-ink-600">
@@ -763,7 +763,7 @@ function FirstWeekFlowView({ challenges, microlessons, rawData, onEditChallenge 
         </div>
 
         {/* Summary */}
-        <div className="mt-8 p-4 bg-brand-50 rounded-lg border border-brand-200">
+        <div className="mt-4 p-4 bg-brand-50 rounded-lg border border-brand-200">
           <h3 className="font-semibold text-brand-900 mb-2">Summary</h3>
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div>

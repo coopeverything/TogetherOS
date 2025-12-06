@@ -11,9 +11,9 @@ export default function SentimentMapPage() {
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'quarter' | 'year'>('month');
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-ink-900 mb-2">Community Sentiment Map</h1>
+    <div className="container mx-auto px-4 py-4 max-w-7xl">
+      <div className="mb-4">
+        <h1 className="text-sm font-bold text-ink-900 mb-2">Community Sentiment Map</h1>
         <p className="text-ink-700">
           Visualize how the community feels about different topics. Bubble size shows engagement
           level, color intensity shows consensus, and hue shows sentiment (positive/negative).
@@ -21,7 +21,7 @@ export default function SentimentMapPage() {
       </div>
 
       {/* Privacy notice */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
         <h3 className="font-semibold text-blue-900 mb-1">Privacy Protection</h3>
         <p className="text-blue-800 text-sm">
           Sentiment data is only shown when at least 20 members have engaged with a topic. Individual
@@ -30,7 +30,7 @@ export default function SentimentMapPage() {
       </div>
 
       {/* Sentiment map */}
-      <div className="mb-8">
+      <div className="mb-4">
         <SentimentMap onTopicClick={setSelectedTopic} />
       </div>
 
@@ -38,7 +38,7 @@ export default function SentimentMapPage() {
       {selectedTopic && (
         <div className="border-t border-border pt-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-ink-900">Topic Trends</h2>
+            <h2 className="text-sm font-bold text-ink-900">Topic Trends</h2>
             <div className="flex gap-2">
               {(['week', 'month', 'quarter', 'year'] as const).map((range) => (
                 <button
@@ -68,7 +68,7 @@ export default function SentimentMapPage() {
       )}
 
       {/* Help text */}
-      <div className="mt-8 bg-bg-0 rounded-lg p-6 text-sm text-ink-700">
+      <div className="mt-4 bg-bg-0 rounded-lg p-4 text-sm text-ink-700">
         <h3 className="font-semibold text-ink-900 mb-2">How to Use This Map</h3>
         <ul className="list-disc list-inside space-y-1">
           <li>Click any bubble to see sentiment trends over time</li>

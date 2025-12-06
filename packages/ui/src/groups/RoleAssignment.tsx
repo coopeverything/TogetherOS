@@ -95,8 +95,8 @@ export function RoleAssignment({
   return (
     <div className={className}>
       {/* Add Role Form */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Assign Role</h3>
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-3">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Assign Role</h3>
         <div className="flex gap-3">
           <select
             value={selectedMember}
@@ -126,7 +126,7 @@ export function RoleAssignment({
           <button
             onClick={handleAssign}
             disabled={!selectedMember || isAssigning}
-            className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:bg-gray-400 transition-colors font-medium"
+            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:bg-gray-400 transition-colors font-medium"
           >
             {isAssigning ? 'Assigning...' : 'Assign'}
           </button>
@@ -135,9 +135,9 @@ export function RoleAssignment({
 
       {/* Current Roles */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Current Roles</h3>
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Current Roles</h3>
         {rolesWithMembers.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No roles assigned yet</p>
+          <p className="text-gray-500 text-center py-4">No roles assigned yet</p>
         ) : (
           <div className="space-y-3">
             {rolesWithMembers.map((role) => (

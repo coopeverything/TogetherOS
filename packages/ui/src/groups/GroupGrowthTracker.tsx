@@ -72,7 +72,7 @@ export function GroupGrowthTracker({
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
       {/* Location Header */}
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-lg">📍</span>
+        <span className="text-sm">📍</span>
         <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">
           YOUR AREA
         </span>
@@ -82,7 +82,7 @@ export function GroupGrowthTracker({
       {/* Member Count with Growth Indicator */}
       <div className="mb-4">
         <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+          <span className="text-sm font-bold text-gray-900 dark:text-white">
             {currentMemberCount}
           </span>
           <span className="text-sm text-gray-600">members</span>
@@ -95,7 +95,7 @@ export function GroupGrowthTracker({
       </div>
 
       {/* Section Title */}
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
         Community Growth
       </h3>
 

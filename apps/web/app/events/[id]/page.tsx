@@ -126,9 +126,9 @@ export default function EventDetailPage({ params }: PageProps) {
   if (error || !event) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-3xl mx-auto px-4 py-8">
-          <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-8 text-center">
-            <h1 className="text-xl font-semibold text-ink-900 mb-2">Event Not Found</h1>
+        <div className="max-w-3xl mx-auto px-4 py-4">
+          <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4 text-center">
+            <h1 className="text-sm font-semibold text-ink-900 mb-2">Event Not Found</h1>
             <p className="text-ink-700 mb-4">{error || 'This event does not exist.'}</p>
             <Link href="/events" className="text-blue-600 hover:underline">
               Back to Calendar
@@ -144,11 +144,11 @@ export default function EventDetailPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-4">
         {/* Back Link */}
         <Link
           href="/events"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6"
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-3"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -159,7 +159,7 @@ export default function EventDetailPage({ params }: PageProps) {
         {/* Event Card */}
         <div className="bg-bg-1 rounded-lg shadow-sm border border-border overflow-hidden">
           {/* Header */}
-          <div className="p-6 border-b border-border">
+          <div className="p-4 border-b border-border">
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -177,7 +177,7 @@ export default function EventDetailPage({ params }: PageProps) {
                     </span>
                   )}
                 </div>
-                <h1 className="text-2xl font-bold text-ink-900">{event.title}</h1>
+                <h1 className="text-sm font-bold text-ink-900">{event.title}</h1>
                 {event.groupName && (
                   <p className="text-ink-700 mt-1">Hosted by {event.groupName}</p>
                 )}
@@ -186,7 +186,7 @@ export default function EventDetailPage({ params }: PageProps) {
           </div>
 
           {/* Details */}
-          <div className="p-6 space-y-6">
+          <div className="p-4 space-y-2">
             {/* Date & Time */}
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">

@@ -91,7 +91,7 @@ function SimpleProfileCard({ user }: { user: User }) {
   const userPaths = COOPERATION_PATHS.filter(p => user.paths?.includes(p.id));
 
   return (
-    <Card className="p-6">
+    <Card className="p-4">
       <div className="flex items-start gap-4">
         <Avatar
           src={user.avatar_url}
@@ -99,7 +99,7 @@ function SimpleProfileCard({ user }: { user: User }) {
           className="w-16 h-16"
         />
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-ink-900">
+          <h3 className="text-sm font-semibold text-ink-900">
             {user.name || user.username || 'Anonymous'}
           </h3>
           {user.username && user.name && (
@@ -207,18 +207,18 @@ export default function ProfileTestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-1 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-bg-1 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-ink-900">Profile Components Test Page</h1>
+        <div className="mb-4">
+          <h1 className="text-sm font-bold text-ink-900">Profile Components Test Page</h1>
           <p className="mt-2 text-ink-400">
             Comprehensive testing interface for all profile-related UI components, interactions, and API endpoints.
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-6 border-b border-border">
+        <div className="mb-3 border-b border-border">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'showcase' as const, label: 'Component Showcase' },
@@ -243,13 +243,13 @@ export default function ProfileTestPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-bg-0 rounded-lg shadow-sm p-6">
+        <div className="bg-bg-0 rounded-lg shadow-sm p-4">
           {/* Component Showcase Tab */}
           {activeTab === 'showcase' && (
-            <div className="space-y-8">
+            <div className="space-y-3">
               <section>
-                <h2 className="text-xl font-semibold mb-4">Profile Cards</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <h2 className="text-sm font-semibold mb-4">Profile Cards</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <div>
                     <h3 className="text-sm font-medium text-ink-700 mb-3">Complete Profile</h3>
                     <SimpleProfileCard user={SAMPLE_PROFILES.complete} />
@@ -266,8 +266,8 @@ export default function ProfileTestPage() {
               </section>
 
               <section>
-                <h2 className="text-xl font-semibold mb-4">ProfileCompletionIndicator</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h2 className="text-sm font-semibold mb-4">ProfileCompletionIndicator</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <h3 className="text-sm font-medium text-ink-700 mb-3">Minimal (Getting Started)</h3>
                     <ProfileCompletionIndicator user={SAMPLE_PROFILES.minimal} />
@@ -289,7 +289,7 @@ export default function ProfileTestPage() {
               </section>
 
               <section>
-                <h2 className="text-xl font-semibold mb-4">TagInput Component</h2>
+                <h2 className="text-sm font-semibold mb-4">TagInput Component</h2>
                 <div className="max-w-2xl">
                   <h3 className="text-sm font-medium text-ink-700 mb-3">Interactive Skills Input</h3>
                   <TagInput
@@ -308,8 +308,8 @@ export default function ProfileTestPage() {
 
           {/* Interactive Demo Tab */}
           {activeTab === 'demo' && (
-            <div className="space-y-6">
-              <div className="flex gap-4 mb-6">
+            <div className="space-y-2">
+              <div className="flex gap-4 mb-3">
                 <Button
                   onClick={() => loadSampleData('minimal')}
                   variant="secondary"
@@ -330,10 +330,10 @@ export default function ProfileTestPage() {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {/* Form Side */}
-                <div className="space-y-4">
-                  <h2 className="text-xl font-semibold">Edit Profile</h2>
+                <div className="space-y-2">
+                  <h2 className="text-sm font-semibold">Edit Profile</h2>
 
                   <div>
                     <label className="block text-sm font-medium text-ink-700 mb-1">Name</label>
@@ -413,8 +413,8 @@ export default function ProfileTestPage() {
                 </div>
 
                 {/* Preview Side */}
-                <div className="space-y-4">
-                  <h2 className="text-xl font-semibold">Live Preview</h2>
+                <div className="space-y-2">
+                  <h2 className="text-sm font-semibold">Live Preview</h2>
                   <ProfileCompletionIndicator user={demoProfile} />
                   <SimpleProfileCard user={demoProfile} />
                 </div>
@@ -424,10 +424,10 @@ export default function ProfileTestPage() {
 
           {/* API Testing Tab */}
           {activeTab === 'api' && (
-            <div className="space-y-8">
+            <div className="space-y-3">
               <section>
-                <h2 className="text-xl font-semibold mb-4">GET /api/profile/[username]</h2>
-                <div className="space-y-4">
+                <h2 className="text-sm font-semibold mb-4">GET /api/profile/[username]</h2>
+                <div className="space-y-2">
                   <div className="flex gap-4">
                     <input
                       type="text"
@@ -452,8 +452,8 @@ export default function ProfileTestPage() {
               </section>
 
               <section>
-                <h2 className="text-xl font-semibold mb-4">PUT /api/profile</h2>
-                <div className="space-y-4">
+                <h2 className="text-sm font-semibold mb-4">PUT /api/profile</h2>
+                <div className="space-y-2">
                   <textarea
                     id="put-data"
                     className="w-full px-3 py-2 border border-border rounded-md font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -485,7 +485,7 @@ export default function ProfileTestPage() {
               {/* API Response */}
               {apiResponse && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-4">Response</h2>
+                  <h2 className="text-sm font-semibold mb-4">Response</h2>
                   <pre className="bg-bg-0 border border-border text-ink-900 p-4 rounded-md overflow-x-auto text-sm">
                     {apiResponse}
                   </pre>

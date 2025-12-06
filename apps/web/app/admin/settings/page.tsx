@@ -166,19 +166,19 @@ export default function AdminSettingsPage() {
 
   if (loading) {
     return (
-      <div className="p-8">
-        <h1 className="text-2xl font-bold mb-4">System Settings</h1>
+      <div className="p-4">
+        <h1 className="text-sm font-bold mb-4">System Settings</h1>
         <p>Loading...</p>
       </div>
     )
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">System Settings</h1>
+    <div className="p-4 max-w-7xl mx-auto">
+      <h1 className="text-sm font-bold mb-3">System Settings</h1>
 
       {/* Tabs */}
-      <div className="border-b border-border mb-6">
+      <div className="border-b border-border mb-3">
         <nav className="flex space-x-8">
           <button
             onClick={() => setActiveTab('settings')}
@@ -205,26 +205,26 @@ export default function AdminSettingsPage() {
 
       {/* Settings Tab */}
       {activeTab === 'settings' && (
-        <div className="space-y-8">
+        <div className="space-y-3">
           {settingsByCategory.map((category) => (
-            <div key={category.category} className="bg-bg-0 rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">
+            <div key={category.category} className="bg-bg-0 rounded-lg shadow p-4">
+              <h2 className="text-sm font-semibold mb-4">
                 {categoryLabels[category.category] || category.category}
               </h2>
 
               <table className="min-w-full divide-y divide-border">
                 <thead className="bg-bg-2">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-4 py-2 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
                       Setting
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-4 py-2 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
                       Value
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-4 py-2 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
                       Range
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
+                    <th className="px-4 py-2 text-left text-xs font-medium text-ink-400 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -232,13 +232,13 @@ export default function AdminSettingsPage() {
                 <tbody className="bg-bg-0 divide-y divide-border">
                   {category.settings.map((setting) => (
                     <tr key={setting.key}>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-4">
                         <div className="text-sm font-medium text-ink-900">
                           {setting.key.split('.')[1]}
                         </div>
                         <div className="text-xs text-ink-400">{setting.description}</div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-4">
                         {editingKey === setting.key ? (
                           <input
                             type="text"
@@ -250,12 +250,12 @@ export default function AdminSettingsPage() {
                           <span className="text-sm font-semibold">{String(setting.value)}</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-ink-400">
+                      <td className="px-4 py-4 text-sm text-ink-400">
                         {setting.minValue !== null && setting.maxValue !== null
                           ? `${setting.minValue} - ${setting.maxValue}`
                           : '-'}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-4">
                         {editingKey === setting.key ? (
                           <div className="space-y-2">
                             <input
@@ -310,9 +310,9 @@ export default function AdminSettingsPage() {
       {/* Audit Log Tab */}
       {activeTab === 'audit' && (
         <div className="bg-bg-0 rounded-lg shadow">
-          <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Recent Changes</h2>
-            <div className="space-y-4">
+          <div className="p-4">
+            <h2 className="text-sm font-semibold mb-4">Recent Changes</h2>
+            <div className="space-y-2">
               {auditLog.map((entry) => (
                 <div key={entry.id} className="border-l-4 border-blue-500 pl-4 py-2">
                   <div className="flex justify-between items-start">

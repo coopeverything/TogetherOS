@@ -93,7 +93,7 @@ export function NotificationInbox({
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notifications</h2>
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Notifications</h2>
         {unreadCount > 0 && (
           <button
             onClick={onMarkAllAsRead}
@@ -141,9 +141,9 @@ export function NotificationInbox({
       {/* Notification List */}
       <div className="divide-y">
         {loading ? (
-          <div className="p-8 text-center text-gray-500">Loading...</div>
+          <div className="p-4 text-center text-gray-500">Loading...</div>
         ) : filteredNotifications.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-4 text-center text-gray-500">
             {filter === 'unread' && 'No unread notifications'}
             {filter === 'archived' && 'No archived notifications'}
             {filter === 'all' && 'No notifications'}
@@ -165,7 +165,7 @@ export function NotificationInbox({
               )}
 
               {/* Icon */}
-              <div className="flex-shrink-0 text-2xl">
+              <div className="flex-shrink-0 text-sm">
                 {getNotificationIcon(notification.type)}
               </div>
 

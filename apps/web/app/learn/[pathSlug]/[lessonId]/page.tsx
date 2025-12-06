@@ -141,7 +141,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
   const isCompleted = lesson.userProgress?.status === 'completed'
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-4 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
         <nav className="text-sm text-ink-700 mb-4">
@@ -155,10 +155,10 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
         </nav>
 
         {/* Lesson Content */}
-        <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
-          <h1 className="text-xl font-semibold text-ink-900 mb-2">{lesson.title}</h1>
+        <div className="bg-bg-1 rounded-lg border border-border p-4 mb-3">
+          <h1 className="text-sm font-semibold text-ink-900 mb-2">{lesson.title}</h1>
 
-          <div className="flex items-center gap-4 text-sm text-ink-400 mb-6">
+          <div className="flex items-center gap-4 text-sm text-ink-400 mb-3">
             <span>{lesson.durationMinutes} min read</span>
             <span className="text-green-600">+{lesson.rpReward} RP</span>
             {isCompleted && (
@@ -191,7 +191,7 @@ export default function LessonPage({ params }: { params: Promise<{ pathSlug: str
 
         {/* Completion Result */}
         {completionResult && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-3">
             <div className="flex items-center gap-2 text-green-800 font-medium mb-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -280,7 +280,7 @@ function StructuredContentView({ content }: { content: StructuredContent }) {
   const { structured } = content
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Introduction */}
       <div>
         <p className="text-ink-700 leading-relaxed">{structured.introduction}</p>
@@ -339,7 +339,7 @@ function VideoContentView({ content }: { content: VideoContent }) {
     const videoId = getYouTubeId(video.url)
     if (videoId) {
       return (
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="aspect-video">
             <iframe
               src={`https://www.youtube.com/embed/${videoId}`}
@@ -410,21 +410,21 @@ function MarkdownContentView({ content }: { content: MarkdownContent }) {
       if (trimmed.startsWith('### ')) {
         flushList()
         elements.push(
-          <h3 key={i} className="text-lg font-medium text-ink-900 mt-4 mb-2">
+          <h3 key={i} className="text-sm font-medium text-ink-900 mt-4 mb-2">
             {trimmed.slice(4)}
           </h3>
         )
       } else if (trimmed.startsWith('## ')) {
         flushList()
         elements.push(
-          <h2 key={i} className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+          <h2 key={i} className="text-sm font-semibold text-ink-900 mt-6 mb-3">
             {trimmed.slice(3)}
           </h2>
         )
       } else if (trimmed.startsWith('# ')) {
         flushList()
         elements.push(
-          <h1 key={i} className="text-2xl font-bold text-ink-900 mt-6 mb-4">
+          <h1 key={i} className="text-sm font-bold text-ink-900 mt-6 mb-4">
             {trimmed.slice(2)}
           </h1>
         )

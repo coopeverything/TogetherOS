@@ -57,7 +57,7 @@ export default function DashboardDesignsPage() {
       {/* Theme Selector */}
       <div className="border-b-2 border-white p-4" style={{ background: '#000' }}>
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-white mb-4">Dashboard Design Variations</h1>
+          <h1 className="text-sm font-bold text-white mb-4">Dashboard Design Variations</h1>
           <div className="flex gap-3 flex-wrap">
             {(Object.keys(variants) as VariantKey[]).map((key) => (
               <button

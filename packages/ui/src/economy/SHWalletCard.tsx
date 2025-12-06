@@ -14,30 +14,30 @@ export interface SHWalletCardProps {
 
 export function SHWalletCard({ wallet, ownershipPercentage, totalCirculation, className = '' }: SHWalletCardProps) {
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
+      <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
         Social Horizon
       </h2>
 
-      <div className="space-y-4">
+      <div className="space-y-2">
         {/* Current Balance */}
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600 dark:text-gray-400">Your Balance</span>
-          <span className="text-2xl font-bold text-emerald-600">{wallet.shBalance.toFixed(4)} SH</span>
+          <span className="text-sm font-bold text-emerald-600">{wallet.shBalance.toFixed(4)} SH</span>
         </div>
 
         <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
           {/* Total Issued */}
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-700 dark:text-gray-300">Total Received</span>
-            <span className="text-lg font-semibold text-gray-600 dark:text-gray-400">{wallet.totalIssued.toFixed(4)} SH</span>
+            <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">{wallet.totalIssued.toFixed(4)} SH</span>
           </div>
 
           {/* Ownership Percentage */}
           {ownershipPercentage !== undefined && (
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-700 dark:text-gray-300">Ownership</span>
-              <span className="text-lg font-semibold text-indigo-600">{ownershipPercentage.toFixed(4)}%</span>
+              <span className="text-sm font-semibold text-indigo-600">{ownershipPercentage.toFixed(4)}%</span>
             </div>
           )}
 

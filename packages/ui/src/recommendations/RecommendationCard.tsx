@@ -37,7 +37,7 @@ export function RecommendationCard({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow">
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-wrap">
@@ -57,7 +57,7 @@ export function RecommendationCard({
       </div>
 
       {/* Content */}
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
         {recommendation.title}
       </h3>
       <p className="text-gray-700 mb-4">{recommendation.description}</p>
@@ -143,14 +143,14 @@ export function RecommendationList({
 }: RecommendationListProps) {
   if (recommendations.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-6 text-gray-500">
         <p>{emptyMessage}</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {recommendations.map((rec) => (
         <RecommendationCard
           key={rec.id}

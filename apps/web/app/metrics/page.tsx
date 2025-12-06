@@ -82,9 +82,9 @@ export default function MetricsPage() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <p className="text-lg text-gray-600 dark:text-gray-400">Loading metrics...</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Loading metrics...</p>
         </div>
       </div>
     )
@@ -92,9 +92,9 @@ export default function MetricsPage() {
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-900 dark:text-red-100 mb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-red-900 dark:text-red-100 mb-2">
             Error Loading Metrics
           </h2>
           <p className="text-red-700 dark:text-red-300">{error}</p>
@@ -104,12 +104,12 @@ export default function MetricsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-sm font-bold text-gray-900 dark:text-white">
               Metrics & Review
             </h1>
             <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-sm font-medium rounded-full">
@@ -117,14 +117,14 @@ export default function MetricsPage() {
             </span>
           </div>
         </div>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
+        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-3xl">
           Track whether decisions achieve their goals, trigger re-evaluation when they don&apos;t,
           and create a feedback loop for continuous improvement.
         </p>
       </div>
 
       {/* Quick Links */}
-      <div className="grid gap-4 sm:grid-cols-3 mb-8">
+      <div className="grid gap-4 sm:grid-cols-3 mb-4">
         <Link
           href="/metrics/templates"
           className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-orange-500 dark:hover:border-orange-400 transition-colors"
@@ -178,13 +178,13 @@ export default function MetricsPage() {
       </div>
 
       {/* What This Module Does */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
           What This Module Does
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-400">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
@@ -213,7 +213,7 @@ export default function MetricsPage() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 text-sm rounded-full">
                 Collective Governance
@@ -235,7 +235,7 @@ export default function MetricsPage() {
       />
 
       {/* For Developers */}
-      <div className="bg-bg-2 rounded-lg border border-border p-4 mt-8">
+      <div className="bg-bg-2 rounded-lg border border-border p-4 mt-4">
         <p className="text-ink-700 flex items-center gap-2">
           <span className="font-medium">For Developers:</span>
           <a

@@ -55,7 +55,7 @@ export function Feed() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center justify-between text-base">
+        <CardTitle className="flex items-center justify-between text-sm">
           Feed
           <Button size="sm" className="h-7 text-xs px-2">
             + Create Post
@@ -71,7 +71,7 @@ export function Feed() {
           <Button variant="ghost" size="sm" className="h-7 text-xs px-2">Trending</Button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-2">
           {feedItems.map((item) => (
             <div key={item.id} className="border-b pb-3 last:border-b-0 last:pb-0">
               {item.type === "Post" && (

@@ -80,7 +80,7 @@ export function ActionRecommendations({
 
   if (recommendations.length === 0) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
         <p className="text-gray-600 mb-2">No recommendations available right now.</p>
         <p className="text-gray-500 text-sm">
           Keep engaging with topics you care about to get personalized suggestions.
@@ -137,9 +137,9 @@ export function ActionRecommendations({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recommended Actions</h3>
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Recommended Actions</h3>
         <span className="text-sm text-gray-500">{recommendations.length} suggestions</span>
       </div>
 
@@ -152,7 +152,7 @@ export function ActionRecommendations({
           >
             <div className="flex items-start gap-3">
               {/* Icon */}
-              <div className="text-2xl flex-shrink-0">{getTypeIcon(rec.type)}</div>
+              <div className="text-sm flex-shrink-0">{getTypeIcon(rec.type)}</div>
 
               {/* Content */}
               <div className="flex-grow min-w-0">

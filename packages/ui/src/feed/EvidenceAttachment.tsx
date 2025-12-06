@@ -45,10 +45,10 @@ export function EvidenceAttachment({ postId, onSubmit, onCancel }: EvidenceAttac
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4">
-        <h2 className="text-2xl font-bold mb-4">Add Evidence</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 max-w-2xl w-full mx-4">
+        <h2 className="text-sm font-bold mb-4">Add Evidence</h2>
 
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div>
             <label className="block text-sm font-medium mb-2">URL *</label>
             <input

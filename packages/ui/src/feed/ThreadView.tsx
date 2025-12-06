@@ -11,7 +11,7 @@ export interface ThreadViewProps {
 
 export function ThreadView({ posts, authorNames, onReply }: ThreadViewProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {posts.map(post => (
         <div key={post.id} className={`bg-white dark:bg-gray-800 rounded-lg border p-4 ${post.parentId ? 'ml-8' : ''}`}>
           <div className="flex items-center gap-2 mb-2">

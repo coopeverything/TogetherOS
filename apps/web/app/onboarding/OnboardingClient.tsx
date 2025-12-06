@@ -232,7 +232,7 @@ export default function OnboardingClient({ user }: { user: User }) {
   };
 
   return (
-    <div className="min-h-screen bg-bg-0 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-bg-0 flex items-center justify-center px-4 py-4">
       {/* RP Animation */}
       {showRPAnimation && currentRPReward && (
         <RPEarnedAnimation
@@ -243,9 +243,9 @@ export default function OnboardingClient({ user }: { user: User }) {
       )}
 
       <div className="max-w-3xl w-full">
-        <Card className="p-8">
+        <Card className="p-4">
           {/* Progress Bar */}
-          <div className="mb-8">
+          <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-ink-700">Step {step} of {totalSteps}</span>
               {totalRPEarned > 0 && (
@@ -259,10 +259,10 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 1: Welcome */}
           {step === 1 && (
-            <div className="text-center space-y-6">
+            <div className="text-center space-y-2">
               <div className="text-6xl mb-4">🌱</div>
-              <h1 className="text-3xl font-bold text-ink-900">Welcome to TogetherOS</h1>
-              <p className="text-lg text-ink-700">
+              <h1 className="text-sm font-bold text-ink-900">Welcome to TogetherOS</h1>
+              <p className="text-sm text-ink-700">
                 You've just joined a community building a new way to organize—where cooperation
                 replaces competition, where communities solve their own problems, and where your
                 skills actually matter.
@@ -281,16 +281,16 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 2: Name + Bio */}
           {step === 2 && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-ink-900 mb-2">Tell us about yourself</h1>
-                <p className="text-lg text-ink-700">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">Tell us about yourself</h1>
+                <p className="text-sm text-ink-700">
                   This helps others connect with you.
                 </p>
                 <p className="text-sm text-brand-600 mt-2">+15 RP for completing this step</p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <div>
                   <Label htmlFor="name">What should we call you? *</Label>
                   <Input
@@ -333,10 +333,10 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 3: Location */}
           {step === 3 && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-ink-900 mb-2">Where are you based?</h1>
-                <p className="text-lg text-ink-700">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">Where are you based?</h1>
+                <p className="text-sm text-ink-700">
                   This helps us connect you with local initiatives and groups.
                 </p>
                 <p className="text-sm text-brand-600 mt-2">+10 RP for completing this step</p>
@@ -369,10 +369,10 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 4: Cooperation Paths */}
           {step === 4 && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-ink-900 mb-2">Choose Your Paths</h1>
-                <p className="text-lg text-ink-700">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">Choose Your Paths</h1>
+                <p className="text-sm text-ink-700">
                   Select the areas you're interested in. You can choose as many as you like.
                 </p>
                 <p className="text-sm text-brand-600 mt-2">+20 RP for selecting your paths</p>
@@ -391,14 +391,14 @@ export default function OnboardingClient({ user }: { user: User }) {
                       onClick={() => togglePath(path.id)}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="text-3xl">{path.emoji}</div>
+                        <div className="text-sm">{path.emoji}</div>
                         <div>
                           <div className="font-semibold text-ink-900">{path.name}</div>
                           <div className="text-sm text-ink-700">{path.desc}</div>
                         </div>
                       </div>
                       {isSelected && (
-                        <div className="absolute top-2 right-2 text-brand-600 text-xl">✓</div>
+                        <div className="absolute top-2 right-2 text-brand-600 text-sm">✓</div>
                       )}
                     </Card>
                   );
@@ -423,10 +423,10 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 5: Skills */}
           {step === 5 && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-ink-900 mb-2">What skills can you share?</h1>
-                <p className="text-lg text-ink-700">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">What skills can you share?</h1>
+                <p className="text-sm text-ink-700">
                   Help others know what you can contribute.
                 </p>
                 <p className="text-sm text-brand-600 mt-2">+15 RP for sharing your skills</p>
@@ -457,16 +457,16 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 6: Quick Questionnaire */}
           {step === 6 && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-ink-900 mb-2">A few quick questions</h1>
-                <p className="text-lg text-ink-700">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">A few quick questions</h1>
+                <p className="text-sm text-ink-700">
                   Help us personalize your experience.
                 </p>
                 <p className="text-sm text-brand-600 mt-2">+30 RP for completing questionnaire</p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-2">
                 {QUESTIONNAIRE_QUESTIONS.map((q) => (
                   <div key={q.id} className="space-y-3">
                     <p className="font-medium text-ink-900">{q.question}</p>
@@ -511,10 +511,10 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 7: Join First Group */}
           {step === 7 && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-ink-900 mb-2">Join your first group</h1>
-                <p className="text-lg text-ink-700">
+                <h1 className="text-sm font-bold text-ink-900 mb-2">Join your first group</h1>
+                <p className="text-sm text-ink-700">
                   Groups are where the community comes together. Pick one to start!
                 </p>
                 <p className="text-sm text-brand-600 mt-2">+25 RP for joining a group</p>
@@ -533,7 +533,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                       onClick={() => setFormData({ ...formData, selectedGroup: group.id })}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="text-3xl">{group.emoji}</div>
+                        <div className="text-sm">{group.emoji}</div>
                         <div>
                           <div className="font-semibold text-ink-900">{group.name}</div>
                           <div className="text-sm text-ink-700">{group.desc}</div>
@@ -541,7 +541,7 @@ export default function OnboardingClient({ user }: { user: User }) {
                         </div>
                       </div>
                       {isSelected && (
-                        <div className="absolute top-2 right-2 text-brand-600 text-xl">✓</div>
+                        <div className="absolute top-2 right-2 text-brand-600 text-sm">✓</div>
                       )}
                     </Card>
                   );
@@ -561,12 +561,12 @@ export default function OnboardingClient({ user }: { user: User }) {
 
           {/* Step 8: Completion */}
           {step === 8 && (
-            <div className="text-center space-y-6">
+            <div className="text-center space-y-2">
               <div className="text-6xl mb-4">🎉</div>
-              <h1 className="text-3xl font-bold text-ink-900">You're all set!</h1>
+              <h1 className="text-sm font-bold text-ink-900">You're all set!</h1>
 
-              <div className="bg-gradient-to-r from-brand-50 to-green-50 border border-brand-200 rounded-xl p-6">
-                <p className="text-2xl font-bold text-brand-700 mb-2">
+              <div className="bg-gradient-to-r from-brand-50 to-green-50 border border-brand-200 rounded-xl p-4">
+                <p className="text-sm font-bold text-brand-700 mb-2">
                   {totalRPEarned + 50} RP Total
                 </p>
                 <p className="text-brand-600">

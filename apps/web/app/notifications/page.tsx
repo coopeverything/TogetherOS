@@ -92,11 +92,11 @@ export default function NotificationsPage() {
   ]
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-3">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Notifications</h1>
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white">Notifications</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             {counts.unread > 0 ? `${counts.unread} unread` : 'All caught up!'}
           </p>
@@ -124,7 +124,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 mb-6 flex-wrap border-b border-gray-200 dark:border-gray-700 pb-4">
+      <div className="flex gap-2 mb-3 flex-wrap border-b border-gray-200 dark:border-gray-700 pb-4">
         {filters.map((filter) => (
           <button
             key={filter.key}
@@ -147,13 +147,13 @@ export default function NotificationsPage() {
 
       {/* Notifications List */}
       {loading ? (
-        <div className="flex items-center justify-center py-12">
+        <div className="flex items-center justify-center py-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
         </div>
       ) : notifications.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-4xl mb-4">🔔</div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No notifications</h3>
+        <div className="text-center py-6">
+          <div className="text-sm mb-4">🔔</div>
+          <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">No notifications</h3>
           <p className="text-gray-600 dark:text-gray-400">
             {activeFilter === 'unread'
               ? "You're all caught up!"
@@ -172,7 +172,7 @@ export default function NotificationsPage() {
               }`}
             >
               <div className="flex items-start gap-3">
-                <div className="text-2xl flex-shrink-0">{notif.icon}</div>
+                <div className="text-sm flex-shrink-0">{notif.icon}</div>
                 <div className="flex-1 min-w-0">
                   <h3
                     className={`font-semibold mb-1 ${

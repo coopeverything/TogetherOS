@@ -87,7 +87,7 @@ export function AvatarUpload({
   };
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn('space-y-2', className)}>
       <div className="flex items-center gap-4">
         <Avatar src={preview} alt={name} size="xl" />
         {preview && (

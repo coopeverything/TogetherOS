@@ -66,7 +66,7 @@ export function ServiceBrowser({
   }
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div className={`space-y-2 ${className}`}>
       {/* Filters */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Filter Services</h3>
@@ -121,12 +121,12 @@ export function ServiceBrowser({
 
       {/* Services List */}
       {isLoading ? (
-        <div className="text-center py-8">
+        <div className="text-center py-4">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
           <p className="mt-2 text-gray-500 dark:text-gray-400">Loading services...</p>
         </div>
       ) : services.length === 0 ? (
-        <div className="text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <div className="text-center py-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <p className="text-gray-500 dark:text-gray-400">No services found matching your filters.</p>
         </div>
       ) : (
@@ -142,12 +142,12 @@ export function ServiceBrowser({
                                text-teal-800 dark:text-teal-200 rounded">
                   {formatServiceType(service.serviceType)}
                 </span>
-                <span className="text-lg font-bold text-teal-600">
+                <span className="text-sm font-bold text-teal-600">
                   {service.tbcPerHour} TBC/hr
                 </span>
               </div>
 
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
                 {service.title}
               </h4>
 

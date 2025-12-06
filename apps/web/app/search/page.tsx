@@ -114,17 +114,17 @@ export default function SearchPage() {
   }, []);
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
+    <div className="container mx-auto max-w-4xl px-4 py-4">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Search</h1>
+      <div className="mb-4">
+        <h1 className="text-sm font-bold">Search</h1>
         <p className="mt-2 text-muted-foreground">
           Find proposals, discussions, and community content
         </p>
       </div>
 
       {/* Search Bar */}
-      <div className="mb-6">
+      <div className="mb-3">
         <SearchBar
           onSearch={handleSearch}
           autoFocus={!initialQuery}
@@ -133,13 +133,13 @@ export default function SearchPage() {
       </div>
 
       {/* Filters */}
-      <div className="mb-6">
+      <div className="mb-3">
         <SearchFilters filters={filters} onFilterChange={handleFilterChange} />
       </div>
 
       {/* Error Message */}
       {error && (
-        <div className="mb-6 rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
+        <div className="mb-3 rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
           {error}
         </div>
       )}
@@ -154,7 +154,7 @@ export default function SearchPage() {
 
       {/* Search Metadata (for debugging) */}
       {results && !isLoading && (
-        <div className="mt-8 text-xs text-muted-foreground">
+        <div className="mt-4 text-xs text-muted-foreground">
           Search completed in {results.took_ms}ms
         </div>
       )}

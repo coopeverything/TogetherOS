@@ -13,7 +13,7 @@ export function YourTopPriorities() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">Your Top Priorities</CardTitle>
+        <CardTitle className="text-sm">Your Top Priorities</CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
         <ul className="space-y-1.5">

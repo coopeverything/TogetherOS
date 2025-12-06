@@ -40,11 +40,11 @@ export default function DesignGalleryPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-4 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+        <div className="mb-4">
+          <h1 className="text-sm font-semibold text-ink-900 mb-2">
             Design Gallery
           </h1>
           <p className="text-sm text-ink-700">
@@ -53,7 +53,7 @@ export default function DesignGalleryPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 bg-bg-2 p-1 rounded-lg w-fit">
+        <div className="flex gap-1 mb-3 bg-bg-2 p-1 rounded-lg w-fit">
           {tabs.map(tab => (
             <button
               key={tab.id}
@@ -71,7 +71,7 @@ export default function DesignGalleryPage() {
 
         {/* Tokens Tab */}
         {activeTab === 'tokens' && (
-          <div className="space-y-8">
+          <div className="space-y-3">
             {/* Typography */}
             <div className="bg-bg-1 rounded-lg border border-border p-4">
               <h3 className="font-medium text-ink-900 mb-4">Typography Scale</h3>
@@ -116,7 +116,7 @@ export default function DesignGalleryPage() {
             {/* Shadows */}
             <div className="bg-bg-1 rounded-lg border border-border p-4">
               <h3 className="font-medium text-ink-900 mb-4">Shadows</h3>
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-4">
                 {['sm', 'md', 'lg', 'xl', '2xl'].map(size => (
                   <div key={size} className="flex flex-col items-center gap-2">
                     <div
@@ -133,7 +133,7 @@ export default function DesignGalleryPage() {
             {/* Border Radius */}
             <div className="bg-bg-1 rounded-lg border border-border p-4">
               <h3 className="font-medium text-ink-900 mb-4">Border Radius</h3>
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-4">
                 {[
                   { name: 'sm', class: 'rounded-sm' },
                   { name: 'md', class: 'rounded-md' },
@@ -158,7 +158,7 @@ export default function DesignGalleryPage() {
 
         {/* Components Tab */}
         {activeTab === 'components' && (
-          <div className="space-y-8">
+          <div className="space-y-3">
             {/* Buttons */}
             <div className="bg-bg-1 rounded-lg border border-border p-4">
               <h3 className="font-medium text-ink-900 mb-4">Buttons</h3>
@@ -255,7 +255,7 @@ export default function DesignGalleryPage() {
         )}
 
         {/* Back Link */}
-        <div className="mt-8 pt-4 border-t border-border">
+        <div className="mt-4 pt-4 border-t border-border">
           <a
             href="/admin"
             className="text-sm text-ink-400 hover:text-ink-700"

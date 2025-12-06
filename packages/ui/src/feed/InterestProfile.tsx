@@ -77,7 +77,7 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
 
   if (interests.length === 0) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
         <p className="text-gray-600 mb-2">No interest data yet.</p>
         <p className="text-gray-500 text-sm">
           As you engage with posts (reactions, ratings, comments), we'll track your interests here.
@@ -116,11 +116,11 @@ export function InterestProfile({ userId, showControls = true }: InterestProfile
   const risingInterests = interests.filter((i) => i.trend === 'rising').slice(0, 3);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Your Interest Profile</h3>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Your Interest Profile</h3>
           <p className="text-sm text-gray-600">
             Topics you've engaged with, sorted by interest level
           </p>

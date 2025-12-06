@@ -94,9 +94,9 @@ export default function NewProposalPage() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading...</p>
+          <p className="text-sm text-ink-700">Loading...</p>
         </div>
       </div>
     )
@@ -104,13 +104,13 @@ export default function NewProposalPage() {
 
   if (!currentUserId) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-yellow-900 mb-2">Authentication Required</h2>
+      <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-yellow-900 mb-2">Authentication Required</h2>
           <p className="text-yellow-700 mb-4">You must be logged in to create proposals.</p>
           <button
             onClick={() => router.push('/login?redirect=/governance/new')}
-            className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
+            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
           >
             Log In
           </button>
@@ -120,9 +120,9 @@ export default function NewProposalPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-4">
         <nav className="mb-4 text-sm text-ink-700">
           <Link href="/governance" className="hover:text-orange-600">
             Proposals
@@ -130,7 +130,7 @@ export default function NewProposalPage() {
           <span className="mx-2">→</span>
           <span className="text-ink-900">Create New Proposal</span>
         </nav>
-        <h1 className="text-3xl font-bold text-ink-900 mb-2">Create New Proposal</h1>
+        <h1 className="text-sm font-bold text-ink-900 mb-2">Create New Proposal</h1>
         <p className="text-ink-700">
           Start with a clear title and summary. You can add evidence, options, and other details later.
         </p>
@@ -138,13 +138,13 @@ export default function NewProposalPage() {
 
       {/* Error Display */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-3">
           <p className="text-red-700">{error}</p>
         </div>
       )}
 
       {/* Form */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6">
+      <div className="bg-bg-1 rounded-lg border border-border p-4">
         <ProposalForm
           currentUserId={currentUserId}
           groups={groups}
@@ -155,8 +155,8 @@ export default function NewProposalPage() {
       </div>
 
       {/* Help Text */}
-      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-blue-900 mb-2">Tips for Good Proposals</h2>
+      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h2 className="text-sm font-semibold text-blue-900 mb-2">Tips for Good Proposals</h2>
         <ul className="space-y-2 text-sm text-blue-800">
           <li className="flex items-start">
             <span className="text-blue-600 mr-2">•</span>

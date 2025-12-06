@@ -83,11 +83,11 @@ export default function Navigation() {
 
   return (
     <nav className="bg-white dark:bg-gray-800 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-orange-600 hover:text-orange-700 dark:text-orange-500 dark:hover:text-orange-400">
+            <Link href="/" className="text-sm font-bold text-orange-600 hover:text-orange-700 dark:text-orange-500 dark:hover:text-orange-400">
               Coopeverything
             </Link>
           </div>
@@ -250,7 +250,7 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                className={`block px-3 py-2 rounded-md text-sm font-medium ${
                   isActive(item.href)
                     ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -264,7 +264,7 @@ export default function Navigation() {
             {/* Search */}
             <Link
               href="/search"
-              className={`flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium ${
                 isActive('/search')
                   ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                   : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -280,7 +280,7 @@ export default function Navigation() {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="flex items-center gap-2 w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+              className="flex items-center gap-2 w-full px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
             >
               {darkMode ? (
                 <>
@@ -307,7 +307,7 @@ export default function Navigation() {
               <>
                 <Link
                   href="/notifications"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
                     isActive('/notifications')
                       ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -318,7 +318,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   href="/profile"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
                     isActive('/profile')
                       ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
@@ -332,7 +332,7 @@ export default function Navigation() {
                     handleLogout()
                     setMobileMenuOpen(false)
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                 >
                   Sign Out
                 </button>
@@ -341,14 +341,14 @@ export default function Navigation() {
               <>
                 <Link
                   href="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Log In
                 </Link>
                 <Link
                   href="/signup"
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-orange-600 text-white hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600"
+                  className="block px-3 py-2 rounded-md text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Sign Up

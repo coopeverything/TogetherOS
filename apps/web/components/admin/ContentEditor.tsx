@@ -104,7 +104,7 @@ export function ContentEditor({
     return (
       <div className="h-full flex items-center justify-center bg-bg-1">
         <div className="text-center text-ink-500">
-          <p className="text-lg mb-2">Select content to edit</p>
+          <p className="text-sm mb-2">Select content to edit</p>
           <p className="text-sm">Or create new content from the sidebar</p>
         </div>
       </div>
@@ -114,7 +114,7 @@ export function ContentEditor({
   return (
     <div className="h-full flex flex-col bg-bg-1">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white dark:bg-gray-800">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-border bg-white dark:bg-gray-800">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-brand-600">
@@ -158,8 +158,8 @@ export function ContentEditor({
       </div>
 
       {/* Editor Content */}
-      <div className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-2xl mx-auto space-y-6">
+      <div className="flex-1 overflow-y-auto p-4">
+        <div className="max-w-2xl mx-auto space-y-2">
           {/* Title */}
           <div>
             <label className="block text-sm font-medium text-ink-700 mb-2">
@@ -170,7 +170,7 @@ export function ContentEditor({
               value={content.title}
               onChange={(e) => onChange({ title: e.target.value })}
               placeholder="Enter a compelling title..."
-              className="w-full px-4 py-3 text-xl font-semibold border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+              className="w-full px-4 py-2 text-sm font-semibold border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
           </div>
 
@@ -339,12 +339,12 @@ function MicrolessonFields({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Bridge AI Suggestion */}
       <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-lg">🌉</span>
+            <span className="text-sm">🌉</span>
             <span className="font-medium text-purple-900">Bridge AI Assistant</span>
           </div>
           <Button
@@ -425,14 +425,14 @@ function MicrolessonFields({
 
       {/* Cards List */}
       {cards.length === 0 ? (
-        <div className="text-center py-12 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg">
+        <div className="text-center py-6 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg">
           <p className="text-ink-500 mb-2">No cards yet</p>
           <p className="text-sm text-ink-400">
             Add cards to build your microlesson, or let Bridge suggest a scenario
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {cards.sort((a, b) => a.order - b.order).map((card, index) => (
             <MicrolessonCardEditor
               key={card.id}
@@ -497,7 +497,7 @@ function MicrolessonCardEditor({
       {/* Card Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-lg">{config.icon}</span>
+          <span className="text-sm">{config.icon}</span>
           <span className="text-sm font-medium text-ink-700">
             Card {index + 1}: {config.label}
           </span>
@@ -661,7 +661,7 @@ function MicrolessonCardEditor({
                 value={card.statistic || ''}
                 onChange={(e) => onUpdate({ statistic: e.target.value })}
                 placeholder="40%"
-                className="w-full px-3 py-2 text-2xl font-bold text-center border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3 py-2 text-sm font-bold text-center border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
             <div className="col-span-2">
@@ -680,8 +680,8 @@ function MicrolessonCardEditor({
           {/* Preview */}
           {(card.statistic || card.statisticLabel) && (
             <div className="p-4 bg-white dark:bg-gray-800 rounded-lg text-center">
-              <span className="text-4xl font-bold text-orange-600">{card.statistic || '—'}</span>
-              <span className="text-lg text-ink-700 ml-2">{card.statisticLabel}</span>
+              <span className="text-sm font-bold text-orange-600">{card.statistic || '—'}</span>
+              <span className="text-sm text-ink-700 ml-2">{card.statisticLabel}</span>
             </div>
           )}
         </div>
@@ -753,7 +753,7 @@ function ChallengeFields({
           <select
             value={content.category || 'social'}
             onChange={(e) => onChange({ category: e.target.value as ChallengeCategory })}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
           >
             {CHALLENGE_CATEGORIES.map(cat => (
               <option key={cat} value={cat} className="capitalize">{cat}</option>
@@ -767,7 +767,7 @@ function ChallengeFields({
           <select
             value={content.difficulty || 'easy'}
             onChange={(e) => onChange({ difficulty: e.target.value as ChallengeDifficulty })}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
           >
             {CHALLENGE_DIFFICULTIES.map(diff => (
               <option key={diff} value={diff} className="capitalize">{diff}</option>
@@ -787,7 +787,7 @@ function ChallengeFields({
             onChange={(e) => onChange({ rpReward: parseInt(e.target.value) || 0 })}
             min={1}
             max={100}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
         <div>
@@ -797,7 +797,7 @@ function ChallengeFields({
           <select
             value={content.actionType || 'complete_journey'}
             onChange={(e) => onChange({ actionType: e.target.value as ChallengeActionType })}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
           >
             {CHALLENGE_ACTION_TYPES.map(action => (
               <option key={action} value={action}>
@@ -817,7 +817,7 @@ function ChallengeFields({
           value={content.icon || ''}
           onChange={(e) => onChange({ icon: e.target.value })}
           placeholder="e.g., wave, star, trophy"
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -843,7 +843,7 @@ function ChallengeFields({
             <select
               value={content.dayNumber || 1}
               onChange={(e) => onChange({ dayNumber: parseInt(e.target.value) })}
-              className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-800"
             >
               {[1, 2, 3, 4, 5, 6, 7].map(day => (
                 <option key={day} value={day}>Day {day}</option>
@@ -914,7 +914,7 @@ function BiasChallengeFields({
           onChange={(e) => onChange({ explanation: e.target.value })}
           placeholder="Explain the cognitive bias at play..."
           rows={3}
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
         />
       </div>
     </>
@@ -950,7 +950,7 @@ function MicroChallengeFields({
             onChange={(e) => onChange({ rpReward: parseInt(e.target.value) || 0 })}
             min={1}
             max={100}
-            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
       </div>
@@ -964,7 +964,7 @@ function MicroChallengeFields({
           onChange={(e) => onChange({ reflection: e.target.value })}
           placeholder="How do we verify completion?"
           rows={2}
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
         />
       </div>
     </>
@@ -992,7 +992,7 @@ function QuizFields({
           onChange={(e) => onChange({ story: e.target.value })}
           placeholder="Enter your question..."
           rows={2}
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
         />
       </div>
 
@@ -1044,7 +1044,7 @@ function QuizFields({
           onChange={(e) => onChange({ explanation: e.target.value })}
           placeholder="Explain why this is the correct answer..."
           rows={3}
-          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
         />
       </div>
     </>
@@ -1078,7 +1078,7 @@ function RichTextField({
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm max-w-none focus:outline-none min-h-[120px] px-4 py-3',
+        class: 'prose prose-sm max-w-none focus:outline-none min-h-[120px] px-4 py-2',
       },
     },
   });

@@ -76,7 +76,7 @@ function MetricCard({ title, value, subtitle }: { title: string; value: string |
   return (
     <div className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border">
       <h3 className="text-sm font-medium text-ink-500">{title}</h3>
-      <p className="mt-1 text-2xl font-semibold text-ink-900">{value}</p>
+      <p className="mt-1 text-sm font-semibold text-ink-900">{value}</p>
       {subtitle && <p className="text-xs text-ink-400 mt-1">{subtitle}</p>}
     </div>
   );
@@ -156,12 +156,12 @@ export default function ObservabilityDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-1 p-6">
+    <div className="min-h-screen bg-bg-1 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="text-2xl font-bold text-ink-900">Observability Dashboard</h1>
+            <h1 className="text-sm font-bold text-ink-900">Observability Dashboard</h1>
             <p className="text-sm text-ink-500">
               Real-time monitoring and system health
             </p>
@@ -204,7 +204,7 @@ export default function ObservabilityDashboard() {
         {data && (
           <>
             {/* Health Status Banner */}
-            <div className="mb-6 p-4 bg-bg-0 rounded-lg shadow-sm border border-border">
+            <div className="mb-3 p-4 bg-bg-0 rounded-lg shadow-sm border border-border">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <StatusBadge status={data.health.status} />
@@ -219,7 +219,7 @@ export default function ObservabilityDashboard() {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2 mb-6 border-b border-border">
+            <div className="flex gap-2 mb-3 border-b border-border">
               {(['overview', 'logs', 'flags', 'canary'] as const).map((tab) => (
                 <button
                   key={tab}
@@ -237,7 +237,7 @@ export default function ObservabilityDashboard() {
 
             {/* Overview Tab */}
             {activeTab === 'overview' && (
-              <div className="space-y-6">
+              <div className="space-y-2">
                 {/* Key Metrics */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <MetricCard
@@ -261,7 +261,7 @@ export default function ObservabilityDashboard() {
                 </div>
 
                 {/* By Source / Level */}
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4">
                   <div className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border">
                     <h3 className="font-medium text-ink-900 mb-3">Logs by Source</h3>
                     <div className="space-y-2">
@@ -350,7 +350,7 @@ export default function ObservabilityDashboard() {
                     </div>
                   ))}
                   {data.recentLogs.length === 0 && (
-                    <div className="p-8 text-center text-ink-500">No logs in the current time window</div>
+                    <div className="p-4 text-center text-ink-500">No logs in the current time window</div>
                   )}
                 </div>
               </div>
@@ -358,7 +358,7 @@ export default function ObservabilityDashboard() {
 
             {/* Feature Flags Tab */}
             {activeTab === 'flags' && data.featureFlags && (
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <div className="grid grid-cols-2 gap-4">
                   <MetricCard title="Total Flags" value={data.featureFlags.total} />
                   <MetricCard title="Enabled Flags" value={data.featureFlags.enabled} />
@@ -383,7 +383,7 @@ export default function ObservabilityDashboard() {
                       </div>
                     ))}
                     {data.featureFlags.flags.length === 0 && (
-                      <div className="p-8 text-center text-ink-500">No feature flags configured</div>
+                      <div className="p-4 text-center text-ink-500">No feature flags configured</div>
                     )}
                   </div>
                 </div>
@@ -392,7 +392,7 @@ export default function ObservabilityDashboard() {
 
             {/* Canary Tab */}
             {activeTab === 'canary' && data.canary && (
-              <div className="space-y-6">
+              <div className="space-y-2">
                 {/* Current Deployment */}
                 <div className="bg-bg-0 rounded-lg p-4 shadow-sm border border-border">
                   <h3 className="font-medium text-ink-900 mb-3">Current Canary Deployment</h3>
@@ -449,7 +449,7 @@ export default function ObservabilityDashboard() {
                       </div>
                     ))}
                     {data.canary.recentDeployments.length === 0 && (
-                      <div className="p-8 text-center text-ink-500">No deployment history</div>
+                      <div className="p-4 text-center text-ink-500">No deployment history</div>
                     )}
                   </div>
                 </div>

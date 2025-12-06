@@ -124,11 +124,11 @@ export default function NewEventPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-4">
         {/* Back Link */}
         <Link
           href="/events"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6"
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-3"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -136,16 +136,16 @@ export default function NewEventPage() {
           Back to Calendar
         </Link>
 
-        <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-6">
-          <h1 className="text-2xl font-bold text-ink-900 mb-6">Create New Event</h1>
+        <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
+          <h1 className="text-sm font-bold text-ink-900 mb-3">Create New Event</h1>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+            <div className="mb-3 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-2">
             {/* Title */}
             <div>
               <label className="block text-sm font-medium text-ink-700 mb-1">
@@ -365,13 +365,13 @@ export default function NewEventPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Creating...' : 'Create Event'}
               </button>
               <Link
                 href="/events"
-                className="px-6 py-3 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-2 transition-colors font-medium text-center"
+                className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-2 transition-colors font-medium text-center"
               >
                 Cancel
               </Link>

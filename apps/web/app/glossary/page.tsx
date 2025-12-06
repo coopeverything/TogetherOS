@@ -27,7 +27,7 @@ export default function GlossaryPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
@@ -47,12 +47,12 @@ export default function GlossaryPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Glossary</h1>
+              <h1 className="text-sm font-bold text-gray-900 dark:text-white">Glossary</h1>
               <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500">Quick definitions, deeper links</p>
             </div>
           </div>
 
-          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed max-w-3xl">
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed max-w-3xl">
             Terms used throughout TogetherOS. Each term has a brief definition
             and links to wiki articles for deeper understanding. When you see a{' '}
             <span className="border-b border-dotted border-gray-400 cursor-help">
@@ -87,19 +87,19 @@ export default function GlossaryPage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="text-sm font-bold text-gray-900 dark:text-white">
               {glossaryTerms.length}
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Terms Defined</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <div className="text-2xl font-bold text-emerald-600">
+            <div className="text-sm font-bold text-emerald-600">
               {sortedLetters.length}
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Letters Used</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 text-center md:col-span-1 col-span-2">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-sm font-bold text-blue-600">
               {glossaryTerms.filter((t) => t.wikiArticleSlug).length}
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">With Wiki Articles</div>
@@ -107,7 +107,7 @@ export default function GlossaryPage() {
         </div>
 
         {/* Alphabet Navigation */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-8 sticky top-4 z-10">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-4 sticky top-4 z-10">
           <div className="flex flex-wrap gap-1 justify-center">
             {alphabet.map((letter) => {
               const hasTerms = groupedTerms[letter]
@@ -132,7 +132,7 @@ export default function GlossaryPage() {
         <div className="space-y-10">
           {sortedLetters.map((letter) => (
             <section key={letter} id={`letter-${letter}`}>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
+              <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
                 <span className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
                   {letter}
                 </span>
@@ -156,7 +156,7 @@ export default function GlossaryPage() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors mb-1">
+                          <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors mb-1">
                             {term.word}
                           </h3>
                           <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 leading-relaxed">
@@ -215,7 +215,7 @@ export default function GlossaryPage() {
         </div>
 
         {/* Footer */}
-        <div className="mt-12 p-6 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-100">
+        <div className="mt-12 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-100">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
             Language is never final
           </h3>

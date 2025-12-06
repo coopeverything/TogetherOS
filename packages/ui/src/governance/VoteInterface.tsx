@@ -66,7 +66,7 @@ export function VoteInterface({
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Current Vote Display */}
       {currentVote && (
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -80,19 +80,19 @@ export function VoteInterface({
       {/* Vote Tally */}
       <div className="grid grid-cols-4 gap-4">
         <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-          <div className="text-3xl font-bold text-green-700">{tally.consent}</div>
+          <div className="text-sm font-bold text-green-700">{tally.consent}</div>
           <div className="text-sm text-green-600">Consent</div>
         </div>
         <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-          <div className="text-3xl font-bold text-yellow-700">{tally.concern}</div>
+          <div className="text-sm font-bold text-yellow-700">{tally.concern}</div>
           <div className="text-sm text-yellow-600">Concern</div>
         </div>
         <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div className="text-3xl font-bold text-gray-700">{tally.abstain}</div>
+          <div className="text-sm font-bold text-gray-700">{tally.abstain}</div>
           <div className="text-sm text-gray-600">Abstain</div>
         </div>
         <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
-          <div className="text-3xl font-bold text-red-700">{tally.block}</div>
+          <div className="text-sm font-bold text-red-700">{tally.block}</div>
           <div className="text-sm text-red-600">Block</div>
         </div>
       </div>
@@ -124,7 +124,7 @@ export function VoteInterface({
       </div>
 
       {/* Vote Buttons */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         <h3 className="font-semibold text-gray-900 dark:text-white">Cast Your Vote</h3>
         <div className="grid grid-cols-2 gap-4">
           {voteButtons.map((btn) => (
@@ -138,7 +138,7 @@ export function VoteInterface({
                   }
                 }}
                 disabled={disabled || isVoting}
-                className={`w-full px-6 py-3 rounded-lg font-medium transition-colors ${btn.color} ${
+                className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${btn.color} ${
                   currentVote === btn.type ? 'ring-2 ring-offset-2 ring-blue-500' : ''
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >

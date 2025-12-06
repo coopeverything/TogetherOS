@@ -25,8 +25,8 @@ export function NeonNoir() {
         background: 'rgba(10, 10, 20, 0.95)',
         boxShadow: '0 0 20px rgba(255, 0, 255, 0.5)'
       }}>
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <h1 className="text-4xl font-black mb-2" style={{
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <h1 className="text-sm font-black mb-2" style={{
             color: '#ff00ff',
             textShadow: '0 0 10px #ff00ff, 0 0 20px #ff00ff, 2px 2px 0 #00ffff',
             letterSpacing: '0.1em'
@@ -43,10 +43,10 @@ export function NeonNoir() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {/* LEFT SIDEBAR */}
-          <aside className="space-y-4">
+          <aside className="space-y-2">
             <div className="border-2 p-4" style={{
               borderColor: '#ff00ff',
               background: 'rgba(255, 0, 255, 0.05)',
@@ -108,7 +108,7 @@ export function NeonNoir() {
           </aside>
 
           {/* CENTRAL FEED */}
-          <main className="lg:col-span-2 space-y-4">
+          <main className="lg:col-span-2 space-y-2">
             <div className="border-2 p-4" style={{
               borderColor: '#ff00ff',
               background: 'rgba(10, 10, 20, 0.8)'
@@ -140,7 +140,7 @@ export function NeonNoir() {
               { title: 'COMMUNITY VOTE LIVE', type: 'VOTE', color: '#00ffff' },
               { title: 'CLIMATE ACTION NOW', type: 'EVENT', color: '#00ff88' }
             ].map((post, i) => (
-              <div key={i} className="border-2 p-6" style={{
+              <div key={i} className="border-2 p-4" style={{
                 borderColor: post.color,
                 background: `rgba(${post.color === '#ff0055' ? '255,0,85' : post.color === '#00ffff' ? '0,255,255' : '0,255,136'}, 0.05)`,
                 boxShadow: `0 0 20px ${post.color}40`,
@@ -160,7 +160,7 @@ export function NeonNoir() {
                 }}>
                   [{post.type}]
                 </div>
-                <h3 className="text-xl font-black mb-3" style={{
+                <h3 className="text-sm font-black mb-3" style={{
                   color: '#ffffff',
                   textShadow: `0 0 10px ${post.color}`
                 }}>
@@ -176,7 +176,7 @@ export function NeonNoir() {
           </main>
 
           {/* RIGHT SIDEBAR */}
-          <aside className="space-y-4">
+          <aside className="space-y-2">
             <div className="border-2 p-4" style={{
               borderColor: '#00ff88',
               background: 'rgba(0, 255, 136, 0.05)',

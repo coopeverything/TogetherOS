@@ -54,31 +54,31 @@ export default function NewGroupPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-3xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-4">
         <Link
           href="/groups"
           className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-4 inline-block"
         >
           ← Back to Groups
         </Link>
-        <h1 className="text-4xl font-bold text-ink-900 mb-2">Create a Group</h1>
-        <p className="text-lg text-ink-700">
+        <h1 className="text-sm font-bold text-ink-900 mb-2">Create a Group</h1>
+        <p className="text-sm text-ink-700">
           Start a new cooperative community with transparent governance and shared resources.
         </p>
       </div>
 
       {/* Error Alert */}
       {error && (
-        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="mb-3 bg-red-50 border border-red-200 rounded-lg p-4">
           <p className="text-red-800 font-medium">Error creating group</p>
           <p className="text-red-600 text-sm mt-1">{error}</p>
         </div>
       )}
 
       {/* Form */}
-      <div className="bg-bg-1 rounded-lg border border-border p-6">
+      <div className="bg-bg-1 rounded-lg border border-border p-4">
         <CreateGroupForm
           onSubmit={handleSubmit}
           onCancel={handleCancel}
@@ -87,8 +87,8 @@ export default function NewGroupPage() {
       </div>
 
       {/* Guidelines */}
-      <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-6">
-        <h2 className="text-lg font-semibold text-blue-900 mb-3">Group Guidelines</h2>
+      <div className="mt-4 bg-blue-50 rounded-lg border border-blue-200 p-4">
+        <h2 className="text-sm font-semibold text-blue-900 mb-3">Group Guidelines</h2>
         <ul className="space-y-2 text-sm text-blue-800">
           <li className="flex items-start">
             <span className="text-blue-600 mr-2">•</span>

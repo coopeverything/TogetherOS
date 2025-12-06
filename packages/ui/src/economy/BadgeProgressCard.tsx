@@ -31,11 +31,11 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
   const unearnedBadges = badges.filter((b) => !earnedBadgeIds.has(b.id))
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Badges</h2>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
+      <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Badges</h2>
 
       {/* Earned Badges */}
-      <div className="mb-6">
+      <div className="mb-3">
         <h3 className="text-sm font-medium text-gray-700 mb-3">
           Earned ({earnedBadges.length})
         </h3>
@@ -51,7 +51,7 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
                   key={badge.id}
                   className={`${colors.bg} ${colors.border} border rounded-lg p-3 text-center`}
                 >
-                  <div className="text-2xl mb-1">{badge.icon}</div>
+                  <div className="text-sm mb-1">{badge.icon}</div>
                   <div className={`text-sm font-medium ${colors.text}`}>{badge.name}</div>
                   {memberBadge && (
                     <div className="text-xs text-gray-500 mt-1">
@@ -79,7 +79,7 @@ export function BadgeProgressCard({ badges, memberBadges, className = '' }: Badg
                   key={badge.id}
                   className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700"
                 >
-                  <div className="text-xl opacity-50">{badge.icon}</div>
+                  <div className="text-sm opacity-50">{badge.icon}</div>
                   <div className="flex-1">
                     <div className="text-sm font-medium text-gray-600">{badge.name}</div>
                     <div className="text-xs text-gray-500">{badge.criteria}</div>

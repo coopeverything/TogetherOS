@@ -68,7 +68,7 @@ export function TrendLines({
 
   if (data.length === 0) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
         <p className="text-gray-600">No trend data available for this topic yet.</p>
       </div>
     );
@@ -133,14 +133,14 @@ export function TrendLines({
   };
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    <div className="space-y-2">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
           Sentiment Trends: {topic}
         </h3>
 
         {/* Legend */}
-        <div className="flex gap-6 mb-4 text-sm">
+        <div className="flex gap-4 mb-4 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-4 h-1 bg-blue-600"></div>
             <span className="text-gray-700">Sentiment (-1 to +1)</span>
@@ -266,7 +266,7 @@ export function TrendLines({
         <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
           <div className="bg-blue-50 rounded p-3">
             <div className="text-blue-600 font-semibold">Current Sentiment</div>
-            <div className="text-blue-900 text-lg">
+            <div className="text-blue-900 text-sm">
               {data[data.length - 1].avg_sentiment.toFixed(2)}
             </div>
             <div className="text-blue-600 text-xs">
@@ -275,7 +275,7 @@ export function TrendLines({
           </div>
           <div className="bg-green-50 rounded p-3">
             <div className="text-green-600 font-semibold">Current Consensus</div>
-            <div className="text-green-900 text-lg">
+            <div className="text-green-900 text-sm">
               {Math.round(data[data.length - 1].consensus_score * 100)}%
             </div>
             <div className="text-green-600 text-xs">
@@ -285,7 +285,7 @@ export function TrendLines({
           {showEngagement && (
             <div className="bg-purple-50 rounded p-3">
               <div className="text-purple-600 font-semibold">Current Engagement</div>
-              <div className="text-purple-900 text-lg">
+              <div className="text-purple-900 text-sm">
                 {data[data.length - 1].engagement_level}
               </div>
               <div className="text-purple-600 text-xs">Total interactions</div>

@@ -57,8 +57,8 @@ export function RPToTBCConverter({
   const canConvert = maxConvertible >= rpPerTBC
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
+      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
         Convert RP to TBC
       </h3>
 
@@ -86,7 +86,7 @@ export function RPToTBCConverter({
 
       {/* Conversion Input */}
       {canConvert ? (
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Amount to Convert
@@ -111,7 +111,7 @@ export function RPToTBCConverter({
           <div className="bg-gray-50 dark:bg-gray-900 rounded-md p-3">
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-600 dark:text-gray-400">You will receive</span>
-              <span className="text-xl font-bold text-teal-600">{tbcToReceive.toFixed(2)} TBC</span>
+              <span className="text-sm font-bold text-teal-600">{tbcToReceive.toFixed(2)} TBC</span>
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Rate: {rpPerTBC} RP = 1 TBC

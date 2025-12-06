@@ -17,8 +17,8 @@ export default function BridgeError({
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
-        <div className="mb-6">
+      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 text-center">
+        <div className="mb-3">
           <svg
             className="mx-auto h-16 w-16 text-red-500"
             fill="none"
@@ -35,16 +35,16 @@ export default function BridgeError({
           </svg>
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-2">
           Bridge is temporarily unavailable
         </h2>
 
-        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-6">
+        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-3">
           We encountered an error while loading Bridge. This has been logged and we'll look into it.
         </p>
 
         {error.message && (
-          <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6 text-left">
+          <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-3 text-left">
             <p className="text-sm text-red-800 font-mono break-words">
               {error.message}
             </p>
@@ -54,14 +54,14 @@ export default function BridgeError({
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
-            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
+            className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
           >
             Try again
           </button>
 
           <Link
             href="/"
-            className="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium rounded-md transition-colors"
+            className="px-4 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium rounded-md transition-colors"
           >
             Go home
           </Link>

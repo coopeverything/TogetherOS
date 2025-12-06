@@ -159,9 +159,9 @@ export default function SecurityAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-bg-1 p-8">
+      <div className="min-h-screen bg-bg-1 p-4">
         <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse space-y-4">
+          <div className="animate-pulse space-y-2">
             <div className="h-8 bg-bg-2 rounded w-1/4"></div>
             <div className="h-32 bg-bg-2 rounded"></div>
           </div>
@@ -171,12 +171,12 @@ export default function SecurityAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-1 p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-bg-1 p-4">
+      <div className="max-w-7xl mx-auto space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-ink-900">
+            <h1 className="text-sm font-bold text-ink-900">
               Security Dashboard
             </h1>
             <p className="text-ink-400 mt-1">
@@ -203,7 +203,7 @@ export default function SecurityAdminPage() {
               <div className="text-sm text-ink-400">
                 {metric.name}
               </div>
-              <div className="text-2xl font-bold text-ink-900 flex items-center gap-1">
+              <div className="text-sm font-bold text-ink-900 flex items-center gap-1">
                 {metric.value}
                 {getTrendIcon(metric.trend)}
               </div>
@@ -216,8 +216,8 @@ export default function SecurityAdminPage() {
 
         {/* Security Features */}
         <div className="bg-bg-0 rounded-lg shadow-sm border border-border">
-          <div className="p-6 border-b border-border">
-            <h2 className="text-xl font-semibold text-ink-900">
+          <div className="p-4 border-b border-border">
+            <h2 className="text-sm font-semibold text-ink-900">
               Security Features
             </h2>
           </div>
@@ -255,8 +255,8 @@ export default function SecurityAdminPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">
+        <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">
             Quick Actions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -313,8 +313,8 @@ export default function SecurityAdminPage() {
         </div>
 
         {/* Implementation Details */}
-        <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-6">
-          <h2 className="text-xl font-semibold text-ink-900 mb-4">
+        <div className="bg-bg-0 rounded-lg shadow-sm border border-border p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">
             Implementation Details
           </h2>
           <div className="prose prose-sm dark:prose-invert max-w-none">

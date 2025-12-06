@@ -61,31 +61,31 @@ export default function GamificationTestPage() {
   const [currentRP, setCurrentRP] = useState(350);
 
   return (
-    <div className="min-h-screen bg-bg-1 p-6">
+    <div className="min-h-screen bg-bg-1 p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <Link href="/admin" className="text-sm text-ink-400 hover:text-ink-700 mb-2 inline-block">
               ← Back to Admin
             </Link>
-            <h1 className="text-3xl font-bold text-ink-900">Gamification Testing</h1>
+            <h1 className="text-sm font-bold text-ink-900">Gamification Testing</h1>
             <p className="text-ink-700 mt-1">
               Test all gamification components in one place
             </p>
           </div>
           <div className="text-right">
             <div className="text-sm text-ink-400">Module Progress</div>
-            <div className="text-2xl font-bold text-brand-600">100%</div>
+            <div className="text-sm font-bold text-brand-600">100%</div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* RP Animations Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">RP Animations</h2>
+          <div className="bg-bg-0 rounded-xl border border-border p-4">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">RP Animations</h2>
 
-            <div className="space-y-4">
+            <div className="space-y-2">
               <div>
                 <label className="block text-sm text-ink-700 mb-2">RP Amount</label>
                 <input
@@ -124,8 +124,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Milestone Celebration Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Milestone Celebration</h2>
+          <div className="bg-bg-0 rounded-xl border border-border p-4">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">Milestone Celebration</h2>
 
             <button
               onClick={() => setShowCelebration(true)}
@@ -148,10 +148,10 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Invitation Components Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Invitation Components</h2>
+          <div className="bg-bg-0 rounded-xl border border-border p-4">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">Invitation Components</h2>
 
-            <div className="space-y-4">
+            <div className="space-y-2">
               <div>
                 <h3 className="text-sm font-medium text-ink-700 mb-2">InviteButton Variants</h3>
                 <div className="flex flex-wrap gap-2">
@@ -202,8 +202,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Growth Tracker Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Group Growth Tracker</h2>
+          <div className="bg-bg-0 rounded-xl border border-border p-4">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">Group Growth Tracker</h2>
 
             <GroupGrowthTracker
               groupId="test-group"
@@ -213,8 +213,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* Daily Challenge Card Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">Daily Challenge Cards</h2>
+          <div className="bg-bg-0 rounded-xl border border-border p-4 lg:col-span-2">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">Daily Challenge Cards</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Pending Challenge */}
@@ -269,8 +269,8 @@ export default function GamificationTestPage() {
           </div>
 
           {/* First Week Journey Section */}
-          <div className="bg-bg-0 rounded-xl border border-border p-6 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-ink-900 mb-4">First Week Journey</h2>
+          <div className="bg-bg-0 rounded-xl border border-border p-4 lg:col-span-2">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">First Week Journey</h2>
             <p className="text-sm text-ink-400 mb-4">
               Note: This component fetches real data from the API. Use sample user ID below:
             </p>
@@ -289,8 +289,8 @@ export default function GamificationTestPage() {
         </div>
 
         {/* Feature Summary */}
-        <div className="mt-8 bg-bg-0 rounded-xl border border-border p-6">
-          <h2 className="text-lg font-semibold text-ink-900 mb-4">Gamification Module Features</h2>
+        <div className="mt-4 bg-bg-0 rounded-xl border border-border p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">Gamification Module Features</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-4 bg-green-50 rounded-lg">

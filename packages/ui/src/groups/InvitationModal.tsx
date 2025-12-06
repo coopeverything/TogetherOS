@@ -106,8 +106,8 @@ export function InvitationModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
       <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
             Invite Someone to {location}
           </h2>
           <button
@@ -123,16 +123,16 @@ export function InvitationModal({
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="p-6">
+        <form onSubmit={handleSubmit} className="p-4">
           {success ? (
             // Success State
-            <div className="text-center py-8">
+            <div className="text-center py-4">
               <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-green-100 rounded-full">
                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
                 Invitation Sent!
               </h3>
               <p className="text-sm text-gray-600 mb-4">
@@ -142,9 +142,9 @@ export function InvitationModal({
           ) : (
             <>
               {/* Reward Points Banner */}
-              <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="mb-3 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">⭐</span>
+                  <span className="text-sm">⭐</span>
                   <div>
                     <p className="text-sm font-medium text-orange-900">
                       Earn {rewardPoints} Reward Points
@@ -189,7 +189,7 @@ export function InvitationModal({
               </div>
 
               {/* Message Field */}
-              <div className="mb-6">
+              <div className="mb-3">
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Personal Message <span className="text-gray-500">(optional)</span>
                 </label>

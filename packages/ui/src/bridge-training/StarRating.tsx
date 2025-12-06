@@ -32,7 +32,7 @@ export function StarRating({ label, value, onChange, disabled = false }: StarRat
             onMouseLeave={() => setHovering(0)}
             onClick={() => !disabled && onChange(starValue)}
             disabled={disabled}
-            className={`text-2xl transition ${
+            className={`text-sm transition ${
               starValue <= displayValue
                 ? 'text-amber-400'
                 : 'text-gray-200'

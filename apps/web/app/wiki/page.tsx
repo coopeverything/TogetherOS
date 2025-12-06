@@ -63,10 +63,10 @@ function WikiCard({
   return (
     <Link
       href={`/wiki/${slug}`}
-      className="block bg-bg-1 rounded-xl border border-border p-6 hover:border-brand-500 hover:shadow-md transition-all duration-200 group"
+      className="block bg-bg-1 rounded-xl border border-border p-4 hover:border-brand-500 hover:shadow-md transition-all duration-200 group"
     >
       <div className="flex items-start justify-between gap-4 mb-3">
-        <h3 className="text-xl font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
+        <h3 className="text-sm font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
           {title}
         </h3>
         <StatusBadge status={status} />
@@ -135,7 +135,7 @@ export default function WikiPage() {
 
   return (
     <div className="min-h-screen bg-bg-0">
-      <div className="max-w-5xl mx-auto px-4 py-12">
+      <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
@@ -155,12 +155,12 @@ export default function WikiPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-ink-900">Wiki</h1>
+              <h1 className="text-sm font-bold text-ink-900">Wiki</h1>
               <p className="text-ink-400">Community-owned knowledge</p>
             </div>
           </div>
 
-          <p className="text-lg text-ink-700 leading-relaxed max-w-3xl">
+          <p className="text-sm text-ink-700 leading-relaxed max-w-3xl">
             These articles are <strong>collectively maintained</strong> by the
             community. They represent our evolving understanding of cooperation,
             governance, and how we work together. Every concept is open to
@@ -210,11 +210,11 @@ export default function WikiPage() {
         </div>
 
         {/* Status Legend */}
-        <div className="bg-bg-1 rounded-xl border border-border p-4 mb-8">
+        <div className="bg-bg-1 rounded-xl border border-border p-4 mb-4">
           <h2 className="text-sm font-medium text-ink-700 mb-3">
             Article Status
           </h2>
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2">
               <StatusBadge status="stable" />
               <span className="text-sm text-ink-700">
@@ -239,35 +239,35 @@ export default function WikiPage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-2xl font-bold text-ink-900">
+            <div className="text-sm font-bold text-ink-900">
               {wikiArticles.length}
             </div>
             <div className="text-sm text-ink-400">Articles</div>
           </div>
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-2xl font-bold text-brand-600">
+            <div className="text-sm font-bold text-brand-600">
               {stableArticles.length}
             </div>
             <div className="text-sm text-ink-400">Stable</div>
           </div>
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-2xl font-bold text-joy-600">
+            <div className="text-sm font-bold text-joy-600">
               {evolvingArticles.length}
             </div>
             <div className="text-sm text-ink-400">Evolving</div>
           </div>
           <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
-            <div className="text-2xl font-bold text-joy-600">{tags.length}</div>
+            <div className="text-sm font-bold text-joy-600">{tags.length}</div>
             <div className="text-sm text-ink-400">Topics</div>
           </div>
         </div>
 
         {/* All Articles */}
         <section>
-          <h2 className="text-xl font-semibold text-ink-900 mb-6">
+          <h2 className="text-sm font-semibold text-ink-900 mb-3">
             All Articles
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {wikiArticles.map((article) => (
               <WikiCard
                 key={article.id}
@@ -285,7 +285,7 @@ export default function WikiPage() {
         </section>
 
         {/* Footer */}
-        <div className="mt-12 p-6 bg-brand-100 rounded-xl border border-brand-500/30">
+        <div className="mt-12 p-4 bg-brand-100 rounded-xl border border-brand-500/30">
           <h3 className="font-semibold text-ink-900 mb-2">
             This is community knowledge
           </h3>

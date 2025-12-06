@@ -8,7 +8,7 @@
 export function DesertBloom() {
   return (
     <div
-      className="min-h-screen p-8"
+      className="min-h-screen p-4"
       style={{
         background: 'linear-gradient(135deg, #F4F1DE 0%, #E8DCC4 50%, #F4F1DE 100%)',
         fontFamily: 'Georgia, "Times New Roman", serif',
@@ -16,9 +16,9 @@ export function DesertBloom() {
     >
       {/* Header */}
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8 text-center">
+        <div className="mb-4 text-center">
           <h1
-            className="text-5xl font-bold mb-3"
+            className="text-sm font-bold mb-3"
             style={{
               color: '#E07A5F',
               textShadow: '3px 3px 0 #81B29A',
@@ -27,13 +27,13 @@ export function DesertBloom() {
           >
             Desert Bloom
           </h1>
-          <p className="text-xl" style={{ color: '#3D405B' }}>
+          <p className="text-sm" style={{ color: '#3D405B' }}>
             Warm earth tones meet psychedelic patterns
           </p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {[
             { label: 'Active Members', value: '1,247', icon: '🌵' },
             { label: 'Proposals', value: '89', icon: '🏜️' },
@@ -41,7 +41,7 @@ export function DesertBloom() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="p-6 rounded-2xl border-4 relative overflow-hidden"
+              className="p-4 rounded-2xl border-4 relative overflow-hidden"
               style={{
                 background: '#FEF6E4',
                 borderColor: i === 0 ? '#E07A5F' : i === 1 ? '#81B29A' : '#F2CC8F',
@@ -49,8 +49,8 @@ export function DesertBloom() {
               }}
             >
               <div className="relative z-10">
-                <div className="text-4xl mb-2">{stat.icon}</div>
-                <div className="text-3xl font-bold mb-1" style={{ color: '#3D405B' }}>
+                <div className="text-sm mb-2">{stat.icon}</div>
+                <div className="text-sm font-bold mb-1" style={{ color: '#3D405B' }}>
                   {stat.value}
                 </div>
                 <div className="text-sm uppercase tracking-wide" style={{ color: '#81B29A' }}>
@@ -70,17 +70,17 @@ export function DesertBloom() {
 
         {/* Main Content Area */}
         <div
-          className="p-8 rounded-3xl border-4 mb-8"
+          className="p-4 rounded-3xl border-4 mb-4"
           style={{
             background: 'linear-gradient(135deg, #FEF6E4 0%, #F8F0DC 100%)',
             borderColor: '#E07A5F',
             boxShadow: '12px 12px 0 rgba(129, 178, 154, 0.2)',
           }}
         >
-          <h2 className="text-3xl font-bold mb-6" style={{ color: '#3D405B' }}>
+          <h2 className="text-sm font-bold mb-3" style={{ color: '#3D405B' }}>
             Recent Activity
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {[
               { action: 'New proposal submitted', time: '2 hours ago', color: '#E07A5F' },
               { action: 'Community event scheduled', time: '5 hours ago', color: '#81B29A' },
@@ -114,7 +114,7 @@ export function DesertBloom() {
 
         {/* Quote/Philosophy Section */}
         <div
-          className="p-8 rounded-3xl border-4 text-center"
+          className="p-4 rounded-3xl border-4 text-center"
           style={{
             background: '#81B29A',
             borderColor: '#F2CC8F',
@@ -122,7 +122,7 @@ export function DesertBloom() {
           }}
         >
           <div className="text-6xl mb-4">🌺</div>
-          <p className="text-2xl italic mb-3" style={{ color: '#FEF6E4' }}>
+          <p className="text-sm italic mb-3" style={{ color: '#FEF6E4' }}>
             "Like desert flowers after rain, communities bloom through cooperation"
           </p>
           <p className="text-sm uppercase tracking-widest" style={{ color: '#F4F1DE' }}>

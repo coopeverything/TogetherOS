@@ -47,9 +47,9 @@ export default async function GlossaryTermPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-4">
         {/* Breadcrumb */}
-        <nav className="mb-6">
+        <nav className="mb-3">
           <ol className="flex items-center gap-2 text-sm text-ink-400">
             <li>
               <Link href="/glossary" className="hover:text-emerald-600">
@@ -62,9 +62,9 @@ export default async function GlossaryTermPage({ params }: Props) {
         </nav>
 
         {/* Term Header */}
-        <header className="mb-8">
+        <header className="mb-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xl">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm">
               📖
             </div>
             <span className="text-sm font-medium text-emerald-600 uppercase tracking-wide">
@@ -72,7 +72,7 @@ export default async function GlossaryTermPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-ink-900 mb-4">{term.word}</h1>
+          <h1 className="text-sm font-bold text-ink-900 mb-4">{term.word}</h1>
 
           {term.cooperationPath && (
             <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm mb-4">
@@ -82,18 +82,18 @@ export default async function GlossaryTermPage({ params }: Props) {
         </header>
 
         {/* Definition Box */}
-        <div className="bg-bg-1 rounded-xl border-2 border-emerald-200 p-6 mb-8">
+        <div className="bg-bg-1 rounded-xl border-2 border-emerald-200 p-4 mb-4">
           <h2 className="text-sm font-medium text-emerald-600 uppercase tracking-wide mb-3">
             Definition
           </h2>
-          <p className="text-xl text-ink-900 leading-relaxed">
+          <p className="text-sm text-ink-900 leading-relaxed">
             {term.shortDefinition}
           </p>
         </div>
 
         {/* Wiki Article Link */}
         {wikiArticle && (
-          <div className="mb-8">
+          <div className="mb-4">
             <h2 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Learn More
             </h2>
@@ -102,7 +102,7 @@ export default async function GlossaryTermPage({ params }: Props) {
               className="block bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-5 hover:border-blue-400 hover:shadow-md transition-all group"
             >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-lg flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm flex-shrink-0">
                   📖
                 </div>
                 <div className="flex-1">
@@ -122,7 +122,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                       {wikiArticle.status}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-ink-900 group-hover:text-blue-600 transition-colors mb-2">
+                  <h3 className="text-sm font-semibold text-ink-900 group-hover:text-blue-600 transition-colors mb-2">
                     {wikiArticle.title}
                   </h3>
                   <p className="text-ink-700 leading-relaxed mb-3">
@@ -158,7 +158,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* Related Terms */}
         {relatedTerms.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-4">
             <h2 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Terms
             </h2>
@@ -169,7 +169,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                   href={`/glossary/${related.slug}`}
                   className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-emerald-300 hover:bg-emerald-50 transition-colors group"
                 >
-                  <span className="text-lg">📖</span>
+                  <span className="text-sm">📖</span>
                   <div className="flex-1">
                     <div className="font-medium text-ink-900 group-hover:text-emerald-600 transition-colors">
                       {related.word}
@@ -198,7 +198,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         )}
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-wrap gap-4 mb-4">
           <Link
             href="/forum"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium"

@@ -10,16 +10,16 @@ export default function ActionPage() {
   const [showInterests, setShowInterests] = useState(false);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Take Action</h1>
+    <div className="container mx-auto px-4 py-4 max-w-4xl">
+      <div className="mb-4">
+        <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-2">Take Action</h1>
         <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">
           Personalized recommendations based on your interests and community needs.
         </p>
       </div>
 
       {/* Toggle between recommendations and interests */}
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-2 mb-3">
         <button
           onClick={() => setShowInterests(false)}
           className={`px-4 py-2 rounded font-medium ${
@@ -49,7 +49,7 @@ export default function ActionPage() {
         <>
           <ActionRecommendations limit={10} />
 
-          <div className="mt-8 bg-gray-50 dark:bg-gray-900 rounded-lg p-6 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
+          <div className="mt-4 bg-gray-50 dark:bg-gray-900 rounded-lg p-4 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">How Recommendations Work</h3>
             <ul className="list-disc list-inside space-y-1">
               <li>We analyze your engagement patterns (posts, reactions, ratings)</li>

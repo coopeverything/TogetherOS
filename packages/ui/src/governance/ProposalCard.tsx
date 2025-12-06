@@ -86,13 +86,13 @@ export function ProposalCard({
   return (
     <div
       onClick={handleClick}
-      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 transition-shadow ${
+      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 transition-shadow ${
         clickable ? 'hover:shadow-md cursor-pointer' : ''
       } ${className}`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
             {proposal.title}
           </h3>
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">

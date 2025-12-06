@@ -54,7 +54,7 @@ function ResultCard({ result, query }: { result: SearchResult; query: string }) 
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <h3
-              className="text-lg font-semibold"
+              className="text-sm font-semibold"
               dangerouslySetInnerHTML={{ __html: highlightText(result.title, query) }}
             />
             <div className="mt-1 flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 dark:text-gray-500">
@@ -95,7 +95,7 @@ function ResultCard({ result, query }: { result: SearchResult; query: string }) 
 export function SearchResults({ results, isLoading, query, total }: SearchResultsProps) {
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center py-6">
         <div className="text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]" />
           <p className="mt-4 text-sm text-muted-foreground">Searching...</p>
@@ -106,7 +106,7 @@ export function SearchResults({ results, isLoading, query, total }: SearchResult
 
   if (!query) {
     return (
-      <div className="py-12 text-center">
+      <div className="py-6 text-center">
         <p className="text-muted-foreground">
           Enter a search query to find proposals, topics, and more.
         </p>
@@ -116,8 +116,8 @@ export function SearchResults({ results, isLoading, query, total }: SearchResult
 
   if (results.length === 0) {
     return (
-      <div className="py-12 text-center">
-        <p className="text-lg font-medium">No results found</p>
+      <div className="py-6 text-center">
+        <p className="text-sm font-medium">No results found</p>
         <p className="mt-2 text-sm text-muted-foreground">
           Try different keywords or remove some filters
         </p>
@@ -126,7 +126,7 @@ export function SearchResults({ results, isLoading, query, total }: SearchResult
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* Results summary */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">

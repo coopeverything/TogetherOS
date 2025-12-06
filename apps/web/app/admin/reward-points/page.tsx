@@ -76,11 +76,11 @@ export default function AdminRewardPointsPage() {
 
   if (isLoading || !isAuthorized) {
     return (
-      <div className="min-h-screen bg-bg-1 p-6">
+      <div className="min-h-screen bg-bg-1 p-4">
         <div className="max-w-6xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 bg-bg-2 rounded w-64 mb-6"></div>
-            <div className="h-32 bg-bg-2 rounded mb-6"></div>
+            <div className="h-8 bg-bg-2 rounded w-64 mb-3"></div>
+            <div className="h-32 bg-bg-2 rounded mb-3"></div>
           </div>
         </div>
       </div>
@@ -88,10 +88,10 @@ export default function AdminRewardPointsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-1 p-6">
+    <div className="min-h-screen bg-bg-1 p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-4">
           <div className="flex items-center gap-2 text-sm text-ink-400 mb-4">
             <Link href="/admin" className="hover:text-purple-600 transition-colors">
               Admin
@@ -99,42 +99,42 @@ export default function AdminRewardPointsPage() {
             <span>→</span>
             <span className="text-ink-900">Reward Points</span>
           </div>
-          <h1 className="text-3xl font-bold text-ink-900 mb-2">Reward Points Administration</h1>
+          <h1 className="text-sm font-bold text-ink-900 mb-2">Reward Points Administration</h1>
           <p className="text-ink-400">Monitor RP circulation, earnings, and conversion activity</p>
         </div>
 
         {/* Stats Grid */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
             <div className="bg-bg-0 rounded-lg border border-border p-4">
               <div className="text-sm text-ink-400">Total RP Earned</div>
-              <div className="text-2xl font-bold text-purple-600">{stats.totalRPEarned.toLocaleString()}</div>
+              <div className="text-sm font-bold text-purple-600">{stats.totalRPEarned.toLocaleString()}</div>
             </div>
             <div className="bg-bg-0 rounded-lg border border-border p-4">
               <div className="text-sm text-ink-400">In Circulation</div>
-              <div className="text-2xl font-bold text-green-600">{stats.totalRPInCirculation.toLocaleString()}</div>
+              <div className="text-sm font-bold text-green-600">{stats.totalRPInCirculation.toLocaleString()}</div>
             </div>
             <div className="bg-bg-0 rounded-lg border border-border p-4">
               <div className="text-sm text-ink-400">Converted to TBC</div>
-              <div className="text-2xl font-bold text-blue-600">{stats.spentOnTBC.toLocaleString()}</div>
+              <div className="text-sm font-bold text-blue-600">{stats.spentOnTBC.toLocaleString()}</div>
             </div>
             <div className="bg-bg-0 rounded-lg border border-border p-4">
               <div className="text-sm text-ink-400">Used for SH</div>
-              <div className="text-2xl font-bold text-amber-600">{stats.spentOnSH.toLocaleString()}</div>
+              <div className="text-sm font-bold text-amber-600">{stats.spentOnSH.toLocaleString()}</div>
             </div>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Earning Breakdown */}
           <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
             <div className="p-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-ink-900">Earning Sources</h2>
+              <h2 className="text-sm font-semibold text-ink-900">Earning Sources</h2>
               <p className="text-sm text-ink-400">How RP is being earned</p>
             </div>
             <div className="p-4">
               {/* Progress bars */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {breakdown.map((item) => (
                   <div key={item.category}>
                     <div className="flex items-center justify-between mb-1">
@@ -157,7 +157,7 @@ export default function AdminRewardPointsPage() {
           {/* Top Earners */}
           <div className="bg-bg-0 rounded-lg border border-border overflow-hidden">
             <div className="p-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-ink-900">Top RP Earners</h2>
+              <h2 className="text-sm font-semibold text-ink-900">Top RP Earners</h2>
               <p className="text-sm text-ink-400">Members with highest RP earnings</p>
             </div>
             <div className="divide-y divide-border">
@@ -172,7 +172,7 @@ export default function AdminRewardPointsPage() {
                       <div className="text-xs text-ink-400">{earner.primarySource}</div>
                     </div>
                   </div>
-                  <div className="text-lg font-semibold text-purple-600">{earner.totalEarned.toLocaleString()} RP</div>
+                  <div className="text-sm font-semibold text-purple-600">{earner.totalEarned.toLocaleString()} RP</div>
                 </div>
               ))}
             </div>
@@ -180,16 +180,16 @@ export default function AdminRewardPointsPage() {
         </div>
 
         {/* Conversion Stats */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-bg-0 rounded-lg border border-border p-6">
-            <h3 className="text-lg font-semibold text-ink-900 mb-4">RP → TBC Conversions</h3>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-bg-0 rounded-lg border border-border p-4">
+            <h3 className="text-sm font-semibold text-ink-900 mb-4">RP → TBC Conversions</h3>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-3xl font-bold text-blue-600">{stats?.spentOnTBC.toLocaleString()}</div>
+                <div className="text-sm font-bold text-blue-600">{stats?.spentOnTBC.toLocaleString()}</div>
                 <div className="text-sm text-ink-400">Total RP converted</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnTBC / 100) : 0}</div>
+                <div className="text-sm font-semibold text-ink-700">{stats ? Math.round(stats.spentOnTBC / 100) : 0}</div>
                 <div className="text-sm text-ink-400">TBC issued</div>
               </div>
             </div>
@@ -198,15 +198,15 @@ export default function AdminRewardPointsPage() {
             </div>
           </div>
 
-          <div className="bg-bg-0 rounded-lg border border-border p-6">
-            <h3 className="text-lg font-semibold text-ink-900 mb-4">RP → SH Purchases</h3>
+          <div className="bg-bg-0 rounded-lg border border-border p-4">
+            <h3 className="text-sm font-semibold text-ink-900 mb-4">RP → SH Purchases</h3>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-3xl font-bold text-amber-600">{stats?.spentOnSH.toLocaleString()}</div>
+                <div className="text-sm font-bold text-amber-600">{stats?.spentOnSH.toLocaleString()}</div>
                 <div className="text-sm text-ink-400">Total RP spent</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-semibold text-ink-700">{stats ? Math.round(stats.spentOnSH / 50) : 0}</div>
+                <div className="text-sm font-semibold text-ink-700">{stats ? Math.round(stats.spentOnSH / 50) : 0}</div>
                 <div className="text-sm text-ink-400">SH purchased</div>
               </div>
             </div>
@@ -217,8 +217,8 @@ export default function AdminRewardPointsPage() {
         </div>
 
         {/* Information Box */}
-        <div className="mt-8 bg-purple-50 border border-purple-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-purple-900 mb-3">About Reward Points</h3>
+        <div className="mt-4 bg-purple-50 border border-purple-200 rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-purple-900 mb-3">About Reward Points</h3>
           <div className="space-y-2 text-sm text-purple-800">
             <p><strong>Purpose:</strong> RP represents economic claims from contributions to the cooperative.</p>
             <p><strong>Earning:</strong> Technical contributions, membership dues, donations, and gamification activities.</p>
@@ -228,10 +228,10 @@ export default function AdminRewardPointsPage() {
         </div>
 
         {/* Back Link */}
-        <div className="mt-8">
+        <div className="mt-4">
           <Link
             href="/admin"
-            className="px-6 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-bg-1 transition-colors font-medium inline-block"
+            className="px-4 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-bg-1 transition-colors font-medium inline-block"
           >
             ← Back to Admin
           </Link>

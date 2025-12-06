@@ -123,8 +123,8 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create Post</h2>
+        <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-4 flex items-center justify-between">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">Create Post</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -136,7 +136,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
         </div>
 
         {/* Mode switcher */}
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex gap-2">
             <button
               onClick={() => setMode('native')}
@@ -162,7 +162,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="px-6 py-4 space-y-4">
+          <div className="px-4 py-4 space-y-2">
             {mode === 'native' ? (
               <>
                 {/* Native post fields */}
@@ -333,7 +333,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3">
+          <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-4 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
@@ -344,7 +344,7 @@ export function PostComposer({ isOpen, onClose, onSubmit, topics: availableTopic
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Creating...' : 'Create Post'}
             </button>

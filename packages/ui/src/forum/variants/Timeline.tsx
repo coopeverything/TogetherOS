@@ -38,9 +38,9 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
     <div className="min-h-screen bg-[#F0F4F8]">
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 border-b border-[#E2E8F0] sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-6 py-4">
+        <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-[#1E293B]" style={{ fontFamily: 'Lexend, sans-serif' }}>
+            <h1 className="text-sm font-bold text-[#1E293B]" style={{ fontFamily: 'Lexend, sans-serif' }}>
               Activity Timeline
             </h1>
             <button
@@ -67,13 +67,13 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
       </div>
 
       {/* Timeline Content */}
-      <div className="max-w-3xl mx-auto px-6 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-4">
         <div className="relative">
           {/* Timeline Spine */}
           <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#CBD5E1]" />
 
           {/* Timeline Items */}
-          <div className="space-y-6">
+          <div className="space-y-2">
             {sortedTopics.map((topic, index) => {
               const activity = getActivityLevel(topic)
               const timeAgo = Math.floor(
@@ -91,7 +91,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
                   {/* Card */}
                   <button
                     onClick={() => onTopicClick(topic.id)}
-                    className="w-full text-left bg-white dark:bg-gray-800 rounded-lg border border-[#E2E8F0] p-6 hover:shadow-md transition-all"
+                    className="w-full text-left bg-white dark:bg-gray-800 rounded-lg border border-[#E2E8F0] p-4 hover:shadow-md transition-all"
                   >
                     {/* Header */}
                     <div className="flex items-start justify-between mb-3">
@@ -117,7 +117,7 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-semibold text-[#1E293B] mb-2">
+                    <h3 className="text-sm font-semibold text-[#1E293B] mb-2">
                       {topic.title}
                     </h3>
 
@@ -157,8 +157,8 @@ export function Timeline({ topics, onTopicClick, onCreateTopic }: TimelineProps)
         </div>
 
         {/* Load More */}
-        <div className="mt-8 text-center">
-          <button className="px-6 py-3 text-[#64748B] hover:text-[#1E293B] text-sm font-medium">
+        <div className="mt-4 text-center">
+          <button className="px-4 py-2 text-[#64748B] hover:text-[#1E293B] text-sm font-medium">
             Load more topics...
           </button>
         </div>

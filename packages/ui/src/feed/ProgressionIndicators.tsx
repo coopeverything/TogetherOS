@@ -74,7 +74,7 @@ export function ProgressionIndicators({
   const canProgressToProposal = consensusScore > 0.7 && currentStage === 'deliberation';
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* Stage progression */}
       <div className="relative">
         {/* Connection lines */}
@@ -99,7 +99,7 @@ export function ProgressionIndicators({
               <button
                 onClick={() => onStageClick?.(stage.stage)}
                 disabled={!stage.completed && !stage.active}
-                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg transition-all ${getStageColor(stage)} ${
+                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-sm transition-all ${getStageColor(stage)} ${
                   stage.completed || stage.active
                     ? 'cursor-pointer hover:scale-110'
                     : 'cursor-not-allowed'

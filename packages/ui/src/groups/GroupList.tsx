@@ -74,7 +74,7 @@ export function GroupList({
   return (
     <div className={className}>
       {/* Filters */}
-      <div className="mb-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+      <div className="mb-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div>
@@ -158,8 +158,8 @@ export function GroupList({
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No groups found</p>
+        <div className="text-center py-6">
+          <p className="text-gray-500 text-sm">No groups found</p>
           <p className="text-gray-400 text-sm mt-2">
             Try adjusting your filters or search terms
           </p>

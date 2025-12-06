@@ -45,9 +45,9 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-6">
+          <div className="mb-3">
             <button
               onClick={() => router.back()}
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:hover:text-white"
@@ -56,12 +56,12 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
             </button>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-3">
             Transaction History
           </h1>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div className="animate-pulse space-y-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <div className="animate-pulse space-y-2">
               <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
               <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
               <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
@@ -74,9 +74,9 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-6">
+          <div className="mb-3">
             <button
               onClick={() => router.back()}
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:hover:text-white"
@@ -85,7 +85,7 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
             </button>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-3">
             Transaction History
           </h1>
 
@@ -98,9 +98,9 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
+        <div className="mb-3">
           <button
             onClick={() => router.back()}
             className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white dark:text-white dark:hover:text-white"
@@ -109,7 +109,7 @@ export function SPTransactionHistoryClient({ userId }: SPTransactionHistoryClien
           </button>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+        <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-3">
           Transaction History
         </h1>
 

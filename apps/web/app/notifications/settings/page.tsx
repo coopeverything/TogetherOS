@@ -104,8 +104,8 @@ export default function NotificationSettingsPage() {
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-center py-12">
+      <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
+        <div className="flex items-center justify-center py-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
         </div>
       </div>
@@ -114,8 +114,8 @@ export default function NotificationSettingsPage() {
 
   if (!preferences) {
     return (
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center py-12">
+      <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
+        <div className="text-center py-6">
           <p className="text-ink-700">Failed to load preferences. Please try again.</p>
         </div>
       </div>
@@ -123,9 +123,9 @@ export default function NotificationSettingsPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 mb-4">
         <Link
           href="/notifications"
           className="text-ink-400 hover:text-ink-700 transition-colors"
@@ -135,7 +135,7 @@ export default function NotificationSettingsPage() {
           </svg>
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-ink-900">Notification Settings</h1>
+          <h1 className="text-sm font-bold text-ink-900">Notification Settings</h1>
           <p className="text-ink-700">Manage how you receive notifications</p>
         </div>
         {(saving || saved) && (
@@ -146,9 +146,9 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Notification Types */}
-      <div className="bg-bg-1 rounded-lg border border-border mb-6">
-        <div className="px-4 py-3 border-b border-border">
-          <h2 className="text-lg font-semibold text-ink-900">Notification Types</h2>
+      <div className="bg-bg-1 rounded-lg border border-border mb-3">
+        <div className="px-4 py-2 border-b border-border">
+          <h2 className="text-sm font-semibold text-ink-900">Notification Types</h2>
           <p className="text-sm text-ink-700">Choose which notifications you want to receive</p>
         </div>
         <div className="divide-y divide-gray-100">
@@ -160,7 +160,7 @@ export default function NotificationSettingsPage() {
             return (
               <div key={type} className="px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-xl">{icon}</span>
+                  <span className="text-sm">{icon}</span>
                   <div>
                     <p className="font-medium text-ink-900">{label}</p>
                     <p className="text-sm text-ink-400">{description}</p>
@@ -187,9 +187,9 @@ export default function NotificationSettingsPage() {
       </div>
 
       {/* Email Digest */}
-      <div className="bg-bg-1 rounded-lg border border-border mb-6">
-        <div className="px-4 py-3 border-b border-border">
-          <h2 className="text-lg font-semibold text-ink-900">Email Notifications</h2>
+      <div className="bg-bg-1 rounded-lg border border-border mb-3">
+        <div className="px-4 py-2 border-b border-border">
+          <h2 className="text-sm font-semibold text-ink-900">Email Notifications</h2>
           <p className="text-sm text-ink-700">How often to receive email summaries</p>
         </div>
         <div className="p-4 space-y-3">
@@ -223,7 +223,7 @@ export default function NotificationSettingsPage() {
       <div className="bg-bg-1 rounded-lg border border-border">
         <div className="px-4 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-ink-900">Push Notifications</h2>
+            <h2 className="text-sm font-semibold text-ink-900">Push Notifications</h2>
             <p className="text-sm text-ink-700">Receive browser notifications for important updates</p>
           </div>
           <button

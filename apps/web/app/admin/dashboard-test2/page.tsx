@@ -6,8 +6,8 @@ export default function DashboardTest2() {
   return (
     <div className="flex flex-col h-screen bg-bg-2">
       {/* Header */}
-      <header className="flex items-center justify-between p-6 bg-bg-0 shadow-md">
-        <h1 className="text-2xl font-bold text-ink-900">
+      <header className="flex items-center justify-between p-4 bg-bg-0 shadow-md">
+        <h1 className="text-sm font-bold text-ink-900">
           Admin Dashboard
         </h1>
         <nav>
@@ -16,9 +16,9 @@ export default function DashboardTest2() {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 p-6 overflow-y-auto">
-        <div className="grid grid-cols-1 gap-6">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <main className="flex-1 p-4 overflow-y-auto">
+        <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <YourTopPriorities />
             <NeedsYourAction />
             <div className="md:col-span-2">

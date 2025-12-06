@@ -19,9 +19,9 @@ export default function PrioritiesPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Your Priorities</h1>
+    <div className="container mx-auto px-4 py-4 max-w-4xl">
+      <div className="mb-4">
+        <h1 className="text-sm font-bold mb-2">Your Priorities</h1>
         <p className="text-ink-700">
           Tell us what matters most to you. Drag topics to reorder by importance.
         </p>
@@ -33,7 +33,7 @@ export default function PrioritiesPage() {
         onRemovePriority={handleRemovePriority}
       />
 
-      <div className="mt-8 p-4 bg-blue-50/20 rounded-lg">
+      <div className="mt-4 p-4 bg-blue-50/20 rounded-lg">
         <h2 className="font-semibold mb-2">How priorities work</h2>
         <ul className="space-y-2 text-sm text-ink-700">
           <li>• Your priorities are <strong>private</strong> - only you can see them</li>

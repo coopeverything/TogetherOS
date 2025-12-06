@@ -63,7 +63,7 @@ const SkeletonCard = React.forwardRef<HTMLDivElement, SkeletonCardProps>(
     return (
       <div
         ref={ref}
-        className={cn('p-6 border border-border rounded-lg bg-bg-1', className)}
+        className={cn('p-4 border border-border rounded-lg bg-bg-1', className)}
         {...props}
       >
         {hasAvatar && (

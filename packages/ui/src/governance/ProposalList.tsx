@@ -50,8 +50,8 @@ export function ProposalList({
   return (
     <div className={className}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Proposals</h1>
+      <div className="flex items-center justify-between mb-3">
+        <h1 className="text-sm font-bold text-gray-900 dark:text-white">Proposals</h1>
         {showCreateButton && onCreateProposal && (
           <button
             onClick={onCreateProposal}
@@ -63,7 +63,7 @@ export function ProposalList({
       </div>
 
       {/* Filters */}
-      <div className="mb-6 space-y-4">
+      <div className="mb-3 space-y-2">
         <div className="flex flex-wrap gap-4">
           {/* Status Filter */}
           <div className="flex-1 min-w-[200px]">
@@ -112,8 +112,8 @@ export function ProposalList({
 
       {/* Proposals List */}
       {filteredProposals.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">No proposals found</p>
+        <div className="text-center py-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">No proposals found</p>
           <p className="text-gray-400 dark:text-gray-500 text-sm">
             {proposals.length === 0
               ? 'Be the first to create a proposal'
@@ -129,7 +129,7 @@ export function ProposalList({
           )}
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {filteredProposals.map((proposal) => (
             <ProposalCard
               key={proposal.id}

@@ -89,7 +89,7 @@ export function DailyChallengeCard({
     >
       {/* Completed checkmark */}
       {isCompleted && (
-        <div className="absolute top-2 right-2 text-green-600 text-xl">✓</div>
+        <div className="absolute top-2 right-2 text-green-600 text-sm">✓</div>
       )}
 
       {/* Lock overlay */}
@@ -101,7 +101,7 @@ export function DailyChallengeCard({
 
       {/* Header */}
       <div className="flex items-start gap-3 mb-3">
-        <span className="text-3xl">{icon}</span>
+        <span className="text-sm">{icon}</span>
         <div className="flex-1">
           <h3 className={`font-semibold ${isLocked ? 'text-gray-500' : 'text-gray-900 dark:text-white'}`}>
             {challenge.name}
@@ -125,7 +125,7 @@ export function DailyChallengeCard({
       {/* Reward */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-brand-600">
+          <span className="text-sm font-bold text-brand-600">
             +{challenge.rpReward} RP
           </span>
           {bonusRP > 0 && !isCompleted && (

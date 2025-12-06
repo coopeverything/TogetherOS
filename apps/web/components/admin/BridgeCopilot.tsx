@@ -161,9 +161,9 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
 
   if (!content) {
     return (
-      <div className="h-full bg-bg-1 border-l border-border p-6 flex items-center justify-center">
+      <div className="h-full bg-bg-1 border-l border-border p-4 flex items-center justify-center">
         <div className="text-center text-ink-500">
-          <div className="text-4xl mb-3">🤖</div>
+          <div className="text-sm mb-3">🤖</div>
           <p className="font-medium">Bridge AI Copilot</p>
           <p className="text-sm mt-1">Select content to get AI assistance</p>
         </div>
@@ -176,7 +176,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🤖</span>
+          <span className="text-sm">🤖</span>
           <div>
             <h3 className="font-semibold text-ink-900">Bridge AI Copilot</h3>
             <p className="text-xs text-ink-500">Ready to help you create great content</p>
@@ -304,7 +304,7 @@ export function BridgeCopilot({ content, onApplySuggestion }: BridgeCopilotProps
       {/* Chat History */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {chatHistory.length === 0 ? (
-          <div className="text-center text-ink-400 text-sm py-8">
+          <div className="text-center text-ink-400 text-sm py-4">
             <p>Ask Bridge anything about your content:</p>
             <ul className="mt-2 space-y-1 text-xs">
               <li>&quot;Help me write about repair cafés&quot;</li>

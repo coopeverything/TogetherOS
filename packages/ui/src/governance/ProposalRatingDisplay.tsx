@@ -13,7 +13,7 @@ export interface ProposalRatingDisplayProps {
 export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps) {
   if (aggregate.totalRatings === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-4 text-gray-500">
         <p>No ratings yet. Be the first to rate this proposal!</p>
       </div>
     )
@@ -30,10 +30,10 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
     'text-red-700'
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Total Ratings Header */}
       <div className="text-center pb-4 border-b">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{aggregate.totalRatings}</h3>
+        <h3 className="text-sm font-bold text-gray-900 dark:text-white">{aggregate.totalRatings}</h3>
         <p className="text-sm text-gray-600">Total Ratings</p>
       </div>
 
@@ -41,7 +41,7 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
       <div>
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-gray-900 dark:text-white">Clarity</span>
-          <span className={`text-lg font-bold ${clarityColor}`}>
+          <span className={`text-sm font-bold ${clarityColor}`}>
             {aggregate.avgClarity.toFixed(1)}/3
           </span>
         </div>
@@ -65,7 +65,7 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
       <div>
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-gray-900 dark:text-white">Importance</span>
-          <span className="text-lg font-bold text-blue-700">
+          <span className="text-sm font-bold text-blue-700">
             {aggregate.avgImportance.toFixed(1)}/5
           </span>
         </div>
@@ -81,7 +81,7 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
       <div>
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-gray-900 dark:text-white">Urgency</span>
-          <span className="text-lg font-bold text-orange-700">
+          <span className="text-sm font-bold text-orange-700">
             {aggregate.avgUrgency.toFixed(1)}/5
           </span>
         </div>
@@ -97,10 +97,10 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
       <div>
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
-            <span className="text-xl">💡</span>
+            <span className="text-sm">💡</span>
             Innovation
           </span>
-          <span className="text-lg font-bold text-yellow-600">
+          <span className="text-sm font-bold text-yellow-600">
             {(aggregate.innovativePercentage * 100).toFixed(0)}%
           </span>
         </div>
@@ -121,7 +121,7 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
       <div>
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-gray-900 dark:text-white">Constructiveness</span>
-          <span className={`text-lg font-bold ${constructivenessColor}`}>
+          <span className={`text-sm font-bold ${constructivenessColor}`}>
             {aggregate.avgConstructiveness.toFixed(1)}/3
           </span>
         </div>

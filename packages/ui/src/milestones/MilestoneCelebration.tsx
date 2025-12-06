@@ -152,7 +152,7 @@ export function MilestoneCelebration({
       >
         {/* Modal content */}
         <div
-          className={`bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md mx-4 shadow-2xl ${modalClass}`}
+          className={`bg-white dark:bg-gray-800 rounded-2xl p-4 max-w-md mx-4 shadow-2xl ${modalClass}`}
         >
           {/* Skip button */}
           <button
@@ -178,7 +178,7 @@ export function MilestoneCelebration({
           {/* Milestone label */}
           <h2
             id="celebration-title"
-            className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-2"
+            className="text-sm font-bold text-center text-gray-900 dark:text-white mb-2"
           >
             {milestone.label}
           </h2>
@@ -191,12 +191,12 @@ export function MilestoneCelebration({
           </div>
 
           {/* Celebration message */}
-          <p className="text-center text-gray-700 mb-6">
+          <p className="text-center text-gray-700 mb-3">
             {milestone.celebration}
           </p>
 
           {/* Unlocks preview */}
-          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-6">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-3">
             <p className="text-sm font-medium text-gray-700 mb-2">🔓 Now unlocked:</p>
             <ul className="space-y-1">
               {milestone.unlocks.map((unlock, i) => (
@@ -220,7 +220,7 @@ export function MilestoneCelebration({
               </p>
               <button
                 onClick={handleAction}
-                className="w-full bg-orange-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-orange-700 transition-colors"
+                className="w-full bg-orange-600 text-white px-4 py-2.5 rounded-lg font-medium hover:bg-orange-700 transition-colors"
               >
                 Yes, I'll do it! (+{milestone.actionNudge.reward} RP)
               </button>
@@ -231,7 +231,7 @@ export function MilestoneCelebration({
           {(state === 'actionPrompt' || prefersReducedMotion) && !milestone.actionNudge && (
             <button
               onClick={handleSkip}
-              className="w-full bg-gray-100 dark:bg-gray-700 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+              className="w-full bg-gray-100 dark:bg-gray-700 text-gray-700 px-4 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition-colors"
             >
               Continue
             </button>

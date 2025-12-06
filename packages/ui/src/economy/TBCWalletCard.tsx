@@ -38,29 +38,29 @@ export function TBCWalletCard({ account, fairExchangeIndex, className = '' }: TB
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
+      <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
         Timebank Credits
       </h2>
 
-      <div className="space-y-4">
+      <div className="space-y-2">
         {/* Current Balance */}
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600 dark:text-gray-400">Available Balance</span>
-          <span className="text-2xl font-bold text-teal-600">{account.balance.toFixed(1)} TBC</span>
+          <span className="text-sm font-bold text-teal-600">{account.balance.toFixed(1)} TBC</span>
         </div>
 
         <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
           {/* Total Earned */}
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-700 dark:text-gray-300">Total Earned</span>
-            <span className="text-lg font-semibold text-gray-600 dark:text-gray-400">{account.totalEarned.toFixed(1)} TBC</span>
+            <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">{account.totalEarned.toFixed(1)} TBC</span>
           </div>
 
           {/* Total Spent */}
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-700 dark:text-gray-300">Total Spent</span>
-            <span className="text-lg font-semibold text-gray-600 dark:text-gray-400">{account.totalSpent.toFixed(1)} TBC</span>
+            <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">{account.totalSpent.toFixed(1)} TBC</span>
           </div>
 
           {/* Fair Exchange Index */}
@@ -68,7 +68,7 @@ export function TBCWalletCard({ account, fairExchangeIndex, className = '' }: TB
             <div className="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-gray-700">
               <span className="text-sm text-gray-700 dark:text-gray-300">Fair Exchange Index</span>
               <div className="text-right">
-                <span className={`text-lg font-semibold ${getFairExchangeColor(fairExchangeIndex.status)}`}>
+                <span className={`text-sm font-semibold ${getFairExchangeColor(fairExchangeIndex.status)}`}>
                   {fairExchangeIndex.value >= 999 ? '∞' : fairExchangeIndex.value.toFixed(2)}
                 </span>
                 <span className={`ml-2 text-xs ${getFairExchangeColor(fairExchangeIndex.status)}`}>

@@ -83,30 +83,30 @@ const cooperationPaths = [
 export default function CooperationPathsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-4">
             Eight Cooperation Paths
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto">
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto">
             Pathways for building resilience, prosperity, and cooperation in communities. These are the canonical categories used across TogetherOS docs, issues, and UI.
           </p>
         </div>
 
         {/* Paths Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
           {cooperationPaths.map((path) => (
             <div
               key={path.number}
-              className={`border ${path.borderColor} ${path.bgColor} rounded-lg p-6 hover:shadow-lg transition-shadow`}
+              className={`border ${path.borderColor} ${path.bgColor} rounded-lg p-4 hover:shadow-lg transition-shadow`}
             >
               <div className="flex items-start gap-4">
-                <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${path.color} flex items-center justify-center text-white font-bold text-xl`}>
+                <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${path.color} flex items-center justify-center text-white font-bold text-sm`}>
                   {path.number}
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-2">
                     {path.name}
                   </h2>
                   <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
@@ -129,8 +129,8 @@ export default function CooperationPathsPage() {
         </div>
 
         {/* Usage Guidelines */}
-        <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Usage Guidelines</h2>
+        <div className="mt-12 p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Usage Guidelines</h2>
           <ul className="space-y-2 text-gray-700 dark:text-gray-300">
             <li className="flex items-start">
               <span className="text-green-600 mr-2">✓</span>
@@ -148,8 +148,8 @@ export default function CooperationPathsPage() {
         </div>
 
         {/* Related Links */}
-        <div className="mt-8 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Related Documentation</h3>
+        <div className="mt-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Related Documentation</h3>
           <div className="space-y-2">
             <a
               href="/manifesto"

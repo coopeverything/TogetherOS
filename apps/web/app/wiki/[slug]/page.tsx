@@ -98,9 +98,9 @@ export default async function WikiArticlePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         {/* Breadcrumb */}
-        <nav className="mb-6">
+        <nav className="mb-3">
           <ol className="flex items-center gap-2 text-sm text-ink-400">
             <li>
               <Link href="/wiki" className="hover:text-blue-600">
@@ -113,9 +113,9 @@ export default async function WikiArticlePage({ params }: Props) {
         </nav>
 
         {/* Article Header */}
-        <header className="mb-8">
+        <header className="mb-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-lg">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm">
               📖
             </div>
             <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">
@@ -123,19 +123,19 @@ export default async function WikiArticlePage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-ink-900 mb-4">
+          <h1 className="text-sm font-bold text-ink-900 mb-4">
             {article.title}
           </h1>
 
-          <p className="text-xl text-ink-700 leading-relaxed mb-6">
+          <p className="text-sm text-ink-700 leading-relaxed mb-3">
             {article.summary}
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 mb-6">
+          <div className="flex flex-wrap items-center gap-4 mb-3">
             <StatusBadge status={article.status} />
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-sm text-ink-400 pb-6 border-b border-border">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-ink-400 pb-6 border-b border-border">
             <span className="flex items-center gap-1.5">
               <svg
                 className="w-4 h-4"
@@ -193,17 +193,17 @@ export default async function WikiArticlePage({ params }: Props) {
           <ReactMarkdown
             components={{
               h1: ({ children }: MarkdownComponentProps) => (
-                <h1 className="text-3xl font-bold text-ink-900 mt-8 mb-4">
+                <h1 className="text-sm font-bold text-ink-900 mt-4 mb-4">
                   {children}
                 </h1>
               ),
               h2: ({ children }: MarkdownComponentProps) => (
-                <h2 className="text-2xl font-semibold text-ink-900 mt-8 mb-4 pb-2 border-b border-border">
+                <h2 className="text-sm font-semibold text-ink-900 mt-4 mb-4 pb-2 border-b border-border">
                   {children}
                 </h2>
               ),
               h3: ({ children }: MarkdownComponentProps) => (
-                <h3 className="text-xl font-semibold text-ink-900 mt-6 mb-3">
+                <h3 className="text-sm font-semibold text-ink-900 mt-6 mb-3">
                   {children}
                 </h3>
               ),
@@ -246,12 +246,12 @@ export default async function WikiArticlePage({ params }: Props) {
                 </div>
               ),
               th: ({ children }: MarkdownComponentProps) => (
-                <th className="px-4 py-3 bg-bg-0 text-left text-sm font-semibold text-ink-900">
+                <th className="px-4 py-2 bg-bg-0 text-left text-sm font-semibold text-ink-900">
                   {children}
                 </th>
               ),
               td: ({ children }: MarkdownComponentProps) => (
-                <td className="px-4 py-3 text-sm text-ink-700 border-t border-border">
+                <td className="px-4 py-2 text-sm text-ink-700 border-t border-border">
                   {children}
                 </td>
               ),
@@ -275,7 +275,7 @@ export default async function WikiArticlePage({ params }: Props) {
         </article>
 
         {/* Tags */}
-        <div className="mb-8 pb-8 border-b border-border">
+        <div className="mb-4 pb-8 border-b border-border">
           <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
             Tags
           </h3>
@@ -293,7 +293,7 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Cooperation Paths */}
         {article.cooperationPaths && article.cooperationPaths.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
+          <div className="mb-4 pb-8 border-b border-border">
             <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Cooperation Paths
             </h3>
@@ -312,7 +312,7 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Related Terms */}
         {articleTerms.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
+          <div className="mb-4 pb-8 border-b border-border">
             <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Key Terms in This Article
             </h3>
@@ -323,7 +323,7 @@ export default async function WikiArticlePage({ params }: Props) {
                   href={`/glossary/${term.slug}`}
                   className="flex items-start gap-3 p-3 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
                 >
-                  <span className="text-xl">📖</span>
+                  <span className="text-sm">📖</span>
                   <div>
                     <div className="font-medium text-ink-900">{term.word}</div>
                     <div className="text-sm text-ink-700">
@@ -338,7 +338,7 @@ export default async function WikiArticlePage({ params }: Props) {
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <div className="mb-8 pb-8 border-b border-border">
+          <div className="mb-4 pb-8 border-b border-border">
             <h3 className="text-sm font-medium text-ink-400 uppercase tracking-wide mb-3">
               Related Articles
             </h3>
@@ -367,7 +367,7 @@ export default async function WikiArticlePage({ params }: Props) {
         )}
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-wrap gap-4 mb-4">
           <Link
             href={`/forum?title=${encodeURIComponent(article.title + ' Discussion')}&description=${encodeURIComponent(`Discussion about the wiki article: **${article.title}**\n\n${article.summary}`)}`}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"

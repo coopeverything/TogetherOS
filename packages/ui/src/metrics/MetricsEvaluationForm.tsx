@@ -90,10 +90,10 @@ export function MetricsEvaluationForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
+    <form onSubmit={handleSubmit} className={`space-y-2 ${className}`}>
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-sm font-bold text-gray-900 dark:text-white">
           Evaluate Metrics
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -115,7 +115,7 @@ export function MetricsEvaluationForm({
       </div>
 
       {/* Metrics */}
-      <div className="space-y-6">
+      <div className="space-y-2">
         {metrics.map((metric) => {
           const measurement = measurements[metric.id]
           const variance = calculateVariance(metric.target.value, measurement.actual.value)
@@ -123,7 +123,7 @@ export function MetricsEvaluationForm({
           return (
             <div
               key={metric.id}
-              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
             >
               {/* Metric Header */}
               <div className="flex items-start justify-between mb-4">
@@ -252,7 +252,7 @@ export function MetricsEvaluationForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Submitting...' : 'Submit Evaluation'}
         </button>

@@ -156,7 +156,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
           className="overflow-y-auto max-h-[calc(60vh-65px)] p-2"
         >
           {filteredItems.length === 0 ? (
-            <div className="py-12 text-center text-ink-400 text-sm">
+            <div className="py-6 text-center text-ink-400 text-sm">
               {emptyMessage}
             </div>
           ) : (
@@ -171,7 +171,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                 role="option"
                 aria-selected={index === selectedIndex}
                 className={cn(
-                  'w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors',
+                  'w-full flex items-center gap-3 px-4 py-2 rounded-lg text-left transition-colors',
                   index === selectedIndex
                     ? 'bg-brand-100 text-brand-600'
                     : 'text-ink-900 hover:bg-bg-2'

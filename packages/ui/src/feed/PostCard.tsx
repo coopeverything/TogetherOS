@@ -167,7 +167,7 @@ export function PostCard({
       {post.type === 'native' ? (
         <div className="mb-4">
           {post.title && (
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
           )}
           {post.content && (
             <p className="text-gray-700 whitespace-pre-line mb-3">{post.content}</p>

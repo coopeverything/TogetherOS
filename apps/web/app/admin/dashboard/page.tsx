@@ -33,10 +33,10 @@ export default function DashboardShowcase() {
     <div className="flex flex-col h-screen bg-bg-0">
       {/* Main Header with Tabs */}
       <header className="bg-bg-1 shadow-sm border-b border-border">
-        <div className="px-6 py-4">
+        <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-xl font-semibold text-ink-900">
+              <h1 className="text-sm font-semibold text-ink-900">
                 Dashboard Showcase
               </h1>
               <p className="text-sm text-ink-700">

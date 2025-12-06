@@ -21,8 +21,8 @@ export default function DashboardStyles() {
     <div className="flex flex-col h-screen bg-bg-0">
       {/* Header with style tabs */}
       <header className="bg-bg-1 shadow-sm border-b border-border">
-        <div className="px-6 py-4">
-          <h1 className="text-xl font-semibold text-ink-900 mb-3">
+        <div className="px-4 py-4">
+          <h1 className="text-sm font-semibold text-ink-900 mb-3">
             Dashboard Styles
           </h1>
           <div className="flex items-center gap-2">

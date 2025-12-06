@@ -34,10 +34,10 @@ export function DuplicateThreadModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-4">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Similar Discussions Found</h2>
+              <h2 className="text-sm font-bold text-gray-900 dark:text-white">Similar Discussions Found</h2>
               <p className="text-sm text-gray-600 mt-1">
                 Bridge found {similarThreads.length} similar discussion{similarThreads.length !== 1 ? 's' : ''}.
                 Join an existing one or start a new discussion.
@@ -55,13 +55,13 @@ export function DuplicateThreadModal({
         </div>
 
         {/* Your proposed discussion */}
-        <div className="px-6 py-4 bg-blue-50 border-b border-blue-200">
+        <div className="px-4 py-4 bg-blue-50 border-b border-blue-200">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Your proposed discussion:</h3>
           <p className="text-gray-700">{proposedTitle}</p>
         </div>
 
         {/* Similar threads list */}
-        <div className="px-6 py-4">
+        <div className="px-4 py-4">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Existing discussions:</h3>
           <div className="space-y-3">
             {similarThreads.map(({ thread, similarity, matchedKeywords }) => (
@@ -125,7 +125,7 @@ export function DuplicateThreadModal({
         </div>
 
         {/* Footer - option to create new anyway */}
-        <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-900">
+        <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-4 bg-gray-50 dark:bg-gray-900">
           <div className="flex items-start gap-3 mb-3">
             <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-yellow-600 text-xs">⚠️</span>

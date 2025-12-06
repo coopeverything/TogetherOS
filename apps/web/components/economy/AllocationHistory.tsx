@@ -67,7 +67,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
   return (
     <Card className={className}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg">Allocation History</CardTitle>
+        <CardTitle className="text-sm">Allocation History</CardTitle>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mt-3">
@@ -129,7 +129,7 @@ export function AllocationHistory({ transactions, allocations, className = '' }:
 
       <CardContent className="pt-0">
         {sortedTransactions.length === 0 ? (
-          <div className="text-center py-8 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
+          <div className="text-center py-4 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
             No transactions found for the selected filters
           </div>
         ) : (

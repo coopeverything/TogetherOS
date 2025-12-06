@@ -104,7 +104,7 @@ export function TopicCard({
           </div>
 
           {/* Topic Title */}
-          <h3 className="text-lg font-semibold text-ink-900 mb-1">
+          <h3 className="text-sm font-semibold text-ink-900 mb-1">
             {topic.title}
           </h3>
 

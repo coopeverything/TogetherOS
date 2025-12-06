@@ -95,7 +95,7 @@ export default function LearningBadgesPage() {
   }, {} as Record<string, Badge[]>)
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-4 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
         <nav className="text-sm text-ink-700 mb-4">
@@ -105,10 +105,10 @@ export default function LearningBadgesPage() {
         </nav>
 
         {/* Header */}
-        <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
+        <div className="bg-bg-1 rounded-lg border border-border p-4 mb-3">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+              <h1 className="text-sm font-semibold text-ink-900 mb-2">
                 Learning Badges
               </h1>
               <p className="text-ink-700">
@@ -116,7 +116,7 @@ export default function LearningBadgesPage() {
               </p>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-green-600">
+              <div className="text-sm font-bold text-green-600">
                 {data.summary.earned}/{data.summary.total}
               </div>
               <div className="text-sm text-ink-400">badges earned</div>
@@ -139,7 +139,7 @@ export default function LearningBadgesPage() {
         </div>
 
         {/* Filter */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-3">
           {(['all', 'earned', 'in-progress'] as const).map(f => (
             <button
               key={f}
@@ -157,8 +157,8 @@ export default function LearningBadgesPage() {
 
         {/* Badges by Category */}
         {Object.entries(groupedBadges).map(([category, badges]) => (
-          <div key={category} className="mb-6">
-            <h2 className="text-lg font-medium text-ink-900 mb-3">
+          <div key={category} className="mb-3">
+            <h2 className="text-sm font-medium text-ink-900 mb-3">
               {categoryLabels[category] || category}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -173,7 +173,7 @@ export default function LearningBadgesPage() {
                 >
                   <div className="flex items-start gap-3">
                     <div
-                      className={`text-3xl ${
+                      className={`text-sm ${
                         badge.earnedAt ? '' : 'grayscale opacity-50'
                       }`}
                     >
@@ -218,13 +218,13 @@ export default function LearningBadgesPage() {
         ))}
 
         {filteredBadges.length === 0 && (
-          <div className="text-center py-12 text-ink-400">
+          <div className="text-center py-6 text-ink-400">
             No badges found for this filter.
           </div>
         )}
 
         {/* Back link */}
-        <div className="mt-8 text-center">
+        <div className="mt-4 text-center">
           <Link
             href="/learn"
             className="text-blue-600 hover:text-blue-700"

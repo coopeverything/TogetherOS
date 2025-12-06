@@ -78,7 +78,7 @@ export function DailyChallengeList({
 
   if (loading) {
     return (
-      <div className={`space-y-4 ${className}`}>
+      <div className={`space-y-2 ${className}`}>
         {[1, 2, 3].map((i) => (
           <div key={i} className="animate-pulse">
             <div className="h-32 bg-gray-200 rounded-xl"></div>
@@ -110,7 +110,7 @@ export function DailyChallengeList({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Daily Challenges</h2>
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">Daily Challenges</h2>
           <p className="text-sm text-gray-600">
             {completedCount}/{challenges.length} completed today
           </p>
@@ -118,13 +118,13 @@ export function DailyChallengeList({
         <div className="flex items-center gap-4">
           {streak > 0 && (
             <div className="flex items-center gap-1 text-orange-600">
-              <span className="text-xl">🔥</span>
+              <span className="text-sm">🔥</span>
               <span className="font-bold">{streak}</span>
               <span className="text-sm">day streak</span>
             </div>
           )}
           {totalRP > 0 && (
-            <span className="text-lg font-bold text-brand-600">
+            <span className="text-sm font-bold text-brand-600">
               +{totalRP} RP today
             </span>
           )}
@@ -134,7 +134,7 @@ export function DailyChallengeList({
       {/* All completed message */}
       {completedCount === challenges.length && challenges.length > 0 && (
         <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 text-center">
-          <span className="text-3xl mb-2 block">🎉</span>
+          <span className="text-sm mb-2 block">🎉</span>
           <p className="text-green-800 font-medium">
             All challenges completed for today!
           </p>
@@ -145,7 +145,7 @@ export function DailyChallengeList({
       )}
 
       {/* Challenge cards */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         {challenges.map((userChallenge) => (
           <DailyChallengeCard
             key={userChallenge.id}
@@ -163,8 +163,8 @@ export function DailyChallengeList({
 
       {/* Empty state */}
       {challenges.length === 0 && (
-        <div className="text-center py-8">
-          <span className="text-4xl mb-3 block">📋</span>
+        <div className="text-center py-4">
+          <span className="text-sm mb-3 block">📋</span>
           <p className="text-gray-600">No challenges available today</p>
         </div>
       )}

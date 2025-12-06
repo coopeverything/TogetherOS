@@ -93,7 +93,7 @@ export function FirstWeekJourney({
     return (
       <div className={`animate-pulse ${className}`}>
         <div className="h-8 bg-gray-200 rounded w-48 mb-4"></div>
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-3">
           {[1, 2, 3, 4, 5, 6, 7].map((i) => (
             <div key={i} className="w-10 h-10 bg-gray-200 rounded-full"></div>
           ))}
@@ -127,13 +127,13 @@ export function FirstWeekJourney({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">First Week Journey</h2>
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">First Week Journey</h2>
           <p className="text-sm text-gray-600">
             Complete daily challenges to earn RP and unlock bonuses
           </p>
         </div>
         <div className="text-right">
-          <span className="text-2xl font-bold text-brand-600">
+          <span className="text-sm font-bold text-brand-600">
             {summary.totalRPEarned} RP
           </span>
           {summary.streakBonusRP > 0 && (
@@ -145,7 +145,7 @@ export function FirstWeekJourney({
       </div>
 
       {/* Progress bar */}
-      <div className="mb-6">
+      <div className="mb-3">
         <div className="flex justify-between text-sm text-gray-600 mb-2">
           <span>{completedCount}/7 days completed</span>
           <span>{Math.round(progressPercent)}%</span>
@@ -159,7 +159,7 @@ export function FirstWeekJourney({
       </div>
 
       {/* Day indicators */}
-      <div className="flex justify-between mb-6">
+      <div className="flex justify-between mb-3">
         {summary.days.map((day, index) => {
           const isActive = day.dayNumber === expandedDay;
           const isCompleted = day.status === 'completed';
@@ -198,9 +198,9 @@ export function FirstWeekJourney({
 
       {/* Completion celebration */}
       {summary.isComplete && (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6 mb-6 text-center">
-          <span className="text-5xl mb-3 block">🎉</span>
-          <h3 className="text-xl font-bold text-green-800 mb-2">
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mb-3 text-center">
+          <span className="text-sm mb-3 block">🎉</span>
+          <h3 className="text-sm font-bold text-green-800 mb-2">
             First Week Complete!
           </h3>
           <p className="text-green-700">

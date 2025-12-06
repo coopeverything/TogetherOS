@@ -104,31 +104,31 @@ export function UnlockCelebration({
         )}
       >
         {/* Header with level badge */}
-        <div className="bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-8 text-center">
+        <div className="bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-4 text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white dark:bg-gray-800/20 rounded-full mb-4">
-            <span className="text-4xl font-bold text-white">
+            <span className="text-sm font-bold text-white">
               {level}
             </span>
           </div>
           <h2
             id="unlock-title"
-            className="text-2xl font-bold text-white mb-1"
+            className="text-sm font-bold text-white mb-1"
           >
             Level Up!
           </h2>
-          <p className="text-brand-100 text-lg">
+          <p className="text-brand-100 text-sm">
             {levelInfo.name}
           </p>
         </div>
 
         {/* Content */}
-        <div className="px-6 py-6">
+        <div className="px-4 py-6">
           <p className="text-center text-ink-600 mb-4">
             {levelInfo.description}
           </p>
 
           {/* What's unlocked */}
-          <div className="bg-brand-50 rounded-xl p-4 mb-6">
+          <div className="bg-brand-50 rounded-xl p-4 mb-3">
             <h3 className="text-sm font-semibold text-brand-700 uppercase tracking-wide mb-3">
               New Features Unlocked
             </h3>

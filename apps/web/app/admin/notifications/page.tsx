@@ -159,11 +159,11 @@ export default function NotificationsTestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-1 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-bg-1 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-ink-900">Notifications Test Page</h1>
+        <div className="mb-4">
+          <h1 className="text-sm font-bold text-ink-900">Notifications Test Page</h1>
           <p className="mt-2 text-ink-600">
             Testing interface for notification components: bell, toast, and inbox.
           </p>
@@ -178,7 +178,7 @@ export default function NotificationsTestPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-6 border-b border-border">
+        <div className="mb-3 border-b border-border">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'showcase' as const, label: 'Component Showcase' },
@@ -204,16 +204,16 @@ export default function NotificationsTestPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-bg-0 rounded-lg shadow-sm p-6">
+        <div className="bg-bg-0 rounded-lg shadow-sm p-4">
           {/* Component Showcase Tab */}
           {activeTab === 'showcase' && (
             <div className="space-y-10">
               <section>
-                <h2 className="text-2xl font-semibold mb-4">NotificationBell Component</h2>
-                <p className="text-ink-600 mb-6">
+                <h2 className="text-sm font-semibold mb-4">NotificationBell Component</h2>
+                <p className="text-ink-600 mb-3">
                   Bell icon with unread count badge, typically displayed in the app header.
                 </p>
-                <div className="flex gap-6 items-center p-6 bg-bg-2 rounded">
+                <div className="flex gap-4 items-center p-4 bg-bg-2 rounded">
                   <div>
                     <p className="text-sm text-ink-600 mb-2">No unread</p>
                     <NotificationBell unreadCount={0} />
@@ -230,11 +230,11 @@ export default function NotificationsTestPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">NotificationToast Component</h2>
-                <p className="text-ink-600 mb-6">
+                <h2 className="text-sm font-semibold mb-4">NotificationToast Component</h2>
+                <p className="text-ink-600 mb-3">
                   Temporary toast notification that appears in the top-right corner.
                 </p>
-                <div className="space-y-4">
+                <div className="space-y-2">
                   <button
                     onClick={simulateNewNotification}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -245,8 +245,8 @@ export default function NotificationsTestPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">NotificationInbox Component</h2>
-                <p className="text-ink-600 mb-6">
+                <h2 className="text-sm font-semibold mb-4">NotificationInbox Component</h2>
+                <p className="text-ink-600 mb-3">
                   Full inbox view with filtering, status updates, and actions.
                 </p>
                 <NotificationInbox
@@ -261,9 +261,9 @@ export default function NotificationsTestPage() {
 
           {/* Interactive Demo Tab */}
           {activeTab === 'demo' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-semibold mb-4">Interactive Demo</h2>
-              <p className="text-ink-600 mb-6">
+            <div className="space-y-2">
+              <h2 className="text-sm font-semibold mb-4">Interactive Demo</h2>
+              <p className="text-ink-600 mb-3">
                 Simulate real-world notification scenarios.
               </p>
 
@@ -282,7 +282,7 @@ export default function NotificationsTestPage() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-semibold mb-3">Current State</h3>
                   <div className="p-4 bg-bg-2 rounded space-y-2">
@@ -315,10 +315,10 @@ export default function NotificationsTestPage() {
 
           {/* API Documentation Tab */}
           {activeTab === 'api' && (
-            <div className="space-y-8">
-              <h2 className="text-2xl font-semibold mb-4">API Endpoints</h2>
+            <div className="space-y-3">
+              <h2 className="text-sm font-semibold mb-4">API Endpoints</h2>
 
-              <div className="space-y-6">
+              <div className="space-y-2">
                 <div className="border border-border rounded p-4">
                   <h3 className="font-mono text-sm font-semibold mb-2">
                     GET /api/notifications

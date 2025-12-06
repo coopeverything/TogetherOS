@@ -141,12 +141,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   // Already passed or no attempts remaining
   if (quiz.hasPassed && !result) {
     return (
-      <div className="min-h-screen bg-bg-0 py-8 px-4">
+      <div className="min-h-screen bg-bg-0 py-4 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <div className="text-5xl mb-4">🎉</div>
-            <h1 className="text-xl font-semibold text-ink-900 mb-2">Quiz Already Passed</h1>
-            <p className="text-ink-700 mb-6">You&apos;ve already passed this quiz.</p>
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <div className="text-sm mb-4">🎉</div>
+            <h1 className="text-sm font-semibold text-ink-900 mb-2">Quiz Already Passed</h1>
+            <p className="text-ink-700 mb-3">You&apos;ve already passed this quiz.</p>
             {quiz.pathSlug && quiz.lessonSlug && (
               <Link
                 href={`/learn/${quiz.pathSlug}`}
@@ -163,12 +163,12 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
 
   if (quiz.attemptsRemaining === 0 && !result) {
     return (
-      <div className="min-h-screen bg-bg-0 py-8 px-4">
+      <div className="min-h-screen bg-bg-0 py-4 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <div className="text-5xl mb-4">😔</div>
-            <h1 className="text-xl font-semibold text-ink-900 mb-2">No Attempts Remaining</h1>
-            <p className="text-ink-700 mb-6">
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <div className="text-sm mb-4">😔</div>
+            <h1 className="text-sm font-semibold text-ink-900 mb-2">No Attempts Remaining</h1>
+            <p className="text-ink-700 mb-3">
               You&apos;ve used all {quiz.maxAttempts} attempts for this quiz.
             </p>
             <Link href="/learn" className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
@@ -183,18 +183,18 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   // Show result
   if (result) {
     return (
-      <div className="min-h-screen bg-bg-0 py-8 px-4">
+      <div className="min-h-screen bg-bg-0 py-4 px-4">
         <div className="max-w-2xl mx-auto">
-          <div className={`rounded-lg border p-8 text-center mb-6 ${
+          <div className={`rounded-lg border p-4 text-center mb-3 ${
             result.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
           }`}>
-            <div className="text-5xl mb-4">{result.passed ? '🎉' : '😔'}</div>
-            <h1 className={`text-xl font-semibold mb-2 ${
+            <div className="text-sm mb-4">{result.passed ? '🎉' : '😔'}</div>
+            <h1 className={`text-sm font-semibold mb-2 ${
               result.passed ? 'text-green-800' : 'text-red-800'
             }`}>
               {result.passed ? 'Quiz Passed!' : 'Quiz Not Passed'}
             </h1>
-            <p className={`text-2xl font-bold mb-2 ${
+            <p className={`text-sm font-bold mb-2 ${
               result.passed ? 'text-green-700' : 'text-red-700'
             }`}>
               {result.score}%
@@ -225,7 +225,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
 
           {/* Review */}
           {showReview && (
-            <div className="space-y-4 mb-6">
+            <div className="space-y-2 mb-3">
               {quiz.questions.map((question, index) => {
                 const qResult = result.questionResults.find(r => r.questionId === question.id)
                 return (
@@ -294,7 +294,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
                   setAnswers({})
                   setCurrentQuestion(0)
                 }}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 Try Again
               </button>
@@ -302,14 +302,14 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
             {quiz.pathSlug ? (
               <Link
                 href={`/learn/${quiz.pathSlug}`}
-                className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700"
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
               >
                 Back to Path
               </Link>
             ) : (
               <Link
                 href="/learn"
-                className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700"
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
               >
                 Back to Learning
               </Link>
@@ -326,10 +326,10 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   const canProceed = answers[question.id] !== undefined
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-4 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="bg-bg-1 rounded-lg border border-border p-4 mb-6">
+        <div className="bg-bg-1 rounded-lg border border-border p-4 mb-3">
           <h1 className="font-semibold text-ink-900 mb-1">{quiz.title}</h1>
           <div className="flex items-center justify-between text-sm text-ink-400">
             <span>
@@ -349,8 +349,8 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
         </div>
 
         {/* Question */}
-        <div className="bg-bg-1 rounded-lg border border-border p-6 mb-6">
-          <p className="text-lg font-medium text-ink-900 mb-4">
+        <div className="bg-bg-1 rounded-lg border border-border p-4 mb-3">
+          <p className="text-sm font-medium text-ink-900 mb-4">
             {question.questionText}
           </p>
 
@@ -420,7 +420,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
             <button
               onClick={handleSubmit}
               disabled={!canProceed || submitting}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
             >
               {submitting ? 'Submitting...' : 'Submit Quiz'}
             </button>

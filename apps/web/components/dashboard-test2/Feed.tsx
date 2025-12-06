@@ -71,7 +71,7 @@ export function Feed() {
           <Button variant="ghost" size="sm">Trending</Button>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-2">
           {feedItems.map((item) => (
             <div key={item.id} className="border-b pb-4 last:border-b-0 last:pb-0">
               {item.type === "Post" && (
@@ -83,7 +83,7 @@ export function Feed() {
                     <span>• {item.topic}</span>
                     {item.platform && <span>• {item.platform}</span>}
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+                  <h3 className="mt-2 text-sm font-semibold">{item.title}</h3>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
                     {item.content}
                   </p>
@@ -106,7 +106,7 @@ export function Feed() {
                     <span>• {item.timeLeft}</span>
                     <span>• {item.voted}</span>
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+                  <h3 className="mt-2 text-sm font-semibold">{item.title}</h3>
                   <div className="flex justify-end mt-3 space-x-2">
                     <Button size="sm">Vote Now</Button>
                     <Button variant="secondary" size="sm">View Details</Button>
@@ -121,7 +121,7 @@ export function Feed() {
                     <span>• 📍 {item.location}</span>
                     <span>• {item.attendees} attending</span>
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+                  <h3 className="mt-2 text-sm font-semibold">{item.title}</h3>
                   <div className="flex justify-end mt-3 space-x-2">
                     <Button size="sm">RSVP Going</Button>
                     <Button variant="secondary" size="sm">Details</Button>

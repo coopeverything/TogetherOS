@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 export default function ManifestoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-4">
             TogetherOS Manifesto
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-500">
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500">
             An operating system for cooperation - helping people unlearn division and learn coordination.
           </p>
         </div>
@@ -22,33 +22,33 @@ export default function ManifestoPage() {
         {/* Content */}
         <div className="prose prose-lg prose-orange max-w-none">
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">The Problem</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">The Problem</h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               Power concentrated in a few hands routes wealth and political power upward and pain downward. The results are familiar: struggle, poverty, wars, famine, exploitation, and ecological breakdown—along with anxiety, loss of meaning, isolation, and social disconnection.
             </p>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">The Opening</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">The Opening</h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               Whenever everyday people are asked, at scale, to propose and choose solutions, they produce <em>more rational, humane, and effective</em> plans—and they innovate more creatively, with greater care for those in need. So you would think "We the people" should be making the decisions. Democracy works—when systems let people decide and deliver.
             </p>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">The Obstacle</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">The Obstacle</h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               The barrier isn't human capacity—it's fragmentation: ideology, trauma, isolation, manipulative narratives, and a culture trained for competition and obedience to "strong leaders" and pyramidal institutions. Though we evolved as cooperators over hundreds of thousands of years, recent systems have convinced us otherwise.
             </p>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">The Answer: An Operating System for Cooperation</h2>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">The Answer: An Operating System for Cooperation</h2>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
               <strong>TogetherOS</strong> is a full-stack social and technological system that helps people unlearn division and learn coordination. It resets default assumptions (individualism, zero-sum thinking) and cultivates cooperative habits—then channels them into real delivery.
             </p>
 
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Core mechanics</h3>
+            <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-3">Core mechanics</h3>
             <ul className="space-y-3 text-gray-700 dark:text-gray-300">
               <li>
                 <strong>Shared decisions, shared power:</strong> Transparent, participatory governance built on consent, rotating and recallable roles, and traceable actions. Open proposals → evidence & options → deliberation → vote → delivery → review, with minority-interest protection and independent audits.
@@ -63,7 +63,7 @@ export default function ManifestoPage() {
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">How TogetherOS Changes Behavior</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">How TogetherOS Changes Behavior</h2>
             <ul className="space-y-3 text-gray-700 dark:text-gray-300">
               <li>
                 <strong>Learning & Unlearning Layer:</strong> Short, scenario-based lessons and micro-challenges teach civic reasoning (claims → evidence → tradeoffs), negotiation, and cooperative habits. Completing them unlocks capabilities and Support Points.
@@ -87,14 +87,14 @@ export default function ManifestoPage() {
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Gamification & Immersive Experience</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Gamification & Immersive Experience</h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               We create an immersive, role-play–style environment to help people imagine and visualize growth at local, national, and global scales. Seed → Seedling → Young Tree → Majestic Tree animations and a 3D globe that visualizes live projects and human achievements will make TogetherOS feel like a global-scale RPG—except every node represents real people and contactable projects. Play leads directly to collaboration and delivery.
             </p>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Eight Paths of Cooperation for Resilience and Prosperity</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Eight Paths of Cooperation for Resilience and Prosperity</h2>
             <ol className="space-y-3 text-gray-700 dark:text-gray-300">
               <li>
                 <strong>Collaborative Education</strong> — Civic studios, skill trees, peer cohorts, and a global repository of best practices. Learning is project-tethered and immediately useful.
@@ -124,7 +124,7 @@ export default function ManifestoPage() {
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">From Scarcity to Prosperity — Practical Intent</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">From Scarcity to Prosperity — Practical Intent</h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               We are not another abstract political theory. Theory is important, but people need housing, food, fair wages, reliable healthcare, meaningful work, and community <em>now</em>. Extractive economics have systematically denied those needs. TogetherOS organizes practical, scalable pathways—combining cooperative production, local value capture, mutual aid, commons stewardship, and durable governance—so communities can meet basic needs and then prosper.
             </p>
@@ -134,15 +134,15 @@ export default function ManifestoPage() {
           </section>
 
           <section className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Culture & Promise</h2>
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Culture & Promise</h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               We reject pyramidal authority and the worship of concentrated wealth. Cooperation is our original nature; TogetherOS is practice and structure to re-awaken it. Tiny, verifiable steps compound into dignity, connection, and shared prosperity for people and planet.
             </p>
           </section>
 
           {/* Call to Action */}
-          <section className="mt-12 p-6 bg-orange-50 border-l-4 border-orange-500 rounded-r-lg">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Help Build TogetherOS</h2>
+          <section className="mt-12 p-4 bg-orange-50 border-l-4 border-orange-500 rounded-r-lg">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-3">Help Build TogetherOS</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               Make cooperation inevitable! Your choice of module raises its priority. The build is dynamic and community-steered—tell us what you want to ship next.
             </p>

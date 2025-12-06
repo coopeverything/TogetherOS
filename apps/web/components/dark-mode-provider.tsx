@@ -295,8 +295,8 @@ export function ThemePicker({ className = '' }: { className?: string }) {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)]">
-              <h2 className="text-lg font-semibold text-[var(--ink-900)]">Pick Your Theme</h2>
+            <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--border)]">
+              <h2 className="text-sm font-semibold text-[var(--ink-900)]">Pick Your Theme</h2>
               <div className="flex items-center gap-3">
                 <button
                   onClick={toggleDarkMode}
@@ -326,7 +326,7 @@ export function ThemePicker({ className = '' }: { className?: string }) {
                     <button
                       key={t}
                       onClick={() => handleSelect(t)}
-                      className={`flex items-center gap-4 px-4 py-3 rounded-lg border transition-all text-left ${
+                      className={`flex items-center gap-4 px-4 py-2 rounded-lg border transition-all text-left ${
                         isSelected
                           ? 'border-[var(--brand-500)] bg-[var(--brand-100)] ring-2 ring-[var(--brand-500)]'
                           : 'border-[var(--border)] hover:bg-[var(--bg-2)] hover:border-[var(--ink-400)]'

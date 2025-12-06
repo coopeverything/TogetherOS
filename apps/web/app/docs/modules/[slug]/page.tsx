@@ -248,9 +248,9 @@ export default async function ModuleDocPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         {/* Navigation */}
-        <nav className="mb-8">
+        <nav className="mb-4">
           <Link
             href="/modules"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
@@ -273,14 +273,14 @@ export default async function ModuleDocPage({ params }: Props) {
         </nav>
 
         {/* Content */}
-        <article className="bg-bg-1 rounded-lg shadow-sm border border-border p-8">
+        <article className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
           {/*
             Prose styling with improved paragraph spacing:
-            - prose-p:mb-6 adds bottom margin to paragraphs
+            - prose-p:mb-3 adds bottom margin to paragraphs
             - prose-li:mb-2 adds spacing between list items
-            - prose-headings:mt-8 adds top margin to headings
+            - prose-headings:mt-4 adds top margin to headings
           */}
-          <div className="prose prose-lg max-w-none prose-headings:text-ink-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-ink-700 prose-p:mb-6 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-bg-2 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-border prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
+          <div className="prose prose-lg max-w-none prose-headings:text-ink-900 prose-headings:mt-4 prose-headings:mb-4 prose-p:text-ink-700 prose-p:mb-3 prose-p:leading-relaxed prose-li:mb-2 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-bg-2 prose-th:p-3 prose-th:text-left prose-td:border prose-td:border-border prose-td:p-3 prose-hr:my-8 prose-ul:my-6 prose-ol:my-6">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
               components={{
@@ -294,7 +294,7 @@ export default async function ModuleDocPage({ params }: Props) {
         </article>
 
         {/* Developer Footer */}
-        <div className="mt-8 p-6 bg-bg-1 rounded-lg shadow-sm border border-border">
+        <div className="mt-4 p-4 bg-bg-1 rounded-lg shadow-sm border border-border">
           <div className="flex items-center gap-2 text-ink-700">
             <GitHubIcon className="w-5 h-5" />
             <span className="font-medium">For Developers</span>

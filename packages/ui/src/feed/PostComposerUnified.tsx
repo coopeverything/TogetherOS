@@ -150,8 +150,8 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create Post</h2>
+        <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-4 flex items-center justify-between">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">Create Post</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -163,7 +163,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="px-6 py-4 space-y-4">
+          <div className="px-4 py-4 space-y-2">
             {/* Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
@@ -207,7 +207,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
             {detectedUrls.length > 0 && (
               <div className={`rounded-lg p-3 ${hasSocialMedia ? 'bg-green-50 border border-green-200' : 'bg-blue-50 border border-blue-200'}`}>
                 <div className="flex items-start gap-2">
-                  <span className="text-lg">{hasSocialMedia ? '✅' : 'ℹ️'}</span>
+                  <span className="text-sm">{hasSocialMedia ? '✅' : 'ℹ️'}</span>
                   <div className="flex-1">
                     <p className={`text-sm font-medium ${hasSocialMedia ? 'text-green-800' : 'text-blue-800'}`}>
                       {hasSocialMedia ? `${detectedUrls.length} social media ${detectedUrls.length === 1 ? 'URL' : 'URLs'} detected` : `${detectedUrls.length} ${detectedUrls.length === 1 ? 'URL' : 'URLs'} detected`}
@@ -329,7 +329,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3">
+          <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-4 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
@@ -340,7 +340,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Creating...' : 'Create Post'}
             </button>

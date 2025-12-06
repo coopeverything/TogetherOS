@@ -80,16 +80,16 @@ export function MysteryReveal({
 
   const sizeClasses = {
     sm: {
-      value: 'text-xl',
+      value: 'text-sm',
       label: 'text-xs',
     },
     md: {
-      value: 'text-4xl',
+      value: 'text-sm',
       label: 'text-sm',
     },
     lg: {
       value: 'text-6xl',
-      label: 'text-base',
+      label: 'text-sm',
     },
   };
 

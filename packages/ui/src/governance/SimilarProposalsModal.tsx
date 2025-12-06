@@ -57,10 +57,10 @@ export function SimilarProposalsModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
                 Similar Proposals Found
               </h2>
               <p className="text-sm text-gray-600 mt-1">
@@ -104,7 +104,7 @@ export function SimilarProposalsModal({
         </div>
 
         {/* Proposals List */}
-        <div className="px-6 py-4 space-y-4">
+        <div className="px-4 py-4 space-y-2">
           {similarProposals.map((proposal) => (
             <div key={proposal.id} className="relative">
               {/* Similarity Badge */}
@@ -148,7 +148,7 @@ export function SimilarProposalsModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+        <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-4 py-4 flex items-center justify-between">
           <div className="text-sm text-gray-600">
             {requiresClarification
               ? 'Please review and clarify your proposal'

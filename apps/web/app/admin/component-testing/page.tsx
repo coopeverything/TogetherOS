@@ -83,17 +83,17 @@ export default function ComponentTestingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-4 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-4">
           <Link
             href="/admin"
             className="text-sm text-ink-400 hover:text-ink-700 mb-2 inline-block"
           >
             ← Back to Admin
           </Link>
-          <h1 className="text-2xl font-semibold text-ink-900 mb-2">
+          <h1 className="text-sm font-semibold text-ink-900 mb-2">
             Component Testing Hub
           </h1>
           <p className="text-sm text-ink-400">
@@ -102,7 +102,7 @@ export default function ComponentTestingPage() {
         </div>
 
         {/* Module Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           {modules.map((module) => (
             <div
               key={module.id}
@@ -154,8 +154,8 @@ export default function ComponentTestingPage() {
         </div>
 
         {/* Quick Access Panel */}
-        <div className="bg-bg-1 rounded-lg border border-border p-6">
-          <h2 className="text-lg font-semibold text-ink-900 mb-4">
+        <div className="bg-bg-1 rounded-lg border border-border p-4">
+          <h2 className="text-sm font-semibold text-ink-900 mb-4">
             Quick Access
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -166,7 +166,7 @@ export default function ComponentTestingPage() {
                 className="flex flex-col items-center p-3 rounded-lg bg-bg-2 hover:bg-bg-1 transition-colors text-center"
               >
                 <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center mb-2">
-                  <span className="text-brand-600 text-lg font-bold">
+                  <span className="text-brand-600 text-sm font-bold">
                     {module.name.charAt(0)}
                   </span>
                 </div>

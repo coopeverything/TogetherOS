@@ -40,8 +40,8 @@ export default function ModerationQueuePage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="animate-pulse space-y-4">
+      <div className="container mx-auto px-4 py-4 max-w-4xl">
+        <div className="animate-pulse space-y-2">
           <div className="h-8 bg-bg-2 rounded w-1/3"></div>
           <div className="h-32 bg-bg-2 rounded"></div>
         </div>
@@ -50,9 +50,9 @@ export default function ModerationQueuePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink-900">
+    <div className="container mx-auto px-4 py-4 max-w-4xl">
+      <div className="mb-3">
+        <h1 className="text-sm font-bold text-ink-900">
           Moderation Queue
         </h1>
         <p className="text-ink-700 mt-2">
@@ -61,7 +61,7 @@ export default function ModerationQueuePage() {
       </div>
 
       {/* Filter */}
-      <div className="mb-6 flex gap-2">
+      <div className="mb-3 flex gap-2">
         <button
           onClick={() => setFilter('pending')}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -86,17 +86,17 @@ export default function ModerationQueuePage() {
 
       {/* Flags List */}
       {flags.length === 0 ? (
-        <div className="bg-bg-0 border border-border rounded-lg p-8 text-center">
+        <div className="bg-bg-0 border border-border rounded-lg p-4 text-center">
           <p className="text-ink-700">
             {filter === 'pending' ? 'No pending flags' : 'No flags found'}
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {flags.map((flag) => (
             <div
               key={flag.id}
-              className="bg-bg-1 rounded-lg border border-border p-6"
+              className="bg-bg-1 rounded-lg border border-border p-4"
             >
               <div className="flex items-start justify-between mb-3">
                 <div>

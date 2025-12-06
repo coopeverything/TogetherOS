@@ -48,9 +48,9 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
   return (
     <div className="h-screen bg-[#F7F7F5] flex flex-col">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex-shrink-0">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4 flex-shrink-0">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Card Deck</h1>
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white">Card Deck</h1>
           <div className="flex items-center gap-3">
             {selectedCards.size > 0 && (
               <span className="text-sm text-gray-600">
@@ -69,7 +69,7 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
 
       {/* Columns */}
       <div className="flex-1 overflow-x-auto overflow-y-hidden">
-        <div className="flex gap-4 p-6 h-full">
+        <div className="flex gap-4 p-4 h-full">
           {columns.map((column) => (
             <div key={column.id} className="flex-shrink-0 w-[280px] flex flex-col">
               {/* Column Header */}
@@ -134,7 +134,7 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
                 ))}
 
                 {column.topics.length === 0 && (
-                  <div className="text-center py-8 text-gray-400 text-sm">
+                  <div className="text-center py-4 text-gray-400 text-sm">
                     No {column.title.toLowerCase()} topics
                   </div>
                 )}
@@ -146,7 +146,7 @@ export function CardDeck({ topics, onTopicClick, onCreateTopic }: CardDeckProps)
 
       {/* Bottom Action Bar */}
       {selectedCards.size > 0 && (
-        <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between flex-shrink-0">
+        <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-2 flex items-center justify-between flex-shrink-0">
           <span className="text-sm font-medium text-gray-700">
             {selectedCards.size} card{selectedCards.size !== 1 ? 's' : ''} selected
           </span>

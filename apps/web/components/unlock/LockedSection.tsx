@@ -66,7 +66,7 @@ export function LockedSection({
         )}
         title={displayHint}
       >
-        <span className="text-lg">?</span>
+        <span className="text-sm">?</span>
         <span className="text-sm">{displayTeaser}</span>
       </span>
     );
@@ -76,16 +76,16 @@ export function LockedSection({
     return (
       <div
         className={cn(
-          'min-h-[50vh] flex flex-col items-center justify-center p-8',
+          'min-h-[50vh] flex flex-col items-center justify-center p-4',
           'bg-gradient-to-b from-bg-2 to-bg-1',
           className
         )}
       >
-        <div className="text-6xl mb-6 opacity-50">?</div>
-        <h2 className="text-2xl font-semibold text-ink-700 mb-2">
+        <div className="text-6xl mb-3 opacity-50">?</div>
+        <h2 className="text-sm font-semibold text-ink-700 mb-2">
           {displayTeaser}
         </h2>
-        <p className="text-ink-500 text-center max-w-md mb-6">
+        <p className="text-ink-500 text-center max-w-md mb-3">
           {displayHint}
         </p>
         {nextMilestone && (
@@ -103,7 +103,7 @@ export function LockedSection({
       className={cn(
         'relative overflow-hidden rounded-xl border border-border',
         'bg-gradient-to-br from-bg-2 via-bg-1 to-bg-2',
-        'p-6',
+        'p-4',
         className
       )}
     >
@@ -111,7 +111,7 @@ export function LockedSection({
       <div className="absolute inset-0 backdrop-blur-sm bg-bg-1/30" />
 
       {/* Lock icon and content */}
-      <div className="relative z-10 flex flex-col items-center justify-center py-8">
+      <div className="relative z-10 flex flex-col items-center justify-center py-4">
         <div className="w-16 h-16 rounded-full bg-bg-3 flex items-center justify-center mb-4">
           <svg
             className="w-8 h-8 text-ink-400"
@@ -128,7 +128,7 @@ export function LockedSection({
           </svg>
         </div>
 
-        <p className="text-lg text-ink-600 font-medium mb-2 text-center">
+        <p className="text-sm text-ink-600 font-medium mb-2 text-center">
           {displayTeaser}
         </p>
 

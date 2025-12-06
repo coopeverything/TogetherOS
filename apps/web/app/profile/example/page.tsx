@@ -17,7 +17,7 @@ export default function ExampleProfilePage() {
     <div className="min-h-screen bg-bg-0">
       {/* Header */}
       <header className="bg-bg-1 border-b border-border">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="text-brand-600 hover:text-brand-500 font-semibold">
             ← Back to Home
           </Link>
@@ -32,18 +32,18 @@ export default function ExampleProfilePage() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-4">
         {/* Notice */}
-        <div className="bg-joy-100 border border-joy-600/20 rounded-lg p-4 mb-6">
+        <div className="bg-joy-100 border border-joy-600/20 rounded-lg p-4 mb-3">
           <p className="text-sm text-ink-900">
             <span className="font-semibold">📋 This is an example profile.</span> Use it as inspiration when creating your own TogetherOS profile.
           </p>
         </div>
 
         {/* Profile Header */}
-        <Card className="mb-6">
+        <Card className="mb-3">
           <CardContent className="pt-8">
-            <div className="flex items-start gap-6">
+            <div className="flex items-start gap-4">
               {/* Avatar */}
               <div className="flex-shrink-0">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-br from-brand-500 to-joy-500 flex items-center justify-center text-6xl">
@@ -53,7 +53,7 @@ export default function ExampleProfilePage() {
 
               {/* Basic Info */}
               <div className="flex-1">
-                <h1 className="text-4xl font-bold text-ink-900 mb-2">Alex Rivera</h1>
+                <h1 className="text-sm font-bold text-ink-900 mb-2">Alex Rivera</h1>
                 <div className="flex flex-wrap gap-4 text-ink-700 mb-4">
                   <span>📍 Portland, Oregon, USA</span>
                   <span>•</span>
@@ -78,15 +78,15 @@ export default function ExampleProfilePage() {
                 {/* Quick Stats */}
                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
                   <div>
-                    <div className="text-2xl font-bold text-ink-900">15</div>
+                    <div className="text-sm font-bold text-ink-900">15</div>
                     <div className="text-sm text-ink-700">Proposals Voted</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-ink-900">47</div>
+                    <div className="text-sm font-bold text-ink-900">47</div>
                     <div className="text-sm text-ink-700">Forum Posts</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-ink-900">2</div>
+                    <div className="text-sm font-bold text-ink-900">2</div>
                     <div className="text-sm text-ink-700">Cooperatives</div>
                   </div>
                 </div>
@@ -95,9 +95,9 @@ export default function ExampleProfilePage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-2">
             {/* Bio */}
             <Card>
               <CardHeader className="pb-6">
@@ -119,7 +119,7 @@ export default function ExampleProfilePage() {
                 <CardTitle>Skills & Expertise</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
+                <div className="space-y-2">
                   <div>
                     <h4 className="font-semibold text-ink-900 mb-3">Technical Skills</h4>
                     <div className="flex flex-wrap gap-2">
@@ -179,7 +179,7 @@ export default function ExampleProfilePage() {
               <CardHeader className="pb-6">
                 <CardTitle>References</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-2">
                 <blockquote className="border-l-4 border-brand-500 pl-4 italic text-ink-700">
                   "Alex built our cooperative's entire voting system and trained our whole team on how to use it. Incredibly patient teacher and skilled developer."
                   <footer className="mt-2 text-sm font-semibold text-ink-900">— Maria Santos, Portland Tech Co-op</footer>
@@ -193,7 +193,7 @@ export default function ExampleProfilePage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-2">
             {/* Cooperation Paths */}
             <Card>
               <CardHeader className="pb-6">
@@ -250,7 +250,7 @@ export default function ExampleProfilePage() {
               <CardHeader className="pb-6">
                 <CardTitle>Cooperative Memberships</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-2">
                 <div>
                   <div className="font-semibold text-ink-900 text-sm">Portland Tech Co-op</div>
                   <div className="text-xs text-ink-700">Tech Committee Member</div>
@@ -295,9 +295,9 @@ export default function ExampleProfilePage() {
         </div>
 
         {/* CTA */}
-        <Card className="mt-8 bg-gradient-to-r from-brand-50 to-joy-50 border-brand-200">
+        <Card className="mt-4 bg-gradient-to-r from-brand-50 to-joy-50 border-brand-200">
           <CardContent className="pt-6 text-center">
-            <h3 className="text-2xl font-bold text-ink-900 mb-2">Ready to create your profile?</h3>
+            <h3 className="text-sm font-bold text-ink-900 mb-2">Ready to create your profile?</h3>
             <p className="text-ink-700 mb-4">Join TogetherOS and start cooperating with others</p>
             <div className="flex gap-3 justify-center">
               <Link href="/signup">

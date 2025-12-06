@@ -53,14 +53,14 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
         background: 'rgba(255, 255, 255, 0.6)',
         backdropFilter: 'blur(10px)'
       }}>
-        <div className="max-w-6xl mx-auto px-6 py-6">
+        <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-4xl font-bold text-[#6B5B3C]" style={{ fontFamily: 'Fraunces, Georgia, serif' }}>
+            <h1 className="text-sm font-bold text-[#6B5B3C]" style={{ fontFamily: 'Fraunces, Georgia, serif' }}>
               Community Garden
             </h1>
             <button
               onClick={onCreateTopic}
-              className="px-6 py-3 bg-[#8B6F3E] text-white rounded-full text-base font-medium hover:bg-[#6B5B3C] transition-all shadow-md hover:shadow-lg"
+              className="px-4 py-2 bg-[#8B6F3E] text-white rounded-full text-sm font-medium hover:bg-[#6B5B3C] transition-all shadow-md hover:shadow-lg"
             >
               🌱 Plant a Topic
             </button>
@@ -87,8 +87,8 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
       </div>
 
       {/* Garden Grid */}
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredTopics.map((topic) => {
             const growth = getGrowthStage(topic)
             const colors = categoryColors[topic.category]
@@ -127,7 +127,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
 
                 {/* Topic Content */}
                 <div className="p-4">
-                  <h3 className="text-lg font-bold mb-2 line-clamp-2" style={{ color: colors.text }}>
+                  <h3 className="text-sm font-bold mb-2 line-clamp-2" style={{ color: colors.text }}>
                     {topic.title}
                   </h3>
 
@@ -208,7 +208,7 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
         {filteredTopics.length === 0 && (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🌱</div>
-            <p className="text-xl text-[#6B5B3C] mb-2">No topics in this garden yet</p>
+            <p className="text-sm text-[#6B5B3C] mb-2">No topics in this garden yet</p>
             <p className="text-sm text-[#8B6F3E]">Plant the first seed to start growing your community</p>
           </div>
         )}
@@ -216,9 +216,9 @@ export function Garden({ topics, onTopicClick, onCreateTopic }: GardenProps) {
 
       {/* Garden Stats Footer */}
       <div className="border-t-2" style={{ borderColor: '#C9B58A', background: 'rgba(255, 255, 255, 0.6)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between text-sm text-[#6B5B3C]">
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
               <span>🌱 {topics.filter(t => t.postCount === 0).length} seedlings</span>
               <span>🌿 {topics.filter(t => t.postCount > 0 && t.postCount < 5).length} sprouting</span>
               <span>🪴 {topics.filter(t => t.postCount >= 5 && t.postCount < 15).length} growing</span>

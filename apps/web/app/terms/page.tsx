@@ -13,16 +13,16 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Terms of Service</h1>
+    <main className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+      <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Terms of Service</h1>
 
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
         Last updated: November 13, 2025
       </p>
 
       {/* Introduction */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Introduction</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Introduction</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           Welcome to TogetherOS. By accessing or using our platform, you agree to be bound
           by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms,
@@ -35,8 +35,8 @@ export default function TermsPage() {
       </section>
 
       {/* Acceptance of Terms */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Acceptance of Terms</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Acceptance of Terms</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           By creating an account, posting content, or otherwise using TogetherOS, you agree to:
         </p>
@@ -49,8 +49,8 @@ export default function TermsPage() {
       </section>
 
       {/* User Accounts */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">User Accounts</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">User Accounts</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           To access certain features of TogetherOS, you must create an account. You are
           responsible for:
@@ -67,9 +67,9 @@ export default function TermsPage() {
       </section>
 
       {/* User Content and Ownership */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">User Content and Ownership</h2>
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Your Content</h3>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">User Content and Ownership</h2>
+        <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-3">Your Content</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           You retain all ownership rights to content you create on TogetherOS (posts,
           comments, proposals, etc.). By posting content, you grant TogetherOS a
@@ -81,7 +81,7 @@ export default function TermsPage() {
           <li>Allow other users to view and interact with your content per your privacy settings</li>
         </ul>
 
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3 mt-6">Social Media Imports</h3>
+        <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-3 mt-6">Social Media Imports</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           When you import social media content (Instagram, TikTok, Twitter, etc.):
         </p>
@@ -94,8 +94,8 @@ export default function TermsPage() {
       </section>
 
       {/* Acceptable Use */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Acceptable Use</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Acceptable Use</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           You agree NOT to use TogetherOS to:
         </p>
@@ -112,8 +112,8 @@ export default function TermsPage() {
       </section>
 
       {/* Community Guidelines */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Community Guidelines</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Community Guidelines</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS is built on cooperation and mutual respect. We expect users to:
         </p>
@@ -127,8 +127,8 @@ export default function TermsPage() {
       </section>
 
       {/* Intellectual Property */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Intellectual Property</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Intellectual Property</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS platform code, design, trademarks, and documentation are owned by
           TogetherOS or licensed to us. You may not:
@@ -153,8 +153,8 @@ export default function TermsPage() {
       </section>
 
       {/* Third-Party Services */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Third-Party Services</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Third-Party Services</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS integrates with third-party services (social media platforms for
           link previews). We are not responsible for:
@@ -168,8 +168,8 @@ export default function TermsPage() {
       </section>
 
       {/* Disclaimer of Warranties */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Disclaimer of Warranties</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Disclaimer of Warranties</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           TogetherOS is provided &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; without
           warranties of any kind, either express or implied, including but not limited to:
@@ -183,8 +183,8 @@ export default function TermsPage() {
       </section>
 
       {/* Limitation of Liability */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Limitation of Liability</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Limitation of Liability</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           To the maximum extent permitted by law, TogetherOS and its contributors shall
           not be liable for:
@@ -203,8 +203,8 @@ export default function TermsPage() {
       </section>
 
       {/* Indemnification */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Indemnification</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Indemnification</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           You agree to indemnify and hold harmless TogetherOS, its contributors, and
           affiliates from any claims, damages, or expenses arising from:
@@ -218,8 +218,8 @@ export default function TermsPage() {
       </section>
 
       {/* Dispute Resolution */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Dispute Resolution</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Dispute Resolution</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           If you have a dispute with TogetherOS:
         </p>
@@ -248,8 +248,8 @@ export default function TermsPage() {
       </section>
 
       {/* Termination */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Termination</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Termination</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           We may suspend or terminate your account if you:
         </p>
@@ -269,8 +269,8 @@ export default function TermsPage() {
       </section>
 
       {/* Changes to Terms */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Changes to These Terms</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Changes to These Terms</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           We may update these Terms from time to time. When we make material changes:
         </p>
@@ -286,8 +286,8 @@ export default function TermsPage() {
       </section>
 
       {/* Governing Law */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Governing Law</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Governing Law</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           These Terms shall be governed by and construed in accordance with the laws of
           the United States, without regard to conflict of law principles.
@@ -295,8 +295,8 @@ export default function TermsPage() {
       </section>
 
       {/* Severability */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Severability</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Severability</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           If any provision of these Terms is found to be invalid or unenforceable, the
           remaining provisions shall continue in full force and effect.
@@ -304,8 +304,8 @@ export default function TermsPage() {
       </section>
 
       {/* Entire Agreement */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Entire Agreement</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Entire Agreement</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           These Terms, together with our Privacy Policy, constitute the entire agreement
           between you and TogetherOS regarding use of the platform.
@@ -313,8 +313,8 @@ export default function TermsPage() {
       </section>
 
       {/* Contact Us */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Contact Us</h2>
+      <section className="mb-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Contact Us</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           If you have questions about these Terms, please contact us:
         </p>

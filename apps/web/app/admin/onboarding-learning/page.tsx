@@ -227,16 +227,16 @@ export default function LearningAdminPage() {
   if (!isAuthorized) return null
 
   return (
-    <div className="min-h-screen bg-bg-1 py-8 px-4">
+    <div className="min-h-screen bg-bg-1 py-4 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-3">
           <div className="flex items-center gap-2 text-sm text-ink-400 dark:text-ink-400 mb-2">
             <a href="/admin" className="hover:text-ink-700 dark:hover:text-gray-300">Admin</a>
             <span>/</span>
             <span>Onboarding Learning</span>
           </div>
-          <h1 className="text-2xl font-semibold text-ink-900">Learning Content Management</h1>
+          <h1 className="text-sm font-semibold text-ink-900">Learning Content Management</h1>
           <p className="text-sm text-ink-700 dark:text-ink-400 mt-1">
             Manage learning paths, lessons, and quizzes for user onboarding
           </p>
@@ -263,7 +263,7 @@ export default function LearningAdminPage() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-3 text-sm font-medium capitalize ${
+                className={`px-4 py-2 text-sm font-medium capitalize ${
                   activeTab === tab
                     ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                     : 'text-ink-700 hover:text-ink-900 hover:bg-bg-1'
@@ -556,7 +556,7 @@ function PathModal({
               {path.id ? 'Edit Learning Path' : 'New Learning Path'}
             </h3>
           </div>
-          <div className="p-4 space-y-4">
+          <div className="p-4 space-y-2">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-ink-700 mb-1">Slug</label>
@@ -724,7 +724,7 @@ function LessonModal({
               {lesson.id ? 'Edit Lesson' : 'New Lesson'}
             </h3>
           </div>
-          <div className="p-4 space-y-4">
+          <div className="p-4 space-y-2">
             <div>
               <label className="block text-sm font-medium text-ink-700 mb-1">Learning Path</label>
               <select
@@ -891,7 +891,7 @@ function QuizModal({
               {quiz.id ? 'Edit Quiz' : 'New Quiz'}
             </h3>
           </div>
-          <div className="p-4 space-y-4">
+          <div className="p-4 space-y-2">
             <div>
               <label className="block text-sm font-medium text-ink-700 mb-1">Linked Lesson (optional)</label>
               <select

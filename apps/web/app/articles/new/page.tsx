@@ -198,10 +198,10 @@ export default function NewArticlePage() {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
           <div className="text-6xl mb-4">🔐</div>
-          <h1 className="text-2xl font-bold text-ink-900 mb-4">
+          <h1 className="text-sm font-bold text-ink-900 mb-4">
             Sign in to write an article
           </h1>
-          <p className="text-ink-700 mb-6">
+          <p className="text-ink-700 mb-3">
             You need to be logged in to share your perspective with the community.
           </p>
           <div className="flex justify-center gap-4">
@@ -225,9 +225,9 @@ export default function NewArticlePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         {/* Header */}
-        <header className="mb-8">
+        <header className="mb-4">
           <nav className="mb-4">
             <Link
               href="/articles"
@@ -241,11 +241,11 @@ export default function NewArticlePage() {
           </nav>
 
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-2xl">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white text-sm">
               ✍️
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-ink-900">Write an Article</h1>
+              <h1 className="text-sm font-bold text-ink-900">Write an Article</h1>
               <p className="text-ink-700">Share your perspective with the community</p>
             </div>
           </div>
@@ -264,13 +264,13 @@ export default function NewArticlePage() {
 
         {/* Error message */}
         {submitError && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          <div className="mb-3 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
             {submitError}
           </div>
         )}
 
         {/* Editor / Preview Toggle */}
-        <div className="flex items-center gap-2 mb-6 p-1 bg-bg-2 rounded-lg w-fit">
+        <div className="flex items-center gap-2 mb-3 p-1 bg-bg-2 rounded-lg w-fit">
           <button
             type="button"
             onClick={() => setShowPreview(false)}
@@ -297,17 +297,17 @@ export default function NewArticlePage() {
 
         {showPreview ? (
           /* Preview Mode */
-          <div className="bg-bg-1 rounded-xl border border-border p-8">
+          <div className="bg-bg-1 rounded-xl border border-border p-4">
             <div className="text-sm text-orange-600 uppercase tracking-wide font-medium mb-2">
               Expert Opinion
             </div>
-            <h1 className="text-3xl font-bold text-ink-900 mb-4">
+            <h1 className="text-sm font-bold text-ink-900 mb-4">
               {title || 'Your title here...'}
             </h1>
-            <p className="text-lg text-ink-700 mb-6">
+            <p className="text-sm text-ink-700 mb-3">
               {summary || 'Your summary here...'}
             </p>
-            <div className="flex items-center gap-4 text-sm text-ink-400 mb-6 pb-6 border-b border-border">
+            <div className="flex items-center gap-4 text-sm text-ink-400 mb-3 pb-6 border-b border-border">
               <span>{readTimeMinutes} min read</span>
               <span>{wordCount} words</span>
             </div>
@@ -319,7 +319,7 @@ export default function NewArticlePage() {
               )}
             </div>
             {tags.length > 0 && (
-              <div className="mt-8 pt-6 border-t border-border">
+              <div className="mt-4 pt-6 border-t border-border">
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <span
@@ -335,7 +335,7 @@ export default function NewArticlePage() {
           </div>
         ) : (
           /* Edit Mode */
-          <form className="space-y-6">
+          <form className="space-y-2">
             {/* Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-ink-900 mb-2">
@@ -347,7 +347,7 @@ export default function NewArticlePage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="A compelling title for your article"
-                className={`w-full px-4 py-3 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-4 py-2 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                   errors.title ? 'border-red-500' : 'border-border'
                 }`}
                 disabled={isSubmitting}
@@ -367,7 +367,7 @@ export default function NewArticlePage() {
                 onChange={(e) => setSummary(e.target.value)}
                 placeholder="A brief description that will appear in article listings"
                 rows={3}
-                className={`w-full px-4 py-3 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical ${
+                className={`w-full px-4 py-2 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical ${
                   errors.summary ? 'border-red-500' : 'border-border'
                 }`}
                 disabled={isSubmitting}
@@ -388,7 +388,7 @@ export default function NewArticlePage() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your article here... Use Markdown for formatting (# Heading, **bold**, *italic*, - lists)"
                 rows={15}
-                className={`w-full px-4 py-3 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical font-mono text-sm ${
+                className={`w-full px-4 py-2 rounded-lg border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-vertical font-mono text-sm ${
                   errors.content ? 'border-red-500' : 'border-border'
                 }`}
                 disabled={isSubmitting}
@@ -524,7 +524,7 @@ export default function NewArticlePage() {
         )}
 
         {/* Help Text */}
-        <div className="mt-8 p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
+        <div className="mt-4 p-4 bg-bg-0 rounded-lg border border-border text-sm text-ink-700">
           <h4 className="font-medium text-ink-900 mb-2">Writing Tips</h4>
           <ul className="list-disc list-inside space-y-1">
             <li>Use clear, descriptive titles that capture your main argument</li>

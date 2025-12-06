@@ -78,12 +78,12 @@ export function AllocationSlider({
   return (
     <Card className={className}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">
+        <CardTitle className="text-sm">
           {hasAllocation ? 'Adjust Allocation' : 'Allocate Support Points'}
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-2">
         {/* Proposal Title */}
         <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg p-3">
           <p className="text-sm font-medium text-gray-900 dark:text-white">
@@ -97,7 +97,7 @@ export function AllocationSlider({
             <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
               Amount to allocate
             </span>
-            <span className="text-lg font-bold text-blue-600">
+            <span className="text-sm font-bold text-blue-600">
               {amount} SP
             </span>
           </div>

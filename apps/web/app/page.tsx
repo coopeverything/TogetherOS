@@ -16,12 +16,12 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-100 via-bg-1 to-joy-100">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(5,150,105,0.1),transparent_50%),radial-gradient(circle_at_70%_50%,rgba(245,158,11,0.1),transparent_50%)]" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-24 sm:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 py-24 sm:py-32">
           <div className="text-center">
-            <h1 className="text-5xl sm:text-6xl font-bold text-ink-900 mb-6">
+            <h1 className="text-sm sm:text-6xl font-bold text-ink-900 mb-3">
               Welcome to TogetherOS
             </h1>
-            <p className="text-xl text-ink-700 mb-12 max-w-2xl mx-auto">
+            <p className="text-sm text-ink-700 mb-12 max-w-2xl mx-auto">
               A cooperative operating system for collective action. Built on principles of
               democracy, transparency, and shared prosperity.
             </p>
@@ -48,18 +48,18 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24">
+      <section className="max-w-7xl mx-auto px-4 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-ink-900 mb-4">
+          <h2 className="text-sm font-bold text-ink-900 mb-4">
             Eight Paths of Cooperation
           </h2>
-          <p className="text-lg text-ink-700 max-w-3xl mx-auto">
+          <p className="text-sm text-ink-700 max-w-3xl mx-auto">
             TogetherOS is organized around eight essential cooperation systems,
             each designed to empower collective action and democratic decision-making.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Path 1: Groups */}
           <Card>
             <CardHeader>
@@ -234,11 +234,11 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-brand-600 to-brand-500 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-          <h2 className="text-3xl font-bold mb-4">
+        <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+          <h2 className="text-sm font-bold mb-4">
             Ready to Start Cooperating?
           </h2>
-          <p className="text-lg mb-8 opacity-90">
+          <p className="text-sm mb-4 opacity-90">
             Join the movement for democratic, transparent, and cooperative technology.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
@@ -258,12 +258,12 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="bg-bg-2 border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-ink-700">
               © 2025 TogetherOS. Built with cooperation in mind.
             </p>
-            <div className="flex gap-6">
+            <div className="flex gap-4">
               <Link href="/admin/design" className="text-sm text-ink-700 hover:text-brand-600">
                 Design System
               </Link>

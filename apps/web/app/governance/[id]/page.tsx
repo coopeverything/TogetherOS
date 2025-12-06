@@ -244,9 +244,9 @@ export default function ProposalDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <p className="text-lg text-ink-700">Loading proposal...</p>
+          <p className="text-sm text-ink-700">Loading proposal...</p>
         </div>
       </div>
     )
@@ -254,9 +254,9 @@ export default function ProposalDetailPage() {
 
   if (error || !proposal) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-900 mb-2">Error</h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-red-900 mb-2">Error</h2>
           <p className="text-red-700 mb-4">{error || 'Proposal not found'}</p>
           <Link
             href="/governance"
@@ -270,9 +270,9 @@ export default function ProposalDetailPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Breadcrumbs */}
-      <nav className="mb-6 text-sm text-ink-700">
+      <nav className="mb-3 text-sm text-ink-700">
         <Link href="/governance" className="hover:text-orange-600">
           Proposals
         </Link>
@@ -291,7 +291,7 @@ export default function ProposalDetailPage() {
 
       {/* Support Points Allocation Widget */}
       {currentUserId && (
-        <div className="mt-8">
+        <div className="mt-4">
           <ProposalAllocationWidget
             proposalId={id}
             proposalTitle={proposal.title}
@@ -300,19 +300,19 @@ export default function ProposalDetailPage() {
       )}
 
       {/* Rating Section */}
-      <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Rating Display */}
         {ratingAggregate && (
-          <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-ink-900 mb-6">Community Ratings</h2>
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <h2 className="text-sm font-bold text-ink-900 mb-3">Community Ratings</h2>
             <ProposalRatingDisplay aggregate={ratingAggregate} />
           </div>
         )}
 
         {/* Rating Form */}
         {currentUserId && (
-          <div className="bg-bg-1 rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-ink-900 mb-6">
+          <div className="bg-bg-1 rounded-lg border border-border p-4">
+            <h2 className="text-sm font-bold text-ink-900 mb-3">
               {currentRating ? 'Update Your Rating' : 'Rate This Proposal'}
             </h2>
             <ProposalRatingForm
@@ -327,8 +327,8 @@ export default function ProposalDetailPage() {
 
       {/* Voting Interface */}
       {currentUserId && voteTally && (
-        <div className="mt-12 bg-bg-1 rounded-lg border border-border p-8">
-          <h2 className="text-2xl font-bold text-ink-900 mb-6">Vote on This Proposal</h2>
+        <div className="mt-12 bg-bg-1 rounded-lg border border-border p-4">
+          <h2 className="text-sm font-bold text-ink-900 mb-3">Vote on This Proposal</h2>
           <VoteInterface
             proposalId={id}
             currentVote={currentVote}
@@ -341,12 +341,12 @@ export default function ProposalDetailPage() {
 
       {/* Login prompt for non-logged-in users */}
       {!currentUserId && (
-        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
-          <h3 className="text-xl font-semibold text-blue-900 mb-2">Want to vote?</h3>
+        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+          <h3 className="text-sm font-semibold text-blue-900 mb-2">Want to vote?</h3>
           <p className="text-blue-700 mb-4">Log in to participate in this decision</p>
           <Link
             href="/login"
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium inline-block"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium inline-block"
           >
             Log In
           </Link>
@@ -354,10 +354,10 @@ export default function ProposalDetailPage() {
       )}
 
       {/* Back Button */}
-      <div className="mt-8">
+      <div className="mt-4">
         <Link
           href="/governance"
-          className="px-6 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-gray-300 transition-colors font-medium inline-block"
+          className="px-4 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-gray-300 transition-colors font-medium inline-block"
         >
           ← Back to All Proposals
         </Link>

@@ -240,7 +240,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Progress Bars
               </h3>
-              <Card className="space-y-4">
+              <Card className="space-y-2">
                 <Progress value={progressValue} showLabel variant="brand" />
                 <Progress value={75} variant="joy" />
                 <Progress value={90} variant="success" size="sm" />
@@ -259,7 +259,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Spinners
               </h3>
-              <Card className="flex gap-6 items-center">
+              <Card className="flex gap-4 items-center">
                 <Spinner size="sm" variant="brand" />
                 <Spinner size="md" variant="joy" />
                 <Spinner size="lg" variant="default" />
@@ -271,7 +271,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Form Components
               </h3>
-              <Card className="space-y-4 max-w-md">
+              <Card className="space-y-2 max-w-md">
                 <div>
                   <Label htmlFor="name">Name</Label>
                   <Input id="name" type="text" placeholder="Enter your name" className="mt-1" />
@@ -486,7 +486,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Breadcrumb
               </h3>
-              <Card className="space-y-4">
+              <Card className="space-y-2">
                 <Breadcrumb
                   items={[
                     { label: 'Home', href: '/' },
@@ -511,7 +511,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Pagination
               </h3>
-              <Card className="space-y-6">
+              <Card className="space-y-2">
                 <div>
                   <p className="text-ink-700 mb-4">
                     Page {currentPage} of 20
@@ -541,7 +541,7 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Avatar
               </h3>
-              <Card className="space-y-6">
+              <Card className="space-y-2">
                 <div>
                   <p className="text-ink-700 mb-4 text-sm">Sizes:</p>
                   <div className="flex gap-4 items-center">
@@ -578,12 +578,12 @@ export default function DesignShowcase() {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '1rem' }}>
                 Skeleton Loader
               </h3>
-              <Card className="space-y-4">
+              <Card className="space-y-2">
                 <Button onClick={() => setShowSkeleton(!showSkeleton)}>
                   {showSkeleton ? 'Hide' : 'Show'} Skeleton
                 </Button>
                 {showSkeleton ? (
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     <Skeleton variant="text" width="60%" />
                     <Skeleton variant="text" width="80%" />
                     <Skeleton variant="rectangular" width="100%" height={200} />
@@ -596,7 +596,7 @@ export default function DesignShowcase() {
                     <SkeletonCard hasAvatar lines={4} />
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     <p className="text-ink-900 font-medium">Loaded Content</p>
                     <p className="text-ink-700">This is the actual content that would be displayed after loading.</p>
                     <div className="h-[200px] bg-brand-100 rounded-md flex items-center justify-center text-brand-600">

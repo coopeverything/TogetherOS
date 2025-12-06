@@ -86,7 +86,7 @@ export function RatingUI({ postId, existingRating, onSubmit }: RatingUIProps) {
             onMouseEnter={() => setHovering({ dimension, value })}
             onMouseLeave={() => setHovering(null)}
             onClick={() => handleRate(dimension, value)}
-            className={`text-2xl transition ${
+            className={`text-sm transition ${
               value <= displayValue
                 ? 'text-yellow-500'
                 : 'text-gray-300 dark:text-gray-600'
@@ -104,7 +104,7 @@ export function RatingUI({ postId, existingRating, onSubmit }: RatingUIProps) {
     <div className="border rounded-lg p-4 bg-white dark:bg-gray-800">
       <h3 className="font-semibold mb-4">Rate this post</h3>
 
-      <div className="space-y-4">
+      <div className="space-y-2">
         {dimensions.map(({ key, label, description }) => (
           <div key={key} className="flex flex-col gap-1">
             <div className="flex justify-between items-center">

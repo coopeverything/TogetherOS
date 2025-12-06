@@ -76,10 +76,10 @@ export function ProposalView({
   return (
     <div className={`max-w-4xl mx-auto ${className}`}>
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-3">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-2">
               {proposal.title}
             </h1>
             <div className="flex items-center gap-3 text-sm text-gray-500">
@@ -125,18 +125,18 @@ export function ProposalView({
       </div>
 
       {/* Summary */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Summary</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-3">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Summary</h2>
         <p className="text-gray-700 whitespace-pre-wrap">{proposal.summary}</p>
       </div>
 
       {/* Evidence */}
       {proposal.evidence.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-3">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
             Evidence ({proposal.evidence.length})
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {proposal.evidence.map((evidence, index) => (
               <div
                 key={evidence.id || index}
@@ -167,11 +167,11 @@ export function ProposalView({
 
       {/* Options */}
       {proposal.options.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-3">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
             Options ({proposal.options.length})
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {proposal.options.map((option, index) => (
               <div
                 key={option.id || index}
@@ -197,11 +197,11 @@ export function ProposalView({
 
       {/* Positions */}
       {proposal.positions.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-3">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
             Member Positions ({proposal.positions.length})
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {proposal.positions.map((position, index) => (
               <div
                 key={position.id || index}
@@ -234,8 +234,8 @@ export function ProposalView({
 
       {/* Minority Report */}
       {proposal.minorityReport && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-3">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
             Minority Report
           </h2>
           <p className="text-gray-700 whitespace-pre-wrap">
@@ -246,8 +246,8 @@ export function ProposalView({
 
       {/* Decision Info */}
       {proposal.decidedAt && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
             Decision
           </h2>
           <div className="space-y-2 text-sm">

@@ -102,16 +102,16 @@ export default function MonitoringTestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-1 p-8">
+    <div className="min-h-screen bg-bg-1 p-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-bg-0 rounded-lg shadow-md p-6">
-          <h1 className="text-3xl font-bold mb-2">Monitoring Test Page</h1>
-          <p className="text-ink-700 mb-6">
+        <div className="bg-bg-0 rounded-lg shadow-md p-4">
+          <h1 className="text-sm font-bold mb-2">Monitoring Test Page</h1>
+          <p className="text-ink-700 mb-3">
             Test health checks, error tracking, and monitoring systems
           </p>
 
           {/* Controls */}
-          <div className="flex gap-4 mb-6">
+          <div className="flex gap-4 mb-3">
             <button
               onClick={fetchHealth}
               disabled={loading}
@@ -147,19 +147,19 @@ export default function MonitoringTestPage() {
 
           {/* Error Display */}
           {error && (
-            <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div className="mb-3 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
               <strong>Error:</strong> {error}
             </div>
           )}
 
           {/* Health Status */}
           {health && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               {/* Overall Status */}
               <div className={`p-4 rounded-lg ${getStatusBg(health.status)}`}>
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold">System Status</h2>
-                  <span className={`text-2xl font-bold ${getStatusColor(health.status)}`}>
+                  <h2 className="text-sm font-semibold">System Status</h2>
+                  <span className={`text-sm font-bold ${getStatusColor(health.status)}`}>
                     {health.status.toUpperCase()}
                   </span>
                 </div>
@@ -171,7 +171,7 @@ export default function MonitoringTestPage() {
 
               {/* Database Check */}
               <div className="border border-border rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-2 flex items-center justify-between">
+                <h3 className="text-sm font-semibold mb-2 flex items-center justify-between">
                   Database
                   <span className={`text-sm font-medium ${getStatusColor(health.checks.database.status)}`}>
                     {health.checks.database.status.toUpperCase()}
@@ -191,7 +191,7 @@ export default function MonitoringTestPage() {
 
               {/* Memory Check */}
               <div className="border border-border rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-2 flex items-center justify-between">
+                <h3 className="text-sm font-semibold mb-2 flex items-center justify-between">
                   Memory
                   <span className={`text-sm font-medium ${getStatusColor(health.checks.memory.status)}`}>
                     {health.checks.memory.status.toUpperCase()}
@@ -234,7 +234,7 @@ export default function MonitoringTestPage() {
           )}
 
           {/* Documentation */}
-          <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <h3 className="font-semibold text-blue-900 mb-2">Monitoring Documentation</h3>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Health endpoint: <code className="bg-blue-100 px-1">/api/health</code></li>

@@ -74,9 +74,9 @@ export function ProfilesClient() {
   return (
     <div className="min-h-screen bg-bg-0">
       <header className="bg-white dark:bg-gray-800 border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-ink-900">Member Directory</h1>
+            <h1 className="text-sm font-bold text-ink-900">Member Directory</h1>
             <Button variant="secondary" onClick={() => router.push('/dashboard')}>
               Back to Dashboard
             </Button>
@@ -84,10 +84,10 @@ export function ProfilesClient() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
         {/* Filters */}
-        <Card className="p-6 mb-6">
-          <div className="space-y-4">
+        <Card className="p-4 mb-3">
+          <div className="space-y-2">
             <div>
               <label htmlFor="search" className="block text-sm font-medium text-ink-900 mb-2">
                 Search members
@@ -131,7 +131,7 @@ export function ProfilesClient() {
 
         {/* Results */}
         {loading ? (
-          <div className="text-center py-12">
+          <div className="text-center py-6">
             <p className="text-ink-700">Loading members...</p>
           </div>
         ) : filteredUsers.length === 0 ? (
@@ -141,18 +141,18 @@ export function ProfilesClient() {
             icon="users"
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredUsers.map((user) => (
               <Card
                 key={user.id}
-                className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
+                className="p-4 cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => {
                   if (user.username) {
                     router.push(`/profile/${user.username}`);
                   }
                 }}
               >
-                <div className="flex flex-col items-center text-center space-y-4">
+                <div className="flex flex-col items-center text-center space-y-2">
                   <Avatar
                     src={user.avatar_url}
                     alt={user.name || 'Member'}
@@ -160,7 +160,7 @@ export function ProfilesClient() {
                   />
 
                   <div className="w-full">
-                    <h3 className="text-lg font-semibold text-ink-900">
+                    <h3 className="text-sm font-semibold text-ink-900">
                       {user.name || user.username || 'Anonymous'}
                     </h3>
                     {user.username && (

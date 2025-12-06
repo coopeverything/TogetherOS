@@ -61,19 +61,19 @@ export function InviteStats({ stats, className = '' }: InviteStatsProps) {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-gray-900 dark:text-white">{stats.totalSent}</div>
+          <div className="text-sm font-bold text-gray-900 dark:text-white">{stats.totalSent}</div>
           <div className="text-xs text-gray-500">Sent</div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-green-600">{stats.totalAccepted}</div>
+          <div className="text-sm font-bold text-green-600">{stats.totalAccepted}</div>
           <div className="text-xs text-gray-500">Accepted</div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-brand-600">{stats.totalContributed}</div>
+          <div className="text-sm font-bold text-brand-600">{stats.totalContributed}</div>
           <div className="text-xs text-gray-500">Active</div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
-          <div className="text-lg font-bold text-gray-900 dark:text-white">{acceptanceRate}%</div>
+          <div className="text-sm font-bold text-gray-900 dark:text-white">{acceptanceRate}%</div>
           <div className="text-xs text-gray-500">Accept Rate</div>
         </div>
       </div>

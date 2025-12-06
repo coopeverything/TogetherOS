@@ -137,11 +137,11 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Events & Calendar</h1>
+            <h1 className="text-sm font-bold text-gray-900 dark:text-white">Events & Calendar</h1>
             <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 mt-1">
               Community events, meetings, and milestones
             </p>
@@ -157,9 +157,9 @@ export default function EventsPage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-2">
             {/* Upcoming Events */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
               <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Upcoming Events</h2>
@@ -180,7 +180,7 @@ export default function EventsPage() {
                           <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase">
                             {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
                           </div>
-                          <div className="text-xl font-bold text-gray-900 dark:text-white">
+                          <div className="text-sm font-bold text-gray-900 dark:text-white">
                             {new Date(event.startDate).getDate()}
                           </div>
                         </div>
@@ -242,7 +242,7 @@ export default function EventsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{monthName}</h2>
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white">{monthName}</h2>
                   <button
                     onClick={() => navigateMonth(1)}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 rounded-lg transition-colors"

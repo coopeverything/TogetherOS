@@ -61,10 +61,10 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Support Points Wallet</h1>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Support Points Wallet</h1>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
             <div className="animate-pulse">
               <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4"></div>
               <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-32 mb-2"></div>
@@ -78,11 +78,11 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Support Points Wallet</h1>
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-red-900 mb-2">Error Loading Balance</h2>
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Support Points Wallet</h1>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <h2 className="text-sm font-semibold text-red-900 mb-2">Error Loading Balance</h2>
             <p className="text-red-700">{error}</p>
           </div>
         </div>
@@ -92,10 +92,10 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
 
   if (!balance) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Support Points Wallet</h1>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Support Points Wallet</h1>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
             <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">No balance found</p>
           </div>
         </div>
@@ -112,10 +112,10 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header with Navigation */}
-        <div className="mb-8">
+        <div className="mb-4">
           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 mb-4">
             <Link href="/economy" className="hover:text-blue-600 transition-colors">
               Economy
@@ -126,7 +126,7 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
 
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Support Points Wallet</h1>
+              <h1 className="text-sm font-bold text-gray-900 dark:text-white mb-2">Support Points Wallet</h1>
               <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">
                 Allocate Support Points to signal which proposals you prioritize
               </p>
@@ -139,10 +139,10 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
           </div>
         </div>
 
-        <SPWalletCard balance={balance} className="mb-6" />
+        <SPWalletCard balance={balance} className="mb-3" />
 
         {/* Quick Actions */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-3">
           <Link
             href="/economy/support-points/history"
             className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:border-gray-600 transition-colors"
@@ -157,8 +157,8 @@ export function SPWalletClient({ userId }: SPWalletClientProps) {
           </Link>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">How Support Points Work</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">How Support Points Work</h2>
           <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
             <p>
               <strong>Governance Power:</strong> Support Points (SP) help the community prioritize which proposals

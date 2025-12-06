@@ -75,16 +75,16 @@ export function PostList({
   // Empty state
   if (posts.length === 0 && !loading) {
     return (
-      <div className={`text-center py-12 ${className}`}>
-        <div className="text-gray-400 text-5xl mb-4">📭</div>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No posts yet</h3>
+      <div className={`text-center py-6 ${className}`}>
+        <div className="text-gray-400 text-sm mb-4">📭</div>
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">No posts yet</h3>
         <p className="text-gray-600">Be the first to share something!</p>
       </div>
     )
   }
 
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-2 ${className}`}>
       {/* Posts */}
       {posts.map((post) => (
         <PostCard
@@ -103,7 +103,7 @@ export function PostList({
 
       {/* Loading skeleton */}
       {loading && (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 animate-pulse">
               <div className="flex items-start gap-3 mb-3">
@@ -133,7 +133,7 @@ export function PostList({
         <div className="text-center py-4">
           <button
             onClick={onLoadMore}
-            className="px-6 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
+            className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
           >
             Load More
           </button>

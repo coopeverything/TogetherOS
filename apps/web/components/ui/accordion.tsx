@@ -43,7 +43,7 @@ const Accordion: React.FC<AccordionProps> = ({
               onClick={() => toggleItem(item.id)}
               aria-expanded={isOpen}
               aria-controls={`accordion-content-${item.id}`}
-              className="w-full flex items-center justify-between px-4 py-3 text-left text-ink-900 font-medium hover:bg-bg-2 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-2 text-left text-ink-900 font-medium hover:bg-bg-2 transition-colors"
             >
               <span>{item.title}</span>
               <svg
@@ -64,7 +64,7 @@ const Accordion: React.FC<AccordionProps> = ({
                 id={`accordion-content-${item.id}`}
                 role="region"
                 aria-labelledby={`accordion-button-${item.id}`}
-                className="px-4 py-3 bg-bg-0 text-ink-700"
+                className="px-4 py-2 bg-bg-0 text-ink-700"
               >
                 {item.content}
               </div>

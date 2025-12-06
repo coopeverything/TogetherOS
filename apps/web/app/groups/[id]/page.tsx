@@ -80,10 +80,10 @@ export default function GroupDetailPage() {
 
   if (!group) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-ink-900 mb-2">Group Not Found</h1>
-          <p className="text-ink-700 mb-6">The group you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className="text-sm font-bold text-ink-900 mb-2">Group Not Found</h1>
+          <p className="text-ink-700 mb-3">The group you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/groups"
             className="text-orange-600 hover:text-orange-700 font-medium"
@@ -134,21 +134,21 @@ export default function GroupDetailPage() {
   ]
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
       {/* Back Link */}
       <Link
         href="/groups"
-        className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-6 inline-block"
+        className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-3 inline-block"
       >
         ← Back to Groups
       </Link>
 
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-3">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 bg-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-orange-800 font-bold text-xl">
+              <span className="text-orange-800 font-bold text-sm">
                 {group.name
                   .split(' ')
                   .map((word: string) => word[0])
@@ -158,7 +158,7 @@ export default function GroupDetailPage() {
               </span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-ink-900 mb-1">{group.name}</h1>
+              <h1 className="text-sm font-bold text-ink-900 mb-1">{group.name}</h1>
               <p className="text-ink-700">@{group.handle}</p>
               <div className="flex flex-wrap gap-3 items-center mt-2">
                 <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full">
@@ -193,13 +193,13 @@ export default function GroupDetailPage() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="border-b border-border mb-6">
+      <div className="border-b border-border mb-3">
         <nav className="flex gap-1 -mb-px overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+              className={`px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? 'border-orange-600 text-orange-600'
                   : 'border-transparent text-ink-400 hover:text-ink-700 hover:border-border'
@@ -213,7 +213,7 @@ export default function GroupDetailPage() {
       </div>
 
       {/* Main Content Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
         {/* Tab Content */}
         <div>
           {activeTab === 'feed' && (
@@ -237,8 +237,8 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'members' && (
-            <div className="bg-bg-1 rounded-lg border border-border p-6">
-              <h2 className="text-lg font-semibold text-ink-900 mb-4">
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
+              <h2 className="text-sm font-semibold text-ink-900 mb-4">
                 Members ({groupMembers.length})
               </h2>
               <MemberDirectory members={groupMembers} />
@@ -246,10 +246,10 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'events' && (
-            <div className="bg-bg-1 rounded-lg border border-border p-6">
-              <div className="text-center py-12">
-                <span className="text-4xl mb-4 block">📅</span>
-                <h3 className="text-lg font-medium text-ink-900 mb-2">Group Events</h3>
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
+              <div className="text-center py-6">
+                <span className="text-sm mb-4 block">📅</span>
+                <h3 className="text-sm font-medium text-ink-900 mb-2">Group Events</h3>
                 <p className="text-ink-400 text-sm">
                   Event coordination coming soon
                 </p>
@@ -258,10 +258,10 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'proposals' && (
-            <div className="bg-bg-1 rounded-lg border border-border p-6">
-              <div className="text-center py-12">
-                <span className="text-4xl mb-4 block">📋</span>
-                <h3 className="text-lg font-medium text-ink-900 mb-2">Group Proposals</h3>
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
+              <div className="text-center py-6">
+                <span className="text-sm mb-4 block">📋</span>
+                <h3 className="text-sm font-medium text-ink-900 mb-2">Group Proposals</h3>
                 <p className="text-ink-400 text-sm">
                   Governance integration coming soon
                 </p>
@@ -271,7 +271,7 @@ export default function GroupDetailPage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="space-y-4">
+        <aside className="space-y-2">
           {/* Group Stats */}
           <div className="bg-bg-1 rounded-lg border border-border p-4">
             <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
@@ -366,9 +366,9 @@ function GroupFeedTab({
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-2">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-bg-1 rounded-lg border border-border p-6 animate-pulse">
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
             <div className="h-4 bg-bg-2 rounded w-1/4 mb-3"></div>
             <div className="h-4 bg-bg-2 rounded w-full mb-2"></div>
             <div className="h-4 bg-bg-2 rounded w-3/4"></div>
@@ -392,9 +392,9 @@ function GroupFeedTab({
 
       {/* Posts List */}
       {posts.length === 0 ? (
-        <div className="bg-bg-1 rounded-lg border border-border p-6 text-center">
-          <span className="text-4xl mb-4 block">📝</span>
-          <h3 className="text-lg font-medium text-ink-900 mb-2">No posts yet</h3>
+        <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
+          <span className="text-sm mb-4 block">📝</span>
+          <h3 className="text-sm font-medium text-ink-900 mb-2">No posts yet</h3>
           <p className="text-ink-400 text-sm mb-4">
             Be the first to share something with this group!
           </p>
@@ -406,7 +406,7 @@ function GroupFeedTab({
           </button>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {posts.map((post) => (
             <div
               key={post.id}
@@ -511,7 +511,7 @@ function GroupForumTab({
     <div>
       {/* Header with New Topic button */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-ink-900">
+        <h2 className="text-sm font-semibold text-ink-900">
           Group Discussions
         </h2>
         <button
@@ -524,9 +524,9 @@ function GroupForumTab({
 
       {/* Topics List */}
       {topics.length === 0 ? (
-        <div className="bg-bg-1 rounded-lg border border-border p-6 text-center">
-          <span className="text-4xl mb-4 block">💬</span>
-          <h3 className="text-lg font-medium text-ink-900 mb-2">No discussions yet</h3>
+        <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
+          <span className="text-sm mb-4 block">💬</span>
+          <h3 className="text-sm font-medium text-ink-900 mb-2">No discussions yet</h3>
           <p className="text-ink-400 text-sm mb-4">
             Start a conversation with your group!
           </p>
@@ -655,9 +655,9 @@ function SimplePostComposer({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-6">
+      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-ink-900">
+          <h2 className="text-sm font-semibold text-ink-900">
             Post to {groupName}
           </h2>
           <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
@@ -751,9 +751,9 @@ function SimpleTopicComposer({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-6">
+      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-ink-900">
+          <h2 className="text-sm font-semibold text-ink-900">
             New Discussion in {groupName}
           </h2>
           <button onClick={onClose} className="text-ink-400 hover:text-ink-700">

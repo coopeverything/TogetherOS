@@ -185,8 +185,8 @@ export default function AdminForumTagsPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="animate-pulse space-y-4">
+      <div className="container mx-auto px-4 py-4 max-w-4xl">
+        <div className="animate-pulse space-y-2">
           <div className="h-8 bg-bg-2 rounded w-64"></div>
           <div className="h-64 bg-bg-2 rounded"></div>
         </div>
@@ -196,8 +196,8 @@ export default function AdminForumTagsPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+      <div className="container mx-auto px-4 py-4 max-w-4xl">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
           <p className="text-red-800 font-medium">Error</p>
           <p className="text-red-600 text-sm mt-2">{error}</p>
           <button
@@ -212,9 +212,9 @@ export default function AdminForumTagsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-ink-900">
+    <div className="container mx-auto px-4 py-4 max-w-4xl">
+      <div className="mb-3">
+        <h1 className="text-sm font-bold text-ink-900">
           Forum Tag Management
         </h1>
         <p className="text-ink-400 mt-2">
@@ -230,7 +230,7 @@ export default function AdminForumTagsPage() {
       )}
 
       {/* Create New Tag Form */}
-      <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+      <div className="mb-3 bg-green-50 border border-green-200 rounded-lg p-4">
         <h2 className="text-sm font-semibold text-green-900 mb-3">
           Create New Tag
         </h2>
@@ -292,7 +292,7 @@ export default function AdminForumTagsPage() {
 
       <div className="bg-bg-1 rounded-lg border border-border">
         {tags.length === 0 ? (
-          <div className="p-8 text-center text-ink-400">
+          <div className="p-4 text-center text-ink-400">
             No tags found in forum topics
           </div>
         ) : (

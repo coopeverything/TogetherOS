@@ -336,11 +336,11 @@ export default function FeedTestPage() {
     : demoPosts;
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-bg-0 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-ink-900">Feed Components Test Page</h1>
+        <div className="mb-4">
+          <h1 className="text-sm font-bold text-ink-900">Feed Components Test Page</h1>
           <p className="mt-2 text-ink-400">
             Comprehensive testing interface for all feed-related UI components, interactions, and features.
           </p>
@@ -353,7 +353,7 @@ export default function FeedTestPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-6 border-b border-border">
+        <div className="mb-3 border-b border-border">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'showcase' as const, label: 'Component Showcase' },
@@ -378,16 +378,16 @@ export default function FeedTestPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-bg-1 rounded-lg shadow-sm p-6">
+        <div className="bg-bg-1 rounded-lg shadow-sm p-4">
           {/* Component Showcase Tab */}
           {activeTab === 'showcase' && (
             <div className="space-y-10">
               {/* PostCard Variations */}
               <section>
-                <h2 className="text-2xl font-semibold mb-4">PostCard Component</h2>
-                <p className="text-ink-400 mb-6">Display individual posts with reactions and discussion counts.</p>
+                <h2 className="text-sm font-semibold mb-4">PostCard Component</h2>
+                <p className="text-ink-400 mb-3">Display individual posts with reactions and discussion counts.</p>
 
-                <div className="space-y-6">
+                <div className="space-y-2">
                   <div>
                     <h3 className="text-sm font-medium text-ink-700 mb-3">Native Post (with title) - Phase 3 ✓</h3>
                     <PostCard
@@ -446,10 +446,10 @@ export default function FeedTestPage() {
 
               {/* PostList States */}
               <section>
-                <h2 className="text-2xl font-semibold mb-4">PostList Component</h2>
-                <p className="text-ink-400 mb-6">Feed display with loading and empty states.</p>
+                <h2 className="text-sm font-semibold mb-4">PostList Component</h2>
+                <p className="text-ink-400 mb-3">Feed display with loading and empty states.</p>
 
-                <div className="space-y-8">
+                <div className="space-y-3">
                   <div>
                     <h3 className="text-sm font-medium text-ink-700 mb-3">Normal List</h3>
                     <PostList
@@ -487,8 +487,8 @@ export default function FeedTestPage() {
 
               {/* PostComposer */}
               <section>
-                <h2 className="text-2xl font-semibold mb-4">PostComposer Component - Phase 3 ✓</h2>
-                <p className="text-ink-400 mb-6">Modal for creating native posts or importing social media content. Now with Bridge AI topic suggestions!</p>
+                <h2 className="text-sm font-semibold mb-4">PostComposer Component - Phase 3 ✓</h2>
+                <p className="text-ink-400 mb-3">Modal for creating native posts or importing social media content. Now with Bridge AI topic suggestions!</p>
 
                 <Button onClick={() => setShowcaseComposerOpen(true)}>
                   Open PostComposer Demo (with AI suggestions)
@@ -507,8 +507,8 @@ export default function FeedTestPage() {
 
               {/* ThreadView */}
               <section>
-                <h2 className="text-2xl font-semibold mb-4">ThreadView Component</h2>
-                <p className="text-ink-400 mb-6">Basic discussion thread display (Phase 2 minimal version).</p>
+                <h2 className="text-sm font-semibold mb-4">ThreadView Component</h2>
+                <p className="text-ink-400 mb-3">Basic discussion thread display (Phase 2 minimal version).</p>
 
                 <ThreadView
                   posts={SAMPLE_THREAD}
@@ -523,10 +523,10 @@ export default function FeedTestPage() {
 
           {/* Interactive Demo Tab */}
           {activeTab === 'demo' && (
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-semibold">Live Feed Demo</h2>
+                  <h2 className="text-sm font-semibold">Live Feed Demo</h2>
                   <p className="text-ink-400 mt-1">Create posts and interact with the feed in real-time.</p>
                 </div>
                 <Button onClick={() => setComposerOpen(true)}>
@@ -535,9 +535,9 @@ export default function FeedTestPage() {
               </div>
 
               {/* 2-column layout: Feed + Sidebar */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Main Feed Column */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-2">
                   {/* Topic filters */}
                   <div className="flex gap-2 overflow-x-auto pb-2">
                     <button
@@ -577,7 +577,7 @@ export default function FeedTestPage() {
                 </div>
 
                 {/* Sidebar Column */}
-                <div className="space-y-4">
+                <div className="space-y-2">
                   <GroupGrowthTracker
                     groupId="seattle-001"
                     location="Seattle"
@@ -619,16 +619,16 @@ export default function FeedTestPage() {
 
           {/* API Documentation Tab */}
           {activeTab === 'api' && (
-            <div className="space-y-8">
+            <div className="space-y-3">
               <section>
-                <h2 className="text-2xl font-semibold mb-4">Feed API Endpoints</h2>
-                <p className="text-ink-400 mb-6">
+                <h2 className="text-sm font-semibold mb-4">Feed API Endpoints</h2>
+                <p className="text-ink-400 mb-3">
                   API routes for feed operations (Phase 3+). These endpoints will be implemented as the Feed module progresses.
                 </p>
               </section>
 
-              <section className="space-y-4">
-                <h3 className="text-xl font-semibold">GET /api/feed</h3>
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold">GET /api/feed</h3>
                 <p className="text-sm text-ink-400">Fetch feed posts with optional filtering.</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Query Parameters:</h4>
@@ -652,8 +652,8 @@ export default function FeedTestPage() {
                 </Card>
               </section>
 
-              <section className="space-y-4">
-                <h3 className="text-xl font-semibold">POST /api/feed</h3>
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold">POST /api/feed</h3>
                 <p className="text-sm text-ink-400">Create a new post (native or import).</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Request Body:</h4>
@@ -676,8 +676,8 @@ export default function FeedTestPage() {
                 </Card>
               </section>
 
-              <section className="space-y-4">
-                <h3 className="text-xl font-semibold">POST /api/feed/[postId]/react</h3>
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold">POST /api/feed/[postId]/react</h3>
                 <p className="text-sm text-ink-400">Add or toggle a reaction to a post.</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Request Body:</h4>
@@ -702,8 +702,8 @@ export default function FeedTestPage() {
                 </Card>
               </section>
 
-              <section className="space-y-4">
-                <h3 className="text-xl font-semibold">GET /api/feed/[postId]/thread</h3>
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold">GET /api/feed/[postId]/thread</h3>
                 <p className="text-sm text-ink-400">Get discussion thread for a post (Phase 3).</p>
                 <Card className="p-4">
                   <h4 className="font-semibold mb-2">Response:</h4>

@@ -55,8 +55,8 @@ export function MetricTemplateList({
   return (
     <div className={className}>
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+      <div className="mb-3">
+        <h1 className="text-sm font-bold text-gray-900 dark:text-white">
           Metric Templates
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -65,7 +65,7 @@ export function MetricTemplateList({
       </div>
 
       {/* Filters */}
-      <div className="mb-6 space-y-4">
+      <div className="mb-3 space-y-2">
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -104,8 +104,8 @@ export function MetricTemplateList({
 
       {/* Templates Grid */}
       {filteredTemplates.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">No templates found</p>
+        <div className="text-center py-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">No templates found</p>
           <p className="text-gray-400 dark:text-gray-500 text-sm">
             {templates.length === 0
               ? 'Templates will be added as initiatives are tracked'
@@ -118,7 +118,7 @@ export function MetricTemplateList({
             <div
               key={template.id}
               onClick={() => onSelectTemplate?.(template)}
-              className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 ${
+              className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 ${
                 onSelectTemplate ? 'cursor-pointer hover:border-orange-500 dark:hover:border-orange-400 transition-colors' : ''
               }`}
             >

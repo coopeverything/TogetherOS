@@ -115,7 +115,7 @@ export function ProposalForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
+    <form onSubmit={handleSubmit} className={`space-y-2 ${className}`}>
       {/* Scope Type */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -261,7 +261,7 @@ export function ProposalForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Creating...' : 'Create Proposal'}
         </button>
@@ -270,7 +270,7 @@ export function ProposalForm({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-6 py-2 bg-gray-200 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-gray-200 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>

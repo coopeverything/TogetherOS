@@ -52,13 +52,13 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           {...props}
         >
           {title && (
-            <div className="px-6 py-4 border-b border-border">
-              <h2 id="modal-title" className="text-xl font-bold text-ink-900">
+            <div className="px-4 py-4 border-b border-border">
+              <h2 id="modal-title" className="text-sm font-bold text-ink-900">
                 {title}
               </h2>
             </div>
           )}
-          <div className="p-6">{children}</div>
+          <div className="p-4">{children}</div>
         </div>
       </div>
     );

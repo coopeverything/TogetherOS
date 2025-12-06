@@ -44,9 +44,9 @@ export function PublicProfileClient({ user }: { user: User }) {
   return (
     <div className="min-h-screen bg-bg-0">
       <header className="bg-white dark:bg-gray-800 border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-ink-900">
+            <h1 className="text-sm font-bold text-ink-900">
               {user.name || user.username || 'Member Profile'}
             </h1>
             <Button variant="secondary" onClick={() => router.push('/dashboard')}>
@@ -56,17 +56,17 @@ export function PublicProfileClient({ user }: { user: User }) {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Card className="p-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
+        <Card className="p-4">
           {user.avatar_url && (
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center mb-3">
               <Avatar src={user.avatar_url} alt={user.name || 'User'} size="xl" />
             </div>
           )}
 
-          <div className="space-y-6">
+          <div className="space-y-2">
             <div>
-              <h2 className="text-xl font-semibold text-ink-900 mb-4">About</h2>
+              <h2 className="text-sm font-semibold text-ink-900 mb-4">About</h2>
               <div className="space-y-3">
                 {user.name && (
                   <div>
@@ -91,7 +91,7 @@ export function PublicProfileClient({ user }: { user: User }) {
 
             {(user.city || user.state || user.country) && (
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">Location</h2>
+                <h2 className="text-sm font-semibold text-ink-900 mb-4">Location</h2>
                 <p className="text-ink-900">
                   {[user.city, user.state, user.country].filter(Boolean).join(', ')}
                 </p>
@@ -100,7 +100,7 @@ export function PublicProfileClient({ user }: { user: User }) {
 
             {user.paths && user.paths.length > 0 && (
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">Cooperation Paths</h2>
+                <h2 className="text-sm font-semibold text-ink-900 mb-4">Cooperation Paths</h2>
                 <div className="flex flex-wrap gap-2">
                   {COOPERATION_PATHS.filter((p) => user.paths?.includes(p.id)).map((path) => (
                     <Badge key={path.id} variant="brand">
@@ -113,7 +113,7 @@ export function PublicProfileClient({ user }: { user: User }) {
 
             {user.skills && user.skills.length > 0 && (
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">Skills</h2>
+                <h2 className="text-sm font-semibold text-ink-900 mb-4">Skills</h2>
                 <div className="flex flex-wrap gap-2">
                   {user.skills.map((skill, i) => (
                     <Badge key={i} variant="default">
@@ -126,21 +126,21 @@ export function PublicProfileClient({ user }: { user: User }) {
 
             {user.can_offer && (
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">What I Can Offer</h2>
+                <h2 className="text-sm font-semibold text-ink-900 mb-4">What I Can Offer</h2>
                 <p className="text-ink-900">{user.can_offer}</p>
               </div>
             )}
 
             {user.seeking_help && (
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">What I'm Seeking</h2>
+                <h2 className="text-sm font-semibold text-ink-900 mb-4">What I'm Seeking</h2>
                 <p className="text-ink-900">{user.seeking_help}</p>
               </div>
             )}
 
             {user.social_links && Object.values(user.social_links).some(v => v) && (
               <div>
-                <h2 className="text-xl font-semibold text-ink-900 mb-4">Connect</h2>
+                <h2 className="text-sm font-semibold text-ink-900 mb-4">Connect</h2>
                 <div className="flex flex-wrap gap-3">
                   {user.social_links.github && (
                     <a

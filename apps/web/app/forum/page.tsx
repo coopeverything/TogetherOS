@@ -128,10 +128,10 @@ export default function ForumPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-4 max-w-6xl">
         <div className="animate-pulse">
-          <div className="h-10 bg-bg-2 rounded w-64 mb-6"></div>
-          <div className="space-y-4">
+          <div className="h-10 bg-bg-2 rounded w-64 mb-3"></div>
+          <div className="space-y-2">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-32 bg-bg-2 rounded"></div>
             ))}
@@ -143,8 +143,8 @@ export default function ForumPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="bg-danger-bg border border-danger rounded-lg p-6 text-center">
+      <div className="container mx-auto px-4 py-4 max-w-6xl">
+        <div className="bg-danger-bg border border-danger rounded-lg p-4 text-center">
           <p className="text-danger font-medium">Error loading topics</p>
           <p className="text-danger text-sm mt-2">{error}</p>
           <button
@@ -178,13 +178,13 @@ export default function ForumPage() {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto px-4 py-4 max-w-7xl">
         {/* Theme Picker - top right corner */}
         <div className="flex justify-end mb-4">
           <ThemePicker />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
           {/* Main content */}
           <div>
             <TopicList
@@ -197,7 +197,7 @@ export default function ForumPage() {
           </div>
 
           {/* Right sidebar */}
-          <aside className="space-y-6">
+          <aside className="space-y-2">
             {/* Trending Topics */}
             <div className="bg-bg-1 rounded-lg border border-border p-4">
               <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">

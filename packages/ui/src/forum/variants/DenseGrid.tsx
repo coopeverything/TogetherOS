@@ -84,7 +84,7 @@ export function DenseGrid({ topics, onTopicClick, onCreateTopic }: DenseGridProp
             <input
               type="text"
               placeholder="Type a command..."
-              className="w-full px-4 py-3 bg-transparent text-[#E5E5E5] text-sm focus:outline-none"
+              className="w-full px-4 py-2 bg-transparent text-[#E5E5E5] text-sm focus:outline-none"
               autoFocus
             />
             <div className="border-t border-[#2A2A2A] p-2 text-xs text-[#A3A3A3] space-y-1">

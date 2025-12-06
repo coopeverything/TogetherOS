@@ -29,7 +29,7 @@ const viewpointConfig = {
 export function EvidenceDisplay({ evidence, postId }: EvidenceDisplayProps) {
   if (evidence.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-4 text-gray-500">
         No evidence attached yet. Be the first to add supporting evidence!
       </div>
     );
@@ -42,7 +42,7 @@ export function EvidenceDisplay({ evidence, postId }: EvidenceDisplayProps) {
   }, {} as Record<string, Evidence[]>);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {(['support', 'oppose', 'neutral'] as const).map((viewpoint) => {
         const items = grouped[viewpoint] || [];
         if (items.length === 0) return null;

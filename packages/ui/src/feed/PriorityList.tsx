@@ -73,11 +73,11 @@ export function PriorityList({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Priorities</h2>
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">Your Priorities</h2>
           <p className="text-sm text-gray-600 mt-1">
             Drag to reorder. Adjust sliders to show how much you care (1-10).
           </p>

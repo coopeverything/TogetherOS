@@ -27,10 +27,10 @@ const categoryLabels: Record<MetricTemplateCategory, string> = {
 
 export function MetricsDashboard({ analytics, className = '' }: MetricsDashboardProps) {
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div className={`space-y-2 ${className}`}>
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-sm font-bold text-gray-900 dark:text-white">
           Metrics Analytics
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -40,11 +40,11 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
 
       {/* Key Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">
             Total Initiatives
           </div>
-          <div className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+          <div className="text-sm font-bold text-gray-900 dark:text-white mt-1">
             {analytics.totalInitiatives}
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -52,11 +52,11 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">
             Evaluated
           </div>
-          <div className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+          <div className="text-sm font-bold text-gray-900 dark:text-white mt-1">
             {analytics.evaluatedCount}
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -66,11 +66,11 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">
             Success Rate
           </div>
-          <div className={`text-3xl font-bold mt-1 ${
+          <div className={`text-sm font-bold mt-1 ${
             analytics.overallSuccessRate >= 70
               ? 'text-green-600 dark:text-green-400'
               : analytics.overallSuccessRate >= 50
@@ -84,11 +84,11 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">
             Minority Validation
           </div>
-          <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mt-1">
+          <div className="text-sm font-bold text-purple-600 dark:text-purple-400 mt-1">
             {(analytics.minorityValidationRate * 100).toFixed(0)}%
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -98,11 +98,11 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
       </div>
 
       {/* Success by Category */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
           Success Rate by Category
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-2">
           {(Object.entries(analytics.successByCategory) as [MetricTemplateCategory, number][]).map(
             ([category, rate]) => (
               <div key={category}>
@@ -140,11 +140,11 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
 
       {/* Failure Patterns */}
       {analytics.failurePatterns.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
             Common Failure Patterns
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {analytics.failurePatterns.map((pattern, index) => (
               <div
                 key={index}
@@ -182,13 +182,13 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
       )}
 
       {/* Improvement Loop Stats */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
           Feedback Loop Effectiveness
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
-            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+            <div className="text-sm font-bold text-orange-600 dark:text-orange-400">
               {(analytics.improvementSuccessRate * 100).toFixed(0)}%
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -196,7 +196,7 @@ export function MetricsDashboard({ analytics, className = '' }: MetricsDashboard
             </div>
           </div>
           <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            <div className="text-sm font-bold text-purple-600 dark:text-purple-400">
               {(analytics.minorityValidationRate * 100).toFixed(0)}%
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">

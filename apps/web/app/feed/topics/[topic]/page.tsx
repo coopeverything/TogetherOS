@@ -107,7 +107,7 @@ export default function TopicFeedPage() {
               ← Back to Feed
             </button>
           </div>
-          <h1 className="text-3xl font-bold text-ink-900">
+          <h1 className="text-sm font-bold text-ink-900">
             #{topic.replace(/\s+/g, '')}
           </h1>
           <p className="text-ink-700 mt-2">
@@ -117,9 +117,9 @@ export default function TopicFeedPage() {
       </header>
 
       {/* Feed */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-4">
         {filteredPosts.length > 0 ? (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {filteredPosts.map(post => (
               <PostCard
                 key={post.id}
@@ -143,12 +143,12 @@ export default function TopicFeedPage() {
           </div>
         ) : (
           <div className="bg-bg-1 rounded-lg border border-border p-12 text-center">
-            <p className="text-ink-700 text-lg">
+            <p className="text-ink-700 text-sm">
               No posts found for topic "{topic}"
             </p>
             <button
               onClick={() => router.push('/feed')}
-              className="mt-4 px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+              className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
             >
               Browse All Posts
             </button>

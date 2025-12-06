@@ -63,7 +63,7 @@ export function SentimentMap({
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
         <p className="text-red-800">Error loading sentiment data: {error}</p>
       </div>
     );
@@ -72,7 +72,7 @@ export function SentimentMap({
   if (topics.length === 0) {
     return (
       <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-12 text-center">
-        <p className="text-gray-600 text-lg">No sentiment data available yet.</p>
+        <p className="text-gray-600 text-sm">No sentiment data available yet.</p>
         <p className="text-gray-500 text-sm mt-2">
           Topics will appear here once enough community members have engaged.
         </p>
@@ -124,7 +124,7 @@ export function SentimentMap({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* Legend */}
       <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
         <div>

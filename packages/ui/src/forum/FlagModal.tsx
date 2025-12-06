@@ -65,8 +65,8 @@ export function FlagModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
         {/* Header */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white dark:text-gray-100">
+        <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-4">
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white dark:text-gray-100">
             Flag {contentType}
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -75,7 +75,7 @@ export function FlagModal({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="px-6 py-6 space-y-4">
+        <form onSubmit={handleSubmit} className="px-4 py-6 space-y-2">
           {/* Reason */}
           <div>
             <label htmlFor="reason" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">

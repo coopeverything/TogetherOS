@@ -57,9 +57,9 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
     return (
       <button
         onClick={() => setIsExpanded(true)}
-        className={`fixed bottom-4 right-4 flex items-center gap-2 px-4 py-3 bg-orange-600 text-white rounded-full shadow-lg hover:bg-orange-700 transition-all z-50 ${className}`}
+        className={`fixed bottom-4 right-4 flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-full shadow-lg hover:bg-orange-700 transition-all z-50 ${className}`}
       >
-        <span className="text-lg">💬</span>
+        <span className="text-sm">💬</span>
         <span className="font-medium">Bridge</span>
         <span className="text-sm opacity-90">Ask me anything</span>
       </button>
@@ -74,7 +74,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-orange-50">
         <div className="flex items-center gap-2">
-          <span className="text-lg">💬</span>
+          <span className="text-sm">💬</span>
           <span className="font-semibold text-gray-900 dark:text-white">Bridge AI Assistant</span>
         </div>
         <button
@@ -86,7 +86,7 @@ export function BridgeChatWidget({ className = '' }: BridgeChatWidgetProps) {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {messages.map((message, index) => (
           <div
             key={index}

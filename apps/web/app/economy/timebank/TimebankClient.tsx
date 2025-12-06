@@ -135,7 +135,7 @@ export default function TimebankClient() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
           <p className="mt-2 text-gray-600 dark:text-gray-400">Loading Timebank...</p>
@@ -145,20 +145,20 @@ export default function TimebankClient() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-4">
         <a href="/economy" className="text-teal-600 hover:text-teal-700 text-sm mb-2 inline-block">
           &larr; Back to Economy
         </a>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Timebank Credits</h1>
+        <h1 className="text-sm font-bold text-gray-900 dark:text-white">Timebank Credits</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
           Exchange goods and services with fellow members using TBC
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+      <div className="border-b border-gray-200 dark:border-gray-700 mb-3">
         <nav className="flex space-x-8">
           {['wallet', 'browse', 'convert'].map((tab) => (
             <button
@@ -178,31 +178,31 @@ export default function TimebankClient() {
 
       {/* Wallet Tab */}
       {activeTab === 'wallet' && account && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <TBCWalletCard
             account={account}
             fairExchangeIndex={fairExchangeIndex || undefined}
           />
 
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <button
                 onClick={() => setActiveTab('browse')}
-                className="w-full py-3 px-4 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors"
+                className="w-full py-2 px-4 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors"
               >
                 Browse Available Services
               </button>
               <button
                 onClick={() => setActiveTab('convert')}
-                className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+                className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
               >
                 Convert RP to TBC
               </button>
               <a
                 href="/economy/timebank/my-services"
-                className="block w-full py-3 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium rounded-lg transition-colors text-center"
+                className="block w-full py-2 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium rounded-lg transition-colors text-center"
               >
                 Manage My Services
               </a>

@@ -39,7 +39,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
       {/* Left Panel - Topic List */}
       {!readingMode && (
         <div className="w-60 border-r border-[#E5E5E2] bg-white dark:bg-gray-800 overflow-y-auto">
-          <div className="p-6 border-b border-[#E5E5E2]">
+          <div className="p-4 border-b border-[#E5E5E2]">
             <h2 className="text-sm font-semibold text-[#6B6B68] uppercase tracking-wide mb-4">
               Topics
             </h2>
@@ -101,7 +101,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
               </div>
 
               <h1
-                className="font-serif text-4xl font-bold text-[#1A1A19] leading-tight mb-6"
+                className="font-serif text-sm font-bold text-[#1A1A19] leading-tight mb-3"
                 style={{ fontSize: `${fontSize * 2.5}px` }}
               >
                 {selectedTopic.title}
@@ -131,7 +131,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
             </div>
 
             {/* Metadata */}
-            <div className="border-t border-[#E5E5E2] pt-6 flex items-center gap-6 text-sm text-[#6B6B68]">
+            <div className="border-t border-[#E5E5E2] pt-6 flex items-center gap-4 text-sm text-[#6B6B68]">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs">💬</span>
                 <span>{selectedTopic.postCount} posts</span>
@@ -146,8 +146,8 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
             </div>
 
             {/* Content Placeholder */}
-            <div className="mt-12 space-y-6">
-              <div className="p-6 bg-white dark:bg-gray-800 rounded-lg border border-[#E5E5E2]">
+            <div className="mt-12 space-y-2">
+              <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-[#E5E5E2]">
                 <p className="text-[#6B6B68]" style={{ fontSize: `${fontSize}px`, lineHeight: 1.7 }}>
                   This is where the topic content and discussion would appear. In Focus Mode,
                   content is optimized for reading with generous whitespace and comfortable
@@ -159,7 +159,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
         ) : (
           <div className="flex items-center justify-center h-full text-[#6B6B68]">
             <div className="text-center">
-              <p className="text-lg mb-4">Select a topic to begin</p>
+              <p className="text-sm mb-4">Select a topic to begin</p>
               <p className="text-sm">Use the left panel to browse topics</p>
             </div>
           </div>
@@ -168,9 +168,9 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
 
       {/* Right Panel - Context & Tools */}
       {!readingMode && selectedTopic && (
-        <div className="w-80 border-l border-[#E5E5E2] bg-white dark:bg-gray-800 p-6 overflow-y-auto">
+        <div className="w-80 border-l border-[#E5E5E2] bg-white dark:bg-gray-800 p-4 overflow-y-auto">
           {/* Reading Controls */}
-          <div className="mb-8">
+          <div className="mb-4">
             <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Reading Settings
             </h3>
@@ -199,7 +199,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
           </div>
 
           {/* Quick Actions */}
-          <div className="mb-8">
+          <div className="mb-4">
             <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Quick Actions
             </h3>
@@ -227,7 +227,7 @@ export function FocusMode({ topics, onTopicClick, onCreateTopic }: FocusModeProp
           </div>
 
           {/* Keyboard Shortcuts */}
-          <div className="mt-8 pt-8 border-t border-[#E5E5E2]">
+          <div className="mt-4 pt-8 border-t border-[#E5E5E2]">
             <h3 className="text-xs font-semibold text-[#6B6B68] uppercase tracking-wide mb-3">
               Keyboard Shortcuts
             </h3>

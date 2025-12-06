@@ -8,7 +8,7 @@
 export function BaroqueMaximalist() {
   return (
     <div
-      className="min-h-screen p-8"
+      className="min-h-screen p-4"
       style={{
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
         fontFamily: '"Playfair Display", Georgia, serif',
@@ -16,13 +16,13 @@ export function BaroqueMaximalist() {
     >
       {/* Ornate Header */}
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8 relative">
+        <div className="text-center mb-4 relative">
           {/* Decorative border */}
           <div
             className="absolute inset-0 border-4 rounded-3xl opacity-30"
             style={{ borderColor: '#FFD700' }}
           />
-          <div className="relative p-8">
+          <div className="relative p-4">
             <div className="text-6xl mb-2">👑</div>
             <h1
               className="text-6xl font-bold mb-3"
@@ -37,19 +37,19 @@ export function BaroqueMaximalist() {
             </h1>
             <div className="flex items-center justify-center gap-4 mb-2">
               <div className="w-16 h-px" style={{ background: '#FFD700' }} />
-              <div className="text-2xl" style={{ color: '#FFD700' }}>
+              <div className="text-sm" style={{ color: '#FFD700' }}>
                 ✦
               </div>
               <div className="w-16 h-px" style={{ background: '#FFD700' }} />
             </div>
-            <p className="text-xl italic" style={{ color: '#ffffff' }}>
+            <p className="text-sm italic" style={{ color: '#ffffff' }}>
               Versailles meets Vaporwave
             </p>
           </div>
         </div>
 
         {/* Ornate Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {[
             { label: 'Noble Members', value: '1,247', icon: '💎', color: '#FF6FD8' },
             { label: 'Royal Decrees', value: '89', icon: '📜', color: '#FFD700' },
@@ -57,7 +57,7 @@ export function BaroqueMaximalist() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="relative p-6 rounded-2xl border-4 overflow-hidden"
+              className="relative p-4 rounded-2xl border-4 overflow-hidden"
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%)',
                 borderColor: stat.color,
@@ -92,8 +92,8 @@ export function BaroqueMaximalist() {
               </div>
 
               <div className="text-center relative z-10">
-                <div className="text-5xl mb-3">{stat.icon}</div>
-                <div className="text-4xl font-bold mb-2" style={{ color: '#FFD700' }}>
+                <div className="text-sm mb-3">{stat.icon}</div>
+                <div className="text-sm font-bold mb-2" style={{ color: '#FFD700' }}>
                   {stat.value}
                 </div>
                 <div className="text-sm uppercase tracking-widest" style={{ color: '#ffffff' }}>
@@ -106,7 +106,7 @@ export function BaroqueMaximalist() {
 
         {/* Main Content - Ornate Panel */}
         <div
-          className="p-8 rounded-3xl border-4 mb-8 relative overflow-hidden"
+          className="p-4 rounded-3xl border-4 mb-4 relative overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
             borderColor: '#FFD700',
@@ -126,13 +126,13 @@ export function BaroqueMaximalist() {
           />
 
           <div className="relative z-10">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="text-3xl">📋</div>
-              <h2 className="text-3xl font-bold" style={{ color: '#FFD700' }}>
+            <div className="flex items-center gap-4 mb-3">
+              <div className="text-sm">📋</div>
+              <h2 className="text-sm font-bold" style={{ color: '#FFD700' }}>
                 Royal Announcements
               </h2>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {[
                 { action: 'Lavish proposal submitted', time: '2 hours ago', icon: '✨' },
                 { action: 'Grand ball scheduled', time: '5 hours ago', icon: '🎭' },
@@ -147,7 +147,7 @@ export function BaroqueMaximalist() {
                   }}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="text-2xl">{item.icon}</div>
+                    <div className="text-sm">{item.icon}</div>
                     <span className="font-semibold" style={{ color: '#ffffff' }}>
                       {item.action}
                     </span>
@@ -172,27 +172,27 @@ export function BaroqueMaximalist() {
           }}
         >
           {/* Ornate corner flourishes */}
-          <div className="absolute top-4 left-4 text-3xl" style={{ color: '#FFD700' }}>
+          <div className="absolute top-4 left-4 text-sm" style={{ color: '#FFD700' }}>
             ❦
           </div>
-          <div className="absolute top-4 right-4 text-3xl" style={{ color: '#FF6FD8' }}>
+          <div className="absolute top-4 right-4 text-sm" style={{ color: '#FF6FD8' }}>
             ❦
           </div>
-          <div className="absolute bottom-4 left-4 text-3xl" style={{ color: '#B4A7D6' }}>
+          <div className="absolute bottom-4 left-4 text-sm" style={{ color: '#B4A7D6' }}>
             ❦
           </div>
-          <div className="absolute bottom-4 right-4 text-3xl" style={{ color: '#FFD700' }}>
+          <div className="absolute bottom-4 right-4 text-sm" style={{ color: '#FFD700' }}>
             ❦
           </div>
 
           <div className="relative z-10">
             <div className="text-6xl mb-4">🏛️</div>
-            <p className="text-3xl italic mb-4 font-bold" style={{ color: '#FFD700' }}>
+            <p className="text-sm italic mb-4 font-bold" style={{ color: '#FFD700' }}>
               "More is more, and excess is just enough"
             </p>
             <div className="flex items-center justify-center gap-3 mb-3">
               <div className="w-12 h-px" style={{ background: '#FF6FD8' }} />
-              <div className="text-xl" style={{ color: '#FFD700' }}>
+              <div className="text-sm" style={{ color: '#FFD700' }}>
                 ❧
               </div>
               <div className="w-12 h-px" style={{ background: '#FF6FD8' }} />

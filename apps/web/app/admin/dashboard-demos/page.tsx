@@ -152,10 +152,10 @@ export default function DashboardTestPage() {
     <div className="min-h-screen bg-bg-0">
       {/* Header */}
       <header className="bg-bg-1 border-b border-border sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-ink-900">Dashboard Test</h1>
+              <h1 className="text-sm font-bold text-ink-900">Dashboard Test</h1>
               <p className="text-sm text-ink-700 mt-1">
                 Comprehensive demo of proposed dashboard layout
               </p>
@@ -176,10 +176,10 @@ export default function DashboardTestPage() {
       </header>
 
       {/* Main Content - 3 Column Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {/* LEFT SIDEBAR (1 column) */}
-          <aside className="lg:col-span-1 space-y-6">
+          <aside className="lg:col-span-1 space-y-2">
             {/* Your Groups */}
             <SampleContainer>
               <CollapsibleModule title="Your Groups">
@@ -257,7 +257,7 @@ export default function DashboardTestPage() {
                 <div className="space-y-2">
                   {cooperationPaths.map((path) => (
                     <div key={path.id} className="flex items-center gap-2 text-sm">
-                      <span className="text-base">{path.emoji}</span>
+                      <span className="text-sm">{path.emoji}</span>
                       <span className="text-ink-900">{path.name}</span>
                     </div>
                   ))}
@@ -295,11 +295,11 @@ export default function DashboardTestPage() {
           </aside>
 
           {/* CENTRAL FEED (2 columns) */}
-          <main className="lg:col-span-2 space-y-6">
+          <main className="lg:col-span-2 space-y-2">
             {/* Feed Header */}
-            <div className="bg-bg-1 rounded-lg border border-border p-6">
+            <div className="bg-bg-1 rounded-lg border border-border p-4">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-ink-900">Feed</h2>
+                <h2 className="text-sm font-bold text-ink-900">Feed</h2>
                 <button className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                   + Create Post
                 </button>
@@ -324,15 +324,15 @@ export default function DashboardTestPage() {
             </div>
 
             {/* Feed Posts */}
-            <div className="space-y-4">
+            <div className="space-y-2">
               {feedPosts.map((post) => {
                 if (post.type === 'post') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-bg-1 rounded-lg border border-border p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-bg-1 rounded-lg border border-border p-4 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
+                            <h3 className="text-sm font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
                             <div className="flex items-center gap-2 text-sm text-ink-400">
@@ -368,13 +368,13 @@ export default function DashboardTestPage() {
                 if (post.type === 'proposal') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-brand-100 border-2 border-brand-500 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-brand-100 border-2 border-brand-500 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
                             <div className="text-xs font-bold text-brand-600 mb-1">
                               🗳️ PROPOSAL
                             </div>
-                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
+                            <h3 className="text-sm font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
                             <div className="flex items-center gap-2 text-sm">
@@ -404,13 +404,13 @@ export default function DashboardTestPage() {
                 if (post.type === 'event') {
                   return (
                     <SampleContainer key={post.id}>
-                      <div className="bg-joy-100 border-2 border-joy-500 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="bg-joy-100 border-2 border-joy-500 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
                             <div className="text-xs font-bold text-joy-600 mb-1">
                               📅 EVENT
                             </div>
-                            <h3 className="text-lg font-semibold text-ink-900 mb-1">
+                            <h3 className="text-sm font-semibold text-ink-900 mb-1">
                               {post.title}
                             </h3>
                             <div className="flex items-center gap-2 text-sm text-ink-700">
@@ -448,7 +448,7 @@ export default function DashboardTestPage() {
           </main>
 
           {/* RIGHT SIDEBAR (1 column) */}
-          <aside className="lg:col-span-1 space-y-6">
+          <aside className="lg:col-span-1 space-y-2">
             {/* Pending Actions */}
             <SampleContainer>
               <CollapsibleModule title="Needs Your Action">

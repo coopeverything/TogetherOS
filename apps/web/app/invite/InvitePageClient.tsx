@@ -108,10 +108,10 @@ export default function InvitePageClient() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-bg-0 py-8 px-4">
+      <div className="min-h-screen bg-bg-0 py-4 px-4">
         <div className="max-w-4xl mx-auto animate-pulse">
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-8"></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-24 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
             ))}
@@ -123,7 +123,7 @@ export default function InvitePageClient() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-bg-0 py-8 px-4">
+      <div className="min-h-screen bg-bg-0 py-4 px-4">
         <div className="max-w-4xl mx-auto">
           <Alert variant="danger" title="Error">
             {error}
@@ -136,7 +136,7 @@ export default function InvitePageClient() {
   const canSendMore = stats && stats.sentThisWeek < stats.weeklyLimit;
 
   return (
-    <div className="min-h-screen bg-bg-0 py-8 px-4">
+    <div className="min-h-screen bg-bg-0 py-4 px-4">
       {/* RP Animation */}
       {showRPAnimation && (
         <RPEarnedAnimation
@@ -148,8 +148,8 @@ export default function InvitePageClient() {
 
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-ink-900 mb-2">Invite Friends</h1>
+        <div className="mb-4">
+          <h1 className="text-sm font-bold text-ink-900 mb-2">Invite Friends</h1>
           <p className="text-ink-700">
             Grow the community by inviting people you know. Earn RP when they join!
           </p>
@@ -157,21 +157,21 @@ export default function InvitePageClient() {
 
         {/* Stats Cards */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <Card className="p-4 text-center">
-              <p className="text-3xl font-bold text-brand-600">{stats.totalSent}</p>
+              <p className="text-sm font-bold text-brand-600">{stats.totalSent}</p>
               <p className="text-sm text-ink-600">Total Sent</p>
             </Card>
             <Card className="p-4 text-center">
-              <p className="text-3xl font-bold text-green-600">{stats.acceptedCount}</p>
+              <p className="text-sm font-bold text-green-600">{stats.acceptedCount}</p>
               <p className="text-sm text-ink-600">Accepted</p>
             </Card>
             <Card className="p-4 text-center">
-              <p className="text-3xl font-bold text-yellow-600">{stats.pendingCount}</p>
+              <p className="text-sm font-bold text-yellow-600">{stats.pendingCount}</p>
               <p className="text-sm text-ink-600">Pending</p>
             </Card>
             <Card className="p-4 text-center">
-              <p className="text-3xl font-bold text-purple-600">+{stats.totalRPEarned}</p>
+              <p className="text-sm font-bold text-purple-600">+{stats.totalRPEarned}</p>
               <p className="text-sm text-ink-600">RP Earned</p>
             </Card>
           </div>
@@ -179,7 +179,7 @@ export default function InvitePageClient() {
 
         {/* Weekly Limit */}
         {stats && (
-          <div className="bg-brand-50 border border-brand-200 rounded-xl p-4 mb-8">
+          <div className="bg-brand-50 border border-brand-200 rounded-xl p-4 mb-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium text-brand-800">Weekly Invitations</p>
@@ -203,13 +203,13 @@ export default function InvitePageClient() {
             onClick={() => setShowSendForm(true)}
             disabled={!canSendMore}
             variant="default"
-            className="mb-8"
+            className="mb-4"
           >
             {canSendMore ? '✉️ Send Invitation' : 'Weekly limit reached'}
           </Button>
         ) : (
-          <Card className="p-6 mb-8">
-            <h2 className="text-xl font-bold text-ink-900 mb-4">Send an Invitation</h2>
+          <Card className="p-4 mb-4">
+            <h2 className="text-sm font-bold text-ink-900 mb-4">Send an Invitation</h2>
 
             {sendSuccess && (
               <Alert variant="success" title="Invitation Sent!" className="mb-4">
@@ -223,7 +223,7 @@ export default function InvitePageClient() {
               </Alert>
             )}
 
-            <form onSubmit={handleSendInvitation} className="space-y-4">
+            <form onSubmit={handleSendInvitation} className="space-y-2">
               <div>
                 <Label htmlFor="email">Email Address *</Label>
                 <Input
@@ -265,19 +265,19 @@ export default function InvitePageClient() {
         )}
 
         {/* RP Rewards Info */}
-        <Card className="p-6 mb-8 bg-gradient-to-r from-brand-50 to-purple-50">
+        <Card className="p-4 mb-4 bg-gradient-to-r from-brand-50 to-purple-50">
           <h3 className="font-bold text-ink-900 mb-3">🎮 Invitation Rewards</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
-              <p className="text-2xl font-bold text-brand-600">+25 RP</p>
+              <p className="text-sm font-bold text-brand-600">+25 RP</p>
               <p className="text-sm text-ink-600">When you send</p>
             </div>
             <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
-              <p className="text-2xl font-bold text-green-600">+50 RP</p>
+              <p className="text-sm font-bold text-green-600">+50 RP</p>
               <p className="text-sm text-ink-600">When they join</p>
             </div>
             <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
-              <p className="text-2xl font-bold text-purple-600">+25 RP</p>
+              <p className="text-sm font-bold text-purple-600">+25 RP</p>
               <p className="text-sm text-ink-600">First contribution</p>
             </div>
           </div>
@@ -285,11 +285,11 @@ export default function InvitePageClient() {
 
         {/* Sent Invitations */}
         <div>
-          <h2 className="text-xl font-bold text-ink-900 mb-4">Sent Invitations</h2>
+          <h2 className="text-sm font-bold text-ink-900 mb-4">Sent Invitations</h2>
 
           {invitations.length === 0 ? (
-            <Card className="p-8 text-center">
-              <p className="text-4xl mb-3">✉️</p>
+            <Card className="p-4 text-center">
+              <p className="text-sm mb-3">✉️</p>
               <p className="text-ink-600">No invitations sent yet</p>
               <p className="text-sm text-ink-500">Send your first invitation to get started!</p>
             </Card>

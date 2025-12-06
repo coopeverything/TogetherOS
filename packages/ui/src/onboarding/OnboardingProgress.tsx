@@ -103,9 +103,9 @@ export function OnboardingProgress({
 
   if (isComplete) {
     return (
-      <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 text-center">
-        <div className="text-4xl mb-3">🎉</div>
-        <h2 className="text-2xl font-bold text-green-900 mb-2">
+      <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center">
+        <div className="text-sm mb-3">🎉</div>
+        <h2 className="text-sm font-bold text-green-900 mb-2">
           Onboarding Complete!
         </h2>
         <p className="text-green-700">
@@ -120,7 +120,7 @@ export function OnboardingProgress({
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-gray-900 dark:text-white">Your Progress</h3>
-          <span className="text-2xl font-bold text-blue-600">
+          <span className="text-sm font-bold text-blue-600">
             {completionPercentage}%
           </span>
         </div>
@@ -139,14 +139,14 @@ export function OnboardingProgress({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-3">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">
             Welcome to TogetherOS
           </h2>
-          <span className="text-3xl font-bold text-blue-600">
+          <span className="text-sm font-bold text-blue-600">
             {completionPercentage}%
           </span>
         </div>
@@ -157,22 +157,22 @@ export function OnboardingProgress({
       </div>
 
       {/* Progress summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
           <div className="text-sm text-gray-600 mb-1">Questionnaires</div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="text-sm font-bold text-gray-900 dark:text-white">
             {progress.progress.questionnairesCompleted}/{progress.progress.questionnairesTotal}
           </div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
           <div className="text-sm text-gray-600 mb-1">Profile</div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="text-sm font-bold text-gray-900 dark:text-white">
             {progress.progress.profileComplete ? '✓' : '○'}
           </div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
           <div className="text-sm text-gray-600 mb-1">Groups Joined</div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="text-sm font-bold text-gray-900 dark:text-white">
             {progress.progress.groupsJoined}
           </div>
         </div>
@@ -181,7 +181,7 @@ export function OnboardingProgress({
       {/* Next steps */}
       {nextSteps.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
             Next Steps
           </h3>
           <div className="space-y-3">
@@ -214,7 +214,7 @@ export function OnboardingWidget({
   return (
     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-4">
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-2xl">🚀</span>
+        <span className="text-sm">🚀</span>
         <h3 className="font-semibold text-gray-900 dark:text-white">Get Started</h3>
       </div>
 

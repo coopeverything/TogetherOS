@@ -4,9 +4,9 @@ import { Card, Button } from '@/components/ui';
 export default function ProfileNotFound() {
   return (
     <div className="min-h-screen bg-bg-0 flex items-center justify-center p-4">
-      <Card className="max-w-md w-full p-8 text-center space-y-4">
+      <Card className="max-w-md w-full p-4 text-center space-y-2">
         <div className="text-6xl">🔍</div>
-        <h1 className="text-2xl font-bold text-ink-900">Profile Not Found</h1>
+        <h1 className="text-sm font-bold text-ink-900">Profile Not Found</h1>
         <p className="text-ink-700">
           The profile you're looking for doesn't exist or has been removed.
         </p>

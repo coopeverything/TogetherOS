@@ -73,7 +73,7 @@ export function ProposalRatingForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-2">
       {/* Clarity Rating */}
       <div>
         <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
@@ -91,7 +91,7 @@ export function ProposalRatingForm({
               type="button"
               onClick={() => setClarity(option.value)}
               disabled={disabled || isSubmitting}
-              className={`flex-1 px-4 py-3 rounded-lg text-white font-medium transition-all ${option.color} ${
+              className={`flex-1 px-4 py-2 rounded-lg text-white font-medium transition-all ${option.color} ${
                 clarity === option.value ? 'ring-2 ring-offset-2 ring-blue-500 scale-105' : ''
               } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
@@ -162,7 +162,7 @@ export function ProposalRatingForm({
             className="w-5 h-5 text-yellow-500 rounded focus:ring-2 focus:ring-yellow-500 disabled:opacity-50"
           />
           <span className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
-            <span className="text-2xl">💡</span>
+            <span className="text-sm">💡</span>
             Great New Idea
             <span className="text-gray-600 text-xs">(Mark innovative/creative proposals)</span>
           </span>
@@ -186,7 +186,7 @@ export function ProposalRatingForm({
               type="button"
               onClick={() => setConstructiveness(option.value)}
               disabled={disabled || isSubmitting}
-              className={`flex-1 px-4 py-3 rounded-lg text-white font-medium transition-all ${option.color} ${
+              className={`flex-1 px-4 py-2 rounded-lg text-white font-medium transition-all ${option.color} ${
                 constructiveness === option.value ? 'ring-2 ring-offset-2 ring-blue-500 scale-105' : ''
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               title={option.desc}
@@ -226,7 +226,7 @@ export function ProposalRatingForm({
       <button
         type="submit"
         disabled={disabled || isSubmitting}
-        className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? 'Submitting...' : currentRating ? 'Update Rating' : 'Submit Rating'}
       </button>
