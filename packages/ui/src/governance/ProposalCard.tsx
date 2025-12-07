@@ -25,26 +25,32 @@ export interface ProposalCardProps {
 }
 
 /**
- * Get badge color for proposal status
+ * Get badge styles for proposal status - 3D effect badges
+ * Uses accent colors for vibrancy on minimalistic pages
  */
-function getStatusBadgeColor(status: ProposalStatus): string {
+function getStatusBadgeStyles(status: ProposalStatus): { classes: string; style: React.CSSProperties } {
+  // 3D emboss/deboss shadow for all badges
+  const baseStyle: React.CSSProperties = {
+    boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.1)',
+  }
+
   switch (status) {
     case 'draft':
-      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+      return { classes: 'bg-ink-400/20 text-ink-700', style: baseStyle }
     case 'research':
-      return 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
+      return { classes: 'bg-accent-3-bg text-accent-3', style: baseStyle }
     case 'deliberation':
-      return 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
+      return { classes: 'bg-accent-1-bg text-accent-1', style: baseStyle }
     case 'voting':
-      return 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
+      return { classes: 'bg-accent-2-bg text-accent-2', style: baseStyle }
     case 'decided':
-      return 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+      return { classes: 'bg-success-bg text-success', style: baseStyle }
     case 'delivery':
-      return 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200'
+      return { classes: 'bg-accent-4-bg text-accent-4', style: baseStyle }
     case 'reviewed':
-      return 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200'
+      return { classes: 'bg-info-bg text-info', style: baseStyle }
     case 'archived':
-      return 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+      return { classes: 'bg-bg-2 text-ink-400', style: baseStyle }
   }
 }
 
@@ -83,19 +89,21 @@ export function ProposalCard({
     }
   }
 
+  const statusBadge = getStatusBadgeStyles(proposal.status)
+
   return (
     <div
       onClick={handleClick}
-      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 transition-shadow ${
+      className={`bg-bg-1 rounded-lg border border-border p-4 transition-shadow ${
         clickable ? 'hover:shadow-md cursor-pointer' : ''
       } ${className}`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+          <h3 className="text-sm font-semibold text-ink-900 mb-1">
             {proposal.title}
           </h3>
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-ink-400">
             <span>
               by {authorName || `User ${proposal.authorId.slice(0, 8)}`}
             </span>
@@ -105,20 +113,20 @@ export function ProposalCard({
             <span className="capitalize">{proposal.scopeType}</span>
           </div>
         </div>
+        {/* 3D status badge */}
         <span
-          className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusBadgeColor(
-            proposal.status
-          )}`}
+          className={`px-3 py-1 text-sm font-medium rounded-full ${statusBadge.classes}`}
+          style={statusBadge.style}
         >
           {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
         </span>
       </div>
-      <p className="text-gray-700 dark:text-gray-300 line-clamp-2">{proposal.summary}</p>
+      <p className="text-ink-700 line-clamp-2">{proposal.summary}</p>
 
       {(proposal.evidence.length > 0 ||
         proposal.options.length > 0 ||
         proposal.positions.length > 0) && (
-        <div className="flex items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-4 mt-4 text-sm text-ink-400">
           {proposal.evidence.length > 0 && (
             <span>{proposal.evidence.length} evidence</span>
           )}

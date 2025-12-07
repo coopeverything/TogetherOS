@@ -48,6 +48,16 @@
   --warn-bg: #FEF3C7;
   --danger: #DC2626;
   --danger-bg: #FEE2E2;
+
+  /* Accent Palette (4 levels for decorative differentiation) */
+  --accent-1: #0369A1;
+  --accent-1-bg: #E0F2FE;
+  --accent-2: #7C3AED;
+  --accent-2-bg: #EDE9FE;
+  --accent-3: #B45309;
+  --accent-3-bg: #FEF3C7;
+  --accent-4: #0F766E;
+  --accent-4-bg: #CCFBF1;
 }
 
 /* Dark Mode (Default) */
@@ -61,6 +71,15 @@
   --border: #1F2937;
   --brand-500: #22C55E;
   --joy-500: #FBBF24;
+  /* Accent Palette (dark mode) */
+  --accent-1: #38BDF8;
+  --accent-1-bg: #0C4A6E;
+  --accent-2: #A78BFA;
+  --accent-2-bg: #3730A3;
+  --accent-3: #FBBF24;
+  --accent-3-bg: #713F12;
+  --accent-4: #2DD4BF;
+  --accent-4-bg: #134E4A;
 }
 
 /* ============================================
@@ -90,6 +109,15 @@
   --warn-bg: #F4F4F5;
   --danger: #27272A;
   --danger-bg: #E4E4E7;
+  /* Grayscale accents - different zinc shades */
+  --accent-1: #3F3F46;
+  --accent-1-bg: #E4E4E7;
+  --accent-2: #52525B;
+  --accent-2-bg: #F4F4F5;
+  --accent-3: #71717A;
+  --accent-3-bg: #FAFAFA;
+  --accent-4: #A1A1AA;
+  --accent-4-bg: #E4E4E7;
 }
 [data-theme="zinc-minimal"].dark,
 .dark[data-theme="zinc-minimal"] {
@@ -114,6 +142,15 @@
   --warn-bg: #27272A;
   --danger: #E4E4E7;
   --danger-bg: #3F3F46;
+  /* Grayscale accents - different zinc shades (dark) */
+  --accent-1: #D4D4D8;
+  --accent-1-bg: #27272A;
+  --accent-2: #A1A1AA;
+  --accent-2-bg: #3F3F46;
+  --accent-3: #71717A;
+  --accent-3-bg: #27272A;
+  --accent-4: #52525B;
+  --accent-4-bg: #18181B;
 }
 
 /* Zinc Sage - Minimal with organic sage green accent */
@@ -139,6 +176,15 @@
   --warn-bg: #F0EDE5;
   --danger: #8B4049;
   --danger-bg: #F2E5E7;
+  /* Sage family accents */
+  --accent-1: #52796F;
+  --accent-1-bg: #DAE5DA;
+  --accent-2: #6B8C6B;
+  --accent-2-bg: #EEF2EE;
+  --accent-3: #84A98C;
+  --accent-3-bg: #F5F8F5;
+  --accent-4: #8B705C;
+  --accent-4-bg: #F2EBE5;
 }
 [data-theme="zinc-sage"].dark,
 .dark[data-theme="zinc-sage"] {
@@ -163,6 +209,15 @@
   --warn-bg: #3A3828;
   --danger: #C4767E;
   --danger-bg: #3A2428;
+  /* Sage family accents (dark) */
+  --accent-1: #A3C4A3;
+  --accent-1-bg: #2F3E36;
+  --accent-2: #8BA88B;
+  --accent-2-bg: #3A4A42;
+  --accent-3: #6B8C6B;
+  --accent-3-bg: #232E28;
+  --accent-4: #B8A88B;
+  --accent-4-bg: #3A3828;
 }
 
 /* Zinc Sage Extended - Enhanced with dusty rose & slate blue complements */
@@ -286,6 +341,15 @@
   --warn-bg: #F5F5F5;
   --danger: #1A1A1A;
   --danger-bg: #E0E0E0;
+  /* Pure grayscale accents */
+  --accent-1: #1A1A1A;
+  --accent-1-bg: #E0E0E0;
+  --accent-2: #333333;
+  --accent-2-bg: #F0F0F0;
+  --accent-3: #666666;
+  --accent-3-bg: #F5F5F5;
+  --accent-4: #999999;
+  --accent-4-bg: #E8E8E8;
 }
 [data-theme="pure-grayscale"].dark,
 .dark[data-theme="pure-grayscale"] {
@@ -310,6 +374,15 @@
   --warn-bg: #2A2A2A;
   --danger: #FFFFFF;
   --danger-bg: #3D3D3D;
+  /* Pure grayscale accents (dark) */
+  --accent-1: #F0F0F0;
+  --accent-1-bg: #2A2A2A;
+  --accent-2: #CCCCCC;
+  --accent-2-bg: #333333;
+  --accent-3: #999999;
+  --accent-3-bg: #2A2A2A;
+  --accent-4: #666666;
+  --accent-4-bg: #1A1A1A;
 }
 
 /* Pebble - Natural stone tones, warm grays, muted earth */
