@@ -42,20 +42,20 @@ function getNotificationIcon(type: NotificationType): string {
 }
 
 /**
- * Get color scheme for notification type
+ * Get color scheme for notification type - uses theme-aware accent colors
  */
 function getNotificationColor(type: NotificationType): string {
   const colors: Record<NotificationType, string> = {
-    mention: 'bg-blue-50 border-blue-200',
-    proposal_update: 'bg-purple-50 border-purple-200',
-    discussion_reply: 'bg-green-50 border-green-200',
-    group_update: 'bg-yellow-50 border-yellow-200',
-    system_message: 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700',
-    support_points: 'bg-amber-50 border-amber-200',
-    badge_earned: 'bg-orange-50 border-orange-200',
-    reaction: 'bg-pink-50 border-pink-200',
+    mention: 'bg-accent-1-bg border-accent-1/30',
+    proposal_update: 'bg-accent-2-bg border-accent-2/30',
+    discussion_reply: 'bg-success-bg border-success/30',
+    group_update: 'bg-warning-bg border-warning/30',
+    system_message: 'bg-bg-2 border-border',
+    support_points: 'bg-accent-3-bg border-accent-3/30',
+    badge_earned: 'bg-joy-100 border-joy-300',
+    reaction: 'bg-accent-4-bg border-accent-4/30',
   }
-  return colors[type] || 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+  return colors[type] || 'bg-bg-2 border-border'
 }
 
 /**
@@ -112,13 +112,13 @@ export function NotificationToast({
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 dark:text-white">
+        <p className="text-sm font-medium text-ink-900">
           {notification.title}
         </p>
-        <p className="mt-1 text-sm text-gray-600 line-clamp-2">
+        <p className="mt-1 text-sm text-ink-700 line-clamp-2">
           {notification.message}
         </p>
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-ink-400">
           {formatTimeAgo(notification.createdAt)}
         </p>
       </div>
@@ -126,7 +126,7 @@ export function NotificationToast({
       {/* Dismiss Button */}
       <button
         onClick={() => onDismiss?.(notification.id)}
-        className="flex-shrink-0 text-gray-400 hover:text-gray-600"
+        className="flex-shrink-0 text-ink-400 hover:text-ink-700"
         aria-label="Dismiss notification"
       >
         <svg

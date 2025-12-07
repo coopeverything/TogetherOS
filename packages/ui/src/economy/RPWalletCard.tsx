@@ -12,39 +12,39 @@ export interface RPWalletCardProps {
 
 export function RPWalletCard({ balance, className = '' }: RPWalletCardProps) {
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
-      <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+    <div className={`bg-bg-1 rounded-lg shadow-sm border border-border p-4 ${className}`}>
+      <h2 className="text-sm font-semibold text-ink-900 mb-4">
         Reward Points Wallet
       </h2>
 
       <div className="space-y-2">
         {/* Current Balance */}
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-600">Current Balance</span>
-          <span className="text-sm font-bold text-purple-600">{balance.available} RP</span>
+          <span className="text-sm text-ink-700">Current Balance</span>
+          <span className="text-sm font-bold text-accent-3">{balance.available} RP</span>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
+        <div className="border-t border-border pt-4 space-y-3">
           {/* Total Earned */}
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-700">Total Earned (All Time)</span>
-            <span className="text-sm font-semibold text-gray-600">{balance.totalEarned} RP</span>
+            <span className="text-sm text-ink-700">Total Earned (All Time)</span>
+            <span className="text-sm font-semibold text-ink-700">{balance.totalEarned} RP</span>
           </div>
 
           {/* Spent on TBC */}
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-700">Converted to TBC</span>
-            <span className="text-sm font-semibold text-blue-600">{balance.spentOnTBC} RP</span>
+            <span className="text-sm text-ink-700">Converted to TBC</span>
+            <span className="text-sm font-semibold text-accent-1">{balance.spentOnTBC} RP</span>
           </div>
 
           {/* Spent on SH */}
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-700">Spent on SH</span>
-            <span className="text-sm font-semibold text-green-600">{balance.spentOnSH} RP</span>
+            <span className="text-sm text-ink-700">Spent on SH</span>
+            <span className="text-sm font-semibold text-success">{balance.spentOnSH} RP</span>
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 text-xs text-gray-500">
+        <div className="border-t border-border pt-4 text-xs text-ink-400">
           <p>
             Reward Points (RP) are earned through contributions, dues, and gamification activities.
             Convert RP to Timebank Credits (TBC) or use for Social Horizon (SH) purchases.

@@ -21,16 +21,16 @@ export interface MemberDirectoryProps {
 }
 
 /**
- * Generate avatar color from member name
+ * Generate avatar color from member name - uses theme-aware accent colors
  */
 function getAvatarColor(name: string): string {
   const colors = [
-    'bg-blue-200 text-blue-800',
-    'bg-green-200 text-green-800',
-    'bg-purple-200 text-purple-800',
-    'bg-pink-200 text-pink-800',
-    'bg-yellow-200 text-yellow-800',
-    'bg-indigo-200 text-indigo-800',
+    'bg-accent-1-bg text-accent-1',
+    'bg-accent-2-bg text-accent-2',
+    'bg-accent-3-bg text-accent-3',
+    'bg-accent-4-bg text-accent-4',
+    'bg-joy-200 text-joy-800',
+    'bg-brand-bg text-brand-600',
   ]
 
   const charSum = name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0)
@@ -41,7 +41,7 @@ export function MemberDirectory({ members, className = '' }: MemberDirectoryProp
   if (members.length === 0) {
     return (
       <div className={`text-center py-6 ${className}`}>
-        <p className="text-gray-500">No members yet</p>
+        <p className="text-ink-400">No members yet</p>
       </div>
     )
   }
@@ -62,17 +62,17 @@ export function MemberDirectory({ members, className = '' }: MemberDirectoryProp
           return (
             <div
               key={member.id}
-              className="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+              className="flex flex-col items-center p-3 bg-bg-1 rounded-lg border border-border hover:shadow-md transition-shadow"
             >
               <div
                 className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 ${avatarColor}`}
               >
                 <span className="font-bold text-sm">{initials}</span>
               </div>
-              <p className="font-medium text-gray-900 dark:text-white text-center text-sm truncate w-full">
+              <p className="font-medium text-ink-900 text-center text-sm truncate w-full">
                 {member.displayName}
               </p>
-              <p className="text-xs text-gray-500 truncate w-full text-center">
+              <p className="text-xs text-ink-400 truncate w-full text-center">
                 @{member.handle}
               </p>
             </div>

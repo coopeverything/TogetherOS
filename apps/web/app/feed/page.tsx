@@ -271,8 +271,8 @@ export default function FeedPage() {
 
               {/* Error banner */}
               {error && (
-                <div className="mb-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 p-4">
-                  <p className="text-sm text-red-800 dark:text-red-200">
+                <div className="mb-4 bg-danger-bg rounded-lg border border-danger/30 p-4">
+                  <p className="text-sm text-danger">
                     <strong>Error:</strong> {error}
                   </p>
                 </div>

@@ -76,9 +76,9 @@ export function PostList({
   if (posts.length === 0 && !loading) {
     return (
       <div className={`text-center py-6 ${className}`}>
-        <div className="text-gray-400 text-sm mb-4">📭</div>
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">No posts yet</h3>
-        <p className="text-gray-600">Be the first to share something!</p>
+        <div className="text-ink-400 text-sm mb-4">📭</div>
+        <h3 className="text-sm font-semibold text-ink-900 mb-2">No posts yet</h3>
+        <p className="text-ink-700">Be the first to share something!</p>
       </div>
     )
   }
@@ -105,23 +105,23 @@ export function PostList({
       {loading && (
         <div className="space-y-2">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 animate-pulse">
+            <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
               <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                <div className="w-10 h-10 bg-bg-2 rounded-full" />
                 <div className="flex-1">
-                  <div className="h-4 bg-gray-200 rounded w-24 mb-2" />
-                  <div className="h-3 bg-gray-200 rounded w-32" />
+                  <div className="h-4 bg-bg-2 rounded w-24 mb-2" />
+                  <div className="h-3 bg-bg-2 rounded w-32" />
                 </div>
               </div>
               <div className="space-y-2 mb-4">
-                <div className="h-3 bg-gray-200 rounded w-full" />
-                <div className="h-3 bg-gray-200 rounded w-5/6" />
-                <div className="h-3 bg-gray-200 rounded w-4/6" />
+                <div className="h-3 bg-bg-2 rounded w-full" />
+                <div className="h-3 bg-bg-2 rounded w-5/6" />
+                <div className="h-3 bg-bg-2 rounded w-4/6" />
               </div>
               <div className="flex gap-2">
-                <div className="h-8 bg-gray-200 rounded-full w-16" />
-                <div className="h-8 bg-gray-200 rounded-full w-16" />
-                <div className="h-8 bg-gray-200 rounded-full w-16" />
+                <div className="h-8 bg-bg-2 rounded-full w-16" />
+                <div className="h-8 bg-bg-2 rounded-full w-16" />
+                <div className="h-8 bg-bg-2 rounded-full w-16" />
               </div>
             </div>
           ))}
@@ -133,7 +133,7 @@ export function PostList({
         <div className="text-center py-4">
           <button
             onClick={onLoadMore}
-            className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors font-medium"
+            className="px-4 py-2 bg-brand-600 text-bg-1 rounded-full hover:bg-brand-500 transition-colors font-medium"
           >
             Load More
           </button>

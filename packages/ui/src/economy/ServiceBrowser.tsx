@@ -68,17 +68,16 @@ export function ServiceBrowser({
   return (
     <div className={`space-y-2 ${className}`}>
       {/* Filters */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Filter Services</h3>
+      <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
+        <h3 className="text-sm font-medium text-ink-700 mb-3">Filter Services</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Service Type */}
           <div>
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Service Type</label>
+            <label className="block text-xs text-ink-400 mb-1">Service Type</label>
             <select
               value={filters.type || ''}
               onChange={(e) => handleFilterChange('type', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900 text-sm"
             >
               <option value="">All Types</option>
               {serviceTypes.map(type => (
@@ -89,12 +88,11 @@ export function ServiceBrowser({
 
           {/* Location */}
           <div>
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Location</label>
+            <label className="block text-xs text-ink-400 mb-1">Location</label>
             <select
               value={filters.location || ''}
               onChange={(e) => handleFilterChange('location', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900 text-sm"
             >
               {LOCATION_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -104,7 +102,7 @@ export function ServiceBrowser({
 
           {/* Max Price */}
           <div>
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Max TBC/Hour</label>
+            <label className="block text-xs text-ink-400 mb-1">Max TBC/Hour</label>
             <input
               type="number"
               min="1"
@@ -112,8 +110,7 @@ export function ServiceBrowser({
               value={filters.maxPrice || ''}
               onChange={(e) => handleFilterChange('maxPrice', e.target.value ? Number(e.target.value) : undefined)}
               placeholder="Any"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900 text-sm"
             />
           </div>
         </div>
@@ -122,42 +119,40 @@ export function ServiceBrowser({
       {/* Services List */}
       {isLoading ? (
         <div className="text-center py-4">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">Loading services...</p>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600"></div>
+          <p className="mt-2 text-ink-400">Loading services...</p>
         </div>
       ) : services.length === 0 ? (
-        <div className="text-center py-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <p className="text-gray-500 dark:text-gray-400">No services found matching your filters.</p>
+        <div className="text-center py-4 bg-bg-2 rounded-lg">
+          <p className="text-ink-400">No services found matching your filters.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.map(service => (
             <div
               key={service.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4
-                       hover:shadow-md transition-shadow"
+              className="bg-bg-1 rounded-lg shadow-sm border border-border p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex justify-between items-start mb-2">
-                <span className="inline-block px-2 py-1 text-xs font-medium bg-teal-100 dark:bg-teal-900
-                               text-teal-800 dark:text-teal-200 rounded">
+                <span className="inline-block px-2 py-1 text-xs font-medium bg-accent-4-bg text-accent-4 rounded">
                   {formatServiceType(service.serviceType)}
                 </span>
-                <span className="text-sm font-bold text-teal-600">
+                <span className="text-sm font-bold text-accent-4">
                   {service.tbcPerHour} TBC/hr
                 </span>
               </div>
 
-              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <h4 className="text-sm font-semibold text-ink-900 mb-2">
                 {service.title}
               </h4>
 
               {service.description && (
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                <p className="text-sm text-ink-700 mb-3 line-clamp-2">
                   {service.description}
                 </p>
               )}
 
-              <div className="flex flex-wrap gap-2 mb-3 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex flex-wrap gap-2 mb-3 text-xs text-ink-400">
                 {service.locationPreference && (
                   <span className="flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,14 +176,13 @@ export function ServiceBrowser({
                 )}
               </div>
 
-              <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex justify-between items-center pt-3 border-t border-border">
+                <span className="text-sm text-ink-700">
                   by {service.provider.name || 'Anonymous'}
                 </span>
                 <button
                   onClick={() => onRequestService(service.id)}
-                  className="px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium
-                           rounded transition-colors"
+                  className="px-3 py-1 bg-brand-600 hover:bg-brand-700 text-bg-1 text-sm font-medium rounded transition-colors"
                 >
                   Request
                 </button>

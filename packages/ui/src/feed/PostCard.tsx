@@ -74,22 +74,22 @@ function formatTimeAgo(date: Date | string): string {
 }
 
 /**
- * Get platform badge color
+ * Get platform badge color - uses accent colors for imported content
  */
 function getPlatformColor(type: string): string {
   switch (type) {
     case 'native':
-      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+      return 'bg-bg-2 text-ink-700'
     case 'instagram':
-      return 'bg-pink-100 text-pink-800'
+      return 'bg-accent-2-bg text-accent-2'
     case 'tiktok':
-      return 'bg-black text-white'
+      return 'bg-ink-900 text-bg-1'
     case 'twitter':
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-accent-1-bg text-accent-1'
     case 'facebook':
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-accent-1-bg text-accent-1'
     default:
-      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+      return 'bg-bg-2 text-ink-700'
   }
 }
 
@@ -118,23 +118,23 @@ export function PostCard({
   const totalReactions = Object.values(reactionCounts).reduce((sum, count) => sum + count, 0)
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow ${className}`}>
+    <div className={`bg-bg-1 rounded-lg border border-border p-4 hover:shadow-md transition-shadow ${className}`}>
       {/* Header */}
       <div className="flex items-start gap-3 mb-3">
-        <div className="w-10 h-10 bg-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
-          <span className="text-orange-800 font-bold text-sm">
+        <div className="w-10 h-10 bg-joy-200 rounded-full flex items-center justify-center flex-shrink-0">
+          <span className="text-joy-800 font-bold text-sm">
             {authorName.charAt(0).toUpperCase()}
           </span>
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-gray-900 dark:text-white">{authorName}</span>
+            <span className="font-semibold text-ink-900">{authorName}</span>
             {post.type !== 'native' && (
               <span className={`px-2 py-0.5 rounded text-xs font-medium ${platformColor}`}>
                 {post.type}
               </span>
             )}
-            <span className="text-sm text-gray-500">{formatTimeAgo(post.createdAt)}</span>
+            <span className="text-sm text-ink-400">{formatTimeAgo(post.createdAt)}</span>
           </div>
           {/* Topics (Phase 3: clickable for filtering) */}
           <div className="flex gap-1 mt-1 flex-wrap items-center">
@@ -143,7 +143,7 @@ export function PostCard({
                 key={topic}
                 type="button"
                 onClick={() => onTopicClick?.(topic)}
-                className="text-xs text-orange-600 hover:underline cursor-pointer hover:text-orange-800 transition-colors"
+                className="text-xs text-joy-600 hover:underline cursor-pointer hover:text-joy-700 transition-colors"
                 title={`Filter by ${topic}`}
               >
                 #{topic.replace(/\s+/g, '')}
@@ -153,7 +153,7 @@ export function PostCard({
               <button
                 type="button"
                 onClick={() => onShowRelated(post.id)}
-                className="ml-2 text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                className="ml-2 text-xs text-brand-600 hover:text-brand-700 font-medium transition-colors"
                 title="Show related posts"
               >
                 🔗 Show related
@@ -167,10 +167,10 @@ export function PostCard({
       {post.type === 'native' ? (
         <div className="mb-4">
           {post.title && (
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>
+            <h3 className="text-sm font-semibold text-ink-900 mb-2">{post.title}</h3>
           )}
           {post.content && (
-            <p className="text-gray-700 whitespace-pre-line mb-3">{post.content}</p>
+            <p className="text-ink-700 whitespace-pre-line mb-3">{post.content}</p>
           )}
           {/* Embedded URL previews */}
           {post.embeddedUrls && post.embeddedUrls.length > 0 && (
@@ -188,7 +188,7 @@ export function PostCard({
       ) : (
         // Import preview
         post.sourcePreview && (
-          <div className="mb-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <div className="mb-4 border border-border rounded-lg overflow-hidden">
             {post.sourcePreview.thumbnailUrl && (
               <img
                 src={post.sourcePreview.thumbnailUrl}
@@ -197,16 +197,16 @@ export function PostCard({
               />
             )}
             <div className="p-3">
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
+              <h4 className="font-semibold text-ink-900 mb-1">
                 {post.sourcePreview.title}
               </h4>
               {post.sourcePreview.description && (
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-ink-700 mb-2">
                   {post.sourcePreview.description}
                 </p>
               )}
               {post.sourcePreview.authorName && (
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-ink-400">
                   by {post.sourcePreview.authorName}
                 </p>
               )}
@@ -215,7 +215,7 @@ export function PostCard({
                   href={post.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-orange-600 hover:underline mt-2 inline-block"
+                  className="text-xs text-joy-600 hover:underline mt-2 inline-block"
                 >
                   View original →
                 </a>
@@ -226,14 +226,14 @@ export function PostCard({
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
+      <div className="flex items-center gap-2 pt-3 border-t border-border/50">
         {/* Edit/Delete buttons (owner only) */}
         {currentUserId && currentUserId === post.authorId && (
           <div className="flex gap-1">
             {onEdit && (
               <button
                 onClick={() => onEdit(post.id)}
-                className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
+                className="px-3 py-1 rounded-full text-sm bg-info-bg text-info hover:opacity-80 transition-colors"
                 title="Edit post"
               >
                 ✏️ Edit
@@ -246,7 +246,7 @@ export function PostCard({
                     onDelete(post.id)
                   }
                 }}
-                className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+                className="px-3 py-1 rounded-full text-sm bg-danger-bg text-danger hover:opacity-80 transition-colors"
                 title="Delete post"
               >
                 🗑️ Delete
@@ -263,8 +263,8 @@ export function PostCard({
               onClick={() => onReact?.(post.id, type)}
               className={`px-3 py-1 rounded-full text-sm transition-colors ${
                 userReaction === type
-                  ? 'bg-orange-100 text-orange-800 font-medium'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-joy-100 text-joy-800 font-medium'
+                  : 'bg-bg-2 text-ink-700 hover:bg-bg-0'
               }`}
               title={type.charAt(0).toUpperCase() + type.slice(1)}
             >
@@ -282,7 +282,7 @@ export function PostCard({
         {/* Discuss button */}
         <button
           onClick={() => onDiscuss?.(post.id)}
-          className="ml-auto px-4 py-1 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-sm font-medium text-gray-700 transition-colors"
+          className="ml-auto px-4 py-1 rounded-full bg-bg-2 hover:bg-bg-0 text-sm font-medium text-ink-700 transition-colors"
         >
           💬 Discuss
           {post.discussionCount > 0 && (
@@ -292,7 +292,7 @@ export function PostCard({
       </div>
 
       {totalReactions > 0 && (
-        <div className="text-xs text-gray-500 mt-2">
+        <div className="text-xs text-ink-400 mt-2">
           {totalReactions} {totalReactions === 1 ? 'reaction' : 'reactions'}
         </div>
       )}

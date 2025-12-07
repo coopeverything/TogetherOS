@@ -104,16 +104,16 @@ export function InvitationModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl">
+      <div className="relative w-full max-w-md bg-bg-1 rounded-lg shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h2 className="text-sm font-semibold text-ink-900">
             Invite Someone to {location}
           </h2>
           <button
             onClick={handleClose}
             disabled={submitting}
-            className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50"
+            className="text-ink-400 hover:text-ink-700 transition-colors disabled:opacity-50"
             aria-label="Close"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,29 +127,29 @@ export function InvitationModal({
           {success ? (
             // Success State
             <div className="text-center py-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-green-100 rounded-full">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-success-bg rounded-full">
+                <svg className="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-sm font-semibold text-ink-900 mb-2">
                 Invitation Sent!
               </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                You earned <span className="font-semibold text-orange-600">+{rewardPoints} RP</span>
+              <p className="text-sm text-ink-700 mb-4">
+                You earned <span className="font-semibold text-joy-600">+{rewardPoints} RP</span>
               </p>
             </div>
           ) : (
             <>
               {/* Reward Points Banner */}
-              <div className="mb-3 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="mb-3 p-4 bg-joy-bg border border-joy-300 rounded-lg">
                 <div className="flex items-center gap-2">
                   <span className="text-sm">⭐</span>
                   <div>
-                    <p className="text-sm font-medium text-orange-900">
+                    <p className="text-sm font-medium text-joy-800">
                       Earn {rewardPoints} Reward Points
                     </p>
-                    <p className="text-xs text-orange-700">
+                    <p className="text-xs text-joy-700">
                       When your invitee joins the group
                     </p>
                   </div>
@@ -158,8 +158,8 @@ export function InvitationModal({
 
               {/* Email Field */}
               <div className="mb-4">
-                <label htmlFor="inviteeEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address <span className="text-gray-500">(optional)</span>
+                <label htmlFor="inviteeEmail" className="block text-sm font-medium text-ink-700 mb-1">
+                  Email Address <span className="text-ink-400">(optional)</span>
                 </label>
                 <input
                   type="email"
@@ -168,14 +168,14 @@ export function InvitationModal({
                   onChange={(e) => setInviteeEmail(e.target.value)}
                   placeholder="friend@example.com"
                   disabled={submitting}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50 disabled:bg-gray-50 dark:bg-gray-900"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:opacity-50 disabled:bg-bg-2 bg-bg-1 text-ink-900"
                 />
               </div>
 
               {/* Name Field */}
               <div className="mb-4">
-                <label htmlFor="inviteeName" className="block text-sm font-medium text-gray-700 mb-1">
-                  Name <span className="text-gray-500">(optional if email provided)</span>
+                <label htmlFor="inviteeName" className="block text-sm font-medium text-ink-700 mb-1">
+                  Name <span className="text-ink-400">(optional if email provided)</span>
                 </label>
                 <input
                   type="text"
@@ -184,14 +184,14 @@ export function InvitationModal({
                   onChange={(e) => setInviteeName(e.target.value)}
                   placeholder="Alex Smith"
                   disabled={submitting}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50 disabled:bg-gray-50 dark:bg-gray-900"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:opacity-50 disabled:bg-bg-2 bg-bg-1 text-ink-900"
                 />
               </div>
 
               {/* Message Field */}
               <div className="mb-3">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Personal Message <span className="text-gray-500">(optional)</span>
+                <label htmlFor="message" className="block text-sm font-medium text-ink-700 mb-1">
+                  Personal Message <span className="text-ink-400">(optional)</span>
                 </label>
                 <textarea
                   id="message"
@@ -200,14 +200,14 @@ export function InvitationModal({
                   placeholder="I think you'd be a great fit for our community..."
                   rows={3}
                   disabled={submitting}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50 disabled:bg-gray-50 dark:bg-gray-900 resize-none"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:opacity-50 disabled:bg-bg-2 bg-bg-1 text-ink-900 resize-none"
                 />
               </div>
 
               {/* Error Message */}
               {error && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-sm text-red-800">{error}</p>
+                <div className="mb-4 p-3 bg-danger-bg border border-danger/30 rounded-lg">
+                  <p className="text-sm text-danger">{error}</p>
                 </div>
               )}
 
@@ -217,14 +217,14 @@ export function InvitationModal({
                   type="button"
                   onClick={handleClose}
                   disabled={submitting}
-                  className="flex-1 px-4 py-2 text-gray-700 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                  className="flex-1 px-4 py-2 text-ink-700 bg-bg-1 border border-border rounded-lg hover:bg-bg-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 px-4 py-2 text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                  className="flex-1 px-4 py-2 text-bg-1 bg-joy-600 rounded-lg hover:bg-joy-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
                   {submitting ? 'Sending...' : 'Send Invitation'}
                 </button>

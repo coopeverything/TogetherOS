@@ -26,7 +26,7 @@ export function NotificationBell({
   return (
     <button
       onClick={onClick}
-      className={`relative p-2 hover:bg-gray-100 dark:bg-gray-700 rounded-full transition-colors ${className}`}
+      className={`relative p-2 hover:bg-bg-2 rounded-full transition-colors ${className}`}
       aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
     >
       {/* Bell Icon */}
@@ -36,7 +36,7 @@ export function NotificationBell({
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6"
+        className="w-6 h-6 text-ink-700"
       >
         <path
           strokeLinecap="round"
@@ -47,7 +47,7 @@ export function NotificationBell({
 
       {/* Unread Badge */}
       {unreadCount > 0 && (
-        <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+        <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-bg-1 bg-danger rounded-full">
           {unreadCount > 99 ? '99+' : unreadCount}
         </span>
       )}

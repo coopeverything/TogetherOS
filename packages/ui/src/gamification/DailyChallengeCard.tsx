@@ -14,16 +14,16 @@ interface DailyChallengeCardProps {
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  social: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-  contribution: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
-  exploration: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
-  growth: { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
+  social: { bg: 'bg-accent-1-bg', text: 'text-accent-1', border: 'border-accent-1/30' },
+  contribution: { bg: 'bg-success-bg', text: 'text-success', border: 'border-success/30' },
+  exploration: { bg: 'bg-accent-3-bg', text: 'text-accent-3', border: 'border-accent-3/30' },
+  growth: { bg: 'bg-joy-bg', text: 'text-joy-700', border: 'border-joy-300' },
 };
 
 const DIFFICULTY_BADGES: Record<string, { bg: string; text: string }> = {
-  easy: { bg: 'bg-green-100', text: 'text-green-800' },
-  medium: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
-  hard: { bg: 'bg-red-100', text: 'text-red-800' },
+  easy: { bg: 'bg-success-bg', text: 'text-success' },
+  medium: { bg: 'bg-warning-bg', text: 'text-warning' },
+  hard: { bg: 'bg-danger-bg', text: 'text-danger' },
 };
 
 const ICON_MAP: Record<string, string> = {
@@ -81,20 +81,20 @@ export function DailyChallengeCard({
     <div
       className={`
         relative rounded-xl border-2 p-4 transition-all duration-200
-        ${isLocked ? 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 opacity-60' : ''}
-        ${isCompleted ? 'bg-green-50 border-green-300' : ''}
+        ${isLocked ? 'bg-bg-2 border-border opacity-60' : ''}
+        ${isCompleted ? 'bg-success-bg border-success/30' : ''}
         ${!isLocked && !isCompleted ? `${categoryStyle.bg} ${categoryStyle.border}` : ''}
         ${className}
       `}
     >
       {/* Completed checkmark */}
       {isCompleted && (
-        <div className="absolute top-2 right-2 text-green-600 text-sm">✓</div>
+        <div className="absolute top-2 right-2 text-success text-sm">✓</div>
       )}
 
       {/* Lock overlay */}
       {isLocked && unlockDay && (
-        <div className="absolute top-2 right-2 text-gray-400 text-sm">
+        <div className="absolute top-2 right-2 text-ink-400 text-sm">
           🔒 Day {unlockDay}
         </div>
       )}
@@ -103,10 +103,10 @@ export function DailyChallengeCard({
       <div className="flex items-start gap-3 mb-3">
         <span className="text-sm">{icon}</span>
         <div className="flex-1">
-          <h3 className={`font-semibold ${isLocked ? 'text-gray-500' : 'text-gray-900 dark:text-white'}`}>
+          <h3 className={`font-semibold ${isLocked ? 'text-ink-400' : 'text-ink-900'}`}>
             {challenge.name}
           </h3>
-          <p className={`text-sm mt-1 ${isLocked ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-sm mt-1 ${isLocked ? 'text-ink-400' : 'text-ink-700'}`}>
             {challenge.description}
           </p>
         </div>
@@ -129,7 +129,7 @@ export function DailyChallengeCard({
             +{challenge.rpReward} RP
           </span>
           {bonusRP > 0 && !isCompleted && (
-            <span className="text-sm text-orange-600 flex items-center gap-1">
+            <span className="text-sm text-joy-600 flex items-center gap-1">
               <span>🔥</span>
               +{bonusRP} streak
             </span>
@@ -141,14 +141,14 @@ export function DailyChallengeCard({
           <button
             onClick={handleComplete}
             disabled={completing}
-            className="px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 disabled:opacity-50 transition-colors"
+            className="px-4 py-2 bg-brand-600 text-bg-1 text-sm font-medium rounded-lg hover:bg-brand-700 disabled:opacity-50 transition-colors"
           >
             {completing ? 'Completing...' : 'Complete'}
           </button>
         )}
 
         {isCompleted && userChallenge?.rpAwarded && (
-          <span className="text-green-700 font-medium">
+          <span className="text-success font-medium">
             Earned {userChallenge.rpAwarded} RP
           </span>
         )}
@@ -157,11 +157,11 @@ export function DailyChallengeCard({
       {/* Progress bar for multi-step challenges */}
       {userChallenge?.progress?.target && userChallenge.progress.current !== undefined && (
         <div className="mt-3">
-          <div className="flex justify-between text-xs text-gray-600 mb-1">
+          <div className="flex justify-between text-xs text-ink-700 mb-1">
             <span>Progress</span>
             <span>{userChallenge.progress.current}/{userChallenge.progress.target}</span>
           </div>
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-2 bg-bg-2 rounded-full overflow-hidden">
             <div
               className="h-full bg-brand-500 transition-all duration-300"
               style={{

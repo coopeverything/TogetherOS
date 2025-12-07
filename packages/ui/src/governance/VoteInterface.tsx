@@ -42,25 +42,25 @@ export function VoteInterface({
     {
       type: 'consent',
       label: 'Consent',
-      color: 'bg-green-600 hover:bg-green-700 text-white',
+      color: 'bg-success hover:opacity-90 text-bg-1',
       description: 'I approve this proposal',
     },
     {
       type: 'concern',
       label: 'Concern',
-      color: 'bg-yellow-600 hover:bg-yellow-700 text-white',
+      color: 'bg-warning hover:opacity-90 text-bg-1',
       description: 'I have concerns or objections',
     },
     {
       type: 'abstain',
       label: 'Abstain',
-      color: 'bg-gray-600 hover:bg-gray-700 text-white',
+      color: 'bg-ink-400 hover:bg-ink-500 text-bg-1',
       description: 'I choose not to vote',
     },
     {
       type: 'block',
       label: 'Block',
-      color: 'bg-red-600 hover:bg-red-700 text-white',
+      color: 'bg-danger hover:opacity-90 text-bg-1',
       description: 'Strong objection - this prevents approval',
     },
   ]
@@ -69,48 +69,48 @@ export function VoteInterface({
     <div className="space-y-2">
       {/* Current Vote Display */}
       {currentVote && (
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm font-medium text-blue-900">
+        <div className="p-4 bg-info-bg border border-info/30 rounded-lg">
+          <p className="text-sm font-medium text-info">
             Your current vote: <span className="font-bold capitalize">{currentVote}</span>
           </p>
-          <p className="text-xs text-blue-700 mt-1">You can change your vote at any time</p>
+          <p className="text-xs text-info mt-1">You can change your vote at any time</p>
         </div>
       )}
 
       {/* Vote Tally */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-          <div className="text-sm font-bold text-green-700">{tally.consent}</div>
-          <div className="text-sm text-green-600">Consent</div>
+        <div className="text-center p-4 bg-success-bg rounded-lg border border-success/30">
+          <div className="text-sm font-bold text-success">{tally.consent}</div>
+          <div className="text-sm text-success">Consent</div>
         </div>
-        <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-          <div className="text-sm font-bold text-yellow-700">{tally.concern}</div>
-          <div className="text-sm text-yellow-600">Concern</div>
+        <div className="text-center p-4 bg-warning-bg rounded-lg border border-warning/30">
+          <div className="text-sm font-bold text-warning">{tally.concern}</div>
+          <div className="text-sm text-warning">Concern</div>
         </div>
-        <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div className="text-sm font-bold text-gray-700">{tally.abstain}</div>
-          <div className="text-sm text-gray-600">Abstain</div>
+        <div className="text-center p-4 bg-bg-2 rounded-lg border border-border">
+          <div className="text-sm font-bold text-ink-700">{tally.abstain}</div>
+          <div className="text-sm text-ink-700">Abstain</div>
         </div>
-        <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
-          <div className="text-sm font-bold text-red-700">{tally.block}</div>
-          <div className="text-sm text-red-600">Block</div>
+        <div className="text-center p-4 bg-danger-bg rounded-lg border border-danger/30">
+          <div className="text-sm font-bold text-danger">{tally.block}</div>
+          <div className="text-sm text-danger">Block</div>
         </div>
       </div>
 
       {/* Decision Status */}
       <div className={`p-4 rounded-lg border ${
         tally.hasBlocks
-          ? 'bg-red-50 border-red-200'
+          ? 'bg-danger-bg border-danger/30'
           : tally.thresholdMet
-          ? 'bg-green-50 border-green-200'
-          : 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+          ? 'bg-success-bg border-success/30'
+          : 'bg-bg-2 border-border'
       }`}>
         <p className={`font-medium ${
           tally.hasBlocks
-            ? 'text-red-900'
+            ? 'text-danger'
             : tally.thresholdMet
-            ? 'text-green-900'
-            : 'text-gray-900 dark:text-white'
+            ? 'text-success'
+            : 'text-ink-900'
         }`}>
           {tally.hasBlocks
             ? `❌ Blocked - ${tally.block} block vote(s) prevent approval`
@@ -118,14 +118,14 @@ export function VoteInterface({
             ? '✅ Threshold met - Proposal can be approved'
             : '⏳ Awaiting more votes - Threshold not yet met'}
         </p>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm text-ink-700 mt-1">
           Total votes: {tally.total} (excluding {tally.abstain} abstentions)
         </p>
       </div>
 
       {/* Vote Buttons */}
       <div className="space-y-2">
-        <h3 className="font-semibold text-gray-900 dark:text-white">Cast Your Vote</h3>
+        <h3 className="font-semibold text-ink-900">Cast Your Vote</h3>
         <div className="grid grid-cols-2 gap-4">
           {voteButtons.map((btn) => (
             <div key={btn.type} className="space-y-2">
@@ -139,12 +139,12 @@ export function VoteInterface({
                 }}
                 disabled={disabled || isVoting}
                 className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${btn.color} ${
-                  currentVote === btn.type ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                  currentVote === btn.type ? 'ring-2 ring-offset-2 ring-brand-500' : ''
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {btn.label}
               </button>
-              <p className="text-xs text-gray-600">{btn.description}</p>
+              <p className="text-xs text-ink-700">{btn.description}</p>
 
               {/* Reasoning textarea */}
               {showReasoningFor === btn.type && (
@@ -153,7 +153,7 @@ export function VoteInterface({
                     placeholder={`Optional: Explain your ${btn.type} vote...`}
                     value={reasoning}
                     onChange={(e) => setReasoning(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none bg-bg-1 text-ink-900"
                     rows={3}
                     disabled={isVoting}
                   />
@@ -161,7 +161,7 @@ export function VoteInterface({
                     <button
                       onClick={() => handleVote(btn.type)}
                       disabled={isVoting}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                      className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:bg-brand-500 disabled:opacity-50"
                     >
                       {isVoting ? 'Submitting...' : 'Submit Vote'}
                     </button>
@@ -171,7 +171,7 @@ export function VoteInterface({
                         setReasoning('')
                       }}
                       disabled={isVoting}
-                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                      className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-0"
                     >
                       Cancel
                     </button>

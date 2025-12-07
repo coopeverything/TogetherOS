@@ -92,24 +92,24 @@ export function FirstWeekJourney({
   if (loading) {
     return (
       <div className={`animate-pulse ${className}`}>
-        <div className="h-8 bg-gray-200 rounded w-48 mb-4"></div>
+        <div className="h-8 bg-bg-2 rounded w-48 mb-4"></div>
         <div className="flex gap-2 mb-3">
           {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-            <div key={i} className="w-10 h-10 bg-gray-200 rounded-full"></div>
+            <div key={i} className="w-10 h-10 bg-bg-2 rounded-full"></div>
           ))}
         </div>
-        <div className="h-32 bg-gray-200 rounded-xl"></div>
+        <div className="h-32 bg-bg-2 rounded-xl"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`bg-red-50 border border-red-200 rounded-xl p-4 ${className}`}>
-        <p className="text-red-700">Error: {error}</p>
+      <div className={`bg-danger-bg border border-danger/30 rounded-xl p-4 ${className}`}>
+        <p className="text-danger">Error: {error}</p>
         <button
           onClick={fetchProgress}
-          className="mt-2 text-red-600 underline text-sm"
+          className="mt-2 text-danger underline text-sm"
         >
           Try again
         </button>
@@ -127,8 +127,8 @@ export function FirstWeekJourney({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-sm font-bold text-gray-900 dark:text-white">First Week Journey</h2>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-sm font-bold text-ink-900">First Week Journey</h2>
+          <p className="text-sm text-ink-700">
             Complete daily challenges to earn RP and unlock bonuses
           </p>
         </div>
@@ -137,7 +137,7 @@ export function FirstWeekJourney({
             {summary.totalRPEarned} RP
           </span>
           {summary.streakBonusRP > 0 && (
-            <p className="text-xs text-orange-600">
+            <p className="text-xs text-joy-600">
               +{summary.streakBonusRP} bonus
             </p>
           )}
@@ -146,11 +146,11 @@ export function FirstWeekJourney({
 
       {/* Progress bar */}
       <div className="mb-3">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="flex justify-between text-sm text-ink-700 mb-2">
           <span>{completedCount}/7 days completed</span>
           <span>{Math.round(progressPercent)}%</span>
         </div>
-        <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-3 bg-bg-2 rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-brand-500 to-brand-600 transition-all duration-500"
             style={{ width: `${progressPercent}%` }}
@@ -180,15 +180,15 @@ export function FirstWeekJourney({
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center font-medium text-sm
                   transition-all duration-200
-                  ${isCompleted ? 'bg-green-500 text-white' : ''}
-                  ${isAvailable && !isActive ? 'bg-brand-100 text-brand-700 ring-2 ring-brand-300' : ''}
-                  ${isActive && !isCompleted ? 'bg-brand-600 text-white ring-2 ring-brand-300' : ''}
-                  ${isLocked ? 'bg-gray-100 dark:bg-gray-700 text-gray-400' : ''}
+                  ${isCompleted ? 'bg-success text-bg-1' : ''}
+                  ${isAvailable && !isActive ? 'bg-brand-bg text-brand-600 ring-2 ring-brand-300' : ''}
+                  ${isActive && !isCompleted ? 'bg-brand-600 text-bg-1 ring-2 ring-brand-300' : ''}
+                  ${isLocked ? 'bg-bg-2 text-ink-400' : ''}
                 `}
               >
                 {isCompleted ? '✓' : day.dayNumber}
               </div>
-              <span className={`text-xs ${isActive ? 'text-brand-600 font-medium' : 'text-gray-500'}`}>
+              <span className={`text-xs ${isActive ? 'text-brand-600 font-medium' : 'text-ink-400'}`}>
                 {DAY_LABELS[index]}
               </span>
             </button>
@@ -198,12 +198,12 @@ export function FirstWeekJourney({
 
       {/* Completion celebration */}
       {summary.isComplete && (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mb-3 text-center">
+        <div className="bg-success-bg border border-success/30 rounded-xl p-4 mb-3 text-center">
           <span className="text-sm mb-3 block">🎉</span>
-          <h3 className="text-sm font-bold text-green-800 mb-2">
+          <h3 className="text-sm font-bold text-success mb-2">
             First Week Complete!
           </h3>
-          <p className="text-green-700">
+          <p className="text-success">
             You earned <strong>{summary.totalRPEarned} RP</strong> including a{' '}
             <strong>100 RP</strong> completion bonus!
           </p>

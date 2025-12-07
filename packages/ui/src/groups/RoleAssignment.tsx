@@ -41,11 +41,11 @@ export interface RoleAssignmentProps {
 function getRoleBadgeColor(role: GroupRoleType): string {
   switch (role) {
     case 'admin':
-      return 'bg-red-100 text-red-800'
+      return 'bg-danger-bg text-danger'
     case 'coordinator':
-      return 'bg-purple-100 text-purple-800'
+      return 'bg-accent-3-bg text-accent-3'
     case 'member':
-      return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+      return 'bg-bg-2 text-ink-700'
   }
 }
 
@@ -95,13 +95,13 @@ export function RoleAssignment({
   return (
     <div className={className}>
       {/* Add Role Form */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-3">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Assign Role</h3>
+      <div className="bg-bg-2 rounded-lg border border-border p-4 mb-3">
+        <h3 className="text-sm font-semibold text-ink-900 mb-4">Assign Role</h3>
         <div className="flex gap-3">
           <select
             value={selectedMember}
             onChange={(e) => setSelectedMember(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="flex-1 px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 bg-bg-1 text-ink-900"
             disabled={isAssigning}
           >
             <option value="">Select member...</option>
@@ -115,7 +115,7 @@ export function RoleAssignment({
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value as GroupRoleType)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 bg-bg-1 text-ink-900"
             disabled={isAssigning}
           >
             <option value="member">Member</option>
@@ -126,7 +126,7 @@ export function RoleAssignment({
           <button
             onClick={handleAssign}
             disabled={!selectedMember || isAssigning}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:bg-gray-400 transition-colors font-medium"
+            className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 disabled:bg-ink-400 transition-colors font-medium"
           >
             {isAssigning ? 'Assigning...' : 'Assign'}
           </button>
@@ -135,19 +135,19 @@ export function RoleAssignment({
 
       {/* Current Roles */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Current Roles</h3>
+        <h3 className="text-sm font-semibold text-ink-900 mb-4">Current Roles</h3>
         {rolesWithMembers.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No roles assigned yet</p>
+          <p className="text-ink-400 text-center py-4">No roles assigned yet</p>
         ) : (
           <div className="space-y-3">
             {rolesWithMembers.map((role) => (
               <div
                 key={role.id}
-                className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
+                className="flex items-center justify-between bg-bg-1 rounded-lg border border-border p-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
-                    <span className="text-blue-800 font-bold text-sm">
+                  <div className="w-10 h-10 bg-accent-1-bg rounded-full flex items-center justify-center">
+                    <span className="text-accent-1 font-bold text-sm">
                       {role.member?.displayName
                         .split(' ')
                         .map((word) => word[0])
@@ -157,8 +157,8 @@ export function RoleAssignment({
                     </span>
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{role.member?.displayName}</p>
-                    <p className="text-sm text-gray-500">@{role.member?.handle}</p>
+                    <p className="font-medium text-ink-900">{role.member?.displayName}</p>
+                    <p className="text-sm text-ink-400">@{role.member?.handle}</p>
                   </div>
                 </div>
 
@@ -169,7 +169,7 @@ export function RoleAssignment({
                   {onRevokeRole && role.memberId !== currentUserId && (
                     <button
                       onClick={() => handleRevoke(role.id)}
-                      className="text-sm text-red-600 hover:text-red-700 font-medium"
+                      className="text-sm text-danger hover:opacity-80 font-medium"
                     >
                       Revoke
                     </button>
