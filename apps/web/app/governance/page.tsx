@@ -72,7 +72,7 @@ export default function GovernancePage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Loading proposals...</p>
+          <p className="text-sm text-ink-400">Loading proposals...</p>
         </div>
       </div>
     )
@@ -81,9 +81,9 @@ export default function GovernancePage() {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h2 className="text-sm font-semibold text-red-900 mb-2">Error Loading Proposals</h2>
-          <p className="text-red-700">{error}</p>
+        <div className="bg-danger-bg border border-danger/30 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-danger mb-2">Error Loading Proposals</h2>
+          <p className="text-danger">{error}</p>
         </div>
       </div>
     )
@@ -95,57 +95,57 @@ export default function GovernancePage() {
       <div className="mb-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-sm font-bold text-gray-900 dark:text-white">Governance & Proposals</h1>
-            <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">
+            <h1 className="text-sm font-bold text-ink-900">Governance & Proposals</h1>
+            <span className="px-3 py-1 bg-accent-3-bg text-accent-3 text-sm font-medium rounded-full">
               API Complete
             </span>
           </div>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-3xl">
+        <p className="text-sm text-ink-700 max-w-3xl">
           Create, deliberate, and decide on proposals using transparent, consent-based governance with minority protections.
         </p>
       </div>
 
       {/* What This Module Does */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
-        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">What This Module Does</h2>
+      <div className="bg-bg-1 rounded-lg border border-border p-4 mb-4">
+        <h2 className="text-sm font-semibold text-ink-900 mb-4">What This Module Does</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+            <h3 className="text-sm font-medium text-ink-900 mb-2">Core Features</h3>
+            <ul className="space-y-2 text-ink-700">
               <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
+                <span className="text-success mr-2">✓</span>
                 Create individual or group proposals
               </li>
               <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
+                <span className="text-success mr-2">✓</span>
                 Track proposal lifecycle (draft → research → voting → delivery)
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-accent-3 mr-2">•</span>
                 Evidence gathering and validation
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-accent-3 mr-2">•</span>
                 Multi-option deliberation
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-accent-3 mr-2">•</span>
                 Minority report protection
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-accent-3 mr-2">•</span>
                 Consent-based decision making
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
+            <h3 className="text-sm font-medium text-ink-900 mb-2">Cooperation Paths</h3>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-accent-1-bg text-accent-1 text-sm rounded-full">
                 Collective Governance
               </span>
-              <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-accent-2-bg text-accent-2 text-sm rounded-full">
                 Community Connection
               </span>
             </div>

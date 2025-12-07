@@ -74,6 +74,17 @@ module.exports = {
         'warn-bg': 'var(--warn-bg)',
         danger: 'var(--danger)',
         'danger-bg': 'var(--danger-bg)',
+        // Accent palette (4 levels for decorative differentiation)
+        accent: {
+          1: 'var(--accent-1)',
+          '1-bg': 'var(--accent-1-bg)',
+          2: 'var(--accent-2)',
+          '2-bg': 'var(--accent-2-bg)',
+          3: 'var(--accent-3)',
+          '3-bg': 'var(--accent-3-bg)',
+          4: 'var(--accent-4)',
+          '4-bg': 'var(--accent-4-bg)',
+        },
       },
       borderRadius: {
         lg: '1rem',
