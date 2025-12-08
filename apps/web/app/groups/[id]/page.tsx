@@ -10,8 +10,9 @@ import type { Group } from '@togetheros/types/groups'
 import type { Post } from '@togetheros/types/feed'
 import type { Topic } from '@togetheros/types/forum'
 import type { Proposal } from '@togetheros/types/governance'
+import type { GroupEvent, GroupResource, GroupEventType, GroupResourceType } from '@togetheros/types/groups'
 
-type TabType = 'feed' | 'forum' | 'members' | 'events' | 'proposals'
+type TabType = 'feed' | 'forum' | 'members' | 'events' | 'resources' | 'proposals'
 
 export default function GroupDetailPage() {
   const params = useParams()
@@ -31,6 +32,14 @@ export default function GroupDetailPage() {
   // Proposals state
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [loadingProposals, setLoadingProposals] = useState(false)
+
+  // Events state
+  const [events, setEvents] = useState<GroupEvent[]>([])
+  const [loadingEvents, setLoadingEvents] = useState(false)
+
+  // Resources state
+  const [resources, setResources] = useState<GroupResource[]>([])
+  const [loadingResources, setLoadingResources] = useState(false)
 
   // Initialize repo with fixtures (loads from localStorage if available)
   const repo = new LocalStorageGroupRepo(getFixtureGroups())
@@ -57,6 +66,20 @@ export default function GroupDetailPage() {
   useEffect(() => {
     if (activeTab === 'proposals' && group) {
       fetchGroupProposals()
+    }
+  }, [activeTab, id])
+
+  // Fetch group events
+  useEffect(() => {
+    if (activeTab === 'events' && group) {
+      fetchGroupEvents()
+    }
+  }, [activeTab, id])
+
+  // Fetch group resources
+  useEffect(() => {
+    if (activeTab === 'resources' && group) {
+      fetchGroupResources()
     }
   }, [activeTab, id])
 
@@ -102,6 +125,36 @@ export default function GroupDetailPage() {
       console.error('Failed to fetch group proposals:', err)
     } finally {
       setLoadingProposals(false)
+    }
+  }
+
+  async function fetchGroupEvents() {
+    setLoadingEvents(true)
+    try {
+      const response = await fetch(`/api/groups/${id}/events`)
+      if (response.ok) {
+        const data = await response.json()
+        setEvents(data.events || [])
+      }
+    } catch (err) {
+      console.error('Failed to fetch group events:', err)
+    } finally {
+      setLoadingEvents(false)
+    }
+  }
+
+  async function fetchGroupResources() {
+    setLoadingResources(true)
+    try {
+      const response = await fetch(`/api/groups/${id}/resources`)
+      if (response.ok) {
+        const data = await response.json()
+        setResources(data.resources || [])
+      }
+    } catch (err) {
+      console.error('Failed to fetch group resources:', err)
+    } finally {
+      setLoadingResources(false)
     }
   }
 
@@ -171,6 +224,7 @@ export default function GroupDetailPage() {
     { id: 'forum', label: 'Forum', icon: '💬' },
     { id: 'members', label: 'Members', icon: '👥' },
     { id: 'events', label: 'Events', icon: '📅' },
+    { id: 'resources', label: 'Resources', icon: '🧰' },
     { id: 'proposals', label: 'Proposals', icon: '📋' },
   ]
 
@@ -287,15 +341,23 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'events' && (
-            <div className="bg-bg-1 rounded-lg border border-border p-4">
-              <div className="text-center py-6">
-                <span className="text-sm mb-4 block">📅</span>
-                <h3 className="text-sm font-medium text-ink-900 mb-2">Group Events</h3>
-                <p className="text-ink-400 text-sm">
-                  Event coordination coming soon
-                </p>
-              </div>
-            </div>
+            <GroupEventsTab
+              events={events}
+              loading={loadingEvents}
+              groupId={id}
+              groupName={group.name}
+              onEventCreated={fetchGroupEvents}
+            />
+          )}
+
+          {activeTab === 'resources' && (
+            <GroupResourcesTab
+              resources={resources}
+              loading={loadingResources}
+              groupId={id}
+              groupName={group.name}
+              onResourceCreated={fetchGroupResources}
+            />
           )}
 
           {activeTab === 'proposals' && (
@@ -962,4 +1024,623 @@ function formatTimeAgo(date: Date): string {
   if (diffHours < 24) return `${diffHours}h ago`
   if (diffDays < 7) return `${diffDays}d ago`
   return date.toLocaleDateString()
+}
+
+// Group Events Tab Component
+function GroupEventsTab({
+  events,
+  loading,
+  groupId,
+  groupName,
+  onEventCreated,
+}: {
+  events: GroupEvent[]
+  loading: boolean
+  groupId: string
+  groupName: string
+  onEventCreated: () => void
+}) {
+  const [composerOpen, setComposerOpen] = useState(false)
+
+  const eventTypeColors: Record<string, string> = {
+    meeting: 'bg-info-bg text-info',
+    workshop: 'bg-accent-3-bg text-accent-3',
+    social: 'bg-joy-bg text-joy-700',
+    action: 'bg-success-bg text-success',
+    assembly: 'bg-brand-bg text-brand-700',
+    deliberation: 'bg-accent-3-bg text-accent-3',
+    other: 'bg-bg-2 text-ink-700',
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
+            <div className="h-4 bg-bg-2 rounded w-3/4 mb-2"></div>
+            <div className="h-3 bg-bg-2 rounded w-1/4"></div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  // Separate upcoming and past events
+  const now = new Date()
+  const upcomingEvents = events.filter((e) => new Date(e.startsAt) >= now)
+  const pastEvents = events.filter((e) => new Date(e.startsAt) < now)
+
+  return (
+    <div>
+      {/* Header with New Event button */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-ink-900">Group Events</h2>
+        <button
+          onClick={() => setComposerOpen(true)}
+          className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+        >
+          + New Event
+        </button>
+      </div>
+
+      {/* Events List */}
+      {events.length === 0 ? (
+        <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
+          <span className="text-sm mb-4 block">📅</span>
+          <h3 className="text-sm font-medium text-ink-900 mb-2">No events yet</h3>
+          <p className="text-ink-400 text-sm mb-4">Schedule the first event for {groupName}!</p>
+          <button
+            onClick={() => setComposerOpen(true)}
+            className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+          >
+            Create Event
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {/* Upcoming Events */}
+          {upcomingEvents.length > 0 && (
+            <div>
+              <h3 className="text-sm font-medium text-ink-700 mb-2">Upcoming</h3>
+              <div className="space-y-2">
+                {upcomingEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className="bg-bg-1 rounded-lg border border-border p-4 hover:border-joy-300 transition-colors"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-12 h-12 bg-joy-bg rounded-lg flex flex-col items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-joy-700 font-medium">
+                          {new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short' })}
+                        </span>
+                        <span className="text-lg text-joy-700 font-bold leading-none">
+                          {new Date(event.startsAt).getDate()}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-ink-900">{event.title}</h4>
+                        {event.description && (
+                          <p className="text-sm text-ink-700 line-clamp-2 mt-1">
+                            {event.description}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                          <span
+                            className={`px-2 py-0.5 text-xs font-medium rounded-full ${eventTypeColors[event.eventType] || eventTypeColors.other}`}
+                          >
+                            {event.eventType}
+                          </span>
+                          <span className="text-xs text-ink-400">
+                            {new Date(event.startsAt).toLocaleTimeString('en-US', {
+                              hour: 'numeric',
+                              minute: '2-digit',
+                            })}
+                          </span>
+                          {event.location && (
+                            <span className="text-xs text-ink-400">📍 {event.location}</span>
+                          )}
+                          {event.isVirtual && (
+                            <span className="text-xs text-info">🌐 Virtual</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Past Events */}
+          {pastEvents.length > 0 && (
+            <div>
+              <h3 className="text-sm font-medium text-ink-400 mb-2">Past Events</h3>
+              <div className="space-y-2 opacity-70">
+                {pastEvents.slice(0, 5).map((event) => (
+                  <div
+                    key={event.id}
+                    className="bg-bg-1 rounded-lg border border-border p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-ink-400">
+                        {new Date(event.startsAt).toLocaleDateString()}
+                      </span>
+                      <span className="font-medium text-ink-700">{event.title}</span>
+                      <span
+                        className={`px-2 py-0.5 text-xs font-medium rounded-full ${eventTypeColors[event.eventType] || eventTypeColors.other}`}
+                      >
+                        {event.eventType}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Event Composer Modal */}
+      {composerOpen && (
+        <EventComposerModal
+          groupId={groupId}
+          groupName={groupName}
+          onClose={() => setComposerOpen(false)}
+          onCreated={() => {
+            setComposerOpen(false)
+            onEventCreated()
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+// Event Composer Modal
+function EventComposerModal({
+  groupId,
+  groupName,
+  onClose,
+  onCreated,
+}: {
+  groupId: string
+  groupName: string
+  onClose: () => void
+  onCreated: () => void
+}) {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [eventType, setEventType] = useState<GroupEventType>('meeting')
+  const [startsAt, setStartsAt] = useState('')
+  const [endsAt, setEndsAt] = useState('')
+  const [location, setLocation] = useState('')
+  const [isVirtual, setIsVirtual] = useState(false)
+  const [virtualLink, setVirtualLink] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!title.trim() || !startsAt) return
+
+    setSubmitting(true)
+    try {
+      const response = await fetch(`/api/groups/${groupId}/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: title.trim(),
+          description: description.trim() || undefined,
+          eventType,
+          startsAt,
+          endsAt: endsAt || undefined,
+          location: location.trim() || undefined,
+          isVirtual,
+          virtualLink: virtualLink.trim() || undefined,
+        }),
+      })
+
+      if (response.ok) {
+        onCreated()
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to create event')
+      }
+    } catch (err) {
+      console.error('Failed to create event:', err)
+      alert('Failed to create event')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-semibold text-ink-900">New Event for {groupName}</h2>
+          <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
+            ✕
+          </button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Event title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
+          />
+          <textarea
+            placeholder="Description (optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900 resize-none"
+          />
+          <select
+            value={eventType}
+            onChange={(e) => setEventType(e.target.value as GroupEventType)}
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
+          >
+            <option value="meeting">📋 Meeting</option>
+            <option value="workshop">🎓 Workshop</option>
+            <option value="social">🎉 Social</option>
+            <option value="action">✊ Action</option>
+            <option value="assembly">🏛️ Assembly</option>
+            <option value="deliberation">🤔 Deliberation</option>
+            <option value="other">📌 Other</option>
+          </select>
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            <div>
+              <label className="block text-sm text-ink-700 mb-1">Start Time</label>
+              <input
+                type="datetime-local"
+                value={startsAt}
+                onChange={(e) => setStartsAt(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-ink-700 mb-1">End Time (optional)</label>
+              <input
+                type="datetime-local"
+                value={endsAt}
+                onChange={(e) => setEndsAt(e.target.value)}
+                className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+              />
+            </div>
+          </div>
+          <input
+            type="text"
+            placeholder="Location (optional)"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
+          />
+          <label className="flex items-center gap-2 mb-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isVirtual}
+              onChange={(e) => setIsVirtual(e.target.checked)}
+              className="rounded"
+            />
+            <span className="text-sm text-ink-700">Virtual event</span>
+          </label>
+          {isVirtual && (
+            <input
+              type="url"
+              placeholder="Virtual meeting link"
+              value={virtualLink}
+              onChange={(e) => setVirtualLink(e.target.value)}
+              className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
+            />
+          )}
+          <div className="flex justify-end gap-3 mt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting || !title.trim() || !startsAt}
+              className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 disabled:opacity-50 text-sm font-medium"
+            >
+              {submitting ? 'Creating...' : 'Create Event'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+// Group Resources Tab Component
+function GroupResourcesTab({
+  resources,
+  loading,
+  groupId,
+  groupName,
+  onResourceCreated,
+}: {
+  resources: GroupResource[]
+  loading: boolean
+  groupId: string
+  groupName: string
+  onResourceCreated: () => void
+}) {
+  const [composerOpen, setComposerOpen] = useState(false)
+
+  const resourceTypeIcons: Record<string, string> = {
+    money: '💰',
+    time: '⏱️',
+    equipment: '🔧',
+    space: '🏠',
+    skill: '🎯',
+    material: '📦',
+  }
+
+  const resourceTypeColors: Record<string, string> = {
+    money: 'bg-success-bg text-success',
+    time: 'bg-info-bg text-info',
+    equipment: 'bg-accent-3-bg text-accent-3',
+    space: 'bg-joy-bg text-joy-700',
+    skill: 'bg-brand-bg text-brand-700',
+    material: 'bg-bg-2 text-ink-700',
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
+            <div className="h-4 bg-bg-2 rounded w-3/4 mb-2"></div>
+            <div className="h-3 bg-bg-2 rounded w-1/4"></div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  // Group resources by type
+  const resourcesByType = resources.reduce(
+    (acc, resource) => {
+      const type = resource.resourceType
+      if (!acc[type]) acc[type] = []
+      acc[type].push(resource)
+      return acc
+    },
+    {} as Record<string, GroupResource[]>
+  )
+
+  return (
+    <div>
+      {/* Header with Add Resource button */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-ink-900">Shared Resources</h2>
+        <button
+          onClick={() => setComposerOpen(true)}
+          className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+        >
+          + Add Resource
+        </button>
+      </div>
+
+      {/* Resources List */}
+      {resources.length === 0 ? (
+        <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
+          <span className="text-sm mb-4 block">🧰</span>
+          <h3 className="text-sm font-medium text-ink-900 mb-2">No shared resources yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
+            Add resources that {groupName} members can share and use together.
+          </p>
+          <button
+            onClick={() => setComposerOpen(true)}
+            className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+          >
+            Add Resource
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {Object.entries(resourcesByType).map(([type, typeResources]) => (
+            <div key={type}>
+              <h3 className="text-sm font-medium text-ink-700 mb-2 flex items-center gap-2">
+                <span>{resourceTypeIcons[type] || '📦'}</span>
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+                <span className="text-ink-400">({typeResources.length})</span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {typeResources.map((resource) => (
+                  <div
+                    key={resource.id}
+                    className="bg-bg-1 rounded-lg border border-border p-3 hover:border-joy-300 transition-colors"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-ink-900">{resource.name}</h4>
+                        {resource.description && (
+                          <p className="text-sm text-ink-700 line-clamp-2 mt-1">
+                            {resource.description}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                          <span
+                            className={`px-2 py-0.5 text-xs font-medium rounded-full ${resourceTypeColors[resource.resourceType] || resourceTypeColors.material}`}
+                          >
+                            {resource.resourceType}
+                          </span>
+                          {resource.quantity > 0 && (
+                            <span className="text-xs text-ink-400">
+                              {resource.quantity} {resource.unit || 'units'}
+                            </span>
+                          )}
+                          {resource.isAvailable ? (
+                            <span className="text-xs text-success">✓ Available</span>
+                          ) : (
+                            <span className="text-xs text-ink-400">Not available</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Resource Composer Modal */}
+      {composerOpen && (
+        <ResourceComposerModal
+          groupId={groupId}
+          groupName={groupName}
+          onClose={() => setComposerOpen(false)}
+          onCreated={() => {
+            setComposerOpen(false)
+            onResourceCreated()
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+// Resource Composer Modal
+function ResourceComposerModal({
+  groupId,
+  groupName,
+  onClose,
+  onCreated,
+}: {
+  groupId: string
+  groupName: string
+  onClose: () => void
+  onCreated: () => void
+}) {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [resourceType, setResourceType] = useState<GroupResourceType>('equipment')
+  const [quantity, setQuantity] = useState('')
+  const [unit, setUnit] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!name.trim()) return
+
+    setSubmitting(true)
+    try {
+      const response = await fetch(`/api/groups/${groupId}/resources`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          description: description.trim() || undefined,
+          resourceType,
+          quantity: quantity ? parseFloat(quantity) : 0,
+          unit: unit.trim() || undefined,
+        }),
+      })
+
+      if (response.ok) {
+        onCreated()
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to add resource')
+      }
+    } catch (err) {
+      console.error('Failed to add resource:', err)
+      alert('Failed to add resource')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-bg-1 rounded-lg max-w-lg w-full p-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-semibold text-ink-900">Add Resource to {groupName}</h2>
+          <button onClick={onClose} className="text-ink-400 hover:text-ink-700">
+            ✕
+          </button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Resource name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
+          />
+          <textarea
+            placeholder="Description (optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900 resize-none"
+          />
+          <select
+            value={resourceType}
+            onChange={(e) => setResourceType(e.target.value as GroupResourceType)}
+            className="w-full px-3 py-2 border border-border rounded-md mb-3 bg-bg-1 text-ink-900"
+          >
+            <option value="money">💰 Money (Treasury)</option>
+            <option value="time">⏱️ Time (Timebanking)</option>
+            <option value="equipment">🔧 Equipment</option>
+            <option value="space">🏠 Space</option>
+            <option value="skill">🎯 Skill</option>
+            <option value="material">📦 Material</option>
+          </select>
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            <div>
+              <label className="block text-sm text-ink-700 mb-1">Quantity</label>
+              <input
+                type="number"
+                placeholder="0"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                min="0"
+                step="0.01"
+                className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-ink-700 mb-1">Unit</label>
+              <input
+                type="text"
+                placeholder="e.g., hours, USD, units"
+                value={unit}
+                onChange={(e) => setUnit(e.target.value)}
+                className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-3 mt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting || !name.trim()}
+              className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 disabled:opacity-50 text-sm font-medium"
+            >
+              {submitting ? 'Adding...' : 'Add Resource'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
 }
