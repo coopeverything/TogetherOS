@@ -4,22 +4,22 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-auto">
+    <footer className="bg-bg-2 border-t border-border mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* About */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-ink-900 uppercase tracking-wider mb-4">
               About
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/manifesto" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/manifesto" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Manifesto
                 </Link>
               </li>
               <li>
-                <Link href="/cooperation-paths" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/cooperation-paths" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Cooperation Paths
                 </Link>
               </li>
@@ -28,32 +28,32 @@ export default function Footer() {
 
           {/* Learn */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-ink-900 uppercase tracking-wider mb-4">
               Learn
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/wiki" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/wiki" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Wiki
                 </Link>
               </li>
               <li>
-                <Link href="/articles" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/articles" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Articles
                 </Link>
               </li>
               <li>
-                <Link href="/glossary" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/glossary" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Glossary
                 </Link>
               </li>
               <li>
-                <Link href="/modules" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/modules" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Modules
                 </Link>
               </li>
               <li>
-                <Link href="/docs/contributors/GETTING_STARTED" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/docs/contributors/GETTING_STARTED" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Contributing
                 </Link>
               </li>
@@ -62,7 +62,7 @@ export default function Footer() {
 
           {/* Community */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-ink-900 uppercase tracking-wider mb-4">
               Community
             </h3>
             <ul className="space-y-2">
@@ -71,18 +71,18 @@ export default function Footer() {
                   href="https://github.com/coopeverything/TogetherOS"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400"
+                  className="text-ink-700 hover:text-joy-600 transition-colors"
                 >
                   GitHub
                 </a>
               </li>
               <li>
-                <Link href="/forum" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/forum" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Forum
                 </Link>
               </li>
               <li>
-                <Link href="/groups" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/groups" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Groups
                 </Link>
               </li>
@@ -91,22 +91,22 @@ export default function Footer() {
 
           {/* Tools */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-ink-900 uppercase tracking-wider mb-4">
               Tools
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/bridge" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/bridge" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Bridge Assistant
                 </Link>
               </li>
               <li>
-                <Link href="/admin/design" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/admin/design" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Design System
                 </Link>
               </li>
               <li>
-                <Link href="/search" className="text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/search" className="text-ink-700 hover:text-joy-600 transition-colors">
                   Search
                 </Link>
               </li>
@@ -115,18 +115,18 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-4 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <div className="mt-4 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center gap-4">
-              <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 text-sm">
+              <p className="text-ink-400 text-sm">
                 © {currentYear} Coopeverything. Powered by TogetherOS.
               </p>
               <div className="flex space-x-4 text-sm">
-                <Link href="/privacy" className="text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <Link href="/privacy" className="text-ink-400 hover:text-joy-600 transition-colors">
                   Privacy
                 </Link>
-                <span className="text-gray-300 dark:text-gray-600 dark:text-gray-400 dark:text-gray-500">|</span>
-                <Link href="/terms" className="text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
+                <span className="text-border">|</span>
+                <Link href="/terms" className="text-ink-400 hover:text-joy-600 transition-colors">
                   Terms
                 </Link>
               </div>
@@ -136,7 +136,7 @@ export default function Footer() {
                 href="https://github.com/coopeverything/TogetherOS"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 dark:text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                className="text-ink-400 hover:text-ink-700 transition-colors"
                 aria-label="GitHub"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

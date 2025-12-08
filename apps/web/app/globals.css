@@ -86,6 +86,60 @@
    THEME DEFINITIONS (override :root defaults when active)
    ============================================ */
 
+/* Together Green - The original TogetherOS cooperative brand theme
+   Uses the same values as :root defaults but with explicit data-theme support */
+[data-theme="together-green"] {
+  --bg-0: #FAFAF9;
+  --bg-1: #FFFFFF;
+  --bg-2: #F5F5F4;
+  --ink-900: #0F172A;
+  --ink-700: #334155;
+  --ink-400: #94A3B8;
+  --border: #E5E7EB;
+  --brand-600: #059669;
+  --brand-500: #10B981;
+  --brand-100: #D1FAE5;
+  --joy-600: #F59E0B;
+  --joy-500: #FDBA74;
+  --joy-100: #FFF7ED;
+  --success: #16A34A;
+  --success-bg: #DCFCE7;
+  --info: #0EA5E9;
+  --info-bg: #E0F2FE;
+  --warn: #D97706;
+  --warn-bg: #FEF3C7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+  --accent-1: #0369A1;
+  --accent-1-bg: #E0F2FE;
+  --accent-2: #7C3AED;
+  --accent-2-bg: #EDE9FE;
+  --accent-3: #B45309;
+  --accent-3-bg: #FEF3C7;
+  --accent-4: #0F766E;
+  --accent-4-bg: #CCFBF1;
+}
+[data-theme="together-green"].dark,
+.dark[data-theme="together-green"] {
+  --bg-0: #0B0F14;
+  --bg-1: #0F141A;
+  --bg-2: #121922;
+  --ink-900: #E5E7EB;
+  --ink-700: #CBD5E1;
+  --ink-400: #94A3B8;
+  --border: #1F2937;
+  --brand-500: #22C55E;
+  --joy-500: #FBBF24;
+  --accent-1: #38BDF8;
+  --accent-1-bg: #0C4A6E;
+  --accent-2: #A78BFA;
+  --accent-2-bg: #3730A3;
+  --accent-3: #FBBF24;
+  --accent-3-bg: #713F12;
+  --accent-4: #2DD4BF;
+  --accent-4-bg: #134E4A;
+}
+
 /* Zinc Minimal - Ultra-clean, professional grayscale */
 [data-theme="zinc-minimal"] {
   --bg-0: #FAFAFA;
