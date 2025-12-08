@@ -1,9 +1,6 @@
 # Feed Module — Social Engagement
 
 **Purpose:** Transform passive content consumption into active participation through a conversion funnel: scroll → react → discuss → prioritize → vote → act.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -149,13 +146,5 @@ Turn any post into a discussion:
 - [Bridge](./bridge.md) — Topic intelligence and recommendations
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/feed-technical.md)
-
 ---
 
-<!-- progress:feed=100 -->

@@ -1,9 +1,6 @@
 # Support Points & Rewards
 
 **Purpose:** Enable members to signal priorities on proposals and earn recognition for contributions through the dual points system.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -150,13 +147,5 @@ RP is recognition for your contributions — it acknowledges your efforts:
 - [Social Economy](./social-economy.md) — Complete economic model
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/support-points-technical.md)
-
 ---
 
-<!-- progress:support-points-ui=100 -->

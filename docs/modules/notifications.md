@@ -1,9 +1,6 @@
 # Notifications & Inbox
 
 **Purpose:** Keep members informed about activity that matters to them — mentions, replies, proposal updates, governance decisions, and community milestones.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -123,13 +120,5 @@ Your notification activity is protected:
 - [Forum](./forum.md) — Reply notifications
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/notifications-technical.md)
-
 ---
 
-<!-- progress:notifications=100 -->

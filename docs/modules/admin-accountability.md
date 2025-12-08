@@ -1,9 +1,6 @@
 # Execution & Accountability
 
 **Purpose:** Ensure decisions made by the community actually get implemented, with transparent tracking from proposal to completion and democratic oversight of those who execute.
-
-**Status:** 0% — Specification Complete
-
 ---
 
 ## Overview
@@ -151,13 +148,5 @@ System flags admins when:
 - [Groups](./groups.md) — Group-level admin roles
 
 ---
-
-## Technical Implementation
-
-For developers interested in the entity schemas, API endpoints, audit log format, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/admin-accountability-technical.md)
-
 ---
 
-<!-- progress:admin-accountability=0 -->

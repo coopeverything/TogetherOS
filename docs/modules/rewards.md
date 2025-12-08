@@ -1,9 +1,6 @@
 # Recognition & Reputation
 
 **Purpose:** Make cooperation visible and rewarding by recording contributions and converting participation into recognition through Support Points, badges, and community standing.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -163,13 +160,5 @@ Represent milestones in contribution or mastery:
 - [Social Economy](./social-economy.md) — Full economic model
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, GitHub integration, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/rewards-technical.md)
-
 ---
 
-<!-- progress:rewards=100 -->

@@ -1,9 +1,6 @@
 # Social Economy
 
 **Purpose:** Enable a fair cooperative economy that redirects surplus back to communities through mutual aid, time-banking, collective purchasing, and transparent value exchange.
-
-**Status:** 0% — Specification Complete
-
 ---
 
 ## Overview
@@ -212,13 +209,5 @@ Tracks whether members take more than they give:
 - [Gamification](./gamification.md) — Contribution paths and badges
 
 ---
-
-## Technical Implementation
-
-For developers interested in the data models, API endpoints, wallet schemas, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/social-economy-technical.md)
-
 ---
 
-<!-- progress:social-economy=0 -->

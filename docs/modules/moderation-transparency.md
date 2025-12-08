@@ -1,9 +1,6 @@
 # Moderation Transparency
 
 **Purpose:** Make moderation visible and accountable through public logs, member ratings, rotating terms, and democratic recall—while maintaining empathy-first practices.
-
-**Status:** 0% — Specification Complete
-
 ---
 
 ## Overview
@@ -195,13 +192,5 @@ System flags moderators when:
 - [Bridge](./bridge.md) — AI-assisted moderation suggestions
 
 ---
-
-## Technical Implementation
-
-For developers interested in the entity schemas, API endpoints, rating calculations, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/moderation-transparency-technical.md)
-
 ---
 
-<!-- progress:moderation-transparency=0 -->

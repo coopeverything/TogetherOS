@@ -1,9 +1,6 @@
 # Bridge — AI Assistant
 
 **Purpose:** Help people understand complex information quickly, structure deliberations, and improve discourse through AI-powered assistance.
-
-**Status:** 40% — Landing Pilot Phase
-
 ---
 
 ## Overview
@@ -160,13 +157,5 @@ For new members:
 - [Onboarding](./onboarding.md) — New member guidance
 
 ---
-
-## Technical Implementation
-
-For developers interested in the API contracts, logging system, LLM integration, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/bridge-technical.md)
-
 ---
 
-<!-- progress:bridge=40 -->

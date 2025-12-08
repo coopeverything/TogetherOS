@@ -1,9 +1,6 @@
 # Onboarding Experience
 
 **Purpose:** Welcome newcomers, teach platform usage, develop cooperative skills, and establish engagement habits through rewarding learning experiences.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -147,13 +144,5 @@ Bridge AI helps throughout your journey:
 - [Governance](./governance.md) — Proposal creation lessons
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/onboarding-technical.md)
-
 ---
 
-<!-- progress:onboarding=100 -->

@@ -1,9 +1,6 @@
 # Gamification — Community Growth & Engagement
 
 **Purpose:** Encourage local community formation through ethical, research-backed milestone tracking, celebration moments, and invitation rewards.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -183,13 +180,5 @@ We follow the ETHIC principles:
 - [Feed](./feed.md) — Progress widget in sidebar
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, animation framework, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/gamification-technical.md)
-
 ---
 
-<!-- progress:gamification=100 -->

@@ -1,9 +1,6 @@
 # Search & Tags
 
 **Purpose:** Help members discover content, filter by cooperation paths and keywords, and find relevant discussions, proposals, and resources across TogetherOS.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -114,13 +111,5 @@ Your search activity is protected:
 - [Groups](./groups.md) — Find communities
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, ranking algorithms, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/search-technical.md)
-
 ---
 
-<!-- progress:search=100 -->

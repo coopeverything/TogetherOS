@@ -1,9 +1,6 @@
 # Observability Module
 
 **Purpose:** Monitor system health, track errors, measure performance, and provide visibility into how TogetherOS runs.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -129,13 +126,5 @@ When deployments fail, we recover automatically:
 - [Bridge](./bridge.md) — Privacy in AI interactions
 
 ---
-
-## Technical Implementation
-
-For developers interested in the architecture, Docker stack, alerting configuration, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/observability-technical.md)
-
 ---
 
-<!-- progress:observability=100 -->

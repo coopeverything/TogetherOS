@@ -1,9 +1,6 @@
 # Governance Module — Proposals & Decisions
 
 **Purpose:** Complete governance pipeline from proposal creation through decision-making, implementation tracking, and iterative improvement.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -127,13 +124,5 @@ Decisions are not permanent. The community can:
 - [Search](./search.md) — Find proposals by topic or cooperation path
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/governance-technical.md)
-
 ---
 
-<!-- progress:governance=100 -->

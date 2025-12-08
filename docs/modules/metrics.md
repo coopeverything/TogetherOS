@@ -1,9 +1,6 @@
 # Metrics & Review
 
 **Purpose:** Track whether decisions actually achieve their goals, trigger re-evaluation when they don't, and create a feedback loop for continuous improvement.
-
-**Status:** 75% — Types + UI + Pages Complete
-
 ---
 
 ## Overview
@@ -152,13 +149,5 @@ Common initiative types have pre-built metrics:
 - [Events](./events.md) — Evaluation reminder scheduling
 
 ---
-
-## Technical Implementation
-
-For developers interested in the entity schemas, API endpoints, evaluation algorithms, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/metrics-technical.md)
-
 ---
 
-<!-- progress:metrics=75 -->

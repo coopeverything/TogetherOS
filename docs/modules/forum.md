@@ -1,9 +1,6 @@
 # Community Discussions & Deliberation
 
 **Purpose:** Provide a versatile space for knowledge building, idea exploration, Q&A, and structured deliberation where the community can develop ideas together.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -138,13 +135,5 @@ One-way information sharing:
 - [Search](./search.md) — Find topics and posts
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/forum-technical.md)
-
 ---
 
-<!-- progress:forum=100 -->

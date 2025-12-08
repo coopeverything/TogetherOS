@@ -1,9 +1,6 @@
 # Events & Calendar Module
 
 **Purpose:** Coordinate community activities, track initiative milestones, schedule meetings, and celebrate achievements together.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -130,13 +127,5 @@ After meetings, capture what happened:
 - [Gamification](./gamification.md) — Milestone celebrations
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/events-technical.md)
-
 ---
 
-<!-- progress:events=100 -->

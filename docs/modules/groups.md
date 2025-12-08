@@ -1,9 +1,6 @@
 # Groups & Organizations Module
 
 **Purpose:** Enable communities to self-organize into cooperative structures with transparent governance, shared resources, and federated capabilities.
-
-**Status:** 100% — Production Ready
-
 ---
 
 ## Overview
@@ -148,13 +145,5 @@ All roles have visible expiration dates and can be recalled by group decision.
 - [Gamification](./gamification.md) — Track group milestones and growth
 
 ---
-
-## Technical Implementation
-
-For developers interested in the database schemas, API endpoints, TypeScript interfaces, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/groups-technical.md)
-
 ---
 
-<!-- progress:groups=100 -->

@@ -1,9 +1,6 @@
 # Security & Privacy Module
 
 **Purpose:** Protect user data, detect vulnerabilities, and ensure privacy-first operations across the platform.
-
-**Status:** <!-- progress:security=100 --> 100% — Production Ready
-
 ---
 
 ## Overview
@@ -130,13 +127,5 @@ See our full [Security Policy](https://github.com/coopeverything/TogetherOS/blob
 - [Identity](./identity-auth.md) — Authentication security
 
 ---
-
-## Technical Implementation
-
-For developers interested in the security architecture, threat models, compliance requirements, and implementation details:
-
-[View on GitHub](https://github.com/coopeverything/TogetherOS/blob/yolo/docs/dev/modules/security-technical.md)
-
 ---
 
-<!-- progress:security=20 -->
