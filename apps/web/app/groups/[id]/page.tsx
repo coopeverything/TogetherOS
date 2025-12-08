@@ -9,6 +9,7 @@ import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules
 import type { Group } from '@togetheros/types/groups'
 import type { Post } from '@togetheros/types/feed'
 import type { Topic } from '@togetheros/types/forum'
+import type { Proposal } from '@togetheros/types/governance'
 
 type TabType = 'feed' | 'forum' | 'members' | 'events' | 'proposals'
 
@@ -26,6 +27,10 @@ export default function GroupDetailPage() {
   // Forum state
   const [topics, setTopics] = useState<Topic[]>([])
   const [loadingTopics, setLoadingTopics] = useState(false)
+
+  // Proposals state
+  const [proposals, setProposals] = useState<Proposal[]>([])
+  const [loadingProposals, setLoadingProposals] = useState(false)
 
   // Initialize repo with fixtures (loads from localStorage if available)
   const repo = new LocalStorageGroupRepo(getFixtureGroups())
@@ -45,6 +50,13 @@ export default function GroupDetailPage() {
   useEffect(() => {
     if (activeTab === 'forum' && group) {
       fetchGroupTopics()
+    }
+  }, [activeTab, id])
+
+  // Fetch group proposals
+  useEffect(() => {
+    if (activeTab === 'proposals' && group) {
+      fetchGroupProposals()
     }
   }, [activeTab, id])
 
@@ -78,6 +90,21 @@ export default function GroupDetailPage() {
     }
   }
 
+  async function fetchGroupProposals() {
+    setLoadingProposals(true)
+    try {
+      const response = await fetch(`/api/proposals?scopeType=group&scopeId=${id}`)
+      if (response.ok) {
+        const data = await response.json()
+        setProposals(data.proposals || [])
+      }
+    } catch (err) {
+      console.error('Failed to fetch group proposals:', err)
+    } finally {
+      setLoadingProposals(false)
+    }
+  }
+
   if (!group) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
@@ -103,10 +130,24 @@ export default function GroupDetailPage() {
   const handleJoinLeave = async () => {
     setIsJoining(true)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      setIsMember(!isMember)
+      const method = isMember ? 'DELETE' : 'POST'
+      const response = await fetch(`/api/groups/${id}/members`, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      if (response.ok) {
+        setIsMember(!isMember)
+        // Refresh page data to update member list
+        window.location.reload()
+      } else {
+        const data = await response.json()
+        console.error('Failed to join/leave group:', data.error)
+        alert(data.error || 'Failed to update membership')
+      }
     } catch (error) {
       console.error('Failed to join/leave group:', error)
+      alert('Failed to update membership')
     } finally {
       setIsJoining(false)
     }
@@ -258,15 +299,13 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'proposals' && (
-            <div className="bg-bg-1 rounded-lg border border-border p-4">
-              <div className="text-center py-6">
-                <span className="text-sm mb-4 block">📋</span>
-                <h3 className="text-sm font-medium text-ink-900 mb-2">Group Proposals</h3>
-                <p className="text-ink-400 text-sm">
-                  Governance integration coming soon
-                </p>
-              </div>
-            </div>
+            <GroupProposalsTab
+              proposals={proposals}
+              loading={loadingProposals}
+              groupId={id}
+              groupName={group.name}
+              onProposalCreated={fetchGroupProposals}
+            />
           )}
         </div>
 
@@ -805,6 +844,107 @@ function SimpleTopicComposer({
           </div>
         </form>
       </div>
+    </div>
+  )
+}
+
+// Group Proposals Tab Component
+function GroupProposalsTab({
+  proposals,
+  loading,
+  groupId,
+  groupName,
+  onProposalCreated,
+}: {
+  proposals: Proposal[]
+  loading: boolean
+  groupId: string
+  groupName: string
+  onProposalCreated: () => void
+}) {
+  const statusColors: Record<string, string> = {
+    draft: 'bg-bg-2 text-ink-700',
+    research: 'bg-info-bg text-info',
+    deliberation: 'bg-accent-3-bg text-accent-3',
+    voting: 'bg-joy-bg text-joy-700',
+    decided: 'bg-success-bg text-success',
+    delivery: 'bg-brand-bg text-brand-700',
+    reviewed: 'bg-success-bg text-success',
+    archived: 'bg-bg-2 text-ink-400',
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
+            <div className="h-4 bg-bg-2 rounded w-3/4 mb-2"></div>
+            <div className="h-3 bg-bg-2 rounded w-1/4"></div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {/* Header with New Proposal link */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-ink-900">
+          Group Proposals
+        </h2>
+        <Link
+          href={`/governance/new?scopeType=group&scopeId=${groupId}`}
+          className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+        >
+          + New Proposal
+        </Link>
+      </div>
+
+      {/* Proposals List */}
+      {proposals.length === 0 ? (
+        <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
+          <span className="text-sm mb-4 block">📋</span>
+          <h3 className="text-sm font-medium text-ink-900 mb-2">No proposals yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
+            Create the first proposal for {groupName}!
+          </p>
+          <Link
+            href={`/governance/new?scopeType=group&scopeId=${groupId}`}
+            className="inline-block px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+          >
+            Create Proposal
+          </Link>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {proposals.map((proposal) => (
+            <Link
+              key={proposal.id}
+              href={`/governance/${proposal.id}`}
+              className="block bg-bg-1 rounded-lg border border-border p-4 hover:border-joy-300 transition-colors"
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-ink-400">📋</span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-ink-900 line-clamp-1">
+                    {proposal.title}
+                  </h3>
+                  <p className="text-sm text-ink-700 line-clamp-2 mt-1">
+                    {proposal.summary}
+                  </p>
+                  <div className="flex items-center gap-3 mt-2 text-xs text-ink-400">
+                    <span className={`px-2 py-0.5 rounded-full ${statusColors[proposal.status] || statusColors.draft}`}>
+                      {proposal.status}
+                    </span>
+                    <span>{formatTimeAgo(new Date(proposal.createdAt))}</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
