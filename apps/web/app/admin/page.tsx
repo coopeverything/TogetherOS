@@ -87,9 +87,9 @@ export default function AdminDashboard() {
         },
         {
           title: 'Group Oversight',
-          description: 'Monitor groups and coordination',
+          description: 'Monitor groups, resources, events, and coordination',
           path: '/admin/groups',
-          status: 'coming-soon',
+          status: 'active',
         },
       ],
     },

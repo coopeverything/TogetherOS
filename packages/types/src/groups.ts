@@ -384,3 +384,153 @@ export interface FederatedGroupSync {
   /** Sync status */
   status: 'active' | 'paused' | 'error'
 }
+
+// ============================================================================
+// Group Resources (Shared Resource Pools)
+// ============================================================================
+
+/**
+ * Resource type categories
+ */
+export type GroupResourceType =
+  | 'money'      // Financial contributions
+  | 'time'       // Time contributions (timebanking)
+  | 'equipment'  // Shared tools/equipment
+  | 'space'      // Meeting rooms, venues
+  | 'skill'      // Professional skills/expertise
+  | 'material'   // Physical materials/supplies
+
+/**
+ * Group resource entity
+ * Represents a shared resource in the cooperative pool
+ */
+export interface GroupResource {
+  id: string
+  groupId: string
+  name: string
+  description?: string
+  resourceType: GroupResourceType
+  quantity: number
+  unit?: string
+  isAvailable: boolean
+  availableFrom?: Date
+  availableUntil?: Date
+  contributedBy?: string
+  contributedAt: Date
+  tags: string[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Resource allocation tracking
+ */
+export interface GroupResourceAllocation {
+  id: string
+  resourceId: string
+  allocatedTo: string
+  quantity: number
+  purpose?: string
+  proposalId?: string
+  allocatedAt: Date
+  returnBy?: Date
+  returnedAt?: Date
+  status: 'active' | 'returned' | 'consumed'
+}
+
+/**
+ * Input for creating a resource
+ */
+export interface CreateGroupResourceInput {
+  groupId: string
+  name: string
+  description?: string
+  resourceType: GroupResourceType
+  quantity?: number
+  unit?: string
+  availableFrom?: Date
+  availableUntil?: Date
+  tags?: string[]
+}
+
+// ============================================================================
+// Group Events
+// ============================================================================
+
+/**
+ * Event type categories
+ */
+export type GroupEventType =
+  | 'meeting'       // Regular meetings
+  | 'workshop'      // Skill-sharing workshops
+  | 'social'        // Social gatherings
+  | 'action'        // Community actions
+  | 'assembly'      // General assemblies
+  | 'deliberation'  // Deliberation sessions
+  | 'other'
+
+/**
+ * Event recurrence options
+ */
+export type EventRecurrence = 'none' | 'daily' | 'weekly' | 'biweekly' | 'monthly' | 'custom'
+
+/**
+ * Group event entity
+ */
+export interface GroupEvent {
+  id: string
+  groupId: string
+  title: string
+  description?: string
+  eventType: GroupEventType
+  startsAt: Date
+  endsAt?: Date
+  timezone: string
+  recurrence: EventRecurrence
+  recurrenceEndDate?: Date
+  location?: string
+  isVirtual: boolean
+  virtualLink?: string
+  createdBy: string
+  maxAttendees?: number
+  proposalId?: string
+  tags: string[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Event RSVP status for group events
+ */
+export type GroupRSVPStatus = 'going' | 'maybe' | 'not_going'
+
+/**
+ * Event RSVP entity
+ */
+export interface GroupEventRSVP {
+  id: string
+  eventId: string
+  userId: string
+  status: GroupRSVPStatus
+  notes?: string
+  respondedAt: Date
+}
+
+/**
+ * Input for creating an event
+ */
+export interface CreateGroupEventInput {
+  groupId: string
+  title: string
+  description?: string
+  eventType: GroupEventType
+  startsAt: Date
+  endsAt?: Date
+  timezone?: string
+  recurrence?: EventRecurrence
+  location?: string
+  isVirtual?: boolean
+  virtualLink?: string
+  maxAttendees?: number
+  tags?: string[]
+}
