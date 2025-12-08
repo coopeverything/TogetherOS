@@ -26,7 +26,7 @@ command_exists() {
 # ==========================================
 # 1. Check for CSS syntax errors using stylelint (if available)
 # ==========================================
-echo -e "\n${YELLOW}[1/5] Checking CSS syntax...${NC}"
+echo -e "\n${YELLOW}[1/7] Checking CSS syntax...${NC}"
 
 if command_exists npx; then
   # Check if stylelint is available
@@ -47,21 +47,18 @@ fi
 # ==========================================
 # 2. Check for undefined CSS variables
 # ==========================================
-echo -e "\n${YELLOW}[2/5] Checking for undefined CSS variables...${NC}"
+echo -e "\n${YELLOW}[2/7] Checking for undefined CSS variables...${NC}"
 
 # Extract all CSS variable usages
 USED_VARS=$(grep -roh 'var(--[a-zA-Z0-9_-]*)' apps/web/ --include="*.css" --include="*.tsx" 2>/dev/null | \
   sed 's/var(//g; s/)//g' | sort -u || true)
 
-# Extract all CSS variable definitions from theme files
-DEFINED_VARS=$(grep -roh '\-\-[a-zA-Z0-9_-]*:' .claude/skills/ux-designer/design-system/ --include="*.css" 2>/dev/null | \
+# Extract all CSS variable definitions from app's actual CSS files (source of truth)
+# Note: Design system definitions live in apps/web/, not in skill documentation
+DEFINED_VARS=$(grep -roh '\-\-[a-zA-Z0-9_-]*:' apps/web/ --include="*.css" 2>/dev/null | \
   sed 's/://g' | sort -u || true)
 
-# Also check apps/web for definitions
-DEFINED_VARS_APP=$(grep -roh '\-\-[a-zA-Z0-9_-]*:' apps/web/ --include="*.css" 2>/dev/null | \
-  sed 's/://g' | sort -u || true)
-
-ALL_DEFINED=$(echo -e "${DEFINED_VARS}\n${DEFINED_VARS_APP}" | sort -u)
+ALL_DEFINED="$DEFINED_VARS"
 
 # Known legacy variables that exist in codebase but aren't in our design system yet
 # (shadcn/ui defaults and existing codebase variables)
@@ -95,7 +92,7 @@ fi
 # ==========================================
 # 3. Check for responsive breakpoints
 # ==========================================
-echo -e "\n${YELLOW}[3/5] Checking responsive breakpoints...${NC}"
+echo -e "\n${YELLOW}[3/7] Checking responsive breakpoints...${NC}"
 
 # Count pages without mobile styles
 PAGES_WITHOUT_MOBILE=0
@@ -123,7 +120,7 @@ fi
 # ==========================================
 # 4. Check for accessibility (focus states)
 # ==========================================
-echo -e "\n${YELLOW}[4/5] Checking accessibility focus states...${NC}"
+echo -e "\n${YELLOW}[4/7] Checking accessibility focus states...${NC}"
 
 # Look for interactive elements without focus styles
 FOCUS_ISSUES=0
@@ -156,7 +153,7 @@ fi
 # ==========================================
 # 5. Check for missing dark mode variants
 # ==========================================
-echo -e "\n${YELLOW}[5/6] Checking dark mode support...${NC}"
+echo -e "\n${YELLOW}[5/7] Checking dark mode support...${NC}"
 
 # Common light-mode-only patterns that need dark: variants
 # These are text/bg colors that become illegible in dark mode
@@ -223,9 +220,51 @@ else
 fi
 
 # ==========================================
-# 6. Check Tailwind class validity (basic)
+# 6. Check for hardcoded colors (should use CSS vars)
 # ==========================================
-echo -e "\n${YELLOW}[6/6] Checking Tailwind classes...${NC}"
+echo -e "\n${YELLOW}[6/7] Checking for hardcoded colors...${NC}"
+
+# These patterns indicate colors that should use the design system CSS vars
+HARDCODED_ISSUES=0
+HARDCODED_PATTERNS=(
+  'text-gray-900[^0-9]|should use text-ink-900'
+  'text-gray-800[^0-9]|should use text-ink-900'
+  'text-gray-700[^0-9]|should use text-ink-700'
+  'text-gray-600[^0-9]|should use text-ink-700'
+  'text-gray-500[^0-9]|should use text-ink-400'
+  'text-gray-400[^0-9]|should use text-ink-400'
+  'bg-gray-50[^0-9]|should use bg-bg-2'
+  'bg-gray-100[^0-9]|should use bg-bg-2'
+)
+
+echo -e "${YELLOW}  Files with hardcoded colors (convert to CSS vars):${NC}"
+for entry in "${HARDCODED_PATTERNS[@]}"; do
+  pattern="${entry%%|*}"
+  suggestion="${entry##*|}"
+
+  FILES=$(grep -rlE "$pattern" apps/web/app/ packages/ui/src/ --include="*.tsx" 2>/dev/null || true)
+  if [ -n "$FILES" ]; then
+    while IFS= read -r file; do
+      if [ -n "$file" ]; then
+        COUNT=$(grep -cE "$pattern" "$file" 2>/dev/null || echo "0")
+        echo -e "${YELLOW}    - $file ($COUNT instances) - $suggestion${NC}"
+        HARDCODED_ISSUES=$((HARDCODED_ISSUES + 1))
+      fi
+    done <<< "$FILES"
+  fi
+done
+
+if [ "$HARDCODED_ISSUES" -eq 0 ]; then
+  echo -e "${GREEN}✓ No hardcoded colors found${NC}"
+else
+  echo -e "${YELLOW}⚠ Found $HARDCODED_ISSUES files with hardcoded colors (non-blocking)${NC}"
+  WARNINGS=$((WARNINGS + 1))
+fi
+
+# ==========================================
+# 7. Check Tailwind class validity (basic)
+# ==========================================
+echo -e "\n${YELLOW}[7/7] Checking Tailwind classes...${NC}"
 
 # Look for potentially invalid Tailwind classes (common mistakes)
 INVALID_CLASSES=0

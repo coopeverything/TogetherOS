@@ -25,9 +25,9 @@ export interface Module {
 
 export const modules: Module[] = [
   {
-    title: 'Feed Module',
+    title: 'Feed',
     description:
-      "The primary engagement surface combining social media UX with structured deliberation. Transforms passive scrolling into active participation through a conversion funnel: scroll → react → discuss → prioritize → vote → act. Features multi-dimensional reactions, imported content from social platforms, and AI-powered topic clustering to prevent duplicate discussions.",
+      'Your main view of community activity. See what members are discussing, react to posts, join conversations, and discover proposals that need your input. A familiar scroll experience that connects you to meaningful action.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/feed.md`,
@@ -37,7 +37,7 @@ export const modules: Module[] = [
   {
     title: 'Groups & Organizations',
     description:
-      'Enables communities to self-organize with transparent governance. Features group creation, membership management, role-based permissions, and consent-based decision making. Each group operates autonomously while maintaining federation capabilities for cross-group collaboration.',
+      'Join or create groups around shared interests, locations, or causes. Groups make decisions together, manage their own membership, and connect with other groups when needed. Your group, your rules.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/groups.md`,
@@ -47,7 +47,7 @@ export const modules: Module[] = [
   {
     title: 'Governance & Proposals',
     description:
-      'Transparent proposal creation and consent-based decision making system. Members create individual or group-scoped proposals, deliberate with evidence and trade-offs, make decisions with minority report preservation, and track delivery outcomes. Integrates with Bridge AI for similarity detection and regulation conflict checking.',
+      'Create proposals, discuss them with your community, and make decisions together. Every voice matters - you can support ideas you care about, raise concerns, and track what happens after decisions are made.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/governance.md`,
@@ -57,7 +57,7 @@ export const modules: Module[] = [
   {
     title: 'Forum & Deliberation',
     description:
-      'Structured discussion threads for deep deliberation on complex topics. Feed discussions flow here when they require sustained attention. Features threaded conversations (topics/posts/replies), empathy-focused reactions (agree/disagree/insightful/empathy/question), and transparent moderation queue. Production-ready.',
+      'Deep discussions on topics that matter. When conversations need more space than a quick post, the forum lets you explore ideas thoroughly, share different perspectives, and reach understanding together.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/forum.md`,
@@ -67,7 +67,7 @@ export const modules: Module[] = [
   {
     title: 'Bridge AI Assistant',
     description:
-      'Internal AI assistant (core team pilot) providing conversational Q&A, citation-backed answers, and context-aware recommendations. Features streaming responses, NDJSON audit logs, rate limiting, governance integration, 8-step onboarding wizard with RP rewards, and PostgreSQL progress tracking.',
+      'Your helpful guide to understanding CoopEverything. Ask questions, get clear answers with sources, and discover how to participate effectively. Bridge helps you find what you need.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/bridge.md`,
@@ -75,9 +75,9 @@ export const modules: Module[] = [
     category: 'Cooperative Technology',
   },
   {
-    title: 'Gamification & Milestones',
+    title: 'Achievements & Milestones',
     description:
-      'Local community growth tracking with milestone celebrations and invitation rewards. All phases complete: Database schema (6 tables), invitation flow, 8-step onboarding with RP (~165 RP), daily challenges, first-week journey, admin settings, InviteStats, InviteButton, testing page at /admin/gamification-testing. Focus on cooperation over competition.',
+      'Celebrate your community journey. Earn recognition for inviting friends, completing your first week, and participating in group decisions. Watch your local community grow together.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/gamification.md`,
@@ -85,9 +85,9 @@ export const modules: Module[] = [
     category: 'Community Connection',
   },
   {
-    title: 'Social Economy Primitives',
+    title: 'Social Economy',
     description:
-      '4-ledger cooperative economic system with anti-plutocracy safeguards: Support Points (SP) for governance power, Reward Points (RP) for economic claims, Timebank Credits (TBC) for bartering goods/services, and Social Horizon (SH) for stable local currency. Complete: APIs, UI pages, wallet dashboards, service browser, RP→TBC conversion, SH purchase events, admin settings.',
+      'A fair economic system where money follows values. Exchange services through timebanking, pool resources for group purchases, and build collective wealth that stays in your community.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/social-economy.md`,
@@ -95,9 +95,9 @@ export const modules: Module[] = [
     category: 'Social Economy',
   },
   {
-    title: 'Support Points & Reputation',
+    title: 'Recognition & Rewards',
     description:
-      'Tracks member contributions and distributes Support Points (SP) and Reward Points (RP). SP for governance power (ONLY from contributions), RP for economic claims. Full system: DB + API + ReputationService + badge awarding hooks in governance/forum + admin panel + RP balance/transactions API. Production-ready.',
+      'Get recognized for your contributions. Earn points by helping others, participating in decisions, and building community. Your effort matters and the system remembers.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/rewards.md`,
@@ -105,9 +105,9 @@ export const modules: Module[] = [
     category: 'Social Economy',
   },
   {
-    title: 'Support Points UI',
+    title: 'Your Wallet',
     description:
-      'Complete SP/RP member interface: SP wallet with allocation history, RP dashboard with earnings tracker and badge progress, proposal allocation widget, admin panels for circulation stats. All phases complete including admin tracking panels. Production-ready.',
+      'See your Support Points and Reward Points at a glance. Track what you have earned, what you have allocated to proposals, and your progress toward community badges.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/support-points-ui.md`,
@@ -117,7 +117,7 @@ export const modules: Module[] = [
   {
     title: 'Admin Accountability',
     description:
-      'Decision implementation tracking with cooperative safeguards. Prevents admin overreach through transparent action logs, community oversight, and mandatory progress reporting. Every decision includes delivery metrics and public accountability measures.',
+      'See what coordinators are doing and hold them accountable. Every decision gets tracked, every action gets logged, and the community can review and recall roles when needed.',
     progress: 0,
     status: 'planned',
     repoPath: `${GITHUB_BASE}/docs/modules/admin-accountability.md`,
@@ -127,7 +127,7 @@ export const modules: Module[] = [
   {
     title: 'Moderation Transparency',
     description:
-      'Quality-scored moderation system with Reward Points incentives for effective moderation. Features transparent moderation logs, community review of decisions, and empathy-first de-escalation rules. AI-assisted discourse management helps maintain constructive dialogue.',
+      'Fair, visible moderation that the community controls. See why content was moderated, appeal decisions you disagree with, and help maintain a healthy community through collective oversight.',
     progress: 0,
     status: 'planned',
     repoPath: `${GITHUB_BASE}/docs/modules/moderation-transparency.md`,
@@ -137,7 +137,7 @@ export const modules: Module[] = [
   {
     title: 'Security & Privacy',
     description:
-      'Complete security stack: global rate limiting, CSRF protection, security headers (CSP/HSTS), GDPR compliance (data export/deletion), cookie consent, input sanitization. Privacy-first with PII redaction, IP hashing, and append-only audit logs.',
+      'Your data belongs to you. We protect your privacy, let you export your information anytime, and never sell your data. You control what you share and with whom.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/security.md`,
@@ -145,9 +145,9 @@ export const modules: Module[] = [
     category: 'Cooperative Technology',
   },
   {
-    title: 'Observability & Monitoring',
+    title: 'System Health',
     description:
-      'Self-hosted observability stack with error/perf logging, alert manager, Prometheus metrics, APM distributed tracing, contract testing, feature flags, and canary deployment. Features gradual rollouts (10%→50%→100%), auto-rollback on error threshold, and user targeting rules.',
+      'We monitor our systems to keep everything running smoothly. When something goes wrong, we catch it fast and fix it fast. Your experience matters.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/observability.md`,
@@ -155,36 +155,36 @@ export const modules: Module[] = [
     category: 'Cooperative Technology',
   },
   {
-    title: 'Monorepo & Scaffolding',
+    title: 'Platform Foundation',
     description:
-      'Project infrastructure and build system. Next.js 14 monorepo with TypeScript project references. Shared packages: types, validators, UI components, and database utilities (@togetheros/db). Establishes conventions for domain-driven structure and testing patterns. Production-ready.',
+      'The technical foundation that makes everything work together. Built for reliability, speed, and the ability to grow with our community.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/PACKAGES.md`,
     category: 'Cooperative Technology',
   },
   {
-    title: 'UI Design System',
+    title: 'Visual Design',
     description:
-      'Shared component library built on Tailwind CSS v4 and Radix UI primitives. Provides accessible, customizable components following cooperation-first design principles. Includes responsive layouts, dark mode support, and consistent spacing/typography. Production-ready.',
+      'A consistent, accessible look and feel across the platform. Dark mode, mobile-friendly layouts, and thoughtful design that works for everyone.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/ui`,
     category: 'Cooperative Technology',
   },
   {
-    title: 'Identity & Authentication',
+    title: 'Your Account',
     description:
-      'User identity management with Google OAuth integration, session handling, email verification, password reset, and secure authentication flows. Features exportable identities for platform portability and privacy-first design. Production-ready.',
+      'Sign in securely, manage your profile, and control your account settings. Your identity stays yours - you can export your data or delete your account anytime.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/auth`,
     category: 'Cooperative Technology',
   },
   {
-    title: 'User Profiles',
+    title: 'Member Profiles',
     description:
-      'Member profiles with customizable fields, contribution history, and group memberships. Shows earned Reward Points, allocated Support Points, and participation metrics. Privacy controls allow members to choose what information is public. Production-ready.',
+      'Show the community who you are. Share your interests, see your contribution history, and connect with like-minded members. You choose what to share.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/templates/profile-template.md`,
@@ -193,7 +193,7 @@ export const modules: Module[] = [
   {
     title: 'Search & Discovery',
     description:
-      'Global search with path/keyword filters, full-text search across proposals + forum topics + posts + profiles. Features privacy-preserving query tracking, saved searches, autocomplete, and search history API. All phases complete, production-ready.',
+      'Find proposals, discussions, members, and groups quickly. Search across everything, save searches you use often, and discover new ways to participate.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/search.md`,
@@ -201,9 +201,9 @@ export const modules: Module[] = [
     category: 'Cooperative Technology',
   },
   {
-    title: 'Notifications & Inbox',
+    title: 'Notifications',
     description:
-      'Real-time notifications for mentions, replies, proposal updates, and governance decisions. All features complete: PostgreSQL database schema, preferences API with per-type toggles, settings UI page, filtering by type, mark-as-read/mark-all-read, email digest frequency controls, and push notification settings. Database-backed with in-memory fallback for development.',
+      'Stay informed about what matters to you. Get notified when someone replies to you, when proposals you care about are decided, or when your group needs input. You control what you receive.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/notifications.md`,
@@ -211,9 +211,9 @@ export const modules: Module[] = [
     category: 'Community Connection',
   },
   {
-    title: 'Onboarding Experience',
+    title: 'Getting Started',
     description:
-      'Comprehensive onboarding system with behavioral AI, 8-step UI wizard with RP rewards, PostgreSQL-backed progress tracking, and Bridge AI contextual help. Features mystery-driven progressive disclosure, personalized paths, and daily engagement mechanics. Teaches platform usage and cooperative skills through structured learning.',
+      'A friendly introduction to how everything works. Learn the basics, discover what you can do, and earn rewards as you explore. No prior experience needed.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/onboarding.md`,
@@ -223,7 +223,7 @@ export const modules: Module[] = [
   {
     title: 'Events & Calendar',
     description:
-      'Comprehensive event management, milestone tracking, and meeting scheduling. Database schema (6 tables), full CRUD API, RSVP system, calendar view with month navigation, event type filtering, upcoming events sidebar. Features attendance tracking, meeting notes, and capacity management. Production-ready.',
+      'See what is happening in your community. Find local meetups, online gatherings, and important dates. RSVP to events and never miss something you care about.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/events.md`,
@@ -231,9 +231,9 @@ export const modules: Module[] = [
     category: 'Collective Governance, Community Connection',
   },
   {
-    title: 'Metrics & Review',
+    title: 'Progress Tracking',
     description:
-      'Success tracking and continuous improvement system. Define metrics for initiatives, measure outcomes vs expectations, trigger re-evaluations when metrics fail, validate minority reports, and auto-generate improvement proposals. Creates a feedback loop from implementation back to governance. Complete with PostgreSQL schema, API handlers, 6 UI components, and 3 pages.',
+      'See how well initiatives are working. Track outcomes, understand what succeeded and what needs adjustment, and help improve future proposals based on real results.',
     progress: 100,
     status: 'complete',
     repoPath: `${GITHUB_BASE}/docs/modules/metrics.md`,

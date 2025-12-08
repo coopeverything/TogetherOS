@@ -184,14 +184,13 @@ When you create a new admin page at `apps/web/app/admin/{page-name}/page.tsx`:
 - Changes that don't modify UI components
 
 **Integration with UX Designer Skill:**
-For complex UI work, invoke the `ux-designer` skill for guidance on:
-- Theme system (6 color palettes)
-- Fluid typography (CSS clamp() patterns)
-- 2025 UI trends (bento grids, micro-interactions)
-- Accessibility (WCAG 2.1 AA)
-- Multilingual patterns (i18n)
+For UI/theme/CSS work, ALWAYS follow the `ux-designer` verification workflow:
+1. **Scope Discovery** - Find ALL affected files BEFORE editing
+2. **TodoWrite Tracking** - Create item for each file
+3. **Verification** - Re-grep to confirm zero remaining issues
+4. **Visual Test** - Toggle themes to verify
 
-**See:** `.claude/skills/ux-designer/SKILL.md` for full design system reference
+**See:** `.claude/skills/ux-designer/SKILL.md` for verification workflow and CSS var reference
 
 ### 7. Security Check (P1 Alerts in Modified Files)
 - **IMPORTANT:** Danger.js will automatically block merge if P1 alerts exist in modified files

@@ -40,6 +40,16 @@
 - Reading a skill file ≠ executing the skill
 - Lesson learned: Read UX skill but didn't run validation script or check dark mode classes (Dec 2025)
 
+**CSS/UI Change Verification** (REQUIRED for ANY CSS, theme, or UI styling work):
+- **BEFORE editing:** Run scope discovery to find ALL affected files
+  ```bash
+  grep -rln "PATTERN_TO_CHANGE" apps/web/ packages/ui/ --include="*.tsx"
+  ```
+- **Create TodoWrite item** for EACH file found (do NOT start editing until list is complete)
+- **AFTER editing:** Re-run the SAME grep - must return zero results
+- **See:** `.claude/skills/ux-designer/SKILL.md` for full workflow
+- Lesson learned: Missed files during theme updates because didn't discover full scope first (Dec 2025)
+
 ---
 
 ## Skill Execution Protocol
@@ -88,22 +98,23 @@ Result: Found actual issues via systematic execution
 ```
 User: "use UX skill on governance page"
 
-Step 1: Identify files
-→ Read apps/web/app/governance/page.tsx
-→ Find imports: ProposalList from @togetheros/ui/governance
-→ Read packages/ui/src/governance/ProposalList.tsx
-→ Find imports: ProposalCard
-→ Read packages/ui/src/governance/ProposalCard.tsx
+Step 1: Scope Discovery (BEFORE any edits)
+→ grep -rln "text-gray-\|bg-gray-" apps/web/app/governance/ packages/ui/src/governance/ --include="*.tsx"
+→ Found: page.tsx, ProposalList.tsx, ProposalCard.tsx
+→ Create TodoWrite item for EACH file
 
-Step 2: Run validation
-→ Execute: ./scripts/validate-css.sh
-→ Report ALL output
+Step 2: Systematic Updates
+→ Work through TodoWrite list file-by-file
+→ Mark each complete after editing
 
-Step 3: Manual dark mode check
-→ For EACH file, grep for light-only classes
-→ Report: file:line - class needs dark:variant
+Step 3: Verification (re-run Step 1 grep)
+→ grep -rln "text-gray-\|bg-gray-" apps/web/app/governance/ packages/ui/src/governance/ --include="*.tsx"
+→ Zero results = verification passed
 
-Step 4-7: Continue executing each step...
+Step 4: Visual Test
+→ Toggle theme picker through 3+ themes
+→ Toggle dark mode on/off
+→ Verify governance page renders correctly
 ```
 
 ---
