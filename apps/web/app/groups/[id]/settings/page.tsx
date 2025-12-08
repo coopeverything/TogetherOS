@@ -1,44 +1,63 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { RoleAssignment, type GroupRole } from '@togetheros/ui/groups/RoleAssignment'
-import type { GroupRoleType } from '@togetheros/types/groups'
-import { InMemoryGroupRepo } from '../../../../../api/src/modules/groups/repos/InMemoryGroupRepo'
-import { getFixtureGroups, getFixtureMembers } from '../../../../../api/src/modules/groups/fixtures'
+import type { GroupRoleType, Group } from '@togetheros/types/groups'
+import { getFixtureMembers } from '../../../../../api/src/modules/groups/fixtures'
 
 export default function GroupSettingsPage() {
   const params = useParams()
   const id = params.id as string
-  const [roles, setRoles] = useState<GroupRole[]>([
-    {
-      id: 'role-1',
-      memberId: 'member-alice',
-      role: 'admin',
-      grantedAt: new Date('2024-06-15T10:00:00Z'),
-    },
-    {
-      id: 'role-2',
-      memberId: 'member-bob',
-      role: 'coordinator',
-      grantedAt: new Date('2024-07-01T14:00:00Z'),
-    },
-  ])
+  const [roles, setRoles] = useState<GroupRole[]>([])
+  const [group, setGroup] = useState<Group | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // Initialize repo with fixtures
-  const repo = new InMemoryGroupRepo(getFixtureGroups())
   const allMembers = getFixtureMembers()
 
-  // Find group
-  const group = repo.getAll().find((g) => g.id === id)
+  // Fetch group and roles on mount
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch group
+        const groupRes = await fetch(`/api/groups/${id}`)
+        if (groupRes.ok) {
+          const groupData = await groupRes.json()
+          setGroup(groupData.group)
+        }
+
+        // Fetch roles
+        const rolesRes = await fetch(`/api/groups/${id}/roles`)
+        if (rolesRes.ok) {
+          const rolesData = await rolesRes.json()
+          setRoles(rolesData.roles || [])
+        }
+      } catch (err) {
+        console.error('Failed to fetch group data:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+        <div className="text-center">
+          <p className="text-ink-700">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!group) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
           <h1 className="text-sm font-bold text-ink-900 mb-2">Group Not Found</h1>
-          <p className="text-ink-700 mb-3">The group you're looking for doesn't exist.</p>
+          <p className="text-ink-700 mb-3">The group you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/groups" className="text-joy-600 hover:text-joy-700 font-medium">
             ← Back to Groups
           </Link>
@@ -52,23 +71,42 @@ export default function GroupSettingsPage() {
     .filter((m) => m !== undefined)
 
   const handleAssignRole = async (memberId: string, role: GroupRoleType) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    try {
+      const response = await fetch(`/api/groups/${id}/roles`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memberId, role }),
+      })
 
-    const newRole: GroupRole = {
-      id: `role-${Date.now()}`,
-      memberId,
-      role,
-      grantedAt: new Date(),
+      if (response.ok) {
+        const data = await response.json()
+        setRoles([...roles, data.role])
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to assign role')
+      }
+    } catch (err) {
+      console.error('Failed to assign role:', err)
+      alert('Failed to assign role')
     }
-
-    setRoles([...roles, newRole])
   }
 
   const handleRevokeRole = async (roleId: string) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    setRoles(roles.filter((r) => r.id !== roleId))
+    try {
+      const response = await fetch(`/api/groups/${id}/roles?roleId=${roleId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        setRoles(roles.filter((r) => r.id !== roleId))
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to revoke role')
+      }
+    } catch (err) {
+      console.error('Failed to revoke role:', err)
+      alert('Failed to revoke role')
+    }
   }
 
   return (

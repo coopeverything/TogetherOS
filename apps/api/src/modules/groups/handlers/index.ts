@@ -2,3 +2,4 @@
 // Export all group handlers
 export * from './crud'
 export * from './growth'
+export * from './roles'
