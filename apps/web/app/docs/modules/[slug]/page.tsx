@@ -315,22 +315,13 @@ export default async function ModuleDocPage({ params }: Props) {
         </div>
 
         {/* Footer Links */}
-        <div className="mt-6 flex items-center justify-between text-sm text-ink-700">
+        <div className="mt-6 text-sm text-ink-700">
           <Link
             href="/modules"
             className="text-blue-600 hover:text-blue-700"
           >
-            View all modules
+            ← Back to all features
           </Link>
-          <a
-            href={`https://github.com/coopeverything/TogetherOS/blob/yolo/docs/modules/${slug}.md`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-ink-700 hover:text-ink-900"
-          >
-            <GitHubIcon className="w-4 h-4" />
-            Edit on GitHub
-          </a>
         </div>
       </div>
     </div>

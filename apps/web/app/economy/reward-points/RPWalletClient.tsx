@@ -20,11 +20,11 @@ const BALANCE_POLL_INTERVAL = 30000
 
 // Fallback badges (used when API unavailable)
 const FALLBACK_BADGES: Badge[] = [
-  { id: 'first-pr', name: 'First PR', description: 'Made your first contribution', icon: '1', criteria: 'Have a pull request merged', category: 'contribution' },
-  { id: 'foundation-builder', name: 'Foundation Builder', description: 'Contributed to core infrastructure', icon: '2', criteria: 'Contribute to foundation code', category: 'contribution' },
-  { id: 'bug-hunter', name: 'Bug Hunter', description: 'Fixed bugs in the codebase', icon: '3', criteria: 'Report and verify 5 bugs', category: 'contribution' },
-  { id: 'docs-champion', name: 'Docs Champion', description: 'Contributed to documentation', icon: '4', criteria: 'Make 10 documentation contributions', category: 'contribution' },
-  { id: 'code-reviewer', name: 'Code Reviewer', description: 'Reviewed pull requests', icon: '5', criteria: 'Complete 20 code reviews', category: 'contribution' },
+  { id: 'active-participant', name: 'Active Participant', description: 'Engaged in community discussions', icon: '1', criteria: 'Participate in 10+ discussions', category: 'contribution' },
+  { id: 'helpful-neighbor', name: 'Helpful Neighbor', description: 'Helped other members find answers', icon: '2', criteria: 'Help 5 members', category: 'contribution' },
+  { id: 'community-builder', name: 'Community Builder', description: 'Invited members who stayed active', icon: '3', criteria: 'Invite 3 members who participate', category: 'milestone' },
+  { id: 'proposal-pioneer', name: 'Proposal Pioneer', description: 'Created your first proposal', icon: '4', criteria: 'Create and submit a proposal', category: 'milestone' },
+  { id: 'team-player', name: 'Team Player', description: 'Participated in group decisions', icon: '5', criteria: 'Vote on 10 group proposals', category: 'contribution' },
 ]
 
 export function RPWalletClient({ userId }: RPWalletClientProps) {
