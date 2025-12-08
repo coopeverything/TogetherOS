@@ -39,7 +39,7 @@ export default function GroupSettingsPage() {
         <div className="text-center">
           <h1 className="text-sm font-bold text-ink-900 mb-2">Group Not Found</h1>
           <p className="text-ink-700 mb-3">The group you're looking for doesn't exist.</p>
-          <Link href="/groups" className="text-orange-600 hover:text-orange-700 font-medium">
+          <Link href="/groups" className="text-joy-600 hover:text-joy-700 font-medium">
             ← Back to Groups
           </Link>
         </div>
@@ -76,7 +76,7 @@ export default function GroupSettingsPage() {
       {/* Back Link */}
       <Link
         href={`/groups/${id}`}
-        className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-3 inline-block"
+        className="text-joy-600 hover:text-joy-700 text-sm font-medium mb-3 inline-block"
       >
         ← Back to {group.name}
       </Link>
@@ -90,8 +90,8 @@ export default function GroupSettingsPage() {
       </div>
 
       {/* Admin Notice */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-        <p className="text-blue-800 text-sm">
+      <div className="bg-info-bg border border-info/30 rounded-lg p-4 mb-4">
+        <p className="text-info text-sm">
           <strong>Admin Access:</strong> Only group administrators can access this page
         </p>
       </div>
@@ -160,20 +160,20 @@ export default function GroupSettingsPage() {
           </div>
         </div>
         <div className="mt-6">
-          <button className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium">
+          <button className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors font-medium">
             Save Changes
           </button>
         </div>
       </div>
 
       {/* Danger Zone */}
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <h2 className="text-sm font-semibold text-red-900 mb-3">Danger Zone</h2>
-        <p className="text-red-700 text-sm mb-4">
+      <div className="bg-danger-bg border border-danger/30 rounded-lg p-4">
+        <h2 className="text-sm font-semibold text-danger mb-3">Danger Zone</h2>
+        <p className="text-danger/80 text-sm mb-4">
           Deleting a group is permanent and cannot be undone. All data, proposals, and history
           will be lost.
         </p>
-        <button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors font-medium">
+        <button className="px-4 py-2 bg-danger text-bg-1 rounded-md hover:bg-danger/90 transition-colors font-medium">
           Delete Group
         </button>
       </div>

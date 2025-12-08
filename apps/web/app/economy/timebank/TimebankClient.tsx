@@ -137,8 +137,8 @@ export default function TimebankClient() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Loading Timebank...</p>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-4"></div>
+          <p className="mt-2 text-ink-400">Loading Timebank...</p>
         </div>
       </div>
     );
@@ -148,17 +148,17 @@ export default function TimebankClient() {
     <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-4">
-        <a href="/economy" className="text-teal-600 hover:text-teal-700 text-sm mb-2 inline-block">
+        <a href="/economy" className="text-accent-4 hover:text-accent-4/80 text-sm mb-2 inline-block">
           &larr; Back to Economy
         </a>
-        <h1 className="text-sm font-bold text-gray-900 dark:text-white">Timebank Credits</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <h1 className="text-sm font-bold text-ink-900">Timebank Credits</h1>
+        <p className="text-ink-400 mt-2">
           Exchange goods and services with fellow members using TBC
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 mb-3">
+      <div className="border-b border-border mb-3">
         <nav className="flex space-x-8">
           {['wallet', 'browse', 'convert'].map((tab) => (
             <button
@@ -166,8 +166,8 @@ export default function TimebankClient() {
               onClick={() => setActiveTab(tab as typeof activeTab)}
               className={`pb-4 px-1 border-b-2 font-medium text-sm capitalize ${
                 activeTab === tab
-                  ? 'border-teal-500 text-teal-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'border-accent-4 text-accent-4'
+                  : 'border-transparent text-ink-400 hover:text-ink-700'
               }`}
             >
               {tab === 'wallet' ? 'My Wallet' : tab === 'browse' ? 'Browse Services' : 'Convert RP'}
@@ -185,24 +185,24 @@ export default function TimebankClient() {
           />
 
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-            <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+          <div className="bg-bg-1 rounded-lg shadow-sm border border-border p-4">
+            <h2 className="text-sm font-semibold text-ink-900 mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <button
                 onClick={() => setActiveTab('browse')}
-                className="w-full py-2 px-4 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors"
+                className="w-full py-2 px-4 bg-accent-4 hover:bg-accent-4/90 text-bg-1 font-medium rounded-lg transition-colors"
               >
                 Browse Available Services
               </button>
               <button
                 onClick={() => setActiveTab('convert')}
-                className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+                className="w-full py-2 px-4 bg-accent-3 hover:bg-accent-3/90 text-bg-1 font-medium rounded-lg transition-colors"
               >
                 Convert RP to TBC
               </button>
               <a
                 href="/economy/timebank/my-services"
-                className="block w-full py-2 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium rounded-lg transition-colors text-center"
+                className="block w-full py-2 px-4 bg-bg-2 hover:bg-bg-2/80 text-ink-900 font-medium rounded-lg transition-colors text-center"
               >
                 Manage My Services
               </a>

@@ -59,7 +59,7 @@ export default function NewGroupPage() {
       <div className="mb-4">
         <Link
           href="/groups"
-          className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-4 inline-block"
+          className="text-joy-600 hover:text-joy-700 text-sm font-medium mb-4 inline-block"
         >
           ← Back to Groups
         </Link>
@@ -71,9 +71,9 @@ export default function NewGroupPage() {
 
       {/* Error Alert */}
       {error && (
-        <div className="mb-3 bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800 font-medium">Error creating group</p>
-          <p className="text-red-600 text-sm mt-1">{error}</p>
+        <div className="mb-3 bg-danger-bg border border-danger/30 rounded-lg p-4">
+          <p className="text-danger font-medium">Error creating group</p>
+          <p className="text-danger/80 text-sm mt-1">{error}</p>
         </div>
       )}
 
@@ -87,33 +87,33 @@ export default function NewGroupPage() {
       </div>
 
       {/* Guidelines */}
-      <div className="mt-4 bg-blue-50 rounded-lg border border-blue-200 p-4">
-        <h2 className="text-sm font-semibold text-blue-900 mb-3">Group Guidelines</h2>
-        <ul className="space-y-2 text-sm text-blue-800">
+      <div className="mt-4 bg-info-bg rounded-lg border border-info/30 p-4">
+        <h2 className="text-sm font-semibold text-info mb-3">Group Guidelines</h2>
+        <ul className="space-y-2 text-sm text-info/90">
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span>
               <strong>Local groups</strong> are geography-based and require a location
             </span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span>
               <strong>Thematic groups</strong> focus on specific topics or interests
             </span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span>
               <strong>Federated groups</strong> coordinate across multiple TogetherOS instances
             </span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span>Group handles must be unique and cannot be changed after creation</span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span>As the creator, you will automatically become the first admin</span>
           </li>
         </ul>

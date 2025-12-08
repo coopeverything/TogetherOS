@@ -16,62 +16,62 @@ export default function GroupsPage() {
       <div className="mb-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-sm font-bold text-gray-900 dark:text-white">Groups & Organizations</h1>
-            <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
+            <h1 className="text-sm font-bold text-ink-900">Groups & Organizations</h1>
+            <span className="px-3 py-1 bg-success-bg text-success text-sm font-medium rounded-full">
               100% Complete
             </span>
           </div>
           <Link
             href="/groups/new"
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
+            className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors font-medium"
           >
             Create Group
           </Link>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300 max-w-3xl">
+        <p className="text-sm text-ink-700 max-w-3xl">
           Create and manage cooperative groups, organizations, and communities with transparent governance and shared resources.
         </p>
       </div>
 
       {/* What This Module Will Do */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
-        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">What This Module Will Do</h2>
+      <div className="bg-bg-1 rounded-lg border border-border p-4 mb-4">
+        <h2 className="text-sm font-semibold text-ink-900 mb-4">What This Module Will Do</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Core Features</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-300">
+            <h3 className="text-sm font-medium text-ink-900 mb-2">Core Features</h3>
+            <ul className="space-y-2 text-ink-700">
               <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
+                <span className="text-success mr-2">✓</span>
                 Create and join cooperative groups
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-joy-600 mr-2">•</span>
                 Transparent membership management
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-joy-600 mr-2">•</span>
                 Role rotation and accountability
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-joy-600 mr-2">•</span>
                 Shared resource pools
               </li>
               <li className="flex items-start">
-                <span className="text-orange-600 mr-2">•</span>
+                <span className="text-joy-600 mr-2">•</span>
                 Group-level decision making
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Cooperation Paths</h3>
+            <h3 className="text-sm font-medium text-ink-900 mb-2">Cooperation Paths</h3>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm rounded-full">
+              <span className="px-3 py-1 bg-accent-3-bg text-accent-3 text-sm rounded-full">
                 Community Connection
               </span>
-              <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full">
+              <span className="px-3 py-1 bg-accent-1-bg text-accent-1 text-sm rounded-full">
                 Collective Governance
               </span>
-              <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded-full">
+              <span className="px-3 py-1 bg-success-bg text-success text-sm rounded-full">
                 Social Economy
               </span>
             </div>
@@ -81,7 +81,7 @@ export default function GroupsPage() {
 
       {/* Group List */}
       <div className="mb-4">
-        <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Browse Groups</h2>
+        <h2 className="text-sm font-semibold text-ink-900 mb-3">Browse Groups</h2>
         <GroupList groups={groups} />
       </div>
 

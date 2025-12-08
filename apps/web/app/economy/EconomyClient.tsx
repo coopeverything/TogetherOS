@@ -124,8 +124,8 @@ export default function EconomyClient() {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-          <p className="text-red-800 dark:text-red-200">{error}</p>
+        <div className="bg-danger-bg border border-danger/30 rounded-lg p-4">
+          <p className="text-danger">{error}</p>
         </div>
       </div>
     );
@@ -137,7 +137,7 @@ export default function EconomyClient() {
       <div className="mb-4">
         <div className="flex items-center gap-3 mb-4">
           <h1 className="text-sm font-bold text-ink-900">4-Ledger Economic System</h1>
-          <span className="px-3 py-1 bg-brand-100 text-brand-800 text-sm font-medium rounded-full">
+          <span className="px-3 py-1 bg-success-bg text-success text-sm font-medium rounded-full">
             Active
           </span>
         </div>
@@ -149,7 +149,7 @@ export default function EconomyClient() {
       {/* Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         {/* Support Points Balance */}
-        <a href="/economy/support-points" className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-4 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <a href="/economy/support-points" className="bg-gradient-to-br from-joy-500 to-joy-600 rounded-lg p-4 text-bg-1 shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Support Points</h3>
             <span className="text-xs bg-white/20 px-2 py-1 rounded">SP</span>
@@ -170,7 +170,7 @@ export default function EconomyClient() {
         </a>
 
         {/* Reward Points */}
-        <a href="/economy/reward-points" className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-4 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <a href="/economy/reward-points" className="bg-gradient-to-br from-accent-3 to-accent-3/90 rounded-lg p-4 text-bg-1 shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Reward Points</h3>
             <span className="text-xs bg-white/20 px-2 py-1 rounded">RP</span>
@@ -190,7 +190,7 @@ export default function EconomyClient() {
         </a>
 
         {/* Timebank Credits */}
-        <a href="/economy/timebank" className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg p-4 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <a href="/economy/timebank" className="bg-gradient-to-br from-accent-4 to-accent-4/90 rounded-lg p-4 text-bg-1 shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Timebank Credits</h3>
             <span className="text-xs bg-white/20 px-2 py-1 rounded">TBC</span>
@@ -210,7 +210,7 @@ export default function EconomyClient() {
         </a>
 
         {/* Social Horizon */}
-        <a href="/economy/social-horizon" className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg p-4 text-white shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
+        <a href="/economy/social-horizon" className="bg-gradient-to-br from-success to-success/90 rounded-lg p-4 text-bg-1 shadow-lg hover:shadow-xl transition-shadow cursor-pointer block">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium opacity-90">Social Horizon</h3>
             <span className="text-xs bg-white/20 px-2 py-1 rounded">SH</span>
@@ -305,23 +305,23 @@ export default function EconomyClient() {
         <h2 className="text-sm font-bold text-ink-900">4-Ledger System Specification</h2>
 
         {/* Core Invariants */}
-        <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-red-900 mb-3">Core Anti-Plutocracy Invariants</h3>
-          <div className="space-y-3 text-sm text-red-800">
+        <div className="bg-danger-bg border-2 border-danger/30 rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-danger mb-3">Core Anti-Plutocracy Invariants</h3>
+          <div className="space-y-3 text-sm text-danger/90">
             <div className="flex gap-3">
-              <span className="font-bold text-red-600">1.</span>
+              <span className="font-bold text-danger">1.</span>
               <p><strong>Money/RP ≠ SP:</strong> Governance power (SP) ONLY comes from non-monetary contributions. You cannot buy influence.</p>
             </div>
             <div className="flex gap-3">
-              <span className="font-bold text-red-600">2.</span>
+              <span className="font-bold text-danger">2.</span>
               <p><strong>One Person, One Vote:</strong> SP controls agenda (which proposals get considered), NOT vote weight. Every member has equal vote power.</p>
             </div>
             <div className="flex gap-3">
-              <span className="font-bold text-red-600">3.</span>
+              <span className="font-bold text-danger">3.</span>
               <p><strong>Support ≠ Reward:</strong> Separate ledgers for governance (SP) vs. economy (RP, TBC, SH). No conversion between SP and other currencies.</p>
             </div>
             <div className="flex gap-3">
-              <span className="font-bold text-red-600">4.</span>
+              <span className="font-bold text-danger">4.</span>
               <p><strong>No Buying Big:</strong> Per-person and global caps on SH acquisition prevent wealth concentration. RP burns on SH purchase (cannot recycle).</p>
             </div>
           </div>
@@ -330,9 +330,9 @@ export default function EconomyClient() {
         {/* Ledger Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Support Points */}
-          <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-orange-900 mb-3">Support Points (SP)</h3>
-            <div className="text-sm text-orange-800 space-y-2">
+          <div className="bg-joy-bg border-2 border-joy/30 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-joy-700 mb-3">Support Points (SP)</h3>
+            <div className="text-sm text-joy-700/90 space-y-2">
               <p><strong>Purpose:</strong> Governance power and agenda control</p>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -350,9 +350,9 @@ export default function EconomyClient() {
           </div>
 
           {/* Reward Points */}
-          <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-purple-900 mb-3">Reward Points (RP)</h3>
-            <div className="text-sm text-purple-800 space-y-2">
+          <div className="bg-accent-3-bg border-2 border-accent-3/30 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-accent-3 mb-3">Reward Points (RP)</h3>
+            <div className="text-sm text-accent-3/90 space-y-2">
               <p><strong>Purpose:</strong> "The commons owes you something" - economic claims</p>
               <p><strong>Sources:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -371,9 +371,9 @@ export default function EconomyClient() {
           </div>
 
           {/* Timebank Credits */}
-          <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-blue-900 mb-3">Timebank Credits (TBC)</h3>
-            <div className="text-sm text-blue-800 space-y-2">
+          <div className="bg-accent-4-bg border-2 border-accent-4/30 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-accent-4 mb-3">Timebank Credits (TBC)</h3>
+            <div className="text-sm text-accent-4/90 space-y-2">
               <p><strong>Purpose:</strong> Bartering economy for goods and services exchange</p>
               <p><strong>What You Can Barter:</strong></p>
               <ul className="list-disc list-inside ml-2 space-y-1">
@@ -396,9 +396,9 @@ export default function EconomyClient() {
           </div>
 
           {/* Social Horizon */}
-          <div className="bg-green-50 border-2 border-green-300 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-green-900 mb-3">Social Horizon (SH)</h3>
-            <div className="text-sm text-green-800 space-y-2">
+          <div className="bg-success-bg border-2 border-success/30 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-success mb-3">Social Horizon (SH)</h3>
+            <div className="text-sm text-success/90 space-y-2">
               <p><strong>Purpose:</strong> Multi-purpose cooperative currency</p>
               <ul className="list-disc list-inside ml-2 space-y-1">
                 <li>Local and national value exchange</li>
@@ -445,27 +445,27 @@ export default function EconomyClient() {
         </div>
 
         {/* Implementation Status */}
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-green-900 mb-3">Implementation Status</h3>
-          <div className="space-y-2 text-sm text-green-800">
+        <div className="bg-success-bg border border-success/30 rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-success mb-3">Implementation Status</h3>
+          <div className="space-y-2 text-sm text-success/90">
             <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-success font-bold">✓</span>
               <span>Database schema with 15 tables (economy, timebank, social horizon)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-success font-bold">✓</span>
               <span>TypeScript types for all 4 ledgers</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-success font-bold">✓</span>
               <span>API endpoints: RP earn/convert, TBC services/transactions, SH wallet/events</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-success font-bold">✓</span>
               <span>UI components: Wallet cards, service browser, RP→TBC converter</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-600 font-bold">✓</span>
+              <span className="text-success font-bold">✓</span>
               <span>Admin settings: TBC pricing, SH caps, fair exchange thresholds</span>
             </div>
             <p className="mt-4 text-xs opacity-75 flex items-center gap-1">
@@ -474,7 +474,7 @@ export default function EconomyClient() {
                 href="https://github.com/coopeverything/TogetherOS/blob/yolo/docs/guides/4-ledger-system.md"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-green-600 flex items-center gap-1"
+                className="underline hover:text-success flex items-center gap-1"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />

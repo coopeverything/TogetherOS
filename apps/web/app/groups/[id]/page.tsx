@@ -86,7 +86,7 @@ export default function GroupDetailPage() {
           <p className="text-ink-700 mb-3">The group you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/groups"
-            className="text-orange-600 hover:text-orange-700 font-medium"
+            className="text-joy-600 hover:text-joy-700 font-medium"
           >
             ← Back to Groups
           </Link>
@@ -138,7 +138,7 @@ export default function GroupDetailPage() {
       {/* Back Link */}
       <Link
         href="/groups"
-        className="text-orange-600 hover:text-orange-700 text-sm font-medium mb-3 inline-block"
+        className="text-joy-600 hover:text-joy-700 text-sm font-medium mb-3 inline-block"
       >
         ← Back to Groups
       </Link>
@@ -147,8 +147,8 @@ export default function GroupDetailPage() {
       <div className="mb-3">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 bg-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-orange-800 font-bold text-sm">
+            <div className="w-16 h-16 bg-joy-bg rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-joy-700 font-bold text-sm">
                 {group.name
                   .split(' ')
                   .map((word: string) => word[0])
@@ -161,7 +161,7 @@ export default function GroupDetailPage() {
               <h1 className="text-sm font-bold text-ink-900 mb-1">{group.name}</h1>
               <p className="text-ink-700">@{group.handle}</p>
               <div className="flex flex-wrap gap-3 items-center mt-2">
-                <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                <span className="px-2 py-0.5 bg-success-bg text-success text-xs font-medium rounded-full">
                   {group.type.charAt(0).toUpperCase() + group.type.slice(1)}
                 </span>
                 <span className="text-ink-700 text-sm">{group.members.length} members</span>
@@ -177,7 +177,7 @@ export default function GroupDetailPage() {
             className={`px-5 py-2 rounded-md font-medium text-sm transition-colors ${
               isMember
                 ? 'bg-bg-2 text-ink-700 hover:bg-bg-2'
-                : 'bg-orange-600 text-white hover:bg-orange-700'
+                : 'bg-joy-600 text-bg-1 hover:bg-joy-700'
             } disabled:opacity-50`}
           >
             {isJoining ? 'Loading...' : isMember ? 'Leave Group' : 'Join Group'}
@@ -201,7 +201,7 @@ export default function GroupDetailPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-orange-600 text-orange-600'
+                  ? 'border-joy-600 text-joy-600'
                   : 'border-transparent text-ink-400 hover:text-ink-700 hover:border-border'
               }`}
             >
@@ -296,7 +296,7 @@ export default function GroupDetailPage() {
           {/* Trending in Group */}
           <div className="bg-bg-1 rounded-lg border border-border p-4">
             <h3 className="font-semibold text-ink-900 mb-3 flex items-center gap-2">
-              <span className="text-orange-600">🔥</span> Trending in Group
+              <span className="text-joy-600">🔥</span> Trending in Group
             </h3>
             {trendingTopics.length === 0 ? (
               <p className="text-sm text-ink-400">No trending topics yet</p>
@@ -336,7 +336,7 @@ export default function GroupDetailPage() {
                 </div>
               ))}
               {groupMembers.length > 8 && (
-                <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-xs font-medium text-orange-700">
+                <div className="w-8 h-8 bg-joy-bg rounded-full flex items-center justify-center text-xs font-medium text-joy-700">
                   +{groupMembers.length - 8}
                 </div>
               )}
@@ -384,7 +384,7 @@ function GroupFeedTab({
       <div className="mb-4">
         <button
           onClick={() => setComposerOpen(true)}
-          className="w-full bg-bg-1 rounded-lg border border-border p-4 text-left hover:border-orange-300 transition-colors"
+          className="w-full bg-bg-1 rounded-lg border border-border p-4 text-left hover:border-joy-300 transition-colors"
         >
           <span className="text-ink-400">Share something with {groupName}...</span>
         </button>
@@ -400,7 +400,7 @@ function GroupFeedTab({
           </p>
           <button
             onClick={() => setComposerOpen(true)}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium"
+            className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
           >
             Create Post
           </button>
@@ -484,10 +484,10 @@ function GroupForumTab({
 
   const categoryColors: Record<string, string> = {
     general: 'bg-bg-2 text-ink-900',
-    proposal: 'bg-orange-100 text-orange-800',
-    question: 'bg-blue-100 text-blue-800',
-    deliberation: 'bg-purple-100 text-purple-800',
-    announcement: 'bg-green-100 text-green-800',
+    proposal: 'bg-joy-bg text-joy-700',
+    question: 'bg-info-bg text-info',
+    deliberation: 'bg-accent-3-bg text-accent-3',
+    announcement: 'bg-success-bg text-success',
   }
 
   if (loading) {
@@ -532,7 +532,7 @@ function GroupForumTab({
           </p>
           <button
             onClick={() => setComposerOpen(true)}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm font-medium"
+            className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
           >
             Create Topic
           </button>
@@ -544,10 +544,10 @@ function GroupForumTab({
             <Link
               key={topic.id}
               href={`/forum/${topic.slug || topic.id}`}
-              className="block bg-orange-50/20 rounded-lg border border-orange-200 p-4 hover:border-orange-300 transition-colors"
+              className="block bg-joy-bg/20 rounded-lg border border-joy-200 p-4 hover:border-joy-300 transition-colors"
             >
               <div className="flex items-start gap-3">
-                <span className="text-orange-600">📌</span>
+                <span className="text-joy-600">📌</span>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium text-ink-900 line-clamp-1">
                     {topic.title}
@@ -691,7 +691,7 @@ function SimplePostComposer({
             <button
               type="submit"
               disabled={submitting || !content.trim()}
-              className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 disabled:opacity-50 text-sm font-medium"
             >
               {submitting ? 'Posting...' : 'Post'}
             </button>
@@ -798,7 +798,7 @@ function SimpleTopicComposer({
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 disabled:opacity-50 text-sm font-medium"
             >
               {submitting ? 'Creating...' : 'Create Topic'}
             </button>
