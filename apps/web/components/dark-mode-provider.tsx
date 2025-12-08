@@ -2,57 +2,70 @@
 
 import * as React from 'react';
 
-// Available themes
-export const THEMES = [
-  'default',
-  // Minimalistic themes (from minimalistic.css)
-  'zinc-minimal',
-  'zinc-sage',
-  'zinc-sage-ext',
+// Theme categories - Classics are refined, everyday themes; Adventurous are bold and experimental
+export const CLASSIC_THEMES = [
+  // Gray - Pure to Warm
   'pure-grayscale',
+  'salt-pepper',
+  'zinc-minimal',
   'pebble',
-  // Base themes (from base.css)
-  'arctic-minimal',
-  'horizon-dawn',
-  'ocean-depth',
-  'forest-canvas',
-  'cosmic-violet',
-  'terracotta-earth',
-  // Additional themes (from globals.css)
-  'sage-earth',
-  'fresh-peach',
-  'gothic-noir',
-  'yacht-club',
+  'stone-path',
+  'urban-loft',
+  // Warm - Cream to Coffee
+  'breakfast-tea',
+  'cappuccino',
   'quiet-luxury',
+  // Green - Organic tones
+  'sage-earth',
+  'eucalyptus-grove',
+  'zinc-sage-ext',
+  // Accented
+  'quite-clear',
+  'yacht-club',
+  'gothic-noir',
+] as const;
+
+export const ADVENTUROUS_THEMES = [
+  // Core brand (renamed from 'default')
+  'together-green',
+  // Green family
+  'zinc-sage',
+  'forest-canvas',
+  // Blue - Clean to Deep
+  'arctic-minimal',
+  'ocean-depth',
+  'frozen-lake',
+  'cobalt-sky',
+  'mountain-mist',
+  'winter-chill',
+  // Warm - Peach to Sepia
+  'fresh-peach',
+  'peach-skyline',
+  'summer-breeze',
+  'horizon-dawn',
+  'terracotta-earth',
+  'siltstone',
   'night-sands',
   'old-photograph',
-  'cappuccino',
+  'spiced-mocha',
+  // Purple - Cosmic
+  'cosmic-violet',
+  'under-the-moonlight',
+  // Mixed & Vibrant
+  'beachfront-view',
+  'tropical-punch',
   'sunny-day',
   'cool-revival',
   'sharp-edge',
-  'tropical-punch',
-  'cobalt-sky',
-  'salt-pepper',
-  'quite-clear',
-  'breakfast-tea',
-  'stone-path',
-  'urban-loft',
-  'spiced-mocha',
-  'beachfront-view',
-  'under-the-moonlight',
-  'siltstone',
-  'peach-skyline',
-  'mountain-mist',
-  'frozen-lake',
-  'eucalyptus-grove',
-  'winter-chill',
-  'summer-breeze',
 ] as const;
+
+// All available themes (classics first, then adventurous)
+export const THEMES = [...CLASSIC_THEMES, ...ADVENTUROUS_THEMES] as const;
 export type Theme = (typeof THEMES)[number];
 
 // Theme display info with color swatches
 export const THEME_INFO: Record<Theme, { name: string; colors: string[] }> = {
-  'default': { name: 'Default', colors: ['#FAFAF9', '#059669', '#F59E0B', '#0F172A'] },
+  'together-green': { name: 'Together Green', colors: ['#FAFAF9', '#059669', '#F59E0B', '#0F172A'] },
   // Minimalistic themes
   'zinc-minimal': { name: 'Zinc Minimal', colors: ['#FAFAFA', '#71717A', '#52525B', '#18181B'] },
   'zinc-sage': { name: 'Zinc Sage', colors: ['#FAFAFA', '#84A98C', '#52796F', '#2F3E46'] },
@@ -107,9 +120,16 @@ interface DarkModeContextType {
 
 const DarkModeContext = React.createContext<DarkModeContextType | undefined>(undefined);
 
+// Helper to migrate old 'default' theme to 'together-green'
+function migrateTheme(theme: string | null): Theme | null {
+  if (theme === 'default') return 'together-green';
+  if (theme && THEMES.includes(theme as Theme)) return theme as Theme;
+  return null;
+}
+
 export function DarkModeProvider({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkModeState] = React.useState(false);
-  const [theme, setThemeState] = React.useState<Theme>('default');
+  const [theme, setThemeState] = React.useState<Theme>('pure-grayscale'); // Default to first classic
 
   // Load preferences from localStorage, URL, and user profile on mount
   React.useEffect(() => {
@@ -124,21 +144,26 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
 
     // Theme - check URL first, then localStorage, then user profile
     const urlParams = new URLSearchParams(window.location.search);
-    const urlTheme = urlParams.get('theme') as Theme | null;
-    if (urlTheme && THEMES.includes(urlTheme)) {
+    const urlTheme = migrateTheme(urlParams.get('theme'));
+    if (urlTheme) {
       setThemeState(urlTheme);
     } else {
-      const storedTheme = localStorage.getItem('theme') as Theme | null;
-      if (storedTheme && THEMES.includes(storedTheme)) {
+      const storedTheme = migrateTheme(localStorage.getItem('theme'));
+      if (storedTheme) {
         setThemeState(storedTheme);
+        // Update localStorage if we migrated from 'default'
+        if (localStorage.getItem('theme') === 'default') {
+          localStorage.setItem('theme', 'together-green');
+        }
       } else {
         // Fetch user's saved theme preference from backend
         fetch('/api/user/theme')
           .then((res) => res.json())
           .then((data) => {
-            if (data.theme && THEMES.includes(data.theme as Theme)) {
-              setThemeState(data.theme as Theme);
-              localStorage.setItem('theme', data.theme);
+            const migratedTheme = migrateTheme(data.theme);
+            if (migratedTheme) {
+              setThemeState(migratedTheme);
+              localStorage.setItem('theme', migratedTheme);
             }
           })
           .catch(() => {
@@ -160,11 +185,9 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
 
   // Update data-theme attribute when theme changes
   React.useEffect(() => {
-    if (theme === 'default') {
-      document.documentElement.removeAttribute('data-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
+    // 'together-green' uses the :root defaults, so we use data-theme for it too
+    // This allows consistent theme switching behavior
+    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -180,11 +203,7 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
     setThemeState(newTheme);
     // Update URL without reload
     const url = new URL(window.location.href);
-    if (newTheme === 'default') {
-      url.searchParams.delete('theme');
-    } else {
-      url.searchParams.set('theme', newTheme);
-    }
+    url.searchParams.set('theme', newTheme);
     window.history.replaceState({}, '', url.toString());
 
     // Save to user profile (fire and forget - don't block UI)
@@ -256,11 +275,22 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
 export function ThemePicker({ className = '', compact = false }: { className?: string; compact?: boolean }) {
   const { theme, setTheme, darkMode, toggleDarkMode } = useDarkMode();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [showAdventurous, setShowAdventurous] = React.useState(false);
 
   const handleSelect = (newTheme: Theme) => {
     setTheme(newTheme);
     setIsOpen(false);
   };
+
+  // Determine which category to show based on current theme
+  React.useEffect(() => {
+    if (isOpen) {
+      // If current theme is adventurous, show adventurous list
+      setShowAdventurous(ADVENTUROUS_THEMES.includes(theme as typeof ADVENTUROUS_THEMES[number]));
+    }
+  }, [isOpen, theme]);
+
+  const currentThemes = showAdventurous ? ADVENTUROUS_THEMES : CLASSIC_THEMES;
 
   return (
     <>
@@ -334,7 +364,7 @@ export function ThemePicker({ className = '', compact = false }: { className?: s
             {/* Theme List */}
             <div className="p-4 overflow-y-auto max-h-[60vh]">
               <div className="grid gap-2">
-                {THEMES.map((t) => {
+                {currentThemes.map((t) => {
                   const info = THEME_INFO[t];
                   const isSelected = theme === t;
                   return (
@@ -370,6 +400,26 @@ export function ThemePicker({ className = '', compact = false }: { className?: s
                     </button>
                   );
                 })}
+
+                {/* Category Toggle Divider */}
+                <button
+                  onClick={() => setShowAdventurous(!showAdventurous)}
+                  className="flex items-center justify-center gap-2 py-3 mt-2 text-sm font-medium text-[var(--ink-400)] hover:text-[var(--ink-700)] transition-colors group"
+                >
+                  <span className="flex-1 h-px bg-[var(--border)] group-hover:bg-[var(--ink-400)] transition-colors" />
+                  <span className="flex items-center gap-1">
+                    {showAdventurous ? 'classics' : 'adventurous'}
+                    <svg
+                      className={`w-4 h-4 transition-transform ${showAdventurous ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                  <span className="flex-1 h-px bg-[var(--border)] group-hover:bg-[var(--ink-400)] transition-colors" />
+                </button>
               </div>
             </div>
           </div>
