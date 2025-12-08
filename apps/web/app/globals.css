@@ -1571,3 +1571,22 @@ a:hover {
     max-width: 95% !important;
   }
 }
+
+/* ============================================
+   LARGE SCREENS (1600px+) - Reduce Margins
+   Expand container widths to use more screen space
+   ============================================ */
+@media (min-width: 1600px) {
+  .max-w-4xl {
+    max-width: 1200px !important;
+  }
+  .max-w-5xl {
+    max-width: 1400px !important;
+  }
+  .max-w-6xl {
+    max-width: 1500px !important;
+  }
+  .max-w-7xl {
+    max-width: 1600px !important;
+  }
+}
