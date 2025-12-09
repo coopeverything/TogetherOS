@@ -359,12 +359,12 @@ export default function GroupDetailPage() {
           )}
 
           {activeTab === 'members' && (
-            <div className="bg-bg-1 rounded-lg border border-border p-4">
-              <h2 className="text-sm font-semibold text-ink-900 mb-4">
-                Members ({groupMembers.length})
-              </h2>
-              <MemberDirectory members={groupMembers} />
-            </div>
+            <GroupMembersTab
+              members={groupMembers}
+              groupId={id}
+              roles={roles}
+              onMemberRemoved={() => window.location.reload()}
+            />
           )}
 
           {activeTab === 'events' && (
@@ -482,6 +482,206 @@ export default function GroupDetailPage() {
           </div>
         </aside>
       </div>
+    </div>
+  )
+}
+
+// Group Members Tab Component with Admin Actions
+function GroupMembersTab({
+  members,
+  groupId,
+  roles,
+  onMemberRemoved,
+}: {
+  members: Member[]
+  groupId: string
+  roles: GroupRole[]
+  onMemberRemoved: () => void
+}) {
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [pendingRequests, setPendingRequests] = useState<{ id: string; userId: string; requestedAt: string }[]>([])
+  const [loadingRequests, setLoadingRequests] = useState(false)
+
+  // Fetch current user and check if admin
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.user) {
+          setCurrentUserId(data.user.id)
+          // Check if user is admin of this group
+          const userRole = roles.find(r => r.memberId === data.user.id)
+          setIsAdmin(userRole?.role === 'admin')
+        }
+      })
+      .catch(console.error)
+  }, [roles])
+
+  // Fetch pending join requests (for admins)
+  useEffect(() => {
+    if (isAdmin) {
+      fetchPendingRequests()
+    }
+  }, [isAdmin, groupId])
+
+  async function fetchPendingRequests() {
+    setLoadingRequests(true)
+    try {
+      const response = await fetch(`/api/groups/${groupId}/join-requests`)
+      if (response.ok) {
+        const data = await response.json()
+        setPendingRequests(data.requests || [])
+      }
+    } catch (err) {
+      console.error('Failed to fetch pending requests:', err)
+    } finally {
+      setLoadingRequests(false)
+    }
+  }
+
+  async function handleRemoveMember(memberId: string) {
+    try {
+      const response = await fetch(`/api/groups/${groupId}/members?memberId=${memberId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        onMemberRemoved()
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to remove member')
+      }
+    } catch (err) {
+      console.error('Failed to remove member:', err)
+      alert('Failed to remove member')
+    }
+  }
+
+  async function handleApproveRequest(requestId: string) {
+    try {
+      const response = await fetch(`/api/groups/${groupId}/join-requests`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requestId, action: 'approve' }),
+      })
+
+      if (response.ok) {
+        await fetchPendingRequests()
+        onMemberRemoved() // Refresh to show new member
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to approve request')
+      }
+    } catch (err) {
+      console.error('Failed to approve request:', err)
+      alert('Failed to approve request')
+    }
+  }
+
+  async function handleRejectRequest(requestId: string) {
+    try {
+      const response = await fetch(`/api/groups/${groupId}/join-requests`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requestId, action: 'reject' }),
+      })
+
+      if (response.ok) {
+        await fetchPendingRequests()
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to reject request')
+      }
+    } catch (err) {
+      console.error('Failed to reject request:', err)
+      alert('Failed to reject request')
+    }
+  }
+
+  // Enrich members with their roles
+  const membersWithRoles = members.map(member => {
+    const memberRole = roles.find(r => r.memberId === member.id)
+    return {
+      ...member,
+      role: memberRole?.role as 'admin' | 'coordinator' | 'member' | undefined,
+    }
+  })
+
+  return (
+    <div className="bg-bg-1 rounded-lg border border-border p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-ink-900">
+          Members ({members.length})
+        </h2>
+        {isAdmin && (
+          <span className="text-xs text-ink-400">
+            👑 Admin View
+          </span>
+        )}
+      </div>
+
+      {/* Pending Join Requests (Admin Only) */}
+      {isAdmin && pendingRequests.length > 0 && (
+        <div className="mb-4 p-3 bg-joy-bg/30 rounded-lg border border-joy-200">
+          <h3 className="text-sm font-medium text-ink-900 mb-3 flex items-center gap-2">
+            <span>⏳</span> Pending Join Requests ({pendingRequests.length})
+          </h3>
+          <div className="space-y-2">
+            {pendingRequests.map((request) => (
+              <div
+                key={request.id}
+                className="flex items-center justify-between bg-bg-1 rounded-md p-2"
+              >
+                <div>
+                  <p className="text-sm font-medium text-ink-900">
+                    User {request.userId.slice(0, 8)}...
+                  </p>
+                  <p className="text-xs text-ink-400">
+                    Requested {formatTimeAgo(new Date(request.requestedAt))}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleApproveRequest(request.id)}
+                    className="px-3 py-1 text-xs font-medium text-success bg-success-bg rounded-md hover:bg-success/20"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleRejectRequest(request.id)}
+                    className="px-3 py-1 text-xs font-medium text-danger bg-danger-bg rounded-md hover:bg-danger/20"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {loadingRequests && isAdmin && (
+        <div className="mb-4 text-sm text-ink-400">Loading pending requests...</div>
+      )}
+
+      {/* Member Directory with Admin Actions */}
+      <MemberDirectory
+        members={membersWithRoles}
+        isAdmin={isAdmin}
+        currentUserId={currentUserId || undefined}
+        onRemoveMember={handleRemoveMember}
+      />
+
+      {/* Admin Help Text */}
+      {isAdmin && (
+        <div className="mt-4 p-3 bg-bg-2 rounded-lg">
+          <p className="text-xs text-ink-400">
+            <strong>Admin:</strong> Hover over a member to see the remove option.
+            You cannot remove other admins - revoke their role first from the Roles tab.
+          </p>
+        </div>
+      )}
     </div>
   )
 }
