@@ -33,7 +33,6 @@ export default function GroupsPage() {
         <h2 className="text-sm font-semibold text-ink-900 mb-4">What You Can Do</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-sm font-medium text-ink-900 mb-2">Available Now</h3>
             <ul className="space-y-2 text-ink-700">
               <li className="flex items-start">
                 <span className="text-success mr-2">✓</span>
@@ -50,6 +49,14 @@ export default function GroupsPage() {
               <li className="flex items-start">
                 <span className="text-success mr-2">✓</span>
                 View membership directory
+              </li>
+              <li className="flex items-start">
+                <span className="text-success mr-2">✓</span>
+                Assign roles with term limits
+              </li>
+              <li className="flex items-start">
+                <span className="text-success mr-2">✓</span>
+                Create group proposals and decisions
               </li>
             </ul>
             <div className="mt-4 p-3 bg-joy-50 dark:bg-joy-900/20 rounded-md border border-joy-200 dark:border-joy-800">
@@ -70,11 +77,6 @@ export default function GroupsPage() {
                 Social Economy
               </span>
             </div>
-            <h3 className="text-sm font-medium text-ink-400 mb-2 mt-4">Coming Soon</h3>
-            <ul className="space-y-1 text-ink-400 text-sm">
-              <li>• Role rotation and accountability</li>
-              <li>• Group-level decision making</li>
-            </ul>
           </div>
         </div>
       </div>
