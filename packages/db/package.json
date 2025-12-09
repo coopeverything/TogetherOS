@@ -15,7 +15,7 @@
     "clean": "tsc --build --clean"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.71.0",
+    "@anthropic-ai/sdk": "^0.71.2",
     "pg": "^8.11.3"
   },
   "devDependencies": {
