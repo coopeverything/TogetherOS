@@ -10,9 +10,9 @@ import type { Group } from '@togetheros/types/groups'
 import type { Post } from '@togetheros/types/feed'
 import type { Topic } from '@togetheros/types/forum'
 import type { Proposal } from '@togetheros/types/governance'
-import type { GroupEvent, GroupResource, GroupEventType, GroupResourceType } from '@togetheros/types/groups'
+import type { GroupEvent, GroupResource, GroupEventType, GroupResourceType, GroupRole, GroupRoleType } from '@togetheros/types/groups'
 
-type TabType = 'feed' | 'forum' | 'members' | 'events' | 'resources' | 'proposals'
+type TabType = 'feed' | 'forum' | 'members' | 'events' | 'resources' | 'proposals' | 'roles'
 
 export default function GroupDetailPage() {
   const params = useParams()
@@ -40,6 +40,10 @@ export default function GroupDetailPage() {
   // Resources state
   const [resources, setResources] = useState<GroupResource[]>([])
   const [loadingResources, setLoadingResources] = useState(false)
+
+  // Roles state
+  const [roles, setRoles] = useState<GroupRole[]>([])
+  const [loadingRoles, setLoadingRoles] = useState(false)
 
   // Initialize repo with fixtures (loads from localStorage if available)
   const repo = new LocalStorageGroupRepo(getFixtureGroups())
@@ -80,6 +84,13 @@ export default function GroupDetailPage() {
   useEffect(() => {
     if (activeTab === 'resources' && group) {
       fetchGroupResources()
+    }
+  }, [activeTab, id])
+
+  // Fetch group roles
+  useEffect(() => {
+    if (activeTab === 'roles' && group) {
+      fetchGroupRoles()
     }
   }, [activeTab, id])
 
@@ -158,6 +169,21 @@ export default function GroupDetailPage() {
     }
   }
 
+  async function fetchGroupRoles() {
+    setLoadingRoles(true)
+    try {
+      const response = await fetch(`/api/groups/${id}/roles`)
+      if (response.ok) {
+        const data = await response.json()
+        setRoles(data.roles || [])
+      }
+    } catch (err) {
+      console.error('Failed to fetch group roles:', err)
+    } finally {
+      setLoadingRoles(false)
+    }
+  }
+
   if (!group) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
@@ -226,6 +252,7 @@ export default function GroupDetailPage() {
     { id: 'events', label: 'Events', icon: '📅' },
     { id: 'resources', label: 'Resources', icon: '🧰' },
     { id: 'proposals', label: 'Proposals', icon: '📋' },
+    { id: 'roles', label: 'Roles', icon: '👔' },
   ]
 
   return (
@@ -367,6 +394,16 @@ export default function GroupDetailPage() {
               groupId={id}
               groupName={group.name}
               onProposalCreated={fetchGroupProposals}
+            />
+          )}
+
+          {activeTab === 'roles' && (
+            <GroupRolesTab
+              roles={roles}
+              loading={loadingRoles}
+              groupId={id}
+              members={group.members}
+              onRoleChanged={fetchGroupRoles}
             />
           )}
         </div>
@@ -1641,6 +1678,290 @@ function ResourceComposerModal({
           </div>
         </form>
       </div>
+    </div>
+  )
+}
+
+/**
+ * Roles Tab Component
+ * Displays and manages group roles with accountability tracking
+ */
+function GroupRolesTab({
+  roles,
+  loading,
+  groupId,
+  members,
+  onRoleChanged,
+}: {
+  roles: GroupRole[]
+  loading: boolean
+  groupId: string
+  members: string[]
+  onRoleChanged: () => void
+}) {
+  const [showAssignModal, setShowAssignModal] = useState(false)
+  const [assigningRole, setAssigningRole] = useState(false)
+  const [selectedMember, setSelectedMember] = useState('')
+  const [selectedRole, setSelectedRole] = useState<GroupRoleType>('member')
+  const [expiresAt, setExpiresAt] = useState('')
+
+  const roleColors: Record<GroupRoleType, string> = {
+    admin: 'bg-danger-bg text-danger',
+    coordinator: 'bg-joy-bg text-joy-700',
+    member: 'bg-success-bg text-success',
+  }
+
+  const roleIcons: Record<GroupRoleType, string> = {
+    admin: '👑',
+    coordinator: '🎯',
+    member: '👤',
+  }
+
+  async function handleAssignRole(e: React.FormEvent) {
+    e.preventDefault()
+    if (!selectedMember || !selectedRole) return
+
+    setAssigningRole(true)
+    try {
+      const response = await fetch(`/api/groups/${groupId}/roles`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          memberId: selectedMember,
+          role: selectedRole,
+          expiresAt: expiresAt || undefined,
+          recallable: true,
+        }),
+      })
+
+      if (response.ok) {
+        setShowAssignModal(false)
+        setSelectedMember('')
+        setSelectedRole('member')
+        setExpiresAt('')
+        onRoleChanged()
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to assign role')
+      }
+    } catch (err) {
+      console.error('Failed to assign role:', err)
+      alert('Failed to assign role')
+    } finally {
+      setAssigningRole(false)
+    }
+  }
+
+  async function handleRevokeRole(roleId: string) {
+    if (!confirm('Are you sure you want to revoke this role?')) return
+
+    try {
+      const response = await fetch(`/api/groups/${groupId}/roles?roleId=${roleId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        onRoleChanged()
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Failed to revoke role')
+      }
+    } catch (err) {
+      console.error('Failed to revoke role:', err)
+      alert('Failed to revoke role')
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-bg-1 rounded-lg border border-border p-4 animate-pulse">
+            <div className="h-4 bg-bg-2 rounded w-3/4 mb-2"></div>
+            <div className="h-3 bg-bg-2 rounded w-1/4"></div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  // Group roles by type for display
+  const rolesByType = roles.reduce((acc, role) => {
+    if (!acc[role.role]) acc[role.role] = []
+    acc[role.role].push(role)
+    return acc
+  }, {} as Record<GroupRoleType, GroupRole[]>)
+
+  return (
+    <div>
+      {/* Header with Assign Role button */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-ink-900">
+          Group Roles & Accountability
+        </h2>
+        <button
+          onClick={() => setShowAssignModal(true)}
+          className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+        >
+          + Assign Role
+        </button>
+      </div>
+
+      {/* Role Legend */}
+      <div className="bg-bg-1 rounded-lg border border-border p-3 mb-4">
+        <h3 className="text-xs font-medium text-ink-400 mb-2 uppercase">Role Types</h3>
+        <div className="flex flex-wrap gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm">👑</span>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${roleColors.admin}`}>Admin</span>
+            <span className="text-xs text-ink-400">— Full group management</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm">🎯</span>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${roleColors.coordinator}`}>Coordinator</span>
+            <span className="text-xs text-ink-400">— Event/project leadership</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm">👤</span>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${roleColors.member}`}>Member</span>
+            <span className="text-xs text-ink-400">— Standard participation</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Roles List */}
+      {roles.length === 0 ? (
+        <div className="bg-bg-1 rounded-lg border border-border p-4 text-center">
+          <span className="text-sm mb-4 block">👔</span>
+          <h3 className="text-sm font-medium text-ink-900 mb-2">No roles assigned yet</h3>
+          <p className="text-ink-400 text-sm mb-4">
+            Assign roles to members for transparent accountability and rotating leadership.
+          </p>
+          <button
+            onClick={() => setShowAssignModal(true)}
+            className="inline-block px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 transition-colors text-sm font-medium"
+          >
+            Assign First Role
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {(['admin', 'coordinator', 'member'] as GroupRoleType[]).map((roleType) => {
+            const typeRoles = rolesByType[roleType] || []
+            if (typeRoles.length === 0) return null
+
+            return (
+              <div key={roleType}>
+                <h3 className="text-xs font-medium text-ink-400 mb-2 uppercase flex items-center gap-2">
+                  <span>{roleIcons[roleType]}</span>
+                  {roleType}s ({typeRoles.length})
+                </h3>
+                <div className="space-y-2">
+                  {typeRoles.map((role) => (
+                    <div
+                      key={role.id}
+                      className="bg-bg-1 rounded-lg border border-border p-3 flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${roleColors[role.role]}`}>
+                          {role.role}
+                        </span>
+                        <div>
+                          <p className="text-sm font-medium text-ink-900">
+                            Member {role.memberId.slice(0, 8)}...
+                          </p>
+                          <p className="text-xs text-ink-400">
+                            Granted {new Date(role.grantedAt).toLocaleDateString()}
+                            {role.expiresAt && (
+                              <span className="ml-2 text-joy-600">
+                                · Expires {new Date(role.expiresAt).toLocaleDateString()}
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                      {role.recallable && (
+                        <button
+                          onClick={() => handleRevokeRole(role.id)}
+                          className="text-xs text-danger hover:text-danger-700 font-medium"
+                        >
+                          Revoke
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Assign Role Modal */}
+      {showAssignModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-bg-1 rounded-lg border border-border p-4 w-full max-w-md mx-4">
+            <h3 className="text-sm font-semibold text-ink-900 mb-4">Assign Role</h3>
+            <form onSubmit={handleAssignRole}>
+              <div className="mb-3">
+                <label className="block text-sm text-ink-700 mb-1">Member</label>
+                <select
+                  value={selectedMember}
+                  onChange={(e) => setSelectedMember(e.target.value)}
+                  className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+                  required
+                >
+                  <option value="">Select a member...</option>
+                  {members.map((memberId) => (
+                    <option key={memberId} value={memberId}>
+                      Member {memberId.slice(0, 8)}...
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="block text-sm text-ink-700 mb-1">Role</label>
+                <select
+                  value={selectedRole}
+                  onChange={(e) => setSelectedRole(e.target.value as GroupRoleType)}
+                  className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+                >
+                  <option value="member">👤 Member</option>
+                  <option value="coordinator">🎯 Coordinator</option>
+                  <option value="admin">👑 Admin</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm text-ink-700 mb-1">
+                  Expires (optional - for term limits)
+                </label>
+                <input
+                  type="date"
+                  value={expiresAt}
+                  onChange={(e) => setExpiresAt(e.target.value)}
+                  className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900"
+                />
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowAssignModal(false)}
+                  className="px-4 py-2 text-ink-700 hover:bg-bg-2 rounded-md text-sm font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={assigningRole || !selectedMember}
+                  className="px-4 py-2 bg-joy-600 text-bg-1 rounded-md hover:bg-joy-700 disabled:opacity-50 text-sm font-medium"
+                >
+                  {assigningRole ? 'Assigning...' : 'Assign Role'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
