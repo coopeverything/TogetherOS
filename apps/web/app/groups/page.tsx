@@ -28,34 +28,34 @@ export default function GroupsPage() {
         </p>
       </div>
 
-      {/* What This Module Will Do */}
+      {/* What You Can Do */}
       <div className="bg-bg-1 rounded-lg border border-border p-4 mb-4">
-        <h2 className="text-sm font-semibold text-ink-900 mb-4">What This Module Will Do</h2>
+        <h2 className="text-sm font-semibold text-ink-900 mb-4">What You Can Do</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-sm font-medium text-ink-900 mb-2">Core Features</h3>
+            <h3 className="text-sm font-medium text-ink-900 mb-2">Available Now</h3>
             <ul className="space-y-2 text-ink-700">
               <li className="flex items-start">
                 <span className="text-success mr-2">✓</span>
                 Create and join cooperative groups
               </li>
               <li className="flex items-start">
-                <span className="text-joy-600 mr-2">•</span>
-                Transparent membership management
+                <span className="text-success mr-2">✓</span>
+                Share resources (tools, spaces, skills, time)
               </li>
               <li className="flex items-start">
-                <span className="text-joy-600 mr-2">•</span>
-                Role rotation and accountability
+                <span className="text-success mr-2">✓</span>
+                Organize events and track RSVPs
               </li>
               <li className="flex items-start">
-                <span className="text-joy-600 mr-2">•</span>
-                Shared resource pools
-              </li>
-              <li className="flex items-start">
-                <span className="text-joy-600 mr-2">•</span>
-                Group-level decision making
+                <span className="text-success mr-2">✓</span>
+                View membership directory
               </li>
             </ul>
+            <div className="mt-4 p-3 bg-joy-50 dark:bg-joy-900/20 rounded-md border border-joy-200 dark:border-joy-800">
+              <p className="text-sm font-medium text-joy-800 dark:text-joy-200">Get Started</p>
+              <p className="text-sm text-joy-700 dark:text-joy-300">Browse groups below and click one to see its resources, events, and members—or create your own group.</p>
+            </div>
           </div>
           <div>
             <h3 className="text-sm font-medium text-ink-900 mb-2">Cooperation Paths</h3>
@@ -70,6 +70,11 @@ export default function GroupsPage() {
                 Social Economy
               </span>
             </div>
+            <h3 className="text-sm font-medium text-ink-400 mb-2 mt-4">Coming Soon</h3>
+            <ul className="space-y-1 text-ink-400 text-sm">
+              <li>• Role rotation and accountability</li>
+              <li>• Group-level decision making</li>
+            </ul>
           </div>
         </div>
       </div>

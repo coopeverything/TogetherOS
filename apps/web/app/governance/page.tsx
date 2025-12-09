@@ -97,7 +97,7 @@ export default function GovernancePage() {
           <h1 className="text-sm font-bold text-ink-900">Governance & Proposals</h1>
         </div>
         <p className="text-sm text-ink-700 max-w-3xl">
-          Create, deliberate, and decide on proposals using transparent, consent-based governance with minority protections.
+          Create, deliberate, and decide on proposals using transparent, <Link href="/wiki/consent-based-decisions" className="text-accent-3 hover:underline">consent-based</Link> governance with <Link href="/glossary/minority-report" className="text-accent-3 hover:underline">minority protections</Link>.
         </p>
       </div>
 

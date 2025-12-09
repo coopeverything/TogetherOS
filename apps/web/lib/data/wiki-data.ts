@@ -1252,6 +1252,109 @@ Contact the community about privacy concerns. Transparency includes explaining h
     readTimeMinutes: 5,
   },
   {
+    id: 'wiki-minority-reports',
+    slug: 'minority-reports',
+    title: 'Minority Reports',
+    summary:
+      'When decisions pass despite objections, dissenting views are formally preserved alongside the majority decision. This ensures minority voices are heard, documented, and can inform future amendments.',
+    content: `# Minority Reports
+
+## What Is a Minority Report?
+
+A **minority report** is a formal documentation of dissenting views when a proposal passes despite objections. Instead of dismissing opposition, TogetherOS preserves it — creating accountability and enabling course correction.
+
+## Why Minority Reports Matter
+
+In traditional voting systems, once a decision passes, opposition is forgotten:
+
+- Losers are expected to "get with the program"
+- Concerns are dismissed as sour grapes
+- History is written by winners
+- When predictions come true, no one remembers who warned them
+
+TogetherOS does it differently. Minority reports:
+
+- **Preserve dissent** — Your concerns are formally recorded
+- **Create accountability** — If your predictions come true, the record shows it
+- **Enable learning** — Communities can learn from validated minority concerns
+- **Protect minorities** — Your voice matters even when outvoted
+
+## How Minority Reports Work
+
+### When You Oppose or Block
+
+When you vote "Oppose" or "Block" on a proposal, you're invited to document your concerns:
+
+1. **State your objection** — What specifically concerns you?
+2. **Make predictions** — What do you expect will happen if this passes?
+3. **Suggest alternatives** — Is there a better approach?
+4. **Document evidence** — What informs your view?
+
+### After the Vote
+
+If the proposal passes despite your objection:
+
+- Your minority report is **attached to the decision record**
+- It's **displayed publicly** alongside the majority decision
+- It's **tagged for review** at future evaluation points
+
+### Validation Over Time
+
+When initiatives are evaluated:
+
+1. System checks if minority concerns were validated
+2. If predictions proved correct → Quoted in improvement proposals
+3. Validation rate tracked over time
+4. Communities learn to take dissent more seriously
+
+## Examples
+
+### Example 1: Budget Allocation
+
+**Proposal:** Allocate 50% of budget to marketing
+**Minority Report:** "This overinvests in growth before we have product-market fit. I predict low conversion rates and wasted resources."
+**6 months later:** Conversion rates are indeed low. Minority report is validated. Amendment proposed to rebalance budget.
+
+### Example 2: Platform Feature
+
+**Proposal:** Add gamification badges
+**Minority Report:** "This could incentivize shallow engagement over meaningful contribution."
+**3 months later:** Metrics show engagement up but quality contributions down. Minority concern validated. Feature refined.
+
+## Cultural Impact
+
+Over time, minority reports change how communities make decisions:
+
+- **Majority becomes more careful** — Knowing dissent is preserved
+- **Minorities feel heard** — Even when losing, their voice matters
+- **Predictions create accountability** — Can't pretend no one warned you
+- **Collective intelligence improves** — Learning from validated concerns
+
+## Not a Veto
+
+Important: minority reports don't prevent decisions. They preserve dissent for future reference. The community can still move forward while respecting that some members disagree.
+
+This balance allows:
+- Action (don't get stuck in endless deliberation)
+- Accountability (preserve the record for learning)
+- Minority protection (dissent isn't silenced)
+
+## Related Concepts
+
+- Consent-Based Decision Making — The voting system that generates minority reports
+- Block — A vote indicating fundamental objections
+- Governance Process — How proposals move through the system`,
+    status: 'stable',
+    tags: ['governance', 'decisions', 'dissent', 'accountability'],
+    cooperationPaths: ['Collective Governance'],
+    relatedArticles: ['consent-based-decisions', 'governance-process', 'recall-mechanism'],
+    terms: ['minority-report', 'consent-based', 'block'],
+    contributorCount: 1,
+    lastEditedAt: '2025-12-09T00:00:00Z',
+    createdAt: '2025-12-09T00:00:00Z',
+    readTimeMinutes: 4,
+  },
+  {
     id: 'wiki-elected-hired',
     slug: 'elected-vs-hired',
     title: 'Elected vs Hired Roles',
@@ -1390,7 +1493,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     slug: 'minority-report',
     shortDefinition:
       'Formal documentation of dissenting views, preserved alongside majority decisions.',
-    wikiArticleSlug: 'consent-based-decisions',
+    wikiArticleSlug: 'minority-reports',
     relatedTerms: ['consent-based', 'block'],
     cooperationPath: 'Collective Governance',
   },
