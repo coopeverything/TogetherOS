@@ -20,7 +20,7 @@
     "@tiptap/extension-placeholder": "^3.13.0",
     "@tiptap/pm": "^3.11.1",
     "@tiptap/react": "^3.13.0",
-    "@tiptap/starter-kit": "^3.11.1",
+    "@tiptap/starter-kit": "^3.13.0",
     "@togetheros/ui": "*",
     "@types/bcryptjs": "^3.0.0",
     "@types/jsonwebtoken": "^9.0.10",
