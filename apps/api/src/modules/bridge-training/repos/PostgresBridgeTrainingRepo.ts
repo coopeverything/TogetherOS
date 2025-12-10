@@ -14,40 +14,74 @@ import type {
 import { BridgeTrainingRepo } from './BridgeTrainingRepo'
 import { query } from '@togetheros/db'
 
+/**
+ * Database row type for bridge_training_examples table
+ */
+interface BridgeTrainingExampleRow {
+  id: string
+  question: string
+  context_path: string | null
+  question_category: string | null
+  bridge_response: string
+  bridge_model: string
+  bridge_temperature: number | null
+  bridge_sources: string | null
+  bridge_response_time_ms: number | null
+  helpfulness_rating: number | null
+  accuracy_rating: number | null
+  tone_rating: number | null
+  ideal_response: string | null
+  ideal_sources: string | null
+  ideal_keywords: string[] | null
+  training_status: string
+  reviewed_by: string | null
+  reviewed_at: Date | null
+  review_notes: string | null
+  quality_score: number | null
+  used_in_training: boolean
+  training_batch_id: string | null
+  created_by: string
+  created_at: Date
+  updated_at: Date
+  ip_hash: string | null
+  deleted_at: Date | null
+  deleted_by: string | null
+}
+
 export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
   /**
    * Map database row to TypeScript entity
    */
-  private mapRowToExample(row: any): BridgeTrainingExample {
+  private mapRowToExample(row: BridgeTrainingExampleRow): BridgeTrainingExample {
     return {
       id: row.id,
       question: row.question,
-      contextPath: row.context_path,
-      questionCategory: row.question_category,
+      contextPath: row.context_path ?? undefined,
+      questionCategory: row.question_category ?? undefined,
       bridgeResponse: row.bridge_response,
       bridgeModel: row.bridge_model,
-      bridgeTemperature: row.bridge_temperature,
-      bridgeSources: row.bridge_sources,
-      bridgeResponseTimeMs: row.bridge_response_time_ms,
-      helpfulnessRating: row.helpfulness_rating,
-      accuracyRating: row.accuracy_rating,
-      toneRating: row.tone_rating,
-      idealResponse: row.ideal_response,
-      idealSources: row.ideal_sources,
-      idealKeywords: row.ideal_keywords,
-      trainingStatus: row.training_status,
-      reviewedBy: row.reviewed_by,
-      reviewedAt: row.reviewed_at,
-      reviewNotes: row.review_notes,
-      qualityScore: row.quality_score,
+      bridgeTemperature: row.bridge_temperature ?? undefined,
+      bridgeSources: row.bridge_sources ? JSON.parse(row.bridge_sources) : undefined,
+      bridgeResponseTimeMs: row.bridge_response_time_ms ?? undefined,
+      helpfulnessRating: row.helpfulness_rating ?? undefined,
+      accuracyRating: row.accuracy_rating ?? undefined,
+      toneRating: row.tone_rating ?? undefined,
+      idealResponse: row.ideal_response ?? undefined,
+      idealSources: row.ideal_sources ? JSON.parse(row.ideal_sources) : undefined,
+      idealKeywords: row.ideal_keywords ?? undefined,
+      trainingStatus: row.training_status as BridgeTrainingExample['trainingStatus'],
+      reviewedBy: row.reviewed_by ?? undefined,
+      reviewedAt: row.reviewed_at ?? undefined,
+      reviewNotes: row.review_notes ?? undefined,
+      qualityScore: row.quality_score ?? undefined,
       usedInTraining: row.used_in_training,
-      trainingBatchId: row.training_batch_id,
+      trainingBatchId: row.training_batch_id ?? undefined,
       createdBy: row.created_by,
       createdAt: row.created_at,
       updatedAt: row.updated_at,
-      ipHash: row.ip_hash,
-      deletedAt: row.deleted_at,
-      deletedBy: row.deleted_by,
+      ipHash: row.ip_hash ?? undefined,
+      deletedAt: row.deleted_at ?? undefined,
+      deletedBy: row.deleted_by ?? undefined,
     }
   }
 
@@ -55,7 +89,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     input: CreateTrainingExampleInput,
     userId: string
   ): Promise<BridgeTrainingExample> {
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `INSERT INTO bridge_training_examples (
         question,
         context_path,
@@ -89,7 +123,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
   }
 
   async findById(id: string): Promise<BridgeTrainingExample | null> {
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `SELECT * FROM bridge_training_examples WHERE id = $1 AND deleted_at IS NULL`,
       [id]
     )
@@ -106,7 +140,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     userId: string
   ): Promise<BridgeTrainingExample | null> {
     const updates: string[] = [];
-    const params: any[] = [];
+    const params: (string | number | boolean | null)[] = [];
     let paramIndex = 1;
 
     // Build dynamic UPDATE clause
@@ -154,7 +188,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     // Always update updated_at
     updates.push(`updated_at = NOW()`);
 
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `UPDATE bridge_training_examples
        SET ${updates.join(', ')}
        WHERE id = $${paramIndex} AND deleted_at IS NULL
@@ -171,7 +205,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
 
   async list(filters: TrainingExampleFilters = {}): Promise<PaginatedTrainingExamples> {
     const conditions: string[] = ['deleted_at IS NULL']
-    const params: any[] = []
+    const params: (string | number | boolean | null)[] = []
     let paramIndex = 1
 
     // Apply filters
@@ -241,7 +275,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     const limitIndex = paramIndex
     const offsetIndex = paramIndex + 1
 
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `SELECT * FROM bridge_training_examples
        ${whereClause}
        ${orderByClause}
@@ -249,7 +283,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
       [...params, pageSize, offset]
     )
 
-    const items = result.rows.map((row) => this.mapRowToExample(row))
+    const items = result.rows.map((row: BridgeTrainingExampleRow) => this.mapRowToExample(row))
     const totalPages = Math.ceil(total / pageSize)
 
     return {
@@ -292,7 +326,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     // Note: quality_score rates Bridge's ORIGINAL answer, not the ideal response
     // So we DON'T filter by quality_score - low scores mean we SHOULD learn from ideal response!
     // We only require that an ideal_response exists
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `SELECT * FROM bridge_training_examples
        WHERE training_status = $1
          AND deleted_at IS NULL
@@ -308,14 +342,14 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
       [status, searchPattern, limit]
     );
 
-    return result.rows.map((row: any) => this.mapRowToExample(row));
+    return result.rows.map((row: BridgeTrainingExampleRow) => this.mapRowToExample(row));
   }
 
   async rateResponse(
     input: RateBridgeResponseInput,
     userId: string
   ): Promise<BridgeTrainingExample | null> {
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `UPDATE bridge_training_examples
        SET helpfulness_rating = $1,
            accuracy_rating = $2,
@@ -342,7 +376,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     input: ProvideIdealResponseInput,
     userId: string
   ): Promise<BridgeTrainingExample | null> {
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `UPDATE bridge_training_examples
        SET ideal_response = $1,
            ideal_sources = $2,
@@ -375,7 +409,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     userId: string,
     reviewNotes?: string
   ): Promise<BridgeTrainingExample | null> {
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `UPDATE bridge_training_examples
        SET training_status = 'approved',
            reviewed_by = $1,
@@ -398,7 +432,7 @@ export class PostgresBridgeTrainingRepo implements BridgeTrainingRepo {
     userId: string,
     reviewNotes: string
   ): Promise<BridgeTrainingExample | null> {
-    const result = await query<any>(
+    const result = await query<BridgeTrainingExampleRow>(
       `UPDATE bridge_training_examples
        SET training_status = 'rejected',
            reviewed_by = $1,

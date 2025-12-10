@@ -1,10 +1,31 @@
 // apps/api/src/modules/feed/repos/PostgresPostRepo.ts
 // PostgreSQL implementation of PostRepo with proper field mapping
 
-import type { Post as PostType, MediaPreview, EmbeddedUrl } from '@togetheros/types'
+import type { Post as PostType, MediaPreview, EmbeddedUrl, PostType as PostTypeEnum, PostStatus } from '@togetheros/types'
 import type { PostRepo, CreateNativePostInput, CreateImportPostInput, PostFilters } from './PostRepo'
 import { Post } from '../entities/Post'
 import { query } from '@togetheros/db'
+
+/**
+ * Database row type for posts table
+ */
+interface PostRow {
+  id: string
+  type: PostTypeEnum
+  author_id: string
+  group_id: string | null
+  title: string | null
+  content: string | null
+  embedded_urls: string | EmbeddedUrl[] | null
+  source_url: string | null
+  source_preview: string | MediaPreview | null
+  topics: string[]
+  status: PostStatus
+  discussion_thread_id: string | null
+  discussion_count: number
+  created_at: Date
+  updated_at: Date
+}
 
 export class PostgresPostRepo implements PostRepo {
   /**
@@ -14,7 +35,7 @@ export class PostgresPostRepo implements PostRepo {
     const post = Post.createNative(input)
     const postData = post.toJSON()
 
-    const result = await query<any>(
+    const result = await query<PostRow>(
       `INSERT INTO posts (
         id, type, author_id, group_id, title, content, embedded_urls,
         source_url, source_preview, topics, status,
@@ -50,7 +71,7 @@ export class PostgresPostRepo implements PostRepo {
     const post = Post.createImport(input)
     const postData = post.toJSON()
 
-    const result = await query<any>(
+    const result = await query<PostRow>(
       `INSERT INTO posts (
         id, type, author_id, group_id, title, content, embedded_urls,
         source_url, source_preview, topics, status,
@@ -83,7 +104,7 @@ export class PostgresPostRepo implements PostRepo {
    * Find post by ID
    */
   async findById(id: string): Promise<PostType | null> {
-    const result = await query<any>('SELECT * FROM posts WHERE id = $1', [id])
+    const result = await query<PostRow>('SELECT * FROM posts WHERE id = $1', [id])
     return result.rows[0] ? this.mapRowToPost(result.rows[0]) : null
   }
 
@@ -92,7 +113,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async list(filters: PostFilters = {}): Promise<PostType[]> {
     const conditions: string[] = []
-    const params: any[] = []
+    const params: (string | number)[] = []
     let paramIndex = 1
 
     // Topic filter (uses PostgreSQL array contains)
@@ -134,12 +155,12 @@ export class PostgresPostRepo implements PostRepo {
     const limit = filters.limit ?? 20
     const offset = filters.offset ?? 0
 
-    const result = await query<any>(
+    const result = await query<PostRow>(
       `SELECT * FROM posts ${whereClause} ORDER BY created_at DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
       [...params, limit, offset]
     )
 
-    return result.rows.map(row => this.mapRowToPost(row))
+    return result.rows.map((row: PostRow) => this.mapRowToPost(row))
   }
 
   /**
@@ -147,7 +168,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async count(filters: PostFilters = {}): Promise<number> {
     const conditions: string[] = []
-    const params: any[] = []
+    const params: (string | number)[] = []
     let paramIndex = 1
 
     if (filters.topic) {
@@ -239,7 +260,7 @@ export class PostgresPostRepo implements PostRepo {
     topics: string[]
   }>): Promise<PostType> {
     const setClauses: string[] = []
-    const params: any[] = []
+    const params: (string | string[] | Date)[] = []
     let paramIndex = 1
 
     if (updates.title !== undefined) {
@@ -268,7 +289,7 @@ export class PostgresPostRepo implements PostRepo {
     // Add post ID as last parameter
     params.push(id)
 
-    const result = await query<any>(
+    const result = await query<PostRow>(
       `UPDATE posts SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`,
       params
     )
@@ -301,7 +322,7 @@ export class PostgresPostRepo implements PostRepo {
    * Map database row to Post type
    * Handles snake_case → camelCase conversion and JSONB parsing
    */
-  private mapRowToPost(row: any): PostType {
+  private mapRowToPost(row: PostRow): PostType {
     // Parse JSONB fields
     const sourcePreview: MediaPreview | undefined = row.source_preview
       ? (typeof row.source_preview === 'string'
@@ -319,15 +340,15 @@ export class PostgresPostRepo implements PostRepo {
       id: row.id,
       type: row.type,
       authorId: row.author_id,         // snake_case → camelCase
-      groupId: row.group_id,            // snake_case → camelCase
-      title: row.title,
-      content: row.content,
+      groupId: row.group_id ?? undefined,            // snake_case → camelCase, null → undefined
+      title: row.title ?? undefined,
+      content: row.content ?? undefined,
       embeddedUrls,                     // JSONB parsed
-      sourceUrl: row.source_url,        // snake_case → camelCase
+      sourceUrl: row.source_url ?? undefined,        // snake_case → camelCase, null → undefined
       sourcePreview,                    // JSONB parsed
       topics: row.topics,               // PostgreSQL TEXT[] auto-converted to string[]
       status: row.status,
-      discussionThreadId: row.discussion_thread_id,  // snake_case → camelCase
+      discussionThreadId: row.discussion_thread_id ?? undefined,  // snake_case → camelCase, null → undefined
       discussionCount: row.discussion_count,         // snake_case → camelCase
       createdAt: new Date(row.created_at),           // TIMESTAMP → Date
       updatedAt: new Date(row.updated_at),           // TIMESTAMP → Date

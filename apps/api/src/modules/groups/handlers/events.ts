@@ -13,6 +13,43 @@ import type {
 import { groupRepo } from '../repos/PostgresGroupRepo'
 
 /**
+ * Database row type for group_events table
+ */
+interface GroupEventRow {
+  id: string
+  group_id: string
+  title: string
+  description: string | null
+  event_type: GroupEventType
+  starts_at: Date
+  ends_at: Date | null
+  timezone: string
+  recurrence: EventRecurrence
+  recurrence_end_date: Date | null
+  location: string | null
+  is_virtual: boolean
+  virtual_link: string | null
+  created_by: string
+  max_attendees: number | null
+  proposal_id: string | null
+  tags: string | string[]
+  created_at: Date
+  updated_at: Date
+}
+
+/**
+ * Database row type for group_event_rsvps table
+ */
+interface GroupEventRSVPRow {
+  id: string
+  event_id: string
+  user_id: string
+  status: GroupRSVPStatus
+  notes: string | null
+  responded_at: Date
+}
+
+/**
  * Get all events for a group
  */
 export async function getGroupEvents(
@@ -30,7 +67,7 @@ export async function getGroupEvents(
   }
 
   let sql = `SELECT * FROM group_events WHERE group_id = $1`
-  const params: any[] = [groupId]
+  const params: (string | number)[] = [groupId]
 
   if (options?.upcoming) {
     sql += ` AND starts_at >= NOW()`
@@ -43,8 +80,8 @@ export async function getGroupEvents(
     params.push(options.limit)
   }
 
-  const result = await query<any>(sql, params)
-  return result.rows.map(mapRowToEvent)
+  const result = await query<GroupEventRow>(sql, params)
+  return result.rows.map((row: GroupEventRow) => mapRowToEvent(row))
 }
 
 /**
@@ -56,7 +93,7 @@ export async function getGroupEventById(eventId: string): Promise<GroupEvent | n
     throw new Error('Invalid event ID format')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupEventRow>(
     `SELECT * FROM group_events WHERE id = $1`,
     [eventId]
   )
@@ -102,7 +139,7 @@ export async function createGroupEvent(
     throw new Error('Invalid event type')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupEventRow>(
     `INSERT INTO group_events (
       group_id, title, description, event_type, starts_at, ends_at,
       timezone, recurrence, location, is_virtual, virtual_link,
@@ -142,7 +179,7 @@ export async function updateGroupEvent(
     throw new Error('Invalid event ID format')
   }
 
-  const existing = await query<any>(
+  const existing = await query<GroupEventRow>(
     `SELECT * FROM group_events WHERE id = $1`,
     [eventId]
   )
@@ -151,7 +188,7 @@ export async function updateGroupEvent(
     throw new Error('Event not found')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupEventRow>(
     `UPDATE group_events SET
       title = COALESCE($1, title),
       description = COALESCE($2, description),
@@ -219,7 +256,7 @@ export async function rsvpToEvent(
   }
 
   // Upsert RSVP
-  const result = await query<any>(
+  const result = await query<GroupEventRSVPRow>(
     `INSERT INTO group_event_rsvps (event_id, user_id, status, notes)
      VALUES ($1, $2, $3, $4)
      ON CONFLICT (event_id, user_id) DO UPDATE SET
@@ -242,45 +279,45 @@ export async function getEventRSVPs(eventId: string): Promise<GroupEventRSVP[]> 
     throw new Error('Invalid event ID format')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupEventRSVPRow>(
     `SELECT * FROM group_event_rsvps WHERE event_id = $1 ORDER BY responded_at DESC`,
     [eventId]
   )
 
-  return result.rows.map(mapRowToRSVP)
+  return result.rows.map((row: GroupEventRSVPRow) => mapRowToRSVP(row))
 }
 
-function mapRowToEvent(row: any): GroupEvent {
+function mapRowToEvent(row: GroupEventRow): GroupEvent {
   return {
     id: row.id,
     groupId: row.group_id,
     title: row.title,
-    description: row.description,
+    description: row.description ?? undefined,
     eventType: row.event_type,
     startsAt: row.starts_at,
-    endsAt: row.ends_at,
+    endsAt: row.ends_at ?? undefined,
     timezone: row.timezone || 'UTC',
     recurrence: row.recurrence || 'none',
-    recurrenceEndDate: row.recurrence_end_date,
-    location: row.location,
+    recurrenceEndDate: row.recurrence_end_date ?? undefined,
+    location: row.location ?? undefined,
     isVirtual: row.is_virtual,
-    virtualLink: row.virtual_link,
+    virtualLink: row.virtual_link ?? undefined,
     createdBy: row.created_by,
-    maxAttendees: row.max_attendees,
-    proposalId: row.proposal_id,
+    maxAttendees: row.max_attendees ?? undefined,
+    proposalId: row.proposal_id ?? undefined,
     tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags || [],
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }
 }
 
-function mapRowToRSVP(row: any): GroupEventRSVP {
+function mapRowToRSVP(row: GroupEventRSVPRow): GroupEventRSVP {
   return {
     id: row.id,
     eventId: row.event_id,
     userId: row.user_id,
     status: row.status,
-    notes: row.notes,
+    notes: row.notes ?? undefined,
     respondedAt: row.responded_at,
   }
 }
