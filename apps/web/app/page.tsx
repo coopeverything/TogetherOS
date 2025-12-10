@@ -77,11 +77,9 @@ export default function HomePage() {
                 decisions with full transparency and accountability.
               </p>
             </CardContent>
-            <CardFooter>
-              <Link href="/proposals">
-                <Button variant="default" size="sm">
-                  Explore →
-                </Button>
+            <CardFooter className="pt-4">
+              <Link href="/proposals" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
+                Explore →
               </Link>
             </CardFooter>
           </Card>
@@ -100,11 +98,9 @@ export default function HomePage() {
                 that keep value circulating in communities.
               </p>
             </CardContent>
-            <CardFooter>
-              <Link href="/economy">
-                <Button variant="default" size="sm">
-                  Explore →
-                </Button>
+            <CardFooter className="pt-4">
+              <Link href="/economy" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
+                Explore →
               </Link>
             </CardFooter>
           </Card>
@@ -123,11 +119,9 @@ export default function HomePage() {
                 with aligned individuals in your area and beyond.
               </p>
             </CardContent>
-            <CardFooter>
-              <Link href="/groups">
-                <Button variant="default" size="sm">
-                  Explore →
-                </Button>
+            <CardFooter className="pt-4">
+              <Link href="/groups" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
+                Explore →
               </Link>
             </CardFooter>
           </Card>
@@ -146,11 +140,9 @@ export default function HomePage() {
                 shared knowledge bases together.
               </p>
             </CardContent>
-            <CardFooter>
-              <Link href="/learn">
-                <Button variant="default" size="sm">
-                  Explore →
-                </Button>
+            <CardFooter className="pt-4">
+              <Link href="/learn" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
+                Explore →
               </Link>
             </CardFooter>
           </Card>
@@ -169,10 +161,8 @@ export default function HomePage() {
                 no one faces hardship alone.
               </p>
             </CardContent>
-            <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
+            <CardFooter className="pt-4">
+              <span className="text-sm text-ink-400">Coming Soon</span>
             </CardFooter>
           </Card>
 
@@ -190,11 +180,9 @@ export default function HomePage() {
                 by communities, not corporations.
               </p>
             </CardContent>
-            <CardFooter>
-              <Link href="/bridge">
-                <Button variant="joy" size="sm">
-                  Try AI Bridge →
-                </Button>
+            <CardFooter className="pt-4">
+              <Link href="/bridge" className="text-sm font-medium text-joy-600 hover:text-joy-700 dark:text-joy-400 dark:hover:text-joy-300">
+                Try AI Bridge →
               </Link>
             </CardFooter>
           </Card>
@@ -213,10 +201,8 @@ export default function HomePage() {
                 and documents our collective achievements.
               </p>
             </CardContent>
-            <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
+            <CardFooter className="pt-4">
+              <span className="text-sm text-ink-400">Coming Soon</span>
             </CardFooter>
           </Card>
 
@@ -234,10 +220,8 @@ export default function HomePage() {
                 and climate resilience efforts.
               </p>
             </CardContent>
-            <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
+            <CardFooter className="pt-4">
+              <span className="text-sm text-ink-400">Coming Soon</span>
             </CardFooter>
           </Card>
         </div>
