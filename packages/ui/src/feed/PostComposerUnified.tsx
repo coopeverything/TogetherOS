@@ -192,7 +192,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Share your thoughts or paste a social media URL...&#10;&#10;Examples:&#10;• Write plain text&#10;• Paste https://instagram.com/p/...&#10;• Mix text + URLs for inline previews"
+                placeholder="Share your thoughts, ideas, or questions...&#10;&#10;Links are optional! You can:&#10;• Write plain text (no link needed)&#10;• Include social media URLs for auto-previews&#10;• Mix text + URLs"
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
                 rows={10}
                 maxLength={5000}
