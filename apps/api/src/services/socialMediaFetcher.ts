@@ -143,8 +143,7 @@ async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPr
 
     const html = await response.text()
 
-    // Log HTML length for debugging
-    console.log(`Open Graph: Fetched ${html.length} bytes from ${url}`)
+    // HTML fetched successfully
 
     // Extract Open Graph tags with more flexible regex (handles both " and ')
     const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']*)["']/i)
@@ -184,12 +183,7 @@ async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPr
       .replace(/&#039;/g, "'")
       .trim()
 
-    console.log(`Open Graph: Parsed preview for ${url}:`, {
-      title: decodedTitle,
-      hasDescription: !!decodedDescription,
-      hasThumbnail: !!thumbnail,
-      platform,
-    })
+    // Preview parsed successfully
 
     return {
       title: decodedTitle,

@@ -56,9 +56,8 @@ export default function TopicDetailPage({
         const allTags = data.tags.map((t: { tag: string }) => t.tag)
         setTagSuggestions(allTags)
       }
-    } catch (err) {
+    } catch {
       // Silently fail - autocomplete is optional
-      console.log('Could not fetch tag suggestions:', err)
     }
   }
 

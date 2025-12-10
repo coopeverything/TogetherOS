@@ -75,9 +75,8 @@ export default function MetricsPage() {
     router.push('/governance')
   }
 
-  const handleSelectMetric = (id: string) => {
+  const handleSelectMetric = (_id: string) => {
     // TODO: Navigate to metric detail page when implemented
-    console.log('Selected metric:', id)
   }
 
   if (loading) {

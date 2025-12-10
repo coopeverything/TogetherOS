@@ -204,13 +204,11 @@ export default function FeedPage() {
   }
 
   // Handle invitation submission
-  const handleInviteSubmit = async (data: InvitationData) => {
+  const handleInviteSubmit = async (_data: InvitationData) => {
     try {
       // In a real implementation, this would call an API endpoint
       // For now, just simulate success
       await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      console.log('Invitation sent:', data)
       // Success handled by modal (shows success state)
     } catch (err) {
       console.error('Failed to send invitation:', err)

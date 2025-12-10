@@ -35,11 +35,8 @@ export async function fetchUserContext(
 
   // Return cached if valid
   if (cached && cached.expiresAt > Date.now()) {
-    console.log('[Bridge Context] Using cached user context for userId:', input.userId, '(expires in', Math.round((cached.expiresAt - Date.now()) / 1000), 'seconds)');
     return cached.context;
   }
-
-  console.log('[Bridge Context] Cache expired or missing for userId:', input.userId, '- fetching fresh data');
   // Fetch fresh context
   const context = await buildUserContext(input);
 
@@ -91,22 +88,10 @@ async function buildUserContext(
   // Try database first if enabled
   if (USE_DATABASE) {
     try {
-      console.log('[Bridge Context] Fetching user context from DB for userId:', input.userId);
       const result = await buildUserContextFromDB(input);
-      console.log('[Bridge Context] ✅ Successfully fetched user context from DB:', {
-        city: result.city,
-        region: result.region,
-        explicitInterests: result.explicitInterests,
-        engagementScore: result.engagementScore
-      });
       return result;
-    } catch (error) {
-      console.error('[Bridge Context] ❌ Failed to fetch user context from database, falling back to mock:', error);
-      console.error('[Bridge Context] Error details:', {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
-      });
-      // Fall through to mock data
+    } catch {
+      // Fall through to mock data on database error
     }
   }
   // MVP: Mock data for demonstration
@@ -194,21 +179,10 @@ async function buildCityContext(
   // Try database first if enabled
   if (USE_DATABASE) {
     try {
-      console.log('[Bridge Context] Fetching city context from DB for:', input);
       const result = await buildCityContextFromDB(input);
-      console.log('[Bridge Context] ✅ Successfully fetched city context from DB:', {
-        city: result.city,
-        activeGroupsCount: result.activeGroups.length,
-        trendingTopics: result.trendingTopics
-      });
       return result;
-    } catch (error) {
-      console.error('[Bridge Context] ❌ Failed to fetch city context from database, falling back to mock:', error);
-      console.error('[Bridge Context] Error details:', {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
-      });
-      // Fall through to mock data
+    } catch {
+      // Fall through to mock data on database error
     }
   }
   // MVP: Mock data for demonstration
@@ -436,8 +410,7 @@ export async function fetchBridgePreferences(userId: string): Promise<BridgePref
     });
 
     return prefs;
-  } catch (error) {
-    console.error('[Bridge Context] Failed to fetch preferences:', error);
+  } catch {
     // Return defaults on error
     return {
       tonePreference: 'empathetic',

@@ -239,9 +239,10 @@ export default function TeachingSessionPage({ params }: PageProps) {
       }
 
       await loadSession()
-    } catch (err: any) {
-      if (err.name === 'AbortError') {
-        console.log('Bridge generation cancelled by user')
+    } catch (err: unknown) {
+      const error = err as Error
+      if (error.name === 'AbortError') {
+        // User cancelled - no error to report
         return
       }
       console.error('Bridge generation error:', err)

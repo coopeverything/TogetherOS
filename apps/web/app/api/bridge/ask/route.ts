@@ -47,16 +47,13 @@ function getSystemPrompt(): string {
     for (const promptPath of possiblePaths) {
       try {
         BRIDGE_SYSTEM_PROMPT = readFileSync(promptPath, 'utf-8');
-        console.log('[Bridge] Loaded system prompt from:', promptPath);
         return BRIDGE_SYSTEM_PROMPT;
       } catch {
         // Try next path
-        console.log('[Bridge] System prompt not found at:', promptPath);
       }
     }
 
-    // If all paths fail, log error and use embedded fallback with full knowledge
-    console.error('[Bridge] Could not load system prompt from any path, using embedded fallback');
+    // If all paths fail, use embedded fallback with full knowledge
     BRIDGE_SYSTEM_PROMPT = getEmbeddedSystemPrompt();
   }
   return BRIDGE_SYSTEM_PROMPT;
@@ -149,9 +146,7 @@ function getDocsIndex(): DocEntry[] {
           : join(process.cwd(), '..', '..', 'docs'));  // Development: monorepo structure
 
       docsIndex = buildIndex(docsPath);
-      console.log(`[Bridge] Indexed ${docsIndex.length} documents from ${docsPath}`);
-    } catch (error) {
-      console.error('[Bridge] Error building docs index:', error);
+    } catch {
       docsIndex = [];
     }
   }
@@ -421,16 +416,13 @@ Cite sources when relevant using the format [Source: title].`;
     // Note: Ratings measure Bridge's ORIGINAL answer quality, not the ideal response
     // Low ratings mean Bridge needs to learn from the ideal response!
     try {
-      console.log('[Bridge Training] Searching for examples with question:', question);
       const trainingRepo = new PostgresBridgeTrainingRepo();
       const relevantTrainingExamples = await trainingRepo.findSimilar(question, {
         status: 'reviewed', // Accepts 'reviewed' or 'approved' examples
         limit: 3,
       });
-      console.log('[Bridge Training] Found examples:', relevantTrainingExamples.length);
 
       if (relevantTrainingExamples.length > 0) {
-        console.log('[Bridge Training] Adding to prompt:', relevantTrainingExamples.map(ex => ex.question));
         enhancedSystemPrompt += `
 
 **TRAINING EXAMPLES - Learn from these approved responses:**
@@ -448,8 +440,7 @@ When answering similar questions:
 - Personalize your response based on the user's specific situation
 - Maintain the same helpful, concrete, action-oriented tone`;
       }
-    } catch (error) {
-      console.error('[Bridge Training] Failed to fetch training examples:', error);
+    } catch {
       // Continue without training data - Bridge still works
     }
 

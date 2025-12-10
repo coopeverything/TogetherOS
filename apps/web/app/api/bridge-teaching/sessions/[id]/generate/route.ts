@@ -42,16 +42,13 @@ function getBridgeBaseKnowledge(): string {
     for (const promptPath of possiblePaths) {
       try {
         BRIDGE_BASE_KNOWLEDGE = readFileSync(promptPath, 'utf-8')
-        console.log('[Bridge Teaching] Loaded base knowledge from:', promptPath)
         return BRIDGE_BASE_KNOWLEDGE
       } catch {
         // Try next path
-        console.log('[Bridge Teaching] System prompt not found at:', promptPath)
       }
     }
 
     // If all paths fail, use embedded fallback with full TogetherOS knowledge
-    console.error('[Bridge Teaching] Could not load system prompt, using embedded fallback')
     BRIDGE_BASE_KNOWLEDGE = getEmbeddedBaseKnowledge()
   }
   return BRIDGE_BASE_KNOWLEDGE
@@ -465,14 +462,14 @@ export async function POST(
       turn,
       appliedPatterns: patterns.map(p => p.id),
     })
-  } catch (error: any) {
-    console.error('POST /api/bridge-teaching/sessions/[id]/generate error:', error)
+  } catch (error: unknown) {
+    const err = error as Error
 
-    if (error.message === 'Unauthorized' || error.message === 'Admin access required') {
-      return NextResponse.json({ error: error.message }, { status: 403 })
+    if (err.message === 'Unauthorized' || err.message === 'Admin access required') {
+      return NextResponse.json({ error: err.message }, { status: 403 })
     }
 
-    if (error.message === 'OPENAI_API_KEY not configured') {
+    if (err.message === 'OPENAI_API_KEY not configured') {
       return NextResponse.json(
         { error: 'LLM service not configured' },
         { status: 503 }
@@ -480,7 +477,7 @@ export async function POST(
     }
 
     return NextResponse.json(
-      { error: error.message || 'Failed to generate response' },
+      { error: err.message || 'Failed to generate response' },
       { status: 500 }
     )
   }

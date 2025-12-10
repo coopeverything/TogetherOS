@@ -30,7 +30,6 @@ export default function NewGroupPage() {
         if (geocodedLocation) {
           // Auto-fill location from geocoded data
           data.location = `${geocodedLocation.city}, ${geocodedLocation.state}`
-          console.log('Geocoded ZIP:', geocodedLocation)
         }
       }
 

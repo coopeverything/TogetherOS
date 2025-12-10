@@ -39,9 +39,8 @@ export default function MetricTemplatesPage() {
     fetchData()
   }, [])
 
-  const handleSelectTemplate = (template: MetricTemplate) => {
+  const handleSelectTemplate = (_template: MetricTemplate) => {
     // TODO: Handle template selection (use for new metrics definition)
-    console.log('Selected template:', template.name)
   }
 
   if (loading) {
