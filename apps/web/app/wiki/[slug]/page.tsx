@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import type { ReactNode } from 'react'
 
 // Type for ReactMarkdown component props
@@ -191,6 +192,7 @@ export default async function WikiArticlePage({ params }: Props) {
         {/* Article Content */}
         <article className="prose prose-lg prose-gray max-w-none mb-12">
           <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
             components={{
               h1: ({ children }: MarkdownComponentProps) => (
                 <h1 className="text-sm font-bold text-ink-900 mt-4 mb-4">
@@ -240,18 +242,27 @@ export default async function WikiArticlePage({ params }: Props) {
               ),
               table: ({ children }: MarkdownComponentProps) => (
                 <div className="overflow-x-auto mb-4">
-                  <table className="min-w-full divide-y divide-gray-200 border border-border rounded-lg">
+                  <table className="min-w-full divide-y divide-border border border-border rounded-lg overflow-hidden">
                     {children}
                   </table>
                 </div>
               ),
+              thead: ({ children }: MarkdownComponentProps) => (
+                <thead className="bg-bg-2">{children}</thead>
+              ),
+              tbody: ({ children }: MarkdownComponentProps) => (
+                <tbody className="bg-bg-1 divide-y divide-border">{children}</tbody>
+              ),
+              tr: ({ children }: MarkdownComponentProps) => (
+                <tr>{children}</tr>
+              ),
               th: ({ children }: MarkdownComponentProps) => (
-                <th className="px-4 py-2 bg-bg-0 text-left text-sm font-semibold text-ink-900">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink-900">
                   {children}
                 </th>
               ),
               td: ({ children }: MarkdownComponentProps) => (
-                <td className="px-4 py-2 text-sm text-ink-700 border-t border-border">
+                <td className="px-4 py-3 text-sm text-ink-700">
                   {children}
                 </td>
               ),
@@ -317,21 +328,46 @@ export default async function WikiArticlePage({ params }: Props) {
               Key Terms in This Article
             </h3>
             <div className="grid gap-3">
-              {articleTerms.map((term) => (
-                <Link
-                  key={term.id}
-                  href={`/glossary/${term.slug}`}
-                  className="flex items-start gap-3 p-3 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
-                >
-                  <span className="text-sm">📖</span>
-                  <div>
-                    <div className="font-medium text-ink-900">{term.word}</div>
-                    <div className="text-sm text-ink-700">
-                      {term.shortDefinition}
+              {articleTerms.map((term) => {
+                const termWikiArticle = term.wikiArticleSlug
+                  ? getWikiArticleBySlug(term.wikiArticleSlug)
+                  : null
+                return (
+                  <div
+                    key={term.id}
+                    className="flex items-start gap-3 p-3 bg-bg-1 rounded-lg border border-border"
+                  >
+                    <span className="text-sm">📖</span>
+                    <div className="flex-1">
+                      <div className="font-medium text-ink-900">{term.word}</div>
+                      <div className="text-sm text-ink-700">
+                        {term.shortDefinition}
+                      </div>
+                      {termWikiArticle && (
+                        <Link
+                          href={`/wiki/${termWikiArticle.slug}`}
+                          className="inline-flex items-center gap-1 mt-2 text-sm text-blue-600 hover:text-blue-500 hover:underline transition-colors"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          {termWikiArticle.readTimeMinutes} min read
+                        </Link>
+                      )}
                     </div>
                   </div>
-                </Link>
-              ))}
+                )
+              })}
             </div>
           </div>
         )}

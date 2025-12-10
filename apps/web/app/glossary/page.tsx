@@ -149,14 +149,13 @@ export default function GlossaryPage() {
                     : null
 
                   return (
-                    <Link
+                    <div
                       key={term.id}
-                      href={`/glossary/${term.slug}`}
-                      className="block bg-[var(--bg-1)] rounded-xl border border-[var(--border)] p-5 hover:border-[var(--brand-500)] hover:shadow-sm transition-all group"
+                      className="bg-[var(--bg-1)] rounded-xl border border-[var(--border)] p-5"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h3 className="text-sm font-semibold text-[var(--ink-900)] group-hover:text-[var(--brand-600)] transition-colors mb-1">
+                          <h3 className="text-sm font-semibold text-[var(--ink-900)] mb-1">
                             {term.word}
                           </h3>
                           <p className="text-[var(--ink-700)] leading-relaxed">
@@ -170,7 +169,10 @@ export default function GlossaryPage() {
                               </span>
                             )}
                             {wikiArticle && (
-                              <span className="text-[var(--brand-600)] flex items-center gap-1">
+                              <Link
+                                href={`/wiki/${wikiArticle.slug}`}
+                                className="text-[var(--brand-600)] hover:text-[var(--brand-500)] hover:underline flex items-center gap-1 transition-colors"
+                              >
                                 <svg
                                   className="w-4 h-4"
                                   fill="none"
@@ -181,32 +183,16 @@ export default function GlossaryPage() {
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                   />
                                 </svg>
-                                Read more in Wiki
-                              </span>
+                                {wikiArticle.readTimeMinutes} min read
+                              </Link>
                             )}
                           </div>
                         </div>
-
-                        <div className="flex-shrink-0 text-[var(--ink-400)] group-hover:text-[var(--brand-500)] transition-colors">
-                          <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </div>
                       </div>
-                    </Link>
+                    </div>
                   )
                 })}
               </div>
