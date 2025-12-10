@@ -109,11 +109,11 @@ export default function GovernancePage() {
             <h3 className="text-sm font-medium text-ink-900 mb-2">Core Features</h3>
             <ul className="space-y-2 text-ink-700">
               <li className="flex items-start">
-                <span className="text-success mr-2">✓</span>
+                <span className="text-accent-3 mr-2">•</span>
                 Create individual or group proposals
               </li>
               <li className="flex items-start">
-                <span className="text-success mr-2">✓</span>
+                <span className="text-accent-3 mr-2">•</span>
                 Track proposal lifecycle (draft → research → voting → delivery)
               </li>
               <li className="flex items-start">
