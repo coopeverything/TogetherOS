@@ -154,6 +154,99 @@ export interface ProposalEvidence {
 
   /** When evidence was attached */
   attachedAt: Date
+
+  /** Validation status of the evidence */
+  validationStatus?: EvidenceValidationStatus
+
+  /** Validation details */
+  validation?: EvidenceValidation
+}
+
+/**
+ * Evidence validation status
+ */
+export type EvidenceValidationStatus = 'pending' | 'verified' | 'disputed' | 'rejected'
+
+/**
+ * Evidence validation entity
+ * Tracks peer review and verification of evidence
+ */
+export interface EvidenceValidation {
+  /** Unique identifier */
+  id: string
+
+  /** Evidence being validated */
+  evidenceId: string
+
+  /** Current validation status */
+  status: EvidenceValidationStatus
+
+  /** Number of verification votes */
+  verifyCount: number
+
+  /** Number of dispute votes */
+  disputeCount: number
+
+  /** Threshold for verification (default: 3 verifications) */
+  verifyThreshold: number
+
+  /** Threshold for dispute (default: 2 disputes triggers review) */
+  disputeThreshold: number
+
+  /** Members who have verified */
+  verifiers: string[]
+
+  /** Members who have disputed */
+  disputers: string[]
+
+  /** Dispute reasons (from disputers) */
+  disputeReasons: EvidenceDisputeReason[]
+
+  /** Moderator review if disputed */
+  moderatorReview?: EvidenceModeratorReview
+
+  /** When validation started */
+  createdAt: Date
+
+  /** Last update */
+  updatedAt: Date
+}
+
+/**
+ * Dispute reason for evidence
+ */
+export interface EvidenceDisputeReason {
+  /** Member who filed dispute */
+  memberId: string
+
+  /** Reason category */
+  category: 'inaccurate' | 'outdated' | 'misleading' | 'irrelevant' | 'fabricated'
+
+  /** Detailed explanation */
+  explanation: string
+
+  /** When dispute was filed */
+  filedAt: Date
+}
+
+/**
+ * Moderator review of disputed evidence
+ */
+export interface EvidenceModeratorReview {
+  /** Moderator who reviewed */
+  moderatorId: string
+
+  /** Review decision */
+  decision: 'verified' | 'rejected' | 'needs_update'
+
+  /** Reasoning for decision */
+  reasoning: string
+
+  /** Recommended action */
+  action?: 'keep' | 'update_required' | 'remove'
+
+  /** When reviewed */
+  reviewedAt: Date
 }
 
 /**
