@@ -6,7 +6,7 @@
  * Auth: Admin only
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface AdminSection {
@@ -21,11 +21,305 @@ interface AdminItem {
   status: 'active' | 'coming-soon'
 }
 
+// Moved outside component to prevent recreation on every render
+const ADMIN_SECTIONS: AdminSection[] = [
+  {
+    title: 'Platform Operations',
+    items: [
+      {
+        title: 'System Settings',
+        description: 'Configure SP/RP weights, conversion rates, and constraints',
+        path: '/admin/settings',
+        status: 'active',
+      },
+      {
+        title: 'Feature Flags',
+        description: 'Toggle features and experimental functionality',
+        path: '/admin/features',
+        status: 'active',
+      },
+      {
+        title: 'Security Dashboard',
+        description: 'Security features, rate limiting, GDPR compliance, and vulnerability status',
+        path: '/admin/security',
+        status: 'active',
+      },
+      {
+        title: 'Member Management',
+        description: 'User accounts, roles, and permissions',
+        path: '/admin/members',
+        status: 'coming-soon',
+      },
+      {
+        title: 'Group Oversight',
+        description: 'Monitor groups, resources, events, and coordination',
+        path: '/admin/groups',
+        status: 'active',
+      },
+    ],
+  },
+  {
+    title: 'Bridge AI',
+    items: [
+      {
+        title: 'Training Data',
+        description: 'Manage Bridge AI training data and Q&A examples',
+        path: '/admin/bridge',
+        status: 'active',
+      },
+      {
+        title: 'Teaching Sessions',
+        description: 'Interactive role-play training for teaching Bridge to handle user archetypes',
+        path: '/admin/bridge-teaching',
+        status: 'active',
+      },
+      {
+        title: 'Recommendations',
+        description: 'Bridge context-aware recommendation system configuration',
+        path: '/admin/recommendations-testing',
+        status: 'active',
+      },
+    ],
+  },
+  {
+    title: 'Learning & Content',
+    items: [
+      {
+        title: 'Onboarding Editor',
+        description: 'Rich text editor for challenges, microlessons, quizzes, and first-week onboarding flow',
+        path: '/admin/onboarding',
+        status: 'active',
+      },
+      {
+        title: 'Learning Paths',
+        description: 'Manage learning paths, lessons, and quizzes for user onboarding',
+        path: '/admin/onboarding-learning',
+        status: 'active',
+      },
+      {
+        title: 'Moderation Queue',
+        description: 'Review flagged content and user reports',
+        path: '/admin/moderation',
+        status: 'coming-soon',
+      },
+    ],
+  },
+  {
+    title: 'Community & Economy',
+    items: [
+      {
+        title: 'Governance Oversight',
+        description: 'Proposal monitoring and decision logs',
+        path: '/admin/governance',
+        status: 'coming-soon',
+      },
+      {
+        title: 'Support Points',
+        description: 'SP circulation, top allocators, allocation patterns',
+        path: '/admin/support-points',
+        status: 'active',
+      },
+      {
+        title: 'Reward Points',
+        description: 'RP stats, earning breakdown, top earners',
+        path: '/admin/reward-points',
+        status: 'active',
+      },
+      {
+        title: 'Badges & Achievements',
+        description: 'View badges, award statistics, and recent awards',
+        path: '/admin/badges',
+        status: 'active',
+      },
+      {
+        title: 'Events Calendar',
+        description: 'Community events, meetings, and milestone tracking',
+        path: '/events',
+        status: 'active',
+      },
+      {
+        title: 'Forum Tags',
+        description: 'Manage, rename, and delete forum tags across all topics',
+        path: '/admin/forum/tags',
+        status: 'active',
+      },
+      {
+        title: 'Social Economy',
+        description: 'Timebanking, mutual aid, and cooperative treasury',
+        path: '/admin/economy',
+        status: 'coming-soon',
+      },
+    ],
+  },
+  {
+    title: 'System Health',
+    items: [
+      {
+        title: 'Observability',
+        description: 'Full observability dashboard with logs, metrics, flags, and APM',
+        path: '/admin/observability',
+        status: 'active',
+      },
+      {
+        title: 'System Status',
+        description: 'Overall system status and health overview',
+        path: '/admin/status',
+        status: 'active',
+      },
+      {
+        title: 'Module Progress',
+        description: 'Module implementation progress and status tracking',
+        path: '/admin/modules',
+        status: 'active',
+      },
+      {
+        title: 'Analytics',
+        description: 'Growth metrics and system performance',
+        path: '/admin/analytics',
+        status: 'coming-soon',
+      },
+      {
+        title: 'Backup & Export',
+        description: 'Data export and recovery',
+        path: '/admin/backup',
+        status: 'coming-soon',
+      },
+    ],
+  },
+  {
+    title: 'Design Sandbox',
+    items: [
+      {
+        title: 'Design Gallery',
+        description: 'Theme previews, design tokens, and component library',
+        path: '/admin/design-gallery',
+        status: 'active',
+      },
+      {
+        title: 'Design System',
+        description: 'Core design system components and patterns',
+        path: '/admin/design-system',
+        status: 'active',
+      },
+      {
+        title: 'Design Exploration',
+        description: 'Design experiments and prototypes',
+        path: '/admin/design',
+        status: 'active',
+      },
+      {
+        title: 'Component Testing',
+        description: 'Consolidated UI component testing for all modules',
+        path: '/admin/component-testing',
+        status: 'active',
+      },
+      {
+        title: 'Dashboard Prototypes',
+        description: 'Dashboard design experiments and creative variations',
+        path: '/admin/dashboard',
+        status: 'active',
+      },
+      {
+        title: 'Dashboard Demos',
+        description: 'Dashboard demo variations and showcases',
+        path: '/admin/dashboard-demos',
+        status: 'active',
+      },
+      {
+        title: 'Dashboard Designs',
+        description: 'Dashboard design iterations and alternatives',
+        path: '/admin/dashboard-designs',
+        status: 'active',
+      },
+      {
+        title: 'Dashboard Styles',
+        description: 'Dashboard styling experiments',
+        path: '/admin/dashboard-styles',
+        status: 'active',
+      },
+      {
+        title: 'Dashboard Test 2',
+        description: 'Dashboard test page variant 2',
+        path: '/admin/dashboard-test2',
+        status: 'active',
+      },
+      {
+        title: 'Dashboard Test 3',
+        description: 'Dashboard test page variant 3',
+        path: '/admin/dashboard-test3',
+        status: 'active',
+      },
+      {
+        title: 'Forum Designs',
+        description: 'Forum UI design iterations',
+        path: '/admin/forum-designs',
+        status: 'active',
+      },
+      {
+        title: 'Notifications Testing',
+        description: 'Notification system testing and configuration',
+        path: '/admin/notifications',
+        status: 'active',
+      },
+    ],
+  },
+  {
+    title: 'Testing & QA',
+    items: [
+      {
+        title: 'Auth Testing',
+        description: 'Authentication flow testing and debugging',
+        path: '/admin/auth-testing',
+        status: 'active',
+      },
+      {
+        title: 'Feed Testing',
+        description: 'Feed module testing and validation',
+        path: '/admin/feed-testing',
+        status: 'active',
+      },
+      {
+        title: 'Profile Testing',
+        description: 'User profile testing and validation',
+        path: '/admin/profile-testing',
+        status: 'active',
+      },
+      {
+        title: 'Gamification Testing',
+        description: 'Gamification system testing',
+        path: '/admin/gamification-testing',
+        status: 'active',
+      },
+      {
+        title: 'Gamification Admin',
+        description: 'Gamification rules and configuration',
+        path: '/admin/gamification',
+        status: 'active',
+      },
+      {
+        title: 'System Logs',
+        description: 'Application logs and debugging',
+        path: '/admin/logs',
+        status: 'active',
+      },
+      {
+        title: 'System Monitoring',
+        description: 'Real-time system monitoring and alerts',
+        path: '/admin/monitoring',
+        status: 'active',
+      },
+    ],
+  },
+]
+
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [expandedSection, setExpandedSection] = useState<string | null>('Platform Operations')
   const router = useRouter()
+
+  // Memoize sections to prevent unnecessary re-renders
+  const sections = useMemo(() => ADMIN_SECTIONS, [])
 
   useEffect(() => {
     fetch('/api/auth/me')
@@ -56,296 +350,6 @@ export default function AdminDashboard() {
   if (!isAuthorized) {
     return null
   }
-
-  const sections: AdminSection[] = [
-    {
-      title: 'Platform Operations',
-      items: [
-        {
-          title: 'System Settings',
-          description: 'Configure SP/RP weights, conversion rates, and constraints',
-          path: '/admin/settings',
-          status: 'active',
-        },
-        {
-          title: 'Feature Flags',
-          description: 'Toggle features and experimental functionality',
-          path: '/admin/features',
-          status: 'active',
-        },
-        {
-          title: 'Security Dashboard',
-          description: 'Security features, rate limiting, GDPR compliance, and vulnerability status',
-          path: '/admin/security',
-          status: 'active',
-        },
-        {
-          title: 'Member Management',
-          description: 'User accounts, roles, and permissions',
-          path: '/admin/members',
-          status: 'coming-soon',
-        },
-        {
-          title: 'Group Oversight',
-          description: 'Monitor groups, resources, events, and coordination',
-          path: '/admin/groups',
-          status: 'active',
-        },
-      ],
-    },
-    {
-      title: 'Bridge AI',
-      items: [
-        {
-          title: 'Training Data',
-          description: 'Manage Bridge AI training data and Q&A examples',
-          path: '/admin/bridge',
-          status: 'active',
-        },
-        {
-          title: 'Teaching Sessions',
-          description: 'Interactive role-play training for teaching Bridge to handle user archetypes',
-          path: '/admin/bridge-teaching',
-          status: 'active',
-        },
-        {
-          title: 'Recommendations',
-          description: 'Bridge context-aware recommendation system configuration',
-          path: '/admin/recommendations-testing',
-          status: 'active',
-        },
-      ],
-    },
-    {
-      title: 'Learning & Content',
-      items: [
-        {
-          title: 'Onboarding Editor',
-          description: 'Rich text editor for challenges, microlessons, quizzes, and first-week onboarding flow',
-          path: '/admin/onboarding',
-          status: 'active',
-        },
-        {
-          title: 'Learning Paths',
-          description: 'Manage learning paths, lessons, and quizzes for user onboarding',
-          path: '/admin/onboarding-learning',
-          status: 'active',
-        },
-        {
-          title: 'Moderation Queue',
-          description: 'Review flagged content and user reports',
-          path: '/admin/moderation',
-          status: 'coming-soon',
-        },
-      ],
-    },
-    {
-      title: 'Community & Economy',
-      items: [
-        {
-          title: 'Governance Oversight',
-          description: 'Proposal monitoring and decision logs',
-          path: '/admin/governance',
-          status: 'coming-soon',
-        },
-        {
-          title: 'Support Points',
-          description: 'SP circulation, top allocators, allocation patterns',
-          path: '/admin/support-points',
-          status: 'active',
-        },
-        {
-          title: 'Reward Points',
-          description: 'RP stats, earning breakdown, top earners',
-          path: '/admin/reward-points',
-          status: 'active',
-        },
-        {
-          title: 'Badges & Achievements',
-          description: 'View badges, award statistics, and recent awards',
-          path: '/admin/badges',
-          status: 'active',
-        },
-        {
-          title: 'Events Calendar',
-          description: 'Community events, meetings, and milestone tracking',
-          path: '/events',
-          status: 'active',
-        },
-        {
-          title: 'Forum Tags',
-          description: 'Manage, rename, and delete forum tags across all topics',
-          path: '/admin/forum/tags',
-          status: 'active',
-        },
-        {
-          title: 'Social Economy',
-          description: 'Timebanking, mutual aid, and cooperative treasury',
-          path: '/admin/economy',
-          status: 'coming-soon',
-        },
-      ],
-    },
-    {
-      title: 'System Health',
-      items: [
-        {
-          title: 'Observability',
-          description: 'Full observability dashboard with logs, metrics, flags, and APM',
-          path: '/admin/observability',
-          status: 'active',
-        },
-        {
-          title: 'System Status',
-          description: 'Overall system status and health overview',
-          path: '/admin/status',
-          status: 'active',
-        },
-        {
-          title: 'Module Progress',
-          description: 'Module implementation progress and status tracking',
-          path: '/admin/modules',
-          status: 'active',
-        },
-        {
-          title: 'Analytics',
-          description: 'Growth metrics and system performance',
-          path: '/admin/analytics',
-          status: 'coming-soon',
-        },
-        {
-          title: 'Backup & Export',
-          description: 'Data export and recovery',
-          path: '/admin/backup',
-          status: 'coming-soon',
-        },
-      ],
-    },
-    {
-      title: 'Design Sandbox',
-      items: [
-        {
-          title: 'Design Gallery',
-          description: 'Theme previews, design tokens, and component library',
-          path: '/admin/design-gallery',
-          status: 'active',
-        },
-        {
-          title: 'Design System',
-          description: 'Core design system components and patterns',
-          path: '/admin/design-system',
-          status: 'active',
-        },
-        {
-          title: 'Design Exploration',
-          description: 'Design experiments and prototypes',
-          path: '/admin/design',
-          status: 'active',
-        },
-        {
-          title: 'Component Testing',
-          description: 'Consolidated UI component testing for all modules',
-          path: '/admin/component-testing',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Prototypes',
-          description: 'Dashboard design experiments and creative variations',
-          path: '/admin/dashboard',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Demos',
-          description: 'Dashboard demo variations and showcases',
-          path: '/admin/dashboard-demos',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Designs',
-          description: 'Dashboard design iterations and alternatives',
-          path: '/admin/dashboard-designs',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Styles',
-          description: 'Dashboard styling experiments',
-          path: '/admin/dashboard-styles',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Test 2',
-          description: 'Dashboard test page variant 2',
-          path: '/admin/dashboard-test2',
-          status: 'active',
-        },
-        {
-          title: 'Dashboard Test 3',
-          description: 'Dashboard test page variant 3',
-          path: '/admin/dashboard-test3',
-          status: 'active',
-        },
-        {
-          title: 'Forum Designs',
-          description: 'Forum UI design iterations',
-          path: '/admin/forum-designs',
-          status: 'active',
-        },
-        {
-          title: 'Notifications Testing',
-          description: 'Notification system testing and configuration',
-          path: '/admin/notifications',
-          status: 'active',
-        },
-      ],
-    },
-    {
-      title: 'Testing & QA',
-      items: [
-        {
-          title: 'Auth Testing',
-          description: 'Authentication flow testing and debugging',
-          path: '/admin/auth-testing',
-          status: 'active',
-        },
-        {
-          title: 'Feed Testing',
-          description: 'Feed module testing and validation',
-          path: '/admin/feed-testing',
-          status: 'active',
-        },
-        {
-          title: 'Profile Testing',
-          description: 'User profile testing and validation',
-          path: '/admin/profile-testing',
-          status: 'active',
-        },
-        {
-          title: 'Gamification Testing',
-          description: 'Gamification system testing',
-          path: '/admin/gamification-testing',
-          status: 'active',
-        },
-        {
-          title: 'Gamification Admin',
-          description: 'Gamification rules and configuration',
-          path: '/admin/gamification',
-          status: 'active',
-        },
-        {
-          title: 'System Logs',
-          description: 'Application logs and debugging',
-          path: '/admin/logs',
-          status: 'active',
-        },
-        {
-          title: 'System Monitoring',
-          description: 'Real-time system monitoring and alerts',
-          path: '/admin/monitoring',
-          status: 'active',
-        },
-      ],
-    },
-  ]
 
   const toggleSection = (title: string) => {
     setExpandedSection(expandedSection === title ? null : title)
