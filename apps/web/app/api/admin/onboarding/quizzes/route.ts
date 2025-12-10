@@ -113,25 +113,34 @@ export async function POST(request: NextRequest) {
 
     const quiz = quizResult.rows[0]
 
-    // Create questions if provided
+    // Create questions if provided (batch INSERT for performance)
     if (questions.length > 0) {
-      for (let i = 0; i < questions.length; i++) {
-        const q = questions[i]
-        await db.query(
-          `INSERT INTO onboarding_quiz_questions
-            (quiz_id, question_text, question_type, options, explanation, order_index, points)
-          VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-          [
-            quiz.id,
-            q.questionText,
-            q.questionType,
-            JSON.stringify(q.options),
-            q.explanation || null,
-            q.orderIndex ?? i,
-            q.points ?? 1,
-          ]
+      // Build multi-row VALUES clause for batch insert
+      const values: (string | number | null)[] = []
+      const valuePlaceholders: string[] = []
+
+      questions.forEach((q, i) => {
+        const offset = i * 7
+        valuePlaceholders.push(
+          `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5}, $${offset + 6}, $${offset + 7})`
         )
-      }
+        values.push(
+          quiz.id,
+          q.questionText,
+          q.questionType,
+          JSON.stringify(q.options),
+          q.explanation || null,
+          q.orderIndex ?? i,
+          q.points ?? 1
+        )
+      })
+
+      await db.query(
+        `INSERT INTO onboarding_quiz_questions
+          (quiz_id, question_text, question_type, options, explanation, order_index, points)
+        VALUES ${valuePlaceholders.join(', ')}`,
+        values
+      )
     }
 
     return NextResponse.json({ success: true, data: quiz }, { status: 201 })
