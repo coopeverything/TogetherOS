@@ -8,8 +8,17 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    include: ['packages/**/*.{test,spec}.{ts,tsx}'],
-    exclude: ['**/node_modules/**', '**/dist/**', 'apps/**'],
+    include: [
+      'packages/**/*.{test,spec}.{ts,tsx}',
+      'apps/api/src/modules/**/__tests__/*.{test,spec}.{ts,tsx}',
+    ],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      // Exclude broken pre-existing tests until fixed
+      'apps/api/src/lib/security/__tests__/**',
+      'apps/api/src/services/__tests__/**',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
