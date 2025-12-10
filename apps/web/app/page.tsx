@@ -47,117 +47,126 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Cooperation Paths Section */}
       <section className="max-w-7xl mx-auto px-4 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-sm font-bold text-ink-900 mb-4">
+          <h2 className="text-3xl font-bold text-ink-900 mb-4">
             Eight Paths of Cooperation
           </h2>
-          <p className="text-sm text-ink-700 max-w-3xl mx-auto">
-            TogetherOS is organized around eight essential cooperation systems,
-            each designed to empower collective action and democratic decision-making.
+          <p className="text-lg text-ink-700 max-w-3xl mx-auto mb-2">
+            Imagine being part of a vast network of aligned individuals
+            building common prosperity together. What would you mobilize for first?
+          </p>
+          <p className="text-base text-ink-500">
+            Here are our 8 Cooperation Paths:
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Path 1: Groups */}
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Path 1: Collective Governance */}
+          <Card className="flex flex-col">
             <CardHeader>
-              <CardTitle>Groups & Organizations</CardTitle>
-              <CardDescription>
-                Form collectives, manage membership, and coordinate activities
+              <CardTitle>Collective Governance</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want my voice to matter in decisions"
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow">
               <p className="text-sm text-ink-700">
-                Create and join groups with democratic governance structures.
-                Manage roles, permissions, and collaborative workflows.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Path 2: Forum */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Forum & Deliberation</CardTitle>
-              <CardDescription>
-                Structured discussions with voting and consensus tools
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-ink-700">
-                Engage in meaningful dialogue with built-in moderation,
-                threading, and democratic decision-making features.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Path 3: Proposals */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Proposals & Governance</CardTitle>
-              <CardDescription>
-                Democratic decision-making with transparent voting
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-ink-700">
-                Submit proposals, discuss amendments, and vote on collective
+                Submit proposals, deliberate together, and vote on collective
                 decisions with full transparency and accountability.
               </p>
             </CardContent>
             <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Path 4: Bridge */}
-          <Card>
-            <CardHeader>
-              <CardTitle>AI Bridge</CardTitle>
-              <CardDescription>
-                Cooperative AI assistance for knowledge and tasks
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-ink-700">
-                Interact with AI assistants trained on cooperative principles,
-                helping groups make informed decisions together.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Link href="/bridge">
-                <Button variant="joy" size="sm">
-                  Try Now
+              <Link href="/proposals">
+                <Button variant="default" size="sm">
+                  Explore →
                 </Button>
               </Link>
             </CardFooter>
           </Card>
 
-          {/* Path 5: Resources */}
-          <Card>
+          {/* Path 2: Social Economy */}
+          <Card className="flex flex-col">
             <CardHeader>
-              <CardTitle>Resource Sharing</CardTitle>
-              <CardDescription>
-                Commons-based resource allocation and management
+              <CardTitle>Social Economy</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want mutual support, not extraction"
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow">
               <p className="text-sm text-ink-700">
-                Share tools, spaces, and resources. Track usage,
-                coordinate access, and ensure equitable distribution.
+                Build timebanks, mutual aid networks, and cooperative enterprises
+                that keep value circulating in communities.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Link href="/economy">
+                <Button variant="default" size="sm">
+                  Explore →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          {/* Path 3: Community Connection */}
+          <Card className="flex flex-col">
+            <CardHeader>
+              <CardTitle>Community Connection</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want to belong, to find my people"
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <p className="text-sm text-ink-700">
+                Form groups, coordinate events, and build relationships
+                with aligned individuals in your area and beyond.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Link href="/groups">
+                <Button variant="default" size="sm">
+                  Explore →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          {/* Path 4: Collaborative Education */}
+          <Card className="flex flex-col">
+            <CardHeader>
+              <CardTitle>Collaborative Education</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want to learn and share what I know"
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <p className="text-sm text-ink-700">
+                Join learning cohorts, teach what you know, and build
+                shared knowledge bases together.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Link href="/learn">
+                <Button variant="default" size="sm">
+                  Explore →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          {/* Path 5: Common Wellbeing */}
+          <Card className="flex flex-col opacity-75">
+            <CardHeader>
+              <CardTitle>Common Wellbeing</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want health and care for everyone"
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <p className="text-sm text-ink-700">
+                Create peer support networks, coordinate care, and ensure
+                no one faces hardship alone.
               </p>
             </CardContent>
             <CardFooter>
@@ -167,18 +176,41 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 6: Economic */}
-          <Card>
+          {/* Path 6: Cooperative Technology */}
+          <Card className="flex flex-col">
             <CardHeader>
-              <CardTitle>Economic Commons</CardTitle>
-              <CardDescription>
-                Transparent finances and value distribution
+              <CardTitle>Cooperative Technology</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want tools that serve us, not surveil us"
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow">
               <p className="text-sm text-ink-700">
-                Manage shared funds, track contributions, and distribute
-                value according to democratic principles.
+                Use and build privacy-respecting infrastructure owned
+                by communities, not corporations.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Link href="/bridge">
+                <Button variant="joy" size="sm">
+                  Try AI Bridge →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          {/* Path 7: Collaborative Media & Culture */}
+          <Card className="flex flex-col opacity-75">
+            <CardHeader>
+              <CardTitle>Collaborative Media & Culture</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want stories that inspire, not divide"
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <p className="text-sm text-ink-700">
+                Create and share media that celebrates cooperation
+                and documents our collective achievements.
               </p>
             </CardContent>
             <CardFooter>
@@ -188,39 +220,18 @@ export default function HomePage() {
             </CardFooter>
           </Card>
 
-          {/* Path 7: Knowledge */}
-          <Card>
+          {/* Path 8: Common Planet */}
+          <Card className="flex flex-col opacity-75">
             <CardHeader>
-              <CardTitle>Knowledge Commons</CardTitle>
-              <CardDescription>
-                Collaborative documentation and learning
+              <CardTitle>Common Planet</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want to heal the earth, not exploit it"
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow">
               <p className="text-sm text-ink-700">
-                Build shared knowledge bases, create learning pathways,
-                and document collective wisdom.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="ghost" size="sm" disabled>
-                Coming Soon
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Path 8: External */}
-          <Card>
-            <CardHeader>
-              <CardTitle>External Relations</CardTitle>
-              <CardDescription>
-                Connect and collaborate across organizations
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-ink-700">
-                Build networks, establish partnerships, and coordinate
-                activities across multiple cooperatives.
+                Coordinate regeneration projects, circular economy initiatives,
+                and climate resilience efforts.
               </p>
             </CardContent>
             <CardFooter>
