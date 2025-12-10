@@ -153,33 +153,3 @@ export const notificationCountsSchema = z.object({
   total: z.number().int().nonnegative(),
 })
 
-/**
- * Validation helper: Check if notification type is valid
- */
-export function isValidNotificationType(type: string): boolean {
-  return notificationTypeSchema.safeParse(type).success
-}
-
-/**
- * Validation helper: Check if notification status is valid
- */
-export function isValidNotificationStatus(status: string): boolean {
-  return notificationStatusSchema.safeParse(status).success
-}
-
-/**
- * Validation helper: Get default icon for notification type
- */
-export function getDefaultIcon(type: string): string {
-  const icons: Record<string, string> = {
-    mention: '💬',
-    proposal_update: '📋',
-    discussion_reply: '💬',
-    group_update: '👥',
-    system_message: '📢',
-    support_points: '⭐',
-    badge_earned: '🏆',
-    reaction: '❤️',
-  }
-  return icons[type] || '📬'
-}
