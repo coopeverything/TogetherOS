@@ -48,7 +48,14 @@
 - **Create TodoWrite item** for EACH file found (do NOT start editing until list is complete)
 - **AFTER editing:** Re-run the SAME grep - must return zero results
 - **See:** `.claude/skills/ux-designer/SKILL.md` for full workflow
-- Lesson learned: Missed files during theme updates because didn't discover full scope first (Dec 2025)
+
+**Post-Push Verification** (REQUIRED for ALL pushes, even minor changes):
+- Even when skipping yolo1 for small changes, ALWAYS follow through on deployment
+- **After pushing:** Check workflow status with `gh run list --limit 5`
+- **Monitor deployment:** Wait for auto-deploy workflow to complete
+- **Report to user:** Confirm deployment success/failure with workflow conclusion
+- **Never leave user wondering** if changes are live
+- Lesson learned: Pushed changes but didn't track/report deployment status (Dec 2025)
 
 ---
 
