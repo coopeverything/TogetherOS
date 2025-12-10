@@ -102,24 +102,6 @@ export const conversionRateValueSchema = z.union([
 export const constraintValueSchema = z.number().int().min(0).max(1000)
 
 /**
- * Type-safe value validator factory
- */
-export function getValueValidator(category: string): z.ZodType {
-  switch (category) {
-    case 'sp_weights':
-      return spWeightValueSchema
-    case 'rp_earnings':
-      return rpEarningValueSchema
-    case 'conversion_rates':
-      return conversionRateValueSchema
-    case 'constraints':
-      return constraintValueSchema
-    default:
-      return z.union([z.number(), z.boolean(), z.string()])
-  }
-}
-
-/**
  * Exported type inferrence
  */
 export type UpdateSettingInput = z.infer<typeof updateSettingSchema>

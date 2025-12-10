@@ -231,6 +231,18 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Design System',
+          description: 'Core design system components and patterns',
+          path: '/admin/design-system',
+          status: 'active',
+        },
+        {
+          title: 'Design Exploration',
+          description: 'Design experiments and prototypes',
+          path: '/admin/design',
+          status: 'active',
+        },
+        {
           title: 'Component Testing',
           description: 'Consolidated UI component testing for all modules',
           path: '/admin/component-testing',
@@ -243,9 +255,92 @@ export default function AdminDashboard() {
           status: 'active',
         },
         {
+          title: 'Dashboard Demos',
+          description: 'Dashboard demo variations and showcases',
+          path: '/admin/dashboard-demos',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Designs',
+          description: 'Dashboard design iterations and alternatives',
+          path: '/admin/dashboard-designs',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Styles',
+          description: 'Dashboard styling experiments',
+          path: '/admin/dashboard-styles',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Test 2',
+          description: 'Dashboard test page variant 2',
+          path: '/admin/dashboard-test2',
+          status: 'active',
+        },
+        {
+          title: 'Dashboard Test 3',
+          description: 'Dashboard test page variant 3',
+          path: '/admin/dashboard-test3',
+          status: 'active',
+        },
+        {
+          title: 'Forum Designs',
+          description: 'Forum UI design iterations',
+          path: '/admin/forum-designs',
+          status: 'active',
+        },
+        {
           title: 'Notifications Testing',
           description: 'Notification system testing and configuration',
           path: '/admin/notifications',
+          status: 'active',
+        },
+      ],
+    },
+    {
+      title: 'Testing & QA',
+      items: [
+        {
+          title: 'Auth Testing',
+          description: 'Authentication flow testing and debugging',
+          path: '/admin/auth-testing',
+          status: 'active',
+        },
+        {
+          title: 'Feed Testing',
+          description: 'Feed module testing and validation',
+          path: '/admin/feed-testing',
+          status: 'active',
+        },
+        {
+          title: 'Profile Testing',
+          description: 'User profile testing and validation',
+          path: '/admin/profile-testing',
+          status: 'active',
+        },
+        {
+          title: 'Gamification Testing',
+          description: 'Gamification system testing',
+          path: '/admin/gamification-testing',
+          status: 'active',
+        },
+        {
+          title: 'Gamification Admin',
+          description: 'Gamification rules and configuration',
+          path: '/admin/gamification',
+          status: 'active',
+        },
+        {
+          title: 'System Logs',
+          description: 'Application logs and debugging',
+          path: '/admin/logs',
+          status: 'active',
+        },
+        {
+          title: 'System Monitoring',
+          description: 'Real-time system monitoring and alerts',
+          path: '/admin/monitoring',
           status: 'active',
         },
       ],
@@ -276,7 +371,7 @@ export default function AdminDashboard() {
               {/* Section Header (Clickable) */}
               <button
                 onClick={() => toggleSection(section.title)}
-                className="w-full px-4 py-2 flex items-center justify-between hover:bg-bg-1 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2"
+                className="w-full px-4 py-2 flex items-center justify-between hover:bg-bg-1 dark:hover:bg-bg-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2"
               >
                 <div className="flex items-center gap-2">
                   <svg
@@ -303,9 +398,9 @@ export default function AdminDashboard() {
                     <a
                       key={item.path}
                       href={item.status === 'active' ? item.path : undefined}
-                      className={`block px-4 py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400 ${
+                      className={`block px-4 py-2 border-b border-border last:border-b-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-zinc-400 ${
                         item.status === 'active'
-                          ? 'hover:bg-bg-0 dark:hover:bg-gray-800 cursor-pointer'
+                          ? 'hover:bg-bg-0 cursor-pointer'
                           : 'cursor-not-allowed opacity-60'
                       }`}
                       onClick={(e) => {
@@ -352,11 +447,11 @@ export default function AdminDashboard() {
 
         {/* Quick Links */}
         <div className="mt-6 text-xs text-ink-400 flex flex-wrap items-center gap-3">
-          <a href="/" className="hover:text-ink-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">Home</a>
+          <a href="/" className="hover:text-ink-700 focus:outline-none focus-visible:underline">Home</a>
           <span>•</span>
-          <a href="/bridge" className="hover:text-ink-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">Bridge</a>
+          <a href="/bridge" className="hover:text-ink-700 focus:outline-none focus-visible:underline">Bridge</a>
           <span>•</span>
-          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-ink-700 dark:hover:text-gray-300 focus:outline-none focus-visible:underline">
+          <a href="https://github.com/coopeverything/TogetherOS" target="_blank" rel="noopener noreferrer" className="hover:text-ink-700 focus:outline-none focus-visible:underline">
             GitHub
           </a>
         </div>
