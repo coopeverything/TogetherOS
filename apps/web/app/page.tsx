@@ -63,7 +63,28 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Path 1: Collective Governance */}
+          {/* Path 1: Social Economy */}
+          <Card className="flex flex-col">
+            <CardHeader>
+              <CardTitle>Social Economy</CardTitle>
+              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
+                "I want common prosperity, not extraction"
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <p className="text-sm text-ink-700">
+                Build timebanks, mutual aid networks, and cooperative enterprises
+                that keep value circulating in communities.
+              </p>
+            </CardContent>
+            <CardFooter className="pt-4">
+              <Link href="/economy" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
+                Explore →
+              </Link>
+            </CardFooter>
+          </Card>
+
+          {/* Path 2: Collective Governance */}
           <Card className="flex flex-col">
             <CardHeader>
               <CardTitle>Collective Governance</CardTitle>
@@ -79,27 +100,6 @@ export default function HomePage() {
             </CardContent>
             <CardFooter className="pt-4">
               <Link href="/proposals" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
-                Explore →
-              </Link>
-            </CardFooter>
-          </Card>
-
-          {/* Path 2: Social Economy */}
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle>Social Economy</CardTitle>
-              <CardDescription className="text-base font-medium text-brand-600 dark:text-brand-400">
-                "I want mutual support, not extraction"
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <p className="text-sm text-ink-700">
-                Build timebanks, mutual aid networks, and cooperative enterprises
-                that keep value circulating in communities.
-              </p>
-            </CardContent>
-            <CardFooter className="pt-4">
-              <Link href="/economy" className="text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
                 Explore →
               </Link>
             </CardFooter>
