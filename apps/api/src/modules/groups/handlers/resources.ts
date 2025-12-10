@@ -10,6 +10,27 @@ import type {
 import { groupRepo } from '../repos/PostgresGroupRepo'
 
 /**
+ * Database row type for group_resources table
+ */
+interface GroupResourceRow {
+  id: string
+  group_id: string
+  name: string
+  description: string | null
+  resource_type: GroupResourceType
+  quantity: string | number
+  unit: string | null
+  is_available: boolean
+  available_from: Date | null
+  available_until: Date | null
+  contributed_by: string
+  contributed_at: Date
+  tags: string | string[]
+  created_at: Date
+  updated_at: Date
+}
+
+/**
  * Get all resources for a group
  */
 export async function getGroupResources(groupId: string): Promise<GroupResource[]> {
@@ -23,12 +44,12 @@ export async function getGroupResources(groupId: string): Promise<GroupResource[
     throw new Error('Group not found')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupResourceRow>(
     `SELECT * FROM group_resources WHERE group_id = $1 ORDER BY created_at DESC`,
     [groupId]
   )
 
-  return result.rows.map(mapRowToResource)
+  return result.rows.map((row: GroupResourceRow) => mapRowToResource(row))
 }
 
 /**
@@ -61,7 +82,7 @@ export async function createGroupResource(
     throw new Error('Invalid resource type')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupResourceRow>(
     `INSERT INTO group_resources (
       group_id, name, description, resource_type, quantity, unit,
       is_available, available_from, available_until, contributed_by, tags
@@ -97,7 +118,7 @@ export async function updateGroupResource(
     throw new Error('Invalid resource ID format')
   }
 
-  const existing = await query<any>(
+  const existing = await query<GroupResourceRow>(
     `SELECT * FROM group_resources WHERE id = $1`,
     [resourceId]
   )
@@ -106,7 +127,7 @@ export async function updateGroupResource(
     throw new Error('Resource not found')
   }
 
-  const result = await query<any>(
+  const result = await query<GroupResourceRow>(
     `UPDATE group_resources SET
       name = COALESCE($1, name),
       description = COALESCE($2, description),
@@ -138,18 +159,19 @@ export async function deleteGroupResource(resourceId: string): Promise<void> {
   await query(`DELETE FROM group_resources WHERE id = $1`, [resourceId])
 }
 
-function mapRowToResource(row: any): GroupResource {
+function mapRowToResource(row: GroupResourceRow): GroupResource {
+  const quantity = typeof row.quantity === 'string' ? parseFloat(row.quantity) : row.quantity
   return {
     id: row.id,
     groupId: row.group_id,
     name: row.name,
-    description: row.description,
+    description: row.description ?? undefined,
     resourceType: row.resource_type,
-    quantity: parseFloat(row.quantity) || 0,
-    unit: row.unit,
+    quantity: quantity || 0,
+    unit: row.unit ?? undefined,
     isAvailable: row.is_available,
-    availableFrom: row.available_from,
-    availableUntil: row.available_until,
+    availableFrom: row.available_from ?? undefined,
+    availableUntil: row.available_until ?? undefined,
     contributedBy: row.contributed_by,
     contributedAt: row.contributed_at,
     tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags || [],

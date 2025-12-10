@@ -70,7 +70,7 @@ export function validatePassword(password: string): void {
  * @param fieldName - Name of the field (for error messages)
  * @throws {ValidationError} If value is not a non-empty string
  */
-export function requireNonEmptyString(value: any, fieldName: string): void {
+export function requireNonEmptyString(value: unknown, fieldName: string): void {
   if (typeof value !== 'string') {
     throw new ValidationError(`${fieldName} must be a string`)
   }

@@ -6,6 +6,20 @@ import type { GroupRole, GroupRoleType } from '@togetheros/types/groups'
 import { groupRepo } from '../repos/PostgresGroupRepo'
 
 /**
+ * Database row type for group_roles table
+ */
+interface GroupRoleRow {
+  id: string
+  group_id: string
+  member_id: string
+  role: GroupRoleType
+  granted_at: Date
+  expires_at: Date | null
+  granted_by: string
+  recallable: boolean
+}
+
+/**
  * Get all roles for a group
  */
 export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
@@ -21,7 +35,7 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
   }
 
   // Query roles from group_roles table
-  const result = await query<any>(
+  const result = await query<GroupRoleRow>(
     `SELECT id, group_id, member_id, role, granted_at, expires_at, granted_by, recallable
      FROM group_roles
      WHERE group_id = $1
@@ -29,13 +43,13 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
     [groupId]
   )
 
-  return result.rows.map((row) => ({
+  return result.rows.map((row: GroupRoleRow) => ({
     id: row.id,
     groupId: row.group_id,
     memberId: row.member_id,
-    role: row.role as GroupRoleType,
+    role: row.role,
     grantedAt: row.granted_at,
-    expiresAt: row.expires_at,
+    expiresAt: row.expires_at ?? undefined,
     grantedBy: row.granted_by,
     recallable: row.recallable ?? true,
   }))
@@ -85,7 +99,7 @@ export async function assignGroupRole(
   }
 
   // Check if member already has this role
-  const existingRole = await query<any>(
+  const existingRole = await query<{ id: string }>(
     `SELECT id FROM group_roles WHERE group_id = $1 AND member_id = $2 AND role = $3`,
     [groupId, memberId, role]
   )
@@ -95,7 +109,7 @@ export async function assignGroupRole(
   }
 
   // Insert new role
-  const result = await query<any>(
+  const result = await query<GroupRoleRow>(
     `INSERT INTO group_roles (group_id, member_id, role, granted_at, expires_at, granted_by, recallable)
      VALUES ($1, $2, $3, NOW(), $4, $5, $6)
      RETURNING id, group_id, member_id, role, granted_at, expires_at, granted_by, recallable`,
@@ -109,14 +123,14 @@ export async function assignGroupRole(
     ]
   )
 
-  const row = result.rows[0]
+  const row: GroupRoleRow = result.rows[0]
   return {
     id: row.id,
     groupId: row.group_id,
     memberId: row.member_id,
-    role: row.role as GroupRoleType,
+    role: row.role,
     grantedAt: row.granted_at,
-    expiresAt: row.expires_at,
+    expiresAt: row.expires_at ?? undefined,
     grantedBy: row.granted_by,
     recallable: row.recallable,
   }
@@ -139,7 +153,7 @@ export async function revokeGroupRole(
   }
 
   // Check role exists
-  const existing = await query<any>(
+  const existing = await query<{ id: string; recallable: boolean }>(
     `SELECT id, recallable FROM group_roles WHERE id = $1`,
     [roleId]
   )
@@ -165,7 +179,7 @@ export async function hasGroupRole(
   memberId: string,
   role: GroupRoleType
 ): Promise<boolean> {
-  const result = await query<any>(
+  const result = await query<{ '?column?': number }>(
     `SELECT 1 FROM group_roles
      WHERE group_id = $1 AND member_id = $2 AND role = $3
      AND (expires_at IS NULL OR expires_at > NOW())`,
