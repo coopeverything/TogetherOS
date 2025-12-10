@@ -13,65 +13,65 @@ export interface ProposalRatingDisplayProps {
 export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps) {
   if (aggregate.totalRatings === 0) {
     return (
-      <div className="text-center py-4 text-gray-500">
-        <p>No ratings yet. Be the first to rate this proposal!</p>
+      <div className="text-center py-3 text-ink-400">
+        <p className="text-xs">No ratings yet. Be the first to rate!</p>
       </div>
     )
   }
 
   const clarityColor =
-    aggregate.avgClarity >= 2.5 ? 'text-green-700' :
-    aggregate.avgClarity >= 1.5 ? 'text-yellow-600' :
-    'text-amber-800'
+    aggregate.avgClarity >= 2.5 ? 'text-success' :
+    aggregate.avgClarity >= 1.5 ? 'text-warning' :
+    'text-danger'
 
   const constructivenessColor =
-    aggregate.avgConstructiveness >= 2.5 ? 'text-green-700' :
-    aggregate.avgConstructiveness >= 1.5 ? 'text-yellow-600' :
-    'text-red-700'
+    aggregate.avgConstructiveness >= 2.5 ? 'text-success' :
+    aggregate.avgConstructiveness >= 1.5 ? 'text-warning' :
+    'text-danger'
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {/* Total Ratings Header */}
-      <div className="text-center pb-4 border-b">
-        <h3 className="text-sm font-bold text-gray-900 dark:text-white">{aggregate.totalRatings}</h3>
-        <p className="text-sm text-gray-600">Total Ratings</p>
+      <div className="text-center pb-2 border-b border-border">
+        <h3 className="text-lg font-bold text-ink-900">{aggregate.totalRatings}</h3>
+        <p className="text-xs text-ink-400">Total Ratings</p>
       </div>
 
       {/* Clarity */}
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-900 dark:text-white">Clarity</span>
-          <span className={`text-sm font-bold ${clarityColor}`}>
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900">Clarity</span>
+          <span className={`text-xs font-bold ${clarityColor}`}>
             {aggregate.avgClarity.toFixed(1)}/3
           </span>
         </div>
-        <div className="flex gap-2 mb-1">
+        <div className="flex gap-1.5 mb-1">
           <div className="flex-1 text-center">
-            <div className="w-4 h-4 bg-amber-700 rounded-full mx-auto mb-1"></div>
-            <span className="text-xs text-gray-600">{aggregate.clarityDistribution.brown}</span>
+            <div className="w-3 h-3 bg-warning rounded-full mx-auto mb-0.5"></div>
+            <span className="text-xs text-ink-400">{aggregate.clarityDistribution.brown}</span>
           </div>
           <div className="flex-1 text-center">
-            <div className="w-4 h-4 bg-yellow-500 rounded-full mx-auto mb-1"></div>
-            <span className="text-xs text-gray-600">{aggregate.clarityDistribution.yellow}</span>
+            <div className="w-3 h-3 bg-joy-500 rounded-full mx-auto mb-0.5"></div>
+            <span className="text-xs text-ink-400">{aggregate.clarityDistribution.yellow}</span>
           </div>
           <div className="flex-1 text-center">
-            <div className="w-4 h-4 bg-green-600 rounded-full mx-auto mb-1"></div>
-            <span className="text-xs text-gray-600">{aggregate.clarityDistribution.green}</span>
+            <div className="w-3 h-3 bg-success rounded-full mx-auto mb-0.5"></div>
+            <span className="text-xs text-ink-400">{aggregate.clarityDistribution.green}</span>
           </div>
         </div>
       </div>
 
       {/* Importance */}
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-900 dark:text-white">Importance</span>
-          <span className="text-sm font-bold text-blue-700">
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900">Importance</span>
+          <span className="text-xs font-bold text-info">
             {aggregate.avgImportance.toFixed(1)}/5
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-bg-2 rounded-full h-1.5">
           <div
-            className="bg-blue-600 h-2 rounded-full transition-all"
+            className="bg-info h-1.5 rounded-full transition-all"
             style={{ width: `${(aggregate.avgImportance / 5) * 100}%` }}
           ></div>
         </div>
@@ -79,15 +79,15 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
 
       {/* Urgency */}
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-900 dark:text-white">Urgency</span>
-          <span className="text-sm font-bold text-orange-700">
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900">Urgency</span>
+          <span className="text-xs font-bold text-joy-600">
             {aggregate.avgUrgency.toFixed(1)}/5
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-bg-2 rounded-full h-1.5">
           <div
-            className="bg-orange-600 h-2 rounded-full transition-all"
+            className="bg-joy-600 h-1.5 rounded-full transition-all"
             style={{ width: `${(aggregate.avgUrgency / 5) * 100}%` }}
           ></div>
         </div>
@@ -95,55 +95,54 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
 
       {/* Innovation */}
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
-            <span className="text-sm">💡</span>
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900 flex items-center gap-1">
+            <span className="text-xs">💡</span>
             Innovation
           </span>
-          <span className="text-sm font-bold text-yellow-600">
+          <span className="text-xs font-bold text-joy-500">
             {(aggregate.innovativePercentage * 100).toFixed(0)}%
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex-1 bg-gray-200 rounded-full h-2">
+        <div className="flex items-center gap-1.5">
+          <div className="flex-1 bg-bg-2 rounded-full h-1.5">
             <div
-              className="bg-yellow-500 h-2 rounded-full transition-all"
+              className="bg-joy-500 h-1.5 rounded-full transition-all"
               style={{ width: `${aggregate.innovativePercentage * 100}%` }}
             ></div>
           </div>
-          <span className="text-xs text-gray-600">
-            {aggregate.innovativeCount} marked innovative
+          <span className="text-xs text-ink-400 whitespace-nowrap">
+            {aggregate.innovativeCount} marked
           </span>
         </div>
       </div>
 
       {/* Constructiveness */}
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-900 dark:text-white">Constructiveness</span>
-          <span className={`text-sm font-bold ${constructivenessColor}`}>
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900">Constructiveness</span>
+          <span className={`text-xs font-bold ${constructivenessColor}`}>
             {aggregate.avgConstructiveness.toFixed(1)}/3
           </span>
         </div>
-        <div className="flex gap-2 mb-1">
+        <div className="flex gap-1.5 mb-1">
           <div className="flex-1 text-center">
-            <div className="w-4 h-4 bg-red-600 rounded-full mx-auto mb-1"></div>
-            <span className="text-xs text-gray-600">{aggregate.constructivenessDistribution.red}</span>
+            <div className="w-3 h-3 bg-danger rounded-full mx-auto mb-0.5"></div>
+            <span className="text-xs text-ink-400">{aggregate.constructivenessDistribution.red}</span>
           </div>
           <div className="flex-1 text-center">
-            <div className="w-4 h-4 bg-yellow-500 rounded-full mx-auto mb-1"></div>
-            <span className="text-xs text-gray-600">{aggregate.constructivenessDistribution.yellow}</span>
+            <div className="w-3 h-3 bg-warning rounded-full mx-auto mb-0.5"></div>
+            <span className="text-xs text-ink-400">{aggregate.constructivenessDistribution.yellow}</span>
           </div>
           <div className="flex-1 text-center">
-            <div className="w-4 h-4 bg-green-600 rounded-full mx-auto mb-1"></div>
-            <span className="text-xs text-gray-600">{aggregate.constructivenessDistribution.green}</span>
+            <div className="w-3 h-3 bg-success rounded-full mx-auto mb-0.5"></div>
+            <span className="text-xs text-ink-400">{aggregate.constructivenessDistribution.green}</span>
           </div>
         </div>
         {aggregate.hasRedFlags && (
-          <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-800">
-              ⚠️ {aggregate.redFlagCount} red flag{aggregate.redFlagCount > 1 ? 's' : ''} -
-              This proposal has been flagged for moderator review
+          <div className="mt-1.5 px-2 py-1.5 bg-danger-bg border border-danger/30 rounded">
+            <p className="text-xs text-danger">
+              ⚠️ {aggregate.redFlagCount} flag{aggregate.redFlagCount > 1 ? 's' : ''} - moderator review
             </p>
           </div>
         )}
@@ -151,30 +150,30 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
 
       {/* Bridge AI Rating (if available) */}
       {aggregate.bridgeRating && (
-        <div className="mt-6 pt-6 border-t">
-          <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            <span className="text-blue-600">🤖</span>
-            Bridge AI Assessment
+        <div className="mt-4 pt-3 border-t border-border">
+          <h4 className="text-xs font-medium text-ink-900 mb-2 flex items-center gap-1">
+            <span className="text-info">🤖</span>
+            Bridge AI
           </h4>
-          <div className="space-y-2 text-sm">
+          <div className="space-y-1 text-xs">
             <div className="flex justify-between">
-              <span className="text-gray-600">Clarity:</span>
-              <span className="font-medium">
+              <span className="text-ink-400">Clarity:</span>
+              <span className="font-medium text-ink-700">
                 {aggregate.bridgeRating.clarity === 3 ? '✅ Clear' :
-                 aggregate.bridgeRating.clarity === 2 ? '⚠️ Somewhat Clear' :
+                 aggregate.bridgeRating.clarity === 2 ? '⚠️ Okay' :
                  '❌ Unclear'}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Constructiveness:</span>
-              <span className="font-medium">
-                {aggregate.bridgeRating.constructiveness === 3 ? '✅ Constructive' :
-                 aggregate.bridgeRating.constructiveness === 2 ? '⚠️ Some Issues' :
-                 '❌ Needs Review'}
+              <span className="text-ink-400">Tone:</span>
+              <span className="font-medium text-ink-700">
+                {aggregate.bridgeRating.constructiveness === 3 ? '✅ Good' :
+                 aggregate.bridgeRating.constructiveness === 2 ? '⚠️ Issues' :
+                 '❌ Review'}
               </span>
             </div>
             {aggregate.bridgeRating.reasoning && (
-              <p className="text-xs text-gray-600 italic mt-2">
+              <p className="text-xs text-ink-400 italic mt-1">
                 "{aggregate.bridgeRating.reasoning}"
               </p>
             )}

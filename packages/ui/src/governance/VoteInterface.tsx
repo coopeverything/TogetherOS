@@ -66,46 +66,46 @@ export function VoteInterface({
   ]
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {/* Current Vote Display */}
       {currentVote && (
-        <div className="p-4 bg-info-bg border border-info/30 rounded-lg">
-          <p className="text-sm font-medium text-info">
-            Your current vote: <span className="font-bold capitalize">{currentVote}</span>
+        <div className="px-3 py-2 bg-info-bg border border-info/30 rounded">
+          <p className="text-xs font-medium text-info">
+            Your vote: <span className="font-bold capitalize">{currentVote}</span>
+            <span className="text-info/70 ml-1">(changeable)</span>
           </p>
-          <p className="text-xs text-info mt-1">You can change your vote at any time</p>
         </div>
       )}
 
-      {/* Vote Tally */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="text-center p-4 bg-success-bg rounded-lg border border-success/30">
+      {/* Vote Tally - Compact */}
+      <div className="grid grid-cols-4 gap-2">
+        <div className="text-center px-2 py-1.5 bg-success-bg rounded border border-success/30">
           <div className="text-sm font-bold text-success">{tally.consent}</div>
-          <div className="text-sm text-success">Consent</div>
+          <div className="text-xs text-success">Consent</div>
         </div>
-        <div className="text-center p-4 bg-warning-bg rounded-lg border border-warning/30">
+        <div className="text-center px-2 py-1.5 bg-warning-bg rounded border border-warning/30">
           <div className="text-sm font-bold text-warning">{tally.concern}</div>
-          <div className="text-sm text-warning">Concern</div>
+          <div className="text-xs text-warning">Concern</div>
         </div>
-        <div className="text-center p-4 bg-bg-2 rounded-lg border border-border">
+        <div className="text-center px-2 py-1.5 bg-bg-2 rounded border border-border">
           <div className="text-sm font-bold text-ink-700">{tally.abstain}</div>
-          <div className="text-sm text-ink-700">Abstain</div>
+          <div className="text-xs text-ink-700">Abstain</div>
         </div>
-        <div className="text-center p-4 bg-danger-bg rounded-lg border border-danger/30">
+        <div className="text-center px-2 py-1.5 bg-danger-bg rounded border border-danger/30">
           <div className="text-sm font-bold text-danger">{tally.block}</div>
-          <div className="text-sm text-danger">Block</div>
+          <div className="text-xs text-danger">Block</div>
         </div>
       </div>
 
-      {/* Decision Status */}
-      <div className={`p-4 rounded-lg border ${
+      {/* Decision Status - Compact */}
+      <div className={`px-3 py-2 rounded border ${
         tally.hasBlocks
           ? 'bg-danger-bg border-danger/30'
           : tally.thresholdMet
           ? 'bg-success-bg border-success/30'
           : 'bg-bg-2 border-border'
       }`}>
-        <p className={`font-medium ${
+        <p className={`text-xs font-medium ${
           tally.hasBlocks
             ? 'text-danger'
             : tally.thresholdMet
@@ -113,22 +113,22 @@ export function VoteInterface({
             : 'text-ink-900'
         }`}>
           {tally.hasBlocks
-            ? `❌ Blocked - ${tally.block} block vote(s) prevent approval`
+            ? `❌ Blocked (${tally.block})`
             : tally.thresholdMet
-            ? '✅ Threshold met - Proposal can be approved'
-            : '⏳ Awaiting more votes - Threshold not yet met'}
+            ? '✅ Threshold met'
+            : '⏳ Awaiting votes'}
         </p>
-        <p className="text-sm text-ink-700 mt-1">
-          Total votes: {tally.total} (excluding {tally.abstain} abstentions)
+        <p className="text-xs text-ink-400 mt-0.5">
+          {tally.total} votes ({tally.abstain} abstain)
         </p>
       </div>
 
-      {/* Vote Buttons */}
+      {/* Vote Buttons - Compact */}
       <div className="space-y-2">
-        <h3 className="font-semibold text-ink-900">Cast Your Vote</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <h3 className="text-xs font-semibold text-ink-900">Cast Your Vote</h3>
+        <div className="grid grid-cols-2 gap-2">
           {voteButtons.map((btn) => (
-            <div key={btn.type} className="space-y-2">
+            <div key={btn.type} className="space-y-1">
               <button
                 onClick={() => {
                   if (showReasoningFor === btn.type) {
@@ -138,32 +138,32 @@ export function VoteInterface({
                   }
                 }}
                 disabled={disabled || isVoting}
-                className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${btn.color} ${
-                  currentVote === btn.type ? 'ring-2 ring-offset-2 ring-brand-500' : ''
+                className={`w-full px-2 py-1.5 text-xs rounded font-medium transition-colors ${btn.color} ${
+                  currentVote === btn.type ? 'ring-2 ring-offset-1 ring-brand-500' : ''
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {btn.label}
               </button>
-              <p className="text-xs text-ink-700">{btn.description}</p>
+              <p className="text-xs text-ink-400 leading-tight">{btn.description}</p>
 
               {/* Reasoning textarea */}
               {showReasoningFor === btn.type && (
-                <div className="mt-2 space-y-2">
+                <div className="mt-1 space-y-1.5">
                   <textarea
-                    placeholder={`Optional: Explain your ${btn.type} vote...`}
+                    placeholder={`Why ${btn.type}? (optional)`}
                     value={reasoning}
                     onChange={(e) => setReasoning(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none bg-bg-1 text-ink-900"
-                    rows={3}
+                    className="w-full px-2 py-1.5 text-sm border border-border rounded focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none bg-bg-1 text-ink-900"
+                    rows={2}
                     disabled={isVoting}
                   />
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <button
                       onClick={() => handleVote(btn.type)}
                       disabled={isVoting}
-                      className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:bg-brand-500 disabled:opacity-50"
+                      className="px-2 py-1 text-xs bg-brand-600 text-bg-1 rounded hover:bg-brand-500 disabled:opacity-50"
                     >
-                      {isVoting ? 'Submitting...' : 'Submit Vote'}
+                      {isVoting ? 'Submitting...' : 'Submit'}
                     </button>
                     <button
                       onClick={() => {
@@ -171,7 +171,7 @@ export function VoteInterface({
                         setReasoning('')
                       }}
                       disabled={isVoting}
-                      className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-0"
+                      className="px-2 py-1 text-xs bg-bg-2 text-ink-700 rounded hover:bg-bg-0"
                     >
                       Cancel
                     </button>
