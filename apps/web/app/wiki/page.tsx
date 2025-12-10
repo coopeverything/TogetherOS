@@ -61,12 +61,9 @@ function WikiCard({
   })
 
   return (
-    <Link
-      href={`/wiki/${slug}`}
-      className="block bg-bg-1 rounded-xl border border-border p-4 hover:border-brand-500 hover:shadow-md transition-all duration-200 group"
-    >
+    <div className="bg-bg-1 rounded-xl border border-border p-4">
       <div className="flex items-start justify-between gap-4 mb-3">
-        <h3 className="text-sm font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
+        <h3 className="text-sm font-semibold text-ink-900">
           {title}
         </h3>
         <StatusBadge status={status} />
@@ -86,7 +83,10 @@ function WikiCard({
       </div>
 
       <div className="flex items-center gap-4 text-sm text-ink-400">
-        <span className="flex items-center gap-1">
+        <Link
+          href={`/wiki/${slug}`}
+          className="flex items-center gap-1 text-brand-600 hover:text-brand-500 hover:underline transition-colors"
+        >
           <svg
             className="w-4 h-4"
             fill="none"
@@ -101,7 +101,7 @@ function WikiCard({
             />
           </svg>
           {readTimeMinutes} min read
-        </span>
+        </Link>
         <span className="flex items-center gap-1">
           <svg
             className="w-4 h-4"
@@ -120,7 +120,7 @@ function WikiCard({
         </span>
         <span>Last edited {formattedDate}</span>
       </div>
-    </Link>
+    </div>
   )
 }
 

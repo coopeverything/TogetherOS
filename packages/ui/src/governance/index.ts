@@ -3,6 +3,9 @@
  *
  * Exports all governance-related UI components
  */
+export type { EvidenceValidationBadgeProps } from './EvidenceValidationBadge'
+export type { MinorityReportViewProps } from './MinorityReportView'
+export type { PositionFormProps } from './PositionForm'
 export type { ProposalCardProps } from './ProposalCard'
 export type { ProposalFormProps, ProposalFormData } from './ProposalForm'
 export type { ProposalListProps } from './ProposalList'
@@ -11,6 +14,9 @@ export type { ProposalRatingFormProps } from './ProposalRatingForm'
 export type { ProposalViewProps } from './ProposalView'
 export type { SimilarProposalsModalProps, SimilarProposal } from './SimilarProposalsModal'
 export type { VoteInterfaceProps } from './VoteInterface'
+export { EvidenceValidationBadge } from './EvidenceValidationBadge'
+export { MinorityReportView } from './MinorityReportView'
+export { PositionForm } from './PositionForm'
 export { ProposalCard } from './ProposalCard'
 export { ProposalForm } from './ProposalForm'
 export { ProposalList } from './ProposalList'
