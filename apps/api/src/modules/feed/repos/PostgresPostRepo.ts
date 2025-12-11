@@ -36,7 +36,7 @@ export class PostgresPostRepo implements PostRepo {
     const postData = post.toJSON()
 
     const result = await query<PostRow>(
-      `INSERT INTO posts (
+      `INSERT INTO feed_posts (
         id, type, author_id, group_id, title, content, embedded_urls,
         source_url, source_preview, topics, status,
         discussion_thread_id, discussion_count, created_at, updated_at
@@ -72,7 +72,7 @@ export class PostgresPostRepo implements PostRepo {
     const postData = post.toJSON()
 
     const result = await query<PostRow>(
-      `INSERT INTO posts (
+      `INSERT INTO feed_posts (
         id, type, author_id, group_id, title, content, embedded_urls,
         source_url, source_preview, topics, status,
         discussion_thread_id, discussion_count, created_at, updated_at
@@ -104,7 +104,7 @@ export class PostgresPostRepo implements PostRepo {
    * Find post by ID
    */
   async findById(id: string): Promise<PostType | null> {
-    const result = await query<PostRow>('SELECT * FROM posts WHERE id = $1', [id])
+    const result = await query<PostRow>('SELECT * FROM feed_posts WHERE id = $1', [id])
     return result.rows[0] ? this.mapRowToPost(result.rows[0]) : null
   }
 
@@ -156,7 +156,7 @@ export class PostgresPostRepo implements PostRepo {
     const offset = filters.offset ?? 0
 
     const result = await query<PostRow>(
-      `SELECT * FROM posts ${whereClause} ORDER BY created_at DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
+      `SELECT * FROM feed_posts ${whereClause} ORDER BY created_at DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
       [...params, limit, offset]
     )
 
@@ -204,7 +204,7 @@ export class PostgresPostRepo implements PostRepo {
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : ''
 
     const result = await query<{ count: string }>(
-      `SELECT COUNT(*) as count FROM posts ${whereClause}`,
+      `SELECT COUNT(*) as count FROM feed_posts ${whereClause}`,
       params
     )
 
@@ -216,7 +216,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async openDiscussion(postId: string, threadId: string): Promise<void> {
     await query(
-      'UPDATE posts SET discussion_thread_id = $1 WHERE id = $2',
+      'UPDATE feed_posts SET discussion_thread_id = $1 WHERE id = $2',
       [threadId, postId]
     )
   }
@@ -226,7 +226,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async incrementDiscussionCount(postId: string): Promise<void> {
     await query(
-      'UPDATE posts SET discussion_count = discussion_count + 1 WHERE id = $1',
+      'UPDATE feed_posts SET discussion_count = discussion_count + 1 WHERE id = $1',
       [postId]
     )
   }
@@ -236,7 +236,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async archive(postId: string): Promise<void> {
     await query(
-      "UPDATE posts SET status = 'archived' WHERE id = $1",
+      "UPDATE feed_posts SET status = 'archived' WHERE id = $1",
       [postId]
     )
   }
@@ -246,7 +246,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async flag(postId: string): Promise<void> {
     await query(
-      "UPDATE posts SET status = 'flagged' WHERE id = $1",
+      "UPDATE feed_posts SET status = 'flagged' WHERE id = $1",
       [postId]
     )
   }
@@ -290,7 +290,7 @@ export class PostgresPostRepo implements PostRepo {
     params.push(id)
 
     const result = await query<PostRow>(
-      `UPDATE posts SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`,
+      `UPDATE feed_posts SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`,
       params
     )
 
@@ -305,7 +305,7 @@ export class PostgresPostRepo implements PostRepo {
    * Delete post
    */
   async delete(id: string): Promise<void> {
-    await query('DELETE FROM posts WHERE id = $1', [id])
+    await query('DELETE FROM feed_posts WHERE id = $1', [id])
   }
 
   /**
@@ -313,7 +313,7 @@ export class PostgresPostRepo implements PostRepo {
    */
   async getTopics(): Promise<string[]> {
     const result = await query<{ topic: string }>(
-      `SELECT DISTINCT unnest(topics) as topic FROM posts ORDER BY topic`
+      `SELECT DISTINCT unnest(topics) as topic FROM feed_posts ORDER BY topic`
     )
     return result.rows.map(row => row.topic)
   }
