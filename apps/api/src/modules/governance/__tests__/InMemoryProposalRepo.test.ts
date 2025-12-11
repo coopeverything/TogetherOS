@@ -135,17 +135,17 @@ describe('InMemoryProposalRepo', () => {
     })
 
     it('filters by scopeType', async () => {
-      const groupProposals = await repo.list({ scopeType: 'group' })
+      const groupProposals = await repo.list({ scopeType: 'group', limit: 100, offset: 0 })
       expect(groupProposals.length).toBe(2)
       groupProposals.forEach((p) => expect(p.scopeType).toBe('group'))
 
-      const individualProposals = await repo.list({ scopeType: 'individual' })
+      const individualProposals = await repo.list({ scopeType: 'individual', limit: 100, offset: 0 })
       expect(individualProposals.length).toBe(1)
       expect(individualProposals[0].scopeType).toBe('individual')
     })
 
     it('filters by authorId', async () => {
-      const proposals = await repo.list({ authorId: testAuthorId })
+      const proposals = await repo.list({ authorId: testAuthorId, limit: 100, offset: 0 })
       expect(proposals.length).toBe(2) // Proposal 1 and Individual Proposal
       proposals.forEach((p) => expect(p.authorId).toBe(testAuthorId))
     })
@@ -265,10 +265,10 @@ describe('InMemoryProposalRepo', () => {
         summary: 'Personal',
       })
 
-      const groupCount = await repo.count({ scopeType: 'group' })
+      const groupCount = await repo.count({ scopeType: 'group', limit: 100, offset: 0 })
       expect(groupCount).toBe(5)
 
-      const individualCount = await repo.count({ scopeType: 'individual' })
+      const individualCount = await repo.count({ scopeType: 'individual', limit: 100, offset: 0 })
       expect(individualCount).toBe(1)
     })
   })
