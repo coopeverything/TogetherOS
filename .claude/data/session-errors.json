@@ -99,7 +99,31 @@
       "kb_file_updated": ".claude/settings.local.json (local, not tracked)",
       "resolved_date": "2025-12-04T03:15:00Z",
       "source": null
+    },
+    {
+      "id": "err-009",
+      "signature": {
+        "type": "deployment",
+        "code": "PM2_RESTART_LOOP_CPU_OVERLOAD",
+        "pattern": "PM2 unlimited restarts during build causes CPU throttling on VPS"
+      },
+      "trigger": "user-reported",
+      "occurrences": [
+        {
+          "session_date": "2025-12-11",
+          "context": "Deployment triggered PM2 restart while build was incomplete. PM2 restarted app 441 times in rapid succession (no restart limits configured). Hostinger VPS hit CPU limit and throttled server. Health checks failed, rollback failed, site went down. Required manual server reboot."
+        }
+      ],
+      "resolution": "Two fixes applied: 1) Deployment workflow now stops PM2 BEFORE deleting .next and building, then starts PM2 AFTER build completes with BUILD_ID verification. 2) ecosystem.config.js now includes restart limits: max_restarts=10, min_uptime=10s, restart_delay=4000ms, exp_backoff_restart_delay=100ms.",
+      "kb_file_updated": ".github/workflows/auto-deploy-production.yml, ecosystem.config.js",
+      "resolved_date": "2025-12-11T16:40:00Z",
+      "details": {
+        "root_cause": "Race condition: PM2 running while .next deleted and rebuilt. PM2 default behavior is unlimited instant restarts.",
+        "symptoms": ["Cannot find module 'tailwind-merge'", "Missing Next.js chunks", "BUILD_ID not found", "441 restarts in PM2 logs"],
+        "affected_systems": ["Hostinger VPS CPU limits", "Production site availability"]
+      },
+      "source": "https://pm2.keymetrics.io/docs/usage/restart-strategies/"
     }
   ],
-  "last_updated": "2025-12-05T16:15:00Z"
+  "last_updated": "2025-12-11T16:40:00Z"
 }

@@ -110,6 +110,9 @@ jobs:
             echo "→ Building TypeScript packages..."
             npm run build:packages 2>&1 | tail -10
 
+            echo "→ Stopping PM2 before rebuild..."
+            pm2 stop togetheros 2>&1 || echo "PM2 process not running (OK)"
+
             echo "→ Cleaning previous build..."
             cd apps/web
             rm -rf .next
@@ -118,12 +121,22 @@ jobs:
             echo "→ Building application..."
             npm run build 2>&1 || {
               echo "❌ Build failed!"
+              echo "→ Attempting to restart with previous build..."
+              pm2 start /var/www/togetheros/ecosystem.config.js 2>&1 || true
               exit 1
             }
             echo "✓ Build complete"
 
-            echo "→ Restarting PM2..."
-            pm2 restart togetheros 2>&1 || pm2 start ecosystem.config.js 2>&1
+            echo "→ Verifying build artifacts..."
+            if [ ! -f ".next/BUILD_ID" ]; then
+              echo "❌ BUILD_ID not found - build incomplete!"
+              exit 1
+            fi
+            echo "✓ BUILD_ID: $(cat .next/BUILD_ID)"
+
+            echo "→ Starting PM2..."
+            cd /var/www/togetheros
+            pm2 start ecosystem.config.js 2>&1 || pm2 restart togetheros 2>&1
             pm2 status togetheros 2>&1
 
             echo "✅ Deployment complete!"
