@@ -1464,7 +1464,7 @@ The website **coopeverything.org** is where members:
 
 ## Powered by TogetherOS
 
-CoopEverything runs on **TogetherOS** — the operating system for cooperation. TogetherOS provides the governance, economy, and coordination tools that make CoopEverything work.
+CoopEverything runs on **[TogetherOS](/wiki/togetheros)** — the operating system for cooperation. TogetherOS provides the governance, economy, and coordination tools that make CoopEverything work.
 
 Think of it this way:
 - **CoopEverything** = the movement, the people, the mission
@@ -1535,7 +1535,7 @@ Every initiative breaks into tiny, verifiable steps. Coordinators (elected or hi
 
 ## For Humanity
 
-TogetherOS isn't owned by CoopEverything — it's designed to be adopted, forked, and improved by any community. The code is open. The patterns are documented. The goal: make cooperation inevitable, everywhere.`,
+TogetherOS isn't owned by [CoopEverything](/wiki/coopeverything) — it's designed to be adopted, forked, and improved by any community. The code is open. The patterns are documented. The goal: make cooperation inevitable, everywhere.`,
     status: 'stable',
     tags: ['foundation', 'technology', 'governance', 'system'],
     cooperationPaths: ['Cooperative Technology', 'Collective Governance'],

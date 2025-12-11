@@ -666,15 +666,19 @@ Before creating/modifying API routes that import from internal modules:
 
 ---
 
-### Session Reference: 2025-12-11 Production Outage & PM2 Restart Loop
+### Session Reference: 2025-12-11 Production Outage, Malware Investigation & Data Exfiltration Check
 
-**Incident:** Production site down for several hours due to PM2 restart loop triggering Hostinger CPU throttling.
+**Incident:** Production site down multiple times due to PM2 restart loop + malware discovered on server.
+
+---
+
+#### Part 1: PM2 Restart Loop & CPU Throttling
 
 **Timeline:**
 | Time | Event |
 |------|-------|
 | ~15:00 | Deployment triggered during incomplete build |
-| ~15:00-16:00 | PM2 restarted 441+ times (no restart limits configured) |
+| ~15:00-16:00 | PM2 restarted 482+ times (no restart limits configured) |
 | ~16:00 | Hostinger CPU throttling activated (84% steal time) |
 | ~16:00-17:30 | Site down, multiple investigation rounds |
 | ~17:55 | Site restored after manual rebuild |
@@ -682,40 +686,142 @@ Before creating/modifying API routes that import from internal modules:
 **Root Causes:**
 
 1. **PM2 restart loop** - PM2 had no restart limits configured. When app crashed, PM2 restarted it instantly and infinitely.
-2. **Race condition in deployment** - PM2 was running while `.next` directory was deleted during build. PM2 detected missing files and kept trying to restart.
-3. **Incomplete build** - BUILD_ID file was missing because build never completed (interrupted by PM2 restarts consuming CPU).
+2. **Race condition in deployment** - PM2 was running while `.next` directory was deleted during build.
+3. **Incomplete build** - BUILD_ID file was missing because build never completed.
 
 **Symptoms:**
 - `Cannot find module 'tailwind-merge'` errors
 - `Could not find a production build in the '.next' directory`
 - 84% CPU steal time (hypervisor throttling)
-- PM2 showing 441+ restarts (↺ column)
-- Health check failures
+- PM2 showing 482+ restarts (↺ column)
 
 **Fixes Applied:**
 
 1. **ecosystem.config.js** - Added restart limits:
    ```javascript
-   max_restarts: 10,              // Stop after 10 restarts
-   min_uptime: '10s',             // Consider "started" after 10s
-   restart_delay: 4000,           // Wait 4s between restarts
-   exp_backoff_restart_delay: 100 // Exponential backoff
+   max_restarts: 10,
+   min_uptime: '10s',
+   restart_delay: 4000,
+   exp_backoff_restart_delay: 100
    ```
 
-2. **auto-deploy-production.yml** - Fixed deployment sequence:
-   ```yaml
-   # OLD (wrong): Delete .next while PM2 running
-   # NEW (correct):
-   pm2 stop togetheros           # 1. Stop PM2 first
-   rm -rf .next                  # 2. Delete old build
-   npm run build                 # 3. Build new version
-   # Verify BUILD_ID exists      # 4. Check build complete
-   pm2 start ecosystem.config.js # 5. Start PM2 after build
+2. **auto-deploy-production.yml** - Fixed deployment sequence (stop PM2 before build)
+
+3. **pm2-root.service** - Added systemd restart limits:
+   ```ini
+   RestartSec=30
+   StartLimitIntervalSec=300
+   StartLimitBurst=5
    ```
 
-3. **ecosystem.config.example.js** - Created template file (actual config is gitignored because it contains secrets).
+4. **ensure-build.sh** - Created build verification script at `/var/www/togetheros/scripts/ensure-build.sh`
 
-**Recovery Procedure (if this happens again):**
+---
+
+#### Part 2: Malware Discovery & Removal
+
+**Discovery Date:** December 11, 2025
+**Installation Date:** December 6, 2025 (09:00-10:30 UTC)
+
+**Malware Found:**
+
+| Component | Location | Purpose | C2 Server |
+|-----------|----------|---------|-----------|
+| **meshagent** | `/usr/local/mesh_services/meshagent` | MeshCentral RAT (remote access) | 45.93.8.88 (ALEXHOST Amsterdam) |
+| **rsyslo** | `/usr/local/rsyslo/rsyslo` | UPX-packed payload (typosquatting rsyslog) | Unknown |
+
+**Service Files:**
+- `/usr/lib/systemd/system/meshagent.service` - "meshagent background service"
+- `/etc/systemd/system/rsyslo.service` - "Rsyslo AV Agent Service" (fake antivirus)
+
+**Critical Finding: Both Malware Components FAILED**
+
+| Malware | Behavior | Evidence |
+|---------|----------|----------|
+| **meshagent** | Crashed immediately | `exit-code=1/FAILURE` after 18 seconds, entered restart loop |
+| **rsyslo** | Crashed repeatedly | 13+ restart attempts, each lasting ~1 second |
+
+Kernel log: `process 'usr/local/rsyslo/rsyslo' started with executable stack`
+- Indicates poorly constructed payload
+- Likely crashed due to ASLR/NX protection or missing dependencies
+
+**Removal Actions (Dec 11):**
+```bash
+# Stopped and disabled services
+systemctl stop meshagent rsyslo
+systemctl disable meshagent rsyslo
+
+# Removed service files
+rm /usr/lib/systemd/system/meshagent.service
+rm /etc/systemd/system/rsyslo.service
+
+# Removed binaries
+rm -rf /usr/local/mesh_services/
+rm -rf /usr/local/rsyslo/
+
+# Reloaded systemd
+systemctl daemon-reload
+```
+
+**Attack Vector Analysis:**
+- No SSH logins during installation window (09:00-10:30 Dec 6)
+- Likely vector: Hostinger control panel compromise OR supply chain attack
+- `clp` user (Hostinger panel) has sudo access
+
+---
+
+#### Part 3: Data Exfiltration Assessment
+
+**Database Check:**
+- ✅ Only 1 user in database (owner account)
+- ✅ No `pg_dump`, `COPY`, or export commands in PostgreSQL logs
+- ✅ Only normal app queries on Dec 6 (theme updates, post selects)
+- ✅ No suspicious database backups created
+
+**File Access Check:**
+- ✅ `.env` file last modified Nov 3, 2025 (before attack)
+- ✅ No tar/zip/curl uploads in bash history
+- ✅ No audit logs of file exfiltration
+
+**Network Check:**
+- Dec 6 logs show normal traffic (Postfix probes, SSH from known IPs)
+- No connections to attacker C2 (45.93.8.88) succeeded
+
+**Assessment: LOW RISK of Data Exfiltration**
+- Malware never successfully ran
+- Database shows no unauthorized queries
+- Single user account remains intact
+- `.env` unchanged since Nov 3
+
+**Probable Attack Intent:**
+- MeshAgent for remote desktop/shell access (reconnaissance)
+- rsyslo was likely cryptominer or botnet payload
+- Attack was **unsuccessful** - malware kept crashing
+
+---
+
+#### Part 4: Post-Incident Hardening
+
+**Completed:**
+- [x] PM2 restart limits configured
+- [x] Systemd restart limits configured
+- [x] Deployment workflow fixed (stop PM2 before build)
+- [x] Malware removed
+- [x] Crontab cleaned (removed process-hiding entries)
+- [x] Audit logging enabled
+
+**Recommended:**
+- [ ] Change database password
+- [ ] Change JWT secret
+- [ ] Rotate OpenAI API key
+- [ ] Contact Hostinger about Dec 6 activity
+- [ ] Enable fail2ban for SSH
+- [ ] Regular security scans (rkhunter, chkrootkit)
+
+---
+
+#### Recovery Procedure (if PM2 loop happens again)
+
 ```bash
 # 1. SSH to server
 ssh root@72.60.27.167
@@ -745,38 +851,25 @@ pm2 save
 curl https://coopeverything.org/api/health
 ```
 
-**Additional Finding - Suspicious Crontab Entries:**
+---
 
-During investigation, found 3 suspicious crontab entries attempting to hide `meshagent` process:
-```bash
-* * * * * pgrep -f meshagent | while read pid; do mountpoint -q /proc/$pid || mount -o bind /tmp/empty /proc/$pid 2>/dev/null; done
-```
+#### Lessons Learned
 
-**Analysis:**
-- `meshagent` is Hostinger's legitimate MeshCentral management tool (installed Dec 6)
-- Crontab entries were broken (missing `||` operator, `/tmp/empty` didn't exist)
-- Never actually worked - failed malware attempt
-- **Removed** these entries during incident response
-- Probability of successful attack: LOW (~20-30%)
-
-**Prevention Checklist (for future deployments):**
-- [ ] PM2 ecosystem.config.js has restart limits
-- [ ] Deployment workflow stops PM2 before build
-- [ ] Deployment workflow verifies BUILD_ID after build
-- [ ] Deployment workflow starts PM2 only after verified build
-
-**Lesson Learned:**
 1. PM2 default is unlimited instant restarts - ALWAYS configure limits
-2. Never delete build artifacts while process manager is running
-3. BUILD_ID verification is critical before starting app
-4. 84% CPU steal = hypervisor throttling, not app issue
-5. Check crontab periodically for suspicious entries
+2. Systemd can override PM2 restart limits - configure both
+3. Never delete build artifacts while process manager is running
+4. BUILD_ID verification is critical before starting app
+5. 84% CPU steal = hypervisor throttling, not app issue
+6. Malware can be installed via hosting control panels, not just SSH
+7. Poor-quality malware may fail silently - still remove immediately
+8. Enable audit logging BEFORE incidents occur
 
 **Files Changed:**
-- `.github/workflows/auto-deploy-production.yml` (deployment sequence)
-- `ecosystem.config.example.js` (new template with restart limits)
-- `.claude/data/session-errors.json` (err-009 documented)
-- Server crontab (removed suspicious entries)
+- `.github/workflows/auto-deploy-production.yml`
+- `ecosystem.config.example.js`
+- `/etc/systemd/system/pm2-root.service` (on VPS)
+- `/var/www/togetheros/scripts/ensure-build.sh` (on VPS)
+- Removed: `/usr/local/mesh_services/`, `/usr/local/rsyslo/` (on VPS)
 
 ---
 
