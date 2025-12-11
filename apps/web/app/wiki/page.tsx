@@ -7,7 +7,7 @@ import {
 } from '../../lib/data/wiki-data'
 
 export const metadata: Metadata = {
-  title: 'Wiki | Coopeverything',
+  title: 'Wiki | CoopEverything',
   description:
     'Community-owned knowledge base. Explore concepts, governance principles, and cooperative practices.',
 }

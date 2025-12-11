@@ -88,7 +88,7 @@ export default function Navigation() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-sm font-bold text-[var(--brand-600)] hover:text-[var(--brand-500)]">
-              Coopeverything
+              CoopEverything
             </Link>
           </div>
 

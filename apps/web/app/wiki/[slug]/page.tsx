@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${article.title} | Wiki | Coopeverything`,
+    title: `${article.title} | Wiki | CoopEverything`,
     description: article.summary,
   }
 }

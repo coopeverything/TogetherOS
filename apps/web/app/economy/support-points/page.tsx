@@ -10,7 +10,7 @@ import { findUserById } from '@/lib/db/users'
 import { SPWalletClient } from './SPWalletClient'
 
 export const metadata = {
-  title: 'Support Points Wallet | Coopeverything',
+  title: 'Support Points Wallet | CoopEverything',
   description: 'View your Support Points balance and allocation history',
 }
 

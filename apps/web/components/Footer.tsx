@@ -119,7 +119,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center gap-4">
               <p className="text-ink-400 text-sm">
-                © {currentYear} Coopeverything. Powered by TogetherOS.
+                © {currentYear} CoopEverything. Powered by TogetherOS.
               </p>
               <div className="flex space-x-4 text-sm">
                 <Link href="/privacy" className="text-ink-400 hover:text-joy-600 transition-colors">

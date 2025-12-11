@@ -426,7 +426,7 @@ These principles are **hard-coded** into the system and cannot be bypassed:
 - `event_fund` - Specific events and campaigns
 
 **Global-to-local relationship:**
-- **Coopeverything supports** each new city at start (bootstrap period)
+- **CoopEverything supports** each new city at start (bootstrap period)
 - **Once city reaches thresholds** (members, dues, income stability):
   - Expected to cover own local expenses from local fees/donations
   - Becomes self-sustaining

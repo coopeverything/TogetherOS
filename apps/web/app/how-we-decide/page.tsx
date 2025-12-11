@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'How We Decide Together | Coopeverything',
+  title: 'How We Decide Together | CoopEverything',
   description:
-    'Learn how Coopeverything makes decisions together through consent-based governance, community deliberation, and continuous improvement.',
+    'Learn how CoopEverything makes decisions together through consent-based governance, community deliberation, and continuous improvement.',
 }
 
 export default function HowWeDecidePage() {
@@ -17,7 +17,7 @@ export default function HowWeDecidePage() {
             How We Decide Together
           </h1>
           <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 max-w-3xl mx-auto leading-relaxed">
-            Coopeverything uses a <strong>consent-based governance pipeline</strong>{' '}
+            CoopEverything uses a <strong>consent-based governance pipeline</strong>{' '}
             that transforms ideas into action, tracks outcomes, and learns from
             experience. Everyone participates. The commons improves the process.
           </p>

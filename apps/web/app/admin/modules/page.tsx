@@ -10,8 +10,8 @@ import {
 } from '../../../lib/data/modules-data'
 
 export const metadata: Metadata = {
-  title: 'Modules Hub (Admin) | Coopeverything Docs',
-  description: 'Admin view of all Coopeverything platform modules',
+  title: 'Modules Hub (Admin) | CoopEverything Docs',
+  description: 'Admin view of all CoopEverything platform modules',
 }
 
 export default function AdminModulesPage() {
@@ -39,7 +39,7 @@ export default function AdminModulesPage() {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-sm font-bold text-ink-900 mb-4">
-            Coopeverything Modules Hub
+            CoopEverything Modules Hub
           </h1>
           <p className="text-sm text-ink-700 max-w-3xl mx-auto leading-relaxed">
             These modules work together as a <strong>unified governance pipeline</strong>: from ideation to decision to execution to continuous improvement. Each module represents a key capability powered by TogetherOS, the technology stack enabling cooperation.

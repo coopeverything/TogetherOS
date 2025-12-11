@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getPublishedArticles } from '../../lib/data/articles-data'
 
 export const metadata: Metadata = {
-  title: 'Articles | Expert Opinions | Coopeverything',
+  title: 'Articles | Expert Opinions | CoopEverything',
   description:
     'Author-owned articles and expert opinions on cooperation, governance, and building alternatives to hierarchy.',
 }

@@ -1,5 +1,5 @@
 /**
- * Root Layout for Coopeverything
+ * Root Layout for CoopEverything
  *
  * This is the top-level layout that wraps all pages in the application.
  */
@@ -13,7 +13,7 @@ import Footer from '@/components/Footer';
 import { CookieConsent } from '@/components/security/CookieConsent';
 
 export const metadata = {
-  title: 'Coopeverything',
+  title: 'CoopEverything',
   description: 'A cooperative project helping people work together to improve their lives and communities',
 };
 

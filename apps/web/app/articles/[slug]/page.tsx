@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${article.title} | Articles | Coopeverything`,
+    title: `${article.title} | Articles | CoopEverything`,
     description: article.summary,
   }
 }

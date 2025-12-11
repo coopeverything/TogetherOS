@@ -10,7 +10,7 @@ import { findUserById } from '@/lib/db/users'
 import { RPWalletClient } from './RPWalletClient'
 
 export const metadata = {
-  title: 'Reward Points Wallet | Coopeverything',
+  title: 'Reward Points Wallet | CoopEverything',
   description: 'View your Reward Points balance, transaction history, and badges',
 }
 

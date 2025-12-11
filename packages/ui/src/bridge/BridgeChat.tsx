@@ -167,7 +167,7 @@ export function BridgeChat({ className }: BridgeChatProps) {
 
         {messages.length === 0 && (
           <p className={styles['bridge-intro']}>
-            Coopeverything is a vast project to transform the way we survive, thrive and govern ourselves.
+            CoopEverything is a vast project to transform the way we survive, thrive and govern ourselves.
             Bridge will help you with your questions.
           </p>
         )}

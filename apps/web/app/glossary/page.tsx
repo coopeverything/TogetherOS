@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { glossaryTerms, getWikiArticleBySlug } from '../../lib/data/wiki-data'
 
 export const metadata: Metadata = {
-  title: 'Glossary | Coopeverything',
+  title: 'Glossary | CoopEverything',
   description:
     'Terms and definitions used throughout TogetherOS. Quick explanations with links to deeper content.',
 }

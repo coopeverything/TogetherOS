@@ -1431,12 +1431,153 @@ Hired roles are part of our social economy. Compensation comes from the cooperat
     createdAt: '2025-11-30T00:00:00Z',
     readTimeMinutes: 4,
   },
+  {
+    id: 'wiki-coopeverything',
+    slug: 'coopeverything',
+    title: 'CoopEverything',
+    summary:
+      'CoopEverything is a global initiative to make cooperation the default way humans organize — in communities, workplaces, and societies.',
+    content: `# CoopEverything
+
+**CoopEverything** is a global initiative to make cooperation the default way humans organize — in communities, workplaces, and societies.
+
+## The Name
+
+"Coop Everything" — cooperate in everything. Not just buying clubs or housing co-ops, but *everything*: decisions, work, care, learning, economy, media, and our relationship with the planet.
+
+## What CoopEverything Does
+
+CoopEverything:
+- **Connects** people who want to cooperate
+- **Educates** through challenges, micro-lessons, and real projects
+- **Organizes** communities to solve problems together
+- **Builds** the tools and systems that make cooperation easy
+
+## The Platform
+
+The website **coopeverything.org** is where members:
+- Learn cooperative skills
+- Join or create local groups
+- Propose and deliberate on ideas
+- Track contributions and build reputation
+- Access mutual aid and shared resources
+
+## Powered by TogetherOS
+
+CoopEverything runs on **TogetherOS** — the operating system for cooperation. TogetherOS provides the governance, economy, and coordination tools that make CoopEverything work.
+
+Think of it this way:
+- **CoopEverything** = the movement, the people, the mission
+- **TogetherOS** = the system, the rules, the technology
+
+## Join Us
+
+CoopEverything welcomes anyone ready to unlearn division and learn coordination. Start by exploring what matters to you, complete your first challenge, and connect with others.`,
+    status: 'stable',
+    tags: ['foundation', 'organization', 'mission', 'platform'],
+    cooperationPaths: [
+      'Collaborative Education',
+      'Social Economy',
+      'Common Wellbeing',
+      'Cooperative Technology',
+      'Collective Governance',
+      'Community Connection',
+      'Collaborative Media & Culture',
+      'Common Planet',
+    ],
+    relatedArticles: ['togetheros', 'cooperation-paths', 'the-solution'],
+    terms: ['coopeverything', 'togetheros'],
+    contributorCount: 1,
+    lastEditedAt: '2025-12-11T00:00:00Z',
+    createdAt: '2025-12-11T00:00:00Z',
+    readTimeMinutes: 2,
+  },
+  {
+    id: 'wiki-togetheros',
+    slug: 'togetheros',
+    title: 'TogetherOS',
+    summary:
+      'TogetherOS is a cooperation operating system — a complete social and technological stack for communities to govern themselves, share resources, and deliver results.',
+    content: `# TogetherOS
+
+**TogetherOS** is a cooperation operating system — a complete social and technological stack for communities to govern themselves, share resources, and deliver results.
+
+## Why "Operating System"?
+
+Just as your phone's OS (iOS, Android) provides the foundation for apps to run, TogetherOS provides the foundation for cooperation to happen:
+
+- **Governance layer** — How decisions get made
+- **Economy layer** — How value flows and gets shared
+- **Coordination layer** — How work gets organized and tracked
+- **Learning layer** — How people develop cooperative skills
+
+## Core Mechanics
+
+### Solving Differences
+When people disagree, TogetherOS provides structured paths to resolution — not by forcing agreement, but by documenting positions, finding common ground, and preserving minority views.
+
+### Deliberating
+Before decisions, members explore options together. TogetherOS templates guide discussions through research → options → trade-offs → deliberation, keeping conversations productive.
+
+### Deciding
+Decisions use **consent-based** processes: proposals pass when no one has fundamental objections, not when everyone agrees. This protects minority voices while enabling action.
+
+### Organizing
+Every initiative breaks into tiny, verifiable steps. Coordinators (elected or hired) execute the collective will. All actions are logged. Anyone can be recalled.
+
+## Key Features
+
+- **Support Points (SP)** — Governance power earned through contribution, never bought
+- **Reward Points (RP)** — Economic claims for contributions
+- **Minority Reports** — Dissenting views preserved alongside decisions
+- **Recall Mechanism** — Any coordinator can be removed by the community
+- **8 Cooperation Paths** — Categories organizing all activities
+
+## For Humanity
+
+TogetherOS isn't owned by CoopEverything — it's designed to be adopted, forked, and improved by any community. The code is open. The patterns are documented. The goal: make cooperation inevitable, everywhere.`,
+    status: 'stable',
+    tags: ['foundation', 'technology', 'governance', 'system'],
+    cooperationPaths: ['Cooperative Technology', 'Collective Governance'],
+    relatedArticles: [
+      'coopeverything',
+      'consent-based-decisions',
+      'coordinator',
+      'support-points',
+      'cooperation-paths',
+    ],
+    terms: ['togetheros', 'coopeverything', 'consent-based', 'coordinator', 'support-points'],
+    contributorCount: 1,
+    lastEditedAt: '2025-12-11T00:00:00Z',
+    createdAt: '2025-12-11T00:00:00Z',
+    readTimeMinutes: 3,
+  },
 ]
 
 /**
  * Glossary Terms - Brief definitions with links to deeper content
  */
 export const glossaryTerms: GlossaryTerm[] = [
+  {
+    id: 'term-coopeverything',
+    word: 'CoopEverything',
+    slug: 'coopeverything',
+    shortDefinition:
+      'A global initiative to make cooperation the default — the movement, the people, the mission.',
+    wikiArticleSlug: 'coopeverything',
+    relatedTerms: ['togetheros'],
+    cooperationPath: 'Cooperative Technology',
+  },
+  {
+    id: 'term-togetheros',
+    word: 'TogetherOS',
+    slug: 'togetheros',
+    shortDefinition:
+      'The cooperation operating system — governance, economy, coordination, and learning tools that power CoopEverything.',
+    wikiArticleSlug: 'togetheros',
+    relatedTerms: ['coopeverything', 'consent-based', 'coordinator'],
+    cooperationPath: 'Cooperative Technology',
+  },
   {
     id: 'term-coordinator',
     word: 'Coordinator',
