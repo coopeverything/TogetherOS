@@ -41,9 +41,9 @@ export class Post {
   }): Post {
     const now = new Date()
 
-    // Validate topics
-    if (input.topics.length === 0 || input.topics.length > 5) {
-      throw new Error('Post must have 1-5 topics')
+    // Validate topics (0-5 allowed for native posts - topics are optional)
+    if (input.topics.length > 5) {
+      throw new Error('Post cannot have more than 5 topics')
     }
 
     const validated = postSchema.parse({

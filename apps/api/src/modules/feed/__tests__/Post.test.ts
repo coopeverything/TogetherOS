@@ -53,14 +53,15 @@ describe('Post Entity', () => {
       expect(post.topics).toContain('help')
     })
 
-    it('throws error when topics is empty', () => {
-      expect(() =>
-        Post.createNative({
-          authorId: testAuthorId,
-          content: 'No topics content',
-          topics: [],
-        })
-      ).toThrow('Post must have 1-5 topics')
+    it('allows empty topics for native posts', () => {
+      const post = Post.createNative({
+        authorId: testAuthorId,
+        content: 'No topics content - this is fine',
+        topics: [],
+      })
+
+      expect(post.topics).toHaveLength(0)
+      expect(post.content).toBe('No topics content - this is fine')
     })
 
     it('throws error when topics exceed 5', () => {
@@ -70,7 +71,7 @@ describe('Post Entity', () => {
           content: 'Too many topics',
           topics: ['t1', 't2', 't3', 't4', 't5', 't6'],
         })
-      ).toThrow('Post must have 1-5 topics')
+      ).toThrow('Post cannot have more than 5 topics')
     })
   })
 
