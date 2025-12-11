@@ -74,8 +74,10 @@ export function ProposalRatingForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
+      <h4 className="text-xs font-medium text-ink-700">Rate this proposal</h4>
+
       {/* Compact inline ratings row */}
-      <div className="flex flex-wrap gap-x-3 gap-y-1.5 items-center text-[10px]">
+      <div className="flex flex-wrap gap-x-4 gap-y-1.5 items-center text-[11px]">
         {/* Clarity */}
         <div className="flex items-center gap-1">
           <span className="text-ink-400">Clarity:</span>
@@ -99,8 +101,8 @@ export function ProposalRatingForm({
         </div>
 
         {/* Importance */}
-        <div className="flex items-center gap-0.5">
-          <span className="text-ink-400">Imp:</span>
+        <div className="flex items-center gap-1">
+          <span className="text-ink-400">Importance:</span>
           {[1, 2, 3, 4, 5].map((v) => (
             <button
               key={v}
@@ -117,8 +119,8 @@ export function ProposalRatingForm({
         </div>
 
         {/* Urgency */}
-        <div className="flex items-center gap-0.5">
-          <span className="text-ink-400">Urg:</span>
+        <div className="flex items-center gap-1">
+          <span className="text-ink-400">Urgency:</span>
           {[1, 2, 3, 4, 5].map((v) => (
             <button
               key={v}
@@ -165,7 +167,7 @@ export function ProposalRatingForm({
             disabled={disabled || isSubmitting}
             className="w-3 h-3 text-joy-500 rounded disabled:opacity-30"
           />
-          <span className="text-ink-400">💡</span>
+          <span className="text-ink-400">💡 Innovative</span>
         </label>
       </div>
 
