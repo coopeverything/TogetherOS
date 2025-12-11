@@ -47,8 +47,11 @@ export interface User {
   is_admin: boolean;
   // Preferences
   preferred_theme?: string;
+  // Timestamps
   created_at: Date;
   updated_at: Date;
+  last_seen_at?: Date;
+  deleted_at?: Date;
 }
 
 /**
