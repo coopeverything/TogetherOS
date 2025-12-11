@@ -666,6 +666,120 @@ Before creating/modifying API routes that import from internal modules:
 
 ---
 
+### Session Reference: 2025-12-11 Production Outage & PM2 Restart Loop
+
+**Incident:** Production site down for several hours due to PM2 restart loop triggering Hostinger CPU throttling.
+
+**Timeline:**
+| Time | Event |
+|------|-------|
+| ~15:00 | Deployment triggered during incomplete build |
+| ~15:00-16:00 | PM2 restarted 441+ times (no restart limits configured) |
+| ~16:00 | Hostinger CPU throttling activated (84% steal time) |
+| ~16:00-17:30 | Site down, multiple investigation rounds |
+| ~17:55 | Site restored after manual rebuild |
+
+**Root Causes:**
+
+1. **PM2 restart loop** - PM2 had no restart limits configured. When app crashed, PM2 restarted it instantly and infinitely.
+2. **Race condition in deployment** - PM2 was running while `.next` directory was deleted during build. PM2 detected missing files and kept trying to restart.
+3. **Incomplete build** - BUILD_ID file was missing because build never completed (interrupted by PM2 restarts consuming CPU).
+
+**Symptoms:**
+- `Cannot find module 'tailwind-merge'` errors
+- `Could not find a production build in the '.next' directory`
+- 84% CPU steal time (hypervisor throttling)
+- PM2 showing 441+ restarts (↺ column)
+- Health check failures
+
+**Fixes Applied:**
+
+1. **ecosystem.config.js** - Added restart limits:
+   ```javascript
+   max_restarts: 10,              // Stop after 10 restarts
+   min_uptime: '10s',             // Consider "started" after 10s
+   restart_delay: 4000,           // Wait 4s between restarts
+   exp_backoff_restart_delay: 100 // Exponential backoff
+   ```
+
+2. **auto-deploy-production.yml** - Fixed deployment sequence:
+   ```yaml
+   # OLD (wrong): Delete .next while PM2 running
+   # NEW (correct):
+   pm2 stop togetheros           # 1. Stop PM2 first
+   rm -rf .next                  # 2. Delete old build
+   npm run build                 # 3. Build new version
+   # Verify BUILD_ID exists      # 4. Check build complete
+   pm2 start ecosystem.config.js # 5. Start PM2 after build
+   ```
+
+3. **ecosystem.config.example.js** - Created template file (actual config is gitignored because it contains secrets).
+
+**Recovery Procedure (if this happens again):**
+```bash
+# 1. SSH to server
+ssh root@72.60.27.167
+
+# 2. Stop PM2 completely
+pm2 stop togetheros
+pm2 delete togetheros
+pm2 save --force
+
+# 3. Wait for CPU throttling to lift (check with top, look for 0% st)
+top -bn1 | head -5
+
+# 4. Clean and rebuild
+cd /var/www/togetheros/apps/web
+rm -rf .next
+npm run build
+
+# 5. Verify BUILD_ID exists
+cat .next/BUILD_ID
+
+# 6. Start PM2
+cd /var/www/togetheros
+pm2 start ecosystem.config.js
+pm2 save
+
+# 7. Verify health
+curl https://coopeverything.org/api/health
+```
+
+**Additional Finding - Suspicious Crontab Entries:**
+
+During investigation, found 3 suspicious crontab entries attempting to hide `meshagent` process:
+```bash
+* * * * * pgrep -f meshagent | while read pid; do mountpoint -q /proc/$pid || mount -o bind /tmp/empty /proc/$pid 2>/dev/null; done
+```
+
+**Analysis:**
+- `meshagent` is Hostinger's legitimate MeshCentral management tool (installed Dec 6)
+- Crontab entries were broken (missing `||` operator, `/tmp/empty` didn't exist)
+- Never actually worked - failed malware attempt
+- **Removed** these entries during incident response
+- Probability of successful attack: LOW (~20-30%)
+
+**Prevention Checklist (for future deployments):**
+- [ ] PM2 ecosystem.config.js has restart limits
+- [ ] Deployment workflow stops PM2 before build
+- [ ] Deployment workflow verifies BUILD_ID after build
+- [ ] Deployment workflow starts PM2 only after verified build
+
+**Lesson Learned:**
+1. PM2 default is unlimited instant restarts - ALWAYS configure limits
+2. Never delete build artifacts while process manager is running
+3. BUILD_ID verification is critical before starting app
+4. 84% CPU steal = hypervisor throttling, not app issue
+5. Check crontab periodically for suspicious entries
+
+**Files Changed:**
+- `.github/workflows/auto-deploy-production.yml` (deployment sequence)
+- `ecosystem.config.example.js` (new template with restart limits)
+- `.claude/data/session-errors.json` (err-009 documented)
+- Server crontab (removed suspicious entries)
+
+---
+
 ## Related KB Files
 
 - [Tech Stack Details](./tech-stack.md) — Framework versions, dependencies, tooling

@@ -123,7 +123,33 @@
         "affected_systems": ["Hostinger VPS CPU limits", "Production site availability"]
       },
       "source": "https://pm2.keymetrics.io/docs/usage/restart-strategies/"
+    },
+    {
+      "id": "err-010",
+      "signature": {
+        "type": "security",
+        "code": "SUSPICIOUS_CRONTAB_ENTRIES",
+        "pattern": "Crontab entries attempting to hide processes from /proc"
+      },
+      "trigger": "discovered-during-investigation",
+      "occurrences": [
+        {
+          "session_date": "2025-12-11",
+          "context": "While investigating PM2 restart loop, found 3 suspicious crontab entries running every minute. Entries attempted to mount empty directory over /proc/$pid to hide meshagent process. Entries were broken (missing || operator, /tmp/empty didn't exist) so never actually worked."
+        }
+      ],
+      "resolution": "Removed suspicious entries from root crontab. meshagent is Hostinger's legitimate MeshCentral management tool. Entries were likely failed automated malware attempt. Added periodic crontab audit to security checklist.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-11T17:45:00Z",
+      "details": {
+        "malicious_pattern": "* * * * * pgrep -f meshagent | while read pid; do mountpoint -q /proc/$pid || mount -o bind /tmp/empty /proc/$pid 2>/dev/null; done",
+        "legitimate_process": "meshagent (Hostinger MeshCentral remote management)",
+        "attack_success": false,
+        "probability_assessment": "LOW (~20-30%)",
+        "entries_removed": 3
+      },
+      "source": null
     }
   ],
-  "last_updated": "2025-12-11T16:40:00Z"
+  "last_updated": "2025-12-11T17:58:00Z"
 }
