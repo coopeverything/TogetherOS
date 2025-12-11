@@ -73,162 +73,127 @@ export function ProposalRatingForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      {/* Clarity Rating */}
-      <div>
-        <label className="block text-xs font-medium text-ink-900 mb-1.5">
-          Clarity
-          <span className="text-ink-400 text-xs ml-1">(How well-written?)</span>
-        </label>
-        <div className="flex gap-2">
+    <form onSubmit={handleSubmit} className="space-y-2">
+      {/* Compact inline ratings row */}
+      <div className="flex flex-wrap gap-x-3 gap-y-1.5 items-center text-[10px]">
+        {/* Clarity */}
+        <div className="flex items-center gap-1">
+          <span className="text-ink-400">Clarity:</span>
           {[
-            { value: 1 as ClarityRating, label: 'Unclear', color: 'bg-warning hover:opacity-90' },
-            { value: 2 as ClarityRating, label: 'Okay', color: 'bg-joy-500 hover:opacity-90' },
-            { value: 3 as ClarityRating, label: 'Clear', color: 'bg-success hover:opacity-90' },
-          ].map((option) => (
+            { value: 1 as ClarityRating, label: '?', color: 'bg-warning' },
+            { value: 2 as ClarityRating, label: '~', color: 'bg-joy-500' },
+            { value: 3 as ClarityRating, label: '✓', color: 'bg-success' },
+          ].map((o) => (
             <button
-              key={option.value}
+              key={o.value}
               type="button"
-              onClick={() => setClarity(option.value)}
+              onClick={() => setClarity(o.value)}
               disabled={disabled || isSubmitting}
-              className={`flex-1 px-2 py-1 text-xs rounded text-bg-1 font-medium transition-all ${option.color} ${
-                clarity === option.value ? 'ring-2 ring-offset-1 ring-brand-500 scale-[1.02]' : ''
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`w-5 h-5 text-[10px] rounded text-bg-1 ${o.color} ${
+                clarity === o.value ? 'ring-1 ring-brand-500' : 'opacity-60'
+              } disabled:opacity-30`}
             >
-              {option.label}
+              {o.label}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Importance Rating */}
-      <div>
-        <label className="block text-xs font-medium text-ink-900 mb-1.5">
-          Importance
-          <span className="text-ink-400 text-xs ml-1">(How critical?)</span>
-        </label>
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((value) => (
+        {/* Importance */}
+        <div className="flex items-center gap-0.5">
+          <span className="text-ink-400">Imp:</span>
+          {[1, 2, 3, 4, 5].map((v) => (
             <button
-              key={value}
+              key={v}
               type="button"
-              onClick={() => setImportance(value)}
+              onClick={() => setImportance(v)}
               disabled={disabled || isSubmitting}
-              className={`flex-1 px-2 py-1 text-xs rounded font-medium transition-all ${
-                importance >= value
-                  ? 'bg-info text-bg-1 hover:opacity-90'
-                  : 'bg-bg-2 text-ink-700 hover:bg-bg-0'
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`w-4 h-4 text-[9px] rounded ${
+                importance >= v ? 'bg-info text-bg-1' : 'bg-bg-2 text-ink-400'
+              } disabled:opacity-30`}
             >
-              {value}
+              {v}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Urgency Rating */}
-      <div>
-        <label className="block text-xs font-medium text-ink-900 mb-1.5">
-          Urgency
-          <span className="text-ink-400 text-xs ml-1">(Time-sensitive?)</span>
-        </label>
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((value) => (
+        {/* Urgency */}
+        <div className="flex items-center gap-0.5">
+          <span className="text-ink-400">Urg:</span>
+          {[1, 2, 3, 4, 5].map((v) => (
             <button
-              key={value}
+              key={v}
               type="button"
-              onClick={() => setUrgency(value)}
+              onClick={() => setUrgency(v)}
               disabled={disabled || isSubmitting}
-              className={`flex-1 px-2 py-1 text-xs rounded font-medium transition-all ${
-                urgency >= value
-                  ? 'bg-joy-600 text-bg-1 hover:opacity-90'
-                  : 'bg-bg-2 text-ink-700 hover:bg-bg-0'
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`w-4 h-4 text-[9px] rounded ${
+                urgency >= v ? 'bg-joy-600 text-bg-1' : 'bg-bg-2 text-ink-400'
+              } disabled:opacity-30`}
             >
-              {value}
+              {v}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Innovation Indicator */}
-      <div>
-        <label className="flex items-center gap-2 cursor-pointer">
+        {/* Tone */}
+        <div className="flex items-center gap-1">
+          <span className="text-ink-400">Tone:</span>
+          {[
+            { value: 1 as ConstructivenessRating, label: '!', color: 'bg-danger' },
+            { value: 2 as ConstructivenessRating, label: '~', color: 'bg-warning' },
+            { value: 3 as ConstructivenessRating, label: '✓', color: 'bg-success' },
+          ].map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              onClick={() => setConstructiveness(o.value)}
+              disabled={disabled || isSubmitting}
+              className={`w-5 h-5 text-[10px] rounded text-bg-1 ${o.color} ${
+                constructiveness === o.value ? 'ring-1 ring-brand-500' : 'opacity-60'
+              } disabled:opacity-30`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Innovation checkbox */}
+        <label className="flex items-center gap-1 cursor-pointer">
           <input
             type="checkbox"
             checked={isInnovative}
             onChange={(e) => setIsInnovative(e.target.checked)}
             disabled={disabled || isSubmitting}
-            className="w-4 h-4 text-joy-500 rounded focus:ring-2 focus:ring-joy-500 disabled:opacity-50"
+            className="w-3 h-3 text-joy-500 rounded disabled:opacity-30"
           />
-          <span className="text-xs font-medium text-ink-900 flex items-center gap-1">
-            <span className="text-xs">💡</span>
-            Great New Idea
-            <span className="text-ink-400 text-xs">(Innovative)</span>
-          </span>
+          <span className="text-ink-400">💡</span>
         </label>
       </div>
 
-      {/* Constructiveness Rating */}
-      <div>
-        <label className="block text-xs font-medium text-ink-900 mb-1.5">
-          Constructiveness
-          <span className="text-ink-400 text-xs ml-1">(Tone)</span>
-        </label>
-        <div className="flex gap-2">
-          {[
-            { value: 1 as ConstructivenessRating, label: 'Flag', color: 'bg-danger hover:opacity-90', desc: 'Personal attacks or extreme wording' },
-            { value: 2 as ConstructivenessRating, label: 'Okay', color: 'bg-warning hover:opacity-90', desc: 'Minor tone issues' },
-            { value: 3 as ConstructivenessRating, label: 'Good', color: 'bg-success hover:opacity-90', desc: 'Respectful and collaborative' },
-          ].map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => setConstructiveness(option.value)}
-              disabled={disabled || isSubmitting}
-              className={`flex-1 px-2 py-1 text-xs rounded text-bg-1 font-medium transition-all ${option.color} ${
-                constructiveness === option.value ? 'ring-2 ring-offset-1 ring-brand-500 scale-[1.02]' : ''
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-              title={option.desc}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-        {constructiveness === 1 && (
-          <p className="mt-1 text-xs text-danger">
-            ⚠️ Red ratings trigger moderator review
-          </p>
-        )}
-      </div>
+      {constructiveness === 1 && (
+        <p className="text-[10px] text-danger">⚠️ Flags moderator review</p>
+      )}
 
-      {/* Feedback */}
-      <div>
-        <label className="block text-xs font-medium text-ink-900 mb-1.5">
-          Feedback (Optional)
-          <span className="text-ink-400 text-xs ml-1">(Explain)</span>
-        </label>
+      {/* Feedback - collapsible */}
+      <details className="text-[10px]">
+        <summary className="text-ink-400 cursor-pointer hover:text-ink-700">+ Add feedback</summary>
         <textarea
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
           disabled={disabled || isSubmitting}
-          placeholder="Provide constructive feedback..."
-          rows={3}
+          placeholder="Feedback..."
+          rows={2}
           maxLength={2000}
-          className="w-full px-2 py-1.5 text-sm border border-border bg-bg-1 text-ink-900 rounded focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-1 w-full px-1.5 py-1 text-[11px] border border-border bg-bg-1 text-ink-900 rounded resize-none disabled:opacity-30"
         />
-        <p className="mt-0.5 text-xs text-ink-400 text-right">
-          {feedback.length}/2000
-        </p>
-      </div>
+      </details>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <button
         type="submit"
         disabled={disabled || isSubmitting}
-        className="w-full px-3 py-1.5 bg-brand-600 text-bg-1 rounded text-sm font-medium hover:bg-brand-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-2 py-0.5 bg-brand-600 text-bg-1 rounded text-[10px] font-medium hover:bg-brand-500 disabled:opacity-30"
       >
-        {isSubmitting ? 'Submitting...' : currentRating ? 'Update Rating' : 'Submit Rating'}
+        {isSubmitting ? '...' : currentRating ? 'Update' : 'Rate'}
       </button>
     </form>
   )

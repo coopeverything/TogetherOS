@@ -66,122 +66,81 @@ export function VoteInterface({
   ]
 
   return (
-    <div className="space-y-3">
-      {/* Current Vote Display */}
+    <div className="space-y-1.5">
+      {/* Current Vote - inline */}
       {currentVote && (
-        <div className="px-3 py-2 bg-info-bg border border-info/30 rounded">
-          <p className="text-xs font-medium text-info">
-            Your vote: <span className="font-bold capitalize">{currentVote}</span>
-            <span className="text-info/70 ml-1">(changeable)</span>
-          </p>
-        </div>
+        <p className="text-[10px] text-info">
+          Your vote: <span className="font-bold capitalize">{currentVote}</span>
+          <span className="opacity-70 ml-1">(changeable)</span>
+        </p>
       )}
 
-      {/* Vote Tally - Compact */}
-      <div className="grid grid-cols-4 gap-2">
-        <div className="text-center px-2 py-1.5 bg-success-bg rounded border border-success/30">
-          <div className="text-sm font-bold text-success">{tally.consent}</div>
-          <div className="text-xs text-success">Consent</div>
-        </div>
-        <div className="text-center px-2 py-1.5 bg-warning-bg rounded border border-warning/30">
-          <div className="text-sm font-bold text-warning">{tally.concern}</div>
-          <div className="text-xs text-warning">Concern</div>
-        </div>
-        <div className="text-center px-2 py-1.5 bg-bg-2 rounded border border-border">
-          <div className="text-sm font-bold text-ink-700">{tally.abstain}</div>
-          <div className="text-xs text-ink-700">Abstain</div>
-        </div>
-        <div className="text-center px-2 py-1.5 bg-danger-bg rounded border border-danger/30">
-          <div className="text-sm font-bold text-danger">{tally.block}</div>
-          <div className="text-xs text-danger">Block</div>
-        </div>
+      {/* Vote Tally - ultra compact inline */}
+      <div className="flex items-center gap-2 text-[10px]">
+        <span className="text-success font-medium">{tally.consent}✓</span>
+        <span className="text-warning font-medium">{tally.concern}?</span>
+        <span className="text-ink-400">{tally.abstain}−</span>
+        <span className="text-danger font-medium">{tally.block}✗</span>
+        <span className="text-ink-400 ml-1">
+          {tally.hasBlocks ? '❌' : tally.thresholdMet ? '✅' : '⏳'}
+        </span>
       </div>
 
-      {/* Decision Status - Compact */}
-      <div className={`px-3 py-2 rounded border ${
-        tally.hasBlocks
-          ? 'bg-danger-bg border-danger/30'
-          : tally.thresholdMet
-          ? 'bg-success-bg border-success/30'
-          : 'bg-bg-2 border-border'
-      }`}>
-        <p className={`text-xs font-medium ${
-          tally.hasBlocks
-            ? 'text-danger'
-            : tally.thresholdMet
-            ? 'text-success'
-            : 'text-ink-900'
-        }`}>
-          {tally.hasBlocks
-            ? `❌ Blocked (${tally.block})`
-            : tally.thresholdMet
-            ? '✅ Threshold met'
-            : '⏳ Awaiting votes'}
-        </p>
-        <p className="text-xs text-ink-400 mt-0.5">
-          {tally.total} votes ({tally.abstain} abstain)
-        </p>
+      {/* Vote Buttons - inline */}
+      <div className="flex flex-wrap items-center gap-1">
+        <span className="text-[10px] text-ink-400">Vote:</span>
+        {voteButtons.map((btn) => (
+          <button
+            key={btn.type}
+            onClick={() => {
+              if (showReasoningFor === btn.type) {
+                handleVote(btn.type)
+              } else {
+                setShowReasoningFor(btn.type)
+              }
+            }}
+            disabled={disabled || isVoting}
+            className={`px-1.5 py-0.5 text-[10px] rounded font-medium ${btn.color} ${
+              currentVote === btn.type ? 'ring-1 ring-brand-500' : ''
+            } disabled:opacity-30`}
+          >
+            {btn.type === 'consent' ? '✓' : btn.type === 'concern' ? '?' : btn.type === 'abstain' ? '−' : '✗'}
+          </button>
+        ))}
       </div>
 
-      {/* Vote Buttons - Compact */}
-      <div className="space-y-2">
-        <h3 className="text-xs font-semibold text-ink-900">Cast Your Vote</h3>
-        <div className="grid grid-cols-2 gap-2">
-          {voteButtons.map((btn) => (
-            <div key={btn.type} className="space-y-1">
-              <button
-                onClick={() => {
-                  if (showReasoningFor === btn.type) {
-                    handleVote(btn.type)
-                  } else {
-                    setShowReasoningFor(btn.type)
-                  }
-                }}
-                disabled={disabled || isVoting}
-                className={`w-full px-2 py-1.5 text-xs rounded font-medium transition-colors ${btn.color} ${
-                  currentVote === btn.type ? 'ring-2 ring-offset-1 ring-brand-500' : ''
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
-              >
-                {btn.label}
-              </button>
-              <p className="text-xs text-ink-400 leading-tight">{btn.description}</p>
-
-              {/* Reasoning textarea */}
-              {showReasoningFor === btn.type && (
-                <div className="mt-1 space-y-1.5">
-                  <textarea
-                    placeholder={`Why ${btn.type}? (optional)`}
-                    value={reasoning}
-                    onChange={(e) => setReasoning(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border border-border rounded focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none bg-bg-1 text-ink-900"
-                    rows={2}
-                    disabled={isVoting}
-                  />
-                  <div className="flex gap-1.5">
-                    <button
-                      onClick={() => handleVote(btn.type)}
-                      disabled={isVoting}
-                      className="px-2 py-1 text-xs bg-brand-600 text-bg-1 rounded hover:bg-brand-500 disabled:opacity-50"
-                    >
-                      {isVoting ? 'Submitting...' : 'Submit'}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setShowReasoningFor(null)
-                        setReasoning('')
-                      }}
-                      disabled={isVoting}
-                      className="px-2 py-1 text-xs bg-bg-2 text-ink-700 rounded hover:bg-bg-0"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+      {/* Reasoning - only shows when vote button clicked */}
+      {showReasoningFor && (
+        <div className="space-y-1 text-[10px]">
+          <textarea
+            placeholder={`Why ${showReasoningFor}? (optional)`}
+            value={reasoning}
+            onChange={(e) => setReasoning(e.target.value)}
+            className="w-full px-1.5 py-1 text-[11px] border border-border rounded resize-none bg-bg-1 text-ink-900"
+            rows={2}
+            disabled={isVoting}
+          />
+          <div className="flex gap-1">
+            <button
+              onClick={() => handleVote(showReasoningFor)}
+              disabled={isVoting}
+              className="px-1.5 py-0.5 text-[10px] bg-brand-600 text-bg-1 rounded hover:bg-brand-500 disabled:opacity-30"
+            >
+              {isVoting ? '...' : 'Submit'}
+            </button>
+            <button
+              onClick={() => {
+                setShowReasoningFor(null)
+                setReasoning('')
+              }}
+              disabled={isVoting}
+              className="px-1.5 py-0.5 text-[10px] bg-bg-2 text-ink-700 rounded hover:bg-bg-0"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
