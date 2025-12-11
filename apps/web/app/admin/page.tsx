@@ -48,7 +48,7 @@ const ADMIN_SECTIONS: AdminSection[] = [
         title: 'Member Management',
         description: 'User accounts, roles, and permissions',
         path: '/admin/members',
-        status: 'coming-soon',
+        status: 'active',
       },
       {
         title: 'Group Oversight',
