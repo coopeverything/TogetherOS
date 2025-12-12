@@ -82,7 +82,7 @@ export function Term({
     >
       <a
         href={glossaryUrl}
-        className="border-b border-dotted border-gray-400 text-gray-900 dark:text-white hover:border-blue-500 hover:text-blue-600 transition-colors cursor-help"
+        className="border-b border-dotted border-ink-400 text-ink-900 hover:border-brand-500 hover:text-brand-600 transition-colors cursor-help"
       >
         {displayText}
       </a>
@@ -91,14 +91,14 @@ export function Term({
       {isOpen && (
         <div
           ref={tooltipRef}
-          className={`absolute z-50 w-72 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 ${
+          className={`absolute z-50 w-72 p-4 bg-bg-1 rounded-lg shadow-lg border border-border ${
             position === 'above' ? 'bottom-full mb-2' : 'top-full mt-2'
           } left-1/2 -translate-x-1/2`}
           role="tooltip"
         >
           {/* Arrow */}
           <div
-            className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 rotate-45 ${
+            className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 bg-bg-1 border-border rotate-45 ${
               position === 'above'
                 ? 'bottom-[-6px] border-r border-b'
                 : 'top-[-6px] border-l border-t'
@@ -107,15 +107,15 @@ export function Term({
 
           {/* Content */}
           <div className="relative">
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{word}</h4>
-            <p className="text-sm text-gray-600 leading-relaxed mb-3">
+            <h4 className="font-semibold text-ink-900 mb-1">{word}</h4>
+            <p className="text-sm text-ink-700 leading-relaxed mb-3">
               {definition}
             </p>
 
             <div className="flex flex-wrap gap-2">
               <a
                 href={glossaryUrl}
-                className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-medium hover:bg-emerald-200 transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-brand-100 text-brand-600 rounded text-xs font-medium hover:bg-brand-100/80 transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
                 <svg
@@ -137,7 +137,7 @@ export function Term({
               {wikiUrl && (
                 <a
                   href={wikiUrl}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium hover:bg-blue-200 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 bg-accent-1-bg text-accent-1 rounded text-xs font-medium hover:bg-accent-1-bg/80 transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <svg
@@ -160,7 +160,7 @@ export function Term({
               {discussionUrl && (
                 <a
                   href={discussionUrl}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 rounded text-xs font-medium hover:bg-gray-200 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 bg-bg-2 text-ink-700 rounded text-xs font-medium hover:bg-bg-2/80 transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <svg

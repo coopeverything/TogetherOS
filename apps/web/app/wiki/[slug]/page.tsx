@@ -47,9 +47,9 @@ function StatusBadge({
   status: 'stable' | 'evolving' | 'contested'
 }) {
   const styles = {
-    stable: 'bg-green-100 text-green-800 border-green-200',
-    evolving: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    contested: 'bg-red-100 text-red-800 border-red-200',
+    stable: 'bg-brand-100 text-brand-600 border-brand-500/30',
+    evolving: 'bg-joy-100 text-joy-600 border-joy-500/30',
+    contested: 'bg-danger-bg text-danger border-danger/30',
   }
 
   const icons = {
@@ -98,13 +98,13 @@ export default async function WikiArticlePage({ params }: Props) {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-bg-0">
       <div className="max-w-4xl mx-auto px-4 py-4">
         {/* Breadcrumb */}
         <nav className="mb-3">
           <ol className="flex items-center gap-2 text-sm text-ink-400">
             <li>
-              <Link href="/wiki" className="hover:text-blue-600">
+              <Link href="/wiki" className="hover:text-brand-600">
                 Wiki
               </Link>
             </li>
@@ -116,10 +116,10 @@ export default async function WikiArticlePage({ params }: Props) {
         {/* Article Header */}
         <header className="mb-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-600 to-brand-500 flex items-center justify-center text-white text-sm">
               📖
             </div>
-            <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">
+            <span className="text-sm font-medium text-brand-600 uppercase tracking-wide">
               Wiki Article
             </span>
           </div>
@@ -190,7 +190,7 @@ export default async function WikiArticlePage({ params }: Props) {
         </header>
 
         {/* Article Content */}
-        <article className="prose prose-lg prose-gray max-w-none mb-12">
+        <article className="max-w-none mb-12">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
@@ -226,7 +226,7 @@ export default async function WikiArticlePage({ params }: Props) {
                 <li className="text-ink-700">{children}</li>
               ),
               blockquote: ({ children }: MarkdownComponentProps) => (
-                <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-blue-50 rounded-r-lg italic text-ink-700">
+                <blockquote className="border-l-4 border-brand-500 pl-4 py-2 my-4 bg-brand-100 rounded-r-lg italic text-ink-700">
                   {children}
                 </blockquote>
               ),
@@ -236,7 +236,7 @@ export default async function WikiArticlePage({ params }: Props) {
                 </code>
               ),
               pre: ({ children }: MarkdownComponentProps) => (
-                <pre className="bg-bg-0 text-gray-100 rounded-lg p-4 overflow-x-auto mb-4">
+                <pre className="bg-bg-2 text-ink-900 rounded-lg p-4 overflow-x-auto mb-4">
                   {children}
                 </pre>
               ),
@@ -274,7 +274,7 @@ export default async function WikiArticlePage({ params }: Props) {
               a: ({ href, children }: MarkdownComponentProps) => (
                 <a
                   href={href}
-                  className="text-blue-600 hover:text-blue-700 underline"
+                  className="text-brand-600 hover:text-brand-500 underline"
                 >
                   {children}
                 </a>
@@ -312,7 +312,7 @@ export default async function WikiArticlePage({ params }: Props) {
               {article.cooperationPaths.map((path) => (
                 <span
                   key={path}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                  className="px-3 py-1 bg-accent-1-bg text-accent-1 rounded-full text-sm"
                 >
                   {path}
                 </span>
@@ -346,7 +346,7 @@ export default async function WikiArticlePage({ params }: Props) {
                       {termWikiArticle && (
                         <Link
                           href={`/wiki/${termWikiArticle.slug}`}
-                          className="inline-flex items-center gap-1 mt-2 text-sm text-blue-600 hover:text-blue-500 hover:underline transition-colors"
+                          className="inline-flex items-center gap-1 mt-2 text-sm text-brand-600 hover:text-brand-500 hover:underline transition-colors"
                         >
                           <svg
                             className="w-4 h-4"
@@ -383,9 +383,9 @@ export default async function WikiArticlePage({ params }: Props) {
                 <Link
                   key={related.id}
                   href={`/wiki/${related.slug}`}
-                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  className="flex items-start gap-3 p-4 bg-bg-1 rounded-lg border border-border hover:border-brand-500/30 hover:bg-brand-100 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-600 to-brand-500 flex items-center justify-center text-white text-sm flex-shrink-0">
                     📖
                   </div>
                   <div>
@@ -406,7 +406,7 @@ export default async function WikiArticlePage({ params }: Props) {
         <div className="flex flex-wrap gap-4 mb-4">
           <Link
             href={`/forum?title=${encodeURIComponent(article.title + ' Discussion')}&description=${encodeURIComponent(`Discussion about the wiki article: **${article.title}**\n\n${article.summary}`)}`}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-lg hover:bg-brand-500 transition-colors font-medium"
           >
             <svg
               className="w-5 h-5"
