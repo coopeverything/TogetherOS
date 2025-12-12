@@ -873,6 +873,159 @@ curl https://coopeverything.org/api/health
 
 ---
 
+### Session Reference: 2025-12-12 Zero-Downtime Deployment Fix & Root Cause Analysis
+
+**Task:** Diagnose recurring 502 errors and site instability since Dec 6 malware incident
+
+---
+
+#### Part 1: Misdiagnosis Correction
+
+**Initial Hypothesis (from user):** The Dec 6 malware (meshagent, rsyslo) was a decoy/front, and something deeper was blocking the development process.
+
+**Actual Finding:** The malware was NOT the cause of ongoing issues. The recurring 502 errors were caused by:
+
+1. **Deployment workflow design flaw** - stopped PM2 before building
+2. **CPU throttling** - 82-85% steal time from Hostinger hypervisor
+3. **Concurrent Claude sessions** - multiple instances triggering overlapping deployments
+
+---
+
+#### Part 2: The Deployment Workflow Flaw
+
+**Location:** `.github/workflows/auto-deploy-production.yml`
+
+**Old Workflow (caused 5-10 min downtime per deploy):**
+```bash
+pm2 stop togetheros      # ← SITE GOES 502 IMMEDIATELY
+rm -rf .next             # ← DELETE BUILD
+npm run build            # ← 5-10 MINUTES (85% CPU steal)
+pm2 start                # ← Site finally back
+```
+
+**Why This Was Catastrophic:**
+- Every push to `yolo` triggered deployment
+- PM2 stopped BEFORE build started
+- Build took 5-10 minutes due to CPU throttling
+- Site was 502 for ENTIRE build duration
+- If build failed, site stayed down
+
+**New Workflow (seconds of downtime):**
+```bash
+npm run build            # ← Site stays up during build
+pm2 restart              # ← Only seconds of downtime
+```
+
+**Key Changes:**
+- Build completes WHILE site is still running
+- Only restart PM2 AFTER build succeeds
+- If build fails, site stays up on previous version
+- Downtime reduced from 5-10 minutes to ~5 seconds
+
+---
+
+#### Part 3: Concurrent Claude Sessions Problem
+
+**Discovery:** During investigation, found TWO simultaneous `next build` processes (PIDs 68599 and 68807) fighting over `.next` directory.
+
+**Pattern Identified:**
+```
+1. Claude session A sees site down → SSHs to server → starts build
+2. Claude session B sees site down → SSHs to server → starts build
+3. Both builds fight over .next directory
+4. CPU gets throttled (59-85% steal time)
+5. Both builds fail or produce corrupt output
+6. Cycle repeats
+```
+
+**Evidence:**
+- Multiple SSH connections from same IP (user's IP)
+- No GitHub workflow triggering these builds
+- SSH key authentication (legitimate sessions)
+- Builds started within 2 minutes of each other
+
+**Root Cause:** When site goes down, multiple Claude Code sessions in different terminals/contexts all independently try to fix it, creating chaos.
+
+**Prevention:**
+- Only ONE Claude session should attempt recovery at a time
+- User should coordinate if multiple sessions are active
+- Deployment workflow now keeps site up during build (reduces trigger for "fix" attempts)
+
+---
+
+#### Part 4: CPU Throttling Context
+
+**Observed:** 82-85% CPU steal time consistently during builds
+
+**What This Means:**
+- Hostinger VPS is on shared infrastructure
+- Hypervisor allocates CPU time to other VMs
+- 85% steal = only 15% of CPU cycles available to our VM
+- A build that takes 2 minutes normally takes 10+ minutes
+
+**Impact on Deployments:**
+- Old workflow: 10+ minute downtime (PM2 stopped during slow build)
+- New workflow: Build takes same time but site stays up
+
+**This is NOT a bug to fix** - it's the nature of shared hosting. The fix is designing workflows that tolerate slow builds.
+
+---
+
+#### Part 5: Files Changed
+
+**Workflow fix committed:**
+- `.github/workflows/auto-deploy-production.yml` - Zero-downtime deployment
+
+**Key code change:**
+```yaml
+# OLD (lines 113-127):
+pm2 stop togetheros
+rm -rf .next
+npm run build
+pm2 start
+
+# NEW:
+npm run build  # Site stays up
+pm2 restart    # Only seconds down
+```
+
+---
+
+#### Lessons Learned
+
+1. **Deployment design matters more than speed** - A 10-minute build is fine if site stays up
+2. **Stop PM2 AFTER build, not BEFORE** - Critical for zero-downtime
+3. **CPU throttling is expected on shared hosting** - Design workflows accordingly
+4. **Multiple Claude sessions can cause chaos** - Coordinate recovery attempts
+5. **Malware was a red herring** - The Dec 6 malware failed to execute; ongoing issues were workflow design
+6. **Always investigate infrastructure assumptions** - The "attack" was self-inflicted
+
+---
+
+#### Recovery Procedure (Updated)
+
+If site goes 502 after this fix, the build likely failed:
+
+```bash
+# 1. Check if build is running
+ssh root@72.60.27.167 "ps aux | grep 'next build' | grep -v grep"
+
+# 2. If build running, wait for completion
+# 3. If no build, check for BUILD_ID
+ssh root@72.60.27.167 "cat /var/www/togetheros/apps/web/.next/BUILD_ID"
+
+# 4. If BUILD_ID exists, restart PM2
+ssh root@72.60.27.167 "pm2 restart togetheros"
+
+# 5. If no BUILD_ID, run build manually
+ssh root@72.60.27.167 "cd /var/www/togetheros/apps/web && npm run build && pm2 restart togetheros"
+
+# 6. Verify
+curl https://coopeverything.org/api/health
+```
+
+---
+
 ## Related KB Files
 
 - [Tech Stack Details](./tech-stack.md) — Framework versions, dependencies, tooling
