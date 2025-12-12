@@ -110,33 +110,28 @@ jobs:
             echo "→ Building TypeScript packages..."
             npm run build:packages 2>&1 | tail -10
 
-            echo "→ Stopping PM2 before rebuild..."
-            pm2 stop togetheros 2>&1 || echo "PM2 process not running (OK)"
-
-            echo "→ Cleaning previous build..."
+            echo "→ Building application (site still running)..."
             cd apps/web
-            rm -rf .next
-            echo "✓ .next directory removed"
 
-            echo "→ Building application..."
+            # CRITICAL: Build WHILE site is still running
+            # Old .next serves traffic, new build overwrites in place
+            # PM2 stays up during build - only restart after success
             npm run build 2>&1 || {
-              echo "❌ Build failed!"
-              echo "→ Attempting to restart with previous build..."
-              pm2 start /var/www/togetheros/ecosystem.config.js 2>&1 || true
+              echo "❌ Build failed! Site still running on previous version."
               exit 1
             }
-            echo "✓ Build complete"
 
-            echo "→ Verifying build artifacts..."
+            # Verify build is complete
             if [ ! -f ".next/BUILD_ID" ]; then
               echo "❌ BUILD_ID not found - build incomplete!"
               exit 1
             fi
-            echo "✓ BUILD_ID: $(cat .next/BUILD_ID)"
+            echo "✓ Build complete: $(cat .next/BUILD_ID)"
 
-            echo "→ Starting PM2..."
+            # Only restart PM2 AFTER build succeeds (seconds of downtime, not minutes)
+            echo "→ Restarting PM2 to load new build..."
             cd /var/www/togetheros
-            pm2 start ecosystem.config.js 2>&1 || pm2 restart togetheros 2>&1
+            pm2 restart togetheros 2>&1 || pm2 start ecosystem.config.js 2>&1
             pm2 status togetheros 2>&1
 
             echo "✅ Deployment complete!"
