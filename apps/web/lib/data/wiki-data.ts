@@ -198,22 +198,59 @@ TogetherOS helps people "unlearn division and learn coordination." Mental flexib
     slug: 'support-points',
     title: 'Support Points (SP)',
     summary:
-      'Governance power earned through contributions, not money. SP can NEVER be bought — ensuring that wealth cannot purchase political influence.',
+      'Your way to say "this matters!" SP earns attention and priority for proposals — not decision power, but voice in what gets focus. Cannot be bought or traded.',
     content: `# Support Points (SP)
 
-**Support Points** are the governance currency of TogetherOS. They represent your voice in collective decisions.
+**Support Points** are how you say "this matters to me!"
 
-## Core Principle
+## What Support Points Actually Do
 
-> Money can NEVER become Support Points.
+While voting is the final verdict on any matter, Support Points are what make a matter *visible*. They attract attention to it. They prioritize when it gets dealt with.
 
-This is a fundamental safeguard against plutocracy. In TogetherOS:
+When you allocate SP to a proposal, you're signaling: "I think this deserves the community's focus." The more SP a proposal receives, the higher it rises in visibility.
 
-- **SP can only be earned** through contributions
-- **SP cannot be bought, sold, or traded**
-- **SP represents governance power** — your say in decisions
+- **Higher SP** → More visible, dealt with sooner
+- **Lower SP** → Less urgent, waits its turn
+- **Your SP returns** when proposals close — you're always choosing what matters *now*
+
+That's it. SP shapes what gets attention. Voting decides what gets done.
+
+## Instead of an Algorithm
+
+On corporate social media, an algorithm decides what you see. It's designed to maximize engagement — to keep you scrolling, consuming, distracted. The algorithm promotes endless information consumption, not understanding.
+
+TogetherOS has no algorithm.
+
+Instead, when you participate a lot — contributing, helping, proposing, learning — your opinion about what deserves attention carries more weight. It's like saying:
+
+> "I've been doing a lot of work here, and based on that, this is what I find most important to look at next."
+
+The more you work with others and for the common good, the more voice you have in pointing out what's important. But that's all. Not decision-making power. Just attention-focusing power.
+
+## Setting the Narrative
+
+Here's something worth being honest about: setting the agenda is itself a form of power.
+
+In the current system, enormous resources flow into controlling what people think about. Politicians craft messaging. Media corporations choose which stories matter. Think tanks publish studies that frame debates. Advertising campaigns manufacture desire. Social media bots amplify certain narratives while drowning others. All of it — money, power, social engineering — deployed to direct attention and shape decisions before anyone even votes.
+
+Support Points are our equivalent of that function. But the "influencers" here aren't preachers or politicians or paid commentators or bot networks — they're the people who participate.
+
+The more you contribute, the more your voice matters in setting the narrative. This influence is:
+
+- **Earned** through participation, not purchased with money
+- **Distributed** across everyone who contributes, not concentrated in few hands
+- **Bounded** — it shapes attention, never overrides collective decisions
+
+## What SP Cannot Do
+
+- **SP cannot be bought** — Money can never become Support Points
+- **SP cannot be traded or transferred** — They're yours alone, earned through your participation
+- **SP doesn't give you more votes** — One member, one vote, always
+- **SP doesn't decide outcomes** — It only prioritizes what gets considered
 
 ## How You Earn SP
+
+You earn SP by participating:
 
 - Completing onboarding challenges
 - Contributing to proposals
@@ -222,42 +259,32 @@ This is a fundamental safeguard against plutocracy. In TogetherOS:
 - Attending events
 - Completing microlessons
 
-## How SP Works
-
-Each member starts with **100 SP** after onboarding. You can allocate up to **10 SP per proposal** to signal priority.
-
-- **Higher SP allocation** → Higher visibility for the proposal
-- **Your SP regenerates** over time (you don't lose it permanently)
-- **SP allocation history** is transparent
+Each member starts with **100 SP** after onboarding. You can allocate up to **10 SP per proposal**. Your allocated SP returns when proposals close, so you're constantly choosing: what deserves attention right now?
 
 ## SP vs Reward Points (RP)
 
 | Aspect | Support Points (SP) | Reward Points (RP) |
 |--------|--------------------|--------------------|
-| Purpose | Governance power | Economic claims |
-| Earned by | Contributions | Contributions |
+| Purpose | Attention & priority | Economic claims |
+| Earned by | Participation | Contributions |
 | Buyable | NEVER | Never |
 | Transferable | No | Future: Maybe |
 | Convertible | Cannot become RP | Cannot become SP |
 
-## Why This Matters
+## The Principle
 
-Traditional platforms allow money to buy influence. TogetherOS creates a firewall:
+The people doing the work should have the most say in what's important to look at. Not the wealthy. Not the famous. Not an algorithm designed for addiction.
 
-- Rich members can't buy more votes
-- Governance power reflects contribution, not wealth
-- Everyone's voice matters equally
-
-This is how we ensure **coop-everything** — real cooperation where power flows from participation, not capital.`,
+Participation earns influence over attention. The collective still makes the decisions.`,
     status: 'stable',
-    tags: ['economy', 'governance', 'anti-plutocracy', 'SP'],
+    tags: ['economy', 'governance', 'attention', 'SP', 'participation'],
     cooperationPaths: ['Social Economy', 'Collective Governance'],
-    relatedArticles: ['reward-points', 'four-ledger-system'],
+    relatedArticles: ['reward-points', 'four-ledger-system', 'governance-process'],
     terms: ['support-points', 'reward-points', 'anti-plutocracy'],
     contributorCount: 1,
-    lastEditedAt: '2025-11-30T00:00:00Z',
+    lastEditedAt: '2025-12-12T00:00:00Z',
     createdAt: '2025-11-30T00:00:00Z',
-    readTimeMinutes: 4,
+    readTimeMinutes: 5,
   },
   {
     id: 'wiki-power-hierarchy',
@@ -1603,7 +1630,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     word: 'Support Points (SP)',
     slug: 'support-points',
     shortDefinition:
-      'Governance power earned through contributions. Can NEVER be bought with money.',
+      'Your way to say "this matters to me" — earns attention for proposals, not decision power. Cannot be bought.',
     wikiArticleSlug: 'support-points',
     relatedTerms: ['reward-points', 'anti-plutocracy'],
     cooperationPath: 'Social Economy',
