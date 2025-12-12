@@ -17,7 +17,7 @@ import {
   getSources,
   type DocEntry,
 } from '@/lib/bridge/docs-indexer';
-import { extractTrustedUrls, fetchTrustedContents } from '@/lib/bridge/trusted-domains';
+import { extractTrustedUrls, fetchTrustedContents } from '../../../../lib/bridge/trusted-domains';
 import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '../../../../lib/bridge/context-service';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
@@ -428,7 +428,7 @@ Cite sources when relevant using the format [Source: title].`;
 
 **LIVE PLATFORM CONTENT (from URLs in question):**
 
-${fetchedContents.map(({ url, content }) => `
+${fetchedContents.map(({ url, content }: { url: string; content: string }) => `
 [Source: ${url}]
 ${content}
 `).join('\n---\n')}
