@@ -17,6 +17,7 @@ import {
   getSources,
   type DocEntry,
 } from '@/lib/bridge/docs-indexer';
+import { extractTrustedUrls, fetchTrustedContents } from '@/lib/bridge/trusted-domains';
 import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '../../../../lib/bridge/context-service';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
@@ -409,6 +410,35 @@ Use the following documentation to inform your answer:
 ${context}
 
 Cite sources when relevant using the format [Source: title].`;
+    }
+
+    // Fetch content from trusted domain URLs mentioned in the question
+    // This allows Bridge to read forum posts, articles, etc. from coopeverything.org
+    const trustedUrls = extractTrustedUrls(question);
+    if (trustedUrls.length > 0) {
+      try {
+        const fetchedContents = await fetchTrustedContents(trustedUrls, {
+          maxTotalLength: 8000,
+          maxPerUrl: 4000,
+          timeout: 5000,
+        });
+
+        if (fetchedContents.length > 0) {
+          enhancedSystemPrompt += `
+
+**LIVE PLATFORM CONTENT (from URLs in question):**
+
+${fetchedContents.map(({ url, content }) => `
+[Source: ${url}]
+${content}
+`).join('\n---\n')}
+
+Use this live content to answer the user's question accurately. Reference the specific content when relevant.`;
+        }
+      } catch (error) {
+        console.warn('Failed to fetch trusted URL content:', error);
+        // Continue without URL content - Bridge still works
+      }
     }
 
     // Fetch relevant training examples (RAG for training data)
