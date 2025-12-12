@@ -70,6 +70,7 @@ export async function close() {
 }
 
 // Export database modules
+export * from './bridge-content'
 export * from './bridge-teaching'
 export * from './budgets'
 export * from './forum-flags'

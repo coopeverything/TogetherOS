@@ -19,6 +19,7 @@ import {
 } from '@/lib/bridge/docs-indexer';
 import { extractTrustedUrls, fetchTrustedContents } from '../../../../lib/bridge/trusted-domains';
 import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '../../../../lib/bridge/context-service';
+import { getContentForQuery, formatContentBlockForPrompt } from '../../../../lib/bridge/content-search';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
@@ -439,6 +440,19 @@ Use this live content to answer the user's question accurately. Reference the sp
         console.warn('Failed to fetch trusted URL content:', error);
         // Continue without URL content - Bridge still works
       }
+    }
+
+    // Search indexed community content (forum posts, articles, proposals, wiki)
+    // Results are weighted by community validation (votes, SP, replies)
+    try {
+      const relevantContent = await getContentForQuery(question, { limit: 8 });
+      if (relevantContent.length > 0) {
+        const contentBlock = formatContentBlockForPrompt(relevantContent);
+        enhancedSystemPrompt += contentBlock;
+      }
+    } catch (error) {
+      console.warn('Failed to search community content:', error);
+      // Continue without community content - Bridge still works
     }
 
     // Fetch relevant training examples (RAG for training data)

@@ -79,6 +79,12 @@ const ADMIN_SECTIONS: AdminSection[] = [
         path: '/admin/recommendations-testing',
         status: 'active',
       },
+      {
+        title: 'Content Trust',
+        description: 'Configure trust thresholds for community-validated content (SP, votes, replies)',
+        path: '/admin/bridge-trust',
+        status: 'active',
+      },
     ],
   },
   {
