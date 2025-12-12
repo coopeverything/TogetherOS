@@ -71,6 +71,8 @@ export async function close() {
 
 // Export database modules
 export * from './bridge-content'
+export * from './bridge-content-fetch'
+export * from './bridge-indexer'
 export * from './bridge-teaching'
 export * from './budgets'
 export * from './forum-flags'

@@ -19,7 +19,7 @@ import {
 } from '@/lib/bridge/docs-indexer';
 import { extractTrustedUrls, fetchTrustedContents } from '../../../../lib/bridge/trusted-domains';
 import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '../../../../lib/bridge/context-service';
-import { getContentForQuery, formatContentBlockForPrompt } from '../../../../lib/bridge/content-search';
+import { getSmartContentForQuery } from '../../../../lib/bridge/content-search';
 import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
@@ -75,15 +75,21 @@ You are Bridge, the assistant of CoopEverything. Your role is to guide people th
 - Documentation and guides from the TogetherOS repository
 - Your built-in knowledge about TogetherOS modules and features
 - URLs explicitly provided in the user's question (from coopeverything.org)
+- **Live forum posts, topics, and discussions** - I can search and read them directly
+- **Community engagement data** - votes, replies, Support Points (SP) allocated to content
 
-### What You CANNOT Access
-- Live forum posts, topics, or discussions (unless user provides a specific URL)
-- Real-time user data or activity
-- Database content like proposals, events, or group details
+### Trust-Weighted Content
+When I share community content, I include trust levels based on validation:
+- **Unvalidated**: New posts with no community feedback yet - frame as "one member's opinion"
+- **Low/Medium**: Some engagement - frame as "some members think"
+- **High**: Strong support (many votes/SP) - frame as "there's strong community support for"
+- **Consensus**: Overwhelming agreement - frame as "the community has reached consensus"
 
-### When Asked About Content You Cannot Access
-**DO:** Say clearly "I don't have access to live forum/platform content." Suggest the user visit the relevant page directly.
-**NEVER:** Make up imaginary posts, fabricate quotes, invent statistics, or pretend to have read content you haven't seen.
+**SP (Support Points)** = governance weight members allocate to content they believe in. High SP = strong community validation.
+
+### When Content Is Not Found
+**DO:** Say clearly "I searched but didn't find any discussions about [topic]." Suggest the user start a discussion or check directly.
+**NEVER:** Make up imaginary posts, fabricate quotes, invent statistics, or pretend to have read content that doesn't exist.
 
 ---
 
@@ -462,13 +468,15 @@ Use this live content to answer the user's question accurately. Reference the sp
       }
     }
 
-    // Search indexed community content (forum posts, articles, proposals, wiki)
+    // Smart content retrieval: many results = indexed summaries, few results = full posts
+    // This allows Bridge to read and summarize full forum posts when there are few matches
     // Results are weighted by community validation (votes, SP, replies)
     try {
-      const relevantContent = await getContentForQuery(question, { limit: 8 });
-      if (relevantContent.length > 0) {
-        const contentBlock = formatContentBlockForPrompt(relevantContent);
-        enhancedSystemPrompt += contentBlock;
+      const smartContent = await getSmartContentForQuery(question, { limit: 8 });
+      if (smartContent.formattedBlock) {
+        // Log which mode was used for monitoring
+        console.log(`[Bridge] Content search mode: ${smartContent.mode}, posts: ${smartContent.fullPosts?.length || 0}, topics: ${smartContent.fullTopics?.length || 0}, indexed: ${smartContent.indexedContent?.length || 0}`);
+        enhancedSystemPrompt += smartContent.formattedBlock;
       }
     } catch (error) {
       console.warn('Failed to search community content:', error);

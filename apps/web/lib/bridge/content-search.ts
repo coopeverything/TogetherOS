@@ -10,6 +10,11 @@ import {
   getRecentContent as dbGetRecentContent,
   getHighSPContent as dbGetHighSPContent,
   getTrustThresholds,
+  searchForumPostsFull,
+  searchForumTopicsFull,
+  getRecentForumActivity,
+  type BridgeForumPost,
+  type BridgeForumTopic,
 } from '@togetheros/db';
 import type {
   ContentSearchOptions,
@@ -19,6 +24,9 @@ import type {
   TRUST_TIER_PHRASES,
 } from '@togetheros/types';
 import { formatEngagementForPrompt } from './trust-calculator';
+
+// Threshold for switching from index to full content
+const FULL_CONTENT_THRESHOLD = 5;
 
 // Re-export trust tier phrases for convenience
 export { TRUST_TIER_PHRASES } from '@togetheros/types';
@@ -166,9 +174,175 @@ export function isPopularContentQuery(query: string): boolean {
 }
 
 /**
- * Get content based on query type
- * Automatically detects if user wants recent, popular, or specific content
+ * Format a full forum post for Bridge prompt
+ * Includes full content and top replies
  */
+export function formatFullPostForPrompt(post: BridgeForumPost): string {
+  const trustPhrases: Record<TrustTier, string> = {
+    unvalidated: '(Unvalidated - new post, no community feedback yet)',
+    low: '(Limited community validation)',
+    medium: '(Some community support)',
+    high: '(Strong community support)',
+    consensus: '(Community consensus)',
+  };
+
+  let block = `[FORUM POST in "${post.topicTitle}"]\n`;
+  block += `Author: ${post.authorName || 'Anonymous'}\n`;
+  block += `Trust: ${trustPhrases[post.trustTier]}\n`;
+  block += `Engagement: ${post.voteScore} votes, ${post.replyCount} replies`;
+  if (post.totalSP > 0) {
+    block += `, ${post.totalSP} SP from ${post.spAllocatorCount} members`;
+  }
+  block += `\n`;
+  block += `URL: ${post.url}\n`;
+  block += `\n**Full Content:**\n${post.content}\n`;
+
+  if (post.topReplies.length > 0) {
+    block += `\n**Top Replies:**\n`;
+    for (const reply of post.topReplies) {
+      block += `- ${reply.authorName || 'Anonymous'} (${reply.voteScore} votes): "${reply.content.slice(0, 200)}${reply.content.length > 200 ? '...' : ''}"\n`;
+    }
+  }
+
+  return block;
+}
+
+/**
+ * Format a full forum topic for Bridge prompt
+ * Includes description and top posts
+ */
+export function formatFullTopicForPrompt(topic: BridgeForumTopic): string {
+  const trustPhrases: Record<TrustTier, string> = {
+    unvalidated: '(Unvalidated - new topic, no community feedback yet)',
+    low: '(Limited community validation)',
+    medium: '(Some community support)',
+    high: '(Strong community support)',
+    consensus: '(Community consensus)',
+  };
+
+  let block = `[FORUM TOPIC: ${topic.title}]\n`;
+  block += `Category: ${topic.category}\n`;
+  block += `Author: ${topic.authorName || 'Anonymous'}\n`;
+  block += `Trust: ${trustPhrases[topic.trustTier]}\n`;
+  block += `Engagement: ${topic.voteScore} votes, ${topic.postCount} posts, ${topic.participantCount} participants`;
+  if (topic.totalSP > 0) {
+    block += `, ${topic.totalSP} SP from ${topic.spAllocatorCount} members`;
+  }
+  block += `\n`;
+  block += `URL: ${topic.url}\n`;
+
+  if (topic.description) {
+    block += `\n**Description:**\n${topic.description}\n`;
+  }
+
+  if (topic.topPosts.length > 0) {
+    block += `\n**Top Posts in this Topic:**\n`;
+    for (const post of topic.topPosts) {
+      const spNote = post.totalSP > 0 ? `, ${post.totalSP} SP` : '';
+      block += `- ${post.authorName || 'Anonymous'} (${post.voteScore} votes${spNote}): "${post.content.slice(0, 300)}${post.content.length > 300 ? '...' : '"}"\n`;
+    }
+  }
+
+  return block;
+}
+
+/**
+ * Format full posts block for Bridge prompt
+ */
+export function formatFullPostsBlockForPrompt(
+  posts: BridgeForumPost[],
+  topics: BridgeForumTopic[]
+): string {
+  if (posts.length === 0 && topics.length === 0) {
+    return '';
+  }
+
+  const formattedPosts = posts.map(formatFullPostForPrompt);
+  const formattedTopics = topics.map(formatFullTopicForPrompt);
+  const allFormatted = [...formattedTopics, ...formattedPosts];
+
+  return `
+**LIVE COMMUNITY CONTENT (Full Details):**
+I found ${posts.length + topics.length} relevant items. Here are the full details so you can read and summarize them accurately.
+
+Use appropriate language based on trust level:
+- Unvalidated: Frame as "one member's opinion" or "a recent suggestion"
+- Low/Medium: Frame as "some members think" or "there's interest in"
+- High: Frame as "there's strong community support for"
+- Consensus: Frame as "the community has reached consensus that"
+
+SP (Support Points) allocation indicates community members have put their governance weight behind this content - treat high SP as a strong signal of community validation.
+
+${allFormatted.join('\n\n---\n\n')}
+
+When citing this content, include the URL so users can explore further.`;
+}
+
+/**
+ * Smart content retrieval for Bridge
+ * - Many results (>threshold): return indexed summaries
+ * - Few results (<=threshold): fetch and return full content
+ */
+export async function getSmartContentForQuery(
+  query: string,
+  options: ContentSearchOptions = {}
+): Promise<{
+  mode: 'indexed' | 'full';
+  indexedContent?: (ContentSearchResult | IndexedContent)[];
+  fullPosts?: BridgeForumPost[];
+  fullTopics?: BridgeForumTopic[];
+  formattedBlock: string;
+}> {
+  // First, try indexed search to see how many results
+  const indexedResults = await getContentForQuery(query, { ...options, limit: 20 });
+
+  // If many results, use indexed summaries
+  if (indexedResults.length > FULL_CONTENT_THRESHOLD) {
+    const limitedResults = indexedResults.slice(0, options.limit || 8);
+    return {
+      mode: 'indexed',
+      indexedContent: limitedResults,
+      formattedBlock: formatContentBlockForPrompt(limitedResults),
+    };
+  }
+
+  // Few or no indexed results - fetch full content from database
+  const [fullPosts, fullTopics] = await Promise.all([
+    searchForumPostsFull(query, options.limit || 5),
+    searchForumTopicsFull(query, options.limit || 3),
+  ]);
+
+  // If we found full content, use it
+  if (fullPosts.length > 0 || fullTopics.length > 0) {
+    return {
+      mode: 'full',
+      fullPosts,
+      fullTopics,
+      formattedBlock: formatFullPostsBlockForPrompt(fullPosts, fullTopics),
+    };
+  }
+
+  // Check for recent activity as fallback
+  if (isRecentActivityQuery(query)) {
+    const recentPosts = await getRecentForumActivity(48, options.limit || 5);
+    if (recentPosts.length > 0) {
+      return {
+        mode: 'full',
+        fullPosts: recentPosts,
+        fullTopics: [],
+        formattedBlock: formatFullPostsBlockForPrompt(recentPosts, []),
+      };
+    }
+  }
+
+  // No content found
+  return {
+    mode: 'indexed',
+    indexedContent: [],
+    formattedBlock: '',
+  };
+}
+
 export async function getContentForQuery(
   query: string,
   options: ContentSearchOptions = {}
