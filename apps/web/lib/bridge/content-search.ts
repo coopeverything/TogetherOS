@@ -239,7 +239,7 @@ export function formatFullTopicForPrompt(topic: BridgeForumTopic): string {
     block += `\n**Top Posts in this Topic:**\n`;
     for (const post of topic.topPosts) {
       const spNote = post.totalSP > 0 ? `, ${post.totalSP} SP` : '';
-      block += `- ${post.authorName || 'Anonymous'} (${post.voteScore} votes${spNote}): "${post.content.slice(0, 300)}${post.content.length > 300 ? '...' : '"}"\n`;
+      block += `- ${post.authorName || 'Anonymous'} (${post.voteScore} votes${spNote}): "${post.content.slice(0, 300)}${post.content.length > 300 ? '...' : ''}"\n`;
     }
   }
 

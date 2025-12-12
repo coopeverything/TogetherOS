@@ -81,6 +81,7 @@ export async function indexForumTopics(): Promise<number> {
   for (const row of result.rows) {
     const engagement: ContentEngagement = {
       voteScore: parseInt(row.vote_score, 10),
+      ratingAvg: 0, // Topics don't have ratings
       replyCount: parseInt(row.reply_count, 10),
       participantCount: parseInt(row.participant_count, 10),
       totalSP: parseInt(row.total_sp, 10),
@@ -166,6 +167,7 @@ export async function indexForumPosts(): Promise<number> {
   for (const row of result.rows) {
     const engagement: ContentEngagement = {
       voteScore: parseInt(row.vote_score, 10),
+      ratingAvg: 0, // Posts don't have ratings
       replyCount: parseInt(row.reply_count, 10),
       participantCount: 0,
       totalSP: parseInt(row.total_sp, 10),
@@ -248,6 +250,7 @@ export async function indexProposals(): Promise<number> {
   for (const row of result.rows) {
     const engagement: ContentEngagement = {
       voteScore: parseInt(row.vote_count, 10),
+      ratingAvg: 0, // Proposals don't have ratings in this context
       replyCount: 0,
       participantCount: parseInt(row.vote_count, 10),
       totalSP: parseInt(row.total_sp, 10),
@@ -357,6 +360,7 @@ export async function indexSinglePost(postId: string): Promise<void> {
   const row = result.rows[0];
   const engagement: ContentEngagement = {
     voteScore: parseInt(row.vote_score, 10),
+    ratingAvg: 0, // Posts don't have ratings
     replyCount: parseInt(row.reply_count, 10),
     participantCount: 0,
     totalSP: parseInt(row.total_sp, 10),
@@ -402,15 +406,4 @@ export async function indexSinglePost(postId: string): Promise<void> {
   ]);
 }
 
-/**
- * Remove content from index (when deleted)
- */
-export async function removeFromIndex(
-  contentType: string,
-  contentId: string
-): Promise<void> {
-  await query(
-    `DELETE FROM bridge_content_index WHERE content_type = $1 AND content_id = $2`,
-    [contentType, contentId]
-  );
-}
+// Note: removeFromIndex is already exported from bridge-content.ts
