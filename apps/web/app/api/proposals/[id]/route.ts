@@ -86,7 +86,7 @@ export async function PUT(
       description: proposal.description || undefined,
       authorId: proposal.authorId,
       createdAt: proposal.createdAt,
-    }).catch((err) => console.error('Failed to re-index proposal:', err));
+    }).catch((err: unknown) => console.error('Failed to re-index proposal:', err));
 
     return NextResponse.json({ proposal });
   } catch (error: any) {
@@ -133,7 +133,7 @@ export async function DELETE(
     await deleteProposal(id);
 
     // Remove from Bridge index (non-blocking)
-    removeFromIndex('proposal', id).catch((err) =>
+    removeFromIndex('proposal', id).catch((err: unknown) =>
       console.error('Failed to remove proposal from index:', err)
     );
 

@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       description: proposal.description || undefined,
       authorId: user.id,
       createdAt: proposal.createdAt,
-    }).catch((err) => console.error('Failed to index proposal:', err));
+    }).catch((err: unknown) => console.error('Failed to index proposal:', err));
 
     // Check and award proposal-related badges
     try {

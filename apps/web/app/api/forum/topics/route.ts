@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       authorId: user.id,
       createdAt: topic.createdAt,
       slug: topic.slug,
-    }).catch((err) => console.error('Failed to index forum topic:', err));
+    }).catch((err: unknown) => console.error('Failed to index forum topic:', err));
 
     // Check and award topic-related badges
     try {

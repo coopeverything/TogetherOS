@@ -87,7 +87,7 @@ export async function POST(
       content: validated.content,
       authorId: user.id,
       createdAt: post.createdAt,
-    }).catch((err) => console.error('Failed to index forum post:', err))
+    }).catch((err: unknown) => console.error('Failed to index forum post:', err))
 
     // Check and award post-related badges
     try {

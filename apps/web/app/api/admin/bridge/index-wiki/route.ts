@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     // Require admin authentication
     const user = await requireAuth(request);
 
-    if (!user.isAdmin) {
+    if (!user.is_admin) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
