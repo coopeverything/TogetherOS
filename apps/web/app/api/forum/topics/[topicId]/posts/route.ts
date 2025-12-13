@@ -13,6 +13,7 @@ import {
   createPost,
 } from '@togetheros/db'
 import { reputationService } from '@/lib/services/ReputationService'
+import { indexForumPost } from '@/lib/bridge/content-indexer'
 
 /**
  * GET /api/forum/topics/[topicId]/posts
@@ -78,6 +79,15 @@ export async function POST(
     })
 
     const post = await createPost(validated)
+
+    // Index post for Bridge RAG (non-blocking)
+    indexForumPost(post.id, {
+      topicId: topic.id,
+      topicSlug: topic.slug,
+      content: validated.content,
+      authorId: user.id,
+      createdAt: post.createdAt,
+    }).catch((err) => console.error('Failed to index forum post:', err))
 
     // Check and award post-related badges
     try {

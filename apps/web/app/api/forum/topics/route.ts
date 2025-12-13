@@ -11,9 +11,10 @@ import {
   listTopics,
   type CreateTopicInput,
   type ListTopicsFilters,
-} from '../../../../../../packages/db/src/forum-topics';
+} from '@togetheros/db';
 import { createTopicSchema, listTopicsFiltersSchema } from '@togetheros/validators/forum';
 import { reputationService } from '@/lib/services/ReputationService';
+import { indexForumTopic } from '@/lib/bridge/content-indexer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +30,15 @@ export async function POST(request: NextRequest) {
     });
 
     const topic = await createTopic(validatedData);
+
+    // Index topic for Bridge RAG (non-blocking)
+    indexForumTopic(topic.id, {
+      title: topic.title,
+      description: topic.description || undefined,
+      authorId: user.id,
+      createdAt: topic.createdAt,
+      slug: topic.slug,
+    }).catch((err) => console.error('Failed to index forum topic:', err));
 
     // Check and award topic-related badges
     try {
