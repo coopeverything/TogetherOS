@@ -250,3 +250,82 @@ export async function removeFromIndex(
 ): Promise<void> {
   await dbRemoveFromIndex(contentType, contentId);
 }
+
+/**
+ * Index a wiki article
+ * Wiki articles are static content with high trust (community-vetted documentation)
+ */
+export async function indexWikiArticle(
+  articleId: string,
+  data: {
+    title: string;
+    summary: string;
+    content: string;
+    slug: string;
+    createdAt: Date;
+    status: 'stable' | 'evolving' | 'contested';
+  }
+): Promise<void> {
+  // Wiki articles get trust based on their status
+  const statusTrustMap: Record<string, 'high' | 'medium' | 'low'> = {
+    stable: 'high',
+    evolving: 'medium',
+    contested: 'low',
+  };
+  const trustTier = statusTrustMap[data.status] || 'medium';
+
+  // Wiki has no engagement metrics - it's curated documentation
+  const engagement: ContentEngagement = {
+    voteScore: 0,
+    ratingAvg: null,
+    replyCount: 0,
+    participantCount: 0,
+    totalSP: 0,
+    spAllocatorCount: 0,
+  };
+
+  await dbIndexContent(
+    'wiki',
+    articleId,
+    {
+      url: `/wiki/${data.slug}`,
+      title: data.title,
+      summary: data.summary,
+      fullText: data.content,
+      authorId: null, // Wiki is community-owned, no single author
+      createdAt: data.createdAt,
+    },
+    engagement,
+    trustTier
+  );
+}
+
+/**
+ * Index all wiki articles from static data
+ * Call this on startup or when wiki content changes
+ */
+export async function indexAllWikiArticles(): Promise<{ indexed: number; errors: string[] }> {
+  // Dynamic import to avoid circular deps and keep bundle size down
+  const { wikiArticles } = await import('../data/wiki-data');
+
+  const errors: string[] = [];
+  let indexed = 0;
+
+  for (const article of wikiArticles) {
+    try {
+      await indexWikiArticle(article.id, {
+        title: article.title,
+        summary: article.summary,
+        content: article.content,
+        slug: article.slug,
+        createdAt: new Date(article.createdAt),
+        status: article.status,
+      });
+      indexed++;
+    } catch (err) {
+      errors.push(`Failed to index wiki/${article.slug}: ${err}`);
+    }
+  }
+
+  return { indexed, errors };
+}
