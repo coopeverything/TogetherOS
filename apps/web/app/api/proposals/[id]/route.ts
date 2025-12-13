@@ -13,7 +13,7 @@ import {
   deleteProposal,
 } from '../../../../../api/src/modules/governance/handlers/crud';
 import type { UpdateProposalInput } from '@togetheros/validators/governance';
-import { indexProposal, removeFromIndex } from '@/lib/bridge/content-indexer';
+import { indexProposal, removeFromIndex } from '../../../../lib/bridge/content-indexer';
 
 export async function GET(
   request: NextRequest,
@@ -83,7 +83,6 @@ export async function PUT(
     indexProposal(proposal.id, {
       title: proposal.title,
       summary: proposal.summary,
-      description: proposal.description || undefined,
       authorId: proposal.authorId,
       createdAt: proposal.createdAt,
     }).catch((err: unknown) => console.error('Failed to re-index proposal:', err));

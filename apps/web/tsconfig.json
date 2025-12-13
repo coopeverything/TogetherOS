@@ -17,7 +17,7 @@
       "@togetheros/types/*": ["../../packages/types/src/*"],
       "@togetheros/validators": ["../../packages/validators/src"],
       "@togetheros/validators/*": ["../../packages/validators/src/*"],
-      "@/lib/*": ["./lib/*"],
+      "@/lib/*": ["../../lib/*"],
       "@/components/*": ["./components/*"],
       "@/*": ["./*"]
     },

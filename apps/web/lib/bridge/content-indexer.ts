@@ -292,7 +292,7 @@ export async function indexWikiArticle(
       title: data.title,
       summary: data.summary,
       fullText: data.content,
-      authorId: null, // Wiki is community-owned, no single author
+      authorId: undefined, // Wiki is community-owned, no single author
       createdAt: data.createdAt,
     },
     engagement,

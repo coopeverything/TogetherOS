@@ -8,7 +8,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth/middleware';
-import { indexAllWikiArticles } from '@/lib/bridge/content-indexer';
+import { indexAllWikiArticles } from '../../../../../lib/bridge/content-indexer';
 
 export async function POST(request: NextRequest) {
   try {

@@ -13,7 +13,7 @@ import {
   type ListProposalsFilter,
 } from '@togetheros/db';
 import { reputationService } from '@/lib/services/ReputationService';
-import { indexProposal } from '@/lib/bridge/content-indexer';
+import { indexProposal } from '../../../lib/bridge/content-indexer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
     indexProposal(proposal.id, {
       title: proposal.title,
       summary: proposal.summary,
-      description: proposal.description || undefined,
       authorId: user.id,
       createdAt: proposal.createdAt,
     }).catch((err: unknown) => console.error('Failed to index proposal:', err));

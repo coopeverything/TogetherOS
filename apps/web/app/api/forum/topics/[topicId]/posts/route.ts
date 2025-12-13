@@ -13,7 +13,7 @@ import {
   createPost,
 } from '@togetheros/db'
 import { reputationService } from '@/lib/services/ReputationService'
-import { indexForumPost } from '@/lib/bridge/content-indexer'
+import { indexForumPost } from '../../../../../../lib/bridge/content-indexer'
 
 /**
  * GET /api/forum/topics/[topicId]/posts
