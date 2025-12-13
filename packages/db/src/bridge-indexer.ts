@@ -65,13 +65,12 @@ export async function indexForumTopics(): Promise<number> {
       t.category,
       t.author_id,
       t.created_at,
-      COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+      0 as vote_score, -- Topics don't have reactions in current schema
       COUNT(DISTINCT p.id) as reply_count,
       COUNT(DISTINCT p.author_id) as participant_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM topics t
-    LEFT JOIN forum_topic_reactions r ON r.topic_id = t.id
     LEFT JOIN forum_posts p ON p.topic_id = t.id AND p.deleted_at IS NULL
     WHERE t.deleted_at IS NULL
     GROUP BY t.id
@@ -152,13 +151,13 @@ export async function indexForumPosts(): Promise<number> {
       p.content,
       p.author_id,
       p.created_at,
-      COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+      COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
-    LEFT JOIN forum_post_reactions r ON r.post_id = p.id
+    LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
     WHERE p.deleted_at IS NULL AND t.deleted_at IS NULL
     GROUP BY p.id, t.title
   `);
@@ -344,13 +343,13 @@ export async function indexSinglePost(postId: string): Promise<void> {
       p.content,
       p.author_id,
       p.created_at,
-      COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+      COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
-    LEFT JOIN forum_post_reactions r ON r.post_id = p.id
+    LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
     WHERE p.id = $1 AND p.deleted_at IS NULL
     GROUP BY p.id, t.title
   `, [postId]);

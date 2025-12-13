@@ -119,14 +119,14 @@ export async function searchForumPostsFull(
       p.content,
       u.name as author_name,
       p.created_at,
-      COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+      COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
     LEFT JOIN users u ON u.id = p.author_id
-    LEFT JOIN forum_post_reactions r ON r.post_id = p.id
+    LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
     WHERE p.deleted_at IS NULL
       AND t.deleted_at IS NULL
       AND (
@@ -157,10 +157,10 @@ export async function searchForumPostsFull(
       SELECT
         r.content,
         u.name as author_name,
-        COALESCE(SUM(CASE WHEN rr.reaction_type = 'upvote' THEN 1 WHEN rr.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score
+        COALESCE(SUM(CASE WHEN rr.type = 'agree' THEN 1 WHEN rr.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score
       FROM forum_replies r
       LEFT JOIN users u ON u.id = r.author_id
-      LEFT JOIN forum_reply_reactions rr ON rr.reply_id = r.id
+      LEFT JOIN forum_reactions rr ON rr.content_id = r.id AND rr.content_type = 'reply'
       WHERE r.post_id = $1 AND r.deleted_at IS NULL
       GROUP BY r.id, u.name
       ORDER BY vote_score DESC
@@ -219,14 +219,14 @@ export async function searchForumTopicsFull(
       t.category,
       u.name as author_name,
       t.created_at,
-      COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+      0 as vote_score, -- Topics don't have reactions in current schema
       COUNT(DISTINCT p.id) as post_count,
       COUNT(DISTINCT p.author_id) as participant_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM topics t
     LEFT JOIN users u ON u.id = t.author_id
-    LEFT JOIN forum_topic_reactions r ON r.topic_id = t.id
+    -- Topics don't have reactions in current schema (only posts/replies do)
     LEFT JOIN forum_posts p ON p.topic_id = t.id AND p.deleted_at IS NULL
     WHERE t.deleted_at IS NULL
       AND (
@@ -262,11 +262,11 @@ export async function searchForumTopicsFull(
         p.id,
         p.content,
         u.name as author_name,
-        COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+        COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
         COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp
       FROM forum_posts p
       LEFT JOIN users u ON u.id = p.author_id
-      LEFT JOIN forum_post_reactions r ON r.post_id = p.id
+      LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
       WHERE p.topic_id = $1 AND p.deleted_at IS NULL
       GROUP BY p.id, u.name
       ORDER BY total_sp DESC, vote_score DESC
@@ -328,14 +328,14 @@ export async function getRecentForumActivity(
       p.content,
       u.name as author_name,
       p.created_at,
-      COALESCE(SUM(CASE WHEN r.reaction_type = 'upvote' THEN 1 WHEN r.reaction_type = 'downvote' THEN -1 ELSE 0 END), 0) as vote_score,
+      COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
     LEFT JOIN users u ON u.id = p.author_id
-    LEFT JOIN forum_post_reactions r ON r.post_id = p.id
+    LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
     WHERE p.deleted_at IS NULL
       AND t.deleted_at IS NULL
       AND p.created_at >= NOW() - INTERVAL '1 hour' * $1
