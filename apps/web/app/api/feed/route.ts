@@ -7,7 +7,7 @@ import { listPosts, createPost } from '../../../../api/src/modules/feed/handlers
 import { fetchSocialMediaPreview } from '../../../../api/src/services/socialMediaFetcher'
 import { getCurrentUser } from '@/lib/auth/middleware'
 import { findUserById, findUsersByIds } from '@/lib/db/users'
-import { checkRateLimit } from '../../../../../lib/bridge/rate-limiter'
+import { checkRateLimit } from '@/lib/bridge/rate-limiter'
 import { hashIp, getClientIp } from '@/lib/bridge/logger'
 import { createNativePostSchema, createImportPostSchema } from '@togetheros/validators/feed'
 import { z } from 'zod'

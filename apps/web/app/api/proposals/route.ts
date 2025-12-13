@@ -13,7 +13,7 @@ import {
   type ListProposalsFilter,
 } from '@togetheros/db';
 import { reputationService } from '@/lib/services/ReputationService';
-import { indexProposal } from '../../../lib/bridge/content-indexer';
+import { indexProposal } from '@web/bridge/content-indexer';
 
 export async function POST(request: NextRequest) {
   try {

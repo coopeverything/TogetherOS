@@ -18,6 +18,7 @@
       "@togetheros/validators": ["../../packages/validators/src"],
       "@togetheros/validators/*": ["../../packages/validators/src/*"],
       "@/lib/*": ["../../lib/*"],
+      "@web/*": ["./lib/*"],
       "@/components/*": ["./components/*"],
       "@/*": ["./*"]
     },

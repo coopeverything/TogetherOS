@@ -7,8 +7,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/middleware';
-import { fetchUserContext, fetchCityContext } from '../../../../../lib/bridge/context-service';
-import { generateRecommendations } from '../../../../../lib/bridge/recommendation-generator';
+import { fetchUserContext, fetchCityContext } from '@web/bridge/context-service';
+import { generateRecommendations } from '@web/bridge/recommendation-generator';
 import { recommendationRepo } from '../../../../../../api/src/modules/bridge-recommendations/repos/PostgresRecommendationRepo';
 
 export async function POST(request: NextRequest) {

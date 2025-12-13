@@ -7,7 +7,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { generateRecommendationsForActiveUsers } from '../../../../../../lib/bridge/recommendation-jobs';
+import { generateRecommendationsForActiveUsers } from '@web/bridge/recommendation-jobs';
 
 // Require API key for job endpoints (must be set in environment)
 const JOB_API_KEY = process.env.JOB_API_KEY;

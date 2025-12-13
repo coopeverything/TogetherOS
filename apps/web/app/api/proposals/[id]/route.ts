@@ -13,7 +13,7 @@ import {
   deleteProposal,
 } from '../../../../../api/src/modules/governance/handlers/crud';
 import type { UpdateProposalInput } from '@togetheros/validators/governance';
-import { indexProposal, removeFromIndex } from '../../../../lib/bridge/content-indexer';
+import { indexProposal, removeFromIndex } from '@web/bridge/content-indexer';
 
 export async function GET(
   request: NextRequest,

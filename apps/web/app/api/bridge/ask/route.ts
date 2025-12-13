@@ -17,14 +17,14 @@ import {
   getSources,
   type DocEntry,
 } from '@/lib/bridge/docs-indexer';
-import { extractTrustedUrls, fetchTrustedContents } from '../../../../lib/bridge/trusted-domains';
-import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '../../../../lib/bridge/context-service';
-import { getSmartContentForQuery } from '../../../../lib/bridge/content-search';
-import { getActivitiesForCitySize } from '../../../../lib/bridge/activities-data';
+import { extractTrustedUrls, fetchTrustedContents } from '@web/bridge/trusted-domains';
+import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '@web/bridge/context-service';
+import { getSmartContentForQuery } from '@web/bridge/content-search';
+import { getActivitiesForCitySize } from '@web/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
 import { PostgresBridgeTrainingRepo } from '../../../../../api/src/modules/bridge-training/repos/PostgresBridgeTrainingRepo';
-import { sanitizeBridgeRequest } from '../../../../lib/bridge/input-sanitizer';
+import { sanitizeBridgeRequest } from '@web/bridge/input-sanitizer';
 
 const RATE_LIMIT_MAX = parseInt(process.env.BRIDGE_RATE_LIMIT_PER_HOUR || '30', 10);
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms

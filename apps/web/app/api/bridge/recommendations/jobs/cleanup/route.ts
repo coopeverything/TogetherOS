@@ -7,8 +7,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { cleanupOldRecommendations } from '../../../../../../lib/bridge/recommendation-jobs';
-import { refreshPerformanceView } from '../../../../../../lib/bridge/recommendation-analytics';
+import { cleanupOldRecommendations } from '@web/bridge/recommendation-jobs';
+import { refreshPerformanceView } from '@web/bridge/recommendation-analytics';
 
 // Require API key for job endpoints (must be set in environment)
 const JOB_API_KEY = process.env.JOB_API_KEY;

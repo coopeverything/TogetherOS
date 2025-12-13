@@ -14,7 +14,7 @@ import {
 } from '@togetheros/db';
 import { createTopicSchema, listTopicsFiltersSchema } from '@togetheros/validators/forum';
 import { reputationService } from '@/lib/services/ReputationService';
-import { indexForumTopic } from '../../../../lib/bridge/content-indexer';
+import { indexForumTopic } from '@web/bridge/content-indexer';
 
 export async function POST(request: NextRequest) {
   try {
