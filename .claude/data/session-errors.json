@@ -149,7 +149,65 @@
         "entries_removed": 3
       },
       "source": null
+    },
+    {
+      "id": "err-011",
+      "signature": {
+        "type": "architectural-reasoning",
+        "code": "RESTRUCTURE_WITHOUT_DEPENDENCY_ANALYSIS",
+        "pattern": "Restructuring files/paths/aliases without first mapping the full import dependency graph"
+      },
+      "trigger": "user-reported",
+      "occurrences": [
+        {
+          "session_date": "2025-12-12",
+          "commit_sha": "9651985",
+          "context": "Session 1: Saw @/lib/bridge/content-indexer imports failing. Changed @/lib/* to point to ./lib/* (web lib). This broke rate-limiter, logger, docs-indexer imports which expected root lib. Reverted, used ugly relative paths. Never considered adding second alias."
+        },
+        {
+          "session_date": "2025-12-12",
+          "commit_sha": null,
+          "context": "Session 2 (this session): Saw two lib directories with bridge folders. Instinct said 'consolidate to one location.' Started moving rate-limiter, logger, docs-indexer FROM root lib TO web lib. Would have broken all @/lib/bridge/* imports. Had to reverse changes and adopt two-alias approach instead."
+        }
+      ],
+      "root_cause_analysis": {
+        "surface_symptom": "Import paths failing OR duplicate directory structures",
+        "instinctive_response": "Change the path alias OR consolidate everything to one place",
+        "fundamental_error": "Acting on instinct without analyzing full dependency graph",
+        "why_it_fails": "Different consumers depend on different path resolutions. Changing one path breaks other consumers. Single-alias cannot serve multiple targets.",
+        "cognitive_bias": "Consolidation bias - assumption that fewer directories = cleaner architecture. False when different consumers have different needs."
+      },
+      "resolution": "Added 'Path Alias & File Restructuring Protocol' to togetheros-kb.md. MANDATORY: Before ANY file moves or path alias changes, must run dependency analysis grep to map all consumers. Solution for split dependencies: Use multiple aliases (@/lib/* for shared, @web/* for app-specific) rather than forcing everything into one location.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-12T18:45:00Z",
+      "details": {
+        "affected_files": [
+          "apps/web/tsconfig.json",
+          "apps/web/app/api/bridge/ask/route.ts",
+          "apps/web/app/api/forum/topics/route.ts",
+          "apps/web/app/api/proposals/route.ts",
+          "lib/bridge/rate-limiter.ts",
+          "lib/bridge/logger.ts",
+          "lib/bridge/docs-indexer.ts",
+          "apps/web/lib/bridge/content-indexer.ts"
+        ],
+        "correct_solution": {
+          "approach": "Two aliases serving different purposes",
+          "shared_alias": "@/lib/* → ../../lib/* (rate-limiter, logger, docs-indexer)",
+          "app_alias": "@web/* → ./lib/* (content-indexer, context-service, etc.)"
+        },
+        "wrong_approaches_attempted": [
+          "Toggle single @/lib/* alias between root lib and web lib",
+          "Consolidate all files to web lib (would break @/lib/bridge/* imports)",
+          "Use ugly relative paths like ../../../../../lib/bridge/*"
+        ]
+      },
+      "sources": [
+        "https://martinfowler.com/articles/refactoring-dependencies.html",
+        "https://nx.dev/blog/managing-ts-packages-in-monorepos",
+        "https://www.codesee.io/learning-center/code-refactoring"
+      ]
     }
   ],
-  "last_updated": "2025-12-11T17:58:00Z"
+  "last_updated": "2025-12-12T18:45:00Z"
 }

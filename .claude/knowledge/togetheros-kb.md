@@ -448,6 +448,95 @@ git fetch origin <branch-name>
 - **Always use package aliases** for internal monorepo packages
 - Source: [Nx Blog - Managing TS Packages](https://nx.dev/blog/managing-ts-packages-in-monorepos)
 
+❌ **Don't restructure files/paths without dependency analysis (err-011)**
+- **Cognitive trap:** Seeing duplicate directories or failing imports triggers "fix it" instinct
+- **Wrong approach:** Toggle single alias between targets OR consolidate everything to one location
+- **Why it fails:** Different consumers depend on different path resolutions
+- **Cost:** Hours of flip-flopping, broken imports, wasted commits
+- **MANDATORY:** Follow Path Alias & File Restructuring Protocol below
+
+### Path Alias & File Restructuring Protocol (MANDATORY)
+
+**Trigger:** Before ANY file moves, directory restructuring, or path alias changes
+
+**Why This Exists (err-011):**
+On Dec 12, 2025, two sessions made the same error:
+1. Session 1: Changed `@/lib/*` to fix content-indexer → Broke rate-limiter imports → Reverted
+2. Session 2: Tried to consolidate all files to web lib → Would have broken `@/lib/bridge/*` imports
+
+Both sessions acted on instinct ("fix the failing import" or "consolidate duplicates") without analyzing the full dependency graph.
+
+**Step 1: Map the Dependency Graph (BEFORE any changes)**
+
+```bash
+# Find ALL consumers of the path/files you want to change
+grep -r "from '@/lib/bridge/" apps/web/ --include="*.ts" --include="*.tsx"
+grep -r "from '.*lib/bridge/" apps/web/ --include="*.ts" --include="*.tsx"
+
+# Check what files exist in each location
+ls -la lib/bridge/
+ls -la apps/web/lib/bridge/
+```
+
+**Step 2: Identify Split Dependencies**
+
+Ask yourself:
+- Do some files import from Location A (`@/lib/*` → root lib)?
+- Do other files import from Location B (relative paths → apps/web/lib)?
+- If YES: You have split dependencies → Need MULTIPLE aliases
+
+**Step 3: Choose the Correct Solution**
+
+| Situation | Wrong Approach | Correct Approach |
+|-----------|----------------|------------------|
+| Split dependencies | Toggle one alias | Add second alias |
+| Duplicate files | Move without checking imports | Analyze consumers first |
+| Failing imports | Change alias immediately | Map full dependency graph |
+
+**Step 4: For Split Dependencies (Current TogetherOS Pattern)**
+
+```typescript
+// apps/web/tsconfig.json paths
+"@/lib/*": ["../../lib/*"],      // Shared utilities (rate-limiter, logger, docs-indexer)
+"@web/*": ["./lib/*"],           // Web-specific (content-indexer, context-service)
+```
+
+| Alias | Points To | Purpose | Files |
+|-------|-----------|---------|-------|
+| `@/lib/*` | `../../lib/*` (root) | Shared across apps | rate-limiter, logger, docs-indexer |
+| `@web/*` | `./lib/*` (web) | Web app specific | content-indexer, context-service, etc. |
+
+**Step 5: Verify Before Committing**
+
+```bash
+# After making changes, verify TypeScript compiles
+npx tsc --noEmit
+
+# Run tests
+npm test
+```
+
+**Sources:**
+- [Martin Fowler - Refactoring Module Dependencies](https://martinfowler.com/articles/refactoring-dependencies.html)
+- [Nx Blog - Managing TS Packages in Monorepos](https://nx.dev/blog/managing-ts-packages-in-monorepos)
+- [CodeSee - Code Refactoring Best Practices](https://www.codesee.io/learning-center/code-refactoring)
+
+### Session Reference: 2025-12-12 Path Alias Consolidation (err-011)
+
+**Problem:** `@/lib/*` alias couldn't serve both root lib/ and apps/web/lib/
+**Symptom:** Imports failing, flip-flopping between configurations
+**Root Cause:** Single alias trying to serve two different directory trees
+**Wrong Approaches:**
+1. Toggle `@/lib/*` between `../../lib/*` and `./lib/*`
+2. Consolidate all files to one location
+3. Use ugly relative paths like `../../../../../lib/bridge/*`
+
+**Correct Solution:** Two aliases
+- `@/lib/*` → root lib (shared utilities)
+- `@web/*` → apps/web/lib (web-specific code)
+
+**Key Insight:** When you see "duplicate directories" or "failing imports," resist the instinct to immediately consolidate or toggle. First map the dependency graph to understand WHO depends on WHAT.
+
 ### Session Reference: 2025-12-03 Monorepo Import Fix
 
 **Problem:** Deploy failed with TS2307 after changing import to relative path
