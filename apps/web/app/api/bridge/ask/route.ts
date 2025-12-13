@@ -20,6 +20,7 @@ import {
 import { extractTrustedUrls, fetchTrustedContents } from '@web/bridge/trusted-domains';
 import { fetchUserContext, fetchCityContext, fetchBridgePreferences, type BridgePreferences } from '@web/bridge/context-service';
 import { getSmartContentForQuery } from '@web/bridge/content-search';
+import { searchKnowledgeForBridge } from '@web/bridge/unified-knowledge-search';
 import { getActivitiesForCitySize } from '@web/bridge/activities-data';
 import type { ActivityRecommendation as ActivityRec, BridgeTrainingExample } from '@togetheros/types';
 import { getCurrentUser } from '@/lib/auth/middleware';
@@ -468,7 +469,26 @@ Use this live content to answer the user's question accurately. Reference the sp
       }
     }
 
-    // Smart content retrieval: many results = indexed summaries, few results = full posts
+    // Unified knowledge search: wiki, glossary, forum, proposals with synonym expansion
+    // This is the primary search - includes wiki articles and handles "SP" -> "Support Points" etc.
+    try {
+      const knowledgeResults = await searchKnowledgeForBridge(question, {
+        limit: 10,
+        includeMinorityReports: true,
+        userId: user?.id,
+      });
+      if (knowledgeResults.formattedBlock) {
+        console.log(`[Bridge] Unified knowledge search: ${knowledgeResults.results.length} results from [${knowledgeResults.queriedSources.join(', ')}]`);
+        enhancedSystemPrompt += knowledgeResults.formattedBlock;
+      } else if (!knowledgeResults.hadResults) {
+        console.log('[Bridge] No results from unified knowledge search, will try smart content fallback');
+      }
+    } catch (error) {
+      console.warn('Failed unified knowledge search:', error);
+      // Continue with legacy search as fallback
+    }
+
+    // Smart content retrieval (legacy fallback): many results = indexed summaries, few results = full posts
     // This allows Bridge to read and summarize full forum posts when there are few matches
     // Results are weighted by community validation (votes, SP, replies)
     try {

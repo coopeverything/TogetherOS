@@ -146,3 +146,200 @@ export interface WikiSearchResult {
   excerpt: string
   matchScore: number
 }
+
+// =============================================================================
+// DATABASE-BACKED WIKI TYPES (Phase 1-4 Unified Knowledge System)
+// =============================================================================
+
+/**
+ * Wiki article as stored in database
+ */
+export interface DbWikiArticle {
+  id: string
+  slug: string
+  title: string
+  summary: string
+  content: string
+  status: 'draft' | 'proposed' | 'stable' | 'evolving' | 'contested' | 'archived'
+  tags: string[]
+  cooperationPaths: string[]
+  relatedArticleSlugs: string[]
+  terms: string[]
+  viewCount: number
+  totalSP: number
+  spAllocatorCount: number
+  contributorCount: number
+  trustTier: 'unvalidated' | 'low' | 'medium' | 'high' | 'consensus' | 'stable'
+  discussionTopicId: string | null
+  createdBy: string | null
+  lastEditedBy: string | null
+  createdAt: Date
+  updatedAt: Date
+  readTimeMinutes: number
+}
+
+/**
+ * Glossary term as stored in database
+ */
+export interface DbGlossaryTerm {
+  id: string
+  word: string
+  slug: string
+  shortDefinition: string
+  wikiArticleSlug: string | null
+  discussionTopicId: string | null
+  relatedTermSlugs: string[]
+  cooperationPath: string | null
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Search synonym for query expansion
+ */
+export interface SearchSynonym {
+  id: string
+  canonicalTerm: string
+  synonyms: string[]
+  abbreviations: string[]
+  category: string
+  createdAt: Date
+}
+
+/**
+ * Wiki edit proposal for governance
+ */
+export interface WikiEditProposal {
+  id: string
+  articleId: string
+  proposedTitle: string | null
+  proposedSummary: string | null
+  proposedContent: string
+  proposedTags: string[] | null
+  changeDescription: string
+  rationale: string | null
+  status: 'pending' | 'under_review' | 'approved' | 'rejected' | 'withdrawn'
+  governanceProposalId: string | null
+  proposedBy: string
+  reviewedBy: string | null
+  reviewNotes: string | null
+  createdAt: Date
+  reviewedAt: Date | null
+  appliedAt: Date | null
+}
+
+/**
+ * Wiki edit history entry
+ */
+export interface WikiEditHistoryEntry {
+  id: string
+  articleId: string
+  previousContent: string
+  newContent: string
+  changeDescription: string | null
+  editorId: string | null
+  editedAt: Date
+  editProposalId: string | null
+}
+
+/**
+ * Wiki minority report - dissenting view on article content
+ */
+export interface WikiMinorityReport {
+  id: string
+  articleId: string
+  dissentingView: string
+  evidence: string | null
+  predictions: string | null
+  authorId: string
+  totalSP: number
+  spAllocatorCount: number
+  status: 'active' | 'validated' | 'invalidated' | 'superseded'
+  validationNotes: string | null
+  validatedAt: Date | null
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Unanswered query tracked by Bridge
+ */
+export interface BridgeUnansweredQuery {
+  id: string
+  queryText: string
+  queryNormalized: string
+  userId: string | null
+  sessionContext: Record<string, unknown> | null
+  searchResultsCount: number
+  contentTypesSearched: string[]
+  occurrenceCount: number
+  firstSeenAt: Date
+  lastSeenAt: Date
+  resolved: boolean
+  resolvedByArticleId: string | null
+  resolvedAt: Date | null
+}
+
+/**
+ * Unified knowledge search result (covers all content types)
+ */
+export interface UnifiedSearchResult {
+  source: 'wiki' | 'forum' | 'docs' | 'proposal' | 'glossary'
+  sourceId: string
+  title: string
+  summary: string
+  content: string | null
+  url: string
+
+  // Trust signals
+  trustTier: 'unvalidated' | 'low' | 'medium' | 'high' | 'consensus' | 'stable'
+  totalSP: number
+  hasMinorityReport: boolean
+  isContested: boolean
+
+  // Relevance
+  score: number
+  matchType: 'exact' | 'synonym' | 'semantic'
+  matchedTerms: string[]
+}
+
+/**
+ * Options for unified knowledge search
+ */
+export interface UnifiedSearchOptions {
+  sources?: ('wiki' | 'forum' | 'docs' | 'proposal' | 'glossary')[]
+  minTrust?: 'unvalidated' | 'low' | 'medium' | 'high' | 'consensus'
+  includeContested?: boolean
+  expandSynonyms?: boolean
+  limit?: number
+  offset?: number
+}
+
+/**
+ * Knowledge gap analysis result
+ */
+export interface KnowledgeGap {
+  queryNormalized: string
+  occurrenceCount: number
+  firstSeenAt: Date
+  lastSeenAt: Date
+  suggestedTopic: string | null
+  relatedArticles: string[]
+}
+
+/**
+ * Wiki export metadata
+ */
+export interface WikiExportRecord {
+  id: string
+  exportType: 'git' | 'markdown' | 'json' | 'federation'
+  articleCount: number
+  exportPath: string | null
+  commitSha: string | null
+  branchName: string | null
+  status: 'pending' | 'in_progress' | 'completed' | 'failed'
+  errorMessage: string | null
+  startedAt: Date
+  completedAt: Date | null
+  initiatedBy: string | null
+}
