@@ -13,6 +13,7 @@ import {
   deleteProposal,
 } from '../../../../../api/src/modules/governance/handlers/crud';
 import type { UpdateProposalInput } from '@togetheros/validators/governance';
+import { indexProposal, removeFromIndex } from '@/lib/bridge/content-indexer';
 
 export async function GET(
   request: NextRequest,
@@ -78,6 +79,15 @@ export async function PUT(
 
     const proposal = await updateProposal(id, updates);
 
+    // Re-index proposal for Bridge RAG (non-blocking)
+    indexProposal(proposal.id, {
+      title: proposal.title,
+      summary: proposal.summary,
+      description: proposal.description || undefined,
+      authorId: proposal.authorId,
+      createdAt: proposal.createdAt,
+    }).catch((err) => console.error('Failed to re-index proposal:', err));
+
     return NextResponse.json({ proposal });
   } catch (error: any) {
     const { id } = await params;
@@ -121,6 +131,11 @@ export async function DELETE(
     }
 
     await deleteProposal(id);
+
+    // Remove from Bridge index (non-blocking)
+    removeFromIndex('proposal', id).catch((err) =>
+      console.error('Failed to remove proposal from index:', err)
+    );
 
     return NextResponse.json({ message: 'Proposal deleted successfully' });
   } catch (error: any) {
