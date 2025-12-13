@@ -368,8 +368,57 @@ export async function unifiedKnowledgeSearch(
     }
   }
 
-  // Search forum posts
+  // Search forum topics (titles and descriptions)
   if (sources.includes('forum')) {
+    const topicResults = await query<{
+      id: string;
+      title: string;
+      description: string | null;
+      category: string;
+      post_count: number;
+      total_sp: number;
+    }>(
+      `SELECT
+        t.id,
+        t.title,
+        t.description,
+        t.category::text,
+        t.post_count,
+        COALESCE((SELECT SUM(amount) FROM support_points_allocations
+          WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0)::integer as total_sp
+      FROM topics t
+      WHERE t.deleted_at IS NULL
+        AND (
+          to_tsvector('english', t.title || ' ' || COALESCE(t.description, ''))
+            @@ plainto_tsquery('english', $1)
+          OR t.title ILIKE ANY($2)
+          OR t.description ILIKE ANY($2)
+        )
+      ORDER BY total_sp DESC, t.created_at DESC
+      LIMIT $3`,
+      [searchQuery, searchPatterns, limit]
+    );
+
+    for (const row of topicResults.rows) {
+      const trustTier = calculateTrustTier(row.total_sp, row.post_count);
+      results.push({
+        source: 'forum',
+        sourceId: row.id,
+        title: row.title,
+        summary: row.description || `Discussion topic in ${row.category} category`,
+        content: row.description,
+        url: `/forum/topic/${row.id}`,
+        trustTier,
+        totalSP: row.total_sp,
+        hasMinorityReport: false,
+        isContested: false,
+        score: row.total_sp + 10, // Boost topics slightly over posts
+        matchType: 'exact',
+        matchedTerms: searchTerms,
+      });
+    }
+
+    // Also search forum posts (content)
     const forumResults = await query<{
       id: string;
       topic_id: string;
