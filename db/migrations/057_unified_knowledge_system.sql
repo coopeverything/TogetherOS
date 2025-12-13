@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS wiki_articles (
   trust_tier VARCHAR(20) DEFAULT 'stable'
     CHECK (trust_tier IN ('unvalidated', 'low', 'medium', 'high', 'consensus', 'stable')),
 
-  -- Linked discussion
-  discussion_topic_id UUID REFERENCES forum_topics(id) ON DELETE SET NULL,
+  -- Linked discussion (no FK - forum_topics may not exist yet)
+  discussion_topic_id UUID,
 
   -- Audit trail
   created_by UUID REFERENCES users(id) ON DELETE SET NULL,
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS glossary_terms (
 
   -- Links to deeper content
   wiki_article_slug VARCHAR(100) REFERENCES wiki_articles(slug) ON DELETE SET NULL,
-  discussion_topic_id UUID REFERENCES forum_topics(id) ON DELETE SET NULL,
+  discussion_topic_id UUID,  -- No FK - forum_topics may not exist yet
 
   -- Related terms
   related_term_slugs TEXT[] DEFAULT '{}',
