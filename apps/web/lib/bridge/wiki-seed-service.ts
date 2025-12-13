@@ -12,7 +12,7 @@ import {
   upsertWikiArticle,
   upsertGlossaryTerm,
 } from '@togetheros/db';
-import { wikiArticles, glossaryTerms } from '@/lib/data/wiki-data';
+import { wikiArticles, glossaryTerms } from '@web/data/wiki-data';
 import type { WikiArticle, GlossaryTerm } from '@togetheros/types';
 
 // Track if seed has been attempted this session
