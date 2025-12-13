@@ -92,6 +92,7 @@ export * from './social-horizon'
 export * from './support-points'
 export * from './system-settings'
 export * from './timebank'
+export * from './unified-knowledge'
 export * from './users'
 
 // Explicitly re-export commonly used user functions for Turbopack
