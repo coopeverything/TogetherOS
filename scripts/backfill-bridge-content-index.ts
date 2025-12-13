@@ -58,7 +58,7 @@ async function backfillForumTopics(): Promise<number> {
       t.created_at,
       t.post_count,
       t.participant_count
-    FROM forum_topics t
+    FROM topics t
     WHERE t.deleted_at IS NULL
   `);
 
@@ -137,7 +137,7 @@ async function backfillForumPosts(): Promise<number> {
       p.created_at,
       p.reply_count
     FROM forum_posts p
-    JOIN forum_topics t ON t.id = p.topic_id
+    JOIN topics t ON t.id = p.topic_id
     WHERE p.deleted_at IS NULL
   `);
 

@@ -387,7 +387,7 @@ export async function unifiedKnowledgeSearch(
           WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0)::integer as total_sp,
         p.reply_count
       FROM forum_posts p
-      JOIN forum_topics t ON t.id = p.topic_id
+      JOIN topics t ON t.id = p.topic_id
       WHERE p.deleted_at IS NULL
         AND t.deleted_at IS NULL
         AND (

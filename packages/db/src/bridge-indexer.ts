@@ -70,7 +70,7 @@ export async function indexForumTopics(): Promise<number> {
       COUNT(DISTINCT p.author_id) as participant_count,
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as sp_allocator_count
-    FROM forum_topics t
+    FROM topics t
     LEFT JOIN forum_topic_reactions r ON r.topic_id = t.id
     LEFT JOIN forum_posts p ON p.topic_id = t.id AND p.deleted_at IS NULL
     WHERE t.deleted_at IS NULL
@@ -157,7 +157,7 @@ export async function indexForumPosts(): Promise<number> {
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
-    JOIN forum_topics t ON t.id = p.topic_id
+    JOIN topics t ON t.id = p.topic_id
     LEFT JOIN forum_post_reactions r ON r.post_id = p.id
     WHERE p.deleted_at IS NULL AND t.deleted_at IS NULL
     GROUP BY p.id, t.title
@@ -349,7 +349,7 @@ export async function indexSinglePost(postId: string): Promise<void> {
       COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
       COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
-    JOIN forum_topics t ON t.id = p.topic_id
+    JOIN topics t ON t.id = p.topic_id
     LEFT JOIN forum_post_reactions r ON r.post_id = p.id
     WHERE p.id = $1 AND p.deleted_at IS NULL
     GROUP BY p.id, t.title
