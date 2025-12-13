@@ -385,7 +385,7 @@ export async function unifiedKnowledgeSearch(
         t.category::text,
         t.post_count,
         COALESCE((SELECT SUM(amount) FROM support_points_allocations
-          WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0)::integer as total_sp
+          WHERE target_type = 'forum_topic' AND target_id = t.id AND status = 'active'), 0)::integer as total_sp
       FROM topics t
       WHERE t.deleted_at IS NULL
         AND (
@@ -433,7 +433,7 @@ export async function unifiedKnowledgeSearch(
         t.title as topic_title,
         p.content,
         COALESCE((SELECT SUM(amount) FROM support_points_allocations
-          WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0)::integer as total_sp,
+          WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0)::integer as total_sp,
         p.reply_count
       FROM forum_posts p
       JOIN topics t ON t.id = p.topic_id
@@ -483,7 +483,7 @@ export async function unifiedKnowledgeSearch(
         p.summary,
         p.status,
         COALESCE((SELECT SUM(amount) FROM support_points_allocations
-          WHERE target_type = 'proposal' AND target_id = p.id::text AND status = 'active'), 0)::integer as total_sp
+          WHERE target_type = 'proposal' AND target_id = p.id AND status = 'active'), 0)::integer as total_sp
       FROM proposals p
       WHERE p.deleted_at IS NULL
         AND (

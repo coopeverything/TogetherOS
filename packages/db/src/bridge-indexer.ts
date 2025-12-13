@@ -68,8 +68,8 @@ export async function indexForumTopics(): Promise<number> {
       0 as vote_score, -- Topics don't have reactions in current schema
       COUNT(DISTINCT p.id) as reply_count,
       COUNT(DISTINCT p.author_id) as participant_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id AND status = 'active'), 0) as sp_allocator_count
     FROM topics t
     LEFT JOIN forum_posts p ON p.topic_id = t.id AND p.deleted_at IS NULL
     WHERE t.deleted_at IS NULL
@@ -153,8 +153,8 @@ export async function indexForumPosts(): Promise<number> {
       p.created_at,
       COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
     LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
@@ -239,8 +239,8 @@ export async function indexProposals(): Promise<number> {
       p.author_id,
       p.created_at,
       COALESCE((SELECT COUNT(*) FROM proposal_votes WHERE proposal_id = p.id), 0) as vote_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'proposal' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'proposal' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'proposal' AND target_id = p.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'proposal' AND target_id = p.id AND status = 'active'), 0) as sp_allocator_count
     FROM proposals p
     WHERE p.deleted_at IS NULL
   `);
@@ -345,8 +345,8 @@ export async function indexSinglePost(postId: string): Promise<void> {
       p.created_at,
       COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
     LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'

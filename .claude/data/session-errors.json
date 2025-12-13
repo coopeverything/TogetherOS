@@ -207,7 +207,101 @@
         "https://nx.dev/blog/managing-ts-packages-in-monorepos",
         "https://www.codesee.io/learning-center/code-refactoring"
       ]
+    },
+    {
+      "id": "err-012",
+      "signature": {
+        "type": "sql-schema",
+        "code": "TABLE_NAME_ASSUMPTION",
+        "pattern": "Assumed table name based on entity name without verifying actual schema"
+      },
+      "trigger": "session-repetitive",
+      "occurrences": [
+        {
+          "session_date": "2025-12-13",
+          "commit_sha": null,
+          "file": "packages/db/src/unified-knowledge.ts",
+          "message": "ERROR: relation \"forum_topics\" does not exist",
+          "context": "Writing Bridge search queries. Assumed table name 'forum_topics' because we were querying forum topics. Actual table name is 'topics' (no module prefix for legacy reasons)."
+        }
+      ],
+      "resolution": "Added SQL Schema Verification Protocol to togetheros-kb.md. MANDATORY: Run `\\dt *pattern*` to verify table names before writing queries.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-13T15:40:00Z",
+      "details": {
+        "affected_files": [
+          "packages/db/src/unified-knowledge.ts",
+          "packages/db/src/bridge-content-fetch.ts",
+          "packages/db/src/bridge-indexer.ts",
+          "scripts/backfill-bridge-content-index.ts"
+        ],
+        "wrong_name": "forum_topics",
+        "correct_name": "topics"
+      },
+      "sources": [
+        "https://www.mydbops.com/blog/postgresql-schema-guide",
+        "https://climbtheladder.com/10-postgresql-schema-best-practices/"
+      ]
+    },
+    {
+      "id": "err-013",
+      "signature": {
+        "type": "sql-schema",
+        "code": "TABLE_STRUCTURE_ASSUMPTION",
+        "pattern": "Assumed separate tables per entity subtype when unified table with discriminator exists"
+      },
+      "trigger": "session-repetitive",
+      "occurrences": [
+        {
+          "session_date": "2025-12-13",
+          "commit_sha": null,
+          "file": "packages/db/src/bridge-content-fetch.ts",
+          "message": "ERROR: relation \"forum_topic_reactions\" does not exist",
+          "context": "Assumed separate reaction tables for topics, posts, and replies (forum_topic_reactions, forum_post_reactions, forum_reply_reactions). Actual structure: single 'forum_reactions' table with 'content_type' discriminator column."
+        }
+      ],
+      "resolution": "Added to SQL Schema Verification Protocol: Check for discriminator columns (content_type, target_type) that indicate unified table design.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-13T15:40:00Z",
+      "details": {
+        "affected_files": [
+          "packages/db/src/bridge-content-fetch.ts",
+          "packages/db/src/bridge-indexer.ts"
+        ],
+        "wrong_names": ["forum_topic_reactions", "forum_post_reactions", "forum_reply_reactions"],
+        "correct_pattern": "forum_reactions WHERE content_type = 'post' | 'reply'"
+      }
+    },
+    {
+      "id": "err-014",
+      "signature": {
+        "type": "sql-type",
+        "code": "UUID_TEXT_COMPARISON",
+        "pattern": "Comparing UUID column to TEXT value with ::text cast"
+      },
+      "trigger": "session-repetitive",
+      "occurrences": [
+        {
+          "session_date": "2025-12-13",
+          "commit_sha": null,
+          "file": "packages/db/src/unified-knowledge.ts",
+          "message": "ERROR: operator does not exist: uuid = text (position 413)",
+          "context": "support_points_allocations.target_id is UUID type. Queries used 'target_id = t.id::text' attempting to compare UUID to TEXT. Also had issue with ILIKE ANY($2) needing $2::TEXT[] cast."
+        }
+      ],
+      "resolution": "Added to SQL Schema Verification Protocol: Verify column types before comparisons. UUID columns should compare to UUID, not TEXT.",
+      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "resolved_date": "2025-12-13T15:40:00Z",
+      "details": {
+        "affected_files": [
+          "packages/db/src/unified-knowledge.ts",
+          "packages/db/src/bridge-content-fetch.ts",
+          "packages/db/src/bridge-indexer.ts"
+        ],
+        "wrong_pattern": "target_id = t.id::text",
+        "correct_pattern": "target_id = t.id"
+      }
     }
   ],
-  "last_updated": "2025-12-12T18:45:00Z"
+  "last_updated": "2025-12-13T15:40:00Z"
 }

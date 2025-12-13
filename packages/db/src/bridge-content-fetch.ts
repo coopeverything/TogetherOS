@@ -121,8 +121,8 @@ export async function searchForumPostsFull(
       p.created_at,
       COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
     LEFT JOIN users u ON u.id = p.author_id
@@ -135,7 +135,7 @@ export async function searchForumPostsFull(
       )
     GROUP BY p.id, t.title, t.category, u.name
     ORDER BY
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) DESC,
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) DESC,
       p.created_at DESC
     LIMIT $2
   `, [searchQuery, limit]);
@@ -222,8 +222,8 @@ export async function searchForumTopicsFull(
       0 as vote_score, -- Topics don't have reactions in current schema
       COUNT(DISTINCT p.id) as post_count,
       COUNT(DISTINCT p.author_id) as participant_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id AND status = 'active'), 0) as sp_allocator_count
     FROM topics t
     LEFT JOIN users u ON u.id = t.author_id
     -- Topics don't have reactions in current schema (only posts/replies do)
@@ -236,7 +236,7 @@ export async function searchForumTopicsFull(
       )
     GROUP BY t.id, u.name
     ORDER BY
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id::text AND status = 'active'), 0) DESC,
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_topic' AND target_id = t.id AND status = 'active'), 0) DESC,
       COUNT(DISTINCT p.id) DESC
     LIMIT $2
   `, [searchQuery, limit]);
@@ -263,7 +263,7 @@ export async function searchForumTopicsFull(
         p.content,
         u.name as author_name,
         COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
-        COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp
+        COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as total_sp
       FROM forum_posts p
       LEFT JOIN users u ON u.id = p.author_id
       LEFT JOIN forum_reactions r ON r.content_id = p.id AND r.content_type = 'post'
@@ -330,8 +330,8 @@ export async function getRecentForumActivity(
       p.created_at,
       COALESCE(SUM(CASE WHEN r.type = 'agree' THEN 1 WHEN r.type = 'disagree' THEN -1 ELSE 0 END), 0) as vote_score,
       p.reply_count,
-      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as total_sp,
-      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id::text AND status = 'active'), 0) as sp_allocator_count
+      COALESCE((SELECT SUM(amount) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as total_sp,
+      COALESCE((SELECT COUNT(DISTINCT member_id) FROM support_points_allocations WHERE target_type = 'forum_post' AND target_id = p.id AND status = 'active'), 0) as sp_allocator_count
     FROM forum_posts p
     JOIN topics t ON t.id = p.topic_id
     LEFT JOIN users u ON u.id = p.author_id

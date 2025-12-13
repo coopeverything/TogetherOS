@@ -120,6 +120,49 @@ TogetherOS helps people **unlearn division and learn coordination**. It resets d
 
 **Source:** [CSS-Tricks Theming](https://css-tricks.com/color-theming-with-css-custom-properties-and-tailwind/)
 
+### SQL Schema Verification Protocol (MANDATORY for database queries)
+
+**When writing SQL queries that reference tables/columns:**
+
+1. **VERIFY table exists and get exact name:**
+   ```bash
+   # On production server
+   ssh root@72.60.27.167 "sudo -u postgres psql togetheros -c '\dt *topic*'"
+   ```
+
+2. **VERIFY column types before comparisons:**
+   ```bash
+   ssh root@72.60.27.167 "sudo -u postgres psql togetheros -c '\d support_points_allocations'"
+   ```
+
+3. **Check for unified vs separate tables:**
+   - Pattern: `{module}_{entity}` (e.g., `forum_posts`, `forum_reactions`)
+   - NEVER assume separate tables per subtype (e.g., `forum_post_reactions`, `forum_topic_reactions`)
+   - Check for discriminator columns like `content_type`, `target_type`
+
+4. **Verify type casting needs:**
+   - UUID columns: Don't use `::text` when comparing to other UUIDs
+   - Array parameters: Use `$N::TEXT[]` for `ILIKE ANY($N)`
+   - Integer aggregates: Use `::integer` for SUM/COUNT in typed results
+
+**Anti-pattern (err-012):**
+- Wrong: Assume table is `forum_topics` because entity is "forum topic"
+- Right: Run `\dt *topic*` to find actual table name (`topics`)
+
+**Anti-pattern (err-013):**
+- Wrong: Assume `forum_topic_reactions`, `forum_post_reactions` exist (separate tables per type)
+- Right: Check schema → find `forum_reactions` with `content_type` discriminator
+
+**Anti-pattern (err-014):**
+- Wrong: `WHERE target_id = t.id::text` (comparing UUID to TEXT)
+- Right: `WHERE target_id = t.id` (UUID to UUID, or check if target_id is actually TEXT)
+
+**Root Cause:** Writing SQL based on naming conventions or assumptions instead of verifying actual schema.
+
+**Sources:**
+- [PostgreSQL Schema Guide](https://www.mydbops.com/blog/postgresql-schema-guide)
+- [PostgreSQL Schema Best Practices](https://climbtheladder.com/10-postgresql-schema-best-practices/)
+
 ---
 
 ## Current Phase: Pre-MVP
