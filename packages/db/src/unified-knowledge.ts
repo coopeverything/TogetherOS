@@ -339,9 +339,9 @@ export async function unifiedKnowledgeSearch(
         AND (
           to_tsvector('english', w.title || ' ' || w.summary || ' ' || w.content)
             @@ plainto_tsquery('english', $1)
-          OR w.title ILIKE ANY($2)
-          OR w.summary ILIKE ANY($2)
-          OR w.content ILIKE ANY($2)
+          OR w.title ILIKE ANY($2::TEXT[])
+          OR w.summary ILIKE ANY($2::TEXT[])
+          OR w.content ILIKE ANY($2::TEXT[])
         )
         ${!includeContested ? "AND w.status != 'contested'" : ''}
       ORDER BY w.total_sp DESC, w.trust_tier DESC
@@ -391,8 +391,8 @@ export async function unifiedKnowledgeSearch(
         AND (
           to_tsvector('english', t.title || ' ' || COALESCE(t.description, ''))
             @@ plainto_tsquery('english', $1)
-          OR t.title ILIKE ANY($2)
-          OR t.description ILIKE ANY($2)
+          OR t.title ILIKE ANY($2::TEXT[])
+          OR t.description ILIKE ANY($2::TEXT[])
         )
       ORDER BY total_sp DESC, t.created_at DESC
       LIMIT $3`,
@@ -441,7 +441,7 @@ export async function unifiedKnowledgeSearch(
         AND t.deleted_at IS NULL
         AND (
           to_tsvector('english', p.content) @@ plainto_tsquery('english', $1)
-          OR p.content ILIKE ANY($2)
+          OR p.content ILIKE ANY($2::TEXT[])
         )
       ORDER BY total_sp DESC, p.created_at DESC
       LIMIT $3`,
@@ -489,8 +489,8 @@ export async function unifiedKnowledgeSearch(
         AND (
           to_tsvector('english', p.title || ' ' || COALESCE(p.summary, ''))
             @@ plainto_tsquery('english', $1)
-          OR p.title ILIKE ANY($2)
-          OR p.summary ILIKE ANY($2)
+          OR p.title ILIKE ANY($2::TEXT[])
+          OR p.summary ILIKE ANY($2::TEXT[])
         )
       ORDER BY total_sp DESC
       LIMIT $3`,
@@ -527,8 +527,8 @@ export async function unifiedKnowledgeSearch(
     }>(
       `SELECT id, word, slug, short_definition, wiki_article_slug
        FROM glossary_terms
-       WHERE word ILIKE ANY($1)
-          OR short_definition ILIKE ANY($1)
+       WHERE word ILIKE ANY($1::TEXT[])
+          OR short_definition ILIKE ANY($1::TEXT[])
        LIMIT $2`,
       [searchPatterns, limit]
     );
