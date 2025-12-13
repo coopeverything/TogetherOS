@@ -118,18 +118,18 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_search_synonyms_canonical
 INSERT INTO search_synonyms (canonical_term, synonyms, abbreviations, category) VALUES
   ('support points', ARRAY['governance points', 'governance power', 'voting weight'], ARRAY['SP', 'SPs'], 'economy'),
   ('reward points', ARRAY['economic points', 'contribution rewards', 'activity rewards'], ARRAY['RP', 'RPs'], 'economy'),
-  ('coordinator', ARRAY['facilitator', 'organizer', 'manager', 'leader'], ARRAY[], 'governance'),
-  ('consent-based', ARRAY['consent based', 'consent decision', 'sociocracy', 'no objection'], ARRAY[], 'governance'),
-  ('minority report', ARRAY['dissenting view', 'dissent', 'objection record'], ARRAY[], 'governance'),
-  ('cooperation paths', ARRAY['8 paths', 'paths', 'categories'], ARRAY[], 'taxonomy'),
-  ('coopeverything', ARRAY['coop everything', 'the cooperative', 'the movement'], ARRAY[], 'foundation'),
+  ('coordinator', ARRAY['facilitator', 'organizer', 'manager', 'leader'], ARRAY[]::TEXT[], 'governance'),
+  ('consent-based', ARRAY['consent based', 'consent decision', 'sociocracy', 'no objection'], ARRAY[]::TEXT[], 'governance'),
+  ('minority report', ARRAY['dissenting view', 'dissent', 'objection record'], ARRAY[]::TEXT[], 'governance'),
+  ('cooperation paths', ARRAY['8 paths', 'paths', 'categories'], ARRAY[]::TEXT[], 'taxonomy'),
+  ('coopeverything', ARRAY['coop everything', 'the cooperative', 'the movement'], ARRAY[]::TEXT[], 'foundation'),
   ('togetheros', ARRAY['together os', 'the OS', 'the platform', 'operating system'], ARRAY['TOS'], 'foundation'),
-  ('mutual aid', ARRAY['solidarity', 'reciprocal support', 'community support'], ARRAY[], 'economy'),
-  ('timebank', ARRAY['time bank', 'time banking', 'hour exchange', 'labor exchange'], ARRAY[], 'economy'),
-  ('four ledger system', ARRAY['4 ledger', 'ledgers', 'economic system'], ARRAY[], 'economy'),
-  ('recall mechanism', ARRAY['recall', 'removal process', 'coordinator removal'], ARRAY[], 'governance'),
-  ('proposal', ARRAY['initiative', 'motion', 'suggestion'], ARRAY[], 'governance'),
-  ('deliberation', ARRAY['discussion', 'debate', 'discourse'], ARRAY[], 'governance')
+  ('mutual aid', ARRAY['solidarity', 'reciprocal support', 'community support'], ARRAY[]::TEXT[], 'economy'),
+  ('timebank', ARRAY['time bank', 'time banking', 'hour exchange', 'labor exchange'], ARRAY[]::TEXT[], 'economy'),
+  ('four ledger system', ARRAY['4 ledger', 'ledgers', 'economic system'], ARRAY[]::TEXT[], 'economy'),
+  ('recall mechanism', ARRAY['recall', 'removal process', 'coordinator removal'], ARRAY[]::TEXT[], 'governance'),
+  ('proposal', ARRAY['initiative', 'motion', 'suggestion'], ARRAY[]::TEXT[], 'governance'),
+  ('deliberation', ARRAY['discussion', 'debate', 'discourse'], ARRAY[]::TEXT[], 'governance')
 ON CONFLICT (LOWER(canonical_term)) DO NOTHING;
 
 -- =============================================================================
