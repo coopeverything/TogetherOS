@@ -172,6 +172,25 @@ export function PostCard({
           {post.content && (
             <p className="text-ink-700 whitespace-pre-line mb-3">{post.content}</p>
           )}
+          {/* Uploaded images */}
+          {post.mediaUrls && post.mediaUrls.length > 0 && (
+            <div className={`grid gap-2 mb-3 ${
+              post.mediaUrls.length === 1 ? 'grid-cols-1' :
+              post.mediaUrls.length === 2 ? 'grid-cols-2' :
+              'grid-cols-2'
+            }`}>
+              {post.mediaUrls.map((url, idx) => (
+                <img
+                  key={idx}
+                  src={url}
+                  alt={`Image ${idx + 1}`}
+                  className={`w-full object-cover rounded-lg border border-border ${
+                    post.mediaUrls!.length === 1 ? 'max-h-96' : 'h-48'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
           {/* Embedded URL previews */}
           {post.embeddedUrls && post.embeddedUrls.length > 0 && (
             <div className="space-y-3">
