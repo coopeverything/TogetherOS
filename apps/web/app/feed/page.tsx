@@ -6,7 +6,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PostList, PostComposerUnified, GroupGrowthTracker, InvitationModal, type CreatePostData, type InvitationData } from '@togetheros/ui'
+import { PostList, PostComposerUnified, GroupGrowthTracker, InvitationModal, type UnifiedCreatePostData, type InvitationData } from '@togetheros/ui'
 import { AVAILABLE_TOPICS } from '@togetheros/types'
 import type { Post, ReactionType } from '@togetheros/types'
 
@@ -30,6 +30,8 @@ export default function FeedPage() {
   const [userReactions, setUserReactions] = useState<Record<string, ReactionType>>({})
   const [composerOpen, setComposerOpen] = useState(false)
   const [inviteModalOpen, setInviteModalOpen] = useState(false)
+  // Edit mode state
+  const [editingPost, setEditingPost] = useState<Post | null>(null)
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
   const [currentUserId, setCurrentUserId] = useState<string | undefined>()
 
@@ -121,10 +123,11 @@ export default function FeedPage() {
     }
   }, [selectedTopic])
 
-  // Handle reaction
-  const handleReact = (postId: string, type: ReactionType) => {
-    // Toggle reaction
-    if (userReactions[postId] === type) {
+  // Handle reaction - persist to API
+  const handleReact = async (postId: string, type: ReactionType) => {
+    // Optimistically update UI
+    const previousReaction = userReactions[postId]
+    if (previousReaction === type) {
       // Remove reaction
       const newReactions = { ...userReactions }
       delete newReactions[postId]
@@ -136,6 +139,36 @@ export default function FeedPage() {
         [postId]: type,
       })
     }
+
+    // Persist to server
+    try {
+      const response = await fetch(`/api/feed/${postId}/reactions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type }),
+      })
+
+      if (!response.ok) {
+        // Revert on error
+        if (previousReaction) {
+          setUserReactions(prev => ({ ...prev, [postId]: previousReaction }))
+        } else {
+          setUserReactions(prev => {
+            const newReactions = { ...prev }
+            delete newReactions[postId]
+            return newReactions
+          })
+        }
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Failed to save reaction:', errorData.error || response.statusText)
+      }
+    } catch (err) {
+      // Revert on network error
+      console.error('Failed to save reaction:', err)
+      if (previousReaction) {
+        setUserReactions(prev => ({ ...prev, [postId]: previousReaction }))
+      }
+    }
   }
 
   // Handle discuss (placeholder)
@@ -144,7 +177,7 @@ export default function FeedPage() {
   }
 
   // Handle create post
-  const handleCreatePost = async (data: CreatePostData) => {
+  const handleCreatePost = async (data: UnifiedCreatePostData) => {
     setSubmitting(true)
     setError(null)
     try {
@@ -236,10 +269,63 @@ export default function FeedPage() {
     }
   }
 
-  // Handle edit post
-  const handleEdit = async (postId: string) => {
-    alert('Edit functionality coming soon!')
-    // TODO: Open edit modal with post data
+  // Handle edit post - find post and open modal
+  const handleEdit = (postId: string) => {
+    const post = posts.find(p => p.id === postId)
+    if (post) {
+      setEditingPost(post)
+      setComposerOpen(true)
+    }
+  }
+
+  // Handle update post (called from composer in edit mode)
+  const handleUpdatePost = async (data: UnifiedCreatePostData) => {
+    if (!data.postId) return
+
+    setSubmitting(true)
+    setError(null)
+    try {
+      const response = await fetch(`/api/feed/${data.postId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: data.title,
+          content: data.content,
+          topics: data.topics,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `Failed to update post: ${response.statusText}`)
+      }
+
+      const updatedPost = await response.json()
+
+      // Update post in local state
+      setPosts(posts.map(p => p.id === data.postId ? { ...p, ...updatedPost } : p))
+
+      // Close composer and clear edit state
+      setComposerOpen(false)
+      setEditingPost(null)
+    } catch (err) {
+      console.error('Failed to update post:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update post. Please try again.'
+      setError(errorMessage)
+      alert(errorMessage)
+      throw err
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  // Handle submit (creates or updates based on postId)
+  const handleSubmit = async (data: UnifiedCreatePostData) => {
+    if (data.postId) {
+      await handleUpdatePost(data)
+    } else {
+      await handleCreatePost(data)
+    }
   }
 
   return (
@@ -315,12 +401,20 @@ export default function FeedPage() {
           </aside>
         </div>
 
-        {/* Post Composer Modal */}
+        {/* Post Composer Modal (create/edit) */}
         <PostComposerUnified
           isOpen={composerOpen}
-          onClose={() => setComposerOpen(false)}
-          onSubmit={handleCreatePost}
+          onClose={() => {
+            setComposerOpen(false)
+            setEditingPost(null)
+          }}
+          onSubmit={handleSubmit}
           topics={AVAILABLE_TOPICS}
+          editMode={!!editingPost}
+          editPostId={editingPost?.id}
+          initialTitle={editingPost?.title || ''}
+          initialContent={editingPost?.content || ''}
+          initialTopics={editingPost?.topics || []}
         />
 
         {/* Invitation Modal */}

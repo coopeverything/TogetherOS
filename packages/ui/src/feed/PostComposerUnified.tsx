@@ -18,6 +18,12 @@ export interface PostComposerProps {
   onSubmit: (data: CreatePostData) => void | Promise<void>
   topics: string[]  // Available topic tags
   onSuggestTopics?: (content: string, title?: string) => TopicSuggestion[]  // Bridge topic suggestion callback
+  // Edit mode props
+  editMode?: boolean
+  editPostId?: string
+  initialTitle?: string
+  initialContent?: string
+  initialTopics?: string[]
 }
 
 export interface CreatePostData {
@@ -26,6 +32,8 @@ export interface CreatePostData {
   content: string
   topics: string[]
   groupId?: string
+  // For edit mode
+  postId?: string
 }
 
 // Simple URL regex (matches http/https URLs)
@@ -48,14 +56,35 @@ function detectSocialMedia(urls: string[]): boolean {
   })
 }
 
-export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availableTopics, onSuggestTopics }: PostComposerProps) {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([])
+export function PostComposerUnified({
+  isOpen,
+  onClose,
+  onSubmit,
+  topics: availableTopics,
+  onSuggestTopics,
+  editMode = false,
+  editPostId,
+  initialTitle = '',
+  initialContent = '',
+  initialTopics = [],
+}: PostComposerProps) {
+  const [title, setTitle] = useState(initialTitle)
+  const [content, setContent] = useState(initialContent)
+  const [selectedTopics, setSelectedTopics] = useState<string[]>(initialTopics)
   const [suggestedTopics, setSuggestedTopics] = useState<TopicSuggestion[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [detectedUrls, setDetectedUrls] = useState<string[]>([])
   const [hasSocialMedia, setHasSocialMedia] = useState(false)
+
+  // Reset form when modal opens with new initial data
+  useEffect(() => {
+    if (isOpen) {
+      setTitle(initialTitle)
+      setContent(initialContent)
+      setSelectedTopics(initialTopics)
+      setSuggestedTopics([])
+    }
+  }, [isOpen, initialTitle, initialContent, initialTopics])
 
   // Real-time URL detection (debounced)
   useEffect(() => {
@@ -94,6 +123,7 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
         title: title || undefined,
         content,
         topics: selectedTopics,
+        postId: editMode ? editPostId : undefined,
       })
 
       // Reset form
@@ -105,8 +135,8 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
       setHasSocialMedia(false)
       onClose()
     } catch (error) {
-      console.error('Failed to create post:', error)
-      alert('Failed to create post. Please try again.')
+      console.error(editMode ? 'Failed to update post:' : 'Failed to create post:', error)
+      alert(editMode ? 'Failed to update post. Please try again.' : 'Failed to create post. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -148,7 +178,9 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
         {/* Header */}
         <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-4 flex items-center justify-between">
-          <h2 className="text-sm font-bold text-gray-900 dark:text-white">Create Post</h2>
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+            {editMode ? 'Edit Post' : 'Create Post'}
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -339,7 +371,10 @@ export function PostComposerUnified({ isOpen, onClose, onSubmit, topics: availab
               disabled={isSubmitting}
               className="px-4 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Creating...' : 'Create Post'}
+              {isSubmitting
+                ? (editMode ? 'Saving...' : 'Creating...')
+                : (editMode ? 'Save Changes' : 'Create Post')
+              }
             </button>
           </div>
         </form>
