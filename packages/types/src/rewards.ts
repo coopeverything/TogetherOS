@@ -425,8 +425,161 @@ export interface TimebankService {
   locationPreference?: 'remote' | 'in_person' | 'both'
   cityId?: string
   active: boolean
+  imageUrl?: string  // Primary service image
+  images?: string[]  // Additional images (JSON array)
   createdAt: Date
   updatedAt: Date
+}
+
+// ==================================================
+// Timebank Marketplace Types (Simbi-style)
+// ==================================================
+
+/**
+ * Provider badge types for trust indicators
+ */
+export type ProviderBadge =
+  | 'verified'        // Email/ID verified
+  | 'helper'          // 10+ completed exchanges
+  | 'expert'          // 50+ completed exchanges
+  | 'top_provider'    // Top 10 this month
+  | 'quick_responder' // Avg response < 24hrs
+  | 'five_star'       // Avg rating >= 4.8
+
+/**
+ * Badge display configuration
+ */
+export const PROVIDER_BADGE_DISPLAY: Record<ProviderBadge, { icon: string; label: string; color: string }> = {
+  verified: { icon: '✓', label: 'Verified', color: 'blue' },
+  helper: { icon: '🏅', label: 'Helper', color: 'amber' },
+  expert: { icon: '🌟', label: 'Expert', color: 'yellow' },
+  top_provider: { icon: '👑', label: 'Top Provider', color: 'purple' },
+  quick_responder: { icon: '⚡', label: 'Quick', color: 'cyan' },
+  five_star: { icon: '⭐', label: '5-Star', color: 'orange' },
+}
+
+/**
+ * Service category icons mapping
+ */
+export const SERVICE_CATEGORIES = [
+  { type: 'tutoring', icon: '🎓', label: 'Learning', color: 'blue' },
+  { type: 'repair', icon: '🔧', label: 'Fix & Build', color: 'orange' },
+  { type: 'art', icon: '🎨', label: 'Creative', color: 'purple' },
+  { type: 'massage', icon: '💆', label: 'Wellness', color: 'green' },
+  { type: 'cleaning', icon: '🏠', label: 'Home', color: 'teal' },
+  { type: 'tech_support', icon: '💻', label: 'Tech', color: 'indigo' },
+  { type: 'fitness', icon: '💪', label: 'Fitness', color: 'red' },
+  { type: 'cooking', icon: '🍳', label: 'Food', color: 'amber' },
+  { type: 'childcare', icon: '👶', label: 'Childcare', color: 'pink' },
+  { type: 'transport', icon: '🚗', label: 'Transport', color: 'slate' },
+  { type: 'mentoring', icon: '🤝', label: 'Mentoring', color: 'emerald' },
+  { type: 'gardening', icon: '🌱', label: 'Garden', color: 'lime' },
+  { type: 'translation', icon: '🌐', label: 'Language', color: 'sky' },
+  { type: 'legal', icon: '⚖️', label: 'Legal', color: 'gray' },
+  { type: 'accounting', icon: '📊', label: 'Finance', color: 'emerald' },
+  { type: 'counseling', icon: '💬', label: 'Counseling', color: 'violet' },
+  { type: 'music', icon: '🎵', label: 'Music', color: 'fuchsia' },
+  { type: 'photography', icon: '📷', label: 'Photo', color: 'rose' },
+  { type: 'writing', icon: '✍️', label: 'Writing', color: 'stone' },
+  { type: 'medical', icon: '🏥', label: 'Medical', color: 'red' },
+  { type: 'other', icon: '✨', label: 'Other', color: 'gray' },
+] as const
+
+/**
+ * Provider statistics for marketplace display
+ */
+export interface ProviderStats {
+  memberId: string
+  avgRating: number
+  totalReviews: number
+  totalTransactions: number
+  badges: ProviderBadge[]
+  responseTimeHours?: number
+  lastActiveAt?: Date
+  updatedAt: Date
+}
+
+/**
+ * Timebank rating/review
+ */
+export interface TimebankRating {
+  id: string
+  transactionId: string
+  reviewerId: string
+  providerId: string
+  rating: number  // 1-5 stars
+  reviewText?: string
+  createdAt: Date
+}
+
+/**
+ * Service with provider information (for marketplace display)
+ */
+export interface ServiceWithProvider extends TimebankService {
+  provider: {
+    id: string
+    name: string
+    email?: string
+    avatarUrl?: string
+    avgRating: number
+    totalReviews: number
+    totalTransactions: number
+    badges: ProviderBadge[]
+  }
+}
+
+/**
+ * Featured service for marketplace hero section
+ */
+export interface FeaturedService extends ServiceWithProvider {
+  requestCount?: number  // Recent request count
+  featured: boolean
+}
+
+/**
+ * Provider profile for detailed view
+ */
+export interface ProviderProfile {
+  id: string
+  name: string
+  email?: string
+  avatarUrl?: string
+  bio?: string
+  location?: string
+  stats: ProviderStats
+  services: TimebankService[]
+  recentReviews: TimebankRating[]
+  fairExchangeIndex?: {
+    value: number
+    status: 'excellent' | 'good' | 'balanced' | 'warning' | 'critical'
+  }
+}
+
+/**
+ * Input for creating a rating
+ */
+export interface CreateTimebankRatingInput {
+  transactionId: string
+  reviewerId: string
+  providerId: string
+  rating: number
+  reviewText?: string
+}
+
+/**
+ * Input for updating a service
+ */
+export interface UpdateTimebankServiceInput {
+  serviceType?: string
+  title?: string
+  description?: string
+  tbcPerHour?: number
+  availability?: string
+  locationPreference?: 'remote' | 'in_person' | 'both'
+  cityId?: string
+  active?: boolean
+  imageUrl?: string
+  images?: string[]
 }
 
 // ==================================================

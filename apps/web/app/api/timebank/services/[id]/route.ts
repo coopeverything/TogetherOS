@@ -15,6 +15,8 @@ interface TimebankServiceRow {
   service_type: string;
   title: string;
   description: string | null;
+  image_url: string | null;
+  images: string | null;
   tbc_per_hour: number;
   availability: string | null;
   location_preference: string | null;
@@ -24,11 +26,16 @@ interface TimebankServiceRow {
   updated_at: Date;
   provider_name?: string;
   provider_email?: string;
+  provider_avatar_url?: string | null;
+  provider_avg_rating?: number;
+  provider_total_reviews?: number;
+  provider_badges?: string;
 }
 
 interface UpdateServiceRequest {
   title?: string;
   description?: string;
+  imageUrl?: string;
   tbcPerHour?: number;
   availability?: string;
   locationPreference?: 'remote' | 'in_person' | 'both';
@@ -48,9 +55,16 @@ export async function GET(request: NextRequest, context: RouteContext) {
     const { id } = await context.params;
 
     const result = await query<TimebankServiceRow>(
-      `SELECT s.*, u.name as provider_name, u.email as provider_email
+      `SELECT s.*,
+              u.name as provider_name,
+              u.email as provider_email,
+              u.avatar_url as provider_avatar_url,
+              COALESCE(ps.avg_rating, 0) as provider_avg_rating,
+              COALESCE(ps.total_reviews, 0) as provider_total_reviews,
+              COALESCE(ps.badges, '[]'::jsonb)::text as provider_badges
        FROM timebank_services s
        JOIN users u ON s.member_id = u.id
+       LEFT JOIN timebank_provider_stats ps ON s.member_id = ps.member_id
        WHERE s.id = $1`,
       [id]
     );
@@ -61,6 +75,14 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     const service = result.rows[0];
 
+    // Parse badges from JSON string
+    let badges: string[] = [];
+    try {
+      badges = service.provider_badges ? JSON.parse(service.provider_badges) : [];
+    } catch {
+      badges = [];
+    }
+
     return NextResponse.json({
       service: {
         id: service.id,
@@ -68,6 +90,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
         serviceType: service.service_type,
         title: service.title,
         description: service.description,
+        imageUrl: service.image_url,
         tbcPerHour: Number(service.tbc_per_hour),
         availability: service.availability,
         locationPreference: service.location_preference,
@@ -76,8 +99,13 @@ export async function GET(request: NextRequest, context: RouteContext) {
         createdAt: service.created_at,
         updatedAt: service.updated_at,
         provider: {
+          id: service.member_id,
           name: service.provider_name,
           email: service.provider_email,
+          avatarUrl: service.provider_avatar_url,
+          avgRating: Number(service.provider_avg_rating) || 0,
+          totalReviews: Number(service.provider_total_reviews) || 0,
+          badges,
         },
       },
     });
@@ -140,6 +168,12 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       paramIndex++;
     }
 
+    if (body.imageUrl !== undefined) {
+      updates.push(`image_url = $${paramIndex}`);
+      params.push(body.imageUrl || null);
+      paramIndex++;
+    }
+
     if (body.tbcPerHour !== undefined) {
       updates.push(`tbc_per_hour = $${paramIndex}`);
       params.push(body.tbcPerHour);
@@ -195,6 +229,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         serviceType: service.service_type,
         title: service.title,
         description: service.description,
+        imageUrl: service.image_url,
         tbcPerHour: Number(service.tbc_per_hour),
         availability: service.availability,
         locationPreference: service.location_preference,

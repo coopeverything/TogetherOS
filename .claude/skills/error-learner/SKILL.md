@@ -142,7 +142,7 @@ File: `.claude/data/session-errors.json`
     {
       "signature": { "type": "...", "code": "...", "pattern": "..." },
       "resolution": "Description of fix applied to knowledge base",
-      "kb_file_updated": ".claude/knowledge/togetheros-kb.md",
+      "kb_file_updated": ".claude/knowledge/error-learnings.md",
       "resolved_date": "2025-01-15T12:00:00Z"
     }
   ],
@@ -239,11 +239,14 @@ Based on error type, recommend updates to:
 
 | Error Type | Target File |
 |------------|-------------|
-| TypeScript patterns | `.claude/knowledge/togetheros-kb.md` (TypeScript section) |
+| TypeScript patterns | `.claude/knowledge/error-learnings.md` |
 | Build workflow issues | `.claude/workflows/typescript-verification.md` |
 | Git operations | `.claude/knowledge/ci-cd-discipline.md` |
-| API/runtime errors | `.claude/knowledge/togetheros-kb.md` |
-| New error category | Create new `.claude/knowledge/[category].md` |
+| API/runtime errors | `.claude/knowledge/error-learnings.md` |
+| SQL/database errors | `.claude/knowledge/error-learnings.md` |
+| UX/CSS errors | `.claude/knowledge/error-learnings.md` |
+| Infrastructure/deployment | `.claude/knowledge/infrastructure-incidents.md` |
+| New error category | Add to `.claude/knowledge/error-learnings.md` |
 
 ## Output Format
 
@@ -339,8 +342,8 @@ TS2339: Property 'status' does not exist on type 'Response'
 
 ### Recommended KB Update
 
-**File:** .claude/knowledge/togetheros-kb.md
-**Section:** TypeScript Architecture & Patterns → Common Type Import Errors
+**File:** .claude/knowledge/error-learnings.md
+**Section:** Add new err-XXX entry or update existing pattern
 **Add:**
 
 ```markdown
