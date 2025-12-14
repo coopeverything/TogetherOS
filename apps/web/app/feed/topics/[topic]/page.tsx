@@ -120,16 +120,17 @@ export default function TopicFeedPage() {
       const countsRes = await fetch(`/api/feed/${postId}/reactions`)
       if (countsRes.ok) {
         const countsData = await countsRes.json()
+        const newCounts: ReactionCounts = {
+          care: countsData.care || 0,
+          insightful: countsData.insightful || 0,
+          agree: countsData.agree || 0,
+          disagree: countsData.disagree || 0,
+          act: countsData.act || 0,
+          question: countsData.question || 0,
+        }
         setReactionCounts(prev => ({
           ...prev,
-          [postId]: {
-            care: countsData.care || 0,
-            insightful: countsData.insightful || 0,
-            agree: countsData.agree || 0,
-            disagree: countsData.disagree || 0,
-            act: countsData.act || 0,
-            question: countsData.question || 0,
-          },
+          [postId]: newCounts,
         }))
       }
     } catch (err) {

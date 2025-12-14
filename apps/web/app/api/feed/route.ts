@@ -151,7 +151,8 @@ export async function POST(request: NextRequest) {
     // Fetch preview if this is an import post and preview not provided
     if (isImportPost && !body.preview) {
       try {
-        const preview = await fetchSocialMediaPreview(validatedData.sourceUrl as string, clientIp)
+        // Use body.sourceUrl since we already verified it exists via isImportPost
+        const preview = await fetchSocialMediaPreview(body.sourceUrl as string, clientIp)
         if (preview) {
           postData.preview = preview
         } else {
