@@ -14,6 +14,7 @@ interface TimebankServiceRow {
   service_type: string;
   title: string;
   description: string | null;
+  image_url: string | null;
   tbc_per_hour: number;
   availability: string | null;
   location_preference: string | null;
@@ -24,12 +25,17 @@ interface TimebankServiceRow {
   // Joined fields
   provider_name?: string;
   provider_email?: string;
+  provider_avatar_url?: string | null;
+  provider_avg_rating?: number;
+  provider_total_reviews?: number;
+  provider_badges?: string;
 }
 
 interface CreateServiceRequest {
   serviceType: string;
   title: string;
   description?: string;
+  imageUrl?: string;
   tbcPerHour: number;
   availability?: string;
   locationPreference?: 'remote' | 'in_person' | 'both';
@@ -82,9 +88,16 @@ export async function GET(request: NextRequest) {
 
     // Build query with filters
     let queryText = `
-      SELECT s.*, u.name as provider_name, u.email as provider_email
+      SELECT s.*,
+             u.name as provider_name,
+             u.email as provider_email,
+             u.avatar_url as provider_avatar_url,
+             COALESCE(ps.avg_rating, 0) as provider_avg_rating,
+             COALESCE(ps.total_reviews, 0) as provider_total_reviews,
+             COALESCE(ps.badges, '[]'::jsonb)::text as provider_badges
       FROM timebank_services s
       JOIN users u ON s.member_id = u.id
+      LEFT JOIN timebank_provider_stats ps ON s.member_id = ps.member_id
       WHERE s.active = TRUE
     `;
     const params: (string | number)[] = [];
@@ -189,24 +202,39 @@ export async function GET(request: NextRequest) {
     const total = Number(countResult.rows[0]?.total || 0);
 
     return NextResponse.json({
-      services: result.rows.map((row) => ({
-        id: row.id,
-        memberId: row.member_id,
-        serviceType: row.service_type,
-        title: row.title,
-        description: row.description,
-        tbcPerHour: Number(row.tbc_per_hour),
-        availability: row.availability,
-        locationPreference: row.location_preference,
-        cityId: row.city_id,
-        active: row.active,
-        createdAt: row.created_at,
-        updatedAt: row.updated_at,
-        provider: {
-          name: row.provider_name,
-          email: row.provider_email,
-        },
-      })),
+      services: result.rows.map((row) => {
+        // Parse badges from JSON string
+        let badges: string[] = [];
+        try {
+          badges = row.provider_badges ? JSON.parse(row.provider_badges) : [];
+        } catch {
+          badges = [];
+        }
+        return {
+          id: row.id,
+          memberId: row.member_id,
+          serviceType: row.service_type,
+          title: row.title,
+          description: row.description,
+          imageUrl: row.image_url,
+          tbcPerHour: Number(row.tbc_per_hour),
+          availability: row.availability,
+          locationPreference: row.location_preference,
+          cityId: row.city_id,
+          active: row.active,
+          createdAt: row.created_at,
+          updatedAt: row.updated_at,
+          provider: {
+            id: row.member_id,
+            name: row.provider_name,
+            email: row.provider_email,
+            avatarUrl: row.provider_avatar_url,
+            avgRating: Number(row.provider_avg_rating) || 0,
+            totalReviews: Number(row.provider_total_reviews) || 0,
+            badges,
+          },
+        };
+      }),
       pagination: {
         total,
         limit,
@@ -275,14 +303,15 @@ export async function POST(request: NextRequest) {
     // Insert the service
     const result = await query<TimebankServiceRow>(
       `INSERT INTO timebank_services
-       (member_id, service_type, title, description, tbc_per_hour, availability, location_preference, city_id)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       (member_id, service_type, title, description, image_url, tbc_per_hour, availability, location_preference, city_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
       [
         user.id,
         body.serviceType,
         body.title,
         body.description || null,
+        body.imageUrl || null,
         body.tbcPerHour,
         body.availability || null,
         body.locationPreference || 'both',
@@ -300,6 +329,7 @@ export async function POST(request: NextRequest) {
         serviceType: service.service_type,
         title: service.title,
         description: service.description,
+        imageUrl: service.image_url,
         tbcPerHour: Number(service.tbc_per_hour),
         availability: service.availability,
         locationPreference: service.location_preference,
