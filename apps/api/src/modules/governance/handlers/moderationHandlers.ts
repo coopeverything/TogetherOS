@@ -27,7 +27,8 @@ export async function flagProposal(
     flaggedAt: new Date(),
   })
 
-  console.log(`[Moderation] Flagged proposal ${proposalId} for review: ${flagReason}`)
+  // SECURITY: Sanitize values in logs to prevent log injection
+  console.log('[Moderation] Flagged proposal', JSON.stringify(proposalId), 'for review:', JSON.stringify(flagReason))
 
   return { review }
 }
@@ -72,8 +73,12 @@ export async function reviewProposal(
   })
 
   if (review) {
+    // SECURITY: Sanitize user-provided values in logs to prevent log injection
     console.log(
-      `[Moderation] Proposal ${review.proposalId} reviewed by ${moderatorId}: ${decision} (${action})`
+      '[Moderation] Proposal', JSON.stringify(review.proposalId),
+      'reviewed by', JSON.stringify(moderatorId),
+      'decision:', JSON.stringify(decision),
+      'action:', JSON.stringify(action)
     )
   }
 
@@ -90,7 +95,8 @@ export async function submitAppeal(
   const review = await moderationRepo.submitAppeal(reviewId, appealText)
 
   if (review) {
-    console.log(`[Moderation] Appeal submitted for review ${reviewId}`)
+    // SECURITY: Sanitize values in logs to prevent log injection
+    console.log('[Moderation] Appeal submitted for review', JSON.stringify(reviewId))
   }
 
   return { review }
@@ -116,7 +122,12 @@ export async function reviewAppeal(
   })
 
   if (review) {
-    console.log(`[Moderation] Appeal for ${review.proposalId} reviewed by ${moderatorId}: ${decision}`)
+    // SECURITY: Sanitize values in logs to prevent log injection
+    console.log(
+      '[Moderation] Appeal for', JSON.stringify(review.proposalId),
+      'reviewed by', JSON.stringify(moderatorId),
+      'decision:', JSON.stringify(decision)
+    )
   }
 
   return { review }
