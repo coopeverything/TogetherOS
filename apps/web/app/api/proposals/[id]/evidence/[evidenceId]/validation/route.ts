@@ -70,7 +70,13 @@ export async function POST(
     const { evidenceId } = await params
     const body = await request.json()
 
-    if (!body.action || !['verify', 'dispute'].includes(body.action)) {
+    // SECURITY: Strictly validate action to prevent bypass attacks
+    // Use explicit string comparison instead of includes() on user input
+    const action = typeof body.action === 'string' ? body.action : ''
+    const isVerify = action === 'verify'
+    const isDispute = action === 'dispute'
+
+    if (!isVerify && !isDispute) {
       return NextResponse.json(
         { error: 'Invalid action. Must be "verify" or "dispute"' },
         { status: 400 }
@@ -79,7 +85,7 @@ export async function POST(
 
     let result
 
-    if (body.action === 'verify') {
+    if (isVerify) {
       result = await verifyEvidence(evidenceId, user.id)
     } else {
       // Dispute
