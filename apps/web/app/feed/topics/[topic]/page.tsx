@@ -45,16 +45,23 @@ export default function TopicFeedPage() {
             const reactRes = await fetch(`/api/feed/${post.id}/reactions`)
             if (reactRes.ok) {
               const reactData = await reactRes.json()
+              const care = reactData.care || 0
+              const insightful = reactData.insightful || 0
+              const agree = reactData.agree || 0
+              const disagree = reactData.disagree || 0
+              const act = reactData.act || 0
+              const question = reactData.question || 0
               return {
                 postId: post.id,
                 counts: {
-                  care: reactData.care || 0,
-                  insightful: reactData.insightful || 0,
-                  agree: reactData.agree || 0,
-                  disagree: reactData.disagree || 0,
-                  act: reactData.act || 0,
-                  question: reactData.question || 0,
-                },
+                  care,
+                  insightful,
+                  agree,
+                  disagree,
+                  act,
+                  question,
+                  total: care + insightful + agree + disagree + act + question,
+                } as ReactionCounts,
                 userReactions: reactData.userReactions || [],
               }
             }
@@ -120,13 +127,20 @@ export default function TopicFeedPage() {
       const countsRes = await fetch(`/api/feed/${postId}/reactions`)
       if (countsRes.ok) {
         const countsData = await countsRes.json()
+        const care = countsData.care || 0
+        const insightful = countsData.insightful || 0
+        const agree = countsData.agree || 0
+        const disagree = countsData.disagree || 0
+        const act = countsData.act || 0
+        const question = countsData.question || 0
         const newCounts: ReactionCounts = {
-          care: countsData.care || 0,
-          insightful: countsData.insightful || 0,
-          agree: countsData.agree || 0,
-          disagree: countsData.disagree || 0,
-          act: countsData.act || 0,
-          question: countsData.question || 0,
+          care,
+          insightful,
+          agree,
+          disagree,
+          act,
+          question,
+          total: care + insightful + agree + disagree + act + question,
         }
         setReactionCounts(prev => ({
           ...prev,
@@ -237,6 +251,7 @@ export default function TopicFeedPage() {
                   disagree: 0,
                   act: 0,
                   question: 0,
+                  total: 0,
                 }}
                 userReaction={userReactions[post.id]?.[0]}
                 onReact={handleReact}
