@@ -5,54 +5,16 @@
 
 import { useState, useEffect } from 'react'
 import { PostCard, PostList } from '@togetheros/ui'
-import type { Post, ReactionType } from '@togetheros/types'
+import type { Post, ReactionType, ReactionCounts } from '@togetheros/types'
 import { useParams, useRouter } from 'next/navigation'
 
-// Mock data (replace with API call in production)
-const SAMPLE_POSTS: Post[] = [
-  {
-    id: '1',
-    type: 'native',
-    authorId: '00000000-0000-0000-0000-000000000001',
-    title: 'Community Garden Initiative - Spring 2026',
-    content: `I've been thinking about starting a community garden in our neighborhood...`,
-    topics: ['Community Connection', 'Common Planet', 'Social Economy'],
-    status: 'active',
-    discussionCount: 12,
-    createdAt: new Date(2025, 9, 28),
-    updatedAt: new Date(2025, 9, 28),
-  },
-  {
-    id: '2',
-    type: 'native',
-    authorId: '00000000-0000-0000-0000-000000000002',
-    title: 'Housing Cooperative Formation',
-    content: 'Looking to form a housing cooperative. Who is interested?',
-    topics: ['Housing', 'Social Economy', 'Collective Governance'],
-    status: 'active',
-    discussionCount: 8,
-    createdAt: new Date(2025, 9, 27),
-    updatedAt: new Date(2025, 9, 27),
-  },
-  {
-    id: '3',
-    type: 'native',
-    authorId: '00000000-0000-0000-0000-000000000003',
-    title: 'Climate Action Weekly Meetup',
-    content: 'Join us every Thursday for climate action planning.',
-    topics: ['Climate', 'Common Planet', 'Community Connection'],
-    status: 'active',
-    discussionCount: 15,
-    createdAt: new Date(2025, 9, 26),
-    updatedAt: new Date(2025, 9, 26),
-  },
-]
-
-// Mock author data
-const AUTHORS: Record<string, string> = {
-  '00000000-0000-0000-0000-000000000001': 'Alice Green',
-  '00000000-0000-0000-0000-000000000002': 'Bob Martinez',
-  '00000000-0000-0000-0000-000000000003': 'Carol Singh',
+interface PostWithAuthor extends Post {
+  authorInfo?: {
+    id: string
+    name: string
+    city?: string
+    avatar_url?: string
+  } | null
 }
 
 export default function TopicFeedPage() {
@@ -60,25 +22,118 @@ export default function TopicFeedPage() {
   const router = useRouter()
   const topic = decodeURIComponent(params.topic as string)
 
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>([])
-  const [userReactions, setUserReactions] = useState<Record<string, ReactionType>>({})
+  const [posts, setPosts] = useState<PostWithAuthor[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [userReactions, setUserReactions] = useState<Record<string, ReactionType[]>>({})
+  const [reactionCounts, setReactionCounts] = useState<Record<string, ReactionCounts>>({})
 
   useEffect(() => {
-    // Filter posts by topic
-    const filtered = SAMPLE_POSTS.filter(post =>
-      post.topics.some(t => t.toLowerCase() === topic.toLowerCase())
-    )
-    setFilteredPosts(filtered)
+    async function fetchPosts() {
+      try {
+        setLoading(true)
+        const response = await fetch(`/api/feed?topic=${encodeURIComponent(topic)}`)
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts')
+        }
+        const data = await response.json()
+        setPosts(data.posts || [])
+
+        // Fetch reactions for each post
+        const reactionsPromises = (data.posts || []).map(async (post: Post) => {
+          try {
+            const reactRes = await fetch(`/api/feed/${post.id}/reactions`)
+            if (reactRes.ok) {
+              const reactData = await reactRes.json()
+              return {
+                postId: post.id,
+                counts: {
+                  care: reactData.care || 0,
+                  insightful: reactData.insightful || 0,
+                  agree: reactData.agree || 0,
+                  disagree: reactData.disagree || 0,
+                  act: reactData.act || 0,
+                  question: reactData.question || 0,
+                },
+                userReactions: reactData.userReactions || [],
+              }
+            }
+          } catch {
+            // Ignore reaction fetch errors
+          }
+          return { postId: post.id, counts: null, userReactions: [] }
+        })
+
+        const reactionsResults = await Promise.all(reactionsPromises)
+        const countsMap: Record<string, ReactionCounts> = {}
+        const userReactMap: Record<string, ReactionType[]> = {}
+
+        reactionsResults.forEach((r) => {
+          if (r.counts) {
+            countsMap[r.postId] = r.counts
+          }
+          userReactMap[r.postId] = r.userReactions
+        })
+
+        setReactionCounts(countsMap)
+        setUserReactions(userReactMap)
+      } catch (err: any) {
+        setError(err.message || 'Failed to load posts')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPosts()
   }, [topic])
 
-  const handleReact = (postId: string, type: ReactionType) => {
-    if (userReactions[postId] === type) {
-      // Remove reaction
-      const { [postId]: _, ...rest } = userReactions
-      setUserReactions(rest)
-    } else {
-      // Add/change reaction
-      setUserReactions({ ...userReactions, [postId]: type })
+  const handleReact = async (postId: string, type: ReactionType) => {
+    try {
+      const response = await fetch(`/api/feed/${postId}/reactions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type }),
+      })
+
+      if (response.status === 401) {
+        // Redirect to login or show message
+        return
+      }
+
+      if (!response.ok) {
+        console.error('Failed to toggle reaction')
+        return
+      }
+
+      const result = await response.json()
+
+      // Update user reactions
+      setUserReactions(prev => {
+        const current = prev[postId] || []
+        if (result.added) {
+          return { ...prev, [postId]: [...current, type] }
+        } else {
+          return { ...prev, [postId]: current.filter(t => t !== type) }
+        }
+      })
+
+      // Refresh reaction counts
+      const countsRes = await fetch(`/api/feed/${postId}/reactions`)
+      if (countsRes.ok) {
+        const countsData = await countsRes.json()
+        setReactionCounts(prev => ({
+          ...prev,
+          [postId]: {
+            care: countsData.care || 0,
+            insightful: countsData.insightful || 0,
+            agree: countsData.agree || 0,
+            disagree: countsData.disagree || 0,
+            act: countsData.act || 0,
+            question: countsData.question || 0,
+          },
+        }))
+      }
+    } catch (err) {
+      console.error('Error toggling reaction:', err)
     }
   }
 
@@ -92,6 +147,55 @@ export default function TopicFeedPage() {
 
   const handleShowRelated = (postId: string) => {
     alert(`Showing related posts for ${postId}. Bridge similarity search in Phase 3`)
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg-0">
+        <header className="bg-bg-1 border-b border-border">
+          <div className="max-w-4xl mx-auto px-4 py-6">
+            <button
+              onClick={() => router.push('/feed')}
+              className="text-orange-600 hover:text-orange-800 transition-colors"
+            >
+              ← Back to Feed
+            </button>
+            <div className="animate-pulse mt-4">
+              <div className="h-6 bg-bg-2 rounded w-1/4 mb-2"></div>
+              <div className="h-4 bg-bg-2 rounded w-1/3"></div>
+            </div>
+          </div>
+        </header>
+        <main className="max-w-4xl mx-auto px-4 py-4">
+          <div className="animate-pulse space-y-4">
+            <div className="h-32 bg-bg-2 rounded"></div>
+            <div className="h-32 bg-bg-2 rounded"></div>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-bg-0">
+        <header className="bg-bg-1 border-b border-border">
+          <div className="max-w-4xl mx-auto px-4 py-6">
+            <button
+              onClick={() => router.push('/feed')}
+              className="text-orange-600 hover:text-orange-800 transition-colors"
+            >
+              ← Back to Feed
+            </button>
+          </div>
+        </header>
+        <main className="max-w-4xl mx-auto px-4 py-4">
+          <div className="p-4 bg-danger-bg text-danger-700 rounded-lg">
+            {error}
+          </div>
+        </main>
+      </div>
+    )
   }
 
   return (
@@ -111,29 +215,29 @@ export default function TopicFeedPage() {
             #{topic.replace(/\s+/g, '')}
           </h1>
           <p className="text-ink-700 mt-2">
-            {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'} about {topic}
+            {posts.length} {posts.length === 1 ? 'post' : 'posts'} about {topic}
           </p>
         </div>
       </header>
 
       {/* Feed */}
       <main className="max-w-4xl mx-auto px-4 py-4">
-        {filteredPosts.length > 0 ? (
+        {posts.length > 0 ? (
           <div className="space-y-2">
-            {filteredPosts.map(post => (
+            {posts.map(post => (
               <PostCard
                 key={post.id}
                 post={post}
-                authorName={AUTHORS[post.authorId] || 'Unknown'}
-                reactionCounts={{
-                  care: Math.floor(Math.random() * 20),
-                  insightful: Math.floor(Math.random() * 15),
-                  agree: Math.floor(Math.random() * 25),
-                  disagree: Math.floor(Math.random() * 5),
-                  act: Math.floor(Math.random() * 10),
-                  question: Math.floor(Math.random() * 8),
+                authorName={post.authorInfo?.name || 'Unknown'}
+                reactionCounts={reactionCounts[post.id] || {
+                  care: 0,
+                  insightful: 0,
+                  agree: 0,
+                  disagree: 0,
+                  act: 0,
+                  question: 0,
                 }}
-                userReaction={userReactions[post.id]}
+                userReaction={userReactions[post.id]?.[0]}
                 onReact={handleReact}
                 onDiscuss={handleDiscuss}
                 onTopicClick={handleTopicClick}

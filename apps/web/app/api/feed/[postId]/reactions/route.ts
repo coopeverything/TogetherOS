@@ -8,6 +8,7 @@ import {
   getReactionCounts,
   getUserReactions,
 } from '../../../../../../api/src/modules/feed/handlers/posts'
+import { getCurrentUser } from '@/lib/auth/middleware'
 
 interface Params {
   params: Promise<{
@@ -18,15 +19,20 @@ interface Params {
 export async function GET(request: NextRequest, { params }: Params) {
   try {
     const { postId } = await params
-    const { searchParams } = new URL(request.url)
-    const userId = searchParams.get('userId')
 
-    if (userId) {
+    // Try to get current user for their reactions
+    const user = await getCurrentUser(request)
+
+    if (user) {
       // Get user's reactions on this post
-      const userReactions = await getUserReactions(postId, userId)
-      return NextResponse.json({ reactions: userReactions })
+      const userReactions = await getUserReactions(postId, user.id)
+      const counts = await getReactionCounts(postId)
+      return NextResponse.json({
+        ...counts,
+        userReactions,
+      })
     } else {
-      // Get reaction counts
+      // Get reaction counts only (anonymous)
       const counts = await getReactionCounts(postId)
       return NextResponse.json(counts)
     }
@@ -42,14 +48,22 @@ export async function GET(request: NextRequest, { params }: Params) {
 export async function POST(request: NextRequest, { params }: Params) {
   try {
     const { postId } = await params
-    const body = await request.json()
 
-    // TODO: Get userId from session/auth
-    if (!body.userId) {
-      body.userId = '00000000-0000-0000-0000-000000000001' // Mock user
+    // Require authentication
+    const user = await getCurrentUser(request)
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Please log in to react to posts.' },
+        { status: 401 }
+      )
     }
 
-    const result = await toggleReaction(postId, body)
+    const body = await request.json()
+
+    const result = await toggleReaction(postId, {
+      userId: user.id,
+      type: body.type,
+    })
     return NextResponse.json(result)
   } catch (error: any) {
     console.error('POST /api/feed/[postId]/reactions error:', error)

@@ -45,14 +45,16 @@ export const createNativePostSchema = z.object({
   content: z.string().min(1).max(5000),
   topics: z.array(z.string().min(1).max(100)).max(5).default([]),
   groupId: z.string().uuid().optional(),
+  mediaUrls: z.array(z.string().url()).max(4).default([]),
 })
 
 /**
  * Create import post schema
+ * Note: topics are optional (0-5) - same as native posts
  */
 export const createImportPostSchema = z.object({
   sourceUrl: z.string().url(),
-  topics: z.array(z.string().min(1).max(100)).min(1).max(5),
+  topics: z.array(z.string().min(1).max(100)).max(5).default([]),
   groupId: z.string().uuid().optional(),
 })
 
@@ -91,6 +93,7 @@ export const postSchema = z.object({
   title: z.string().min(10).max(200).optional(),
   content: z.string().min(1).max(5000).optional(),
   embeddedUrls: z.array(embeddedUrlSchema).optional(),
+  mediaUrls: z.array(z.string()).optional(),
 
   // Import fields
   sourceUrl: z.string().url().optional(),

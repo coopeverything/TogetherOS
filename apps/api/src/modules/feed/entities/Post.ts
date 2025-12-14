@@ -18,6 +18,7 @@ export class Post {
     public readonly title: string | undefined,
     public readonly content: string | undefined,
     public readonly embeddedUrls: ReadonlyArray<EmbeddedUrl> | undefined,
+    public readonly mediaUrls: ReadonlyArray<string> | undefined,
     public readonly sourceUrl: string | undefined,
     public readonly sourcePreview: MediaPreview | undefined,
     public readonly topics: ReadonlyArray<string>,
@@ -38,12 +39,18 @@ export class Post {
     topics: string[]
     groupId?: string
     embeddedUrls?: EmbeddedUrl[]
+    mediaUrls?: string[]
   }): Post {
     const now = new Date()
 
     // Validate topics (0-5 allowed for native posts - topics are optional)
     if (input.topics.length > 5) {
       throw new Error('Post cannot have more than 5 topics')
+    }
+
+    // Validate media (0-4 images allowed)
+    if (input.mediaUrls && input.mediaUrls.length > 4) {
+      throw new Error('Post cannot have more than 4 images')
     }
 
     const validated = postSchema.parse({
@@ -54,6 +61,7 @@ export class Post {
       title: input.title,
       content: input.content,
       embeddedUrls: input.embeddedUrls,
+      mediaUrls: input.mediaUrls,
       sourceUrl: undefined,
       sourcePreview: undefined,
       topics: input.topics,
@@ -72,6 +80,7 @@ export class Post {
       validated.title,
       validated.content,
       validated.embeddedUrls,
+      validated.mediaUrls,
       validated.sourceUrl,
       validated.sourcePreview,
       validated.topics,
@@ -95,9 +104,9 @@ export class Post {
   }): Post {
     const now = new Date()
 
-    // Validate topics
-    if (input.topics.length === 0 || input.topics.length > 5) {
-      throw new Error('Post must have 1-5 topics')
+    // Validate topics (0-5 allowed - topics are optional)
+    if (input.topics.length > 5) {
+      throw new Error('Post cannot have more than 5 topics')
     }
 
     // Determine platform from URL or preview
@@ -115,6 +124,7 @@ export class Post {
       title: undefined,
       content: undefined,
       embeddedUrls: undefined,
+      mediaUrls: undefined,
       sourceUrl: input.sourceUrl,
       sourcePreview: input.preview,
       topics: input.topics,
@@ -133,6 +143,7 @@ export class Post {
       validated.title,
       validated.content,
       validated.embeddedUrls,
+      validated.mediaUrls,
       validated.sourceUrl,
       validated.sourcePreview,
       validated.topics,
@@ -158,6 +169,7 @@ export class Post {
       validated.title,
       validated.content,
       validated.embeddedUrls,
+      validated.mediaUrls,
       validated.sourceUrl,
       validated.sourcePreview,
       validated.topics,
@@ -185,6 +197,7 @@ export class Post {
       this.title,
       this.content,
       this.embeddedUrls,
+      this.mediaUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -208,6 +221,7 @@ export class Post {
       this.title,
       this.content,
       this.embeddedUrls,
+      this.mediaUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -231,6 +245,7 @@ export class Post {
       this.title,
       this.content,
       this.embeddedUrls,
+      this.mediaUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -254,6 +269,7 @@ export class Post {
       this.title,
       this.content,
       this.embeddedUrls,
+      this.mediaUrls,
       this.sourceUrl,
       this.sourcePreview,
       this.topics,
@@ -312,6 +328,7 @@ export class Post {
       title: this.title,
       content: this.content,
       embeddedUrls: this.embeddedUrls ? [...this.embeddedUrls] : undefined,
+      mediaUrls: this.mediaUrls ? [...this.mediaUrls] : undefined,
       sourceUrl: this.sourceUrl,
       sourcePreview: this.sourcePreview,
       topics: [...this.topics],

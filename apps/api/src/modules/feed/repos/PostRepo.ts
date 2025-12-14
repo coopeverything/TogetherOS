@@ -20,6 +20,7 @@ export interface CreateNativePostInput {
   topics: string[]
   groupId?: string
   embeddedUrls?: { url: string; preview: any; position: number }[]
+  mediaUrls?: string[]
 }
 
 export interface CreateImportPostInput {

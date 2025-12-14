@@ -139,15 +139,38 @@ export async function POST(request: NextRequest) {
     }
 
     // Build post data with author and IP
+    const isImportPost = 'sourceUrl' in validatedData && validatedData.sourceUrl
+
     let postData: any = {
       ...validatedData,
+      type: isImportPost ? 'import' : 'native',
       authorId: user.id,
       ip: clientIp,
     }
 
     // Fetch preview if this is an import post and preview not provided
-    if ('sourceUrl' in validatedData && validatedData.sourceUrl && !body.preview) {
-      postData.preview = await fetchSocialMediaPreview(validatedData.sourceUrl, clientIp)
+    if (isImportPost && !body.preview) {
+      try {
+        const preview = await fetchSocialMediaPreview(validatedData.sourceUrl as string, clientIp)
+        if (preview) {
+          postData.preview = preview
+        } else {
+          // Create minimal preview if fetch failed
+          postData.preview = {
+            title: 'Shared Link',
+            platform: 'other',
+            fetchedAt: new Date(),
+          }
+        }
+      } catch (previewError) {
+        console.warn('Failed to fetch preview, using fallback:', previewError)
+        // Create minimal preview as fallback
+        postData.preview = {
+          title: 'Shared Link',
+          platform: 'other',
+          fetchedAt: new Date(),
+        }
+      }
     }
 
     const post = await createPost(postData)
@@ -165,9 +188,24 @@ export async function POST(request: NextRequest) {
     )
   } catch (error: any) {
     console.error('POST /api/feed error:', error)
-    return NextResponse.json(
-      { error: error.message || 'Failed to create post' },
-      { status: 400 }
-    )
+
+    // Determine appropriate status code
+    let status = 500
+    let message = 'Failed to create post'
+
+    if (error.message?.includes('not found')) {
+      status = 404
+      message = error.message
+    } else if (error.message?.includes('Validation') || error.message?.includes('required') || error.message?.includes('must have')) {
+      status = 400
+      message = error.message
+    } else if (error.message?.includes('Unauthorized') || error.message?.includes('permission')) {
+      status = 403
+      message = error.message
+    } else if (error.message) {
+      message = error.message
+    }
+
+    return NextResponse.json({ error: message }, { status })
   }
 }

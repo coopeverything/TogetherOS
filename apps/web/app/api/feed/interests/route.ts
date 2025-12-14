@@ -6,17 +6,20 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@togetheros/db';
+import { getCurrentUser } from '@/lib/auth/middleware';
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id'); // TODO: Get from session
-
-    if (!userId) {
+    // Require authentication
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized. Please log in to view interests.' },
         { status: 401 }
       );
     }
+
+    const userId = user.id;
 
     const result = await query(
       `SELECT
@@ -43,14 +46,16 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id'); // TODO: Get from session
-
-    if (!userId) {
+    // Require authentication
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized. Please log in to clear interests.' },
         { status: 401 }
       );
     }
+
+    const userId = user.id;
 
     await query(
       `DELETE FROM user_interests WHERE user_id = $1`,

@@ -6,18 +6,21 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@togetheros/db';
+import { getCurrentUser } from '@/lib/auth/middleware';
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, rank, care_weight } = await request.json();
-    const userId = request.headers.get('x-user-id'); // TODO: Get from session
-
-    if (!userId) {
+    // Require authentication
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized. Please log in to manage priorities.' },
         { status: 401 }
       );
     }
+
+    const { topic, rank, care_weight } = await request.json();
+    const userId = user.id;
 
     if (!topic || !rank) {
       return NextResponse.json(
@@ -55,14 +58,16 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id'); // TODO: Get from session
-
-    if (!userId) {
+    // Require authentication
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized. Please log in to view priorities.' },
         { status: 401 }
       );
     }
+
+    const userId = user.id;
 
     const result = await query(
       `SELECT * FROM priorities
