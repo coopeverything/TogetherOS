@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   SampleContainer,
@@ -18,6 +18,12 @@ interface User {
   paths?: string[];
   skills?: string[];
   onboarding_step?: string;
+}
+
+interface EconomyData {
+  sp: { available: number; total: number } | null;
+  rp: { available: number; total_earned: number } | null;
+  tbc: { balance: number } | null;
 }
 
 // Sample data that can be loaded on demand
@@ -180,6 +186,29 @@ const EMPTY_DATA = {
 export default function DashboardClient({ user }: { user: User }) {
   const [feedFilter, setFeedFilter] = useState<string>('all');
   const [showSampleData, setShowSampleData] = useState(false);
+  const [economy, setEconomy] = useState<EconomyData>({ sp: null, rp: null, tbc: null });
+
+  // Fetch economy data on mount
+  useEffect(() => {
+    async function loadEconomy() {
+      try {
+        const [spRes, rpRes, tbcRes] = await Promise.all([
+          fetch('/api/support-points/balance'),
+          fetch('/api/reward-points/balance'),
+          fetch('/api/timebank/account'),
+        ]);
+
+        const sp = spRes.ok ? (await spRes.json()).balance : null;
+        const rp = rpRes.ok ? (await rpRes.json()).balance : null;
+        const tbc = tbcRes.ok ? (await tbcRes.json()).account : null;
+
+        setEconomy({ sp, rp, tbc });
+      } catch {
+        // Silently fail - economy data is optional
+      }
+    }
+    loadEconomy();
+  }, []);
 
   // Use sample data or empty data based on toggle
   const data = showSampleData ? SAMPLE_DATA : EMPTY_DATA;
@@ -297,6 +326,56 @@ export default function DashboardClient({ user }: { user: User }) {
                 </div>
               </CollapsibleModule>
             )}
+
+            {/* Your Economy */}
+            <CollapsibleModule title="Your Economy">
+              <div className="space-y-3">
+                {/* Timebank Credits - Primary */}
+                <Link href="/economy/timebank" className="block p-3 bg-accent-4/10 rounded-lg hover:bg-accent-4/20 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">⏰</span>
+                      <span className="font-medium text-ink-900">Timebank</span>
+                    </div>
+                    <span className="text-sm font-bold text-accent-4">
+                      {economy.tbc?.balance?.toFixed(1) ?? '0.0'} TBC
+                    </span>
+                  </div>
+                  <p className="text-xs text-ink-400 mt-1">Exchange skills & services</p>
+                </Link>
+
+                {/* Support Points */}
+                <Link href="/economy/support-points" className="block p-3 bg-joy-500/10 rounded-lg hover:bg-joy-500/20 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🗳️</span>
+                      <span className="font-medium text-ink-900">Support Points</span>
+                    </div>
+                    <span className="text-sm font-bold text-joy-600">
+                      {economy.sp?.available ?? 0} / {economy.sp?.total ?? 0} SP
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Reward Points */}
+                <Link href="/economy/reward-points" className="block p-3 bg-accent-3/10 rounded-lg hover:bg-accent-3/20 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">💎</span>
+                      <span className="font-medium text-ink-900">Reward Points</span>
+                    </div>
+                    <span className="text-sm font-bold text-accent-3">
+                      {economy.rp?.available ?? 0} RP
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Link to full economy page */}
+                <Link href="/economy" className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block text-center">
+                  View Full Economy →
+                </Link>
+              </div>
+            </CollapsibleModule>
 
             {/* Your Priorities */}
             {showSampleData ? (
