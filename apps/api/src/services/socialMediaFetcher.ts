@@ -116,20 +116,17 @@ async function fetchViaOEmbed(
 
 /**
  * Fetch via Open Graph meta tags (fallback)
- * @param validatedUrl - URL that has been validated by validateUrlAgainstAllowlist()
+ * @param url - URL to fetch (will be validated before fetching)
  * @param platform - Detected platform for metadata
  */
-async function fetchViaOpenGraph(validatedUrl: string, platform: string): Promise<MediaPreview> {
-  try {
-    // SECURITY: Defense-in-depth - verify URL is HTTPS before fetching
-    // Primary validation happens in fetchSocialMediaPreview() via validateUrlAgainstAllowlist()
-    // This check ensures the URL protocol is safe even if called incorrectly
-    const parsedUrl = new URL(validatedUrl)
-    if (parsedUrl.protocol !== 'https:') {
-      throw new Error('Only HTTPS URLs are allowed')
-    }
+async function fetchViaOpenGraph(url: string, platform: string): Promise<MediaPreview> {
+  // SECURITY: Full URL validation before ANY fetch operation (defense-in-depth)
+  // This is called from fetchSocialMediaPreview() which also validates, but
+  // we re-validate here to ensure security even if this function is called incorrectly
+  validateUrlAgainstAllowlist(url)
 
-    const response = await fetch(validatedUrl, {
+  try {
+    const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; TogetherOS/1.0; +https://coopeverything.org)',
       },
@@ -140,13 +137,13 @@ async function fetchViaOpenGraph(validatedUrl: string, platform: string): Promis
     // Check for redirects and block them
     if (response.status >= 300 && response.status < 400) {
       // SECURITY: Sanitize URL in logs to prevent log injection
-      console.warn('Open Graph: Redirect blocked for URL:', JSON.stringify(validatedUrl))
+      console.warn('Open Graph: Redirect blocked for URL:', JSON.stringify(url))
       throw new Error('Redirects are not allowed for security reasons')
     }
 
     if (!response.ok) {
       // SECURITY: Sanitize URL in logs to prevent log injection
-      console.warn('Open Graph: HTTP', response.status, 'for URL:', JSON.stringify(validatedUrl))
+      console.warn('Open Graph: HTTP', response.status, 'for URL:', JSON.stringify(url))
       throw new Error(`HTTP ${response.status}`)
     }
 
@@ -205,7 +202,7 @@ async function fetchViaOpenGraph(validatedUrl: string, platform: string): Promis
   } catch (error) {
     // SECURITY: Sanitize URL and error in logs to prevent log injection
     const safeError = error instanceof Error ? error.message : 'Unknown error'
-    console.error('Open Graph fetch failed for URL:', JSON.stringify(validatedUrl), 'Error:', JSON.stringify(safeError))
+    console.error('Open Graph fetch failed for URL:', JSON.stringify(url), 'Error:', JSON.stringify(safeError))
     throw new Error(`Failed to fetch link preview: ${safeError}`)
   }
 }

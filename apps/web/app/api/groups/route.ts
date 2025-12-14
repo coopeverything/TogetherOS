@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     // SECURITY: Sanitize error for logging (prevent log injection)
     // Use JSON.stringify to safely encode any user-controlled data
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     console.error('POST /api/groups error:', JSON.stringify(errorMsg).slice(0, 200));
 
     if (error.message === 'Unauthorized') {
@@ -90,7 +90,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(result);
   } catch (error: any) {
     // SECURITY: Sanitize error for logging (prevent log injection)
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     console.error('GET /api/groups error:', JSON.stringify(errorMsg).slice(0, 200));
     return NextResponse.json(
       { error: error.message || 'Failed to list groups' },
