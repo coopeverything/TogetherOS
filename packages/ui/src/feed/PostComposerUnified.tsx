@@ -4,7 +4,7 @@
 
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 export interface TopicSuggestion {
   topic: string
@@ -34,6 +34,8 @@ export interface CreatePostData {
   groupId?: string
   // For edit mode
   postId?: string
+  // Media attachments
+  mediaUrls?: string[]
 }
 
 // Simple URL regex (matches http/https URLs)
@@ -75,6 +77,11 @@ export function PostComposerUnified({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [detectedUrls, setDetectedUrls] = useState<string[]>([])
   const [hasSocialMedia, setHasSocialMedia] = useState(false)
+  // Media upload state
+  const [mediaUrls, setMediaUrls] = useState<string[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Reset form when modal opens with new initial data
   useEffect(() => {
@@ -83,6 +90,8 @@ export function PostComposerUnified({
       setContent(initialContent)
       setSelectedTopics(initialTopics)
       setSuggestedTopics([])
+      setMediaUrls([])
+      setUploadError(null)
     }
   }, [isOpen, initialTitle, initialContent, initialTopics])
 
@@ -102,6 +111,59 @@ export function PostComposerUnified({
 
     return () => clearTimeout(timer)
   }, [content])
+
+  // Handle file upload
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    // Check if adding more files would exceed limit
+    if (mediaUrls.length + files.length > 4) {
+      setUploadError('Maximum 4 images allowed per post')
+      return
+    }
+
+    setIsUploading(true)
+    setUploadError(null)
+
+    try {
+      const formData = new FormData()
+      Array.from(files).forEach(file => {
+        formData.append('files', file)
+      })
+
+      const response = await fetch('/api/feed/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        throw new Error(data.error || 'Upload failed')
+      }
+
+      const data = await response.json()
+      setMediaUrls(prev => [...prev, ...data.urls])
+
+      if (data.errors && data.errors.length > 0) {
+        setUploadError(data.errors.join(', '))
+      }
+    } catch (err) {
+      console.error('Upload error:', err)
+      setUploadError(err instanceof Error ? err.message : 'Failed to upload images')
+    } finally {
+      setIsUploading(false)
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    }
+  }
+
+  // Remove uploaded image
+  const removeMedia = (index: number) => {
+    setMediaUrls(prev => prev.filter((_, i) => i !== index))
+  }
 
   if (!isOpen) return null
 
@@ -124,6 +186,7 @@ export function PostComposerUnified({
         content,
         topics: selectedTopics,
         postId: editMode ? editPostId : undefined,
+        mediaUrls: mediaUrls.length > 0 ? mediaUrls : undefined,
       })
 
       // Reset form
@@ -133,6 +196,8 @@ export function PostComposerUnified({
       setSuggestedTopics([])
       setDetectedUrls([])
       setHasSocialMedia(false)
+      setMediaUrls([])
+      setUploadError(null)
       onClose()
     } catch (error) {
       console.error(editMode ? 'Failed to update post:' : 'Failed to create post:', error)
@@ -230,6 +295,77 @@ export function PostComposerUnified({
               <p className="text-xs text-gray-500 mt-1">
                 {content.length}/5000 characters • Markdown supported • URLs auto-detected
               </p>
+            </div>
+
+            {/* Media Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Images (optional, up to 4)
+              </label>
+
+              {/* Upload button */}
+              <div className="flex items-center gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif,image/webp"
+                  multiple
+                  onChange={handleFileSelect}
+                  className="hidden"
+                  id="media-upload"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading || mediaUrls.length >= 4}
+                  className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isUploading ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      📷 Add Images
+                    </>
+                  )}
+                </button>
+                <span className="text-xs text-gray-500">
+                  {mediaUrls.length}/4 • Max 5MB each • JPEG, PNG, GIF, WebP
+                </span>
+              </div>
+
+              {/* Upload error */}
+              {uploadError && (
+                <p className="text-xs text-red-600 mt-1">{uploadError}</p>
+              )}
+
+              {/* Image previews */}
+              {mediaUrls.length > 0 && (
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {mediaUrls.map((url, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={url}
+                        alt={`Upload ${index + 1}`}
+                        className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeMedia(index)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                        title="Remove image"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* URL detection indicator */}

@@ -45,7 +45,8 @@ export const createNativePostSchema = z.object({
   content: z.string().min(1).max(5000),
   topics: z.array(z.string().min(1).max(100)).max(5).default([]),
   groupId: z.string().uuid().optional(),
-  mediaUrls: z.array(z.string().url()).max(4).default([]),
+  // mediaUrls can be relative paths (/uploads/feed/...) or full URLs
+  mediaUrls: z.array(z.string().min(1)).max(4).default([]),
 })
 
 /**
