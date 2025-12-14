@@ -67,6 +67,7 @@ export interface Post {
   title?: string                // For native posts (10-200 chars)
   content?: string              // Markdown content (for native posts)
   embeddedUrls?: EmbeddedUrl[]  // Auto-detected social media URLs in content
+  mediaUrls?: string[]          // Uploaded image URLs (max 4)
 
   // Import fields
   sourceUrl?: string            // Social media URL

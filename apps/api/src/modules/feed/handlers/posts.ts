@@ -10,7 +10,6 @@ import { fetchSocialMediaPreview } from '../../../services/socialMediaFetcher'
 
 // Singleton repo for PostgreSQL storage
 let postRepo: PostgresPostRepo | null = null
-const reactions = new Map<string, Reaction[]>() // postId -> reactions (TODO: move to database)
 
 /**
  * Get or initialize post repo
@@ -67,6 +66,7 @@ export async function createPost(body: {
   topics: string[]
   groupId?: string
   ip?: string
+  mediaUrls?: string[]
 }): Promise<Post> {
   const repo = getPostRepo()
 
@@ -116,6 +116,7 @@ export async function createPost(body: {
       topics: body.topics,
       groupId: body.groupId,
       embeddedUrls: embeddedUrls && embeddedUrls.length > 0 ? embeddedUrls : undefined,
+      mediaUrls: body.mediaUrls,
     })
   } else {
     if (!body.sourceUrl || !body.preview) {
@@ -142,39 +143,36 @@ export async function toggleReaction(
 ): Promise<{ added: boolean; reaction?: Reaction }> {
   const { userId, type } = body
 
-  // Get post to verify it exists
   const repo = getPostRepo()
+
+  // Get post to verify it exists
   const post = await repo.findById(postId)
   if (!post) {
     throw new Error(`Post ${postId} not found`)
   }
 
-  // Get reactions for this post
-  if (!reactions.has(postId)) {
-    reactions.set(postId, [])
-  }
-  const postReactions = reactions.get(postId)!
+  // Check if user already has this reaction
+  const hasExisting = await repo.hasReaction(postId, userId, type)
 
-  // Check if user already reacted with this type
-  const existingIndex = postReactions.findIndex(
-    (r) => r.userId === userId && r.type === type
-  )
-
-  if (existingIndex >= 0) {
+  if (hasExisting) {
     // Remove reaction (toggle off)
-    postReactions.splice(existingIndex, 1)
+    await repo.removeReaction(postId, userId, type)
     return { added: false }
   } else {
     // Add reaction
-    const reaction: Reaction = {
-      id: uuidv4(),
-      postId,
-      userId,
-      type,
-      createdAt: new Date(),
+    const result = await repo.addReaction(postId, userId, type)
+    if (result) {
+      const reaction: Reaction = {
+        id: result.id,
+        postId: result.postId,
+        userId: result.userId,
+        type: result.type as ReactionType,
+        createdAt: result.createdAt,
+      }
+      return { added: true, reaction }
     }
-    postReactions.push(reaction)
-    return { added: true, reaction }
+    // Race condition - already exists
+    return { added: false }
   }
 }
 
@@ -183,23 +181,8 @@ export async function toggleReaction(
  * Get reaction counts for a post
  */
 export async function getReactionCounts(postId: string): Promise<ReactionCounts> {
-  const postReactions = reactions.get(postId) || []
-
-  const counts: ReactionCounts = {
-    care: 0,
-    insightful: 0,
-    agree: 0,
-    disagree: 0,
-    act: 0,
-    question: 0,
-    total: postReactions.length,
-  }
-
-  for (const reaction of postReactions) {
-    counts[reaction.type]++
-  }
-
-  return counts
+  const repo = getPostRepo()
+  return repo.getReactionCounts(postId)
 }
 
 /**
@@ -210,10 +193,9 @@ export async function getUserReactions(
   postId: string,
   userId: string
 ): Promise<ReactionType[]> {
-  const postReactions = reactions.get(postId) || []
-  return postReactions
-    .filter((r) => r.userId === userId)
-    .map((r) => r.type)
+  const repo = getPostRepo()
+  const reactions = await repo.getUserReactions(postId, userId)
+  return reactions as ReactionType[]
 }
 
 /**
@@ -238,11 +220,8 @@ export async function deletePost(
     throw new Error('You can only delete your own posts')
   }
 
-  // Delete post
+  // Delete post (reactions are cascaded via FK ON DELETE CASCADE)
   await repo.delete(postId)
-
-  // Clean up reactions
-  reactions.delete(postId)
 
   return { deleted: true }
 }
