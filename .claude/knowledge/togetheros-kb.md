@@ -25,29 +25,13 @@ TogetherOS helps people **unlearn division and learn coordination**. It resets d
 
 1. **Tiny, verifiable steps:** Every change = smallest shippable increment
 2. **Docs-first:** Spec before code, always
-3. **Proof lines required:** Every PR must include in description:
-   ```
-   LINT=OK
-   VALIDATORS=GREEN (or SMOKE=OK)
-   ```
+3. **Proof lines required:** Every PR must include `TESTS=OK` (yolo) or `LINT=OK SMOKE=OK TESTS=OK` (main)
 4. **One change per PR:** No bundling unrelated work
 5. **Path labels mandatory:** All issues/PRs tagged with 1 of 8 Cooperation Paths
 
 ### Repository Link Convention
 
-**When linking to files in the TogetherOS repository:**
-- Always use the `yolo` branch (NOT `main`)
-- Always include the GitHub icon before the link
-- Format: `https://github.com/coopeverything/TogetherOS/blob/yolo/{filepath}`
-- Example in HTML/JSX:
-  ```jsx
-  <a href="https://github.com/coopeverything/TogetherOS/blob/yolo/docs/guides/4-ledger-system.md">
-    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-    </svg>
-    docs/guides/4-ledger-system.md
-  </a>
-  ```
+When linking to files: Always use `yolo` branch, format: `https://github.com/coopeverything/TogetherOS/blob/yolo/{filepath}`
 
 ### Privacy & Transparency
 
@@ -63,114 +47,20 @@ TogetherOS helps people **unlearn division and learn coordination**. It resets d
 - **Consent-based:** Not majority-rule; amendments must address objections
 - **Empathy-first moderation:** De-escalation rules, AI-assisted discourse management
 
-### UX Fix Verification Protocol (MANDATORY)
-
-**When user reports a UI issue:**
-
-1. **Trace to exact source** - Don't assume which component to fix
-   - User says "status field" → Find where "Status" label actually renders
-   - Search codebase for the exact text/element mentioned
-   - Follow component hierarchy: page → imported component → sub-component
-
-2. **Verify component ownership**
-   - A page may import components from `@togetheros/ui/*`
-   - The actual issue may be in the imported component, not the page
-   - Check BOTH the page file AND all imported UI components
-
-3. **Match fix to report**
-   - User reports "Status and Scope fields" → Fix must affect Status AND Scope labels
-   - If your fix doesn't touch elements with those exact labels, you're fixing the wrong thing
-
-4. **Verify before committing**
-   - Ask yourself: "Does my fix change what the user specifically complained about?"
-   - If uncertain, check production or ask user to confirm
-
-**Anti-pattern (err-005):**
-- User: "Status/Scope fields illegible in dark mode"
-- Wrong: Fixed `ProposalCard.tsx` status badges (card content)
-- Right: Fixed `ProposalList.tsx` Status/Scope filter labels (the actual controls)
-
-**Source:** [Bug Fix Verification Best Practices](https://www.applause.com/blog/bug-fix-verification-speed-up-development/)
-
-### Theme Implementation Protocol (MANDATORY for CSS/Tailwind theming)
-
-**When implementing themes or color changes:**
-
-1. **Define CSS variables** in `globals.css` (light + dark + theme variants)
-2. **Map to Tailwind** in `tailwind.config.js` under `extend.colors`
-3. **IDENTIFY all affected components** - grep for hardcoded color classes
-4. **UPDATE EACH COMPONENT** to use design system classes:
-
-| Hardcoded (wrong) | Design System (correct) |
-|-------------------|------------------------|
-| `bg-white`, `bg-gray-800` | `bg-bg-1` |
-| `bg-gray-50/100` | `bg-bg-2` |
-| `text-gray-900`, `text-white` | `text-ink-900` |
-| `text-gray-700/300` | `text-ink-700` |
-| `text-gray-500/400` | `text-ink-400` |
-| `border-gray-200/700` | `border-border` |
-| `bg-orange-*` | `bg-joy-*` |
-| `bg-emerald-*` | `bg-brand-*` |
-
-5. **TEST with theme toggle** - ALL elements must change, not just body
-
-**Anti-pattern (err-008):**
-- Wrong: Define CSS vars → Ship (only body changes)
-- Right: Define CSS vars → Update ALL components → Test → Ship
-
-**Source:** [CSS-Tricks Theming](https://css-tricks.com/color-theming-with-css-custom-properties-and-tailwind/)
-
-### SQL Schema Verification Protocol (MANDATORY for database queries)
-
-**When writing SQL queries that reference tables/columns:**
-
-1. **VERIFY table exists and get exact name:**
-   ```bash
-   # On production server
-   ssh root@72.60.27.167 "sudo -u postgres psql togetheros -c '\dt *topic*'"
-   ```
-
-2. **VERIFY column types before comparisons:**
-   ```bash
-   ssh root@72.60.27.167 "sudo -u postgres psql togetheros -c '\d support_points_allocations'"
-   ```
-
-3. **Check for unified vs separate tables:**
-   - Pattern: `{module}_{entity}` (e.g., `forum_posts`, `forum_reactions`)
-   - NEVER assume separate tables per subtype (e.g., `forum_post_reactions`, `forum_topic_reactions`)
-   - Check for discriminator columns like `content_type`, `target_type`
-
-4. **Verify type casting needs:**
-   - UUID columns: Don't use `::text` when comparing to other UUIDs
-   - Array parameters: Use `$N::TEXT[]` for `ILIKE ANY($N)`
-   - Integer aggregates: Use `::integer` for SUM/COUNT in typed results
-
-**Anti-pattern (err-012):**
-- Wrong: Assume table is `forum_topics` because entity is "forum topic"
-- Right: Run `\dt *topic*` to find actual table name (`topics`)
-
-**Anti-pattern (err-013):**
-- Wrong: Assume `forum_topic_reactions`, `forum_post_reactions` exist (separate tables per type)
-- Right: Check schema → find `forum_reactions` with `content_type` discriminator
-
-**Anti-pattern (err-014):**
-- Wrong: `WHERE target_id = t.id::text` (comparing UUID to TEXT)
-- Right: `WHERE target_id = t.id` (UUID to UUID, or check if target_id is actually TEXT)
-
-**Root Cause:** Writing SQL based on naming conventions or assumptions instead of verifying actual schema.
-
-**Sources:**
-- [PostgreSQL Schema Guide](https://www.mydbops.com/blog/postgresql-schema-guide)
-- [PostgreSQL Schema Best Practices](https://climbtheladder.com/10-postgresql-schema-best-practices/)
-
 ---
 
-## Current Phase: Pre-MVP
+## Error Prevention Protocols
 
-- **All 17 modules at 0% code implementation**
-- **Comprehensive documentation complete:** 1,114+ lines of specs
-- **Next priority:** Bridge landing pilot (internal MVP) at `/bridge`
-- **Repository type:** Monorepo (Next.js 14 + TypeScript + Tailwind)
+For detailed error prevention protocols, see: `.claude/knowledge/error-learnings.md`
+
+| Code | Summary |
+|------|---------|
+| err-005 | UX fix verification - trace to exact source before fixing |
+| err-008 | Theme implementation - update ALL components, not just CSS vars |
+| err-011 | Path alias restructuring - map dependency graph BEFORE changes |
+| err-012 | SQL table names - verify with `\dt` before assuming |
+| err-013 | SQL table structure - check for discriminator columns |
+| err-014 | SQL type casting - verify column types before comparisons |
 
 ---
 
@@ -196,27 +86,21 @@ Every issue, PR, and initiative must be labeled with one of these paths:
 1. **Check spec:** Read `docs/modules/{module}.md` for requirements
 2. **Create branch:** `claude/{module}-{sessionId}` or `feature/{short-topic}`
 3. **Implement smallest slice:** One tiny change only
-4. **Run validation:** `scripts/validate.sh` (expect: `LINT=OK`, `VALIDATORS=GREEN`, `SMOKE=OK`)
-5. **Open PR** with:
-   - Clear description (what/why)
-   - Proof lines in body
-   - Path label (e.g., `path:cooperative-technology`)
-   - Files touched list
-6. **Update docs:** Keep `docs/STATUS_v2.md` progress markers current
-7. **After merge:** Post note in Discussions #88 if it affects contributors
+4. **Run validation:** `npm test` (required), `./scripts/validate.sh` (recommended)
+5. **Open PR** with proof lines, path label, files touched
+6. **After merge:** Update `docs/STATUS_v2.md` if progress changed
 
-### Branch Naming Conventions
+### Branch Naming
 
 - **Feature branches:** `feature/<short-topic>`
 - **Docs branches:** `docs/<short-topic>`
 - **Claude sessions:** `claude/{module}-{sessionId}` (must start with `claude/` and end with session ID)
 
-### Git Push Retry Logic
+### Git Push
 
-- **For push:** Always use `git push -u origin <branch-name>`
-- **CRITICAL:** Branch must start with `claude/` and end with matching session ID, otherwise push fails with 403
-- **Retry on network errors:** Up to 4 retries with exponential backoff (2s, 4s, 8s, 16s)
-- **For fetch/pull:** Prefer `git fetch origin <branch-name>` with same retry logic
+- Always use `git push -u origin <branch-name>`
+- Branch must match naming convention or push fails with 403
+- Retry on network errors: Up to 4 retries with exponential backoff
 
 ---
 
@@ -225,32 +109,22 @@ Every issue, PR, and initiative must be labeled with one of these paths:
 ### Documentation
 - **Vision:** `docs/Manifesto.md`
 - **Architecture:** `docs/TogetherOS_WhitePaper.md`
-- **Operations playbook:** `docs/OPERATIONS.md`
-- **CI playbook:** `docs/CI/Actions_Playbook.md`
 - **Module specs:** `docs/modules/{module}.md`
-- **Modules hub:** `docs/modules/INDEX.md`
 - **Status tracking:** `docs/STATUS_v2.md`
 
 ### Taxonomy
-- **Cooperation Paths (machine-readable):** `codex/taxonomy/CATEGORY_TREE.json`
-- **Cooperation Paths (human-readable):** `docs/TogetherOS_CATEGORIES_AND_KEYWORDS.md`
+- **Machine-readable:** `codex/taxonomy/CATEGORY_TREE.json`
+- **Human-readable:** `docs/TogetherOS_CATEGORIES_AND_KEYWORDS.md`
 
-### Scripts & Validation
+### Scripts & CI
 - **Main validator:** `scripts/validate.sh`
-- **Linting:** `scripts/lint.sh`
-
-### CI/CD
-- **Workflows:** `.github/workflows/` (16 workflows)
-- **Lint:** `.github/workflows/lint.yml`
-- **Docs:** `.github/workflows/ci_docs.yml`
-- **Deploy:** `.github/workflows/deploy.yml`
+- **Workflows:** `.github/workflows/`
 
 ---
 
 ## Architecture Patterns
 
 ### Domain-Driven Structure
-Each module follows this pattern:
 ```
 apps/api/src/modules/{module}/
   ├── entities/       # Domain models
@@ -271,7 +145,6 @@ packages/ui/src/{module}/         # Shared UI components
 - **Required fields:** `id`, `timestamp`, `event_type`, `metadata`
 - **Validation:** SHA-256 chain, integrity checks in CI
 - **Privacy:** IP hashing, PII redaction, no raw prompts
-- **Examples:** Bridge Q&A logs, moderation events, transactions
 
 ### Federation-Ready
 - **Group handles:** Inter-group protocols
@@ -280,12 +153,12 @@ packages/ui/src/{module}/         # Shared UI components
 
 ---
 
-## Success Metrics & North Star
+## Success Metrics
 
 ### For Bridge (AI Assistant)
-- Time-to-first-useful-answer (p95) < 800ms (fixture mode)
-- Citation coverage = 100% for all answers
-- Trust index: ≥70% "helpful" ratings after 30 days
+- Time-to-first-useful-answer (p95) < 800ms
+- Citation coverage = 100%
+- Trust index: >= 70% "helpful" ratings
 
 ### For Governance
 - Proposals have documented trade-offs and minority reports
@@ -301,57 +174,22 @@ packages/ui/src/{module}/         # Shared UI components
 
 ## Common Commands
 
-### Local Development
 ```bash
 # Validate repo health
 ./scripts/validate.sh
 
-# Run linters
-./scripts/lint.sh
+# Run tests (required before commit)
+npm test
 
-# Expected output:
-# LINT=OK
-# VALIDATORS=GREEN
-# SMOKE=OK
-```
+# Type check
+npx tsc --noEmit
 
-### Git Operations
-```bash
 # Create feature branch
 git checkout -b feature/bridge-qa-endpoint
 
-# Create Claude session branch (required format)
-git checkout -b claude/bridge-landing-011CUQtanTsWEweh3xMQupeE
-
-# Push with retry (always use -u)
+# Push with upstream tracking
 git push -u origin <branch-name>
-
-# Fetch specific branch
-git fetch origin <branch-name>
 ```
-
----
-
-## Priority Modules (Implementation Order)
-
-### Phase 1: Bridge Landing Pilot (Now)
-- Minimal `/bridge` page
-- Streaming Q&A with LLM
-- NDJSON logs with validation
-- Rate limiting (30 req/hour/IP)
-- Citations required for all answers
-
-### Phase 2: Governance MVP (Next)
-- Proposal create/list/view
-- Zod validation
-- Fixture repos (in-memory)
-- Routes: `/governance`, `/governance/[id]`
-
-### Phase 3: Monorepo Foundation (Critical)
-- Next.js 14 app shell
-- tRPC server boilerplate
-- Tailwind CSS v4 + shadcn/ui
-- Package structure (`@togetheros/ui`, `@togetheros/types`)
 
 ---
 
@@ -375,784 +213,52 @@ git fetch origin <branch-name>
 
 1. **Never create files unless necessary** — Always prefer editing existing files
 2. **Never create markdown docs proactively** — Only create documentation if explicitly requested
-3. **Always run validation before PR** — `./scripts/validate.sh` must pass
+3. **Always run tests before commit** — `npm test` must pass
 4. **Update STATUS_v2.md after changes** — Bump progress markers using HTML comments
-5. **Bridge pilot is core-team only** — Not open for public contributions yet
-6. **All PRs need Path labels** — Use canonical names from CATEGORY_TREE.json
-7. **Notion UUID errors are expected** — Claude Code bug (issue #5504) occasionally corrupts UUIDs; simply retry with original UUID
+5. **All PRs need Path labels** — Use canonical names from CATEGORY_TREE.json
+6. **Notion UUID errors are expected** — Claude Code bug (issue #5504); simply retry
 
 ---
 
-## TypeScript Architecture & Patterns
+## TypeScript Critical Rules
 
-### Critical Rules (Non-Negotiable)
+For complete TypeScript verification workflow, see: `.claude/workflows/typescript-verification.md`
 
-1. **Browser APIs Must Stay in apps/web/**
-   - ❌ NO localStorage, window, document, navigator in `apps/api/`
-   - ✅ Client-side repos belong in `apps/web/lib/repos/`
-   - **Why:** Server code can't access browser globals; TypeScript will error
-   - **Fix if violated:** Move browser-dependent code to correct workspace
+### Non-Negotiable
 
-2. **Always Use `export type` for Type-Only Exports**
-   - ❌ `export { InterfaceName }` (fails with isolatedModules)
-   - ✅ `export type { InterfaceName }` (correct syntax)
-   - **Why:** Required by tsconfig `isolatedModules: true`
-   - **Applies to:** interfaces, type aliases, generic types
+1. **Browser APIs in apps/web/ only** — NO localStorage, window, document in `apps/api/`
+2. **Use `export type` for interfaces** — Required by `isolatedModules: true`
+3. **Package aliases for monorepo imports** — Use `@togetheros/*`, never relative paths to packages
 
-3. **Path Alias Limitations (apps/api)**
-   - `@/lib/db` imports reference files outside `rootDir`
-   - **Status:** 2 TypeScript errors remain as accepted limitations
-   - **Runtime:** Works correctly (path alias resolves at runtime)
-   - **Future fix:** Create `@togetheros/db` package for proper sharing
-   - **For now:** Document accepted errors, don't try to fix them
+### Configuration
 
-### Configuration Requirements
+- `moduleResolution: "bundler"` (not "node16")
+- `isolatedModules: true` (Next.js requirement)
+- TypeScript 5.9.3
 
-**TypeScript Version:** 5.9.3 (latest stable as of January 2025)
-
-**Must be set in all `tsconfig.json` files:**
-- ✅ `moduleResolution: "bundler"` (not "node16" or "node")
-- ✅ `resolveJsonModule: true` (for .json imports)
-- ✅ `downlevelIteration: true` (for Map/Set iterations)
-- ✅ `isolatedModules: true` (Next.js requirement)
-
-### TypeScript Error Prevention Workflow (CRITICAL)
-
-**BEFORE writing ANY TypeScript code:**
-1. **Read existing patterns** - Search for similar code in the codebase first
-2. **Verify workspace location** - Check if browser APIs are needed (apps/web vs apps/api)
-3. **Check type definitions** - Read the actual type files before assuming types
-4. **Run type check** - Execute `npx tsc --noEmit` before committing
-
-**AFTER writing TypeScript code:**
-1. **Type check** - Run `npx tsc --noEmit` (REQUIRED)
-2. **Review errors** - Fix ALL type errors before committing
-3. **Add proof line** - Include `TYPECHECK=OK` in PR description
-4. **Let bots review** - Wait for Copilot/Codex to catch remaining issues
-
-**Common Mistakes to Avoid:**
-- ❌ Assuming types without checking actual definitions
-- ❌ Copying patterns from memory instead of reading existing code
-- ❌ Using browser APIs in server code (apps/api)
-- ❌ Committing without running `tsc --noEmit`
-- ❌ Ignoring type errors "because runtime works"
-
-**Why This Matters:**
-- TypeScript errors accumulate and block deployments
-- Runtime success ≠ type safety
-- Bot reviews catch issues AFTER commit (waste time)
-- Each TS error fix requires new PR + review cycle
-
-### Common Type Import Errors
-
-**Error Pattern:** `Cannot find name 'window'` or `Cannot find name 'localStorage'`
-- **Root Cause:** Browser-only code in server files
-- **Solution:** Move file to `apps/web/lib/repos/`
-- **Symptom:** File uses browser APIs but is in `apps/api/`
-
-**Error Pattern:** `Type 'X' is not assignable to type 'boolean'`
-- **Root Cause:** Incorrect type annotation in function parameter
-- **Solution:** Use proper type imports, add type assertions with `as` if needed
-- **Example:** `(flag: ConsentFlags) => flag[key]` needs `as boolean`
-
-**Error Pattern:** `Cannot find module '@/lib/repos/LocalStorageGroupRepo'`
-- **Root Cause:** Path mapping in `tsconfig.json` points to wrong location
-- **Solution:** Verify `@/lib/*` maps to correct directory in each workspace
-- **Check:** `apps/web/tsconfig.json` uses `"@/lib/*": ["./lib/*"]`
-
-### Anti-Patterns to Avoid
-
-❌ **Don't put browser-only code in server modules**
-- Examples: localStorage, window, document, navigator, DOM APIs
-- Cost: 6+ TypeScript errors per violation
-
-❌ **Don't use regular export for interfaces**
-- Wrong: `export { IUserRepo }`
-- Right: `export type { IUserRepo }`
-- Cost: Build fails with isolatedModules
-
-❌ **Don't use `moduleResolution: "node16"` in Next.js**
-- Causes 50+ cascading errors
-- Must use: `"bundler"`
-
-❌ **Don't try to fix path resolution errors by changing rootDir**
-- These are TypeScript limitations, not configuration issues
-- Accept the errors or create proper packages
-
-❌ **Don't ignore TypeScript errors without documenting**
-- Always explain why error is accepted in `docs/dev/tech-debt.md`
-- Include runtime behavior (does it work or not?)
-
-❌ **Don't use relative paths to import from `packages/*` in monorepo**
-- Wrong: `import { x } from '../../../../../../packages/db/src/module'`
-- Right: `import { x } from '@togetheros/db'`
-- Cost: Works locally but FAILS in CI (TS2307: Cannot find module)
-- Root cause: CI has different module resolution context than local dev
-- **Always use package aliases** for internal monorepo packages
-- Source: [Nx Blog - Managing TS Packages](https://nx.dev/blog/managing-ts-packages-in-monorepos)
-
-❌ **Don't restructure files/paths without dependency analysis (err-011)**
-- **Cognitive trap:** Seeing duplicate directories or failing imports triggers "fix it" instinct
-- **Wrong approach:** Toggle single alias between targets OR consolidate everything to one location
-- **Why it fails:** Different consumers depend on different path resolutions
-- **Cost:** Hours of flip-flopping, broken imports, wasted commits
-- **MANDATORY:** Follow Path Alias & File Restructuring Protocol below
-
-### Path Alias & File Restructuring Protocol (MANDATORY)
-
-**Trigger:** Before ANY file moves, directory restructuring, or path alias changes
-
-**Why This Exists (err-011):**
-On Dec 12, 2025, two sessions made the same error:
-1. Session 1: Changed `@/lib/*` to fix content-indexer → Broke rate-limiter imports → Reverted
-2. Session 2: Tried to consolidate all files to web lib → Would have broken `@/lib/bridge/*` imports
-
-Both sessions acted on instinct ("fix the failing import" or "consolidate duplicates") without analyzing the full dependency graph.
-
-**Step 1: Map the Dependency Graph (BEFORE any changes)**
-
-```bash
-# Find ALL consumers of the path/files you want to change
-grep -r "from '@/lib/bridge/" apps/web/ --include="*.ts" --include="*.tsx"
-grep -r "from '.*lib/bridge/" apps/web/ --include="*.ts" --include="*.tsx"
-
-# Check what files exist in each location
-ls -la lib/bridge/
-ls -la apps/web/lib/bridge/
-```
-
-**Step 2: Identify Split Dependencies**
-
-Ask yourself:
-- Do some files import from Location A (`@/lib/*` → root lib)?
-- Do other files import from Location B (relative paths → apps/web/lib)?
-- If YES: You have split dependencies → Need MULTIPLE aliases
-
-**Step 3: Choose the Correct Solution**
-
-| Situation | Wrong Approach | Correct Approach |
-|-----------|----------------|------------------|
-| Split dependencies | Toggle one alias | Add second alias |
-| Duplicate files | Move without checking imports | Analyze consumers first |
-| Failing imports | Change alias immediately | Map full dependency graph |
-
-**Step 4: For Split Dependencies (Current TogetherOS Pattern)**
+### Path Aliases (Current Pattern)
 
 ```typescript
-// apps/web/tsconfig.json paths
-"@/lib/*": ["../../lib/*"],      // Shared utilities (rate-limiter, logger, docs-indexer)
-"@web/*": ["./lib/*"],           // Web-specific (content-indexer, context-service)
+// apps/web/tsconfig.json
+"@/lib/*": ["../../lib/*"],      // Shared utilities (root lib/)
+"@web/*": ["./lib/*"],           // Web-specific (apps/web/lib/)
 ```
 
-| Alias | Points To | Purpose | Files |
-|-------|-----------|---------|-------|
-| `@/lib/*` | `../../lib/*` (root) | Shared across apps | rate-limiter, logger, docs-indexer |
-| `@web/*` | `./lib/*` (web) | Web app specific | content-indexer, context-service, etc. |
+### Accepted Limitations
 
-**Step 5: Verify Before Committing**
+- `lib/db` has 2 TypeScript errors (composite project constraints)
+- Runtime works correctly; use force deploy if needed
+- Future fix: Create `@togetheros/lib` package
 
+---
+
+## Infrastructure & Recovery
+
+For production incidents and recovery procedures, see: `.claude/knowledge/infrastructure-incidents.md`
+
+**Quick recovery (if site 502):**
 ```bash
-# After making changes, verify TypeScript compiles
-npx tsc --noEmit
-
-# Run tests
-npm test
-```
-
-**Sources:**
-- [Martin Fowler - Refactoring Module Dependencies](https://martinfowler.com/articles/refactoring-dependencies.html)
-- [Nx Blog - Managing TS Packages in Monorepos](https://nx.dev/blog/managing-ts-packages-in-monorepos)
-- [CodeSee - Code Refactoring Best Practices](https://www.codesee.io/learning-center/code-refactoring)
-
-### Session Reference: 2025-12-12 Path Alias Consolidation (err-011)
-
-**Problem:** `@/lib/*` alias couldn't serve both root lib/ and apps/web/lib/
-**Symptom:** Imports failing, flip-flopping between configurations
-**Root Cause:** Single alias trying to serve two different directory trees
-**Wrong Approaches:**
-1. Toggle `@/lib/*` between `../../lib/*` and `./lib/*`
-2. Consolidate all files to one location
-3. Use ugly relative paths like `../../../../../lib/bridge/*`
-
-**Correct Solution:** Two aliases
-- `@/lib/*` → root lib (shared utilities)
-- `@web/*` → apps/web/lib (web-specific code)
-
-**Key Insight:** When you see "duplicate directories" or "failing imports," resist the instinct to immediately consolidate or toggle. First map the dependency graph to understand WHO depends on WHAT.
-
-### Session Reference: 2025-12-03 Monorepo Import Fix
-
-**Problem:** Deploy failed with TS2307 after changing import to relative path
-**Error:** `Cannot find module '../../../../../../packages/db/src/proposals'`
-**Context:** Changed from `apps/api/src/modules/governance/handlers/crud` to relative path
-**Root Cause:** Relative paths to `packages/*/src/*` resolve locally but fail in CI
-**Solution:** Use package alias `@togetheros/db` instead of relative path
-**Lesson:** ALWAYS use `@togetheros/*` aliases for internal package imports, NEVER relative paths
-
-### Session Reference: 2025-11-08 TypeScript Error Fixes
-
-#### Morning Session: Reduced Errors 100+ → 13
-**Key Fixes:**
-1. Fixed DecisionLoop type imports and function signatures (7 errors fixed)
-2. Updated path mappings in apps/web/tsconfig.json (import resolution fixed)
-3. Documented lib/db errors as known limitations (2 errors accepted)
-
-**Note:** LocalStorageGroupRepo move was documented but NOT committed - file still in apps/api
-
-#### Afternoon Session: tsconfig Inheritance Fix
-**Problem:** TSConfckParseError blocked all tests and deployments
-**Root Cause:** Workspace tsconfig files didn't extend base config (Vite/tsconfck expected standard monorepo pattern)
-**Solution:** Added `extends: "../../tsconfig.base.json"` to all 5 workspace configs
-
-**Files Changed:**
-- packages/types/tsconfig.json (-11 duplicated options)
-- packages/validators/tsconfig.json (-10 duplicated options)
-- packages/ui/tsconfig.json (-9 duplicated options)
-- apps/api/tsconfig.json (-11 duplicated options)
-- apps/web/tsconfig.json (-5 duplicated options)
-
-**Result:**
-- ✅ Tests now pass (TSConfckParseError resolved)
-- ✅ Proper config inheritance established
-- ⚠️  Build now correctly enforces TypeScript errors (reveals 10 pre-existing issues)
-
-**Deployment Strategy:**
-- Used `workflow_dispatch` with `force: true` to bypass failing preflight checks
-- Deployment succeeded despite TS errors (runtime behavior unaffected)
-- TS errors to be fixed in separate PR (don't block production testing)
-
-**Lesson Learned:**
-1. tsconfig inheritance is REQUIRED for Vite/tsconfck resolution
-2. Proper inheritance makes TypeScript correctly enforce all errors
-3. Runtime often works despite compile-time errors (JS is dynamic)
-4. Force deploy useful for testing when errors are known to be non-blocking
-5. Previous "fixes" in KB were documented but never committed to repo
-
-#### Evening Session: TypeScript Verification Workflow + Accepted Limitations
-**Starting State:** 15 TypeScript errors blocking deployment
-**Final State:** 2 errors accepted as unfixable with current structure
-
-**Key Accomplishments:**
-1. Created `.claude/workflows/typescript-verification.md` (386 lines)
-   - Mandatory pre-flight checklist (6 steps)
-   - Post-write verification (4 steps)
-   - Documented 5 common mistakes with fixes
-   - Added path alias verification step
-
-2. Fixed LocalStorageGroupRepo (6 errors → 0)
-   - Rewrote from 111 lines to 310 lines
-   - Removed cross-workspace imports (no longer extends InMemoryGroupRepo)
-   - Moved from apps/api to apps/web/lib/repos/
-   - Uses only @togetheros/types, no apps/api dependencies
-
-3. Fixed groups pages (7 errors → 0)
-   - Changed @/lib imports to relative imports (../../lib)
-   - Fixed path alias mapping mismatch
-   - Added explicit type annotations for all implicit 'any' parameters
-   - Files: page.tsx, new/page.tsx, [id]/page.tsx
-
-4. Attempted lib/db fixes (3 approaches, all failed)
-   - Attempt 1: Add ../../lib/**/* to includes → TS6059 rootDir violations
-   - Attempt 2: Remove rootDir setting → TS still inferred apps/api as rootDir
-   - Attempt 3: Set composite: false → TS6306 (apps/web requires composite: true)
-   - Reverted all 3 attempts
-
-**Accepted Limitations (Unfixable):**
-- `lib/db` errors: 2 TypeScript errors remain
-- **Root Cause**: TypeScript composite project constraints
-  - apps/api imports from lib/db (outside rootDir)
-  - apps/api MUST be composite (apps/web references it)
-  - Composite projects CANNOT include files outside rootDir
-  - This is by design for TypeScript project references system
-- **Runtime Behavior**: Code works correctly despite errors
-  - Path aliases resolve at runtime
-  - Build succeeds with `tsc --noEmit` (local)
-  - Fails with `tsc --build` (CI composite build)
-- **Future Fix**: Create @togetheros/lib package for proper sharing
-- **For Now**: Document errors, use force deploy if needed
-
-**Lesson Learned:**
-1. Not all TypeScript errors are fixable with configuration changes
-2. Some errors are structural constraints (composite project boundaries)
-3. Local `tsc --noEmit` less strict than CI `tsc --build` with composite
-4. Path alias resolution works at runtime even with compile-time errors
-5. Verification workflow prevents 90%+ of errors through pre-flight checks
-6. When structure prevents fix, document as accepted limitation with explanation
-7. Clear build caches when TypeScript errors contradict themselves (see Nov 18 Forum API session below)
-
----
-
-### Session Reference: 2025-11-18 Forum API Implementation (25% → 50%)
-
-**Task:** Implement Forum module API routes and topic listing UI
-
-**TypeScript Cache Discovery:**
-
-**Problem Encountered:**
-- Implemented Next.js 16 dynamic route with `Promise<Params>` pattern (correct for Next.js 16)
-- TypeScript error: "Expected `{ topicId: string }`, got `Promise<{ topicId: string }>`"
-- Changed code to non-Promise pattern to match error
-- TypeScript error **reversed**: "Expected `Promise<{ topicId: string }>`, got `{ topicId: string }`"
-- **Error messages literally contradicted themselves**
-
-**Root Cause:**
-- Stale `.next/` build cache from before Next.js 16 async params
-- Stale `tsconfig.tsbuildinfo` TypeScript incremental build info
-- Cached type definitions showed old (sync) param requirements
-- New code correctly used async params, but cache showed outdated errors
-
-**Solution:**
-```bash
-rm -rf apps/web/.next apps/web/tsconfig.tsbuildinfo
-npm run build  # ✅ Build succeeded with original Promise pattern
-```
-
-**Key Insight:**
-When TypeScript error messages flip or contradict themselves after you "fix" them, it's a sign of **stale build caches**, not actual type errors. The original code was likely correct.
-
-**Pattern Recognition:**
-1. Error says "Expected X, got Y"
-2. Change code to type X
-3. Error says "Expected Y, got X" (reversed!)
-4. **→ Clear caches immediately, revert to original code**
-
-**Documentation Added:**
-- `.claude/workflows/typescript-verification.md` - Mistake 6
-- `docs/dev/common-mistakes.md` - Section 7
-- `docs/dev/typescript-guide.md` - Pattern 5
-- `docs/DEVELOPMENT.md` - Troubleshooting entry
-
-**Lesson Learned:**
-- Framework updates (Next.js 16 async params) change type behavior
-- Build caches can persist old type definitions
-- Always clear caches after major framework updates
-- Error message contradictions = cache issue, not code issue
-
----
-
-### Session Reference: 2025-12-04 Admin Pages 500 Errors
-
-**Task:** Fix internal server errors on admin pages (/admin/support-points, /admin/reward-points, /admin/badges)
-
-**Runtime Module Resolution Errors:**
-
-**Problem Encountered:**
-- Admin pages returned 500 Internal Server Error
-- API routes imported `getCurrentUser` from `@/lib/auth/middleware`
-- Function was never exported from the middleware file
-- Badges route also imported from `@/lib/db/badges` which didn't exist
-- TypeScript did NOT catch these errors at compile time
-
-**Root Cause:**
-- TypeScript module resolution succeeds if the FILE exists
-- TypeScript does NOT verify named exports exist at compile time for all patterns
-- Runtime fails when the JavaScript module loader can't find the export
-- This is a gap between TypeScript checking and runtime behavior
-
-**Solution:**
-```typescript
-// Added to apps/web/lib/auth/middleware.ts
-export async function getCurrentUser(
-  request: NextRequest
-): Promise<AuthenticatedUser | null> {
-  try {
-    return await requireAuth(request);
-  } catch {
-    return null;
-  }
-}
-
-// Created apps/web/lib/db/badges.ts with required exports
-```
-
-**Prevention Protocol (API Route Pre-Flight):**
-
-Before creating/modifying API routes that import from internal modules:
-
-1. **Verify export exists:**
-   ```bash
-   grep "export.*functionName" path/to/module.ts
-   ```
-
-2. **Verify module file exists:**
-   ```bash
-   ls path/to/imported/module.ts
-   ```
-
-3. **After writing route, test endpoint:**
-   ```bash
-   curl -s localhost:3000/api/your-route
-   ```
-
-**Pattern Recognition:**
-- 500 error + "export not found" in logs = missing export
-- 500 error + "Cannot find module" = missing file
-- Multiple routes failing with same import = shared dependency issue
-
-**Lesson Learned:**
-1. TypeScript doesn't catch all module resolution errors
-2. Always verify exports exist before importing from internal modules
-3. Create helper files BEFORE writing routes that depend on them
-4. Test API endpoints locally before pushing
-5. When 500 errors affect multiple admin pages, check shared imports first
-
----
-
-### Session Reference: 2025-12-11 Production Outage, Malware Investigation & Data Exfiltration Check
-
-**Incident:** Production site down multiple times due to PM2 restart loop + malware discovered on server.
-
----
-
-#### Part 1: PM2 Restart Loop & CPU Throttling
-
-**Timeline:**
-| Time | Event |
-|------|-------|
-| ~15:00 | Deployment triggered during incomplete build |
-| ~15:00-16:00 | PM2 restarted 482+ times (no restart limits configured) |
-| ~16:00 | Hostinger CPU throttling activated (84% steal time) |
-| ~16:00-17:30 | Site down, multiple investigation rounds |
-| ~17:55 | Site restored after manual rebuild |
-
-**Root Causes:**
-
-1. **PM2 restart loop** - PM2 had no restart limits configured. When app crashed, PM2 restarted it instantly and infinitely.
-2. **Race condition in deployment** - PM2 was running while `.next` directory was deleted during build.
-3. **Incomplete build** - BUILD_ID file was missing because build never completed.
-
-**Symptoms:**
-- `Cannot find module 'tailwind-merge'` errors
-- `Could not find a production build in the '.next' directory`
-- 84% CPU steal time (hypervisor throttling)
-- PM2 showing 482+ restarts (↺ column)
-
-**Fixes Applied:**
-
-1. **ecosystem.config.js** - Added restart limits:
-   ```javascript
-   max_restarts: 10,
-   min_uptime: '10s',
-   restart_delay: 4000,
-   exp_backoff_restart_delay: 100
-   ```
-
-2. **auto-deploy-production.yml** - Fixed deployment sequence (stop PM2 before build)
-
-3. **pm2-root.service** - Added systemd restart limits:
-   ```ini
-   RestartSec=30
-   StartLimitIntervalSec=300
-   StartLimitBurst=5
-   ```
-
-4. **ensure-build.sh** - Created build verification script at `/var/www/togetheros/scripts/ensure-build.sh`
-
----
-
-#### Part 2: Malware Discovery & Removal
-
-**Discovery Date:** December 11, 2025
-**Installation Date:** December 6, 2025 (09:00-10:30 UTC)
-
-**Malware Found:**
-
-| Component | Location | Purpose | C2 Server |
-|-----------|----------|---------|-----------|
-| **meshagent** | `/usr/local/mesh_services/meshagent` | MeshCentral RAT (remote access) | 45.93.8.88 (ALEXHOST Amsterdam) |
-| **rsyslo** | `/usr/local/rsyslo/rsyslo` | UPX-packed payload (typosquatting rsyslog) | Unknown |
-
-**Service Files:**
-- `/usr/lib/systemd/system/meshagent.service` - "meshagent background service"
-- `/etc/systemd/system/rsyslo.service` - "Rsyslo AV Agent Service" (fake antivirus)
-
-**Critical Finding: Both Malware Components FAILED**
-
-| Malware | Behavior | Evidence |
-|---------|----------|----------|
-| **meshagent** | Crashed immediately | `exit-code=1/FAILURE` after 18 seconds, entered restart loop |
-| **rsyslo** | Crashed repeatedly | 13+ restart attempts, each lasting ~1 second |
-
-Kernel log: `process 'usr/local/rsyslo/rsyslo' started with executable stack`
-- Indicates poorly constructed payload
-- Likely crashed due to ASLR/NX protection or missing dependencies
-
-**Removal Actions (Dec 11):**
-```bash
-# Stopped and disabled services
-systemctl stop meshagent rsyslo
-systemctl disable meshagent rsyslo
-
-# Removed service files
-rm /usr/lib/systemd/system/meshagent.service
-rm /etc/systemd/system/rsyslo.service
-
-# Removed binaries
-rm -rf /usr/local/mesh_services/
-rm -rf /usr/local/rsyslo/
-
-# Reloaded systemd
-systemctl daemon-reload
-```
-
-**Attack Vector Analysis:**
-- No SSH logins during installation window (09:00-10:30 Dec 6)
-- Likely vector: Hostinger control panel compromise OR supply chain attack
-- `clp` user (Hostinger panel) has sudo access
-
----
-
-#### Part 3: Data Exfiltration Assessment
-
-**Database Check:**
-- ✅ Only 1 user in database (owner account)
-- ✅ No `pg_dump`, `COPY`, or export commands in PostgreSQL logs
-- ✅ Only normal app queries on Dec 6 (theme updates, post selects)
-- ✅ No suspicious database backups created
-
-**File Access Check:**
-- ✅ `.env` file last modified Nov 3, 2025 (before attack)
-- ✅ No tar/zip/curl uploads in bash history
-- ✅ No audit logs of file exfiltration
-
-**Network Check:**
-- Dec 6 logs show normal traffic (Postfix probes, SSH from known IPs)
-- No connections to attacker C2 (45.93.8.88) succeeded
-
-**Assessment: LOW RISK of Data Exfiltration**
-- Malware never successfully ran
-- Database shows no unauthorized queries
-- Single user account remains intact
-- `.env` unchanged since Nov 3
-
-**Probable Attack Intent:**
-- MeshAgent for remote desktop/shell access (reconnaissance)
-- rsyslo was likely cryptominer or botnet payload
-- Attack was **unsuccessful** - malware kept crashing
-
----
-
-#### Part 4: Post-Incident Hardening
-
-**Completed:**
-- [x] PM2 restart limits configured
-- [x] Systemd restart limits configured
-- [x] Deployment workflow fixed (stop PM2 before build)
-- [x] Malware removed
-- [x] Crontab cleaned (removed process-hiding entries)
-- [x] Audit logging enabled
-
-**Recommended:**
-- [ ] Change database password
-- [ ] Change JWT secret
-- [ ] Rotate OpenAI API key
-- [ ] Contact Hostinger about Dec 6 activity
-- [ ] Enable fail2ban for SSH
-- [ ] Regular security scans (rkhunter, chkrootkit)
-
----
-
-#### Recovery Procedure (if PM2 loop happens again)
-
-```bash
-# 1. SSH to server
-ssh root@72.60.27.167
-
-# 2. Stop PM2 completely
-pm2 stop togetheros
-pm2 delete togetheros
-pm2 save --force
-
-# 3. Wait for CPU throttling to lift (check with top, look for 0% st)
-top -bn1 | head -5
-
-# 4. Clean and rebuild
-cd /var/www/togetheros/apps/web
-rm -rf .next
-npm run build
-
-# 5. Verify BUILD_ID exists
-cat .next/BUILD_ID
-
-# 6. Start PM2
-cd /var/www/togetheros
-pm2 start ecosystem.config.js
-pm2 save
-
-# 7. Verify health
-curl https://coopeverything.org/api/health
-```
-
----
-
-#### Lessons Learned
-
-1. PM2 default is unlimited instant restarts - ALWAYS configure limits
-2. Systemd can override PM2 restart limits - configure both
-3. Never delete build artifacts while process manager is running
-4. BUILD_ID verification is critical before starting app
-5. 84% CPU steal = hypervisor throttling, not app issue
-6. Malware can be installed via hosting control panels, not just SSH
-7. Poor-quality malware may fail silently - still remove immediately
-8. Enable audit logging BEFORE incidents occur
-
-**Files Changed:**
-- `.github/workflows/auto-deploy-production.yml`
-- `ecosystem.config.example.js`
-- `/etc/systemd/system/pm2-root.service` (on VPS)
-- `/var/www/togetheros/scripts/ensure-build.sh` (on VPS)
-- Removed: `/usr/local/mesh_services/`, `/usr/local/rsyslo/` (on VPS)
-
----
-
-### Session Reference: 2025-12-12 Zero-Downtime Deployment Fix & Root Cause Analysis
-
-**Task:** Diagnose recurring 502 errors and site instability since Dec 6 malware incident
-
----
-
-#### Part 1: Misdiagnosis Correction
-
-**Initial Hypothesis (from user):** The Dec 6 malware (meshagent, rsyslo) was a decoy/front, and something deeper was blocking the development process.
-
-**Actual Finding:** The malware was NOT the cause of ongoing issues. The recurring 502 errors were caused by:
-
-1. **Deployment workflow design flaw** - stopped PM2 before building
-2. **CPU throttling** - 82-85% steal time from Hostinger hypervisor
-3. **Concurrent Claude sessions** - multiple instances triggering overlapping deployments
-
----
-
-#### Part 2: The Deployment Workflow Flaw
-
-**Location:** `.github/workflows/auto-deploy-production.yml`
-
-**Old Workflow (caused 5-10 min downtime per deploy):**
-```bash
-pm2 stop togetheros      # ← SITE GOES 502 IMMEDIATELY
-rm -rf .next             # ← DELETE BUILD
-npm run build            # ← 5-10 MINUTES (85% CPU steal)
-pm2 start                # ← Site finally back
-```
-
-**Why This Was Catastrophic:**
-- Every push to `yolo` triggered deployment
-- PM2 stopped BEFORE build started
-- Build took 5-10 minutes due to CPU throttling
-- Site was 502 for ENTIRE build duration
-- If build failed, site stayed down
-
-**New Workflow (seconds of downtime):**
-```bash
-npm run build            # ← Site stays up during build
-pm2 restart              # ← Only seconds of downtime
-```
-
-**Key Changes:**
-- Build completes WHILE site is still running
-- Only restart PM2 AFTER build succeeds
-- If build fails, site stays up on previous version
-- Downtime reduced from 5-10 minutes to ~5 seconds
-
----
-
-#### Part 3: Concurrent Claude Sessions Problem
-
-**Discovery:** During investigation, found TWO simultaneous `next build` processes (PIDs 68599 and 68807) fighting over `.next` directory.
-
-**Pattern Identified:**
-```
-1. Claude session A sees site down → SSHs to server → starts build
-2. Claude session B sees site down → SSHs to server → starts build
-3. Both builds fight over .next directory
-4. CPU gets throttled (59-85% steal time)
-5. Both builds fail or produce corrupt output
-6. Cycle repeats
-```
-
-**Evidence:**
-- Multiple SSH connections from same IP (user's IP)
-- No GitHub workflow triggering these builds
-- SSH key authentication (legitimate sessions)
-- Builds started within 2 minutes of each other
-
-**Root Cause:** When site goes down, multiple Claude Code sessions in different terminals/contexts all independently try to fix it, creating chaos.
-
-**Prevention:**
-- Only ONE Claude session should attempt recovery at a time
-- User should coordinate if multiple sessions are active
-- Deployment workflow now keeps site up during build (reduces trigger for "fix" attempts)
-
----
-
-#### Part 4: CPU Throttling Context
-
-**Observed:** 82-85% CPU steal time consistently during builds
-
-**What This Means:**
-- Hostinger VPS is on shared infrastructure
-- Hypervisor allocates CPU time to other VMs
-- 85% steal = only 15% of CPU cycles available to our VM
-- A build that takes 2 minutes normally takes 10+ minutes
-
-**Impact on Deployments:**
-- Old workflow: 10+ minute downtime (PM2 stopped during slow build)
-- New workflow: Build takes same time but site stays up
-
-**This is NOT a bug to fix** - it's the nature of shared hosting. The fix is designing workflows that tolerate slow builds.
-
----
-
-#### Part 5: Files Changed
-
-**Workflow fix committed:**
-- `.github/workflows/auto-deploy-production.yml` - Zero-downtime deployment
-
-**Key code change:**
-```yaml
-# OLD (lines 113-127):
-pm2 stop togetheros
-rm -rf .next
-npm run build
-pm2 start
-
-# NEW:
-npm run build  # Site stays up
-pm2 restart    # Only seconds down
-```
-
----
-
-#### Lessons Learned
-
-1. **Deployment design matters more than speed** - A 10-minute build is fine if site stays up
-2. **Stop PM2 AFTER build, not BEFORE** - Critical for zero-downtime
-3. **CPU throttling is expected on shared hosting** - Design workflows accordingly
-4. **Multiple Claude sessions can cause chaos** - Coordinate recovery attempts
-5. **Malware was a red herring** - The Dec 6 malware failed to execute; ongoing issues were workflow design
-6. **Always investigate infrastructure assumptions** - The "attack" was self-inflicted
-
----
-
-#### Recovery Procedure (Updated)
-
-If site goes 502 after this fix, the build likely failed:
-
-```bash
-# 1. Check if build is running
-ssh root@72.60.27.167 "ps aux | grep 'next build' | grep -v grep"
-
-# 2. If build running, wait for completion
-# 3. If no build, check for BUILD_ID
-ssh root@72.60.27.167 "cat /var/www/togetheros/apps/web/.next/BUILD_ID"
-
-# 4. If BUILD_ID exists, restart PM2
-ssh root@72.60.27.167 "pm2 restart togetheros"
-
-# 5. If no BUILD_ID, run build manually
 ssh root@72.60.27.167 "cd /var/www/togetheros/apps/web && npm run build && pm2 restart togetheros"
-
-# 6. Verify
 curl https://coopeverything.org/api/health
 ```
 
@@ -1160,11 +266,7 @@ curl https://coopeverything.org/api/health
 
 ## Related KB Files
 
-- [Tech Stack Details](./tech-stack.md) — Framework versions, dependencies, tooling
-- [Architecture Patterns](./architecture.md) — Data models, API contracts, monorepo structure
-- [Bridge Module Spec](./bridge-module.md) — Complete AI assistant specification
-- [Governance Module Spec](./governance-module.md) — Proposals & decisions implementation
-- [Social Economy](./social-economy.md) — Support Points, timebanking, Social Horizon currency
-- [Cooperation Paths](./cooperation-paths.md) — Full taxonomy with subcategories
+- [Error Learnings](./error-learnings.md) — err-XXX codes, session references, mistake prevention
+- [Infrastructure Incidents](./infrastructure-incidents.md) — Production outages, recovery procedures
 - [CI/CD Discipline](./ci-cd-discipline.md) — Proof lines, validation workflows, contributor rules
-- [Data Models](./data-models.md) — Core entities and relationships
+- [TypeScript Workflow](../workflows/typescript-verification.md) — Pre-flight checklist, verification steps

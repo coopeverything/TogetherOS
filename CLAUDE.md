@@ -8,6 +8,7 @@
 
 @.claude/knowledge/togetheros-kb.md
 @.claude/knowledge/ci-cd-discipline.md
+@.claude/knowledge/error-learnings.md
 
 ## Mandatory Workflows
 
