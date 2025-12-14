@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   TBCWalletCard,
   ServiceBrowser,
@@ -30,6 +31,7 @@ interface ConversionStatus {
 }
 
 export default function TimebankClient() {
+  const router = useRouter();
   const [account, setAccount] = useState<TBCAccount | null>(null);
   const [fairExchangeIndex, setFairExchangeIndex] = useState<FairExchangeIndex | null>(null);
   const [services, setServices] = useState<TimebankServiceItem[]>([]);
@@ -37,7 +39,17 @@ export default function TimebankClient() {
   const [conversionStatus, setConversionStatus] = useState<ConversionStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [servicesLoading, setServicesLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wallet' | 'browse' | 'convert'>('wallet');
+  const [activeTab, setActiveTab] = useState<'wallet' | 'marketplace' | 'my-services' | 'browse' | 'convert'>('wallet');
+
+  function handleTabClick(tabId: string) {
+    if (tabId === 'marketplace') {
+      router.push('/economy/timebank/marketplace');
+    } else if (tabId === 'my-services') {
+      router.push('/economy/timebank/my-services');
+    } else {
+      setActiveTab(tabId as typeof activeTab);
+    }
+  }
 
   useEffect(() => {
     loadData();
@@ -159,22 +171,56 @@ export default function TimebankClient() {
 
       {/* Tabs */}
       <div className="border-b border-border mb-3">
-        <nav className="flex space-x-8">
-          {['wallet', 'browse', 'convert'].map((tab) => (
+        <nav className="flex space-x-6 overflow-x-auto">
+          {[
+            { id: 'wallet', label: 'My Wallet' },
+            { id: 'marketplace', label: '🛒 Marketplace' },
+            { id: 'my-services', label: '📋 My Services' },
+            { id: 'browse', label: 'Browse' },
+            { id: 'convert', label: 'Convert RP' },
+          ].map((tab) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab as typeof activeTab)}
-              className={`pb-4 px-1 border-b-2 font-medium text-sm capitalize ${
-                activeTab === tab
+              key={tab.id}
+              onClick={() => handleTabClick(tab.id)}
+              className={`pb-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                activeTab === tab.id
                   ? 'border-accent-4 text-accent-4'
                   : 'border-transparent text-ink-400 hover:text-ink-700'
               }`}
             >
-              {tab === 'wallet' ? 'My Wallet' : tab === 'browse' ? 'Browse Services' : 'Convert RP'}
+              {tab.label}
             </button>
           ))}
         </nav>
       </div>
+
+      {/* Marketplace Tab - Redirect to full page */}
+      {activeTab === 'marketplace' && (
+        <div className="text-center py-8">
+          <p className="text-ink-500 mb-4">Opening marketplace...</p>
+          <a
+            href="/economy/timebank/marketplace"
+            className="inline-flex px-6 py-3 bg-brand-600 text-bg-1 font-semibold rounded-lg hover:bg-brand-700 transition-colors"
+          >
+            Go to Marketplace →
+          </a>
+          <script dangerouslySetInnerHTML={{ __html: `window.location.href = '/economy/timebank/marketplace';` }} />
+        </div>
+      )}
+
+      {/* My Services Tab - Redirect to full page */}
+      {activeTab === 'my-services' && (
+        <div className="text-center py-8">
+          <p className="text-ink-500 mb-4">Opening my services...</p>
+          <a
+            href="/economy/timebank/my-services"
+            className="inline-flex px-6 py-3 bg-brand-600 text-bg-1 font-semibold rounded-lg hover:bg-brand-700 transition-colors"
+          >
+            Go to My Services →
+          </a>
+          <script dangerouslySetInnerHTML={{ __html: `window.location.href = '/economy/timebank/my-services';` }} />
+        </div>
+      )}
 
       {/* Wallet Tab */}
       {activeTab === 'wallet' && account && (
