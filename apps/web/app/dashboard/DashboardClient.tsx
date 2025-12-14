@@ -24,6 +24,9 @@ interface EconomyData {
   sp: { available: number; total: number } | null;
   rp: { available: number; total_earned: number } | null;
   tbc: { balance: number } | null;
+  pendingRequests: number;
+  newReviews: number;
+  myServicesCount: number;
 }
 
 // Sample data that can be loaded on demand
@@ -186,23 +189,46 @@ const EMPTY_DATA = {
 export default function DashboardClient({ user }: { user: User }) {
   const [feedFilter, setFeedFilter] = useState<string>('all');
   const [showSampleData, setShowSampleData] = useState(false);
-  const [economy, setEconomy] = useState<EconomyData>({ sp: null, rp: null, tbc: null });
+  const [economy, setEconomy] = useState<EconomyData>({
+    sp: null,
+    rp: null,
+    tbc: null,
+    pendingRequests: 0,
+    newReviews: 0,
+    myServicesCount: 0,
+  });
 
   // Fetch economy data on mount
   useEffect(() => {
     async function loadEconomy() {
       try {
-        const [spRes, rpRes, tbcRes] = await Promise.all([
+        const [spRes, rpRes, tbcRes, txRes, servicesRes] = await Promise.all([
           fetch('/api/support-points/balance'),
           fetch('/api/reward-points/balance'),
           fetch('/api/timebank/account'),
+          fetch('/api/timebank/transactions?role=provider&status=pending&limit=10'),
+          fetch('/api/timebank/services?myServices=true&limit=100'),
         ]);
 
         const sp = spRes.ok ? (await spRes.json()).balance : null;
         const rp = rpRes.ok ? (await rpRes.json()).balance : null;
         const tbc = tbcRes.ok ? (await tbcRes.json()).account : null;
 
-        setEconomy({ sp, rp, tbc });
+        // Get pending requests count (where user is provider)
+        let pendingRequests = 0;
+        if (txRes.ok) {
+          const txData = await txRes.json();
+          pendingRequests = txData.transactions?.length || 0;
+        }
+
+        // Get my services count for context
+        let myServicesCount = 0;
+        if (servicesRes.ok) {
+          const servicesData = await servicesRes.json();
+          myServicesCount = servicesData.services?.length || 0;
+        }
+
+        setEconomy({ sp, rp, tbc, pendingRequests, newReviews: 0, myServicesCount });
       } catch {
         // Silently fail - economy data is optional
       }
@@ -343,6 +369,50 @@ export default function DashboardClient({ user }: { user: User }) {
                   </div>
                   <p className="text-xs text-ink-400 mt-1">Exchange skills & services</p>
                 </Link>
+
+                {/* Pending Service Requests */}
+                {economy.pendingRequests > 0 && (
+                  <Link href="/economy/timebank/my-services" className="block p-3 bg-joy-500/20 border border-joy-500/50 rounded-lg hover:bg-joy-500/30 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">📬</span>
+                        <span className="font-medium text-ink-900">Service Requests</span>
+                      </div>
+                      <span className="bg-joy-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                        {economy.pendingRequests}
+                      </span>
+                    </div>
+                    <p className="text-xs text-joy-700 mt-1">
+                      {economy.pendingRequests} pending request{economy.pendingRequests !== 1 ? 's' : ''} for your services
+                    </p>
+                  </Link>
+                )}
+
+                {/* My Services status */}
+                {economy.myServicesCount > 0 && (
+                  <Link href="/economy/timebank/my-services" className="block p-3 bg-bg-2 rounded-lg hover:bg-bg-0 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🛠️</span>
+                        <span className="font-medium text-ink-900">My Services</span>
+                      </div>
+                      <span className="text-sm text-ink-700">
+                        {economy.myServicesCount} listed
+                      </span>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Browse marketplace if no services */}
+                {economy.myServicesCount === 0 && (
+                  <Link href="/economy/timebank/marketplace" className="block p-3 bg-bg-2 rounded-lg hover:bg-bg-0 transition-colors">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🏪</span>
+                      <span className="font-medium text-ink-900">Browse Marketplace</span>
+                    </div>
+                    <p className="text-xs text-ink-400 mt-1">Find services or list your own</p>
+                  </Link>
+                )}
 
                 {/* Support Points */}
                 <Link href="/economy/support-points" className="block p-3 bg-joy-500/10 rounded-lg hover:bg-joy-500/20 transition-colors">
