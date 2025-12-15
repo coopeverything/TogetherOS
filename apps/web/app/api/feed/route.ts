@@ -141,12 +141,18 @@ export async function POST(request: NextRequest) {
     // Build post data with author and IP
     const isImportPost = 'sourceUrl' in validatedData && validatedData.sourceUrl
 
+    // Debug: log incoming mediaUrls
+    console.log('POST /api/feed - validatedData.mediaUrls:', (validatedData as any).mediaUrls)
+
     let postData: any = {
       ...validatedData,
       type: isImportPost ? 'import' : 'native',
       authorId: user.id,
       ip: clientIp,
     }
+
+    // Debug: log postData.mediaUrls
+    console.log('POST /api/feed - postData.mediaUrls:', postData.mediaUrls)
 
     // Fetch preview if this is an import post and preview not provided
     if (isImportPost && !body.preview) {
