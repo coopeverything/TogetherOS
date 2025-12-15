@@ -107,10 +107,6 @@ export async function POST(request: NextRequest) {
     // Parse and validate request body
     const body = await request.json().catch(() => ({}))
 
-    // Debug: log raw body received
-    console.log('POST /api/feed - RAW body:', JSON.stringify(body, null, 2))
-    console.log('POST /api/feed - body.mediaUrls:', body.mediaUrls)
-
     // Determine post type and validate with appropriate schema
     let validatedData: z.infer<typeof createNativePostSchema> | z.infer<typeof createImportPostSchema>
 
@@ -145,21 +141,12 @@ export async function POST(request: NextRequest) {
     // Build post data with author and IP
     const isImportPost = 'sourceUrl' in validatedData && validatedData.sourceUrl
 
-    // Debug: log after validation
-    console.log('POST /api/feed - VALIDATED data:', JSON.stringify(validatedData, null, 2))
-    console.log('POST /api/feed - validatedData.mediaUrls:', (validatedData as any).mediaUrls)
-    console.log('POST /api/feed - isImportPost:', isImportPost)
-
     let postData: any = {
       ...validatedData,
       type: isImportPost ? 'import' : 'native',
       authorId: user.id,
       ip: clientIp,
     }
-
-    // Debug: log postData before createPost
-    console.log('POST /api/feed - FINAL postData:', JSON.stringify(postData, null, 2))
-    console.log('POST /api/feed - postData.mediaUrls:', postData.mediaUrls)
 
     // Fetch preview if this is an import post and preview not provided
     if (isImportPost && !body.preview) {
