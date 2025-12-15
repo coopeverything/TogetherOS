@@ -58,6 +58,36 @@
 - **Never leave user wondering** if changes are live
 - Lesson learned: Pushed changes but didn't track/report deployment status (Dec 2025)
 
+**Fix Verification** (REQUIRED before claiming ANY fix is complete):
+- **See:** `.claude/skills/verify-fix/SKILL.md`
+- **NEVER say "fix deployed" or "it's fixed" until E2E verification passes**
+- Run: `./scripts/verify-fix.sh` after deployment
+- Maps code changes to relevant Playwright tests
+- Tests actual user flows against production
+- Lesson learned: Claimed fixes complete without verification, user found they didn't work (Dec 2025)
+
+**Anti-pattern (causes rework):**
+```
+Claude: *deploys fix*
+Claude: "Fix deployed! Image upload now works."
+User: *tests* "It still doesn't work"
+Claude: *finds real issue* *fixes* *deploys*
+Claude: "Now it's fixed!"
+User: *tests* "Still broken"
+... repeat ...
+```
+
+**Correct pattern:**
+```
+Claude: *deploys fix*
+Claude: *runs ./scripts/verify-fix.sh*
+Verification: FAILED - image not saved to database
+Claude: *finds real issue* *fixes* *deploys*
+Claude: *runs ./scripts/verify-fix.sh*
+Verification: PASSED
+Claude: "Fix verified. Image upload now works correctly."
+```
+
 ---
 
 ## Skill Execution Protocol
