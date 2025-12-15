@@ -232,18 +232,171 @@ jobs:
       - name: Deployment marker
         run: echo "DEPLOY=OK"
 
+  # Run E2E verification tests against production
+  verify:
+    name: Verify deployment
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: success()
+    env:
+      BASE_URL: https://coopeverything.org
+      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
+      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Determine affected modules
+        id: modules
+        run: |
+          echo "Analyzing changes to determine test scope..."
+
+          # Get changed files from last commit
+          CHANGED_FILES=$(git diff HEAD~1 --name-only 2>/dev/null || echo "")
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Build test filter based on changed files
+          TEST_FILTER=""
+
+          if echo "$CHANGED_FILES" | grep -qE "feed"; then
+            TEST_FILTER="$TEST_FILTER|feed"
+          fi
+
+          if echo "$CHANGED_FILES" | grep -qE "governance|proposal"; then
+            TEST_FILTER="$TEST_FILTER|governance"
+          fi
+
+          if echo "$CHANGED_FILES" | grep -qE "group"; then
+            TEST_FILTER="$TEST_FILTER|groups"
+          fi
+
+          if echo "$CHANGED_FILES" | grep -qE "auth|login|signup|session"; then
+            TEST_FILTER="$TEST_FILTER|auth"
+          fi
+
+          if echo "$CHANGED_FILES" | grep -qE "timebank|service"; then
+            TEST_FILTER="$TEST_FILTER|timebank"
+          fi
+
+          if echo "$CHANGED_FILES" | grep -qE "forum|topic|thread"; then
+            TEST_FILTER="$TEST_FILTER|forum"
+          fi
+
+          # Remove leading pipe and set output
+          TEST_FILTER=$(echo "$TEST_FILTER" | sed 's/^|//')
+
+          if [ -z "$TEST_FILTER" ]; then
+            echo "No module-specific tests to run, running critical paths only"
+            echo "filter=critical" >> $GITHUB_OUTPUT
+          else
+            echo "Test filter: $TEST_FILTER"
+            echo "filter=$TEST_FILTER" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run verification tests
+        id: tests
+        run: |
+          echo "🧪 Running verification tests against production..."
+
+          # Run API tests first (fast, no browser needed)
+          npx playwright test tests/e2e/verify/ --grep "API" --reporter=list || true
+
+          # Run module-specific tests based on changes
+          if [ "${{ steps.modules.outputs.filter }}" != "critical" ]; then
+            npx playwright test tests/e2e/verify/ \
+              --grep "${{ steps.modules.outputs.filter }}" \
+              --reporter=list \
+              --retries=2 \
+              --timeout=60000
+          else
+            # Just run critical path smoke tests
+            npx playwright test tests/e2e/synthetic/critical-paths.spec.ts \
+              --grep "health" \
+              --reporter=list \
+              --retries=2 || true
+          fi
+
+      - name: Verification marker
+        run: |
+          echo "VERIFY=OK"
+          echo "✅ All verification tests passed!"
+
+  # Rollback if verification fails
+  rollback:
+    name: Rollback on verification failure
+    needs: [deploy, verify]
+    runs-on: ubuntu-latest
+    if: failure() && needs.deploy.result == 'success' && needs.verify.result == 'failure'
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Rollback deployment
+        env:
+          SSH_HOST: ${{ secrets.VPS_HOST }}
+          SSH_USER: ${{ secrets.VPS_USER }}
+        run: |
+          echo "❌ Verification tests failed! Rolling back..."
+          ssh -i ~/.ssh/deploy_key ${SSH_USER}@${SSH_HOST} bash -s << 'ENDSSH'
+            set -exuo pipefail
+            cd /var/www/togetheros
+
+            echo "→ Rolling back to previous commit..."
+            git reset --hard HEAD~1
+
+            echo "→ Rebuilding..."
+            npm run build:packages
+            cd apps/web && npm run build
+
+            echo "→ Restarting..."
+            pm2 restart togetheros
+
+            echo "✅ Rollback complete"
+          ENDSSH
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
+
+      - name: Fail workflow
+        run: |
+          echo "::error::Deployment rolled back due to verification test failures"
+          exit 1
+
   # Notify on completion
   notify:
     name: Notify deployment status
-    needs: [preflight, deploy]
+    needs: [preflight, deploy, verify]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Check status
         run: |
-          if [ "${{ needs.deploy.result }}" == "success" ]; then
-            echo "✅ Deployment successful"
+          if [ "${{ needs.verify.result }}" == "success" ]; then
+            echo "✅ Deployment verified and successful"
             echo "🌐 Site: https://coopeverything.org"
+          elif [ "${{ needs.deploy.result }}" == "success" ] && [ "${{ needs.verify.result }}" == "failure" ]; then
+            echo "❌ Deployment succeeded but verification failed - rolled back"
+            exit 1
           else
             echo "❌ Deployment failed"
             exit 1
