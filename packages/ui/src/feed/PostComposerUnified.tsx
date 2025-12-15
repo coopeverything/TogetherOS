@@ -83,9 +83,13 @@ export function PostComposerUnified({
   const [uploadError, setUploadError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Reset form when modal opens with new initial data
+  // Track whether modal was previously open to detect actual open event
+  const wasOpenRef = useRef(false)
+
+  // Reset form when modal opens (NOT on every props change while open)
   useEffect(() => {
-    if (isOpen) {
+    // Only reset when modal actually opens (transition from closed to open)
+    if (isOpen && !wasOpenRef.current) {
       setTitle(initialTitle)
       setContent(initialContent)
       setSelectedTopics(initialTopics)
@@ -93,6 +97,7 @@ export function PostComposerUnified({
       setMediaUrls([])
       setUploadError(null)
     }
+    wasOpenRef.current = isOpen
   }, [isOpen, initialTitle, initialContent, initialTopics])
 
   // Real-time URL detection (debounced)
