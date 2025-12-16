@@ -331,6 +331,13 @@ else
 fi
 ```
 
+### 12.5. Run Verification Tests (MANDATORY)
+
+**Invoke `verify-deployment` skill** before claiming delivery:
+- Runs E2E tests against production
+- If FAIL: Fix issue, re-deploy, re-verify
+- If PASS: Proceed to delivery summary
+
 **Output final delivery summary:**
 ```
 ✅ Feature delivered:
@@ -572,6 +579,7 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 
 ## Related Skills
 
+- **verify-deployment**: E2E verification tests against production (invoked in step 12.5)
 - **pr-formatter**: PR creation, formatting, validation, AI feedback loop
 - **status-tracker**: Progress tracking, next steps management, Notion memory
 - **error-learner**: Session error analysis, cross-session pattern detection, KB updates
