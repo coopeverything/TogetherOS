@@ -9,6 +9,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/toast'
 import {
   ProposalView,
   VoteInterface,
@@ -30,6 +31,7 @@ export default function ProposalDetailPage() {
   const params = useParams()
   const id = params?.id as string
   const router = useRouter()
+  const { addToast } = useToast()
   const [proposal, setProposal] = useState<Proposal | null>(null)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -107,7 +109,11 @@ export default function ProposalDetailPage() {
       router.push('/governance')
     } catch (err: any) {
       console.error('Error deleting proposal:', err)
-      alert(err.message || 'Failed to delete proposal')
+      addToast({
+        title: 'Error',
+        description: err.message || 'Failed to delete proposal',
+        variant: 'danger',
+      })
     } finally {
       setIsDeleting(false)
     }
@@ -146,7 +152,11 @@ export default function ProposalDetailPage() {
   // Handle vote submission
   const handleVote = async (voteType: VoteType, reasoning?: string) => {
     if (!currentUserId) {
-      alert('You must be logged in to vote')
+      addToast({
+        title: 'Authentication Required',
+        description: 'You must be logged in to vote',
+        variant: 'warning',
+      })
       return
     }
 
@@ -167,7 +177,11 @@ export default function ProposalDetailPage() {
       await fetchVoteData()
     } catch (err: any) {
       console.error('Error casting vote:', err)
-      alert(err.message || 'Failed to cast vote')
+      addToast({
+        title: 'Error',
+        description: err.message || 'Failed to cast vote',
+        variant: 'danger',
+      })
       throw err
     } finally {
       setLoadingVote(false)
@@ -214,7 +228,11 @@ export default function ProposalDetailPage() {
     feedback?: string
   }) => {
     if (!currentUserId) {
-      alert('You must be logged in to rate')
+      addToast({
+        title: 'Authentication Required',
+        description: 'You must be logged in to rate',
+        variant: 'warning',
+      })
       return
     }
 
@@ -235,7 +253,11 @@ export default function ProposalDetailPage() {
       await fetchRatingData()
     } catch (err: any) {
       console.error('Error submitting rating:', err)
-      alert(err.message || 'Failed to submit rating')
+      addToast({
+        title: 'Error',
+        description: err.message || 'Failed to submit rating',
+        variant: 'danger',
+      })
       throw err
     } finally {
       setLoadingRating(false)
@@ -255,12 +277,12 @@ export default function ProposalDetailPage() {
   if (error || !proposal) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h2 className="text-sm font-semibold text-red-900 mb-2">Error</h2>
-          <p className="text-red-700 mb-4">{error || 'Proposal not found'}</p>
+        <div className="bg-danger-bg border border-danger/30 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-danger mb-2">Error</h2>
+          <p className="text-danger/80 mb-4">{error || 'Proposal not found'}</p>
           <Link
             href="/governance"
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium inline-block"
+            className="px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-brand-500 transition-colors font-medium inline-block"
           >
             Back to Proposals
           </Link>
@@ -273,7 +295,7 @@ export default function ProposalDetailPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
       {/* Breadcrumbs */}
       <nav className="mb-3 text-sm text-ink-700">
-        <Link href="/governance" className="hover:text-orange-600">
+        <Link href="/governance" className="hover:text-brand-600">
           Proposals
         </Link>
         <span className="mx-2">→</span>
@@ -341,12 +363,12 @@ export default function ProposalDetailPage() {
 
       {/* Login prompt for non-logged-in users */}
       {!currentUserId && (
-        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-          <h3 className="text-sm font-semibold text-blue-900 mb-2">Want to vote?</h3>
-          <p className="text-blue-700 mb-4">Log in to participate in this decision</p>
+        <div className="mt-12 bg-info-bg border border-info/30 rounded-lg p-4 text-center">
+          <h3 className="text-sm font-semibold text-info mb-2">Want to vote?</h3>
+          <p className="text-info/80 mb-4">Log in to participate in this decision</p>
           <Link
             href="/login"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium inline-block"
+            className="px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-brand-500 transition-colors font-medium inline-block"
           >
             Log In
           </Link>
@@ -357,9 +379,9 @@ export default function ProposalDetailPage() {
       <div className="mt-4">
         <Link
           href="/governance"
-          className="px-4 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-gray-300 transition-colors font-medium inline-block"
+          className="px-4 py-2 bg-bg-2 text-ink-900 rounded-md hover:bg-bg-3 transition-colors font-medium inline-block"
         >
-          ← Back to All Proposals
+          &larr; Back to All Proposals
         </Link>
       </div>
     </div>
