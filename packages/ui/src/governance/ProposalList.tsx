@@ -1,7 +1,7 @@
 /**
  * ProposalList Component
  *
- * Displays a filterable list of proposals
+ * Displays a filterable, sortable list of proposals
  */
 
 'use client'
@@ -9,6 +9,17 @@
 import { useState } from 'react'
 import type { Proposal, ProposalStatus, ProposalScopeType, ProposalRatingAggregate } from '@togetheros/types/governance'
 import { ProposalCard } from './ProposalCard'
+
+/** Sort field options */
+type SortField = 'sp' | 'urgency' | 'importance' | 'innovative'
+
+/** Sort button configuration */
+const SORT_CONFIG: Record<SortField, { label: string; color: string; tooltip: string }> = {
+  sp: { label: 'SP', color: 'brand', tooltip: 'Sort by Support Points' },
+  urgency: { label: '⏰', color: 'joy', tooltip: 'Sort by Urgency' },
+  importance: { label: '⭐', color: 'info', tooltip: 'Sort by Importance' },
+  innovative: { label: '💡', color: 'warning', tooltip: 'Sort by Innovation %' },
+}
 
 export interface ProposalListProps {
   /** List of proposals to display */
@@ -44,7 +55,9 @@ export function ProposalList({
 }: ProposalListProps) {
   const [statusFilter, setStatusFilter] = useState<ProposalStatus | 'all'>('all')
   const [scopeFilter, setScopeFilter] = useState<ProposalScopeType | 'all'>('all')
+  const [sortBy, setSortBy] = useState<SortField>('sp')
 
+  // Filter proposals
   const filteredProposals = proposals.filter((p) => {
     if (statusFilter !== 'all' && p.status !== statusFilter) {
       return false
@@ -54,6 +67,49 @@ export function ProposalList({
     }
     return true
   })
+
+  // Sort proposals (descending - highest first)
+  const sortedProposals = [...filteredProposals].sort((a, b) => {
+    const aggA = ratingAggregates[a.id]
+    const aggB = ratingAggregates[b.id]
+
+    switch (sortBy) {
+      case 'sp':
+        return (spTotals[b.id] || 0) - (spTotals[a.id] || 0)
+      case 'urgency':
+        return (aggB?.avgUrgency || 0) - (aggA?.avgUrgency || 0)
+      case 'importance':
+        return (aggB?.avgImportance || 0) - (aggA?.avgImportance || 0)
+      case 'innovative':
+        return (aggB?.innovativePercentage || 0) - (aggA?.innovativePercentage || 0)
+      default:
+        return 0
+    }
+  })
+
+  // Get button classes based on active state
+  const getSortButtonClasses = (field: SortField) => {
+    const isActive = sortBy === field
+    const config = SORT_CONFIG[field]
+
+    if (isActive) {
+      // Active state with color
+      switch (config.color) {
+        case 'brand':
+          return 'bg-brand-100 text-brand-700 ring-1 ring-brand-500/50'
+        case 'joy':
+          return 'bg-joy-100 text-joy-700 ring-1 ring-joy-500/50'
+        case 'info':
+          return 'bg-info-bg text-info ring-1 ring-info/50'
+        case 'warning':
+          return 'bg-warning-bg text-warning ring-1 ring-warning/50'
+        default:
+          return 'bg-bg-2 text-ink-700'
+      }
+    }
+    // Inactive state
+    return 'bg-bg-2 text-ink-400 hover:text-ink-700 hover:bg-bg-3'
+  }
 
   return (
     <div className={className}>
@@ -70,20 +126,18 @@ export function ProposalList({
         )}
       </div>
 
-      {/* Filters */}
+      {/* Filters & Sort */}
       <div className="mb-3 space-y-2">
-        <div className="flex flex-wrap gap-4">
-          {/* Status Filter */}
-          <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-ink-700 mb-2">
-              Status
-            </label>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Compact Status Filter */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-ink-400">Status</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as ProposalStatus | 'all')}
-              className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="px-2 py-1 text-sm border border-border rounded bg-bg-1 text-ink-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
             >
-              <option value="all">All Statuses</option>
+              <option value="all">All</option>
               <option value="draft">Draft</option>
               <option value="research">Research</option>
               <option value="deliberation">Deliberation</option>
@@ -95,31 +149,44 @@ export function ProposalList({
             </select>
           </div>
 
-          {/* Scope Filter */}
-          <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-ink-700 mb-2">
-              Scope
-            </label>
+          {/* Compact Scope Filter */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-ink-400">Scope</span>
             <select
               value={scopeFilter}
               onChange={(e) => setScopeFilter(e.target.value as ProposalScopeType | 'all')}
-              className="w-full px-3 py-2 border border-border rounded-md bg-bg-1 text-ink-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="px-2 py-1 text-sm border border-border rounded bg-bg-1 text-ink-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
             >
-              <option value="all">All Types</option>
+              <option value="all">All</option>
               <option value="individual">Individual</option>
               <option value="group">Group</option>
             </select>
+          </div>
+
+          {/* Sort Buttons */}
+          <div className="flex items-center gap-1.5 ml-auto">
+            <span className="text-xs text-ink-400">Sort:</span>
+            {(Object.keys(SORT_CONFIG) as SortField[]).map((field) => (
+              <button
+                key={field}
+                onClick={() => setSortBy(field)}
+                title={SORT_CONFIG[field].tooltip}
+                className={`px-2 py-1 text-xs rounded transition-all ${getSortButtonClasses(field)}`}
+              >
+                {SORT_CONFIG[field].label}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Results Count */}
         <div className="text-sm text-ink-400">
-          Showing {filteredProposals.length} of {proposals.length} proposals
+          Showing {sortedProposals.length} of {proposals.length} proposals
         </div>
       </div>
 
       {/* Proposals List */}
-      {filteredProposals.length === 0 ? (
+      {sortedProposals.length === 0 ? (
         <div className="text-center py-6 bg-bg-2 rounded-lg border border-border">
           <p className="text-ink-400 text-sm mb-2">No proposals found</p>
           <p className="text-ink-400 text-sm">
@@ -138,7 +205,7 @@ export function ProposalList({
         </div>
       ) : (
         <div className="space-y-2">
-          {filteredProposals.map((proposal) => (
+          {sortedProposals.map((proposal) => (
             <ProposalCard
               key={proposal.id}
               proposal={proposal}

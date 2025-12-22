@@ -41,7 +41,8 @@ export const postStatusSchema = z.enum([
  * Create native post schema
  */
 export const createNativePostSchema = z.object({
-  title: z.string().min(10).max(200).optional(),
+  // Title is optional, but if provided must be 3-200 chars
+  title: z.string().min(3).max(200).optional(),
   content: z.string().min(1).max(5000),
   topics: z.array(z.string().min(1).max(100)).max(5).default([]),
   groupId: z.string().uuid().optional(),
@@ -91,7 +92,7 @@ export const postSchema = z.object({
   groupId: z.string().uuid().optional(),
 
   // Native post fields
-  title: z.string().min(10).max(200).optional(),
+  title: z.string().min(3).max(200).optional(),
   content: z.string().min(1).max(5000).optional(),
   embeddedUrls: z.array(embeddedUrlSchema).optional(),
   mediaUrls: z.array(z.string()).optional(),

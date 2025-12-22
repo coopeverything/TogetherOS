@@ -16,16 +16,18 @@ export default function ForumPage() {
   const [isComposerOpen, setIsComposerOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Pre-fill values from URL params (for wiki/article discussion links)
+  // Pre-fill values from URL params (for wiki/article discussion links or proposals)
   const initialTitle = searchParams.get('title') || ''
   const initialDescription = searchParams.get('description') || ''
+  const initialCategory = searchParams.get('category') || 'general'
+  const proposalId = searchParams.get('proposalId') || ''
 
   useEffect(() => {
     fetchTopics()
     fetchCurrentUser()
 
-    // Auto-open composer if title is provided in URL
-    if (searchParams.get('newTopic') === 'true' || searchParams.get('title')) {
+    // Auto-open composer if new=true or title is provided in URL
+    if (searchParams.get('new') === 'true' || searchParams.get('newTopic') === 'true' || searchParams.get('title')) {
       setIsComposerOpen(true)
     }
   }, [searchParams])
@@ -292,6 +294,7 @@ export default function ForumPage() {
         isSubmitting={isSubmitting}
         initialTitle={initialTitle}
         initialDescription={initialDescription}
+        initialCategory={initialCategory as any}
       />
     </>
   )
