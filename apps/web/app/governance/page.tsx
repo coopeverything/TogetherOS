@@ -40,15 +40,32 @@ export default function GovernancePage() {
         }
 
         const data = await response.json()
-        setProposals(data.proposals || [])
+        const proposals = data.proposals || []
+        setProposals(proposals)
 
-        // TODO: Fetch author names from user API
-        // For now, use placeholder names
-        const names: Record<string, string> = {}
-        data.proposals?.forEach((p: Proposal) => {
-          names[p.authorId] = `User ${p.authorId.slice(0, 8)}`
-        })
-        setAuthorNames(names)
+        // Fetch author names from user API
+        if (proposals.length > 0) {
+          const authorIds = [...new Set(proposals.map((p: Proposal) => p.authorId))]
+          try {
+            const namesResponse = await fetch('/api/users/names', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ userIds: authorIds }),
+            })
+            if (namesResponse.ok) {
+              const namesData = await namesResponse.json()
+              setAuthorNames(namesData.names || {})
+            }
+          } catch (err) {
+            console.error('Failed to fetch author names:', err)
+            // Fall back to placeholder names
+            const names: Record<string, string> = {}
+            proposals.forEach((p: Proposal) => {
+              names[p.authorId] = `User ${p.authorId.slice(0, 8)}`
+            })
+            setAuthorNames(names)
+          }
+        }
       } catch (err: any) {
         console.error('Error fetching data:', err)
         setError(err.message || 'Failed to load proposals')
