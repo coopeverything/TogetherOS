@@ -11,6 +11,8 @@ export interface AllocationSliderProps {
   onAllocate: (amount: number) => Promise<void>
   onReclaim?: () => Promise<void>
   className?: string
+  /** Compact mode: no Card wrapper, minimal styling for embedding in other components */
+  compact?: boolean
 }
 
 export function AllocationSlider({
@@ -20,7 +22,8 @@ export function AllocationSlider({
   currentAllocation = 0,
   onAllocate,
   onReclaim,
-  className = ''
+  className = '',
+  compact = false
 }: AllocationSliderProps) {
   const [amount, setAmount] = useState(currentAllocation)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -75,6 +78,91 @@ export function AllocationSlider({
   const hasAllocation = currentAllocation > 0
   const isAmountChanged = amount !== currentAllocation
 
+  const content = (
+    <div className={compact ? 'space-y-3' : 'space-y-2'}>
+      {/* Allocation Slider */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium text-ink-700">
+            Support Points
+          </span>
+          <span className="text-sm font-bold text-brand-600">
+            {amount} SP
+          </span>
+        </div>
+
+        <Slider
+          value={[amount]}
+          onValueChange={handleSliderChange}
+          min={0}
+          max={10}
+          step={1}
+          disabled={isSubmitting}
+          className="w-full"
+        />
+
+        <div className="flex justify-between text-xs text-ink-400">
+          <span>0</span>
+          <span>5</span>
+          <span>10</span>
+        </div>
+      </div>
+
+      {/* Available SP Info - Compact */}
+      <div className="flex items-center justify-between text-xs">
+        <span className="text-ink-400">
+          Available: <span className="font-medium text-ink-700">{availableSP} SP</span>
+        </span>
+        {hasAllocation && (
+          <span className="text-ink-400">
+            Allocated: <span className="font-medium text-brand-600">{currentAllocation} SP</span>
+          </span>
+        )}
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="bg-danger-bg border border-danger/30 rounded p-2">
+          <p className="text-xs text-danger">{error}</p>
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      <div className="flex gap-2">
+        {hasAllocation && (
+          <Button
+            variant="joy"
+            size="sm"
+            onClick={handleReclaim}
+            disabled={isSubmitting}
+            className="flex-1 text-xs"
+          >
+            {isSubmitting ? '...' : 'Reclaim'}
+          </Button>
+        )}
+        <Button
+          variant="default"
+          size="sm"
+          onClick={handleAllocate}
+          disabled={isSubmitting || amount === 0 || !isAmountChanged}
+          className={`text-xs ${hasAllocation ? 'flex-1' : 'w-full'}`}
+        >
+          {isSubmitting
+            ? '...'
+            : hasAllocation
+            ? 'Update'
+            : 'Allocate SP'}
+        </Button>
+      </div>
+    </div>
+  )
+
+  // Compact mode: no Card wrapper
+  if (compact) {
+    return <div className={className}>{content}</div>
+  }
+
+  // Full mode: with Card wrapper (for standalone use)
   return (
     <Card className={className}>
       <CardHeader className="pb-3">
@@ -83,103 +171,20 @@ export function AllocationSlider({
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-2">
+      <CardContent>
         {/* Proposal Title */}
-        <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg p-3">
-          <p className="text-sm font-medium text-gray-900 dark:text-white">
+        <div className="bg-bg-2 rounded-lg p-3 mb-3">
+          <p className="text-sm font-medium text-ink-900">
             {proposalTitle}
           </p>
         </div>
 
-        {/* Allocation Slider */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400">
-              Amount to allocate
-            </span>
-            <span className="text-sm font-bold text-blue-600">
-              {amount} SP
-            </span>
-          </div>
+        {content}
 
-          <Slider
-            value={[amount]}
-            onValueChange={handleSliderChange}
-            min={0}
-            max={10}
-            step={1}
-            disabled={isSubmitting}
-            className="w-full"
-          />
-
-          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500">
-            <span>0</span>
-            <span>5</span>
-            <span>10</span>
-          </div>
-        </div>
-
-        {/* Available SP Info */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700 dark:text-gray-300">
-              Available SP
-            </span>
-            <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
-              {availableSP} SP
-            </span>
-          </div>
-          {hasAllocation && (
-            <div className="flex items-center justify-between mt-2 pt-2 border-t border-blue-200 dark:border-blue-800">
-              <span className="text-sm text-gray-700 dark:text-gray-300">
-                Currently Allocated
-              </span>
-              <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
-                {currentAllocation} SP
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
-            <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          {hasAllocation && (
-            <Button
-              variant="joy"
-              size="sm"
-              onClick={handleReclaim}
-              disabled={isSubmitting}
-              className="flex-1"
-            >
-              {isSubmitting ? 'Processing...' : 'Reclaim All'}
-            </Button>
-          )}
-          <Button
-            variant="default"
-            size="sm"
-            onClick={handleAllocate}
-            disabled={isSubmitting || amount === 0 || !isAmountChanged}
-            className={hasAllocation ? 'flex-1' : 'w-full'}
-          >
-            {isSubmitting
-              ? 'Processing...'
-              : hasAllocation
-              ? 'Update Allocation'
-              : 'Allocate SP'}
-          </Button>
-        </div>
-
-        {/* Anti-Plutocracy Notice */}
-        <div className="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
+        {/* Anti-Plutocracy Notice - Only in full mode */}
+        <div className="text-xs text-ink-400 pt-3 mt-3 border-t border-border">
           <p className="flex items-start gap-1">
-            <span className="text-blue-600 dark:text-blue-400">ℹ️</span>
+            <span className="text-info">ℹ️</span>
             <span>
               Support Points signal priorities, not purchasing power. Each member can
               allocate 1-10 SP per proposal. SP is reclaimed when proposals close.

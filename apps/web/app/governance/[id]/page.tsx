@@ -48,6 +48,7 @@ export default function ProposalDetailPage() {
   const [currentRating, setCurrentRating] = useState<ProposalRating | null>(null)
   const [ratingAggregate, setRatingAggregate] = useState<ProposalRatingAggregate | null>(null)
   const [loadingRating, setLoadingRating] = useState(false)
+  const [totalSPAllocated, setTotalSPAllocated] = useState<number>(0)
 
   const isAuthor = proposal && currentUserId ? proposal.authorId === currentUserId : false
 
@@ -224,6 +225,13 @@ export default function ProposalDetailPage() {
         const { aggregate } = await aggregateResponse.json()
         setRatingAggregate(aggregate)
       }
+
+      // Fetch total SP allocated to this proposal
+      const spResponse = await fetch(`/api/proposals/${id}/sp-total`)
+      if (spResponse.ok) {
+        const { total } = await spResponse.json()
+        setTotalSPAllocated(total || 0)
+      }
     } catch (err) {
       console.error('Error fetching rating data:', err)
     }
@@ -320,54 +328,61 @@ export default function ProposalDetailPage() {
         <span className="text-ink-900">{proposal.title}</span>
       </nav>
 
-      {/* Proposal View */}
-      <ProposalView
-        proposal={proposal}
-        authorName={authorName || `User ${proposal.authorId.slice(0, 8)}`}
-        isAuthor={isAuthor}
-        onEdit={isAuthor ? handleEdit : undefined}
-        onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
-      />
-
-      {/* Support Points Allocation Widget */}
-      {currentUserId && (
-        <div className="mt-4">
-          <ProposalAllocationWidget
-            proposalId={id}
-            proposalTitle={proposal.title}
+      {/* Main Content: Proposal + Rating Panel side-by-side on desktop */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Proposal View - Main Content */}
+        <div className="flex-1 min-w-0">
+          <ProposalView
+            proposal={proposal}
+            authorName={authorName || `User ${proposal.authorId.slice(0, 8)}`}
+            isAuthor={isAuthor}
+            onEdit={isAuthor ? handleEdit : undefined}
+            onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
           />
         </div>
-      )}
 
-      {/* Rating Section */}
-      <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Rating Display */}
-        {ratingAggregate && (
-          <div className="bg-bg-1 rounded-lg border border-border p-4">
-            <h2 className="text-sm font-bold text-ink-900 mb-3">Community Ratings</h2>
-            <ProposalRatingDisplay aggregate={ratingAggregate} />
-          </div>
-        )}
-
-        {/* Rating Form */}
+        {/* Rating Panel - Sticky Sidebar */}
         {currentUserId && (
-          <div className="bg-bg-1 rounded-lg border border-border p-4">
-            <h2 className="text-sm font-bold text-ink-900 mb-3">
-              {currentRating ? 'Update Your Rating' : 'Rate This Proposal'}
-            </h2>
-            <ProposalRatingForm
-              proposalId={id}
-              currentRating={currentRating}
-              onSubmit={handleRating}
-              disabled={loadingRating}
-            />
+          <div className="lg:w-64 lg:flex-shrink-0">
+            <div className="lg:sticky lg:top-4 bg-bg-1 rounded-lg border border-border p-4 space-y-4">
+              <h2 className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                {currentRating ? 'Update Rating' : 'Rate This Proposal'}
+              </h2>
+
+              {/* Rating Form - Compact vertical */}
+              <ProposalRatingForm
+                proposalId={id}
+                currentRating={currentRating}
+                onSubmit={handleRating}
+                disabled={loadingRating}
+                compact={true}
+              />
+
+              {/* Divider */}
+              <div className="border-t border-border" />
+
+              {/* SP Allocation - Compact, integrated */}
+              <ProposalAllocationWidget
+                proposalId={id}
+                proposalTitle={proposal.title}
+                compact={true}
+              />
+            </div>
           </div>
         )}
       </div>
 
+      {/* Community Ratings Display - Below main content */}
+      {ratingAggregate && (
+        <div className="mt-8 bg-bg-1 rounded-lg border border-border p-4">
+          <h2 className="text-sm font-bold text-ink-900 mb-3">Community Ratings</h2>
+          <ProposalRatingDisplay aggregate={ratingAggregate} totalSPAllocated={totalSPAllocated} />
+        </div>
+      )}
+
       {/* Voting Interface */}
       {currentUserId && voteTally && (
-        <div className="mt-12 bg-bg-1 rounded-lg border border-border p-4">
+        <div className="mt-8 bg-bg-1 rounded-lg border border-border p-4">
           <h2 className="text-sm font-bold text-ink-900 mb-3">Vote on This Proposal</h2>
           <VoteInterface
             proposalId={id}
@@ -381,9 +396,9 @@ export default function ProposalDetailPage() {
 
       {/* Login prompt for non-logged-in users */}
       {!currentUserId && (
-        <div className="mt-12 bg-info-bg border border-info/30 rounded-lg p-4 text-center">
-          <h3 className="text-sm font-semibold text-info mb-2">Want to vote?</h3>
-          <p className="text-info/80 mb-4">Log in to participate in this decision</p>
+        <div className="mt-8 bg-info-bg border border-info/30 rounded-lg p-4 text-center">
+          <h3 className="text-sm font-semibold text-info mb-2">Want to participate?</h3>
+          <p className="text-info/80 mb-4">Log in to rate and vote on proposals</p>
           <Link
             href="/login"
             className="px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-brand-500 transition-colors font-medium inline-block"

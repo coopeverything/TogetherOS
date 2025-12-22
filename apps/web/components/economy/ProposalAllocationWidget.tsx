@@ -7,12 +7,15 @@ export interface ProposalAllocationWidgetProps {
   proposalId: string
   proposalTitle: string
   className?: string
+  /** Compact mode for embedding in rating panel */
+  compact?: boolean
 }
 
 export function ProposalAllocationWidget({
   proposalId,
   proposalTitle,
-  className = ''
+  className = '',
+  compact = false
 }: ProposalAllocationWidgetProps) {
   const [availableSP, setAvailableSP] = useState(0)
   const [currentAllocation, setCurrentAllocation] = useState(0)
@@ -89,11 +92,11 @@ export function ProposalAllocationWidget({
 
   if (loading) {
     return (
-      <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 p-4 ${className}`}>
+      <div className={`${compact ? '' : 'bg-bg-1 rounded-lg shadow-sm border border-border p-4'} ${className}`}>
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+          <div className="h-4 bg-bg-2 rounded w-1/3 mb-3"></div>
+          <div className="h-6 bg-bg-2 rounded mb-3"></div>
+          <div className="h-4 bg-bg-2 rounded w-1/2"></div>
         </div>
       </div>
     )
@@ -101,8 +104,8 @@ export function ProposalAllocationWidget({
 
   if (error) {
     return (
-      <div className={`bg-red-50 border border-red-200 rounded-lg p-4 ${className}`}>
-        <p className="text-sm text-red-700">{error}</p>
+      <div className={`bg-danger-bg border border-danger/30 rounded-lg p-3 ${className}`}>
+        <p className="text-xs text-danger">{error}</p>
       </div>
     )
   }
@@ -116,6 +119,7 @@ export function ProposalAllocationWidget({
       onAllocate={handleAllocate}
       onReclaim={handleReclaim}
       className={className}
+      compact={compact}
     />
   )
 }
