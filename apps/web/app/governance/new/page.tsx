@@ -105,12 +105,12 @@ export default function NewProposalPage() {
   if (!currentUserId) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <h2 className="text-sm font-semibold text-yellow-900 mb-2">Authentication Required</h2>
-          <p className="text-yellow-700 mb-4">You must be logged in to create proposals.</p>
+        <div className="bg-warning-bg border border-warning/30 rounded-lg p-4">
+          <h2 className="text-sm font-semibold text-warning mb-2">Authentication Required</h2>
+          <p className="text-warning/80 mb-4">You must be logged in to create proposals.</p>
           <button
             onClick={() => router.push('/login?redirect=/governance/new')}
-            className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors font-medium"
+            className="px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-brand-500 transition-colors font-medium"
           >
             Log In
           </button>
@@ -124,7 +124,7 @@ export default function NewProposalPage() {
       {/* Header */}
       <div className="mb-4">
         <nav className="mb-4 text-sm text-ink-700">
-          <Link href="/governance" className="hover:text-orange-600">
+          <Link href="/governance" className="hover:text-brand-600">
             Proposals
           </Link>
           <span className="mx-2">→</span>
@@ -138,8 +138,8 @@ export default function NewProposalPage() {
 
       {/* Error Display */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-3">
-          <p className="text-red-700">{error}</p>
+        <div className="bg-danger-bg border border-danger/30 rounded-lg p-4 mb-3">
+          <p className="text-danger">{error}</p>
         </div>
       )}
 
@@ -155,23 +155,23 @@ export default function NewProposalPage() {
       </div>
 
       {/* Help Text */}
-      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h2 className="text-sm font-semibold text-blue-900 mb-2">Tips for Good Proposals</h2>
-        <ul className="space-y-2 text-sm text-blue-800">
+      <div className="mt-6 bg-info-bg border border-info/30 rounded-lg p-4">
+        <h2 className="text-sm font-semibold text-info mb-2">Tips for Good Proposals</h2>
+        <ul className="space-y-2 text-sm text-info/80">
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span><strong>Be specific:</strong> Clear, concrete proposals are easier to evaluate and implement</span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span><strong>Explain the why:</strong> Help others understand the problem you're solving</span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span><strong>Consider impacts:</strong> Think about who this affects and how</span>
           </li>
           <li className="flex items-start">
-            <span className="text-blue-600 mr-2">•</span>
+            <span className="text-info mr-2">•</span>
             <span><strong>Start small:</strong> You can always expand and refine as you gather feedback</span>
           </li>
         </ul>

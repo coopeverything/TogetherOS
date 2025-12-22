@@ -107,8 +107,13 @@ export async function PUT(
     const { id: proposalId } = await params
     const body = await request.json()
 
-    // TODO: Add moderator/admin check
-    // For now, any authenticated user can edit
+    // Only admins/moderators can update minority reports
+    if (!user.is_admin) {
+      return NextResponse.json(
+        { error: 'Only moderators can update minority reports' },
+        { status: 403 }
+      )
+    }
 
     if (!body.report || typeof body.report !== 'string') {
       return NextResponse.json(
