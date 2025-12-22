@@ -13,12 +13,12 @@ import { ProposalCard } from './ProposalCard'
 /** Sort field options */
 type SortField = 'sp' | 'urgency' | 'importance' | 'innovative'
 
-/** Sort button configuration */
-const SORT_CONFIG: Record<SortField, { label: string; color: string; tooltip: string }> = {
-  sp: { label: 'SP', color: 'brand', tooltip: 'Sort by Support Points' },
-  urgency: { label: '⏰', color: 'joy', tooltip: 'Sort by Urgency' },
-  importance: { label: '⭐', color: 'info', tooltip: 'Sort by Importance' },
-  innovative: { label: '💡', color: 'warning', tooltip: 'Sort by Innovation %' },
+/** Sort button configuration - color blocks with name on hover */
+const SORT_CONFIG: Record<SortField, { color: string; name: string }> = {
+  sp: { color: 'brand', name: 'Support Points' },
+  urgency: { color: 'joy', name: 'Urgency' },
+  importance: { color: 'info', name: 'Importance' },
+  innovative: { color: 'warning', name: 'Innovative' },
 }
 
 export interface ProposalListProps {
@@ -87,28 +87,33 @@ export function ProposalList({
     }
   })
 
-  // Get button classes based on active state
+  // Get button classes - solid color blocks
   const getSortButtonClasses = (field: SortField) => {
     const isActive = sortBy === field
     const config = SORT_CONFIG[field]
 
-    if (isActive) {
-      // Active state with color
-      switch (config.color) {
-        case 'brand':
-          return 'bg-brand-100 text-brand-700 ring-1 ring-brand-500/50'
-        case 'joy':
-          return 'bg-joy-100 text-joy-700 ring-1 ring-joy-500/50'
-        case 'info':
-          return 'bg-info-bg text-info ring-1 ring-info/50'
-        case 'warning':
-          return 'bg-warning-bg text-warning ring-1 ring-warning/50'
-        default:
-          return 'bg-bg-2 text-ink-700'
-      }
+    // Base color classes for each type
+    const colorClasses: Record<string, { active: string; inactive: string }> = {
+      brand: {
+        active: 'bg-brand-600 ring-2 ring-brand-400',
+        inactive: 'bg-brand-400 opacity-40 hover:opacity-70',
+      },
+      joy: {
+        active: 'bg-joy-500 ring-2 ring-joy-300',
+        inactive: 'bg-joy-400 opacity-40 hover:opacity-70',
+      },
+      info: {
+        active: 'bg-info ring-2 ring-info/50',
+        inactive: 'bg-info opacity-40 hover:opacity-70',
+      },
+      warning: {
+        active: 'bg-warning ring-2 ring-warning/50',
+        inactive: 'bg-warning opacity-40 hover:opacity-70',
+      },
     }
-    // Inactive state
-    return 'bg-bg-2 text-ink-400 hover:text-ink-700 hover:bg-bg-3'
+
+    const classes = colorClasses[config.color] || colorClasses.brand
+    return isActive ? classes.active : classes.inactive
   }
 
   return (
@@ -163,18 +168,17 @@ export function ProposalList({
             </select>
           </div>
 
-          {/* Sort Buttons */}
-          <div className="flex items-center gap-1.5 ml-auto">
-            <span className="text-xs text-ink-400">Sort:</span>
+          {/* Sort Buttons - color blocks */}
+          <div className="flex items-center gap-1 ml-auto">
+            <span className="text-xs text-ink-400 mr-1">Sort:</span>
             {(Object.keys(SORT_CONFIG) as SortField[]).map((field) => (
               <button
                 key={field}
                 onClick={() => setSortBy(field)}
-                title={SORT_CONFIG[field].tooltip}
-                className={`px-2 py-1 text-xs rounded transition-all ${getSortButtonClasses(field)}`}
-              >
-                {SORT_CONFIG[field].label}
-              </button>
+                title={SORT_CONFIG[field].name}
+                className={`w-5 h-5 rounded transition-all cursor-pointer ${getSortButtonClasses(field)}`}
+                aria-label={`Sort by ${SORT_CONFIG[field].name}`}
+              />
             ))}
           </div>
         </div>
