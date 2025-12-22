@@ -298,9 +298,9 @@ export default function DashboardClient({ user }: { user: User }) {
                         </div>
                       </div>
                     ))}
-                    <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                    <Link href="/groups" className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block text-center">
                       Browse All Groups →
-                    </button>
+                    </Link>
                   </div>
                 </CollapsibleModule>
               </SampleContainer>
@@ -309,9 +309,9 @@ export default function DashboardClient({ user }: { user: User }) {
                 <div className="text-center py-6 text-ink-400">
                   <div className="text-2xl mb-2">👥</div>
                   <p className="text-sm">No groups yet</p>
-                  <button className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <Link href="/groups" className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block">
                     Browse Groups →
-                  </button>
+                  </Link>
                 </div>
               </CollapsibleModule>
             )}
@@ -460,9 +460,9 @@ export default function DashboardClient({ user }: { user: User }) {
                         <span className="text-ink-700">({priority.weight}/10)</span>
                       </div>
                     ))}
-                    <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3">
+                    <Link href="/profile" className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3 block text-center">
                       Manage Priorities →
-                    </button>
+                    </Link>
                   </div>
                 </CollapsibleModule>
               </SampleContainer>
@@ -471,9 +471,9 @@ export default function DashboardClient({ user }: { user: User }) {
                 <div className="text-center py-6 text-ink-400">
                   <div className="text-2xl mb-2">🎯</div>
                   <p className="text-sm">No priorities set</p>
-                  <button className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <Link href="/profile" className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block">
                     Set Priorities →
-                  </button>
+                  </Link>
                 </div>
               </CollapsibleModule>
             )}
@@ -489,9 +489,9 @@ export default function DashboardClient({ user }: { user: User }) {
                         <span className="text-ink-900">{path.name}</span>
                       </div>
                     ))}
-                    <button className="w-full text-sm text-joy-600 hover:text-joy-500 font-medium mt-3">
+                    <Link href="/profile" className="w-full text-sm text-joy-600 hover:text-joy-500 font-medium mt-3 block text-center">
                       + Add more paths
-                    </button>
+                    </Link>
                   </div>
                 </CollapsibleModule>
               </SampleContainer>
@@ -500,9 +500,9 @@ export default function DashboardClient({ user }: { user: User }) {
                 <div className="text-center py-6 text-ink-400">
                   <div className="text-2xl mb-2">🛤️</div>
                   <p className="text-sm">No paths selected</p>
-                  <button className="text-sm text-joy-600 hover:text-joy-500 font-medium mt-2">
+                  <Link href="/profile" className="text-sm text-joy-600 hover:text-joy-500 font-medium mt-2 block">
                     + Choose paths
-                  </button>
+                  </Link>
                 </div>
               </CollapsibleModule>
             )}
@@ -526,9 +526,9 @@ export default function DashboardClient({ user }: { user: User }) {
                         </div>
                       </div>
                     ))}
-                    <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3">
+                    <Link href="/groups" className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-3 block text-center">
                       View Full Map →
-                    </button>
+                    </Link>
                   </div>
                 </CollapsibleModule>
               </SampleContainer>
@@ -702,12 +702,12 @@ export default function DashboardClient({ user }: { user: User }) {
                   Join groups and follow topics to see posts here
                 </p>
                 <div className="flex gap-3 justify-center">
-                  <button className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
+                  <Link href="/groups" className="px-4 py-2 bg-brand-600 text-bg-1 rounded-lg hover:opacity-90 transition-colors">
                     Browse Groups
-                  </button>
-                  <button className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-0 transition-colors">
+                  </Link>
+                  <Link href="/forum" className="px-4 py-2 bg-bg-2 text-ink-700 rounded-lg hover:bg-bg-0 transition-colors">
                     Explore Topics
-                  </button>
+                  </Link>
                 </div>
               </div>
             )}
@@ -754,9 +754,9 @@ export default function DashboardClient({ user }: { user: User }) {
                         </button>
                       </div>
                     ))}
-                    <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                    <Link href="/groups" className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block text-center">
                       View All Events →
-                    </button>
+                    </Link>
                   </div>
                 </CollapsibleModule>
               </SampleContainer>
@@ -765,9 +765,9 @@ export default function DashboardClient({ user }: { user: User }) {
                 <div className="text-center py-6 text-ink-400">
                   <div className="text-2xl mb-2">📅</div>
                   <p className="text-sm">No upcoming events</p>
-                  <button className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <Link href="/groups" className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block">
                     Browse Events →
-                  </button>
+                  </Link>
                 </div>
               </CollapsibleModule>
             )}
@@ -799,9 +799,9 @@ export default function DashboardClient({ user }: { user: User }) {
                 <div className="text-center py-6 text-ink-400">
                   <div className="text-2xl mb-2">🗳️</div>
                   <p className="text-sm">No active votes</p>
-                  <button className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                  <Link href="/governance" className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block">
                     View Proposals →
-                  </button>
+                  </Link>
                 </div>
               </CollapsibleModule>
             )}
@@ -823,9 +823,9 @@ export default function DashboardClient({ user }: { user: User }) {
                         </button>
                       </div>
                     ))}
-                    <button className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
+                    <Link href="/groups" className="w-full text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block text-center">
                       Explore Groups →
-                    </button>
+                    </Link>
                   </div>
                 </CollapsibleModule>
               </SampleContainer>
@@ -834,10 +834,8 @@ export default function DashboardClient({ user }: { user: User }) {
                 <div className="text-center py-6 text-ink-400">
                   <div className="text-2xl mb-2">🔍</div>
                   <p className="text-sm">Complete your profile to get recommendations</p>
-                  <Link href="/profile">
-                    <button className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2">
-                      Update Profile →
-                    </button>
+                  <Link href="/profile" className="text-sm text-brand-600 hover:text-brand-500 font-medium mt-2 block">
+                    Update Profile →
                   </Link>
                 </div>
               </CollapsibleModule>

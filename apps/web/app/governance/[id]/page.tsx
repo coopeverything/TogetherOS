@@ -339,6 +339,30 @@ export default function ProposalDetailPage() {
             onEdit={isAuthor ? handleEdit : undefined}
             onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
           />
+
+          {/* Discuss in Forum */}
+          <div className="mt-4 bg-bg-1 rounded-lg border border-border p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-semibold text-ink-900">Join the Discussion</h3>
+                <p className="text-sm text-ink-700 mt-1">
+                  {proposal.sourceTopicId
+                    ? 'This proposal originated from a forum discussion.'
+                    : 'Discuss this proposal with the community in the forum.'}
+                </p>
+              </div>
+              <Link
+                href={
+                  proposal.sourceTopicId
+                    ? `/forum/${proposal.sourceTopicId}`
+                    : `/forum?new=true&category=deliberation&proposalId=${id}&title=${encodeURIComponent(`Discussion: ${proposal.title}`)}`
+                }
+                className="px-4 py-2 bg-accent-3 text-white rounded-md hover:bg-accent-3/80 transition-colors font-medium whitespace-nowrap"
+              >
+                {proposal.sourceTopicId ? 'View Discussion' : 'Start Discussion'}
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Rating Panel - Sticky Sidebar */}

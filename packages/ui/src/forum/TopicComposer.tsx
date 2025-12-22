@@ -30,6 +30,9 @@ export interface TopicComposerProps {
   /** Optional initial description */
   initialDescription?: string
 
+  /** Optional initial category (for pre-selecting, e.g. 'deliberation' from proposals) */
+  initialCategory?: TopicCategory
+
   /** Optional CSS class name */
   className?: string
 }
@@ -103,11 +106,12 @@ export function TopicComposer({
   isSubmitting = false,
   initialTitle = '',
   initialDescription = '',
+  initialCategory = 'general',
   className = '',
 }: TopicComposerProps) {
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
-  const [category, setCategory] = useState<TopicCategory>('general')
+  const [category, setCategory] = useState<TopicCategory>(initialCategory)
   const [tags, setTags] = useState<string[]>([])
   const [showPreview, setShowPreview] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -116,7 +120,8 @@ export function TopicComposer({
   useEffect(() => {
     if (initialTitle) setTitle(initialTitle)
     if (initialDescription) setDescription(initialDescription)
-  }, [initialTitle, initialDescription])
+    if (initialCategory) setCategory(initialCategory)
+  }, [initialTitle, initialDescription, initialCategory])
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {}
