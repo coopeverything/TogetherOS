@@ -7,7 +7,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Proposal, ProposalStatus, ProposalScopeType } from '@togetheros/types/governance'
+import type { Proposal, ProposalStatus, ProposalScopeType, ProposalRatingAggregate } from '@togetheros/types/governance'
 import { ProposalCard } from './ProposalCard'
 
 export interface ProposalListProps {
@@ -16,6 +16,12 @@ export interface ProposalListProps {
 
   /** Author names mapped by user ID */
   authorNames?: Record<string, string>
+
+  /** Rating aggregates mapped by proposal ID */
+  ratingAggregates?: Record<string, ProposalRatingAggregate>
+
+  /** SP totals mapped by proposal ID */
+  spTotals?: Record<string, number>
 
   /** Show create button */
   showCreateButton?: boolean
@@ -30,6 +36,8 @@ export interface ProposalListProps {
 export function ProposalList({
   proposals,
   authorNames = {},
+  ratingAggregates = {},
+  spTotals = {},
   showCreateButton = true,
   onCreateProposal,
   className = '',
@@ -135,6 +143,8 @@ export function ProposalList({
               key={proposal.id}
               proposal={proposal}
               authorName={authorNames[proposal.authorId]}
+              ratingAggregate={ratingAggregates[proposal.id]}
+              totalSP={spTotals[proposal.id] || 0}
             />
           ))}
         </div>

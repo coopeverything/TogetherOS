@@ -10,12 +10,14 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ProposalList } from '@togetheros/ui/governance'
-import type { Proposal } from '@togetheros/types/governance'
+import type { Proposal, ProposalRatingAggregate } from '@togetheros/types/governance'
 
 export default function GovernancePage() {
   const router = useRouter()
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [authorNames, setAuthorNames] = useState<Record<string, string>>({})
+  const [ratingAggregates, setRatingAggregates] = useState<Record<string, ProposalRatingAggregate>>({})
+  const [spTotals, setSpTotals] = useState<Record<string, number>>({})
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -64,6 +66,23 @@ export default function GovernancePage() {
               names[p.authorId] = `User ${p.authorId.slice(0, 8)}`
             })
             setAuthorNames(names)
+          }
+
+          // Fetch rating aggregates and SP totals for all proposals
+          const proposalIds = proposals.map((p: Proposal) => p.id)
+          try {
+            const ratingsResponse = await fetch('/api/proposals/ratings-batch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ proposalIds }),
+            })
+            if (ratingsResponse.ok) {
+              const ratingsData = await ratingsResponse.json()
+              setRatingAggregates(ratingsData.aggregates || {})
+              setSpTotals(ratingsData.spTotals || {})
+            }
+          } catch (err) {
+            console.error('Failed to fetch ratings:', err)
           }
         }
       } catch (err: any) {
@@ -169,6 +188,8 @@ export default function GovernancePage() {
       <ProposalList
         proposals={proposals}
         authorNames={authorNames}
+        ratingAggregates={ratingAggregates}
+        spTotals={spTotals}
         showCreateButton={true}
         onCreateProposal={handleCreateProposal}
       />

@@ -8,10 +8,12 @@ import type { ProposalRatingAggregate } from '@togetheros/types/governance'
 
 export interface ProposalRatingDisplayProps {
   aggregate: ProposalRatingAggregate
+  /** Total SP allocated to this proposal */
+  totalSPAllocated?: number
 }
 
-export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps) {
-  if (aggregate.totalRatings === 0) {
+export function ProposalRatingDisplay({ aggregate, totalSPAllocated }: ProposalRatingDisplayProps) {
+  if (aggregate.totalRatings === 0 && !totalSPAllocated) {
     return (
       <div className="text-center py-3 text-ink-400">
         <p className="text-xs">No ratings yet. Be the first to rate!</p>
@@ -29,12 +31,58 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
     aggregate.avgConstructiveness >= 1.5 ? 'text-warning' :
     'text-danger'
 
+  // Reordered: SP → Urgency → Importance → Clarity → Innovation → Constructiveness
   return (
     <div className="space-y-3">
-      {/* Total Ratings Header */}
-      <div className="text-center pb-2 border-b border-border">
-        <h3 className="text-lg font-bold text-ink-900">{aggregate.totalRatings}</h3>
-        <p className="text-xs text-ink-400">Total Ratings</p>
+      {/* Header Row: SP Allocated + Total Ratings */}
+      <div className="flex items-center justify-between pb-2 border-b border-border">
+        {/* SP Allocated - Primary metric */}
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center">
+            <span className="text-xs font-bold text-white">SP</span>
+          </div>
+          <div>
+            <p className="text-lg font-bold text-brand-600">{totalSPAllocated ?? 0}</p>
+            <p className="text-[10px] text-ink-400">Support Points</p>
+          </div>
+        </div>
+        {/* Total Ratings */}
+        <div className="text-right">
+          <p className="text-sm font-bold text-ink-900">{aggregate.totalRatings}</p>
+          <p className="text-[10px] text-ink-400">Ratings</p>
+        </div>
+      </div>
+
+      {/* Urgency - Now first after header */}
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900">Urgency</span>
+          <span className="text-xs font-bold text-joy-600">
+            {aggregate.avgUrgency.toFixed(1)}/5
+          </span>
+        </div>
+        <div className="w-full bg-bg-2 rounded-full h-1.5">
+          <div
+            className="bg-joy-600 h-1.5 rounded-full transition-all"
+            style={{ width: `${(aggregate.avgUrgency / 5) * 100}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Importance */}
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-ink-900">Importance</span>
+          <span className="text-xs font-bold text-info">
+            {aggregate.avgImportance.toFixed(1)}/5
+          </span>
+        </div>
+        <div className="w-full bg-bg-2 rounded-full h-1.5">
+          <div
+            className="bg-info h-1.5 rounded-full transition-all"
+            style={{ width: `${(aggregate.avgImportance / 5) * 100}%` }}
+          ></div>
+        </div>
       </div>
 
       {/* Clarity */}
@@ -58,38 +106,6 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
             <div className="w-3 h-3 bg-success rounded-full mx-auto mb-0.5"></div>
             <span className="text-xs text-ink-400">{aggregate.clarityDistribution.green}</span>
           </div>
-        </div>
-      </div>
-
-      {/* Importance */}
-      <div>
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-xs font-medium text-ink-900">Importance</span>
-          <span className="text-xs font-bold text-info">
-            {aggregate.avgImportance.toFixed(1)}/5
-          </span>
-        </div>
-        <div className="w-full bg-bg-2 rounded-full h-1.5">
-          <div
-            className="bg-info h-1.5 rounded-full transition-all"
-            style={{ width: `${(aggregate.avgImportance / 5) * 100}%` }}
-          ></div>
-        </div>
-      </div>
-
-      {/* Urgency */}
-      <div>
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-xs font-medium text-ink-900">Urgency</span>
-          <span className="text-xs font-bold text-joy-600">
-            {aggregate.avgUrgency.toFixed(1)}/5
-          </span>
-        </div>
-        <div className="w-full bg-bg-2 rounded-full h-1.5">
-          <div
-            className="bg-joy-600 h-1.5 rounded-full transition-all"
-            style={{ width: `${(aggregate.avgUrgency / 5) * 100}%` }}
-          ></div>
         </div>
       </div>
 
@@ -117,10 +133,10 @@ export function ProposalRatingDisplay({ aggregate }: ProposalRatingDisplayProps)
         </div>
       </div>
 
-      {/* Constructiveness */}
+      {/* Constructiveness (Tone) */}
       <div>
         <div className="flex justify-between items-center mb-1">
-          <span className="text-xs font-medium text-ink-900">Constructiveness</span>
+          <span className="text-xs font-medium text-ink-900">Tone</span>
           <span className={`text-xs font-bold ${constructivenessColor}`}>
             {aggregate.avgConstructiveness.toFixed(1)}/3
           </span>

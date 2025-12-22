@@ -9,12 +9,66 @@ Learn from these to avoid repeating.
 
 | Code | Problem | Prevention |
 |------|---------|------------|
+| err-015 | Stale .next lock/cache from interrupted build | Clear .next before rebuilding after timeout |
 | err-005 | UX fix targeting wrong component | Trace to exact source before fixing |
 | err-008 | Theme CSS vars without component updates | Update ALL components, not just vars |
 | err-011 | Path alias restructuring without dependency analysis | Map dependency graph BEFORE changes |
 | err-012 | Assumed table name from entity name | Run `\dt *pattern*` to find actual table |
 | err-013 | Assumed separate tables per subtype | Check for discriminator columns |
 | err-014 | UUID to TEXT comparison in SQL | Verify column types before comparisons |
+
+---
+
+## err-015: Stale Build Cache / Lock File Protocol
+
+**When build fails with lock or cache errors:**
+
+### Symptoms
+
+1. **Lock file error:**
+   ```
+   Unable to acquire lock at /apps/web/.next/lock
+   Is another instance of next build running?
+   ```
+
+2. **Corrupted cache error:**
+   ```
+   ENOENT: no such file or directory, open '.next/static/.../buildManifest.js.tmp.xxxxx'
+   ```
+
+### Root Cause
+
+Previous build was interrupted (session timeout, manual cancel, system crash) leaving:
+- Stale lock file preventing new builds
+- Partially written temporary files causing ENOENT errors
+- Corrupted build manifest files
+
+### Prevention
+
+**Before running `npm run build` after a session interruption:**
+```bash
+# Clear entire .next directory
+rm -rf apps/web/.next
+
+# Then rebuild
+npm run build
+```
+
+### Quick Fix
+
+```bash
+# One-liner for common case
+rm -rf apps/web/.next && npm run build
+```
+
+### Why This Happens
+
+Next.js Turbopack uses a lock file to prevent concurrent builds. When a build is interrupted:
+1. Lock file remains (blocking new builds)
+2. Temp files may be partially written (causing ENOENT on resume)
+3. Build manifest can be in inconsistent state
+
+**Session Context:** Dec 2025 - Build timeout during UX implementation left stale cache.
 
 ---
 
