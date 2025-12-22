@@ -63,13 +63,13 @@ export function FlagModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+      <div className="relative bg-bg-1 rounded-lg shadow-xl w-full max-w-md mx-4">
         {/* Header */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-4">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white dark:text-gray-100">
+        <div className="border-b border-border px-4 py-4">
+          <h2 className="text-sm font-semibold text-ink-900">
             Flag {contentType}
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-sm text-ink-700 mt-1">
             Help us maintain a respectful community by reporting concerning content.
           </p>
         </div>
@@ -78,14 +78,14 @@ export function FlagModal({
         <form onSubmit={handleSubmit} className="px-4 py-6 space-y-2">
           {/* Reason */}
           <div>
-            <label htmlFor="reason" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
+            <label htmlFor="reason" className="block text-sm font-medium text-ink-900 mb-2">
               Reason <span className="text-red-500">*</span>
             </label>
             <select
               id="reason"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:border-gray-600 bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 rounded-md border border-border bg-bg-1 text-ink-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={isSubmitting}
               required
             >
@@ -100,7 +100,7 @@ export function FlagModal({
 
           {/* Details */}
           <div>
-            <label htmlFor="details" className="block text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
+            <label htmlFor="details" className="block text-sm font-medium text-ink-900 mb-2">
               Additional details (optional)
             </label>
             <textarea
@@ -110,20 +110,20 @@ export function FlagModal({
               placeholder="Provide any additional context..."
               rows={3}
               maxLength={500}
-              className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:border-gray-600 bg-white dark:bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white dark:text-gray-100 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
+              className="w-full px-3 py-2 rounded-md border border-border bg-bg-1 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
               disabled={isSubmitting}
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-ink-400">
               {details.length} / 500 characters
             </p>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:text-white dark:hover:text-gray-100 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-ink-700 hover:text-ink-900 transition-colors"
               disabled={isSubmitting}
             >
               Cancel

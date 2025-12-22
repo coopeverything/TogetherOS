@@ -196,9 +196,13 @@ export async function PATCH(request: NextRequest) {
 
 /**
  * DELETE /api/admin/forum/tags
- * Delete a tag from all topics
+ * Delete a tag from all topics (atomic transaction)
  */
 export async function DELETE(request: NextRequest) {
+  // Get database client for transaction
+  const { getClient } = await import('@togetheros/db')
+  const client = await getClient()
+
   try {
     // Require admin authentication
     const user = await requireAuth(request)
@@ -219,9 +223,12 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
+    // Start transaction for atomic deletion
+    await client.query('BEGIN')
+
     // Remove tag from all topics that have it
     // Use array_remove to remove the tag from the tags array
-    const topicsResult = await query(
+    const topicsResult = await client.query(
       `UPDATE topics
        SET tags = array_remove(tags, $1)
        WHERE $1 = ANY(tags)
@@ -231,10 +238,13 @@ export async function DELETE(request: NextRequest) {
     )
 
     // Also delete from forum_tags table if it exists
-    await query(
+    await client.query(
       `DELETE FROM forum_tags WHERE tag = $1`,
       [tag]
     )
+
+    // Commit transaction
+    await client.query('COMMIT')
 
     const updatedCount = topicsResult.rows.length
 
@@ -243,16 +253,23 @@ export async function DELETE(request: NextRequest) {
       updatedTopics: updatedCount,
       message: `Deleted "${tag}" from ${updatedCount} topic(s) and removed from standalone tags`
     })
-  } catch (error: any) {
-    console.error('DELETE /api/admin/forum/tags error:', JSON.stringify({ message: error.message }))
+  } catch (error: unknown) {
+    // Rollback on any error
+    await client.query('ROLLBACK')
 
-    if (error.message === 'Unauthorized') {
+    const err = error as Error
+    console.error('DELETE /api/admin/forum/tags error:', JSON.stringify({ message: err.message }))
+
+    if (err.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     return NextResponse.json(
-      { error: error.message || 'Failed to delete tag' },
+      { error: err.message || 'Failed to delete tag' },
       { status: 500 }
     )
+  } finally {
+    // Always release the client back to the pool
+    client.release()
   }
 }

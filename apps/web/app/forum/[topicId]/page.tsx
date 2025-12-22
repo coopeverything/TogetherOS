@@ -14,6 +14,13 @@ interface Post {
   updatedAt: string
 }
 
+interface CurrentUser {
+  id: string
+  email: string
+  name?: string
+  is_admin: boolean
+}
+
 export default function TopicDetailPage({
   params,
 }: {
@@ -31,15 +38,40 @@ export default function TopicDetailPage({
   const [editingPostId, setEditingPostId] = useState<string | null>(null)
   const [editTopicData, setEditTopicData] = useState({ title: '', description: '', category: '', tags: [] as string[] })
   const [editPostContent, setEditPostContent] = useState('')
-  const [showTopicControls] = useState(true) // TODO: Check actual user permissions
-  const [showPostControls] = useState(true) // TODO: Check actual user permissions
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null)
   const [tagInput, setTagInput] = useState('') // For comma-separated tag input
   const [tagSuggestions, setTagSuggestions] = useState<string[]>([]) // Autocomplete suggestions
   const [showSuggestions, setShowSuggestions] = useState(false)
 
+  // Check if current user can modify topic (author or admin)
+  const canModifyTopic = currentUser && topic && (
+    currentUser.is_admin || currentUser.id === topic.authorId
+  )
+
+  // Check if current user can modify a specific post (author or admin)
+  const canModifyPost = (post: Post) => currentUser && (
+    currentUser.is_admin || currentUser.id === post.authorId
+  )
+
   useEffect(() => {
     params.then(({ topicId }) => setTopicId(topicId))
   }, [params])
+
+  // Fetch current user on mount
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const res = await fetch('/api/auth/me')
+        if (res.ok) {
+          const data = await res.json()
+          setCurrentUser(data.user)
+        }
+      } catch {
+        // User not logged in - that's fine
+      }
+    }
+    fetchCurrentUser()
+  }, [])
 
   useEffect(() => {
     if (topicId) {
@@ -408,7 +440,7 @@ export default function TopicDetailPage({
                   <span>{topic.postCount} posts</span>
                 </div>
               </div>
-              {showTopicControls && (
+              {canModifyTopic && (
                 <div className="flex gap-2 ml-4">
                   <button
                     onClick={handleEditTopic}
@@ -503,7 +535,7 @@ export default function TopicDetailPage({
                       <span>Posted {new Date(post.createdAt).toLocaleString()}</span>
                       <div className="flex items-center gap-4">
                         {post.replyCount > 0 && <span>{post.replyCount} replies</span>}
-                        {showPostControls && (
+                        {canModifyPost(post) && (
                           <div className="flex gap-2">
                             <button
                               onClick={() => handleEditPost(post)}
