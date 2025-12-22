@@ -87,33 +87,12 @@ export function ProposalList({
     }
   })
 
-  // Get button classes - solid color blocks
-  const getSortButtonClasses = (field: SortField) => {
-    const isActive = sortBy === field
-    const config = SORT_CONFIG[field]
-
-    // Base color classes for each type
-    const colorClasses: Record<string, { active: string; inactive: string }> = {
-      brand: {
-        active: 'bg-brand-600 ring-2 ring-brand-400',
-        inactive: 'bg-brand-400 opacity-40 hover:opacity-70',
-      },
-      joy: {
-        active: 'bg-joy-500 ring-2 ring-joy-300',
-        inactive: 'bg-joy-400 opacity-40 hover:opacity-70',
-      },
-      info: {
-        active: 'bg-info ring-2 ring-info/50',
-        inactive: 'bg-info opacity-40 hover:opacity-70',
-      },
-      warning: {
-        active: 'bg-warning ring-2 ring-warning/50',
-        inactive: 'bg-warning opacity-40 hover:opacity-70',
-      },
-    }
-
-    const classes = colorClasses[config.color] || colorClasses.brand
-    return isActive ? classes.active : classes.inactive
+  // Hardcoded colors for sort buttons (don't change with theme)
+  const SORT_COLORS: Record<SortField, string> = {
+    sp: '#10b981',        // Green (Support Points)
+    urgency: '#f97316',   // Orange (Urgency)
+    importance: '#3b82f6', // Blue (Importance)
+    innovative: '#eab308', // Yellow (Innovative)
   }
 
   return (
@@ -168,18 +147,26 @@ export function ProposalList({
             </select>
           </div>
 
-          {/* Sort Buttons - color blocks */}
+          {/* Sort Buttons - hardcoded color blocks */}
           <div className="flex items-center gap-1 ml-auto">
             <span className="text-xs text-ink-400 mr-1">Sort:</span>
-            {(Object.keys(SORT_CONFIG) as SortField[]).map((field) => (
-              <button
-                key={field}
-                onClick={() => setSortBy(field)}
-                title={SORT_CONFIG[field].name}
-                className={`w-5 h-5 rounded transition-all cursor-pointer ${getSortButtonClasses(field)}`}
-                aria-label={`Sort by ${SORT_CONFIG[field].name}`}
-              />
-            ))}
+            {(Object.keys(SORT_CONFIG) as SortField[]).map((field) => {
+              const isActive = sortBy === field
+              return (
+                <button
+                  key={field}
+                  onClick={() => setSortBy(field)}
+                  title={SORT_CONFIG[field].name}
+                  className="w-5 h-5 rounded transition-all cursor-pointer"
+                  style={{
+                    backgroundColor: SORT_COLORS[field],
+                    opacity: isActive ? 1 : 0.4,
+                    boxShadow: isActive ? `0 0 0 2px ${SORT_COLORS[field]}40` : 'none',
+                  }}
+                  aria-label={`Sort by ${SORT_CONFIG[field].name}`}
+                />
+              )
+            })}
           </div>
         </div>
 
