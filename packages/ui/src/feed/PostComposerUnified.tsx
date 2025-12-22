@@ -193,8 +193,8 @@ export function PostComposerUnified({
     try {
       await onSubmit({
         type: 'native',
-        title: title || undefined,
-        content,
+        title: title.trim() || undefined,
+        content: content.trim(),
         topics: selectedTopics,
         postId: editMode ? editPostId : undefined,
         mediaUrls: mediaUrls.length > 0 ? mediaUrls : undefined,

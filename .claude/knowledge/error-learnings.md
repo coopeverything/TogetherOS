@@ -9,6 +9,7 @@ Learn from these to avoid repeating.
 
 | Code | Problem | Prevention |
 |------|---------|------------|
+| err-016 | Frontend-backend validation mismatch (trim) | Always trim() BOTH when validating AND submitting |
 | err-015 | Stale .next lock/cache from interrupted build | Clear .next before rebuilding after timeout |
 | err-005 | UX fix targeting wrong component | Trace to exact source before fixing |
 | err-008 | Theme CSS vars without component updates | Update ALL components, not just vars |
@@ -16,6 +17,90 @@ Learn from these to avoid repeating.
 | err-012 | Assumed table name from entity name | Run `\dt *pattern*` to find actual table |
 | err-013 | Assumed separate tables per subtype | Check for discriminator columns |
 | err-014 | UUID to TEXT comparison in SQL | Verify column types before comparisons |
+
+---
+
+## err-016: Frontend-Backend Validation Mismatch (Trim)
+
+**When validation passes on frontend but fails on backend:**
+
+### Symptoms
+
+User reports "Validation error" despite following input hints, especially with:
+- Whitespace-only input (e.g., `"   "`)
+- Input with leading/trailing spaces (e.g., `"  abc  "`)
+- Optional fields that appear empty but contain whitespace
+
+### Root Cause
+
+Frontend validation and frontend submission use different data transformations:
+
+```typescript
+// WRONG: Validation uses trim(), submission doesn't
+if (title.trim().length < 10) { /* check */ }      // validates "   abc" as 3 chars
+onSubmit({ title: title || undefined })             // sends "   abc" (7 chars to backend)
+
+// Backend: z.string().min(10) → "   abc".length = 7 < 10 → FAILS!
+```
+
+### The Bug Pattern
+
+| Input | Frontend Check | Frontend Sends | Backend Receives | Result |
+|-------|----------------|----------------|------------------|--------|
+| `"   "` | `"".length` (skips check) | `"   "` (truthy) | `"   "` min(10) fails | ❌ Error |
+| `"   abc"` | `"abc".length = 3 < 10` → alert | N/A | N/A | ✓ Caught |
+| `""` | `""` falsy → skips | `undefined` | `undefined` optional | ✓ Works |
+
+### Prevention Protocol
+
+**ALWAYS apply the same transformation for validation AND submission:**
+
+```typescript
+// CORRECT: Trim in BOTH places
+const trimmedTitle = title.trim()
+
+// Validation
+if (trimmedTitle && trimmedTitle.length < 10) {
+  alert('Title must be at least 10 characters')
+  return
+}
+
+// Submission
+onSubmit({ title: trimmedTitle || undefined })
+```
+
+**Or use schema-based validation with built-in transforms:**
+
+```typescript
+// With Yup (recommended for complex forms)
+const schema = yup.object({
+  title: yup.string().trim().min(10).optional()
+})
+```
+
+### Pre-flight Checklist (Form Submissions)
+
+Before implementing form submission:
+
+1. **Identify all text inputs** that need trimming
+2. **Check validation logic** - what transformation is applied?
+3. **Check submission logic** - is SAME transformation applied?
+4. **Exception: passwords** - do NOT trim (spaces may be intentional)
+
+### Anti-Pattern
+
+```typescript
+// ❌ Wrong: Different transformations
+if (input.trim().length > 0) { /* valid */ }  // Validates trimmed
+send({ value: input })                         // Sends untrimmed
+
+// ✅ Correct: Same transformation
+const trimmed = input.trim()
+if (trimmed.length > 0) { /* valid */ }       // Validates trimmed
+send({ value: trimmed || undefined })          // Sends trimmed
+```
+
+**Source:** [React Hook Form Issue #1650](https://github.com/react-hook-form/react-hook-form/issues/1650), [Final Form Issue #242](https://github.com/final-form/final-form/issues/242), [FusionAuth Issue #1779](https://github.com/FusionAuth/fusionauth-issues/issues/1779)
 
 ---
 

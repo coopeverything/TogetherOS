@@ -301,7 +301,40 @@
         "wrong_pattern": "target_id = t.id::text",
         "correct_pattern": "target_id = t.id"
       }
+    },
+    {
+      "id": "err-016",
+      "signature": {
+        "type": "validation",
+        "code": "TRIM_MISMATCH",
+        "pattern": "Frontend validation uses trim() but submission sends untrimmed value"
+      },
+      "trigger": "user-reported",
+      "occurrences": [
+        {
+          "session_date": "2025-12-22",
+          "commit_sha": null,
+          "file": "packages/ui/src/feed/PostComposerUnified.tsx",
+          "message": "User reports 'validation error' when creating post despite following input hints",
+          "context": "Frontend validation checked title.trim().length < 10 but submission sent title || undefined (untrimmed). Whitespace-only input '   ' passed frontend (trim() is empty/falsy) but failed backend min(10) check."
+        }
+      ],
+      "resolution": "Changed submission from 'title || undefined' to 'title.trim() || undefined'. Also trimmed content. Added err-016 to error-learnings.md with Pre-flight Checklist for form submissions.",
+      "kb_file_updated": ".claude/knowledge/error-learnings.md",
+      "resolved_date": "2025-12-22T19:50:00Z",
+      "details": {
+        "affected_files": [
+          "packages/ui/src/feed/PostComposerUnified.tsx"
+        ],
+        "wrong_pattern": "if (title.trim().length < 10) { check } + onSubmit({ title: title || undefined })",
+        "correct_pattern": "onSubmit({ title: title.trim() || undefined, content: content.trim() })"
+      },
+      "sources": [
+        "https://github.com/react-hook-form/react-hook-form/issues/1650",
+        "https://github.com/final-form/final-form/issues/242",
+        "https://github.com/FusionAuth/fusionauth-issues/issues/1779"
+      ]
     }
   ],
-  "last_updated": "2025-12-13T15:40:00Z"
+  "last_updated": "2025-12-22T19:50:00Z"
 }
