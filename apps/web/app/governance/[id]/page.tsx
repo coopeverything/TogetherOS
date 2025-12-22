@@ -33,6 +33,7 @@ export default function ProposalDetailPage() {
   const router = useRouter()
   const { addToast } = useToast()
   const [proposal, setProposal] = useState<Proposal | null>(null)
+  const [authorName, setAuthorName] = useState<string | null>(null)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -74,6 +75,23 @@ export default function ProposalDetailPage() {
 
         const data = await response.json()
         setProposal(data.proposal)
+
+        // Fetch author name
+        if (data.proposal?.authorId) {
+          try {
+            const namesResponse = await fetch('/api/users/names', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ userIds: [data.proposal.authorId] }),
+            })
+            if (namesResponse.ok) {
+              const namesData = await namesResponse.json()
+              setAuthorName(namesData.names?.[data.proposal.authorId] || null)
+            }
+          } catch (err) {
+            console.error('Failed to fetch author name:', err)
+          }
+        }
       } catch (err: any) {
         console.error('Error fetching data:', err)
         setError(err.message || 'Failed to load proposal')
@@ -305,7 +323,7 @@ export default function ProposalDetailPage() {
       {/* Proposal View */}
       <ProposalView
         proposal={proposal}
-        authorName={`User ${proposal.authorId.slice(0, 8)}`}
+        authorName={authorName || `User ${proposal.authorId.slice(0, 8)}`}
         isAuthor={isAuthor}
         onEdit={isAuthor ? handleEdit : undefined}
         onDelete={isAuthor && !isDeleting ? handleDelete : undefined}
