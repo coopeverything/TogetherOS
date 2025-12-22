@@ -60,10 +60,10 @@ export function ReactionPicker({
         disabled={isSubmitting}
         className={cn(
           'px-3 py-1.5 text-sm rounded-md transition-colors',
-          'border border-gray-300 dark:border-gray-600 dark:border-gray-600',
+          'border border-border',
           userReaction
             ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-500'
-            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700',
+            : 'bg-bg-1 text-ink-700 hover:bg-bg-2',
           'disabled:opacity-50 disabled:cursor-not-allowed'
         )}
       >
@@ -86,7 +86,7 @@ export function ReactionPicker({
           />
 
           {/* Picker */}
-          <div className="absolute left-0 mt-2 z-20 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg p-2 min-w-[200px]">
+          <div className="absolute left-0 mt-2 z-20 bg-bg-1 rounded-lg border border-border shadow-lg p-2 min-w-[200px]">
             {REACTIONS.map(({ type, emoji, label }) => {
               const count = reactionCounts[type] || 0
               const isSelected = userReaction === type
@@ -100,7 +100,7 @@ export function ReactionPicker({
                     'w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors',
                     isSelected
                       ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
-                      : 'hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 text-gray-900 dark:text-white dark:text-gray-100'
+                      : 'hover:bg-bg-2 text-ink-900'
                   )}
                 >
                   <span>
@@ -108,7 +108,7 @@ export function ReactionPicker({
                     {label}
                   </span>
                   {count > 0 && (
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-ink-400">
                       {count}
                     </span>
                   )}

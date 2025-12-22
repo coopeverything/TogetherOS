@@ -17,6 +17,7 @@ export default function ModerationQueuePage() {
   const [flags, setFlags] = useState<Flag[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'pending' | 'all'>('pending')
+  const [updatingFlagId, setUpdatingFlagId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchFlags()
@@ -35,6 +36,52 @@ export default function ModerationQueuePage() {
       console.error('Error fetching flags:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function handleResolveFlag(flagId: string) {
+    if (updatingFlagId) return
+    setUpdatingFlagId(flagId)
+    try {
+      const res = await fetch(`/api/forum/flags/${flagId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'action-taken' }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to resolve flag')
+      }
+      // Remove flag from list
+      setFlags(flags.filter(f => f.id !== flagId))
+    } catch (err) {
+      console.error('Error resolving flag:', err)
+      alert(err instanceof Error ? err.message : 'Failed to resolve flag')
+    } finally {
+      setUpdatingFlagId(null)
+    }
+  }
+
+  async function handleDismissFlag(flagId: string) {
+    if (updatingFlagId) return
+    setUpdatingFlagId(flagId)
+    try {
+      const res = await fetch(`/api/forum/flags/${flagId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'dismissed' }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to dismiss flag')
+      }
+      // Remove flag from list
+      setFlags(flags.filter(f => f.id !== flagId))
+    } catch (err) {
+      console.error('Error dismissing flag:', err)
+      alert(err instanceof Error ? err.message : 'Failed to dismiss flag')
+    } finally {
+      setUpdatingFlagId(null)
     }
   }
 
@@ -136,11 +183,19 @@ export default function ModerationQueuePage() {
 
               {flag.status === 'pending' && (
                 <div className="mt-4 pt-4 border-t border-border flex gap-2">
-                  <button className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-                    Resolve
+                  <button
+                    onClick={() => handleResolveFlag(flag.id)}
+                    disabled={updatingFlagId === flag.id}
+                    className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {updatingFlagId === flag.id ? 'Processing...' : 'Resolve'}
                   </button>
-                  <button className="px-3 py-1.5 text-sm bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
-                    Dismiss
+                  <button
+                    onClick={() => handleDismissFlag(flag.id)}
+                    disabled={updatingFlagId === flag.id}
+                    className="px-3 py-1.5 text-sm bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {updatingFlagId === flag.id ? 'Processing...' : 'Dismiss'}
                   </button>
                 </div>
               )}
