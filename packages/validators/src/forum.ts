@@ -78,7 +78,8 @@ export const createTopicSchema = z.object({
 
   authorId: z.string().uuid('Invalid author ID'),
 
-  groupId: z.string().uuid('Invalid group ID').optional(),
+  // groupId can be UUID or slug (for fixture groups)
+  groupId: z.string().min(1).optional(),
 
   category: topicCategorySchema,
 
@@ -130,7 +131,8 @@ export const listTopicsFiltersSchema = z.object({
 
   authorId: z.string().uuid().optional(),
 
-  groupId: z.string().uuid().optional(),
+  // groupId can be UUID or slug (for fixture groups)
+  groupId: z.string().min(1).optional(),
 
   tags: z.array(z.string()).optional(),
 

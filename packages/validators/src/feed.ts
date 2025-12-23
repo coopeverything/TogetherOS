@@ -45,7 +45,8 @@ export const createNativePostSchema = z.object({
   title: z.string().min(3).max(200).optional(),
   content: z.string().min(1).max(5000),
   topics: z.array(z.string().min(1).max(100)).max(5).default([]),
-  groupId: z.string().uuid().optional(),
+  // groupId can be UUID or slug (for fixture groups)
+  groupId: z.string().min(1).optional(),
   // mediaUrls can be relative paths (/uploads/feed/...) or full URLs
   mediaUrls: z.array(z.string().min(1)).max(4).default([]),
 })
@@ -57,7 +58,8 @@ export const createNativePostSchema = z.object({
 export const createImportPostSchema = z.object({
   sourceUrl: z.string().url(),
   topics: z.array(z.string().min(1).max(100)).max(5).default([]),
-  groupId: z.string().uuid().optional(),
+  // groupId can be UUID or slug (for fixture groups)
+  groupId: z.string().min(1).optional(),
 })
 
 /**
@@ -89,7 +91,8 @@ export const postSchema = z.object({
   id: z.string().uuid(),
   type: postTypeSchema,
   authorId: z.string().uuid(),
-  groupId: z.string().uuid().optional(),
+  // groupId can be UUID or slug (for fixture groups)
+  groupId: z.string().min(1).optional(),
 
   // Native post fields
   title: z.string().min(3).max(200).optional(),
