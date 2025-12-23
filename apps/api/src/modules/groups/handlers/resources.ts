@@ -31,12 +31,11 @@ interface GroupResourceRow {
 }
 
 /**
- * Get all resources for a group
+ * Get all resources for a group (supports both UUIDs and slug-style IDs)
  */
 export async function getGroupResources(groupId: string): Promise<GroupResource[]> {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  if (!groupId || !uuidRegex.test(groupId)) {
-    throw new Error('Invalid group ID format')
+  if (!groupId || groupId.trim().length === 0) {
+    throw new Error('Group ID is required')
   }
 
   const group = await groupRepo.findById(groupId)
@@ -53,19 +52,17 @@ export async function getGroupResources(groupId: string): Promise<GroupResource[
 }
 
 /**
- * Create a new resource
+ * Create a new resource (supports both UUIDs and slug-style IDs)
  */
 export async function createGroupResource(
   input: CreateGroupResourceInput,
   contributedBy: string
 ): Promise<GroupResource> {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-
-  if (!input.groupId || !uuidRegex.test(input.groupId)) {
-    throw new Error('Invalid group ID format')
+  if (!input.groupId || input.groupId.trim().length === 0) {
+    throw new Error('Group ID is required')
   }
-  if (!contributedBy || !uuidRegex.test(contributedBy)) {
-    throw new Error('Invalid contributor ID format')
+  if (!contributedBy || contributedBy.trim().length === 0) {
+    throw new Error('Contributor ID is required')
   }
 
   const group = await groupRepo.findById(input.groupId)

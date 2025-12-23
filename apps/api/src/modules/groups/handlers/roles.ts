@@ -20,12 +20,11 @@ interface GroupRoleRow {
 }
 
 /**
- * Get all roles for a group
+ * Get all roles for a group (supports both UUIDs and slug-style IDs)
  */
 export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
-  // Validate group ID format
-  if (!groupId || !groupId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid group ID format')
+  if (!groupId || groupId.trim().length === 0) {
+    throw new Error('Group ID is required')
   }
 
   // Check group exists
@@ -56,7 +55,7 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
 }
 
 /**
- * Assign a role to a member
+ * Assign a role to a member (supports both UUIDs and slug-style IDs)
  */
 export async function assignGroupRole(
   groupId: string,
@@ -68,17 +67,14 @@ export async function assignGroupRole(
     recallable?: boolean
   }
 ): Promise<GroupRole> {
-  // Validate IDs
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-
-  if (!groupId || !uuidRegex.test(groupId)) {
-    throw new Error('Invalid group ID format')
+  if (!groupId || groupId.trim().length === 0) {
+    throw new Error('Group ID is required')
   }
-  if (!memberId || !uuidRegex.test(memberId)) {
-    throw new Error('Invalid member ID format')
+  if (!memberId || memberId.trim().length === 0) {
+    throw new Error('Member ID is required')
   }
-  if (!grantedBy || !uuidRegex.test(grantedBy)) {
-    throw new Error('Invalid granter ID format')
+  if (!grantedBy || grantedBy.trim().length === 0) {
+    throw new Error('Granter ID is required')
   }
 
   // Validate role

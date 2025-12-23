@@ -50,15 +50,14 @@ interface GroupEventRSVPRow {
 }
 
 /**
- * Get all events for a group
+ * Get all events for a group (supports both UUIDs and slug-style IDs)
  */
 export async function getGroupEvents(
   groupId: string,
   options?: { upcoming?: boolean; limit?: number }
 ): Promise<GroupEvent[]> {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  if (!groupId || !uuidRegex.test(groupId)) {
-    throw new Error('Invalid group ID format')
+  if (!groupId || groupId.trim().length === 0) {
+    throw new Error('Group ID is required')
   }
 
   const group = await groupRepo.findById(groupId)
@@ -106,19 +105,17 @@ export async function getGroupEventById(eventId: string): Promise<GroupEvent | n
 }
 
 /**
- * Create a new event
+ * Create a new event (supports both UUIDs and slug-style IDs)
  */
 export async function createGroupEvent(
   input: CreateGroupEventInput,
   createdBy: string
 ): Promise<GroupEvent> {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-
-  if (!input.groupId || !uuidRegex.test(input.groupId)) {
-    throw new Error('Invalid group ID format')
+  if (!input.groupId || input.groupId.trim().length === 0) {
+    throw new Error('Group ID is required')
   }
-  if (!createdBy || !uuidRegex.test(createdBy)) {
-    throw new Error('Invalid creator ID format')
+  if (!createdBy || createdBy.trim().length === 0) {
+    throw new Error('Creator ID is required')
   }
 
   const group = await groupRepo.findById(input.groupId)

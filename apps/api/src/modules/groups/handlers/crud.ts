@@ -47,11 +47,11 @@ export async function createGroup(input: CreateGroupInput): Promise<Group> {
 }
 
 /**
- * Get group by ID
+ * Get group by ID (supports both UUIDs and slug-style IDs for fixtures)
  */
 export async function getGroupById(id: string): Promise<Group | null> {
-  if (!id || !id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid group ID format');
+  if (!id || id.trim().length === 0) {
+    throw new Error('Group ID is required');
   }
 
   return await groupRepo.findById(id);
@@ -101,8 +101,8 @@ export async function updateGroup(
   id: string,
   updates: UpdateGroupInput
 ): Promise<Group> {
-  if (!id || !id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid group ID format');
+  if (!id || id.trim().length === 0) {
+    throw new Error('Group ID is required');
   }
 
   // Validate updates
@@ -131,8 +131,8 @@ export async function updateGroup(
  * Delete group (soft delete)
  */
 export async function deleteGroup(id: string): Promise<void> {
-  if (!id || !id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid group ID format');
+  if (!id || id.trim().length === 0) {
+    throw new Error('Group ID is required');
   }
 
   // Check group exists
@@ -145,18 +145,18 @@ export async function deleteGroup(id: string): Promise<void> {
 }
 
 /**
- * Add member to group
+ * Add member to group (supports both UUIDs and slug-style IDs)
  */
 export async function addGroupMember(
   groupId: string,
   memberId: string
 ): Promise<void> {
-  if (!groupId || !groupId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid group ID format');
+  if (!groupId || groupId.trim().length === 0) {
+    throw new Error('Group ID is required');
   }
 
-  if (!memberId || !memberId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid member ID format');
+  if (!memberId || memberId.trim().length === 0) {
+    throw new Error('Member ID is required');
   }
 
   // Check group exists
@@ -174,18 +174,18 @@ export async function addGroupMember(
 }
 
 /**
- * Remove member from group
+ * Remove member from group (supports both UUIDs and slug-style IDs)
  */
 export async function removeGroupMember(
   groupId: string,
   memberId: string
 ): Promise<void> {
-  if (!groupId || !groupId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid group ID format');
+  if (!groupId || groupId.trim().length === 0) {
+    throw new Error('Group ID is required');
   }
 
-  if (!memberId || !memberId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-    throw new Error('Invalid member ID format');
+  if (!memberId || memberId.trim().length === 0) {
+    throw new Error('Member ID is required');
   }
 
   // Check group exists
