@@ -1,14 +1,31 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { GroupList } from '@togetheros/ui/groups'
-import { LocalStorageGroupRepo } from '../../lib/repos/LocalStorageGroupRepo'
-import { getFixtureGroups } from '../../../api/src/modules/groups/fixtures'
+import type { Group } from '@togetheros/types/groups'
 
 export default function GroupsPage() {
-  // Load groups from localStorage (includes fixtures + user-created groups)
-  const repo = new LocalStorageGroupRepo(getFixtureGroups())
-  const groups = repo.getAll()
+  const [groups, setGroups] = useState<Group[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Fetch groups from API
+  useEffect(() => {
+    async function fetchGroups() {
+      try {
+        const response = await fetch('/api/groups')
+        if (response.ok) {
+          const data = await response.json()
+          setGroups(data.groups || [])
+        }
+      } catch (err) {
+        console.error('Failed to fetch groups:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchGroups()
+  }, [])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
@@ -84,7 +101,17 @@ export default function GroupsPage() {
       {/* Group List */}
       <div className="mb-4">
         <h2 className="text-sm font-semibold text-ink-900 mb-3">Browse Groups</h2>
-        <GroupList groups={groups} />
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse bg-bg-2 rounded-lg p-4 h-48" />
+            ))}
+          </div>
+        ) : groups.length === 0 ? (
+          <p className="text-ink-400 text-center py-8">No groups found. Create one to get started!</p>
+        ) : (
+          <GroupList groups={groups} />
+        )}
       </div>
 
     </div>
