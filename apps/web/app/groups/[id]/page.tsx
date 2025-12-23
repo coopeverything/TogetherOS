@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { MemberDirectory, type Member } from '@togetheros/ui/groups/MemberDirectory'
-import { LocalStorageGroupRepo } from '../../../lib/repos/LocalStorageGroupRepo'
-import { getFixtureGroups, getFixtureMembers } from '../../../../api/src/modules/groups/fixtures'
+import { getFixtureMembers } from '../../../../api/src/modules/groups/fixtures'
 import type { Group } from '@togetheros/types/groups'
 import type { Post } from '@togetheros/types/feed'
 import type { Topic } from '@togetheros/types/forum'
@@ -21,12 +20,16 @@ interface CurrentUser {
 
 export default function GroupDetailPage() {
   const params = useParams()
-  const id = params.id as string
+  const id = params.id as string  // This is the handle from URL (e.g., "boston-coop")
   const [isMember, setIsMember] = useState(false)
   const [isJoining, setIsJoining] = useState(false)
   const [activeTab, setActiveTab] = useState<TabType>('feed')
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null)
   const [canAccessSettings, setCanAccessSettings] = useState(false)
+
+  // Group state - fetched from API
+  const [group, setGroup] = useState<Group | null>(null)
+  const [loadingGroup, setLoadingGroup] = useState(true)
 
   // Feed state
   const [posts, setPosts] = useState<Post[]>([])
@@ -52,12 +55,31 @@ export default function GroupDetailPage() {
   const [roles, setRoles] = useState<GroupRole[]>([])
   const [loadingRoles, setLoadingRoles] = useState(false)
 
-  // Initialize repo with fixtures (loads from localStorage if available)
-  const repo = new LocalStorageGroupRepo(getFixtureGroups())
+  // Fixture members for member display
   const allMembers = getFixtureMembers()
 
-  // Find group
-  const group = repo.getAll().find((g: Group) => g.id === id)
+  // Fetch group from API on mount
+  useEffect(() => {
+    async function fetchGroup() {
+      setLoadingGroup(true)
+      try {
+        const response = await fetch(`/api/groups/${id}`)
+        if (response.ok) {
+          const data = await response.json()
+          setGroup(data.group)
+        } else {
+          console.error('Failed to fetch group:', response.status)
+          setGroup(null)
+        }
+      } catch (err) {
+        console.error('Failed to fetch group:', err)
+        setGroup(null)
+      } finally {
+        setLoadingGroup(false)
+      }
+    }
+    fetchGroup()
+  }, [id])
 
   // Fetch group feed posts
   useEffect(() => {
@@ -218,6 +240,21 @@ export default function GroupDetailPage() {
     } finally {
       setLoadingRoles(false)
     }
+  }
+
+  // Show loading state while fetching group
+  if (loadingGroup) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-6">
+        <div className="text-center">
+          <div className="animate-pulse">
+            <div className="h-8 bg-bg-2 rounded w-48 mx-auto mb-4"></div>
+            <div className="h-4 bg-bg-2 rounded w-32 mx-auto"></div>
+          </div>
+          <p className="text-ink-400 mt-4">Loading group...</p>
+        </div>
+      </div>
+    )
   }
 
   if (!group) {

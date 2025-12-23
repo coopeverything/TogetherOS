@@ -20,18 +20,26 @@ interface GroupRoleRow {
 }
 
 /**
- * Get all roles for a group (supports both UUIDs and slug-style IDs)
+ * Get all roles for a group (supports both UUIDs and handles)
  */
 export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
   if (!groupId || groupId.trim().length === 0) {
     throw new Error('Group ID is required')
   }
 
-  // Check group exists
-  const group = await groupRepo.findById(groupId)
+  // UUID pattern
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+  // Check group exists - lookup by ID or handle
+  const group = uuidRegex.test(groupId)
+    ? await groupRepo.findById(groupId)
+    : await groupRepo.findByHandle(groupId)
   if (!group) {
     throw new Error('Group not found')
   }
+
+  // Use the actual UUID for database queries
+  const actualGroupId = group.id
 
   // Query roles from group_roles table
   const result = await query<GroupRoleRow>(
@@ -39,7 +47,7 @@ export async function getGroupRoles(groupId: string): Promise<GroupRole[]> {
      FROM group_roles
      WHERE group_id = $1
      ORDER BY granted_at DESC`,
-    [groupId]
+    [actualGroupId]
   )
 
   return result.rows.map((row: GroupRoleRow) => ({

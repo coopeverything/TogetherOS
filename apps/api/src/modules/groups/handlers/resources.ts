@@ -31,21 +31,30 @@ interface GroupResourceRow {
 }
 
 /**
- * Get all resources for a group (supports both UUIDs and slug-style IDs)
+ * Get all resources for a group (supports both UUIDs and handles)
  */
 export async function getGroupResources(groupId: string): Promise<GroupResource[]> {
   if (!groupId || groupId.trim().length === 0) {
     throw new Error('Group ID is required')
   }
 
-  const group = await groupRepo.findById(groupId)
+  // UUID pattern
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+  // Check group exists - lookup by ID or handle
+  const group = uuidRegex.test(groupId)
+    ? await groupRepo.findById(groupId)
+    : await groupRepo.findByHandle(groupId)
   if (!group) {
     throw new Error('Group not found')
   }
 
+  // Use the actual UUID for database queries
+  const actualGroupId = group.id
+
   const result = await query<GroupResourceRow>(
     `SELECT * FROM group_resources WHERE group_id = $1 ORDER BY created_at DESC`,
-    [groupId]
+    [actualGroupId]
   )
 
   return result.rows.map((row: GroupResourceRow) => mapRowToResource(row))

@@ -47,14 +47,25 @@ export async function createGroup(input: CreateGroupInput): Promise<Group> {
 }
 
 /**
- * Get group by ID (supports both UUIDs and slug-style IDs for fixtures)
+ * Get group by ID or handle
+ * - If input looks like a UUID, lookup by ID
+ * - Otherwise, lookup by handle (for URL-friendly slugs)
  */
 export async function getGroupById(id: string): Promise<Group | null> {
   if (!id || id.trim().length === 0) {
     throw new Error('Group ID is required');
   }
 
-  return await groupRepo.findById(id);
+  // UUID pattern
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  if (uuidRegex.test(id)) {
+    // Input is a UUID, lookup by ID
+    return await groupRepo.findById(id);
+  } else {
+    // Input is not a UUID, try lookup by handle
+    return await groupRepo.findByHandle(id);
+  }
 }
 
 /**

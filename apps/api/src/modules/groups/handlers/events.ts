@@ -50,7 +50,7 @@ interface GroupEventRSVPRow {
 }
 
 /**
- * Get all events for a group (supports both UUIDs and slug-style IDs)
+ * Get all events for a group (supports both UUIDs and handles)
  */
 export async function getGroupEvents(
   groupId: string,
@@ -60,13 +60,22 @@ export async function getGroupEvents(
     throw new Error('Group ID is required')
   }
 
-  const group = await groupRepo.findById(groupId)
+  // UUID pattern
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+  // Check group exists - lookup by ID or handle
+  const group = uuidRegex.test(groupId)
+    ? await groupRepo.findById(groupId)
+    : await groupRepo.findByHandle(groupId)
   if (!group) {
     throw new Error('Group not found')
   }
 
+  // Use the actual UUID for database queries
+  const actualGroupId = group.id
+
   let sql = `SELECT * FROM group_events WHERE group_id = $1`
-  const params: (string | number)[] = [groupId]
+  const params: (string | number)[] = [actualGroupId]
 
   if (options?.upcoming) {
     sql += ` AND starts_at >= NOW()`
