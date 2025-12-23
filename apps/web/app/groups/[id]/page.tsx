@@ -14,12 +14,19 @@ import type { GroupEvent, GroupResource, GroupEventType, GroupResourceType, Grou
 
 type TabType = 'feed' | 'forum' | 'members' | 'events' | 'resources' | 'proposals' | 'roles'
 
+interface CurrentUser {
+  id: string
+  name?: string
+}
+
 export default function GroupDetailPage() {
   const params = useParams()
   const id = params.id as string
   const [isMember, setIsMember] = useState(false)
   const [isJoining, setIsJoining] = useState(false)
   const [activeTab, setActiveTab] = useState<TabType>('feed')
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null)
+  const [canAccessSettings, setCanAccessSettings] = useState(false)
 
   // Feed state
   const [posts, setPosts] = useState<Post[]>([])
@@ -93,6 +100,35 @@ export default function GroupDetailPage() {
       fetchGroupRoles()
     }
   }, [activeTab, id])
+
+  // Fetch current user and check if they can access settings
+  useEffect(() => {
+    async function checkSettingsAccess() {
+      try {
+        const userRes = await fetch('/api/auth/me')
+        if (userRes.ok) {
+          const userData = await userRes.json()
+          setCurrentUser(userData.user)
+
+          // Fetch roles to check admin status
+          const rolesRes = await fetch(`/api/groups/${id}/roles`)
+          if (rolesRes.ok) {
+            const rolesData = await rolesRes.json()
+            const userRoles = rolesData.roles || []
+            const isAdmin = userRoles.some((r: GroupRole) => r.memberId === userData.user.id && r.role === 'admin')
+            const isCreator = group?.creatorId === userData.user.id
+            setCanAccessSettings(isAdmin || isCreator)
+          }
+        }
+      } catch (err) {
+        console.error('Failed to check settings access:', err)
+      }
+    }
+
+    if (group) {
+      checkSettingsAccess()
+    }
+  }, [id, group])
 
   async function fetchGroupPosts() {
     setLoadingPosts(true)
@@ -292,18 +328,31 @@ export default function GroupDetailPage() {
             </div>
           </div>
 
-          {/* Join/Leave Button */}
-          <button
-            onClick={handleJoinLeave}
-            disabled={isJoining}
-            className={`px-5 py-2 rounded-md font-medium text-sm transition-colors ${
-              isMember
-                ? 'bg-bg-2 text-ink-700 hover:bg-bg-2'
-                : 'bg-joy-600 text-bg-1 hover:bg-joy-700'
-            } disabled:opacity-50`}
-          >
-            {isJoining ? 'Loading...' : isMember ? 'Leave Group' : 'Join Group'}
-          </button>
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2">
+            {/* Settings Link (Admin/Creator only) */}
+            {canAccessSettings && (
+              <Link
+                href={`/groups/${id}/settings`}
+                className="px-4 py-2 rounded-md font-medium text-sm bg-bg-2 text-ink-700 hover:bg-bg-3 transition-colors flex items-center gap-1"
+              >
+                <span>Settings</span>
+              </Link>
+            )}
+
+            {/* Join/Leave Button */}
+            <button
+              onClick={handleJoinLeave}
+              disabled={isJoining}
+              className={`px-5 py-2 rounded-md font-medium text-sm transition-colors ${
+                isMember
+                  ? 'bg-bg-2 text-ink-700 hover:bg-bg-2'
+                  : 'bg-joy-600 text-bg-1 hover:bg-joy-700'
+              } disabled:opacity-50`}
+            >
+              {isJoining ? 'Loading...' : isMember ? 'Leave Group' : 'Join Group'}
+            </button>
+          </div>
         </div>
 
         {/* Description */}

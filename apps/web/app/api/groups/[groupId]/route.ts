@@ -12,6 +12,7 @@ import {
   updateGroup,
   deleteGroup,
 } from '../../../../../api/src/modules/groups/handlers';
+import { isGroupAdmin } from '../../../../../api/src/modules/groups/handlers/roles';
 import type { UpdateGroupInput } from '@togetheros/types/groups';
 
 export async function GET(
@@ -54,9 +55,15 @@ export async function PUT(
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
-    // TODO: Check if user is group admin/coordinator
-    // For now, any authenticated user can update
-    // Future: Implement role-based access control
+    // Check if user is group admin or creator
+    const userIsAdmin = await isGroupAdmin(groupId, user.id);
+    const userIsCreator = existingGroup.creatorId === user.id;
+    if (!userIsAdmin && !userIsCreator) {
+      return NextResponse.json(
+        { error: 'Only group admin or creator can edit this group' },
+        { status: 403 }
+      );
+    }
 
     const updates: UpdateGroupInput = {
       name: body.name,
@@ -97,9 +104,15 @@ export async function DELETE(
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
-    // TODO: Check if user is group admin
-    // For now, any authenticated user can delete
-    // Future: Implement role-based access control
+    // Check if user is group admin or creator
+    const userIsAdmin = await isGroupAdmin(groupId, user.id);
+    const userIsCreator = existingGroup.creatorId === user.id;
+    if (!userIsAdmin && !userIsCreator) {
+      return NextResponse.json(
+        { error: 'Only group admin or creator can delete this group' },
+        { status: 403 }
+      );
+    }
 
     await deleteGroup(groupId);
 
