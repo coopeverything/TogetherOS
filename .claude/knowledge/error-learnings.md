@@ -9,6 +9,7 @@ Learn from these to avoid repeating.
 
 | Code | Problem | Prevention |
 |------|---------|------------|
+| err-017 | Fixed validators but validation happens elsewhere | Trace FULL error path before fixing |
 | err-016 | Frontend-backend validation mismatch (trim) | Always trim() BOTH when validating AND submitting |
 | err-015 | Stale .next lock/cache from interrupted build | Clear .next before rebuilding after timeout |
 | err-005 | UX fix targeting wrong component | Trace to exact source before fixing |
@@ -17,6 +18,72 @@ Learn from these to avoid repeating.
 | err-012 | Assumed table name from entity name | Run `\dt *pattern*` to find actual table |
 | err-013 | Assumed separate tables per subtype | Check for discriminator columns |
 | err-014 | UUID to TEXT comparison in SQL | Verify column types before comparisons |
+
+---
+
+## err-017: Fixed Validators But Validation Happens Elsewhere
+
+**When fixing validation errors, always trace the FULL error path:**
+
+### Symptoms
+
+- Fixed Zod validators in `packages/validators/`
+- Error message persists: "Invalid group ID format"
+- Build passes, tests pass, but runtime error continues
+
+### Root Cause
+
+Multiple layers can perform validation independently:
+1. **Zod schemas** in `packages/validators/` — used by some API routes
+2. **Handler functions** in `apps/api/src/modules/*/handlers/` — often have inline validation
+3. **API routes** in `apps/web/app/api/` — may validate before calling handlers
+
+In this case:
+- Fixed Zod schema: `groupId: z.string().min(1).optional()` ✓
+- But handlers had: `if (!groupId.match(/UUID_REGEX/))` ← This was the actual blocker
+
+### Prevention Protocol
+
+**Before fixing validation errors:**
+
+1. **Grep for the EXACT error message:**
+   ```bash
+   grep -r "Invalid group ID format" apps/ packages/
+   ```
+
+2. **Trace the call chain:**
+   ```
+   Frontend → API route → Handler function → Zod validator → Database
+   ```
+
+3. **Check EACH layer for validation logic:**
+   - API route: Does it call `schema.safeParse()`?
+   - Handler: Does it have inline `if (!id.match(...))`?
+   - Validator: Does it use `.uuid()` constraint?
+
+4. **Fix ALL layers, not just one:**
+   - If handler has inline validation, fix the handler
+   - If Zod schema is used by multiple handlers, fix the schema
+   - Document which layer is authoritative for validation
+
+### Anti-Pattern
+
+```
+# WRONG: Fix one layer, assume it's the only validator
+grep -r "groupId" packages/validators/
+# Found Zod schema with .uuid()
+# Fixed to .min(1)
+# Deployed... still broken
+
+# RIGHT: Search for the exact error message
+grep -r "Invalid group ID" apps/ packages/
+# Found: handlers/crud.ts, handlers/roles.ts, handlers/events.ts
+# ALL have inline UUID regex checks
+# Fixed ALL handlers
+# Deployed... works!
+```
+
+**Session Context:** Dec 2025 - Fixed Zod validators but handlers had independent UUID validation.
 
 ---
 
