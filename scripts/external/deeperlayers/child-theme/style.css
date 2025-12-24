@@ -1,0 +1,15 @@
+/*
+ Theme Name: Divi Child - Optimized
+ Description: Performance-optimized Divi child theme for DeeperLayers.com
+ Template: Divi
+ Version: 1.0.0
+ Author: DeeperLayers
+
+ Optimizations:
+ - Reduced font loading (4 weights vs 16+)
+ - Lightweight GA4 analytics (no Monster Insights overhead)
+ - WebP image delivery
+ - Native lazy loading
+ - jQuery migrate removed
+ - Emoji scripts disabled
+*/
