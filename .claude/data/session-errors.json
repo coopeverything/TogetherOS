@@ -334,7 +334,50 @@
         "https://github.com/final-form/final-form/issues/242",
         "https://github.com/FusionAuth/fusionauth-issues/issues/1779"
       ]
+    },
+    {
+      "id": "err-017",
+      "signature": {
+        "type": "validation",
+        "code": "MULTI_LAYER_VALIDATION",
+        "pattern": "Fixed validation in one layer but validation exists independently in multiple layers"
+      },
+      "trigger": "user-reported",
+      "occurrences": [
+        {
+          "session_date": "2025-12-22",
+          "commit_sha": null,
+          "file": "packages/validators/src/groups.ts",
+          "message": "Fixed Zod validators to allow slug-based groupId but handlers still had inline UUID regex validation",
+          "context": "Groups UUID error persisted after fixing Zod schema because handlers/crud.ts had independent UUID validation. Required 4 cascading fixes over 3 hours: validators, handlers, fixtures, frontend API fetch."
+        }
+      ],
+      "root_cause_analysis": {
+        "surface_symptom": "Validation error persists after fixing the obvious validator",
+        "instinctive_response": "Fix the Zod schema and claim success",
+        "fundamental_error": "Validation exists at multiple independent layers that don't share code",
+        "layers_involved": [
+          "packages/validators/ (Zod schemas)",
+          "apps/api/src/modules/*/handlers/ (inline validation)",
+          "apps/web/app/api/ (API route validation)",
+          "React components (frontend validation)"
+        ]
+      },
+      "resolution": "Added MANDATORY Fix Verification Checklist to CLAUDE.md. Before fixing validation errors: 1) grep for EXACT error message to find ALL layers, 2) Fix ALL locations found, 3) Run verify-fix.sh before claiming success.",
+      "kb_file_updated": "CLAUDE.md, .claude/knowledge/error-learnings.md",
+      "resolved_date": "2025-12-23T03:15:00Z",
+      "details": {
+        "affected_files": [
+          "packages/validators/src/groups.ts",
+          "apps/api/src/modules/groups/handlers/crud.ts",
+          "apps/api/src/modules/groups/handlers/roles.ts",
+          "apps/web/app/groups/page.tsx"
+        ],
+        "wrong_pattern": "Fix one validator, claim fixed, user tests, still broken, fix another layer, repeat",
+        "correct_pattern": "grep -rn 'EXACT_ERROR_MESSAGE' apps/ packages/ && fix ALL locations found"
+      },
+      "sources": null
     }
   ],
-  "last_updated": "2025-12-22T19:50:00Z"
+  "last_updated": "2025-12-23T03:15:00Z"
 }
