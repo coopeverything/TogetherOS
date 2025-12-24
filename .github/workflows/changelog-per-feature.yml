@@ -98,20 +98,16 @@ jobs:
 
           # Check if today's section exists
           if ! echo "$CHANGELOG_CONTENT" | grep -q "## \[Production\] - ${DATE}"; then
-            # Create new daily section
-            NEW_SECTION="## [Production] - ${DATE}
-
-### Live Deployments (Auto-updating)
-
-${TIME} - ${MSG}${PR_LINK} ✅"
+            # Create new daily section - build string piece by piece to avoid YAML parsing issues
+            NEW_SECTION="## [Production] - ${DATE}"
+            NEW_SECTION="${NEW_SECTION}"$'\n\n'"### Live Deployments (Auto-updating)"
+            NEW_SECTION="${NEW_SECTION}"$'\n\n'"${TIME} - ${MSG}${PR_LINK} ✅"
 
             # Add conflicts section if needed
             if [ -n "$CONFLICTS" ]; then
-              NEW_SECTION="${NEW_SECTION}
-
-### Conflicts Detected
-${TIME} - Files with parallel modifications: ${CONFLICTS}
-  - Review these files for potential feature loss"
+              NEW_SECTION="${NEW_SECTION}"$'\n\n'"### Conflicts Detected"
+              NEW_SECTION="${NEW_SECTION}"$'\n'"${TIME} - Files with parallel modifications: ${CONFLICTS}"
+              NEW_SECTION="${NEW_SECTION}"$'\n'"  - Review these files for potential feature loss"
             fi
 
             # Insert after header

@@ -59,33 +59,60 @@
 - Lesson learned: Pushed changes but didn't track/report deployment status (Dec 2025)
 
 **Fix Verification** (REQUIRED before claiming ANY fix is complete):
-- **See:** `.claude/skills/verify-fix/SKILL.md`
-- **NEVER say "fix deployed" or "it's fixed" until E2E verification passes**
-- Run: `./scripts/verify-fix.sh` after deployment
-- Maps code changes to relevant Playwright tests
-- Tests actual user flows against production
+- **NEVER say "fix deployed" or "it's fixed" until verification passes**
 - Lesson learned: Claimed fixes complete without verification, user found they didn't work (Dec 2025)
+
+## MANDATORY Fix Verification Checklist
+
+**BEFORE claiming ANY fix is complete, execute ALL steps:**
+
+### Step 1: Run Verification Script
+```bash
+./scripts/verify-fix.sh
+```
+**If exit code ≠ 0 → NOT FIXED. Do not claim success.**
+
+### Step 2: Check Production Health
+```bash
+curl -s https://coopeverything.org/api/health | jq '.memory.percentage'
+```
+**If > 90% → Document memory issue before claiming success.**
+
+### Step 3: If Validation Error Fix - Grep ALL Layers
+```bash
+grep -rn "EXACT_ERROR_MESSAGE" apps/ packages/
+```
+**Fix ALL locations found, not just one. Validation exists at multiple layers (err-017).**
+
+### Step 4: If Database Fix - Verify Schema
+```bash
+ssh root@72.60.27.167 "sudo -u postgres psql togetheros -c '\dt *pattern*'"
+```
+**Never assume table names - verify with `\dt` first (err-012/013/014).**
+
+### Step 5: Monitor Deployment Workflow
+```bash
+gh run list --limit 5 --workflow=auto-deploy-production.yml
+```
+**Wait for workflow to complete. Report status to user.**
+
+**If ANY step fails → NOT FIXED. Continue debugging.**
+
+---
 
 **Anti-pattern (causes rework):**
 ```
 Claude: *deploys fix*
-Claude: "Fix deployed! Image upload now works."
-User: *tests* "It still doesn't work"
-Claude: *finds real issue* *fixes* *deploys*
-Claude: "Now it's fixed!"
+Claude: "Fix deployed! It works now."
 User: *tests* "Still broken"
-... repeat ...
 ```
 
 **Correct pattern:**
 ```
 Claude: *deploys fix*
-Claude: *runs ./scripts/verify-fix.sh*
-Verification: FAILED - image not saved to database
-Claude: *finds real issue* *fixes* *deploys*
-Claude: *runs ./scripts/verify-fix.sh*
-Verification: PASSED
-Claude: "Fix verified. Image upload now works correctly."
+Claude: *runs verification checklist above*
+Claude: *sees all steps pass*
+Claude: "Fix verified. Feature now works correctly."
 ```
 
 ---

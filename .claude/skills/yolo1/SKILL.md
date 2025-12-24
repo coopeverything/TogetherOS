@@ -333,10 +333,13 @@ fi
 
 ### 12.5. Run Verification Tests (MANDATORY)
 
-**Invoke `verify-deployment` skill** before claiming delivery:
-- Runs E2E tests against production
-- If FAIL: Fix issue, re-deploy, re-verify
-- If PASS: Proceed to delivery summary
+**Execute the MANDATORY Fix Verification Checklist from CLAUDE.md:**
+1. Run `./scripts/verify-fix.sh` - must exit 0
+2. Check production health: `curl https://coopeverything.org/api/health`
+3. If validation fix: grep for exact error message across ALL layers
+4. Monitor deployment workflow completion
+
+**If ANY step fails → NOT delivered. Fix and re-deploy.**
 
 **Output final delivery summary:**
 ```
@@ -579,11 +582,11 @@ In YOLO mode, **you (Claude) are the primary quality gate**:
 
 ## Related Skills
 
-- **verify-deployment**: E2E verification tests against production (invoked in step 12.5)
 - **pr-formatter**: PR creation, formatting, validation, AI feedback loop
 - **status-tracker**: Progress tracking, next steps management, Notion memory
 - **error-learner**: Session error analysis, cross-session pattern detection, KB updates
 - **ux-designer**: UI/UX design system, themes, accessibility, responsive patterns
+- **verify-fix**: See CLAUDE.md "MANDATORY Fix Verification Checklist" (always in context)
 
 **See those skills for:**
 - Keyword generation details → `pr-formatter`
